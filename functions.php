@@ -19,7 +19,7 @@ if (__FILE__ == $_SERVER['SCRIPT_FILENAME']) { die(); }
 
 load_theme_textdomain('carrington-jam');
 
-define('CFCT_DEBUG', true);
+define('CFCT_DEBUG', false);
 define('CFCT_PATH', trailingslashit(TEMPLATEPATH));
 
 include_once(CFCT_PATH.'carrington-core/carrington.php');
