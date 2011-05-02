@@ -23,15 +23,15 @@ function anno_register_taxonomies() {
 			$labels = array(
 				'name' => $single,
 				'singular_name' => $single,
-				'search_items' =>  __( 'Search', 'farecompre').' '.$plural,
-				'popular_items' => __( 'Popular', 'farecompre').' '.$plural,
-				'all_items' => __( 'All', 'farecompre').' '.$plural,
-				'edit_item' => __( 'Edit', 'farecompre' ).' '.$single,
-				'update_item' => __( 'Update', 'farecompre' ).' '.$single,
+				'search_items' =>  __( 'Search', 'anno').' '.$plural,
+				'popular_items' => __( 'Popular', 'anno').' '.$plural,
+				'all_items' => __( 'All', 'anno').' '.$plural,
+				'edit_item' => __( 'Edit', 'anno' ).' '.$single,
+				'update_item' => __( 'Update', 'anno' ).' '.$single,
 				'add_new_item' => __( 'Add New' ).' '.$single,
-				'new_item_name' => __( 'New', 'farecompre' ).' '.$single.' '.__( 'Name', 'farecompre' ),
-				'add_or_remove_items' => __( 'Add or remove', 'farecompre' ).' '.$plural,
-				'choose_from_most_used' => __( 'Choose from the most used ', 'farecompre' ).' '.strtolower($single),
+				'new_item_name' => __( 'New', 'anno' ).' '.$single.' '.__( 'Name', 'anno' ),
+				'add_or_remove_items' => __( 'Add or remove', 'anno' ).' '.$plural,
+				'choose_from_most_used' => __( 'Choose from the most used ', 'anno' ).' '.strtolower($single),
 				'menu_name' => $plural
 			); 
 
