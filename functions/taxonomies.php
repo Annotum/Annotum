@@ -46,4 +46,44 @@ function anno_register_taxonomies() {
 }
 add_action('after_setup_theme', 'anno_register_taxonomies', 1);
 
+/**
+ * Remove default category meta box, so we can force the selection of only one category
+ */ 
+function anno_remove_category_box() {
+	remove_meta_box('article_categorydiv', 'article', 'side');
+}
+add_action('admin_head', 'anno_remove_category_box');
+
+/**
+ * Make article category selection limited to a single category by adding a new meta box
+ */
+function anno_add_category_single_selection() {
+	add_meta_box('article_category_select', __('Article Category', 'anno'), 'anno_article_category_dropdown', 'article', 'side', 'core');
+}
+add_action('admin_head', 'anno_add_category_single_selection');
+
+/**
+ * Displays markup for article category dropdown
+ */
+function anno_article_category_dropdown() {
+	global $post;
+	if (!empty($post)) {
+		$cat = wp_get_object_terms($post->ID, 'article_category', array('fields' => 'ids'));
+		$cat = current($cat);
+	}
+	else {
+		$cat = 0;
+	}
+
+	wp_dropdown_categories(array(
+		'orderby' => 'name',
+ 		'id' => 'article-category',
+		'selected' => $cat,
+		'taxonomy' => 'article_category',
+		'hide_empty' => false,
+		'name' => 'tax_input[article_category]',
+		'depth' => 999,
+	));
+}
+
 ?>
