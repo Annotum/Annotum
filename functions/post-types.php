@@ -35,4 +35,42 @@ function anno_register_post_types() {
 }
 add_action('after_setup_theme', 'anno_register_post_types');
 
+/**
+ * Request handler for post types (article)
+ */ 
+function anno_post_type_requst_handler() {
+	if (isset($_GET['anno_action'])) {
+		switch ($_GET['anno_action']) {
+			case 'article_css':
+				anno_post_type_css();
+				die();
+				break;
+			
+			default:
+				break;
+		}
+	}
+}
+add_action('admin_init', 'anno_post_type_requst_handler', 0);
+
+/**
+ * Custom CSS for article post type
+ */ 
+function anno_post_type_css() {
+	header("Content-type: text/css");
+?>
+select#article-category {
+	width: 90%;
+}
+<?php 
+}
+
+/**
+ * Enqueue article styles
+ */
+function anno_post_type_enqueue_css() {
+	wp_enqueue_style('anno-article-admin', add_query_arg('anno_action', 'article_css', admin_url()));
+}
+add_action('admin_print_styles', 'anno_post_type_enqueue_css');
+
 ?>
