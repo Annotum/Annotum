@@ -69,7 +69,9 @@ function anno_article_category_dropdown() {
 	global $post;
 	if (!empty($post)) {
 		$cat = wp_get_object_terms($post->ID, 'article_category', array('fields' => 'ids'));
-		$cat = current($cat);
+		if (is_array($cat) && !empty($cat)) {
+			$cat = current($cat);
+		}
 	}
 	else {
 		$cat = 0;

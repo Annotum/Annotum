@@ -26,6 +26,5 @@ include_once(CFCT_PATH.'carrington-core/carrington.php');
 include_once(CFCT_PATH.'functions/sidebars.php');
 include_once(CFCT_PATH.'functions/post-types.php');
 include_once(CFCT_PATH.'functions/taxonomies.php');
-include_once(CFCT_PATH.'functions/internal-comments.php');
-
+include_once(CFCT_PATH.'plugins/load.php');
 ?>
