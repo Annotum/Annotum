@@ -4,7 +4,7 @@
  * Register meta boxes
  */
 function anno_add_meta_boxes() {
-	add_meta_box('general-comment', 'Comments', 'anno_admin_general_comments', 'article', 'normal');
+	add_meta_box('general-comment', __('Internal Comments: General', 'anno'), 'anno_admin_general_comments', 'article', 'normal');
 }
 add_action('admin_head', 'anno_add_meta_boxes');
 
@@ -196,7 +196,7 @@ function anno_internal_comments_filter($clauses) {
 	$clauses['where'] .= " AND comment_type NOT IN ('article_general', 'article_review')";
 	return $clauses;
 }
-//add_filter('comments_clauses', 'anno_internal_comments_filter');
+add_filter('comments_clauses', 'anno_internal_comments_filter');
 
 /**
  * Modify the comment count stored in the wp_post comment_count column, so internal comments don't show up there.
