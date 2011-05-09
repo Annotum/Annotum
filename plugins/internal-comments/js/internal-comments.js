@@ -1,22 +1,45 @@
 jQuery(document).ready(function($) {
-	$('input[type="button"].anno-internal-comment-submit').live('click', function() {
-		var type = $(this).attr('data-comment-type');
+	$('input[type="button"].anno-submit').live('click', function() {
+		var type = $('table.anno-comments').attr('data-comment-type');
 		var content_area = $('#anno_comment_' + type + '_textarea');
 		var content = content_area.val();
-		var parent_id = $(this).attr('data-comment-parent');
-		$.post(ajaxurl, {action: 'anno-internal-comment', type: type, content: content, parent_id: parent_id}, function(data) {
+		var parent_id = $('#anno-internal-comment-' + type + '-form input.parent-id').val();
+		var nonce_name = '_ajax_nonce-anno-comment-' + type;
+		var nonce = $('#' + nonce_name).val();
+		
+		var data = {action: 'anno-internal-comment', type: type, content: content, parent_id: parent_id};
+		data[nonce_name] = nonce;
+		$.post(ajaxurl, data, function(data) {
 			content_area.val('');
-			$('#the-comment-list-general').prepend(data);
+			$('#the-comment-list-' + type).prepend(data);
 		});
 	});
 	
 	$('table.anno-comments .reply').live('click', function() {
 		var row_actions = $(this).closest('.row-actions');
 		var comment_id = row_actions.attr('data-comment-id');
-		var comment_type = row_actions.attr('data-comment-type');
+		var type = $('table.anno-comments').attr('data-comment-type');
 
-		$('.anno-internal-comment-' + comment_type + '-form').insertAfter('#comment-' + comment_id);
-		$('.anno-internal-comment-' + comment_type + '-form input.parent_id').val(comment_id);
+
+		$('#anno-internal-comment-' + type + '-form').insertAfter('#comment-' + comment_id);
+		$('#anno-internal-comment-' + type + '-form input.parent-id').val(comment_id);
+		$('table.anno-comments .anno-cancel').show();
 		return false;
 	});
+	
+	$('table.anno-comments .anno-cancel').live('click', function() {
+		var type = $('table.anno-comments').attr('data-comment-type');
+		$('#anno-internal-comment-' + type + '-form input.parent-id').val('0');
+		
+		$('#anno-internal-comment-' + type + '-form').insertAfter('#comment-add-pos-' + type);
+		$('table.anno-comments .anno-cancel').hide();
+	});
+	
+	$('table.anno-comments .anno-trash-comment').click(function() {
+		var row_actions = $(this).closest('.row-actions');
+		var comment_id = row_actions.attr('data-comment-id');
+		
+		//Trash that sucka.
+		return false;
+	})
 });

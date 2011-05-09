@@ -34,7 +34,7 @@ function anno_internal_comments_get_comments($type) {
 function anno_internal_comments_display($type) {
 	$comments = anno_internal_comments_get_comments('article_'.$type);
 ?>
-<table class="widefat fixed comments comments-box anno-comments" cellspacing="0">
+<table class="widefat fixed comments comments-box anno-comments" data-comment-type="<?php echo esc_attr($type); ?>" cellspacing="0">
 	<tbody id="<?php echo esc_attr('the-comment-list-'.$type); ?>" class="list:comment">
 <?php
 	if (is_array($comments) && !empty($comments)) {
@@ -99,17 +99,30 @@ function anno_internal_comment_table_row($cur_comment) {
 					printf( ' | '.__( 'In reply to <a href="%1$s">%2$s</a>.', 'anno'), $parent_link, $name );
 				}
 			echo '
-			</div>';
-			echo $comment->comment_content;
+			</div>
+			<p class="comment-content">'.
+				$comment->comment_content
+			.'</p>';
 			
 			$actions['reply'] = '<a href="#" class="reply">'.__( 'Reply', 'anno').'</a>';
+			$actions['edit'] = '<a href="comment.php?action=editcomment&amp;c='.$comment->comment_ID.'" title="'.esc_attr__( 'Edit comment', 'anno').'">'.__('Edit', 'anno').'</a>';
+			$actions['delete'] = '<a class="anno-trash-comment" href="'.wp_nonce_url('comment.php?action=trashcomment&amp;c='.$comment->comment_ID.'&amp;_wp_original_http_referer='.urlencode(wp_get_referer()), 'delete-comment_'.$comment->comment_ID).'">'.__('Trash', 'anno').'</a>';
 			echo '
-			<div class="row-actions" data-comment-id="'.$comment->comment_ID.'" data-comment-type="general">';
-				echo $actions['reply'];
+			<div class="row-actions" data-comment-id="'.$comment->comment_ID.'">';
+			$i = 1;
+			foreach ($actions as $action) {
+				if ($i == count($actions)) {
+					$sep = '';
+				}
+				else {
+					$sep = ' | ';
+				}
+				echo $action.$sep;
+				$i++;
+			}
 			echo '
 			</div>';
 			?>
-
 		</td>
 	</tr>
 <?php
@@ -128,14 +141,21 @@ function anno_admin_general_comments() {
  */
 function anno_internal_comments_form($type) {
 ?>
-	<tr class="<?php echo esc_attr('anno-internal-comment-'.$type.'-form'); ?>">
+	<tr id="<?php echo esc_attr('comment-add-pos-'.$type); ?>">
+	</tr>
+	<tr id="<?php echo esc_attr('anno-internal-comment-'.$type.'-form'); ?>">
 		<td colspan="2">
 			<input type="hidden" name="anno_comment_type" value="<?php echo esc_attr($type); ?>" />
-			<input type="hidden" class="parent_id" name="parent_id" value="0" />
-			<label for="<?php echo esc_attr('anno_comment_'.$type.'_textarea'); ?>"><?php _e('Comment', 'anno'); ?></label>
-			<textarea id="<?php echo esc_attr('anno_comment_'.$type.'_textarea'); ?>"></textarea>
-			<input id="<?php echo esc_attr('anno-comment-'.$type.'-submit'); ?>" class="anno-internal-comment-submit" type="button" value="<?php _e('Submit', 'anno'); ?>" data-comment-type="<?php  echo esc_attr($type); ?>" />
-			<?php wp_nonce_field('anno-comment', '_ajax_nonce-anno-comment', false ); ?>
+			<input type="hidden" class="parent-id" name="parent_id" value="0" />
+			<p>
+				<label for="<?php echo esc_attr('anno_comment_'.$type.'_textarea'); ?>"><?php _e('Comment', 'anno'); ?></label>
+				<textarea id="<?php echo esc_attr('anno_comment_'.$type.'_textarea'); ?>"></textarea>
+			</p>
+			<p>
+				<input class="anno-submit button" type="button" value="<?php _e('Submit', 'anno'); ?>" />
+				<input class="anno-cancel button" type="button" value="<?php _e('Cancel', 'anno'); ?>" style="display: none;" onClick="location.href='#<?php echo esc_attr('comment-add-pos-'.$type); ?>'"/>
+			</p>
+			<?php wp_nonce_field('anno_comment', '_ajax_nonce-anno-comment-'.esc_attr($type), false ); ?>
 		</td>
 	</tr>
 <?php
@@ -176,7 +196,7 @@ function anno_internal_comments_filter($clauses) {
 	$clauses['where'] .= " AND comment_type NOT IN ('article_general', 'article_review')";
 	return $clauses;
 }
-add_filter('comments_clauses', 'anno_internal_comments_filter');
+//add_filter('comments_clauses', 'anno_internal_comments_filter');
 
 /**
  * Modify the comment count stored in the wp_post comment_count column, so internal comments don't show up there.
@@ -202,7 +222,7 @@ add_action('wp_update_comment_count', 'anno_internal_comments_update_comment_cou
  * Based on code in the WP Core
  */ 
 function anno_internal_comments_ajax() {
-//	check_ajax_referer($action, '_ajax_nonce-replyto-comment');
+	check_ajax_referer('anno_comment', '_ajax_nonce-anno-comment-'.$_POST['type']);
 	//Check to make sure user can post comments on this post
 	global $wpdb;
 	$user = wp_get_current_user();
