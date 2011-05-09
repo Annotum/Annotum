@@ -4,12 +4,12 @@
  * Register meta boxes
  */
 function anno_add_meta_boxes() {
-	add_meta_box('general-comment', __('Internal Comments: General', 'anno'), 'anno_admin_general_comments', 'article', 'normal');
+	if (anno_user_can('view_general_comment')) {
+		add_meta_box('general-comment', __('Internal Comments: General', 'anno'), 'anno_admin_general_comments', 'article', 'normal');
+	}
 }
-add_action('admin_head', 'anno_add_meta_boxes');
+add_action('admin_head-post.php', 'anno_add_meta_boxes');
 
-
-/************* GENERAL COMMENTS *************/
 
 /**
  * Get a list of comments for a given type
@@ -17,10 +17,11 @@ add_action('admin_head', 'anno_add_meta_boxes');
  * @param string $type Type of comments to fetch
  * @return array Array of comment objects
  */
-function anno_internal_comments_get_comments($type) {
+function anno_internal_comments_get_comments($type, $post_id) {
 	remove_filter('comments_clauses', 'anno_internal_comments_filter');
 	$comments = get_comments( array(
-	    'type' => $type
+	    'type' => $type,
+		'post_id' => $post_id,
 	));
 	add_filter('comments_clauses', 'anno_internal_comments_filter');
 
@@ -29,10 +30,12 @@ function anno_internal_comments_get_comments($type) {
 
 /**
  * Display the content for internal comment meta boxes
- * @param $type
+ * @param $type The comment type base
+ * @return void
  */ 
 function anno_internal_comments_display($type) {
-	$comments = anno_internal_comments_get_comments('article_'.$type);
+	global $post;
+	$comments = anno_internal_comments_get_comments('article_'.$type, $post->ID);
 ?>
 <table class="widefat fixed comments comments-box anno-comments" data-comment-type="<?php echo esc_attr($type); ?>" cellspacing="0">
 	<tbody id="<?php echo esc_attr('the-comment-list-'.$type); ?>" class="list:comment">
@@ -104,24 +107,26 @@ function anno_internal_comment_table_row($cur_comment) {
 				$comment->comment_content
 			.'</p>';
 			
-			$actions['reply'] = '<a href="#" class="reply">'.__( 'Reply', 'anno').'</a>';
-			$actions['edit'] = '<a href="comment.php?action=editcomment&amp;c='.$comment->comment_ID.'" title="'.esc_attr__( 'Edit comment', 'anno').'">'.__('Edit', 'anno').'</a>';
-			$actions['delete'] = '<a class="anno-trash-comment" href="'.wp_nonce_url('comment.php?action=trashcomment&amp;c='.$comment->comment_ID.'&amp;_wp_original_http_referer='.urlencode(wp_get_referer()), 'delete-comment_'.$comment->comment_ID).'">'.__('Trash', 'anno').'</a>';
-			echo '
-			<div class="row-actions" data-comment-id="'.$comment->comment_ID.'">';
-			$i = 1;
-			foreach ($actions as $action) {
-				if ($i == count($actions)) {
-					$sep = '';
+			if (anno_user_can('manage_general_comment')) {
+				$actions['reply'] = '<a href="#" class="reply">'.__( 'Reply', 'anno').'</a>';
+				$actions['edit'] = '<a href="comment.php?action=editcomment&amp;c='.$comment->comment_ID.'" title="'.esc_attr__( 'Edit comment', 'anno').'">'.__('Edit', 'anno').'</a>';
+				$actions['delete'] = '<a class="anno-trash-comment" href="'.wp_nonce_url('comment.php?action=trashcomment&amp;c='.$comment->comment_ID, 'delete-comment_'.$comment->comment_ID).'">'.__('Trash', 'anno').'</a>';
+				echo '
+				<div class="row-actions" data-comment-id="'.$comment->comment_ID.'">';
+				$i = 1;
+				foreach ($actions as $action) {
+					if ($i == count($actions)) {
+						$sep = '';
+					}
+					else {
+						$sep = ' | ';
+					}
+					echo $action.$sep;
+					$i++;
 				}
-				else {
-					$sep = ' | ';
-				}
-				echo $action.$sep;
-				$i++;
+				echo '
+				</div>';
 			}
-			echo '
-			</div>';
 			?>
 		</td>
 	</tr>
@@ -165,6 +170,12 @@ function anno_internal_comments_form($type) {
  * Enqueue js for internal comments
  */
 function anno_internal_comments_js() {
+global $post;
+	echo '
+<script type="text/javascript">
+	var POST_ID = '.$post->ID.';
+</script>
+	';
 	wp_enqueue_script('anno-internal-comments', trailingslashit(get_bloginfo('stylesheet_directory')).'plugins/internal-comments/js/internal-comments.js', array('jquery'));
 }
 add_action('admin_print_scripts', 'anno_internal_comments_js');
@@ -196,7 +207,9 @@ function anno_internal_comments_filter($clauses) {
 	$clauses['where'] .= " AND comment_type NOT IN ('article_general', 'article_review')";
 	return $clauses;
 }
-add_filter('comments_clauses', 'anno_internal_comments_filter');
+if (!is_admin()) {
+	add_filter('comments_clauses', 'anno_internal_comments_filter');
+}
 
 /**
  * Modify the comment count stored in the wp_post comment_count column, so internal comments don't show up there.
@@ -232,6 +245,8 @@ function anno_internal_comments_ajax() {
 		$comment_author_url = $wpdb->escape($user->user_url);
 		$comment_content = trim($_POST['content']);
 		$comment_type = 'article_'.trim($_POST['type']);
+		$comment_post_ID = intval($_POST['post_id']);
+		$user_ID = $user->ID;
 	}
 	else {
 		die( __('Sorry, you must be logged in to reply to a comment.') );
@@ -245,7 +260,11 @@ function anno_internal_comments_ajax() {
 	
 	$commentdata = compact('comment_post_ID', 'comment_author', 'comment_author_email', 'comment_author_url', 'comment_content', 'comment_type', 'comment_parent', 'user_ID');
 
+	// Create the comment and automatically approve it
+	add_filter('pre_comment_approved', 'anno_internal_comments_approve');
 	$comment_id = wp_new_comment($commentdata);
+	remove_filter('pre_comment_approved', 'anno_internal_comments_approve');
+	
 	$comment = get_comment($comment_id);
 	if (!$comment) {
 		 die('1');
@@ -256,5 +275,22 @@ function anno_internal_comments_ajax() {
 
 }
 add_action('wp_ajax_anno-internal-comment', 'anno_internal_comments_ajax');
+
+/**
+ * Filter to automatically approve internal comments
+ */ 
+function anno_internal_comments_approve($approved) {
+		return 1;
+}
+
+/**
+ * Dropdown filter to display only our internal comment types in the admin screen
+ */ 
+function anno_admin_comment_types_dropdown($comment_types) {
+	$comment_types['article_general'] = __('Article General', 'anno');
+	$comment_types['article_review'] = __('Article Review', 'anno');
+	return $comment_types;
+}
+add_filter('admin_comment_types_dropdown', 'anno_admin_comment_types_dropdown');
 
 ?>

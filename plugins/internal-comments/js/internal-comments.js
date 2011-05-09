@@ -7,7 +7,7 @@ jQuery(document).ready(function($) {
 		var nonce_name = '_ajax_nonce-anno-comment-' + type;
 		var nonce = $('#' + nonce_name).val();
 		
-		var data = {action: 'anno-internal-comment', type: type, content: content, parent_id: parent_id};
+		var data = {action: 'anno-internal-comment', type: type, content: content, parent_id: parent_id, post_id: POST_ID};
 		data[nonce_name] = nonce;
 		$.post(ajaxurl, data, function(data) {
 			content_area.val('');
@@ -35,11 +35,15 @@ jQuery(document).ready(function($) {
 		$('table.anno-comments .anno-cancel').hide();
 	});
 	
-	$('table.anno-comments .anno-trash-comment').click(function() {
+	$('table.anno-comments .anno-trash-comment').live('click', function() {
 		var row_actions = $(this).closest('.row-actions');
 		var comment_id = row_actions.attr('data-comment-id');
 		
-		//Trash that sucka.
+		var url = $(this).attr('href');
+		$.get(url, function() {
+			$('#comment-' + comment_id).fadeOut();
+		});
+	
 		return false;
 	})
 });
