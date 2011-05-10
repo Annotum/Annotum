@@ -10,7 +10,6 @@ function anno_add_meta_boxes() {
 }
 add_action('admin_head-post.php', 'anno_add_meta_boxes');
 
-
 /**
  * Get a list of comments for a given type
  * 

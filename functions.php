@@ -27,5 +27,7 @@ include_once(CFCT_PATH.'functions/sidebars.php');
 include_once(CFCT_PATH.'functions/post-types.php');
 include_once(CFCT_PATH.'functions/taxonomies.php');
 include_once(CFCT_PATH.'functions/capabilities.php');
+include_once(CFCT_PATH.'functions/post-capabilities.php');
 include_once(CFCT_PATH.'plugins/load.php');
+
 ?>
