@@ -7,9 +7,9 @@
 /**
  * This determines whether or not a user has the given abilities for a given post
  * 
- * @param int $user_id The user id to check for a capability
  * @param string $cap The capability to check
- * @param int $obj_id The ID of the object to check (post, comment etc..)
+ * @param int $user_id The user id to check for a capability. Defaults to current user (global)
+ * @param int $obj_id The ID of the object to check (post, comment etc..). Defaults to current post (global)
  * @return bool True if user has the given capability for the given post
  */ 
 function anno_user_can($cap, $user_id = null, $obj_id = null) {
@@ -20,14 +20,25 @@ function anno_user_can($cap, $user_id = null, $obj_id = null) {
 	if (is_null($post_id)) {
 		// Assume post, since only one cap checks comments
 		global $post;
-		$post_id = $post->ID;
+		$obj_id = $post->ID;
 	}
 	$post_state = get_post_meta($obj_id, '_post_state', true);
 	$user_role = anno_role($user_id, $obj_id);
+	
+	// Number of times this item has gone back to draft state.
+	$post_round = get_post_meta($obj_id, '_round', true);
+	
+	// WP role names
 	$admin = 'administrator';
 	$editor = 'editor';
 	
 	switch ($cap) {
+		case 'trash_post':
+			// Draft state, author or editor+
+			if ($post_round < 1 && $post_state == 'draft' && $user_role && !in_array($user_role, array('reviewer', 'co-author'))) {
+				return true;
+			}
+			break;
 		case 'view_post':
 			// Published post state, or user is associated with the post
 			if ($post_state == 'published' || $user_role) {
@@ -35,6 +46,7 @@ function anno_user_can($cap, $user_id = null, $obj_id = null) {
 			}
 			break;
 		case 'edit_post':
+			global $pagenow;
 			// Allow edits for things such as typos
 			if ($user_role == $admin) {
 				return true;
@@ -45,6 +57,10 @@ function anno_user_can($cap, $user_id = null, $obj_id = null) {
 			}
 			// Draft state, authors can edit
 			else if (($user_role == 'author' || $user_role == 'co-author') && $post_state == 'draft') {
+				return true;
+			}
+			// New Article
+			else if ($pagenow == 'post-new.php') {
 				return true;
 			}
 			break;
@@ -62,7 +78,7 @@ function anno_user_can($cap, $user_id = null, $obj_id = null) {
 			break;
 		case 'manage_reviewer_comment':
 			// if user is reviewer or editor+ and state is in review
-			if ($user_role && !in_array($user_role, array('author', 'co-author')) && $post_state = 'in review') {
+			if ($user_role && !in_array($user_role, array('author', 'co-author')) && $post_state = 'in_review') {
 				return true;
 			}
 			break;
@@ -85,7 +101,7 @@ function anno_user_can($cap, $user_id = null, $obj_id = null) {
 			break;
 		case 'manage_reviewers':
 			// if in review state and user is editor+
-			if (in_array($user_role, array($admin, $editor)) && $post_state == 'in review') {
+			if (in_array($user_role, array($admin, $editor)) && $post_state == 'in_review') {
 				return true;
 			}
 			break;
@@ -99,10 +115,12 @@ function anno_user_can($cap, $user_id = null, $obj_id = null) {
 					break;
 				case 'in_review':
 				case 'reviewed':
+					// Must be an editor+
 					if (in_array($user_role, array($admin, $editor))) {
 						return true;
 					}
 					break;
+					// Must be a part of the publishing staff
 				case 'final':
 					if ($user_role == $admin) {
 						return true;
@@ -137,30 +155,51 @@ function anno_user_can($cap, $user_id = null, $obj_id = null) {
  * Returns the user's role for a given post. Returns editor or publishing staff even if that user
  * is also an author, co-author, or reviewer
  * 
- * @param int $user_id ID of the user to check
- * @param int $post_id ID of the post to check
+ * @param int $user_id The user id to check for a capability. Defaults to current user (global)
+ * @param int $post_id The ID of the post to check. Defaults to current post (global)
  * @return string|false Role the given user has for a given post, false if user is not attached to the post in any way
  */ 
-function anno_role($user_id, $post_id) {
-	global $current_user;
-	if ($current_user->has_cap('administrator')) {
+function anno_role($user_id = null, $post_id = null) {
+	global $pagenow;
+	if (is_null($user_id)) {
+		global $current_user;
+		$user = $current_user;
+		$user_id = $user->ID;
+	}
+	else {
+		$user = new WP_User($user_id);
+	}
+	// Pagenow to prevent loading in autodrafts
+	if (is_null($post_id) && $pagenow != 'post-new.php') {
+		global $post;
+		$post_id = $post->ID;
+	}
+	else {
+		$post = get_post($post_id);
+	}
+	
+	if (!$user || !post_id) {
+		return false;
+	}
+	
+	if ($user->has_cap('administrator')) {
 		return 'administrator';
 	}
-	else if ($current_user->has_cap('editor')) {
+	else if ($user->has_cap('editor')) {
 		return 'editor';
 	}
 
 	$reviewers = anno_get_reviewers($post_id);
-	if (in_array($user_id, $reviewers)) {
+	
+	if (is_array($reviewers) && in_array($user_id, $reviewers)) {
 		return 'reviewer';
 	}
 	
 	$co_authors = anno_get_co_authors($post_id);
-	if (in_array($user_id, $co_authors)) {
+	if (is_array($co_authors) && in_array($user_id, $co_authors)) {
 		return 'co-author';
 	}
 	
-	$post = get_post($post_id);
 	if ($post && $post->post_author = $user_id) {
 		return 'author';
 	}

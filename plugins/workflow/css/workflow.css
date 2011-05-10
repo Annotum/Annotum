@@ -1,0 +1,45 @@
+/** @section Publish Box
+ -------------------------------------------------- */
+#anno-submitdiv .inside {
+	margin: 0;
+	padding: 0;
+}
+
+#anno-submitdiv .center {
+	margin: 0 auto;
+	float: none;
+	text-align:center;
+	display: inline;	
+}
+
+#anno-submitdiv .center-wrap {
+	float: none;
+	text-align: center;
+}
+
+#anno-submitdiv .publishing {
+	display: inline;
+}
+
+#anno-submitdiv .status-text {
+	font-weight: bold;
+	text-align: center;
+}
+
+#anno-submitdiv .major-preview {
+
+}
+
+#anno-submitdiv .major-preview .button-primary {
+	min-width: 80px;
+	display: inline-block;
+}
+
+#anno-submitdiv #pending {
+    background: url("../images/button-grad.png") repeat-x scroll left top #21759B;
+    border-color: #298CBA;
+    color: #FFFFFF;
+    font-weight: bold;
+    text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.3);
+	padding: 3px 8px;
+}

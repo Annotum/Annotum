@@ -7,7 +7,7 @@ jQuery(document).ready(function($) {
 		var nonce_name = '_ajax_nonce-anno-comment-' + type;
 		var nonce = $('#' + nonce_name).val();
 		
-		var data = {action: 'anno-internal-comment', type: type, content: content, parent_id: parent_id, post_id: POST_ID};
+		var data = {action: 'anno-internal-comment', type: type, content: content, parent_id: parent_id, post_id: ANNO_POST_ID};
 		data[nonce_name] = nonce;
 		$.post(ajaxurl, data, function(data) {
 			content_area.val('');

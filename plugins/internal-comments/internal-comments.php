@@ -172,7 +172,7 @@ function anno_internal_comments_js() {
 global $post;
 	echo '
 <script type="text/javascript">
-	var POST_ID = '.$post->ID.';
+	var ANNO_POST_ID = '.$post->ID.';
 </script>
 	';
 	wp_enqueue_script('anno-internal-comments', trailingslashit(get_bloginfo('stylesheet_directory')).'plugins/internal-comments/js/internal-comments.js', array('jquery'));
