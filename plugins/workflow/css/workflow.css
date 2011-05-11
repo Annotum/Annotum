@@ -1,0 +1,32 @@
+/** @section Publish Box
+ -------------------------------------------------- */
+#submitdiv .inside {
+	margin: 0;
+	padding: 0;
+}
+
+#submitdiv .center {
+	margin: 0 auto;
+	float: none;
+	text-align:center;
+	display: inline;	
+}
+
+#submitdiv .center-wrap {
+	float: none;
+	text-align: center;
+}
+
+#submitdiv .publishing {
+	display: inline;
+}
+
+#submitdiv .status-text {
+	font-weight: bold;
+	text-align: center;
+}
+
+#submitdiv .major .button-primary {
+	min-width: 80px;
+	display: inline-block;
+}

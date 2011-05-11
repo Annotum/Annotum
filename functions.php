@@ -17,12 +17,17 @@
 
 if (__FILE__ == $_SERVER['SCRIPT_FILENAME']) { die(); }
 
-load_theme_textdomain('carrington-jam');
+load_theme_textdomain('anno');
 
 define('CFCT_DEBUG', false);
 define('CFCT_PATH', trailingslashit(TEMPLATEPATH));
 
 include_once(CFCT_PATH.'carrington-core/carrington.php');
 include_once(CFCT_PATH.'functions/sidebars.php');
+include_once(CFCT_PATH.'functions/post-types.php');
+include_once(CFCT_PATH.'functions/taxonomies.php');
+include_once(CFCT_PATH.'functions/capabilities.php');
+include_once(CFCT_PATH.'functions/post-capabilities.php');
+include_once(CFCT_PATH.'plugins/load.php');
 
 ?>
