@@ -121,7 +121,7 @@ function anno_user_can($cap, $user_id = null, $obj_id = null) {
 					}
 					break;
 					// Must be a part of the publishing staff
-				case 'final':
+				case 'approved':
 					if ($user_role == $admin) {
 						return true;
 					}
