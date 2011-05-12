@@ -38,11 +38,13 @@
 	width: 80%;
 }
 
-ul#reviewer-list li {
+ul#reviewer-list li,
+ul#co-authors-list li {
 	margin-bottom: 8px;
 }
 
-ul#reviewer-list img{
+ul#reviewer-list img,
+ul#co-author-list img {
 	vertical-align: middle;
 }
 
