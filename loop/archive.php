@@ -19,18 +19,10 @@ if (__FILE__ == $_SERVER['SCRIPT_FILENAME']) { die(); }
 if (CFCT_DEBUG) { cfct_banner(__FILE__); }
 
 if (have_posts()) {
-	echo '<ol>';
 	while (have_posts()) {
 		the_post();
-?>
-	<li>
-<?php
 		cfct_excerpt();
-?>
-	</li>
-<?php
 	}
-	echo '</ol>';
 }
 
 ?>

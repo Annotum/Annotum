@@ -32,7 +32,7 @@ if (CFCT_DEBUG) { cfct_banner(__FILE__); }
 	<?php wp_head(); ?>
 </head>
 
-<body>
+<body <?php body_class(); ?>>
 <header>
 	<h1><a href="<?php bloginfo('url') ?>/" title="Home" rel="home"><?php bloginfo('name') ?></a></h1>
 	<p><?php bloginfo('description'); ?></p>

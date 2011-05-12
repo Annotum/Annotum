@@ -19,19 +19,25 @@ if (__FILE__ == $_SERVER['SCRIPT_FILENAME']) { die(); }
 if (CFCT_DEBUG) { cfct_banner(__FILE__); }
 
 ?>
-<article>
+<article <?php post_class(); ?>>
+	<header class="header">
+		<h1><a rel="bookmark" href="<?php the_permalink() ?>"><?php the_title(); ?></a></h1>
+		<p><?php the_author(); ?> on <?php the_time('F j, Y'); ?></p>
+	</header>
+	<div class="content">
+		<?php
 
-<a href="<?php the_permalink() ?>"><?php the_title(); ?></a>
-	
-<?php
+		the_excerpt();
 
-the_excerpt();
+		?>
+	</div><!--/content-->
+	<footer class="footer">
+		<?php
+		echo 'Categories: ';
+		the_category(', ');
+		echo ' &bull; ';
+		comments_popup_link(__('No comments', 'carrington-jam'), __('1 comment', 'carrington-jam'), __('% comments', 'carrington-jam'));
 
-the_time('F j, Y');
-
-the_category(', ');
-
-comments_popup_link(__('No comments', 'carrington-jam'), __('1 comment', 'carrington-jam'), __('% comments', 'carrington-jam'));
-
-?>
+		?>
+	</footer>
 </article>
