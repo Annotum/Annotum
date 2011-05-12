@@ -30,3 +30,26 @@
 	min-width: 80px;
 	display: inline-block;
 }
+
+/** @section Author/Reviewer management
+ -------------------------------------------------- */
+#reviewer-input,
+#co-author-input {
+	width: 80%;
+}
+
+ul#reviewer-list li {
+	margin-bottom: 8px;
+}
+
+ul#reviewer-list img{
+	vertical-align: middle;
+}
+
+.user-input-wrap {
+	padding-bottom: 5px;
+	margin-bottom: 5px;
+	border-bottom: 1px solid #DFDFDF;
+	
+}
+

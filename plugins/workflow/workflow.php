@@ -14,14 +14,21 @@ $anno_post_save = array(
  * Remove the standard publish meta box
  */ 
 function anno_workflow_meta_boxes() {
-	// Remove the WP Publish box
-	remove_meta_box('submitdiv', 'article', 'side');
-
 	global $post;
 	$post_state = get_post_meta($post->ID, '_post_state', true);
 	if (empty($post_state)) {
 		$post_state = 'draft';
 	}
+	
+	// Remove the WP Publish box
+	remove_meta_box('submitdiv', 'article', 'side');
+
+	// Remove taxonomy boxes when a user is unable to save/edit
+	if (!anno_user_can('edit_post', null, $post->ID)) {
+		remove_meta_box('article_tagdiv', 'article', 'side');
+		remove_meta_box('article_category_select', 'article', 'side');
+	}
+	
 	// Add the Annotum workflow publish box.
 	add_meta_box('submitdiv', __('Status', 'anno').': '. $post_state, 'anno_status_meta', 'article', 'side', 'high');
 
@@ -571,50 +578,81 @@ add_action('save_post', 'anno_transistion_state', 10, 2);
 //apply_filters( 'post_updated_messages', $messages ); $messages['post']
 //apply_filters( 'redirect_post_location', $location, $post_id ) );
 
-function anno_get_post_state() {
+/**
+ * Filter for post state meta so we can assign return a value if a post doesn't have one already.
+ */ 
+function anno_get_state_meta() {
 	
 }
 
+//TODO Abstract the two meta below?
+/**
+ * Meta box for reviewer management and display
+ */
 function anno_reviewers_meta_box() {
 	global $post;
-	$reviewers = anno_get_reviewers();
-	anno_users_meta_box_markup($reviewers);
-	
-}
-
-function anno_co_authors_meta_box() {
-	$co_authors = anno_get_co_authors();
-	anno_users_meta_box_markup($co_authors);
-	
-}
-
-/**
- *
- **/
-function anno_users_meta_box_markup($users) {
 ?>
-<div class="reviewers-meta-box">
-	<div>
-		<input type="text" id="reviewer-input" name="reviewer_input" /> 
-		<input id="reviewer-add" class="button" type="button" value="add" />
-	</div>
-	<ul id="reviewer-list">
+	<div id="reviewers-meta-box">
 <?php
-		foreach ($users as $user_id) {
-			$user = get_userdata($user_id);
-			if ($user) {
+	$reviewers = anno_get_reviewers();
+	if (anno_user_can('manage_reviewers', null, $post->ID)) {
+?>
+		<div class="user-input-wrap">
+			<input type="text" id="reviewer-input" name="reviewer_input" /> 
+			<input id="reviewer-add" class="user-add button" type="button" value="add" />
+		</div>
+<?php
+	}
+?>
+		<ul id="reviewer-list">
+<?php
+	foreach ($reviewers as $user_id) {
+		$user = get_userdata($user_id);
+		if ($user) {
 				anno_user_li_markup($user);
 			}
 		}
-		
 ?>
-	</ul>
-</div>
+		</ul>
+	</div>
 <?php
 }
 
 /**
- * Markup for users in meta boxes
+ * Meta box for author management and display
+ */
+function anno_co_authors_meta_box() {
+	global $post;
+?>
+	<div id="co-authors-meta-box">
+<?php
+	$co_authors = anno_get_co_authors();
+	if (anno_user_can('manage_co_authors', null, $post->ID)) {
+?>
+		<div class="user-input-wrap">
+			<input type="text" id="co-author-input" name="co_author_input" /> 
+			<input id="co-author-add" class="user-add button" type="button" value="add" />
+		</div>
+<?php
+	}
+?>
+		<ul id="co-author-list">
+<?php
+	foreach ($co_authors as $user_id) {
+		$user = get_userdata($user_id);
+		if ($user) {
+				anno_user_li_markup($user);
+			}
+		}
+?>
+		</ul>
+	</div>
+<?php
+}
+
+
+/**
+ * Markup for user display in meta boxes
  */
 function anno_user_li_markup($user) {
 ?>
@@ -625,21 +663,36 @@ function anno_user_li_markup($user) {
 <?php
 }
 
+/**
+ * Handles AJAX request for adding a reviewer to a post. As well as transitioning states.
+ */ 
 function anno_add_reviewer() {
-//TODO Transition state
-	anno_add_user('reviewer');
+	if (anno_add_user('reviewer')) {
+		$post_id = $_POST['post_id'];
+		$post_state = get_post_meta($post_id, '_post_state', true);
+		if ($post_state == 'submitted') {
+			update_post_meta($post_id, '_post_state', 'in_review');
+			//TODO reload?
+		}
+	}
 	die();
 }
 add_action('wp_ajax_anno-add-reviewer', 'anno_add_reviewer');
 
+/**
+ * Handles AJAX request for adding a co-author to a post.
+ */
 function anno_add_co_author() {
 	anno_add_user('co_author');
 	die();
 }
-add_action('wp_ajax_anno-add-co-author', 'anno_add_co-author');
+add_action('wp_ajax_anno-add-co-author', 'anno_add_co_author');
 
 /**
- * AJAX handler for adding user to a post
+ * AJAX handler for adding user to a post with a given type
+ * 
+ * @param string $type Type of user to add to the post (co_author, reviewer)
+ * @return bool True if successfully added, false otherwise
  */
 function anno_add_user($type) {
 //TODO nonce
@@ -647,11 +700,12 @@ function anno_add_user($type) {
 		$user = get_userdatabylogin($_POST['user']);
 		if (!empty($user)) {
 			if (function_exists('anno_add_'.$type.'_to_post')) {
-				call_user_func('anno_add_'.$type.'_to_post', $user->ID, intval($_POST['post_id']));
 				anno_user_li_markup($user);
+				return call_user_func_array('anno_add_'.$type.'_to_post', array($user->ID, intval($_POST['post_id'])));
 			}
 		}
 	}
+	return false;
 }
 
 ?>

@@ -23,6 +23,9 @@ function anno_user_can($cap, $user_id = null, $obj_id = null) {
 		$obj_id = $post->ID;
 	}
 	$post_state = get_post_meta($obj_id, '_post_state', true);
+	if (empty($post_state)) {
+		$post_state = 'draft';
+	}
 	$user_role = anno_role($user_id, $obj_id);
 	
 	// Number of times this item has gone back to draft state.
@@ -101,7 +104,7 @@ function anno_user_can($cap, $user_id = null, $obj_id = null) {
 			break;
 		case 'manage_reviewers':
 			// if in review state and user is editor+
-			if (in_array($user_role, array($admin, $editor)) && $post_state == 'in_review') {
+			if (in_array($user_role, array($admin, $editor)) && in_array($post_state, array('submitted', 'in_review'))) {
 				return true;
 			}
 			break;
@@ -241,14 +244,36 @@ function anno_get_post_users($type, $post_id = null) {
 	}
 }
 
+/**
+ * Adds a co-author to a given post
+ * 
+ * @param int $user_id ID of the user being added to the post
+ * @param int $post_id ID of the post to add the user to. Loads from global if nothing is passed.
+ * @return bool True if successfully added, false otherwise
+ */
 function anno_add_co_author_to_post($user_id, $post_id = null) {
-	anno_add_post_user_to_post('_co_authors', $post_id);
+	return anno_add_post_user_to_post('_co_authors', $user_id, $post_id);
 }
 
+/**
+ * Adds a reviewer to a given post
+ * 
+ * @param int $user_id ID of the user being added to the post
+ * @param int $post_id ID of the post to add the user to. Loads from global if nothing is passed.
+ * @return bool True if successfully added, false otherwise
+ */
 function anno_add_reviewer_to_post($user_id, $post_id = null) {
-	anno_add_post_user_to_post('_reviewers', $post_id);
+	return anno_add_post_user_to_post('_reviewers', $user_id, $post_id);
 }
 
+/**
+ * Adds a user to a given post with a given role
+ * 
+ * @param string $type Type of user to add. Can be the meta_key or 
+ * @param int $user_id ID of the user being added to the post
+ * @param int $post_id ID of the post to add the user to. Loads from global if nothing is passed.
+ * @return bool True if successfully added, false otherwise
+ */ 
 function anno_add_post_user_to_post($type, $user_id, $post_id = null) {
 	if ($type == 'reviewers' || $type == 'co_authors') {
 		$type = '_'.$type;
@@ -267,7 +292,7 @@ function anno_add_post_user_to_post($type, $user_id, $post_id = null) {
 		$users[] = $user_id;
 	}
 	
-	update_post_meta($post_id, $type, $users);
+	return update_post_meta($post_id, $type, $users);
 }
 
 ?>

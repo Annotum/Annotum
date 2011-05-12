@@ -60,7 +60,7 @@ add_action('admin_head', 'anno_remove_category_box');
 function anno_add_category_single_selection() {
 	add_meta_box('article_category_select', __('Article Category', 'anno'), 'anno_article_category_dropdown', 'article', 'side', 'core');
 }
-add_action('admin_head', 'anno_add_category_single_selection');
+add_action('admin_head', 'anno_add_category_single_selection', 1);
 
 /**
  * Displays markup for article category dropdown

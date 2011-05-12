@@ -10,6 +10,13 @@ jQuery(document).ready( function($) {
 			$('ul#reviewer-list').prepend(data);
 		});
 	});
+	
+	$('input[type="button"]#co-author-add').click(function() {
+		var user = $('input[type="text"]#co-author-input').val();
+		$.post(ajaxurl, {action: 'anno-add-co-author', user: user, post_id: ANNO_POST_ID}, function(data) {
+			$('ul#co-author-list').prepend(data);
+		});
+	});
 
 
 });
