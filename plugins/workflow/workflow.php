@@ -347,10 +347,20 @@ function anno_major_action_approved_markup() {
 /**
  * Rejected state markup for minor actions.
  */
+function anno_minor_action_rejected_markup() {
+?>
+	<p class="status-text">
+		<?php _e('Article Rejected', 'anno'); ?>
+	</p>
+<?php
+}
 
 /**
  * Rejected state markup for major actions.
  */
+function anno_major_action_rejected_markup() {
+	anno_major_action_clone_markup();
+}
 
 /**
  * Published state markup for minor actions.
