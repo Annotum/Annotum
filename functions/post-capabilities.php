@@ -209,20 +209,65 @@ function anno_role($user_id = null, $post_id = null) {
 
 /**
  * Gets all co-authors for a given post id
+ *
  * @param int $post_id ID of the post to check
- * @return array|false Array of co-authors, or false if no co-authors have been set
+ * @return array Array of co-authors (or empty array if none exist)
  */ 
-function anno_get_co_authors($post_id) {
-	return get_post_meta($post_id, '_co_authors', true);
+function anno_get_co_authors($post_id = null) {
+	return anno_get_post_users('_co_authors', $post_id);
 }
 
 /**
  * Gets all reviewers for a given post id
+ *
  * @param int $post_id ID of the post to check
- * @return array|false Array of co-authors, or false if no co-authors have been set
+ * @return array Array of reviewers (or empty array if none exist)
  */
-function anno_get_reviewers($post_id) {
-	return get_post_meta($post_id, '_reviewers', true);
+function anno_get_reviewers($post_id = null) {
+	return anno_get_post_users('_reviewers', $post_id);
+}
+
+function anno_get_post_users($type, $post_id = null) {
+	if ($post_id == null) {
+		global $post;
+		$post_id = $post->ID;
+	}
+	$users = get_post_meta($post_id, $type, true);
+	if (!is_array($users)) {
+		return array();
+	}
+	else {
+		return $users;
+	}
+}
+
+function anno_add_co_author_to_post($user_id, $post_id = null) {
+	anno_add_post_user_to_post('_co_authors', $post_id);
+}
+
+function anno_add_reviewer_to_post($user_id, $post_id = null) {
+	anno_add_post_user_to_post('_reviewers', $post_id);
+}
+
+function anno_add_post_user_to_post($type, $user_id, $post_id = null) {
+	if ($type == 'reviewers' || $type == 'co_authors') {
+		$type = '_'.$type;
+	}
+	
+	if ($post_id == null) {
+		global $post;
+		$post_id = $post->ID;
+	}
+	
+	$users = get_post_meta($post_id, $type, true);
+	if (!is_array($users)) {
+		$users = array($user_id);
+	}
+	else {
+		$users[] = $user_id;
+	}
+	
+	update_post_meta($post_id, $type, $users);
 }
 
 ?>
