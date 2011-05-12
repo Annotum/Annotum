@@ -19,7 +19,7 @@ if (__FILE__ == $_SERVER['SCRIPT_FILENAME']) { die(); }
 if (CFCT_DEBUG) { cfct_banner(__FILE__); }
 
 ?>
-<article <?php post_class('clearfix'); ?>>
+<article <?php post_class('article clearfix'); ?>>
 	<header class="header">
 		<h1 class="title"><a rel="bookmark" href="<?php the_permalink() ?>"><?php the_title(); ?></a></h1>
 		<p><?php the_author(); ?> on <?php the_time('F j, Y'); ?></p>

@@ -22,24 +22,29 @@ global $comment, $post;
 // Extract data passed in from threaded.php for comment reply link
 extract($data);
 ?>
-<div id="comment-<?php comment_ID(); ?>">
-<?php if ($comment->comment_approved == '0') {
-	_e('Your comment is awaiting moderation.', 'carrington-jam');
-}
+<article <?php comment_class('article'); ?> id="comment-<?php comment_ID(); ?>">
+	<header class="header">
+		<?php
+		echo get_avatar($comment, 54);
 
-echo get_avatar($comment, 54);
-
-comment_author_link();
-
-comment_text();
-
-comment_date();
-
-echo '<a href="'.esc_url(get_comment_link( $comment->comment_ID )).'">', comment_time(), '</a>';
-
-comment_reply_link(array_merge( $args, array('depth' => $depth, 'max_depth' => $args['max_depth'])), $comment, $post);
-
-edit_comment_link(__('Edit This', 'carrington-jam'), '', '');
-
-?>
-</div>
+		?>
+		<p>
+			<?php comment_author_link(); ?> on <?php comment_date(); ?>
+		</p>
+	</header>
+	<div class="content">
+		<?php
+		if ($comment->comment_approved == '0') {
+			echo '<p>' . __('Your comment is awaiting moderation.', 'carrington-jam') . '</p>';
+		}
+		comment_text();
+		?>
+	</div>
+	<footer class="footer">
+		<?php
+		comment_reply_link(array_merge( $args, array('depth' => $depth, 'max_depth' => $args['max_depth'])), $comment, $post);
+		echo ' &bull; ';
+		edit_comment_link(__('Edit This', 'carrington-jam'), '', '');
+		?>
+	</footer>
+</article>

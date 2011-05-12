@@ -237,6 +237,22 @@ body {
 }
 
 h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+.h1,
+.h2,
+.h3,
+.h4,
+.h5,
+.h6 {
+	margin: 0 0 10px;
+	line-height: 1.2;
+}
+
+h1,
 .h1 {
 	font-size: 23px;
 	color: #2b3130;
@@ -302,28 +318,34 @@ blockquote {
 	padding: 0 15px;
 }
 
-.post,
-.div-comment {
+.article {
 	border-bottom: 1px solid #ddd;
 	margin-bottom: 30px;
 	padding-bottom: 20px;
 }
 
-.post .header,
-.post .footer {
+.article .header,
+.article .footer {
 	color: #777;
 }
-.post .header,
-.post .content,
-.post .footer {
+.article .header,
+.article .content,
+.article .footer {
 	margin-bottom: 10px;
 }
-.post .title {
+.article .title {
 	font-size: 19px;
 }
 
-.post .footer {
+.article .footer {
 	clear: both;
+}
+
+.reply-list {
+	border-top: 1px solid #ddd;
+	margin: 0;
+	list-style: none;
+	padding-top: 20px;
 }
 
 #site-header {
