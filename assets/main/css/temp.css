@@ -320,6 +320,7 @@ blockquote {
 
 .article {
 	margin-bottom: 30px;
+	overflow: hidden;
 	border-bottom: 1px solid #ddd;
 	padding-bottom: 20px;
 }
