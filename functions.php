@@ -48,14 +48,16 @@ function anno_setup() {
 add_action('after_setup_theme', 'anno_setup');
 
 function anno_assets() {
-	$theme = get_bloginfo('template_directory') . '/';
-	$main = $theme . 'assets/main/';
-	// Styles
-	wp_enqueue_style('anno', $main.'css/temp.css', array(), ANNO_VER, 'screen');
-	
-	// Scripts
-	wp_enqueue_script('modernizr', $main.'js/libs/modernizr-1.7.min.js', array(), ANNO_VER);
-	if ( is_singular() ) { wp_enqueue_script( 'comment-reply' ); }
+	if (!is_admin()) {
+		$theme = get_bloginfo('template_directory') . '/';
+		$main = $theme . 'assets/main/';
+		// Styles
+		wp_enqueue_style('anno', $main.'css/temp.css', array(), ANNO_VER, 'screen');
+
+		// Scripts
+		wp_enqueue_script('modernizr', $main.'js/libs/modernizr-1.7.min.js', array(), ANNO_VER);
+		if ( is_singular() ) { wp_enqueue_script( 'comment-reply' ); }
+	}
 }
 add_action('wp', 'anno_assets');
 
