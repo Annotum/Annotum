@@ -44,7 +44,7 @@ if (comments_open()) {
 ?>
 <div id="respond">
 <form action="<?php echo trailingslashit(get_bloginfo('wpurl')); ?>wp-comments-post.php" method="post">
-	<label for="comment"><?php comment_form_title(__('Post a comment', 'carrington-jam'), __('Reply to %s', 'carrington-jam')); ?></label>
+	<h3><label for="comment"><?php comment_form_title(__('Post a comment', 'carrington-jam'), __('Reply to %s', 'carrington-jam')); ?></label></h3>
 	<?php cancel_comment_reply_link(); ?>
 	<p><abbr title="<?php printf(__('You can use: %s', 'carrington-jam'), allowed_tags()); ?>"><?php _e('Some HTML is OK', 'carrington-jam'); ?></abbr></p>
 	<textarea name="comment" id="comment" rows="8" cols="40" tabindex="1"></textarea>

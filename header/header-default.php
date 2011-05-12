@@ -37,3 +37,4 @@ if (CFCT_DEBUG) { cfct_banner(__FILE__); }
 	<h1><a href="<?php bloginfo('url') ?>/" title="Home" rel="home"><?php bloginfo('name') ?></a></h1>
 	<p><?php bloginfo('description'); ?></p>
 </header>
+<div id="main" class="clearfix">

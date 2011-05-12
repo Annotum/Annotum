@@ -25,7 +25,6 @@ define('CFCT_PATH', trailingslashit(TEMPLATEPATH));
 define('ANNO_VER', '1.0');
 
 include_once(CFCT_PATH.'carrington-core/carrington.php');
-include_once(CFCT_PATH.'functions/sidebars.php');
 include_once(CFCT_PATH.'functions/post-types.php');
 include_once(CFCT_PATH.'functions/taxonomies.php');
 include_once(CFCT_PATH.'functions/capabilities.php');
@@ -34,6 +33,17 @@ include_once(CFCT_PATH.'plugins/load.php');
 
 function anno_setup() {
 	add_theme_support('automatic-feed-links');
+	
+	register_sidebar(
+		array(
+			'name' => 'Default Sidebar',
+			'id' => 'default',
+			'before_widget' => '<div id="%1$s" class="widget clearfix %2$s">',
+			'after_widget' => '</div>',
+			'before_title' => '<h2 class="title">',
+			'after_title' => '</h2>'
+		)
+	);
 }
 add_action('after_setup_theme', 'anno_setup');
 

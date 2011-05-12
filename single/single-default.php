@@ -20,18 +20,10 @@ if (CFCT_DEBUG) { cfct_banner(__FILE__); }
 
 get_header();
 
+echo '<div id="content">';
 cfct_loop();
-
 comments_template();
-
-?>
-
-<div class="pagination_single">
-	<span class="previous"><?php previous_post_link() ?></span>
-	<span class="next"><?php next_post_link() ?></span>
-</div>
-
-<?php 
+echo '</div>';
 
 get_sidebar();
 

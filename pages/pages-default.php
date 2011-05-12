@@ -20,9 +20,7 @@ if (CFCT_DEBUG) { cfct_banner(__FILE__); }
 
 get_header();
 
-cfct_loop();
-
-comments_template();
+echo '<div id="content">', cfct_loop(), '</div>';
 
 get_sidebar();
 get_footer();

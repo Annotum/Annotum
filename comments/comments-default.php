@@ -20,20 +20,17 @@ if (CFCT_DEBUG) { cfct_banner(__FILE__); }
 
 global $post, $wp_query, $comments, $comment;
 
-if (have_comments() || comments_open()) {
-?>
-
-<h2 id="comments"><?php comments_number('', __('One Response', 'carrington-jam'), __('% Responses', 'carrington-jam')); ?></h2>
-
-<?php 
-
-	if (!post_password_required()) {
+if (comments_open()) {
+	if (!post_password_required() && have_comments() ) {
+		?>
+		<h2 id="comments"><?php comments_number('', __('One Response', 'carrington-jam'), __('% Responses', 'carrington-jam')); ?></h2>
+		<?php
 		echo '<ol class="reply-list">', wp_list_comments('callback=cfct_threaded_comment'), '</ol>';
 			
-			previous_comments_link();
-			next_comments_link();
-		}
-		cfct_form('comment');
+		previous_comments_link();
+		next_comments_link();
+	}
+	cfct_form('comment');
 }
 
 ?>

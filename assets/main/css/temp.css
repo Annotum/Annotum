@@ -233,7 +233,7 @@ h1, h2, h3, h4, h5, h6 { font-weight: bold; }
 
 body {
 	margin: 30px auto;
-	width: 800px;
+	width: 830px;
 }
 
 h1,
@@ -319,8 +319,8 @@ blockquote {
 }
 
 .article {
-	border-bottom: 1px solid #ddd;
 	margin-bottom: 30px;
+	border-bottom: 1px solid #ddd;
 	padding-bottom: 20px;
 }
 
@@ -345,9 +345,23 @@ blockquote {
 	border-top: 1px solid #ddd;
 	margin: 0;
 	list-style: none;
-	padding-top: 20px;
+	padding-top: 30px;
 }
 
 #site-header {
 	margin-bottom: 30px;
+}
+
+#content,
+#sidebar {
+	display: inline;
+	float: left;
+	overflow: hidden;
+}
+#content {
+	margin-right: 30px;
+	width: 600px;
+}
+#sidebar {
+	width: 200px;
 }

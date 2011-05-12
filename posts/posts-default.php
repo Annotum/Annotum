@@ -20,8 +20,10 @@ if (CFCT_DEBUG) { cfct_banner(__FILE__); }
 
 get_header();
 
+echo '<div id="content">';
 cfct_loop();
 cfct_misc('nav-posts');
+echo '</div>';
 
 get_sidebar();
 
