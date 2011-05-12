@@ -19,7 +19,7 @@ if (__FILE__ == $_SERVER['SCRIPT_FILENAME']) { die(); }
 if (CFCT_DEBUG) { cfct_banner(__FILE__); }
 
 ?>
-<div>
+<article>
 
 <a href="<?php the_permalink() ?>"><?php the_title(); ?></a>
 	
@@ -34,4 +34,4 @@ the_category(', ');
 comments_popup_link(__('No comments', 'carrington-jam'), __('1 comment', 'carrington-jam'), __('% comments', 'carrington-jam'));
 
 ?>
-</div><!-- .excerpt -->
+</article>
