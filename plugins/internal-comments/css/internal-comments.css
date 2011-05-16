@@ -31,3 +31,8 @@ a.anno-trash-comment{
 	margin: 0;
 	padding: 0;
 }
+
+.review-section {
+	border-bottom: 1px solid #DFDFDF;
+	padding: 10px 5px;
+}
