@@ -65,7 +65,11 @@ add_action('wp', 'anno_assets');
 
 function anno_head_extra() {
 	echo '<link rel="pingback" href="'.get_bloginfo('pingback_url').'" />'."\n";
-	wp_get_archives('type=monthly&format=link');
+	$args = array(
+		'type' => 'monthly',
+		'format' => 'link'
+	);
+	wp_get_archives($args);
 }
 add_action('wp_head', 'anno_head_extra');
 
