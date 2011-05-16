@@ -28,13 +28,16 @@ if (CFCT_DEBUG) { cfct_banner(__FILE__); }
 	<div class="in">
 		<h1 id="site-name"><a href="<?php bloginfo('url') ?>/" title="Home" rel="home"><?php bloginfo('name') ?></a></h1>
 		
+		<nav id="site-nav" class="clearfix">
 		<?php
 		$args = array(
 			'theme_location' => 'main',
-			'container' => null
+			'container' => false
 		);
 		wp_nav_menu($args);
+		cfct_form('search');
 		?>
+		</nav>
 	</div>
 </header>
 <div id="main" class="act">
