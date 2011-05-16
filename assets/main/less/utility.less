@@ -61,3 +61,26 @@ nicolasgallagher.com/micro-clearfix-hack/ */
 		clear: both;
 	}
 }
+
+/**
+ * Easy horizontal navigation styles
+ * @todo dropdowns built in.
+ * Formulated for use as a mixin if needed.
+ */
+.nav {
+	list-style: none;
+	margin: 0;
+	
+	li {
+		/**
+		 * @bugfix double-margin float bug
+		 * @affected IE6, IE7
+		 * @valid yes
+		 */
+		display: inline;
+		float: left;
+	}
+	a {
+		display: block;
+	}
+}

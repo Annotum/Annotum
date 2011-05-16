@@ -37,6 +37,8 @@ h1,h2,h3,h4,h5,h6{font-weight:bold;}
 .invisible{visibility:hidden;}
 .clearfix{zoom:1;}.clearfix:before,.clearfix:after{content:"";display:table;}
 .clearfix:after{clear:both;}
+.nav{list-style:none;margin:0;}.nav li{display:inline;float:left;}
+.nav a{display:block;}
 .act .in{zoom:1;margin-left:auto;margin-right:auto;width:960px;}.act .in:before,.act .in:after{content:"";display:table;}
 .act .in:after{clear:both;}
 #header{background:#006b94;color:#fff;}
