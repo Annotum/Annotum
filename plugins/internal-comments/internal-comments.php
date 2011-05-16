@@ -3,9 +3,9 @@
 global $anno_review_options;
 $anno_review_options = array(
 	0 => '',
-	1 => 'accept',
-	2 => 'request revisions',
-	3 => 'reject',
+	1 => __('Approve', 'anno'),
+	2 => __('Request Revisions', 'anno'),
+	3 => __('Reject', 'anno'),
 );
 
 /**
@@ -159,22 +159,24 @@ function anno_internal_comments_reviewer_comments() {
 	global $anno_review_options;
 	if (anno_role() == 'reviewer') {
 ?>
-
-<select id="anno-review" name="review">
+<div class="review-section">
+	<label for="anno-review"><?php _e('Leave a Review: ', 'anno'); ?></label>
+	<select id="anno-review" name="anno_review">
 
 	<?php 
 		foreach ($anno_review_options as $opt_key => $opt_val) { 
 	?>	
 
-	<option value="<?php echo esc_attr($opt_key); ?>"><?php echo esc_html($opt_val); ?></option>
+		<option value="<?php echo esc_attr($opt_key); ?>"><?php echo esc_html($opt_val); ?></option>
 
 	<?php 
 		} 
 	?>
-</select>
+	</select>
+</div>
 
 <?php 
-		wp_nonce_field('anno_review', '_ajax_nonce-review', false );
+		wp_nonce_field('anno_review', '_ajax_nonce-review', false);
 	}
 	anno_internal_comments_display('reviewer');
 }
@@ -299,9 +301,9 @@ function anno_internal_comments_ajax() {
 	$commentdata = compact('comment_post_ID', 'comment_author', 'comment_author_email', 'comment_author_url', 'comment_content', 'comment_type', 'comment_parent', 'user_ID');
 
 	// Create the comment and automatically approve it
-	add_filter('pre_comment_approved', 'anno_internal_comments_approve');
+	add_filter('pre_comment_approved', 'anno_internal_comments_pre_comment_approved');
 	$comment_id = wp_new_comment($commentdata);
-	remove_filter('pre_comment_approved', 'anno_internal_comments_approve');
+	remove_filter('pre_comment_approved', 'anno_internal_comments_pre_comment_approved');
 	
 	$comment = get_comment($comment_id);
 	if (!$comment) {
@@ -352,7 +354,7 @@ add_action('wp_ajax_anno-review', 'anno_internal_comments_review_ajax');
 /**
  * Filter to automatically approve internal comments
  */ 
-function anno_internal_comments_approve($approved) {
+function anno_internal_comments_pre_comment_approved($approved) {
 	return 1;
 }
 
