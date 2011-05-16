@@ -68,4 +68,15 @@ function anno_head_extra() {
 	wp_get_archives('type=monthly&format=link');
 }
 add_action('wp_head', 'anno_head_extra');
+
+function anno_wp_nav_menu_args($args) {
+	$new_args = array(
+		'fallback_cb' => null,
+		'container' => 'nav',
+		'depth' => 2
+	);
+	
+	return array_merge($args, $new_args);
+}
+add_filter('wp_nav_menu_args', 'anno_wp_nav_menu_args');
 ?>
