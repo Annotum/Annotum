@@ -92,8 +92,7 @@ function anno_user_can($cap, $user_id = null, $post_id = null, $comment_id = nul
 				return true;
 			}
 			// if user is reviewer and comment author = reviewer
-			//TODO or if a reply
-			$comment = get_comment($comment_id);
+			$comment = anno_internal_comments_get_comment_root($comment_id);
 			if ($user_role == 'reviewer' && $comment && $comment->user_id == $user_id) {
 				return true;
 			}
@@ -199,7 +198,6 @@ function anno_role($user_id = null, $post_id = null) {
 	else if ($user->has_cap('editor')) {
 		return 'editor';
 	}
-	error_log($post_id);
 	$reviewers = anno_get_reviewers($post_id);
 	if (is_array($reviewers) && in_array($user_id, $reviewers)) {
 		return 'reviewer';

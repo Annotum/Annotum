@@ -19,7 +19,7 @@ jQuery(document).ready(function($) {
 	$('table.anno-comments .reply').live('click', function() {
 		var row_actions = $(this).closest('.row-actions');
 		var comment_id = row_actions.attr('data-comment-id');
-		var type = $('table.anno-comments').attr('data-comment-type');
+		var type = $(this).closest('table.anno-comments').attr('data-comment-type');
 
 
 		$('#anno-internal-comment-' + type + '-form').insertAfter('#comment-' + comment_id);

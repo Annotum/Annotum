@@ -13,10 +13,10 @@ $anno_review_options = array(
  */
 function anno_add_meta_boxes() {
 	if (anno_user_can('view_general_comments')) {
-		add_meta_box('general-comment', __('Internal Comments: General', 'anno'), 'anno_admin_general_comments', 'article', 'normal');
+		add_meta_box('general-comment', __('Internal Comments: General', 'anno'), 'anno_internal_comments_general_comments', 'article', 'normal');
 	}
 	if (anno_user_can('view_reviewer_comments')) {
-		add_meta_box('reviewer-comment', __('Internal Comments: Reviews', 'anno'), 'anno_admin_reviewer_comments', 'article', 'normal');
+		add_meta_box('reviewer-comment', __('Internal Comments: Reviews', 'anno'), 'anno_internal_comments_reviewer_comments', 'article', 'normal');
 	}
 }
 add_action('admin_head-post.php', 'anno_add_meta_boxes');
@@ -151,11 +151,11 @@ function anno_internal_comment_table_row($cur_comment) {
 /**
  * Output of comments meta box
  */
-function anno_admin_general_comments() {
+function anno_internal_comments_general_comments() {
 	anno_internal_comments_display('general');
 }
 
-function anno_admin_reviewer_comments() {
+function anno_internal_comments_reviewer_comments() {
 	global $anno_review_options;
 	if (anno_role() == 'reviewer') {
 ?>
@@ -366,6 +366,18 @@ function anno_internal_comment_types_dropdown($comment_types) {
 }
 add_filter('admin_comment_types_dropdown', 'anno_internal_comment_types_dropdown');
 
+
+function anno_internal_comments_get_comment_root($comment) {
+	if (is_numeric($comment)) {
+		$comment = get_comment($comment);
+	}
+	if ($commment !== false) {
+		while($comment->comment_parent != 0) {
+			$comment = get_comment($comment->comment_parent);
+		}
+	}
+	return $comment;
+}
 
 //TODO Remove email being sent to admin on internal comment
 ?>
