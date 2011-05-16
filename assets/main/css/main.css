@@ -39,11 +39,13 @@ h1,h2,h3,h4,h5,h6{font-weight:bold;}
 .clearfix:after{clear:both;}
 .nav{zoom:1;list-style:none;margin:0;}.nav:before,.nav:after{content:"";display:table;}
 .nav:after{clear:both;}
-.nav li{display:inline;float:left;}
+.nav li{display:inline;float:left;margin:0;}
 .nav a{display:block;}
 .act .in{zoom:1;margin-left:auto;margin-right:auto;width:960px;}.act .in:before,.act .in:after{content:"";display:table;}
 .act .in:after{clear:both;}
 #header{background:#006b94;color:#fff;}
 #header a{color:#fff;}
 #site-name{font-size:36px;font-weight:normal;line-height:1.2;text-shadow:rgba(0, 0, 0, 0.8) 0 1px 0;}
-#site-nav{background:#66a6bf;}
+#site-nav{background:#66a6bf;font-weight:bold;font-size:14px;}
+#site-nav .nav{float:left;}
+#site-nav a{border-right:1px solid #006b94;line-height:20px;padding:7px 10px;}
