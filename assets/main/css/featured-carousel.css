@@ -1,0 +1,18 @@
+.featured-carousel {
+  overflow: hidden;
+}
+.featured-carousel ul {
+  margin: 0;
+  padding: 0;
+}
+.featured-carousel li {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.featured-carousel .carousel-item {
+  color: #66a6bf;
+}
+.featured-carousel .carousel-item .title {
+  font: italic bold 24px Georgia, Serif;
+}

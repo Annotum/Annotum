@@ -18,5 +18,5 @@ $s = get_query_var('s');
 
 <form class="search" method="get" action="<?php echo home_url('/'); ?>">
 	<input type="text" name="s" value="<?php echo esc_html($s); ?>" placeholder="<?php _e('Search', 'anno'); ?>" class="type-text" />
-	<button class="type-submit" type="submit"><?php _e('Search', 'anno'); ?></button>
+	<button class="type-submit imr" placeholder="Search" type="submit"><?php _e('Search', 'anno'); ?></button>
 </form>

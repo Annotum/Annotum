@@ -1,55 +1,482 @@
-html,body,div,span,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,abbr,address,cite,code,del,dfn,em,img,ins,kbd,q,samp,small,strong,sub,sup,var,b,i,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td,article,aside,canvas,details,figcaption,figure,footer,header,hgroup,menu,nav,section,summary,time,mark,audio,video{margin:0;padding:0;border:0;font-size:100%;vertical-align:baseline;}
-article,aside,details,figcaption,figure,footer,header,hgroup,menu,nav,section{display:block;}
-blockquote,q{quotes:none;}
-blockquote:before,blockquote:after,q:before,q:after{content:"";content:none;}
-ins{background-color:#ff9;color:#000;text-decoration:none;}
-del{text-decoration:line-through;}
-table{border-collapse:collapse;border-spacing:0;}
-hr{display:block;height:1px;border:0;border-top:1px solid #ccc;margin:1em 0;padding:0;}
-pre,code,kbd,samp{font-family:monospace,sans-serif;}
-html{-webkit-text-size-adjust:100%;-ms-text-size-adjust:100%;}
-body{font:13px/1.231 Arial,Helvetica,sans-serif;}
-a:hover,a:active{outline:none;}
-a{color:#006b94;text-decoration:none;}
-a:hover{text-decoration:underline;}
-ul,ol{margin-left:2em;}
-ol{list-style-type:decimal;}
-nav ul,nav li{margin:0;list-style:none;list-style-image:none;}
-small{font-size:85%;}
-strong,th{font-weight:bold;}
-td{vertical-align:top;}
-sub,sup{font-size:75%;line-height:0;position:relative;}
-sup{top:-0.5em;}
-sub{bottom:-0.25em;}
-pre{white-space:pre;white-space:pre-wrap;word-wrap:break-word;}
-button,input,select,textarea{width:auto;overflow:visible;margin:0;font-size:100%;font-family:sans-serif;vertical-align:baseline;}
-textarea{overflow:auto;vertical-align:text-top;}
-label,input[type="button"],input[type="submit"],input[type="image"],button{cursor:pointer;}
-input::-moz-focus-inner,button::-moz-focus-inner{border:0;padding:0;}
-.ie7 img{-ms-interpolation-mode:bicubic;}
-body,select,input,textarea{color:#444;}
-h1,h2,h3,h4,h5,h6{font-weight:bold;}
-.ir{display:block;text-indent:-32000px;overflow:hidden;background-repeat:no-repeat;text-align:left;direction:ltr;}
-.hidden{display:none;visibility:hidden;}
-.visuallyhidden{border:0;clip:rect(0 0 0 0);height:1px;margin:-1px;overflow:hidden;padding:0;position:absolute;width:1px;}
-.visuallyhidden.focusable:active,.visuallyhidden.focusable:focus{clip:auto;height:auto;margin:0;overflow:visible;position:static;width:auto;}
-.invisible{visibility:hidden;}
-.clearfix{zoom:1;}.clearfix:before,.clearfix:after{content:"";display:table;}
-.clearfix:after{clear:both;}
-.nav{zoom:1;list-style:none;margin:0;}.nav:before,.nav:after{content:"";display:table;}
-.nav:after{clear:both;}
-.nav li{display:inline;float:left;margin:0;}
-.nav a{display:block;}
-.act .in{zoom:1;margin-left:auto;margin-right:auto;width:960px;}.act .in:before,.act .in:after{content:"";display:table;}
-.act .in:after{clear:both;}
-#header{background:#006b94;color:#fff;}
-#header a{color:#fff;}
-#site-name{font-size:36px;font-weight:normal;line-height:1.2;text-shadow:rgba(0, 0, 0, 0.8) 0 1px 0;}
-#site-nav{background:#66a6bf;font-weight:bold;font-size:14px;}
-#site-nav .nav{float:left;}
-#site-nav a{border-right:1px solid #006b94;line-height:20px;padding:7px 10px;}
-form.search{width:200px;}
-form.search input.type-text{width:194px;}
-form.search{position:relative;}
-form.search .type-submit{position:absolute;right:0;top:0;}
-#site-nav .search{float:right;}
+/**
+* html5doctor.com Reset Stylesheet (Eric Meyer's Reset Reloaded + HTML5 baseline)
+* v1.6.1 2010-09-17 | Authors: Eric Meyer & Richard Clark
+* html5doctor.com/html-5-reset-stylesheet/
+*/
+html,
+body,
+div,
+span,
+object,
+iframe,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+blockquote,
+pre,
+abbr,
+address,
+cite,
+code,
+del,
+dfn,
+em,
+img,
+ins,
+kbd,
+q,
+samp,
+small,
+strong,
+sub,
+sup,
+var,
+b,
+i,
+dl,
+dt,
+dd,
+ol,
+ul,
+li,
+fieldset,
+form,
+label,
+legend,
+table,
+caption,
+tbody,
+tfoot,
+thead,
+tr,
+th,
+td,
+article,
+aside,
+canvas,
+details,
+figcaption,
+figure,
+footer,
+header,
+hgroup,
+menu,
+nav,
+section,
+summary,
+time,
+mark,
+audio,
+video {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-size: 100%;
+  vertical-align: baseline;
+}
+article,
+aside,
+details,
+figcaption,
+figure,
+footer,
+header,
+hgroup,
+menu,
+nav,
+section {
+  display: block;
+}
+blockquote, q {
+  quotes: none;
+}
+blockquote:before,
+blockquote:after,
+q:before,
+q:after {
+  content: "";
+  content: none;
+}
+/** @section Basics and Typography
+ -------------------------------------------------- */
+ins {
+  background-color: #ff9;
+  color: #000;
+  text-decoration: none;
+}
+del {
+  text-decoration: line-through;
+}
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+hr {
+  display: block;
+  height: 1px;
+  border: 0;
+  border-top: 1px solid #ccc;
+  margin: 1em 0;
+  padding: 0;
+}
+/* Normalize monospace sizing:
+en.wikipedia.org/wiki/MediaWiki_talk:Common.css/Archive_11#Teletype_style_fix_for_Chrome */
+pre,
+code,
+kbd,
+samp {
+  font-family: monospace, sans-serif;
+}
+/**
+* Minimal base styles.
+*/
+/* Remove iOS text size adjust without disabling user zoom: www.456bereastreet.com/archive/201012/controlling_text_size_in_safari_for_ios_without_disabling_user_zoom/ */
+html {
+  -webkit-text-size-adjust: 100%;
+  -ms-text-size-adjust: 100%;
+}
+/**
+* Font normalization inspired by YUI Library's fonts.css: developer.yahoo.com/yui/
+*/
+body {
+  font: 13px/1.231 Arial, Helvetica, sans-serif;
+}
+/* Accessible focus treatment: people.opera.com/patrickl/experiments/keyboard/test */
+a:hover, a:active {
+  outline: none;
+}
+a {
+  color: #006b94;
+  text-decoration: none;
+}
+a:hover {
+  text-decoration: underline;
+}
+ul, ol {
+  margin-left: 2em;
+}
+ol {
+  list-style-type: decimal;
+}
+/* Remove margins for navigation lists */
+nav ul, nav li {
+  margin: 0;
+  list-style: none;
+  list-style-image: none;
+}
+small {
+  font-size: 85%;
+}
+strong, th {
+  font-weight: bold;
+}
+td {
+  vertical-align: top;
+}
+/* Set sub, sup without affecting line-height: gist.github.com/413930 */
+sub, sup {
+  font-size: 75%;
+  line-height: 0;
+  position: relative;
+}
+sup {
+  top: -0.5em;
+}
+sub {
+  bottom: -0.25em;
+}
+pre {
+  /* www.pathf.com/blogs/2008/05/formatting-quoted-code-in-blog-posts-css21-white-space-pre-wrap/ */
+
+  white-space: pre;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+}
+/* 1) Make inputs and buttons play nice in IE: www.viget.com/inspire/styling-the-button-element-in-internet-explorer/
+2) WebKit browsers add a 2px margin outside the chrome of form elements.
+Firefox adds a 1px margin above and below textareas
+3) Set font-size to match <body>'s, and font-family to sans-serif
+4) Align to baseline */
+button,
+input,
+select,
+textarea {
+  width: auto;
+  overflow: visible;
+  margin: 0;
+  font-size: 100%;
+  font-family: sans-serif;
+  vertical-align: baseline;
+}
+/* 1) Remove default scrollbar in IE: www.sitepoint.com/blogs/2010/08/20/ie-remove-textarea-scrollbars/
+2) Align to text-top */
+textarea {
+  overflow: auto;
+  vertical-align: text-top;
+}
+/* Hand cursor on clickable input elements */
+label,
+input[type="button"],
+input[type="submit"],
+input[type="image"],
+button {
+  cursor: pointer;
+}
+/* Remove extra padding and inner border in Firefox */
+input::-moz-focus-inner, button::-moz-focus-inner {
+  border: 0;
+  padding: 0;
+}
+/* Bicubic resizing for non-native sized IMG:
+code.flickr.com/blog/2008/11/12/on-ui-quality-the-little-things-client-side-image-resizing/
+Be aware that scaling large images can cause performance issues. */
+.ie7 img {
+  -ms-interpolation-mode: bicubic;
+}
+/**
+* You might tweak these..
+*/
+body,
+select,
+input,
+textarea {
+  /* #444 looks better than black: twitter.com/H_FJ/statuses/11800719859 */
+
+  color: #444;
+  /* Set your base font here, to apply evenly */
+
+  /* font-family: Georgia, serif; */
+
+}
+/* Headers (h1, h2, etc) have no default font-size or margin; define those yourself */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-weight: bold;
+}
+/**
+* Non-semantic helper classes: please define your styles before this section.
+*/
+/* For image replacement */
+.imr {
+  display: block;
+  text-indent: -32000px;
+  overflow: hidden;
+  background-repeat: no-repeat;
+  text-align: left;
+  direction: ltr;
+}
+/* Hide for both screenreaders and browsers:
+css-discuss.incutio.com/wiki/Screenreader_Visibility */
+.hidden {
+  display: none;
+  visibility: hidden;
+}
+/* Hide only visually, but have it available for screenreaders: by Jon Neal.
+www.webaim.org/techniques/css/invisiblecontent/ & j.mp/visuallyhidden */
+.visuallyhidden {
+  border: 0;
+  clip: rect(0 0 0 0);
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  padding: 0;
+  position: absolute;
+  width: 1px;
+}
+/* Extends the .visuallyhidden class to allow the element to be focusable when navigated to via the keyboard: drupal.org/node/897638 */
+.visuallyhidden.focusable:active, .visuallyhidden.focusable:focus {
+  clip: auto;
+  height: auto;
+  margin: 0;
+  overflow: visible;
+  position: static;
+  width: auto;
+}
+/* Hide visually and from screenreaders, but maintain layout */
+.invisible {
+  visibility: hidden;
+}
+/* The Magnificent Clearfix: Updated to prevent margin-collapsing on child elements in most situations.
+nicolasgallagher.com/micro-clearfix-hack/ */
+.clearfix {
+  zoom: 1;
+}
+.clearfix:before, .clearfix:after {
+  content: "";
+  display: table;
+}
+.clearfix:after {
+  clear: both;
+}
+/**
+ * Easy horizontal navigation styles
+ * @todo dropdowns built in.
+ * Formulated for use as a mixin if needed.
+ */
+.nav {
+  zoom: 1;
+  list-style: none;
+  margin: 0;
+}
+.nav:before, .nav:after {
+  content: "";
+  display: table;
+}
+.nav:after {
+  clear: both;
+}
+.nav li {
+  /**
+		 * @bugfix double-margin float bug
+		 * @affected IE6, IE7
+		 * @valid yes
+		 */
+
+  display: inline;
+  float: left;
+  margin: 0;
+}
+.nav a {
+  display: block;
+}
+/*
+Each main section of the site is an "Act"
+Act 1: Header
+Act 2: Content
+Act 3: Footer
+*/
+.act .in {
+  zoom: 1;
+  margin-left: auto;
+  margin-right: auto;
+  width: 960px;
+}
+.act .in:before, .act .in:after {
+  content: "";
+  display: table;
+}
+.act .in:after {
+  clear: both;
+}
+/** @section Header
+ -------------------------------------------------- */
+#header {
+  background: #006b94;
+  color: #fff;
+}
+#header a {
+  color: #fff;
+}
+#main {
+  padding: 35px 0 47px;
+}
+#site-name {
+  font-size: 36px;
+  font-weight: normal;
+  line-height: 1.2;
+  text-shadow: rgba(0, 0, 0, 0.8) 0 1px 0;
+}
+#site-nav {
+  background: #66a6bf;
+  font-weight: bold;
+  font-size: 14px;
+}
+#site-nav .nav {
+  float: left;
+}
+#site-nav a {
+  border-right: 1px solid #006b94;
+  line-height: 20px;
+  padding: 7px 10px;
+}
+/* Re-usable features */
+form.search {
+  margin: 6px 6px 0 0;
+  width: 200px;
+}
+form.search input.type-text {
+  color: #666;
+  font-size: 13px;
+  padding: 1px 19px 1px 6px;
+  width: 169px;
+  /*subtract left padding and right padding*/
+
+}
+form.search {
+  position: relative;
+}
+form.search .type-submit {
+  background: url(../img/sprite-y.8bit.png) 0 -100px no-repeat;
+  border: 0;
+  height: 13px;
+  position: absolute;
+  right: 6px;
+  top: 5px;
+  width: 14px;
+}
+/* Search form when in header */
+#site-nav .search {
+  float: right;
+}
+.featured-carousel {
+  overflow: hidden;
+  position: relative;
+}
+.featured-carousel ul {
+  margin: 0;
+  padding: 0;
+}
+.featured-carousel li {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.featured-carousel .carousel-item {
+  /**
+	 * @workaround min-height Fast Hack
+	 *
+	 * IE6 doesn't support min-height, but treats elements with
+	 * height and overflow:visible as min-height.
+	 *
+	 * @affected IE5, IE6
+	 * @see http://www.dustindiaz.com/min-height-fast-hack/
+	 */
+
+  height: auto !important;
+  height: 232px;
+  min-height: 232px;
+  background: #66a6bf;
+  padding: 16px 16px 16px 300px;
+  position: relative;
+}
+.featured-carousel .carousel-item img {
+  left: 16px;
+  position: absolute;
+  top: 18px;
+}
+.featured-carousel .carousel-item .title {
+  color: #fff;
+  font: italic bold 24px Georgia, Serif;
+  text-shadow: 0 1px 1px #2d7092;
+}
+.featured-carousel .carousel-item .content {
+  font-size: 14px;
+  line-height: 1.5;
+}
+.featured-carousel .control-panel {
+  bottom: 1px;
+  position: absolute;
+  right: 1px;
+}
+.featured-carousel .control-panel .previous, .featured-carousel .control-panel .next {
+  width: 20px;
+  height: 20px;
+}
