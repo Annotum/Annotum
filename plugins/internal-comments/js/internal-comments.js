@@ -1,6 +1,6 @@
 jQuery(document).ready(function($) {
 	$('input[type="button"].anno-submit').live('click', function() {
-		var type = $('table.anno-comments').attr('data-comment-type');
+		var type = $(this).closest('table.anno-comments').attr('data-comment-type');
 		var content_area = $('#anno_comment_' + type + '_textarea');
 		var content = content_area.val();
 		var parent_id = $('#anno-internal-comment-' + type + '-form input.parent-id').val();
@@ -10,6 +10,7 @@ jQuery(document).ready(function($) {
 		var data = {action: 'anno-internal-comment', type: type, content: content, parent_id: parent_id, post_id: ANNO_POST_ID};
 		data[nonce_name] = nonce;
 		$.post(ajaxurl, data, function(data) {
+			//TODO check for failure in data
 			content_area.val('');
 			$('#the-comment-list-' + type).prepend(data);
 		});
@@ -46,4 +47,14 @@ jQuery(document).ready(function($) {
 	
 		return false;
 	})
+	
+	$('select#anno-review').change(function() {
+		var value = $('select#anno-review option:selected').val();
+		var nonce = $('#_ajax_nonce-review').val();
+		
+		var data = {action: 'anno-review', review: value, post_id: ANNO_POST_ID};
+		data['_ajax_nonce-review'] = nonce;
+		
+		$.post(ajaxurl, data);
+	});
 });

@@ -9,10 +9,10 @@
  * 
  * @param string $cap The capability to check
  * @param int $user_id The user id to check for a capability. Defaults to current user (global)
- * @param int $obj_id The ID of the object to check (post, comment etc..). Defaults to current post (global)
+ * @param int $post_id The ID of the object to check (post, comment etc..). Defaults to current post (global)
  * @return bool True if user has the given capability for the given post
  */ 
-function anno_user_can($cap, $user_id = null, $obj_id = null) {
+function anno_user_can($cap, $user_id = null, $post_id = null, $comment_id = null) {
 	if (is_null($user_id)) {
 		global $current_user;
 		$user_id = $current_user->ID;
@@ -20,16 +20,16 @@ function anno_user_can($cap, $user_id = null, $obj_id = null) {
 	if (is_null($post_id)) {
 		// Assume post, since only one cap checks comments
 		global $post;
-		$obj_id = $post->ID;
+		$post_id = $post->ID;
 	}
-	$post_state = get_post_meta($obj_id, '_post_state', true);
+	$post_state = get_post_meta($post_id, '_post_state', true);
 	if (empty($post_state)) {
 		$post_state = 'draft';
 	}
-	$user_role = anno_role($user_id, $obj_id);
+	$user_role = anno_role($user_id, $post_id);
 	
 	// Number of times this item has gone back to draft state.
-	$post_round = get_post_meta($obj_id, '_round', true);
+	$post_round = get_post_meta($post_id, '_round', true);
 	
 	// WP role names
 	$admin = 'administrator';
@@ -74,6 +74,7 @@ function anno_user_can($cap, $user_id = null, $obj_id = null) {
 			}
 			break;
 		case 'view_general_comment':
+		case 'view_general_comments':
 			// if user is author/co-author or editor+
 			if ($user_role && $user_role != 'reviewer') {
 				return true;
@@ -81,7 +82,7 @@ function anno_user_can($cap, $user_id = null, $obj_id = null) {
 			break;
 		case 'manage_reviewer_comment':
 			// if user is reviewer or editor+ and state is in review
-			if ($user_role && !in_array($user_role, array('author', 'co-author')) && $post_state = 'in_review') {
+			if ($user_role && !in_array($user_role, array('author', 'co-author')) && $post_state == 'in_review') {
 				return true;
 			}
 			break;
@@ -91,8 +92,15 @@ function anno_user_can($cap, $user_id = null, $obj_id = null) {
 				return true;
 			}
 			// if user is reviewer and comment author = reviewer
-			$comment = get_comment($obj_id);
+			//TODO or if a reply
+			$comment = get_comment($comment_id);
 			if ($user_role == 'reviewer' && $comment && $comment->user_id == $user_id) {
+				return true;
+			}
+			break;
+		case 'view_reviewer_comments':
+			//Reviewer or editor+
+			if ($user_role && !in_array($user_role, array('author', 'co-author'))) {
 				return true;
 			}
 			break;
@@ -191,9 +199,8 @@ function anno_role($user_id = null, $post_id = null) {
 	else if ($user->has_cap('editor')) {
 		return 'editor';
 	}
-
+	error_log($post_id);
 	$reviewers = anno_get_reviewers($post_id);
-	
 	if (is_array($reviewers) && in_array($user_id, $reviewers)) {
 		return 'reviewer';
 	}

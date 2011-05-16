@@ -247,7 +247,7 @@ function anno_minor_action_in_review_markup() {
 	// No need to check for edit_post for save button, same set of users can edit and alter state here.
 	if (anno_user_can('alter_post_state')) {
 		global $post;
-		$post_round = get_post_meta($post->ID, '_round', true);
+		$post_round = intval(get_post_meta($post->ID, '_round', true));
 		anno_minor_action_save_markup();
 		anno_minor_action_preview_markup();
 		if ($post_round !== false) {

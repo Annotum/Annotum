@@ -8,17 +8,42 @@ function anno_remove_roles_and_capabilities() {
 	$wp_roles->remove_role('subscriber');
 	$wp_roles->remove_role('author');
 	
-	// Editors should not be able to publish or edit published pages
-	$caps_to_remove = array(
-		'publish_pages',
-		'delete_published_pages',
-		'publish_posts',
-		'delete_published_posts',
+	$roles_to_modify = array(
+		'administrator' => array(
+			'edit_articles',
+			'edit_article',
+			'delete_article',
+			'edit_others_articles',
+			'publish_articles',
+			'read_private_articles',
+			'delete_others_articles',
+			'delete_private_articles',
+			'delete_published_articles',
+			'edit_published_articles',	
+		),
+		'editor' => array(
+			'edit_articles',
+			'edit_article',
+			'edit_others_articles',
+			'delete_article',
+			'delete_others_articles',
+		),
+		'contributor' => array(
+			'edit_articles',
+			'edit_article',
+			'edit_others_articles',
+			'delete_article',
+		),
 	);
-	$editor = get_role('editor');
-	foreach ($caps_to_remove as $cap) {
-		$editor->remove_cap($cap);
-	}	
+	
+	foreach ($roles_to_modify as $role_name => $role_caps) {
+		$role = get_role($role_name);
+		if ($role) {
+			foreach ($role_caps as $cap_name) {
+				$role->add_cap($cap_name);
+			}
+		}
+	}
 }
 add_action('admin_init', 'anno_remove_roles_and_capabilities');
 
