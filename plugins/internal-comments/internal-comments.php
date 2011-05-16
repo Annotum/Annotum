@@ -1,11 +1,22 @@
 <?php
 
+global $anno_review_options;
+$anno_review_options = array(
+	0 => '',
+	1 => 'accept',
+	2 => 'request revisions',
+	3 => 'reject',
+);
+
 /**
  * Register meta boxes
  */
 function anno_add_meta_boxes() {
-	if (anno_user_can('view_general_comment')) {
+	if (anno_user_can('view_general_comments')) {
 		add_meta_box('general-comment', __('Internal Comments: General', 'anno'), 'anno_admin_general_comments', 'article', 'normal');
+	}
+	if (anno_user_can('view_reviewer_comments')) {
+		add_meta_box('reviewer-comment', __('Internal Comments: Reviews', 'anno'), 'anno_admin_reviewer_comments', 'article', 'normal');
 	}
 }
 add_action('admin_head-post.php', 'anno_add_meta_boxes');
@@ -17,12 +28,12 @@ add_action('admin_head-post.php', 'anno_add_meta_boxes');
  * @return array Array of comment objects
  */
 function anno_internal_comments_get_comments($type, $post_id) {
-	remove_filter('comments_clauses', 'anno_internal_comments_filter');
+	remove_filter('comments_clauses', 'anno_internal_comments_clauses');
 	$comments = get_comments( array(
 	    'type' => $type,
 		'post_id' => $post_id,
 	));
-	add_filter('comments_clauses', 'anno_internal_comments_filter');
+	add_filter('comments_clauses', 'anno_internal_comments_clauses');
 
 	return $comments;
 }
@@ -41,10 +52,14 @@ function anno_internal_comments_display($type) {
 <?php
 	if (is_array($comments) && !empty($comments)) {
 		foreach ($comments as $comment) {
-			anno_internal_comment_table_row($comment);
+			if (anno_user_can('view_'.$type.'_comment', null, $post->ID, $comment->comment_ID)) {
+				anno_internal_comment_table_row($comment);
+			}
 		}
 	}
-	anno_internal_comments_form($type);
+	if (anno_user_can('manage_'.$type.'_comment')) {
+		anno_internal_comments_form($type);
+	}
 ?>
 	</tbody>
 </table>
@@ -140,6 +155,30 @@ function anno_admin_general_comments() {
 	anno_internal_comments_display('general');
 }
 
+function anno_admin_reviewer_comments() {
+	global $anno_review_options;
+	if (anno_role() == 'reviewer') {
+?>
+
+<select id="anno-review" name="review">
+
+	<?php 
+		foreach ($anno_review_options as $opt_key => $opt_val) { 
+	?>	
+
+	<option value="<?php echo esc_attr($opt_key); ?>"><?php echo esc_html($opt_val); ?></option>
+
+	<?php 
+		} 
+	?>
+</select>
+
+<?php 
+		wp_nonce_field('anno_review', '_ajax_nonce-review', false );
+	}
+	anno_internal_comments_display('reviewer');
+}
+
 /**
  * Output the form for internal comments
  */
@@ -168,7 +207,7 @@ function anno_internal_comments_form($type) {
 /**
  * Enqueue js for internal comments
  */
-function anno_internal_comments_js() {
+function anno_internal_comments_print_scripts() {
 global $post;
 	echo '
 <script type="text/javascript">
@@ -177,15 +216,15 @@ global $post;
 	';
 	wp_enqueue_script('anno-internal-comments', trailingslashit(get_bloginfo('stylesheet_directory')).'plugins/internal-comments/js/internal-comments.js', array('jquery'));
 }
-add_action('admin_print_scripts', 'anno_internal_comments_js');
+add_action('admin_print_scripts', 'anno_internal_comments_print_scripts');
 
 /**
  * Enqueue css for internal comments
  */
-function anno_internal_comments_css() {
+function anno_internal_comments_print_styles() {
 	wp_enqueue_style('anno-internal-comments', trailingslashit(get_bloginfo('stylesheet_directory')).'plugins/internal-comments/css/internal-comments.css');
 }
-add_action('admin_print_styles', 'anno_internal_comments_css');
+add_action('admin_print_styles', 'anno_internal_comments_print_styles');
 
 /**
  * Filter the comment link if its an internal comment. Link will take you to the post edit page
@@ -202,12 +241,12 @@ add_filter('get_comment_link', 'anno_internal_comments_get_comment_link', 10, 2)
 /**
  * Filter to prevent front end display of our comments
  */ 
-function anno_internal_comments_filter($clauses) {
+function anno_internal_comments_clauses($clauses) {
 	$clauses['where'] .= " AND comment_type NOT IN ('article_general', 'article_review')";
 	return $clauses;
 }
 if (!is_admin()) {
-	add_filter('comments_clauses', 'anno_internal_comments_filter');
+	add_filter('comments_clauses', 'anno_internal_comments_clauses');
 }
 
 /**
@@ -266,7 +305,7 @@ function anno_internal_comments_ajax() {
 	
 	$comment = get_comment($comment_id);
 	if (!$comment) {
-		 die('1');
+		 die('-1');
 	}
 	
 	//Display markup for AJAX
@@ -276,20 +315,57 @@ function anno_internal_comments_ajax() {
 add_action('wp_ajax_anno-internal-comment', 'anno_internal_comments_ajax');
 
 /**
+ * Processes an AJAX request when submitting a review from the dropdown.
+ */
+function anno_internal_comments_review_ajax() {
+	check_ajax_referer('anno_review', '_ajax_nonce-review');
+	if (isset($_POST['post_id']) && isset($_POST['review'])) {
+		global $current_user;
+		$post_id = $_POST['post_id'];
+		$review = $_POST['review'];
+		
+		$post_round = intval(get_post_meta($post_id, '_round', true));
+		
+		update_user_meta($current_user->ID, '_'.$post_id.'reviews_'.$round, $review);
+		
+
+		$reviewed = anno_get_post_users('_round_'.$post_round.'_reviewed', $post_id);
+		
+		// If review is set to none, remove the user from reviewed, otherwise update it with the current user.
+		if ($review != 0) {
+			if (!in_array($current_user->ID, $reviewed)) {
+				$reviewed[] = $current_user->ID;
+				update_post_meta($post_id, '_round_'.$post_round.'_reviewed', array_unique($reviewed));
+			}
+		}
+		else {
+			$key = array_search($current_user->ID, $reviewed);
+			if ($key !== false) {
+				unset($reviewed[$key]);
+				update_post_meta($post_id, '_round_'.$post_round.'_reviewed', array_unique($reviewed));
+			}
+		}
+	}
+}
+add_action('wp_ajax_anno-review', 'anno_internal_comments_review_ajax');
+
+/**
  * Filter to automatically approve internal comments
  */ 
 function anno_internal_comments_approve($approved) {
-		return 1;
+	return 1;
 }
 
 /**
  * Dropdown filter to display only our internal comment types in the admin screen
  */ 
-function anno_admin_comment_types_dropdown($comment_types) {
+function anno_internal_comment_types_dropdown($comment_types) {
 	$comment_types['article_general'] = __('Article General', 'anno');
 	$comment_types['article_review'] = __('Article Review', 'anno');
 	return $comment_types;
 }
-add_filter('admin_comment_types_dropdown', 'anno_admin_comment_types_dropdown');
+add_filter('admin_comment_types_dropdown', 'anno_internal_comment_types_dropdown');
 
+
+//TODO Remove email being sent to admin on internal comment
 ?>

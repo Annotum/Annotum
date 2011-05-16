@@ -29,9 +29,9 @@ function anno_register_post_types() {
 	        'supports' => array('title', 'editor', 'thumbnail', 'comments', 'excerpt', 'revisions', 'author'),
 			'taxonomies' => array(),
 			'menu_position' => 5,
-			'capability_type' => 'post'
+			'capability_type' => array('article', 'articles'),
 	);
-	register_post_type( 'article' , $args );
+	register_post_type('article', $args);
 }
 add_action('after_setup_theme', 'anno_register_post_types');
 

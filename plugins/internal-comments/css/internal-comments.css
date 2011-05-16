@@ -1,22 +1,22 @@
 #the-comment-list-general td,
-#the-comment-list-review td {
+#the-comment-list-reviewer td {
 	padding: 10px;
 }
 
 #the-comment-list-general p.comment-content,
-#the-comment-list-review p.comment-content {
+#the-comment-list-reviewer p.comment-content {
 	margin-left: 0px;
 	margin-right: 0px;
 }
 
 #the-comment-list-general td.author,
-#the-comment-list-review td.author {
+#the-comment-list-reviewer td.author {
 	width:25%;
 	min-width: 250px;
 }
 
 #the-comment-list-general textarea,
-#the-comment-list-review textarea {
+#the-comment-list-reviewer textarea {
 	width: 90%;
 	display: block;
 	height: 90px;
@@ -27,7 +27,7 @@ a.anno-trash-comment{
 }
 
 #general-comment .inside,
-#review-comment .inside {
+#reviewer-comment .inside {
 	margin: 0;
 	padding: 0;
 }
