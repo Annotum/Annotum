@@ -15,7 +15,7 @@ $anno_post_save = array(
  */ 
 function anno_workflow_meta_boxes() {
 	global $post;
-	$post_state = get_post_meta($post->ID, '_post_state', true);
+	$post_state = anno_get_post_state($post->ID);
 	if (empty($post_state)) {
 		$post_state = 'draft';
 	}
@@ -57,7 +57,8 @@ add_action('admin_print_styles', 'anno_workflow_css');
  * Enqueue js for internal comments
  */
 function anno_workflow_js() {
-	wp_enqueue_script('anno-workflow', trailingslashit(get_bloginfo('stylesheet_directory')).'plugins/workflow/js/workflow.js', array('jquery'));
+	wp_enqueue_script('suggest');
+	wp_enqueue_script('anno-workflow', trailingslashit(get_bloginfo('stylesheet_directory')).'plugins/workflow/js/workflow.js', array('jquery', 'suggest'));
 }
 add_action('admin_print_scripts', 'anno_workflow_js');
 
@@ -70,7 +71,7 @@ function anno_status_markup() {
 		$post_type = 'article';
 		$post_type_object = get_post_type_object($post_type);
 		$can_publish = current_user_can($post_type_object->cap->publish_posts);
-		$post_state = get_post_meta($post->ID, '_post_state', true);
+		$post_state = anno_get_post_state($post->ID);
 		if (empty($post_state)) {
 			$post_state = 'draft';
 		}
@@ -247,26 +248,13 @@ function anno_minor_action_in_review_markup() {
 	// No need to check for edit_post for save button, same set of users can edit and alter state here.
 	if (anno_user_can('alter_post_state')) {
 		global $post;
-		$post_round = intval(get_post_meta($post->ID, '_round', true));
+		$post_round = anno_get_round($post->ID);
 		anno_minor_action_save_markup();
 		anno_minor_action_preview_markup();
 		if ($post_round !== false) {
 			// Return array of user ids who have given reviews for this round
-			$round_reviewed = get_post_meta($post->ID, '_round_'.$post_round.'_reviewed');
-			$reviewers = anno_get_reviewers($post->ID);
-			if (is_array($round_reviewed)) {
-				$round_reviewed = count($round_reviewed);
-			}
-			else {
-				$round_reviewed = 0;
-			}
-			
-			if (is_array($reviewers)) {
-				$reviewers = count($reviewers);
-			}
-			else {
-				$reviewers = 0;
-			}
+			$round_reviewed = count(anno_get_post_users($post->ID, '_round_'.$post_round.'_reviewed'));		
+			$reviewers = count(anno_get_reviewers($post->ID));
 ?>
 			<p class="status-text">
 <?php
@@ -578,13 +566,6 @@ add_action('save_post', 'anno_transistion_state', 10, 2);
 //apply_filters( 'post_updated_messages', $messages ); $messages['post']
 //apply_filters( 'redirect_post_location', $location, $post_id ) );
 
-/**
- * Filter for post state meta so we can assign return a value if a post doesn't have one already.
- */ 
-function anno_get_state_meta() {
-	
-}
-
 //TODO Abstract the two meta below?
 /**
  * Meta box for reviewer management and display
@@ -598,7 +579,7 @@ function anno_reviewers_meta_box() {
 	if (anno_user_can('manage_reviewers', null, $post->ID)) {
 ?>
 		<div class="user-input-wrap">
-			<input type="text" id="reviewer-input" name="reviewer_input" /> 
+			<input type="text" id="reviewer-input" class="user-input" name="reviewer_input" /> 
 			<input id="reviewer-add" class="user-add button" type="button" value="add" />
 		</div>
 <?php
@@ -609,7 +590,7 @@ function anno_reviewers_meta_box() {
 	foreach ($reviewers as $user_id) {
 		$user = get_userdata($user_id);
 		if ($user) {
-				anno_user_li_markup($user);
+				anno_user_li_markup($user, 'reviewer');
 			}
 		}
 ?>
@@ -630,7 +611,7 @@ function anno_co_authors_meta_box() {
 	if (anno_user_can('manage_co_authors', null, $post->ID)) {
 ?>
 		<div class="user-input-wrap">
-			<input type="text" id="co-author-input" name="co_author_input" /> 
+			<input type="text" id="co-author-input" class="user-input" name="co_author_input" /> 
 			<input id="co-author-add" class="user-add button" type="button" value="add" />
 		</div>
 <?php
@@ -641,7 +622,7 @@ function anno_co_authors_meta_box() {
 	foreach ($co_authors as $user_id) {
 		$user = get_userdata($user_id);
 		if ($user) {
-				anno_user_li_markup($user);
+				anno_user_li_markup($user, 'co-author');
 			}
 		}
 ?>
@@ -654,11 +635,17 @@ function anno_co_authors_meta_box() {
 /**
  * Markup for user display in meta boxes
  */
-function anno_user_li_markup($user) {
+function anno_user_li_markup($user, $type = null) {
+	$extra = '';
+	if ($type == 'reviewer') {
+		global $post, $anno_review_options;
+		$round = anno_get_round($post->ID);
+		$extra = ' '.$anno_review_options[intval(get_user_meta($user->ID, '_'.$post->ID.'_review_'.$round, true))];
+	}
 ?>
 	<li>
 		<?php echo get_avatar($user->ID, '24'); ?>
-		<a href="<?php echo get_author_posts_url($user->ID); ?>"><?php echo esc_html($user->user_login) ?></a>
+		<a href="<?php echo get_author_posts_url($user->ID); ?>"><?php echo esc_html($user->user_login) ?></a><?php echo $extra; ?>
 	</li>
 <?php
 }
@@ -669,7 +656,7 @@ function anno_user_li_markup($user) {
 function anno_add_reviewer() {
 	if (anno_add_user('reviewer')) {
 		$post_id = $_POST['post_id'];
-		$post_state = get_post_meta($post_id, '_post_state', true);
+		$post_state = anno_get_post_state($post_id);
 		if ($post_state == 'submitted') {
 			update_post_meta($post_id, '_post_state', 'in_review');
 			//TODO reload?
@@ -700,12 +687,53 @@ function anno_add_user($type) {
 		$user = get_userdatabylogin($_POST['user']);
 		if (!empty($user)) {
 			if (function_exists('anno_add_'.$type.'_to_post')) {
-				anno_user_li_markup($user);
+				anno_user_li_markup($user, $type);
 				return call_user_func_array('anno_add_'.$type.'_to_post', array($user->ID, intval($_POST['post_id'])));
 			}
 		}
 	}
 	return false;
 }
+
+/******* Meta Retrieval *******/
+function anno_get_post_state($post_id) {
+	$post_state = get_post_meta($post_id, '_post_state', true);
+	if (!$post_state) {
+		// TODO determine post state from post_status
+		$post_state = 'draft';
+	}
+	return $post_state;
+}
+
+function anno_get_round($post_id) {
+	$round = get_post_meta($post_id, '_round', true);
+	if (!$round) {
+		$round = 0;
+	}
+	return $round;
+}
+
+/**
+ * Typeahead user search AJAX handler. Based on code in WP Core 3.1.2
+ */ 
+function anno_user_search() {
+	global $wpdb;
+	$s = stripslashes($_GET['q']);
+
+	$s = trim( $s );
+	if ( strlen( $s ) < 2 )
+		die; // require 2 chars for matching
+
+	$results = $wpdb->get_col($wpdb->prepare("
+		SELECT user_login
+		FROM $wpdb->users
+		WHERE user_login LIKE %s",
+		'%'.like_escape($s).'%'
+	));
+
+	echo join($results, "\n");
+	die;
+}
+add_action('wp_ajax_anno-user-search', 'anno_user_search');
 
 ?>

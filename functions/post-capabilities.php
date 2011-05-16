@@ -222,7 +222,7 @@ function anno_role($user_id = null, $post_id = null) {
  * @return array Array of co-authors (or empty array if none exist)
  */ 
 function anno_get_co_authors($post_id = null) {
-	return anno_get_post_users('_co_authors', $post_id);
+	return anno_get_post_users($post_id, '_co_authors');
 }
 
 /**
@@ -232,10 +232,10 @@ function anno_get_co_authors($post_id = null) {
  * @return array Array of reviewers (or empty array if none exist)
  */
 function anno_get_reviewers($post_id = null) {
-	return anno_get_post_users('_reviewers', $post_id);
+	return anno_get_post_users($post_id, '_reviewers');
 }
 
-function anno_get_post_users($type, $post_id = null) {
+function anno_get_post_users($post_id = null, $type) {
 	if ($post_id == null) {
 		global $post;
 		$post_id = $post->ID;

@@ -1,4 +1,6 @@
 jQuery(document).ready( function($) {
+	$('.user-input').suggest( 'admin-ajax.php?action=anno-user-search', { delay: 200, minchars: 2, multiple: false} );
+	
 	$('input[type="submit"], a.submitdelete, #submitpost').click(function() {
 		$(this).siblings('.ajax-loading').css('visibility', 'visible');
 	});
@@ -17,7 +19,5 @@ jQuery(document).ready( function($) {
 			$('ul#co-author-list').prepend(data);
 		});
 	});
-
-
 });
 
