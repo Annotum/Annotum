@@ -75,15 +75,18 @@ function anno_head_extra() {
 add_action('wp_head', 'anno_head_extra');
 
 function anno_wp_nav_menu_args($args) {
-	$new_args = array(
-		'fallback_cb' => null,
-		'container' => 'nav',
-		'container_class' => 'nav-container',
-		'depth' => 2,
-		'menu_class' => 'nav'
-	);
+	$args['fallback_cb'] = null;
+	if ($args['container'] == 'div') {
+		$args['container'] = 'nav';
+	}
+	if ($args['depth'] == 0) {
+		$args['depth'] = 2;
+	}
+	if ($args['menu_class'] == 'menu') {
+		$args['menu_class'] = 'nav';
+	}
 	
-	return array_merge($args, $new_args);
+	return $args;
 }
 add_filter('wp_nav_menu_args', 'anno_wp_nav_menu_args');
 ?>
