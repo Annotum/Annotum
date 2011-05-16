@@ -13,7 +13,6 @@ if (__FILE__ == $_SERVER['SCRIPT_FILENAME']) { die(); }
 
 load_theme_textdomain('anno');
 
-
 define('CFCT_DEBUG', false);
 define('CFCT_PATH', trailingslashit(TEMPLATEPATH));
 define('ANNO_VER', '1.0');
@@ -36,22 +35,22 @@ function anno_setup() {
 	);
 	register_nav_menus($menus);
 	
-	register_sidebar(
-		array(
-			'name' => 'Default Sidebar',
-			'id' => 'default',
-			'before_widget' => '<div id="%1$s" class="widget clearfix %2$s">',
-			'after_widget' => '</div>',
-			'before_title' => '<h2 class="title">',
-			'after_title' => '</h2>'
-		)
+	$sidebar_defaults = array(
+		'before_widget' => '<aside id="%1$s" class="widget clearfix %2$s">',
+		'after_widget' => '</aside>',
+		'before_title' => '<h1 class="title">',
+		'after_title' => '</h1>'
 	);
+	register_sidebar(array_merge($sidebar_defaults, array(
+		'name' => 'Default Sidebar',
+		'id' => 'default'
+	)));
 }
 add_action('after_setup_theme', 'anno_setup');
 
 function anno_assets() {
 	if (!is_admin()) {
-		$theme = get_bloginfo('template_directory') . '/';
+		$theme = trailingslashit(get_bloginfo('template_directory'));
 		$main = $theme . 'assets/main/';
 		
 		// Styles
