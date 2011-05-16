@@ -27,6 +27,14 @@ include_once(CFCT_PATH.'plugins/load.php');
 
 function anno_setup() {
 	add_theme_support('automatic-feed-links');
+	add_theme_support( 'post-thumbnails', array( 'post' ) );
+	
+	$menus = array(
+		'main' => 'Main Menu (Header)',
+		'secondary' => 'Secondary Menu (Header)',
+		'footer' => 'Footer Menu',
+	);
+	register_nav_menus($menus);
 	
 	register_sidebar(
 		array(
@@ -55,5 +63,9 @@ function anno_assets() {
 }
 add_action('wp', 'anno_assets');
 
-
+function anno_head_extra() {
+	echo '<link rel="pingback" href="'.get_bloginfo('pingback_url').'" />'."\n";
+	wp_get_archives('type=monthly&format=link');
+}
+add_action('wp_head', 'anno_head_extra');
 ?>

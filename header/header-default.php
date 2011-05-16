@@ -20,9 +20,6 @@ if (CFCT_DEBUG) { cfct_banner(__FILE__); }
 
 	<title><?php wp_title( '-', true, 'right' ); echo esc_html( get_bloginfo('name') ); ?></title>
 
-	<link rel="pingback" href="<?php bloginfo('pingback_url') ?>" />
-	<?php wp_get_archives('type=monthly&format=link'); ?>
-	
 	<?php wp_head(); ?>
 </head>
 
