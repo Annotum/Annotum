@@ -14,16 +14,9 @@ if (CFCT_DEBUG) { cfct_banner(__FILE__); }
 
 $s = get_query_var('s');
 
-if (get_option('permalink_structure') != '') {
-	$onsubmit = "location.href=this.action+'search/'+encodeURIComponent(this.s.value).replace(/%20/g, '+'); return false;";
-}
-else {
-	$onsubmit = '';
-}
-
 ?>
 
-<form method="get" action="<?php echo trailingslashit(get_bloginfo('url')); ?>" onsubmit="<?php echo $onsubmit; ?>">
-	<input type="text" id="s" name="s" value="<?php echo esc_html($s); ?>" size="15" />
-	<input type="submit" name="submit_button" value="<?php _e('Search', 'anno'); ?>" />
+<form method="get" action="<?php echo home_url('/'); ?>">
+	<input type="text" name="s" value="<?php echo esc_html($s); ?>" placeholder="<?php _e('Search', 'anno'); ?>" />
+	<input type="submit" value="<?php _e('Search', 'anno'); ?>" />
 </form>

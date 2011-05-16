@@ -35,6 +35,7 @@ if (CFCT_DEBUG) { cfct_banner(__FILE__); }
 			'container' => false
 		);
 		wp_nav_menu($args);
+		cfct_form('search');
 		?>
 		</nav>
 	</div>
