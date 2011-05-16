@@ -9,7 +9,6 @@ hr{display:block;height:1px;border:0;border-top:1px solid #ccc;margin:1em 0;padd
 pre,code,kbd,samp{font-family:monospace,sans-serif;}
 html{-webkit-text-size-adjust:100%;-ms-text-size-adjust:100%;}
 body{font:13px/1.231 Arial,Helvetica,sans-serif;}
-a:link{-webkit-tap-highlight-color:#FF5E99;}
 a:hover,a:active{outline:none;}
 a{color:#006b94;text-decoration:none;}
 a:hover{text-decoration:underline;}
@@ -49,3 +48,8 @@ h1,h2,h3,h4,h5,h6{font-weight:bold;}
 #site-nav{background:#66a6bf;font-weight:bold;font-size:14px;}
 #site-nav .nav{float:left;}
 #site-nav a{border-right:1px solid #006b94;line-height:20px;padding:7px 10px;}
+form.search{width:200px;}
+form.search input.type-text{width:194px;}
+form.search{position:relative;}
+form.search .type-submit{position:absolute;right:0;top:0;}
+#site-nav .search{float:right;}

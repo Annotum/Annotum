@@ -1,0 +1,20 @@
+@search-width: 200px;
+form.search {
+	width: @search-width;
+}
+form.search input.type-text {
+	width: @search-width - 6px;
+}
+form.search {
+	position: relative;
+}
+form.search .type-submit {
+	position: absolute;
+	right: 0;
+	top: 0;
+}
+
+/* Search form when in header */
+#site-nav .search {
+	float: right;
+}
