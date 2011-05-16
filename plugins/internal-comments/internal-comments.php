@@ -59,7 +59,7 @@ function anno_internal_comments_display($type) {
 	}
 	if (anno_user_can('manage_'.$type.'_comment')) {
 		anno_internal_comments_form($type);
-	}
+	}2
 ?>
 	</tbody>
 </table>
@@ -156,7 +156,10 @@ function anno_internal_comments_general_comments() {
 }
 
 function anno_internal_comments_reviewer_comments() {
-	global $anno_review_options;
+	global $anno_review_options, $current_user, $post;
+	$round = anno_get_round($post->ID);
+	$user_review = get_user_meta($current_user->ID, '_'.$post->ID.'_review_'.$round, true);
+
 	if (anno_role() == 'reviewer') {
 ?>
 <div class="review-section">
@@ -164,10 +167,10 @@ function anno_internal_comments_reviewer_comments() {
 	<select id="anno-review" name="anno_review">
 
 	<?php 
-		foreach ($anno_review_options as $opt_key => $opt_val) { 
+		foreach ($anno_review_options as $opt_key => $opt_val) {
 	?>	
 
-		<option value="<?php echo esc_attr($opt_key); ?>"><?php echo esc_html($opt_val); ?></option>
+		<option value="<?php echo esc_attr($opt_key); ?>"<?php selected($user_review, $opt_key, true); ?>><?php echo esc_html($opt_val); ?></option>
 
 	<?php 
 		} 
@@ -326,12 +329,11 @@ function anno_internal_comments_review_ajax() {
 		$post_id = $_POST['post_id'];
 		$review = $_POST['review'];
 		
-		$post_round = intval(get_post_meta($post_id, '_round', true));
-		
-		update_user_meta($current_user->ID, '_'.$post_id.'reviews_'.$round, $review);
-		
+		$post_round = anno_get_round($post_id);
 
-		$reviewed = anno_get_post_users('_round_'.$post_round.'_reviewed', $post_id);
+		update_user_meta($current_user->ID, '_'.$post_id.'_review_'.$post_round, $review);
+		
+		$reviewed = anno_get_post_users($post_id, '_round_'.$post_round.'_reviewed');
 		
 		// If review is set to none, remove the user from reviewed, otherwise update it with the current user.
 		if ($review != 0) {
