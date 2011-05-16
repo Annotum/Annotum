@@ -53,8 +53,9 @@ function anno_assets() {
 	if (!is_admin()) {
 		$theme = get_bloginfo('template_directory') . '/';
 		$main = $theme . 'assets/main/';
+		
 		// Styles
-		wp_enqueue_style('anno', $main.'css/temp.css', array(), ANNO_VER, 'screen');
+		wp_enqueue_style('anno', $main.'css/main.css', array(), ANNO_VER, 'screen');
 
 		// Scripts
 		wp_enqueue_script('modernizr', $main.'js/libs/modernizr-1.7.min.js', array(), ANNO_VER);
@@ -77,7 +78,9 @@ function anno_wp_nav_menu_args($args) {
 	$new_args = array(
 		'fallback_cb' => null,
 		'container' => 'nav',
-		'depth' => 2
+		'container_class' => 'nav-container',
+		'depth' => 2,
+		'menu_class' => 'nav'
 	);
 	
 	return array_merge($args, $new_args);

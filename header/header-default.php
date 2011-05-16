@@ -24,17 +24,18 @@ if (CFCT_DEBUG) { cfct_banner(__FILE__); }
 </head>
 
 <body <?php body_class(); ?>>
-<header id="site-header" class="act">
+<header id="header" class="act">
 	<div class="in">
 		<h1 id="site-name"><a href="<?php bloginfo('url') ?>/" title="Home" rel="home"><?php bloginfo('name') ?></a></h1>
 		
 		<?php
 		$args = array(
 			'theme_location' => 'main',
-			'container' => 'nav'
+			'container' => null
 		);
 		wp_nav_menu($args);
 		?>
 	</div>
 </header>
-<div id="main" class="clearfix">
+<div id="main" class="act">
+	<div class="in">
