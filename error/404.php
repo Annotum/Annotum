@@ -14,7 +14,7 @@ if (CFCT_DEBUG) { cfct_banner(__FILE__); }
 
 get_header();
 
-_e('Sorry, we\'re not sure what you\'re looking for here.', 'carrington-jam'); 
+_e('Sorry, we\'re not sure what you\'re looking for here.', 'anno'); 
 
 cfct_form('search');
 

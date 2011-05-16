@@ -47,7 +47,7 @@ if (CFCT_DEBUG) { cfct_banner(__FILE__); }
 		echo 'Categories: ';
 		the_category(', ');
 		echo ' &bull; ';
-		comments_popup_link(__('No comments', 'carrington-jam'), __('1 comment', 'carrington-jam'), __('% comments', 'carrington-jam'));
+		comments_popup_link(__('No comments', 'anno'), __('1 comment', 'anno'), __('% comments', 'anno'));
 
 		?>
 	</footer>

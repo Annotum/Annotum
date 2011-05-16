@@ -20,6 +20,6 @@ comment_date();
 
 comment_time();
 
-edit_comment_link(__('Edit This', 'carrington-jam'), '', '');
+edit_comment_link(__('Edit This', 'anno'), '', '');
 
 ?>

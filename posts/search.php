@@ -25,7 +25,7 @@ else {
 
 ?>
 
-<h1><?php printf(__('Search Results for: %s', 'carrington-jam'), $search_title); ?></h1>
+<h1><?php printf(__('Search Results for: %s', 'anno'), $search_title); ?></h1>
 
 <?php
 echo '<div id="content">';

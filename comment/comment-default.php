@@ -29,7 +29,7 @@ extract($data);
 	<div class="content">
 		<?php
 		if ($comment->comment_approved == '0') {
-			echo '<p>' . __('Your comment is awaiting moderation.', 'carrington-jam') . '</p>';
+			echo '<p>' . __('Your comment is awaiting moderation.', 'anno') . '</p>';
 		}
 		comment_text();
 		?>
@@ -38,7 +38,7 @@ extract($data);
 		<?php
 		comment_reply_link(array_merge( $args, array('depth' => $depth, 'max_depth' => $args['max_depth'])), $comment, $post);
 		echo ' &bull; ';
-		edit_comment_link(__('Edit This', 'carrington-jam'), '', '');
+		edit_comment_link(__('Edit This', 'anno'), '', '');
 		?>
 	</footer>
 </article>

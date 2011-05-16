@@ -25,5 +25,5 @@ else {
 
 <form method="get" action="<?php echo trailingslashit(get_bloginfo('url')); ?>" onsubmit="<?php echo $onsubmit; ?>">
 	<input type="text" id="s" name="s" value="<?php echo esc_html($s); ?>" size="15" />
-	<input type="submit" name="submit_button" value="<?php _e('Search', 'carrington-jam'); ?>" />
+	<input type="submit" name="submit_button" value="<?php _e('Search', 'anno'); ?>" />
 </form>
