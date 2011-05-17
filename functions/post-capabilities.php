@@ -198,12 +198,12 @@ function anno_role($user_id = null, $post_id = null) {
 	else if ($user->has_cap('editor')) {
 		return 'editor';
 	}
-	$reviewers = anno_get_reviewers($post_id);
+	$reviewers = anno_get_post_users($post_id, '_reviewers');
 	if (is_array($reviewers) && in_array($user_id, $reviewers)) {
 		return 'reviewer';
 	}
 	
-	$co_authors = anno_get_co_authors($post_id);
+	$co_authors = anno_get_post_users($post_id, '_co_authors');
 	if (is_array($co_authors) && in_array($user_id, $co_authors)) {
 		return 'co-author';
 	}
@@ -216,26 +216,18 @@ function anno_role($user_id = null, $post_id = null) {
 }
 
 /**
- * Gets all co-authors for a given post id
+ * Gets all user of a certain role for a given post 
  *
  * @param int $post_id ID of the post to check
- * @return array Array of co-authors (or empty array if none exist)
- */ 
-function anno_get_co_authors($post_id = null) {
-	return anno_get_post_users($post_id, '_co_authors');
-}
-
-/**
- * Gets all reviewers for a given post id
- *
- * @param int $post_id ID of the post to check
+ * @param string $type the type/role of user to get. Accepts meta key or role.
  * @return array Array of reviewers (or empty array if none exist)
  */
-function anno_get_reviewers($post_id = null) {
-	return anno_get_post_users($post_id, '_reviewers');
-}
-
 function anno_get_post_users($post_id = null, $type) {
+	$type = str_replace('-', '_', $type);
+	if ($type == 'reviewers' || $type == 'co_authors') {
+		$type = '_'.$type;
+	}
+	
 	if ($post_id == null) {
 		global $post;
 		$post_id = $post->ID;
@@ -250,36 +242,15 @@ function anno_get_post_users($post_id = null, $type) {
 }
 
 /**
- * Adds a co-author to a given post
- * 
- * @param int $user_id ID of the user being added to the post
- * @param int $post_id ID of the post to add the user to. Loads from global if nothing is passed.
- * @return bool True if successfully added, false otherwise
- */
-function anno_add_co_author_to_post($user_id, $post_id = null) {
-	return anno_add_post_user_to_post('_co_authors', $user_id, $post_id);
-}
-
-/**
- * Adds a reviewer to a given post
- * 
- * @param int $user_id ID of the user being added to the post
- * @param int $post_id ID of the post to add the user to. Loads from global if nothing is passed.
- * @return bool True if successfully added, false otherwise
- */
-function anno_add_reviewer_to_post($user_id, $post_id = null) {
-	return anno_add_post_user_to_post('_reviewers', $user_id, $post_id);
-}
-
-/**
  * Adds a user to a given post with a given role
  * 
- * @param string $type Type of user to add. Can be the meta_key or 
+ * @param string $type Type of user to add. Can be the meta_key.
  * @param int $user_id ID of the user being added to the post
  * @param int $post_id ID of the post to add the user to. Loads from global if nothing is passed.
  * @return bool True if successfully added, false otherwise
  */ 
 function anno_add_post_user_to_post($type, $user_id, $post_id = null) {
+	$type = str_replace('-', '_', $type);
 	if ($type == 'reviewers' || $type == 'co_authors') {
 		$type = '_'.$type;
 	}
@@ -295,6 +266,41 @@ function anno_add_post_user_to_post($type, $user_id, $post_id = null) {
 	}
 	else {
 		$users[] = $user_id;
+	}
+	
+	return update_post_meta($post_id, $type, array_unique($users));
+}
+
+/**
+ * Removes a user from a given post with a given role
+ * 
+ * @param string $type Type of user to remove. Can be the meta_key.
+ * @param int $user_id ID of the user being removed to the post
+ * @param int $post_id ID of the post to remove the user from. Loads from global if nothing is passed.
+ * @return bool True if successfully removed, false otherwise
+ */
+function anno_remove_user_from_post($type, $user_id, $post_id = null) {
+	$type = str_replace('-', '_', $type);
+	if ($type == 'reviewers' || $type == 'co_authors') {
+		$type = '_'.$type;
+	}
+	
+	if ($post_id == null) {
+		global $post;
+		$post_id = $post->ID;
+	}
+	
+	$users = get_post_meta($post_id, $type, true);
+	if (!is_array($users)) {
+		return true;
+	}
+
+	$key = array_search($user_id, $users);
+	if ($key !== false) {
+		unset($users[$key]);
+	}
+	else {
+		return true;
 	}
 	
 	return update_post_meta($post_id, $type, array_unique($users));

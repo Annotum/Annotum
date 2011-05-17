@@ -255,7 +255,7 @@ function anno_minor_action_in_review_markup() {
 		if ($post_round !== false) {
 			// Return array of user ids who have given reviews for this round
 			$round_reviewed = count(anno_get_post_users($post->ID, '_round_'.$post_round.'_reviewed'));		
-			$reviewers = count(anno_get_reviewers($post->ID));
+			$reviewers = count(anno_get_post_users($post->ID, '_reviewers'));
 ?>
 			<p class="status-text">
 <?php
@@ -535,7 +535,7 @@ function anno_transistion_state($post_id, $post) {
 					}
 					break;
 				case $anno_post_save['review']:	
-					$reviewers = anno_get_reviewers($post_id);
+					$reviewers = anno_get_post_users($post->ID, '_reviewers');
 					if (is_array($reviewers) && count($reviewers) && in_array($old_state, array('submitted', 'draft'))) {
 						$new_state = 'in_review';
 					}
@@ -580,13 +580,13 @@ function anno_reviewers_meta_box() {
 	<div id="reviewers-meta-box">
 		<div id="reviewer-add-error" class="anno-error"></div>
 <?php
-	$reviewers = anno_get_reviewers();
+	$reviewers = anno_get_post_users($post->ID, '_reviewers');
 	if (anno_user_can('manage_reviewers', null, $post->ID)) {
 ?>
 		<div class="user-input-wrap">
 			<input type="text" id="reviewer-input" class="user-input" name="reviewer_input" /> 
 			<input id="reviewer-add" class="user-add button" type="button" value="add" />
-			<?php wp_nonce_field('anno_add_reviewer', '_ajax_nonce-add-reviewer', false); ?>
+			<?php wp_nonce_field('anno_add_reviewer', '_ajax_nonce-manage-reviewer', false); ?>
 		</div>
 <?php
 	}
@@ -614,15 +614,15 @@ function anno_co_authors_meta_box() {
 	<div id="co-authors-meta-box">
 		<div id="co-author-add-error" class="anno-error"></div>
 <?php
-	$co_authors = anno_get_co_authors();
+	$co_authors = anno_get_post_users($post->ID, '_co_authors');
 	if (anno_user_can('manage_co_authors', null, $post->ID)) {
 ?>
 		<div class="user-input-wrap">
 			<input type="text" id="co-author-input" class="user-input" name="co_author_input" /> 
 			<input id="co-author-add" class="user-add button" type="button" value="add" />
-			<?php wp_nonce_field('anno_add_co_author', '_ajax_nonce-add-co_author', false); ?>
+			<?php wp_nonce_field('anno_add_co_author', '_ajax_nonce-manage-co_author', false); ?>
 		</div>
-<?php
+<?php 	
 	}
 ?>
 		<ul id="co-author-list">
@@ -650,9 +650,9 @@ function anno_user_li_markup($user, $type = null) {
 		$extra = ' '.$anno_review_options[intval(get_user_meta($user->ID, '_'.$post->ID.'_review_'.$round, true))];
 	}
 ?>
-	<li>
+	<li id="<?php echo esc_attr('user-'.$user->ID); ?>">
 		<?php echo get_avatar($user->ID, '24'); ?>
-		<a href="<?php echo get_author_posts_url($user->ID); ?>"><?php echo esc_html($user->user_login) ?></a><?php echo $extra; ?>
+		<a href="<?php echo get_author_posts_url($user->ID); ?>"><?php echo esc_html($user->user_login) ?></a><?php echo $extra; ?>&middot<a href="#" class="anno-user-remove">remove</a>
 	</li>
 <?php
 }
@@ -689,32 +689,31 @@ add_action('wp_ajax_anno-add-co-author', 'anno_add_co_author');
  * @return bool True if successfully added, false otherwise
  */
 function anno_add_user($type) {
-	check_ajax_referer('anno_add_'.$type, '_ajax_nonce-add-'.$type);
+	check_ajax_referer('anno_add_'.$type, '_ajax_nonce-manage-'.$type);
 	$message = 'error';
 	$html = '';
 	if (isset($_POST['user']) && isset($_POST['post_id'])) {
 		$user = get_userdatabylogin($_POST['user']);
 		if (!empty($user)) {
-			$user_role = anno_role($user->id, $_POST['post_id']);
-			$co_authors = anno_get_co_authors($_POST['post_id']);
-			$reviewers = anno_get_reviewers($_POST['post_id']);
+			$post = get_post($_POST['post_id']);
+			$co_authors = anno_get_post_users($_POST['post_id'], '_co_authors');
+			$reviewers = anno_get_post_users($_POST['post_id'], '_reviewers');
 
-			if ($user_role == 'author') {
-				$html = sprintf(__('Cannot add author as %s'), $type);
+			if ($post->post_author == $user->ID) {
+				$html = sprintf(__('Cannot add author as a %s', 'anno'), $type);
 			}
 			else if (in_array($user->ID, $co_authors) ) {
-				$html = sprintf(__('Cannot add %s as %s. User is already a co-author'), $user->user_login, $type);
+				$html = sprintf(__('Cannot add %s as %s. User is already a co-author', 'anno'), $user->user_login, $type);
 			}
 			else if (in_array($user->ID, $reviewers)) {
-				$html = sprintf(__('Cannot add %s as %s. User is already a reviewer'), $user->user_login, $type);
+				$html = sprintf(__('Cannot add %s as %s. User is already a reviewer', 'anno'), $user->user_login, $type);
 			}
-			else if (function_exists('anno_add_'.$type.'_to_post')) {
+			else if (anno_add_user_to_post($type.'s', $user->ID, intval($_POST['post_id']))) {
 				$message = 'success';
-				call_user_func_array('anno_add_'.$type.'_to_post', array($user->ID, intval($_POST['post_id'])));
 				ob_start();
 					anno_user_li_markup($user, $type);
-			  		$html = ob_get_contents();
-			  	ob_end_clean();
+		  			$html = ob_get_contents();
+		  		ob_end_clean();
 			}
 		}
 		else {
@@ -723,6 +722,50 @@ function anno_add_user($type) {
 		}
 	}
 	echo json_encode(array('message' => $message, 'html' => $html));
+	if ($message == 'success') {
+		return true;
+	}
+	else {
+		return false;
+	}
+}
+
+/**
+ * Handles AJAX request for remove a reviewer to a post.
+ */ 
+function anno_remove_reviewer() {
+	anno_remove_user('reviewer');
+	die();
+}
+add_action('wp_ajax_anno-remove-reviewer', 'anno_remove_reviewer');
+
+/**
+ * Handles AJAX request for remove a co-author to a post.
+ */
+function anno_remove_co_author() {
+	anno_remove_user('co_author');
+	die();
+}
+add_action('wp_ajax_anno-remove-co-author', 'anno_remove_co_author');
+
+/**
+ * AJAX handler for removing users from a post for a given type
+ */ 
+function anno_remove_user($type) {
+	//check_ajax_referer('anno_add_'.$type, '_ajax_nonce-manage-'.$type);
+	$message = 'error';
+	if (isset($_POST['user_id']) && isset($_POST['post_id'])) {
+		if (anno_remove_user_from_post($type.'s', $_POST['user_id'], intval($_POST['post_id']))) {
+			$message = 'success';
+		}
+	}
+	echo json_encode(array('message' => $message));
+	if ($message == 'success') {
+		return true;
+	}
+	else {
+		return false;
+	}
 }
 
 /**

@@ -43,6 +43,11 @@ ul#co-authors-list li {
 	margin-bottom: 8px;
 }
 
+ul#reviewer-list li:hover .anno-user-remove,
+ul#co-authors-list li:hover .anno-user-remove {
+	display: inline;
+}
+
 ul#reviewer-list img,
 ul#co-author-list img {
 	vertical-align: middle;
@@ -53,6 +58,10 @@ ul#co-author-list img {
 	margin-bottom: 5px;
 	border-bottom: 1px solid #DFDFDF;
 	
+}
+
+.anno-user-remove {
+	display: none;
 }
 
 .anno-error {
