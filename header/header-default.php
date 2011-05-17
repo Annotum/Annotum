@@ -21,6 +21,7 @@ if (CFCT_DEBUG) { cfct_banner(__FILE__); }
 	<title><?php wp_title( '-', true, 'right' ); echo esc_html( get_bloginfo('name') ); ?></title>
 
 	<?php wp_head(); ?>
+	<?php cfct_misc('custom-colors'); ?>
 </head>
 
 <body <?php body_class(); ?>>

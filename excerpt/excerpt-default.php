@@ -13,14 +13,17 @@ if (__FILE__ == $_SERVER['SCRIPT_FILENAME']) { die(); }
 if (CFCT_DEBUG) { cfct_banner(__FILE__); }
 
 ?>
-<article <?php post_class('article article-short clearfix'); ?>>
-	<?php cfct_template_file('content', 'header'); ?>
-	<?php if (has_post_thumbnail()): ?>
-		<a href="<?php the_permalink(); ?>"><?php the_post_thumbnail(); ?></a>
-	<?php endif; ?>
-	<div class="content">
-		<?php
-		the_excerpt();
-		?>
-	</div><!--/content-->
+<article class="article article-excerpt"); ?>>
+	<div <?php post_class('clearfix'); ?>>
+		<?php cfct_template_file('content', 'header'); ?>
+		<section class="body">
+			<?php if (has_post_thumbnail()): ?>
+				<a href="<?php the_permalink(); ?>"><?php the_post_thumbnail('post-excerpt'); ?></a>
+			<?php endif; ?>
+			<div class="content">
+				<?php the_excerpt(); ?>
+			</div><!--/content-->
+		</section>		
+	</div>
+
 </article>

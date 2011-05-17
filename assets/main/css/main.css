@@ -378,6 +378,13 @@ Act 3: Footer
 #main {
   padding: 35px 0 47px;
 }
+#main-body {
+  margin-right: 30px;
+  width: 630px;
+}
+#main-sidebar {
+  width: 300px;
+}
 #site-name {
   font-size: 36px;
   font-weight: normal;
@@ -504,4 +511,17 @@ form.search .type-submit {
 .featured-posts .control-panel .next {
   background-position: right -200px;
   right: 0;
+}
+.article-excerpt .title {
+  font: bold 18px Georgia, Serif;
+}
+.article-excerpt.has-featured-image .body {
+  min-height: 122px;
+  position: relative;
+  padding-left: 155px;
+}
+.article-excerpt.has-featured-image img {
+  left: 0;
+  position: absolute;
+  top: 2px;
 }
