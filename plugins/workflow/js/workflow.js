@@ -9,14 +9,14 @@ jQuery(document).ready( function($) {
 	$('input[type="button"]#reviewer-add').click(function() {
 		var user = $('input[type="text"]#reviewer-input').val();
 		var data = {action: 'anno-add-reviewer', user: user, post_id: ANNO_POST_ID};
-		data['_ajax_nonce-add-reviewer'] = $('#_ajax_nonce-add-reviewer').val();
+		data['_ajax_nonce-manage-reviewer'] = $('#_ajax_nonce-manage-reviewer').val();
 		
-		$.post(ajaxurl, data, function(data) {
-			if (data.message == 'success') {
-				$('ul#reviewer-list').prepend(data.html);
+		$.post(ajaxurl, data, function(d) {
+			if (d.message == 'success') {
+				$('ul#reviewer-list').prepend(d.html);
 			}
 			else {
-				$('#reviewer-add-error').html(data.html).show();
+				$('#reviewer-add-error').html(d.html).show();
 			}
 		}, 'json');
 	});
@@ -24,15 +24,27 @@ jQuery(document).ready( function($) {
 	$('input[type="button"]#co-author-add').click(function() {
 		var user = $('input[type="text"]#co-author-input').val();
 		var data = {action: 'anno-add-co-author', user: user, post_id: ANNO_POST_ID};
-		data['_ajax_nonce-add-co_author'] = $('#_ajax_nonce-add-co_author').val();
-		$.post(ajaxurl, data, function(data) {
-			if (data.message == 'success') {
-				$('ul#co-author-list').prepend(data.html);
+		data['_ajax_nonce-manage-co_author'] = $('#_ajax_nonce-manage-co_author').val();
+		$.post(ajaxurl, data, function(d) {
+			if (d.message == 'success') {
+				$('ul#co-author-list').prepend(d.html);
 			}
 			else {
-				$('#co-author-add-error').html(data.html).show();
+				$('#co-author-add-error').html(d.html).show();
 			}
 		}, 'json');
 	});
+	
+	$('.anno-user-remove').click(function() {
+		var click = $(this);
+		var user_id = $(this).closest('li').attr('id').replace('user-', '');
+		$.post(ajaxurl, {action: 'anno-remove-reviewer', user_id: user_id, post_id: ANNO_POST_ID}, function(d) {
+			if (d.message == 'success') {
+				click.closest('li').fadeOut();
+			}
+		}, 'json');
+		return false;
+	});
+	
 });
 
