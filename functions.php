@@ -88,4 +88,5 @@ function anno_wp_nav_menu_args($args) {
 	return $args;
 }
 add_filter('wp_nav_menu_args', 'anno_wp_nav_menu_args');
+
 ?>

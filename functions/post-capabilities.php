@@ -297,7 +297,7 @@ function anno_add_post_user_to_post($type, $user_id, $post_id = null) {
 		$users[] = $user_id;
 	}
 	
-	return update_post_meta($post_id, $type, $users);
+	return update_post_meta($post_id, $type, array_unique($users));
 }
 
 ?>

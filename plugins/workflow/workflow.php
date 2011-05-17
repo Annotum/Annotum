@@ -1,4 +1,5 @@
 <?php
+//TODO Restructure!
 
 // Used in generating save buttons and proccess state changes
 global $anno_post_save;
@@ -477,7 +478,6 @@ function anno_save_article($post) {
 					$post['post_status'] = 'publish';
 					break;
 				case $anno_post_save['reject']:
-					//TODO, trash??
 					$post['post_status'] = 'draft';
 					break;
 				case $anno_post_save['approve']:
@@ -542,13 +542,17 @@ function anno_transistion_state($post_id, $post) {
 					else if ($old_state == 'draft') {
 						$new_state = 'submitted';
 					}
-					//TODO Update draft round
 					break;
 				default:
 					break;
 			}
 		}
 		
+		// Send back for revisions
+		if ($new_state == 'draft' && !empty($old_state) && $old_state != 'draft') {
+			$round = anno_get_round($post_id);
+			update_post_meta($post_id, '_round', intval($round) + 1);
+		}
 	
 		if ($new_state != $old_state) {
 			if (empty($new_state)) {
@@ -574,6 +578,7 @@ function anno_reviewers_meta_box() {
 	global $post;
 ?>
 	<div id="reviewers-meta-box">
+		<div id="reviewer-add-error" class="anno-error"></div>
 <?php
 	$reviewers = anno_get_reviewers();
 	if (anno_user_can('manage_reviewers', null, $post->ID)) {
@@ -581,6 +586,7 @@ function anno_reviewers_meta_box() {
 		<div class="user-input-wrap">
 			<input type="text" id="reviewer-input" class="user-input" name="reviewer_input" /> 
 			<input id="reviewer-add" class="user-add button" type="button" value="add" />
+			<?php wp_nonce_field('anno_add_reviewer', '_ajax_nonce-add-reviewer', false); ?>
 		</div>
 <?php
 	}
@@ -606,6 +612,7 @@ function anno_co_authors_meta_box() {
 	global $post;
 ?>
 	<div id="co-authors-meta-box">
+		<div id="co-author-add-error" class="anno-error"></div>
 <?php
 	$co_authors = anno_get_co_authors();
 	if (anno_user_can('manage_co_authors', null, $post->ID)) {
@@ -613,6 +620,7 @@ function anno_co_authors_meta_box() {
 		<div class="user-input-wrap">
 			<input type="text" id="co-author-input" class="user-input" name="co_author_input" /> 
 			<input id="co-author-add" class="user-add button" type="button" value="add" />
+			<?php wp_nonce_field('anno_add_co_author', '_ajax_nonce-add-co_author', false); ?>
 		</div>
 <?php
 	}
@@ -630,7 +638,6 @@ function anno_co_authors_meta_box() {
 	</div>
 <?php
 }
-
 
 /**
  * Markup for user display in meta boxes
@@ -682,29 +689,77 @@ add_action('wp_ajax_anno-add-co-author', 'anno_add_co_author');
  * @return bool True if successfully added, false otherwise
  */
 function anno_add_user($type) {
-//TODO nonce
+	check_ajax_referer('anno_add_'.$type, '_ajax_nonce-add-'.$type);
+	$message = 'error';
+	$html = '';
 	if (isset($_POST['user']) && isset($_POST['post_id'])) {
 		$user = get_userdatabylogin($_POST['user']);
 		if (!empty($user)) {
-			if (function_exists('anno_add_'.$type.'_to_post')) {
-				anno_user_li_markup($user, $type);
-				return call_user_func_array('anno_add_'.$type.'_to_post', array($user->ID, intval($_POST['post_id'])));
+			$user_role = anno_role($user->id, $_POST['post_id']);
+			$co_authors = anno_get_co_authors($_POST['post_id']);
+			$reviewers = anno_get_reviewers($_POST['post_id']);
+
+			if ($user_role == 'author') {
+				$html = sprintf(__('Cannot add author as %s'), $type);
+			}
+			else if (in_array($user->ID, $co_authors) ) {
+				$html = sprintf(__('Cannot add %s as %s. User is already a co-author'), $user->user_login, $type);
+			}
+			else if (in_array($user->ID, $reviewers)) {
+				$html = sprintf(__('Cannot add %s as %s. User is already a reviewer'), $user->user_login, $type);
+			}
+			else if (function_exists('anno_add_'.$type.'_to_post')) {
+				$message = 'success';
+				call_user_func_array('anno_add_'.$type.'_to_post', array($user->ID, intval($_POST['post_id'])));
+				ob_start();
+					anno_user_li_markup($user, $type);
+			  		$html = ob_get_contents();
+			  	ob_end_clean();
 			}
 		}
+		else {
+			//TODO Check on/for email
+			$html = sprintf(__('User \'%s\' not found', 'anno'), $_POST['user']);
+		}
 	}
-	return false;
+	echo json_encode(array('message' => $message, 'html' => $html));
 }
 
-/******* Meta Retrieval *******/
+/**
+ * Fetch the post state of a given post. If no post state is found
+ * it will be determined by the post status
+ * 
+ * @param int $post_id The id to fetch the post stat for
+ * @return string Post state
+ */ 
 function anno_get_post_state($post_id) {
 	$post_state = get_post_meta($post_id, '_post_state', true);
 	if (!$post_state) {
-		// TODO determine post state from post_status
-		$post_state = 'draft';
+		$post = get_post($post_id);
+		if ($post) {
+			switch ($post->post_status) {			
+				case 'publish':
+					$post_state = 'published';
+					break;
+				case 'draft':
+				case 'pending':
+				default:
+					$post_state = 'draft';
+					break;
+			}
+			update_post_meta($post_id, '_post_state', $post_state);
+		}
 	}
 	return $post_state;
 }
 
+/**
+ * Return the round associated with a post. Rounds are determined by the number
+ * of times they have been in the draft state. (sent for revisions)
+ * 
+ * @param int $post_id The id to fetch the post stat for
+ * @return int Round
+ */ 
 function anno_get_round($post_id) {
 	$round = get_post_meta($post_id, '_round', true);
 	if (!$round) {
