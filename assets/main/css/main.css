@@ -426,20 +426,20 @@ form.search .type-submit {
 #site-nav .search {
   float: right;
 }
-.featured-carousel {
+.featured-posts {
   overflow: hidden;
   position: relative;
 }
-.featured-carousel ul {
+.featured-posts ul {
   margin: 0;
   padding: 0;
 }
-.featured-carousel li {
+.featured-posts li {
   list-style: none;
   margin: 0;
   padding: 0;
 }
-.featured-carousel .carousel-item {
+.featured-posts .carousel-item {
   /**
 	 * @workaround min-height Fast Hack
 	 *
@@ -458,22 +458,22 @@ form.search .type-submit {
   padding: 16px 16px 16px 300px;
   position: relative;
 }
-.featured-carousel .carousel-item img {
+.featured-posts .carousel-item img {
   left: 16px;
   position: absolute;
   top: 18px;
 }
-.featured-carousel .carousel-item .title {
+.featured-posts .carousel-item .title {
   color: #fff;
   font: italic bold 24px Georgia, Serif;
   margin-bottom: 6px;
   text-shadow: 0 1px 1px #2d7092;
 }
-.featured-carousel .carousel-item .content {
+.featured-posts .carousel-item .content {
   font-size: 14px;
   line-height: 1.5;
 }
-.featured-carousel .control-panel {
+.featured-posts .control-panel {
   bottom: 17px;
   color: #006b94;
   font-size: 11px;
@@ -485,7 +485,7 @@ form.search .type-submit {
   text-align: right;
   text-transform: uppercase;
 }
-.featured-carousel .control-panel .previous, .featured-carousel .control-panel .next {
+.featured-posts .control-panel .previous, .featured-posts .control-panel .next {
   background: url(../img/sprite-y.8bit.png) 0 100px no-repeat;
   display: inline-block;
   height: 20px;
@@ -493,11 +493,11 @@ form.search .type-submit {
   top: 0;
   width: 20px;
 }
-.featured-carousel .control-panel .previous {
+.featured-posts .control-panel .previous {
   background-position: 0 -200px;
   right: 27px;
 }
-.featured-carousel .control-panel .next {
+.featured-posts .control-panel .next {
   background-position: right -200px;
   right: 0;
 }
