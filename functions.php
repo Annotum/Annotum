@@ -54,10 +54,12 @@ function anno_assets() {
 		$main = $theme . 'assets/main/';
 		
 		// Styles
-		wp_enqueue_style('anno', $main.'css/main.css', array(), ANNO_VER, 'screen');
+		wp_enqueue_style('anno-main', $main.'css/main.css', array(), ANNO_VER, 'screen');
 
 		// Scripts
 		wp_enqueue_script('modernizr', $main.'js/libs/modernizr-1.7.min.js', array(), ANNO_VER);
+		wp_enqueue_script('placeholder', $main.'js/libs/jquery.placeholder.js', array('jquery'), ANNO_VER);
+		wp_enqueue_script('anno-main', $main.'js/main.js', array('placeholder'), ANNO_VER);
 		if ( is_singular() ) { wp_enqueue_script( 'comment-reply' ); }
 	}
 }

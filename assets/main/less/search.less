@@ -1,17 +1,27 @@
 @search-width: 200px;
 form.search {
+	margin: 6px 6px 0 0;
 	width: @search-width;
 }
 form.search input.type-text {
-	width: @search-width - 6px;
+	color: #666;
+	font-size: 13px;
+	padding: 1px 19px 1px 6px;
+	width: @search-width - 19px - 6px - 6px; 
+	
+	/*subtract left padding and right padding*/
 }
 form.search {
 	position: relative;
 }
 form.search .type-submit {
+	background: url(../img/sprite-y.8bit.png) 0 -100px no-repeat;
+	border: 0;
+	height: 13px;
 	position: absolute;
-	right: 0;
-	top: 0;
+	right: 6px;
+	top: 5px;
+	width: 14px;
 }
 
 /* Search form when in header */

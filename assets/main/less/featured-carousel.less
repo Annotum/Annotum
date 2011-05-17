@@ -1,0 +1,70 @@
+.featured-carousel {
+	overflow: hidden;
+	position: relative;
+}
+.featured-carousel ul {
+	margin: 0;
+	padding: 0;
+}
+.featured-carousel li {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+}
+.featured-carousel .carousel-item {
+	/**
+	 * @workaround min-height Fast Hack
+	 *
+	 * IE6 doesn't support min-height, but treats elements with
+	 * height and overflow:visible as min-height.
+	 *
+	 * @affected IE5, IE6
+	 * @see http://www.dustindiaz.com/min-height-fast-hack/
+	 */
+	height: auto !important;
+	height: 232px;
+	min-height: 232px;
+
+	background: #66a6bf;
+	padding: 16px 16px 16px 300px;
+	position: relative;
+}
+.featured-carousel .carousel-item img {
+	left: 16px;
+	position: absolute;
+	top: 18px;
+}
+.featured-carousel .carousel-item .title {
+	color: #fff;
+	font: italic bold 24px Georgia, Serif;
+	text-shadow: 0 1px 1px #2d7092;
+}
+.featured-carousel .carousel-item .content {
+	font-size: 14px;
+	line-height: 1.5;
+}
+.featured-carousel .control-panel {
+	bottom: 1px;
+	position: absolute;
+	right: 1px;
+}
+
+#selector {
+	
+	width: 100px;
+	height: 300px;
+}
+.featured-carousel .control-panel .previous,
+.featured-carousel .control-panel .next {
+	background: url(../img/sprite-y.8bit.png) 0 100px no-repeat;	
+	display: inline-block;
+	height: 20px;
+	width: 20px;
+	vertical-align: middle;
+}
+.featured-carousel .control-panel .previous {
+	background-position: 0 -200px;
+}	
+.featured-carousel .control-panel .next {
+	background-position: right -200px;
+}
