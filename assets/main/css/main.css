@@ -397,6 +397,10 @@ Act 3: Footer
   line-height: 20px;
   padding: 7px 10px;
 }
+#secondary-nav li {
+  background: url(../img/sprite-y.8bit.png) 0 -2px scroll top left;
+  margin-left: 10px;
+}
 /* Re-usable features */
 form.search {
   margin: 6px 6px 0 0;

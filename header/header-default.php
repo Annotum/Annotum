@@ -27,7 +27,15 @@ if (CFCT_DEBUG) { cfct_banner(__FILE__); }
 <header id="header" class="act">
 	<div class="in">
 		<h1 id="site-name"><a href="<?php bloginfo('url') ?>/" title="Home" rel="home"><?php bloginfo('name') ?></a></h1>
-		
+		<nav id="secondary-nav" class="clearfix">
+		<?php
+		$args = array(
+			'theme_location' => 'secondary',
+			'container' => false,
+		);
+		wp_nav_menu($args);
+		?>
+		</nav>
 		<nav id="site-nav" class="clearfix">
 		<?php
 		$args = array(
