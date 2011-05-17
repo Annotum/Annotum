@@ -16,6 +16,7 @@ get_header();
 ?>
 <div id="main-body" class="clearfix">
 	<?php cfct_misc('callouts'); ?>
+	<h1 class="section-title"><span>Recent Posts</span></h1>
 	<?php echo '<div id="content">';
 	cfct_loop();
 	cfct_misc('nav-posts');

@@ -541,9 +541,49 @@ form.search .type-submit {
   position: absolute;
   top: 2px;
 }
+.callouts {
+  margin-bottom: 30px;
+}
+.callouts ul {
+  margin: 0;
+  padding: 0;
+}
+.callouts li {
+  float: left;
+  list-style: none;
+  margin: 0 0 0 30px;
+  padding: 0;
+  width: 300px;
+}
+.callouts li:first-child, .callouts li.first-child {
+  margin-left: 0;
+}
+.callout-item {
+  background: #f0f0f0;
+}
+.callout-item-interior {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-top-style: solid;
+  border-top-width: 2px;
+  padding: 13px 17px;
+}
+.callout-item .title {
+  font: italic bold 18px Georgia, Serif;
+  margin-bottom: 4px;
+}
+.callout-item .content {
+  font-size: 14px;
+  line-height: 1.43;
+}
 .pagination .previous {
   float: left;
 }
 .pagination .next {
   float: right;
+}
+.home .section-title {
+  border-bottom: #ccc solid 1px;
+  color: #000;
+  font: italic bold 16px Georgia, Serif;
 }

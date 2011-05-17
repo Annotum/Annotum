@@ -14,8 +14,8 @@
 	}
 
 	/* Border Color */
-	#site-nav.color1,
-	.callout.color1,
+	#site-nav .color1 li,
+	.callout-item .color1,
 	.widget .tab { 
 		border-color: <?php echo $color1; ?>;
 	}
