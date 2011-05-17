@@ -181,7 +181,7 @@ function anno_internal_comments_reviewer_comments() {
 <?php 
 		wp_nonce_field('anno_review', '_ajax_nonce-review', false);
 	}
-	anno_internal_comments_display('reviewer');
+	anno_internal_comments_display('review');
 }
 
 /**
@@ -253,6 +253,7 @@ function anno_internal_comments_clauses($clauses) {
 if (!is_admin()) {
 	add_filter('comments_clauses', 'anno_internal_comments_clauses');
 }
+
 
 /**
  * Modify the comment count stored in the wp_post comment_count column, so internal comments don't show up there.
@@ -370,7 +371,12 @@ function anno_internal_comment_types_dropdown($comment_types) {
 }
 add_filter('admin_comment_types_dropdown', 'anno_internal_comment_types_dropdown');
 
-
+/**
+ * Get the top level comment of a series of comment replies.
+ * 
+ * @param int|object ID of the comment or the comment object itself
+ * @return bool|obj Comment object, or false if the comment could not be found.
+ */ 
 function anno_internal_comments_get_comment_root($comment) {
 	if (is_numeric($comment)) {
 		$comment = get_comment($comment);
@@ -383,5 +389,29 @@ function anno_internal_comments_get_comment_root($comment) {
 	return $comment;
 }
 
-//TODO Remove email being sent to admin on internal comment
+//TODO Better implementation of below. Possible WP Core patch for hook in notify_author function
+
+/**
+ * Set a global to be checked by anno_pre_option_comments_notify
+ */ 
+function anno_insert_comment($id, $comment) {
+	global $anno_insert_comment;
+	$anno_insert_comment = $comment;
+}
+add_action('wp_insert_comment', 'anno_insert_comment', 10, 2);
+
+/**
+ * Prevent sending of comment notifications on new posts if its an internal comment type.
+ */ 
+function anno_pre_option_comments_notify($option) {
+	global $anno_insert_comment;
+	if ($anno_insert_comment && !in_array($anno_insert_comment->comment_type, array('article_general', 'article_reviewer'))) {
+		unset ($anno_insert_comment);
+		return 0;
+	}
+	return false;
+}
+add_filter('pre_option_comments_notify', 'anno_pre_option_comments_notify');
+
+
 ?>

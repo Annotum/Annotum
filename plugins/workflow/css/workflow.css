@@ -55,3 +55,7 @@ ul#co-author-list img {
 	
 }
 
+.anno-error {
+	color: red;
+	display: none;
+}
