@@ -26,6 +26,7 @@
 	min-height: 232px;
 
 	background: #66a6bf;
+	color: #000;
 	padding: 16px 16px 16px 300px;
 	position: relative;
 }
@@ -37,6 +38,7 @@
 .featured-carousel .carousel-item .title {
 	color: #fff;
 	font: italic bold 24px Georgia, Serif;
+	margin-bottom: 6px;
 	text-shadow: 0 1px 1px #2d7092;
 }
 .featured-carousel .carousel-item .content {
@@ -44,27 +46,32 @@
 	line-height: 1.5;
 }
 .featured-carousel .control-panel {
-	bottom: 1px;
+	bottom: 17px;
+	color: #006b94;
+	font-size: 11px;
+	font-weight: bold;
+	line-height: 20px;
+	padding: 0 55px 0 0;
 	position: absolute;
-	right: 1px;
+	right: 15px;
+	text-align: right;
+	text-transform: uppercase;
 }
 
-#selector {
-	
-	width: 100px;
-	height: 300px;
-}
 .featured-carousel .control-panel .previous,
 .featured-carousel .control-panel .next {
 	background: url(../img/sprite-y.8bit.png) 0 100px no-repeat;	
 	display: inline-block;
 	height: 20px;
+	position: absolute;
+	top: 0;
 	width: 20px;
-	vertical-align: middle;
 }
 .featured-carousel .control-panel .previous {
 	background-position: 0 -200px;
+	right: 27px;
 }	
 .featured-carousel .control-panel .next {
 	background-position: right -200px;
+	right: 0;
 }
