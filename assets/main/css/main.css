@@ -379,10 +379,11 @@ Act 3: Footer
   padding: 35px 0 47px;
 }
 #main-body {
-  margin-right: 30px;
+  padding-right: 15px;
   width: 630px;
 }
 #main-sidebar {
+  padding-left: 15px;
   width: 300px;
 }
 #site-name {
@@ -512,16 +513,37 @@ form.search .type-submit {
   background-position: right -200px;
   right: 0;
 }
+.article-excerpt {
+  border-bottom: #ccc solid 1px;
+  margin-bottom: 27px;
+  padding-bottom: 30px;
+  overflow: hidden;
+}
 .article-excerpt .title {
   font: bold 18px Georgia, Serif;
+  margin-bottom: 5px;
 }
-.article-excerpt.has-featured-image .body {
+.article-excerpt .meta {
+  color: #666;
+  font: italic 13px Georgia, Serif;
+  margin-bottom: 10px;
+}
+.article-excerpt .sep {
+  padding: 0 2px;
+}
+.article-excerpt .has-featured-image .body {
   min-height: 122px;
   position: relative;
   padding-left: 155px;
 }
-.article-excerpt.has-featured-image img {
+.article-excerpt .has-featured-image img {
   left: 0;
   position: absolute;
   top: 2px;
+}
+.pagination .previous {
+  float: left;
+}
+.pagination .next {
+  float: right;
 }

@@ -13,7 +13,7 @@ if (__FILE__ == $_SERVER['SCRIPT_FILENAME']) { die(); }
 if (CFCT_DEBUG) { cfct_banner(__FILE__); }
 
 ?>
-<article class="article article-excerpt"); ?>>
+<article class="article article-excerpt">
 	<div <?php post_class('clearfix'); ?>>
 		<?php cfct_template_file('content', 'header'); ?>
 		<section class="body">
