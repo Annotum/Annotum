@@ -13,14 +13,17 @@ if (__FILE__ == $_SERVER['SCRIPT_FILENAME']) { die(); }
 if (CFCT_DEBUG) { cfct_banner(__FILE__); }
 
 get_header();
-
-echo '<div id="content">';
-cfct_loop();
-comments_template();
-echo '</div>';
-
-get_sidebar();
-
-get_footer();
-
 ?>
+<div id="main-body" class="clearfix">
+	<h1 class="title"><span>Recent Posts</span></h1>
+	<?php echo '<div id="content">';
+	cfct_loop();
+	comments_template();
+	echo '</div>'; ?> 
+</div><!-- #main-content -->
+<div id="main-sidebar" class="clearfix">
+	<?php get_sidebar(); ?>
+</div><!-- #main-sidebar -->
+<?php get_footer(); ?>
+
+

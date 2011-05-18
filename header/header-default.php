@@ -51,6 +51,11 @@ if (CFCT_DEBUG) { cfct_banner(__FILE__); }
 		cfct_form('search');
 		?>
 		</nav>
+		<?php
+			if (is_home()) {
+				cfct_template_file('header', 'masthead');
+			}
+		?>
 	</div>
 </header>
 <div id="main" class="act">

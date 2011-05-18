@@ -13,7 +13,7 @@ if (__FILE__ == $_SERVER['SCRIPT_FILENAME']) { die(); }
 
 load_theme_textdomain('anno');
 
-define('CFCT_DEBUG', false);
+define('CFCT_DEBUG', true);
 define('CFCT_PATH', trailingslashit(TEMPLATEPATH));
 define('ANNO_VER', '1.0');
 
@@ -28,6 +28,7 @@ function anno_setup() {
 	add_theme_support('automatic-feed-links');
 	add_theme_support( 'post-thumbnails', array( 'post' ) );
 	add_image_size( 'post-excerpt', 140, 120, true);
+	add_image_size( 'post-teaser', 100, 79, true);
 	
 	$menus = array(
 		'main' => 'Main Menu (Header)',
@@ -60,7 +61,7 @@ function anno_assets() {
 		// Scripts
 		wp_enqueue_script('modernizr', $main.'js/libs/modernizr-1.7.min.js', array(), ANNO_VER);
 		wp_enqueue_script('placeholder', $main.'js/libs/jquery.placeholder.js', array('jquery'), ANNO_VER);
-		wp_enqueue_script('anno-main', $main.'js/main.js', array('placeholder'), ANNO_VER);
+		//wp_enqueue_script('anno-main', $main.'js/main.js', array('placeholder'), ANNO_VER);
 		if ( is_singular() ) { wp_enqueue_script( 'comment-reply' ); }
 	}
 }

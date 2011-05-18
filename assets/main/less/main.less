@@ -6,6 +6,7 @@
 @import "featured-posts";
 @import "article-excerpt";
 @import "callouts";
+@import "post-teasers";
 
 .pagination .previous {
 	float: left;
@@ -13,15 +14,21 @@
 .pagination .next {
 	float: right;
 }
-.home .section-title {
+.home .section-title,
+.single .subtitle {
 	background: url(../img/border-background.png) 0 bottom repeat-x;
 	color: #000;
 	font: italic bold 16px Georgia, Serif;
 	margin-bottom: 27px;
 }
-.home .section-title span {
+.home .section-title span,
+.single .subtitle span {
 	background: #fff;
 	padding-right: 3px;
 	position: relative;
 	top: 4px;
+}
+
+.single .title {
+	
 }

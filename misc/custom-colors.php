@@ -10,9 +10,9 @@
 	/* Color 1 */
 	/* Background Color */
 	#header.color1,
-	.featured-posts .control-panel a,
+	.featured-posts .control-panel .color1 a,
 	.widget .tab-active {
-		background: <?php echo $color1; ?>;
+		background-color: <?php echo $color1; ?>;
 	}
 
 	/* Border Color */
@@ -25,10 +25,11 @@
 
 	/* Color 2 */
 	#site-nav .color2 li {
-		background: <?php echo $color2; ?>;
+		background-color: <?php echo $color2; ?>;
 	}
 
-	/* Link Color */
+	/* Text Color */
+	.featured-posts .control-panel .color1,
 	a {
 		color: <?php echo $color3; ?>;
 	}

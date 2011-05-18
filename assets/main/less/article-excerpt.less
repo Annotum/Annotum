@@ -17,9 +17,22 @@
 	padding: 0 2px;
 }
 .article-excerpt .has-featured-image .body {
+	/**
+	 * @workaround min-height Fast Hack
+	 *
+	 * IE6 doesn't support min-height, but treats elements with
+	 * height and overflow:visible as min-height.
+	 *
+	 * @affected IE5, IE6
+	 * @see http://www.dustindiaz.com/min-height-fast-hack/
+	 */
+	height: auto !important;
+	height: 122px;
 	min-height: 122px;
+		
 	position: relative;
 	padding-left: 155px;
+	zoom: 1;
 }
 .article-excerpt .has-featured-image img {
 	left: 0;

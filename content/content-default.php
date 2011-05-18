@@ -16,6 +16,9 @@ if (CFCT_DEBUG) { cfct_banner(__FILE__); }
 <article <?php post_class('article clearfix'); ?>>
 	<?php cfct_template_file('content', 'header'); ?>
 	<div class="content">
+		<?php if (has_post_thumbnail()): ?>
+			<a href="<?php the_permalink(); ?>"><?php the_post_thumbnail('post-excerpt'); ?></a>
+		<?php endif; ?>
 		<?php
 		the_content();
 		wp_link_pages();

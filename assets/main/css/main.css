@@ -376,6 +376,7 @@ Act 3: Footer
 #header .header-body {
   height: 86px;
   position: relative;
+  zoom: 1;
 }
 #header a {
   color: #fff;
@@ -383,11 +384,15 @@ Act 3: Footer
 #main {
   padding-top: 35px;
 }
-#main-body {
+#main-body, #masthead-body {
+  float: left;
+  overflow: hidden;
   padding-right: 15px;
   width: 630px;
 }
-#main-sidebar {
+#main-sidebar, #masthead-sidebar {
+  float: left;
+  overflow: hidden;
   padding-left: 15px;
   width: 300px;
 }
@@ -429,7 +434,7 @@ Act 3: Footer
   line-height: 20px;
   padding: 7px 10px;
 }
-#secondary-nav {
+#secondary-nav .nav {
   bottom: 13px;
   position: absolute;
   right: 0;
@@ -443,6 +448,9 @@ Act 3: Footer
   background: none;
   margin-left: 0;
   padding-left: 0;
+}
+#masthead {
+  padding: 35px 0;
 }
 /* Re-usable features */
 form.search {
@@ -514,7 +522,7 @@ form.search .type-submit {
   color: #fff;
   font: italic bold 24px Georgia, Serif;
   margin-bottom: 6px;
-  text-shadow: 0 1px 1px #2d7092;
+  text-shadow: 0 1px 1px rgba(51, 51, 51, 0.6);
 }
 .featured-posts .carousel-item .content {
   font-size: 14px;
@@ -533,7 +541,20 @@ form.search .type-submit {
   text-transform: uppercase;
 }
 .featured-posts .control-panel .previous, .featured-posts .control-panel .next {
-  background: url(../img/sprite-y.8bit.png) 0 100px no-repeat;
+  -moz-border-radius: 10px;
+  /* FF1+ */
+
+  -webkit-border-radius: 10px;
+  /* Saf3+, Chrome */
+
+  -khtml-border-radius: 10px;
+  /* Konqueror */
+
+  border-radius: 10px;
+  /* Standard. IE9 */
+
+  background-image: url(../img/sprite-y.24bit.png);
+  background-repeat: no-repeat;
   display: inline-block;
   height: 20px;
   position: absolute;
@@ -541,11 +562,11 @@ form.search .type-submit {
   width: 20px;
 }
 .featured-posts .control-panel .previous {
-  background-position: 0 -200px;
+  background-position: 7px 6px;
   right: 27px;
 }
 .featured-posts .control-panel .next {
-  background-position: right -200px;
+  background-position: 8px -94px;
   right: 0;
 }
 .article-excerpt {
@@ -567,9 +588,22 @@ form.search .type-submit {
   padding: 0 2px;
 }
 .article-excerpt .has-featured-image .body {
+  /**
+	 * @workaround min-height Fast Hack
+	 *
+	 * IE6 doesn't support min-height, but treats elements with
+	 * height and overflow:visible as min-height.
+	 *
+	 * @affected IE5, IE6
+	 * @see http://www.dustindiaz.com/min-height-fast-hack/
+	 */
+
+  height: auto !important;
+  height: 122px;
   min-height: 122px;
   position: relative;
   padding-left: 155px;
+  zoom: 1;
 }
 .article-excerpt .has-featured-image img {
   left: 0;
@@ -611,19 +645,45 @@ form.search .type-submit {
   font-size: 14px;
   line-height: 1.43;
 }
+.post-teasers ul {
+  margin: 0;
+  padding: 0;
+}
+.post-teasers li {
+  list-style: none;
+  margin: 0 0 1px;
+  padding: 0;
+}
+.post-teaser-item {
+  background: #66A6BF;
+  height: 67px;
+  overflow: hidden;
+  padding: 10px 10px 10px 113px;
+  position: relative;
+}
+.post-teaser-item img {
+  left: 4px;
+  position: absolute;
+  top: 4px;
+}
+.post-teaser-item .content {
+  color: #fff;
+  font: italic bold 15px/1.47 Georgia, Serif;
+  text-shadow: rgba(51, 51, 51, 0.6) 0 1px 0;
+}
 .pagination .previous {
   float: left;
 }
 .pagination .next {
   float: right;
 }
-.home .section-title {
+.home .section-title, .single .subtitle {
   background: url(../img/border-background.png) 0 bottom repeat-x;
   color: #000;
   font: italic bold 16px Georgia, Serif;
   margin-bottom: 27px;
 }
-.home .section-title span {
+.home .section-title span, .single .subtitle span {
   background: #fff;
   padding-right: 3px;
   position: relative;
