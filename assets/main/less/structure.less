@@ -9,6 +9,7 @@ Act 3: Footer
 	
 	margin-left: auto;
 	margin-right: auto;
+	position: relative;
 	width: 960px;
 }
 
@@ -18,11 +19,15 @@ Act 3: Footer
 	background: #006b94;
 	color: #fff;
 }
+#header .header-body {
+	height: 86px;
+	position: relative;
+}
 #header a {
 	color: #fff;
 }
 #main {
-	padding: 35px 0 47px;
+	padding-top: 35px;
 }
 #main-body {
 	padding-right: 15px;
@@ -36,6 +41,7 @@ Act 3: Footer
 	font-size: 36px;
 	font-weight: normal;
 	line-height: 1.2;
+	padding: 36px 0 7px 0;
 	text-shadow: rgba(0, 0, 0, .8) 0 1px 0;
 }
 #site-nav {
@@ -46,13 +52,43 @@ Act 3: Footer
 #site-nav .nav {
 	float: left;
 }
+#site-nav li {
+	color: #66A6BF;
+}
+#site-nav li ul {
+	display: none;
+	position: absolute;
+	z-index: 1000;
+}
+#site-nav li li {
+	float: none;
+}
+#site-nav li li a {
+	background: #66A6BF;
+	border: none;
+}
+#site-nav li:hover ul {
+	display: block;
+}
 #site-nav a {
 	border-right: 1px solid #006b94;
 	line-height: 20px;
 	padding: 7px 10px;
 }
 
+#secondary-nav {
+	bottom: 13px;
+	position: absolute;
+	right: 0;
+}
 #secondary-nav li {
-	background: url(../img/sprite-y.8bit.png) 0 -2px scroll top left;
-	margin-left: 10px;
+	background: url(../img/sprite-y.8bit.png) 0 7px no-repeat;
+	margin-left: 8px;
+	padding-left: 9px;
+}
+#secondary-nav li:first-child,
+#secondary-nav li.first-child {
+	background: none;
+	margin-left: 0;
+	padding-left: 0;
 }

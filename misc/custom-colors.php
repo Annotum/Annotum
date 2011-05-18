@@ -6,6 +6,8 @@
 ?>
 <style type="text/css" media="screen">
 
+ 
+	/* Color 1 */
 	/* Background Color */
 	#header.color1,
 	.featured-posts .control-panel a,
@@ -20,6 +22,11 @@
 		border-color: <?php echo $color1; ?>;
 	}
 
+
+	/* Color 2 */
+	#site-nav .color2 li {
+		background: <?php echo $color2; ?>;
+	}
 
 	/* Link Color */
 	a {

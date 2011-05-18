@@ -1,6 +1,6 @@
 <div class="callouts">
 	<ul class="clearfix">
-		<li>
+		<li class="first-child">
 			<section class="callout-item">
 				<div class="callout-item-interior color1">
 					<h1 class="title"><a href="#">Callout Title</a></h1>
