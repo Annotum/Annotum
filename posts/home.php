@@ -15,7 +15,12 @@ if (CFCT_DEBUG) { cfct_banner(__FILE__); }
 get_header();
 ?>
 <div id="main-body" class="clearfix">
-	<?php echo '<div id="content">', cfct_loop(), '</div>'; ?> 
+	<?php cfct_misc('callouts'); ?>
+	<h1 class="section-title"><span>Recent Posts</span></h1>
+	<?php echo '<div id="content">';
+	cfct_loop();
+	cfct_misc('nav-posts');
+	echo '</div>'; ?> 
 </div><!-- #main-content -->
 <div id="main-sidebar" class="clearfix">
 	<?php get_sidebar(); ?>

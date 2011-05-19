@@ -10,7 +10,7 @@
  * http://www.opensource.org/licenses/gpl-license.php
  */
 ?>
-<div class="pagination">
-	<span class="previous"><?php previous_posts_link(__('&laquo; Previous', 'anno')) ?></span>
-	<span class="next"><?php next_posts_link(__('Next &raquo;', 'anno')) ?></span>
+<div class="pagination clearfix">
+	<span class="previous"><?php previous_posts_link(__('&laquo; Newer', 'anno')) ?></span>
+	<span class="next"><?php next_posts_link(__('Older &raquo;', 'anno')) ?></span>
 </div>

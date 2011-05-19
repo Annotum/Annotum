@@ -21,18 +21,31 @@ if (CFCT_DEBUG) { cfct_banner(__FILE__); }
 	<title><?php wp_title( '-', true, 'right' ); echo esc_html( get_bloginfo('name') ); ?></title>
 
 	<?php wp_head(); ?>
+	<?php cfct_misc('custom-colors'); ?>
 </head>
 
 <body <?php body_class(); ?>>
 <header id="header" class="act">
 	<div class="in">
-		<h1 id="site-name"><a href="<?php bloginfo('url') ?>/" title="Home" rel="home"><?php bloginfo('name') ?></a></h1>
-		
+		<div class="header-body">
+			<h1 id="site-name"><a href="<?php bloginfo('url') ?>/" title="Home" rel="home"><?php bloginfo('name') ?></a></h1>
+			<nav id="secondary-nav" class="clearfix">
+			<?php
+			$args = array(
+				'theme_location' => 'secondary',
+				'container' => false,
+			);
+			wp_nav_menu($args);
+			?>
+			</nav>			
+		</div>
+
 		<nav id="site-nav" class="clearfix">
 		<?php
 		$args = array(
 			'theme_location' => 'main',
-			'container' => false
+			'container' => false,
+			'menu_class' => 'nav color1 color2'
 		);
 		wp_nav_menu($args);
 		cfct_form('search');

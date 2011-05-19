@@ -27,6 +27,7 @@ include_once(CFCT_PATH.'plugins/load.php');
 function anno_setup() {
 	add_theme_support('automatic-feed-links');
 	add_theme_support( 'post-thumbnails', array( 'post' ) );
+	add_image_size( 'post-excerpt', 140, 120, true);
 	
 	$menus = array(
 		'main' => 'Main Menu (Header)',
@@ -88,5 +89,14 @@ function anno_wp_nav_menu_args($args) {
 	return $args;
 }
 add_filter('wp_nav_menu_args', 'anno_wp_nav_menu_args');
+
+function anno_post_class($classes, $class) {
+	if (has_post_thumbnail()) {
+		$classes[] = 'has-featured-image';
+	}
+	
+	return $classes;
+}
+add_filter('post_class', 'anno_post_class', 10, 2);
 
 ?>
