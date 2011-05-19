@@ -143,7 +143,7 @@ html {
 * Font normalization inspired by YUI Library's fonts.css: developer.yahoo.com/yui/
 */
 body {
-  font: 13px/1.231 Arial, Helvetica, sans-serif;
+  font: 14px/1.43 Arial, Helvetica, sans-serif;
 }
 /* Accessible focus treatment: people.opera.com/patrickl/experiments/keyboard/test */
 a:hover, a:active {
@@ -610,6 +610,63 @@ form.search .type-submit {
   position: absolute;
   top: 2px;
 }
+.article .header {
+  margin-bottom: 18px;
+}
+.article .header .title {
+  color: #000;
+  font: bold 28px Georgia, Serif;
+  margin-bottom: 5px;
+}
+.article .header .meta {
+  color: #666;
+  font: italic 13px Georgia, Serif;
+}
+.article .article-section {
+  margin-bottom: 24px;
+}
+.article .article-section .subtitle {
+  font-size: 14px;
+  font-weight: bold;
+}
+.article .article-section .content {
+  margin-left: 15px;
+  margin-right: 15px;
+}
+.article .content p, .article .content .supplement {
+  margin-bottom: 1em;
+}
+/* Supplement Styles */
+.article .supplement {
+  background: #f6f6f6;
+  border-bottom: #dadada solid 1px;
+  border-top: #dadada solid 1px;
+  margin-left: 15px;
+  margin-right: 15px;
+  position: relative;
+}
+.article .figure {
+  /**
+	 * @workaround min-height Fast Hack
+	 *
+	 * IE6 doesn't support min-height, but treats elements with
+	 * height and overflow:visible as min-height.
+	 *
+	 * @affected IE5, IE6
+	 * @see http://www.dustindiaz.com/min-height-fast-hack/
+	 */
+
+  height: auto !important;
+  height: 120px;
+  min-height: 120px;
+  padding: 12px 12px 12px 175px;
+  position: relative;
+}
+.article .figure img {
+  left: 12px;
+  position: absolute;
+  top: 12px;
+}
 .callouts {
   margin-bottom: 30px;
 }
@@ -671,19 +728,152 @@ form.search .type-submit {
   font: italic bold 15px/1.47 Georgia, Serif;
   text-shadow: rgba(51, 51, 51, 0.6) 0 1px 0;
 }
+.tools-bar {
+  margin-bottom: 25px;
+  padding: 17px 12px;
+}
+.tools-bar .cell {
+  float: left;
+}
+#selector {
+  width: 100px;
+  height: 700px;
+}
+.tools-bar .print {
+  margin-right: 50px;
+}
+.tools-bar .print a {
+  background: url(../img/sprite-y.24bit.png) 0 -200px no-repeat;
+  padding-left: 19px;
+}
+.tools-bar .download label {
+  background: url(../img/sprite-y.24bit.png) 0 -300px no-repeat;
+  padding-left: 17px;
+}
+.tools-bar .share {
+  float: right;
+}
+.social-nav li {
+  margin-left: 6px;
+}
+.reply-list {
+  border-bottom: 1px #ccc solid;
+  margin: 0 0 18px;
+  padding: 0;
+}
+.reply-list li {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.reply-list .comment {
+  border-top: 1px #ccc solid;
+  margin-bottom: 15px;
+  padding: 14px 0 0 180px;
+  position: relative;
+}
+.reply-list .children .li-comment {
+  padding-left: 40px;
+}
+.reply-list .comment .header {
+  /**
+	 * @workaround min-height Fast Hack
+	 *
+	 * IE6 doesn't support min-height, but treats elements with
+	 * height and overflow:visible as min-height.
+	 *
+	 * @affected IE5, IE6
+	 * @see http://www.dustindiaz.com/min-height-fast-hack/
+	 */
+
+  height: auto !important;
+  height: 38px;
+  min-height: 38px;
+  left: 0;
+  padding: 0 0 0 46px;
+  position: absolute;
+  top: 14px;
+  width: 134px;
+}
+.reply-list .comment .header img {
+  left: 0;
+  position: absolute;
+  top: 0;
+}
+.reply-list .comment .header .title, .reply-list .comment .header time {
+  font: normal 13px Arial, Helvetica, Sans-Serif;
+  margin: 0;
+}
+.reply-list .comment .header .title {
+  margin: 0;
+}
+.reply-list .comment .content {
+  font-size: 13px;
+  line-height: 1.38;
+}
+.reply-list .comment .footer {
+  font-size: 12px;
+}
+.comments-form {
+  color: #666;
+  width: 627px;
+}
+.comments-form .logged-in {
+  margin-bottom: 1em;
+}
+.comments-form .input-row {
+  display: inline-block;
+  margin-bottom: 10px;
+  padding-left: 180px;
+  position: relative;
+}
+.comments-form .input-row-submit {
+  background: none;
+}
+.comments-form .input-row label {
+  font-size: 14px;
+  left: 0;
+  padding: 5px 0 5px 8px;
+  position: absolute;
+  top: 0;
+  width: 172px;
+}
+.comments-form .input-row .text, .comments-form .input-row textarea {
+  background: #fff;
+  border: 1px #999 solid;
+  font-size: 14px;
+  padding: 6px;
+}
+.comments-form .input-row .text {
+  width: 206px;
+}
+.comments-form .input-row textarea {
+  display: block;
+  width: 433px;
+}
+.comments-form button {
+  border: 0;
+  color: #fff;
+  font-size: 16px;
+  font-weight: bold;
+  height: 31px;
+}
 .pagination .previous {
   float: left;
 }
 .pagination .next {
   float: right;
 }
-.home .section-title, .single .subtitle {
+.section-title {
   background: url(../img/border-background.png) 0 bottom repeat-x;
   color: #000;
   font: italic bold 16px Georgia, Serif;
+  margin-bottom: 15px;
+}
+.home .section-title {
   margin-bottom: 27px;
 }
-.home .section-title span, .single .subtitle span {
+.section-title span {
   background: #fff;
   padding-right: 3px;
   position: relative;

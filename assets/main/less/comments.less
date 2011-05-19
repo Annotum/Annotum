@@ -1,0 +1,110 @@
+.reply-list {
+	border-bottom: 1px #ccc solid;
+	margin: 0 0 18px;
+	padding: 0;
+}
+.reply-list li {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+}
+
+.reply-list .comment {
+	border-top: 1px #ccc solid;
+	margin-bottom: 15px;
+	padding: 14px 0 0 180px;
+	position: relative;
+}
+.reply-list .children .li-comment {
+	padding-left: 40px;
+}
+.reply-list .comment .header {
+	/**
+	 * @workaround min-height Fast Hack
+	 *
+	 * IE6 doesn't support min-height, but treats elements with
+	 * height and overflow:visible as min-height.
+	 *
+	 * @affected IE5, IE6
+	 * @see http://www.dustindiaz.com/min-height-fast-hack/
+	 */
+	height: auto !important;
+	height: 38px;
+	min-height: 38px;
+	
+	left: 0;
+	padding: 0 0 0 46px;
+	position: absolute;
+	top: 14px;
+	width: 134px;
+}
+
+.reply-list .comment .header img {
+	left: 0;
+	position: absolute;
+	top: 0;
+}
+.reply-list .comment .header .title,
+.reply-list .comment .header time {
+	font: normal 13px Arial, Helvetica, Sans-Serif;
+	margin: 0;
+}
+.reply-list .comment .header .title {
+	margin: 0;
+}
+.reply-list .comment .content {
+	font-size: 13px;
+	line-height: 1.38;
+}
+
+.reply-list .comment .footer {
+	font-size: 12px;
+}
+
+
+
+.comments-form {
+	color: #666;
+	width: 627px;
+}
+.comments-form .logged-in {
+	margin-bottom: 1em;
+}
+.comments-form .input-row {
+	display: inline-block;
+	margin-bottom: 10px;
+	padding-left: 180px;
+	position: relative;
+}
+.comments-form .input-row-submit {
+	background: none;
+}
+.comments-form .input-row label {
+	font-size: 14px;
+	left: 0;
+	padding: 5px 0 5px 8px;
+	position: absolute;
+	top: 0;
+	width: 172px;
+}
+.comments-form .input-row .text,
+.comments-form .input-row textarea {
+	background: #fff;
+	border: 1px #999 solid;
+	font-size: 14px;
+	padding: 6px;
+}
+.comments-form .input-row .text {
+	width: 206px;
+}
+.comments-form .input-row textarea {
+	display: block;
+	width: 433px;
+}
+.comments-form button {
+	border: 0;
+	color: #fff;
+	font-size: 16px;
+	font-weight: bold;
+	height: 31px;
+}

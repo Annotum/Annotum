@@ -15,8 +15,9 @@ if (CFCT_DEBUG) { cfct_banner(__FILE__); }
 get_header();
 ?>
 <div id="main-body" class="clearfix">
-	<h1 class="title"><span>Recent Posts</span></h1>
-	<?php echo '<div id="content">';
+	<?php 
+	
+	echo '<div id="content">';
 	cfct_loop();
 	comments_template();
 	echo '</div>'; ?> 

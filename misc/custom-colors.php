@@ -11,7 +11,8 @@
 	/* Background Color */
 	#header.color1,
 	.featured-posts .control-panel .color1 a,
-	.widget .tab-active {
+	.widget .tab-active,
+	.comments-form button {
 		background-color: <?php echo $color1; ?>;
 	}
 

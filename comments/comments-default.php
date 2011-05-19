@@ -17,7 +17,7 @@ global $post, $wp_query, $comments, $comment;
 if (comments_open()) {
 	if (!post_password_required() && have_comments() ) {
 		?>
-		<h2 id="comments"><?php comments_number('', __('One Response', 'anno'), __('% Responses', 'anno')); ?></h2>
+		<h2 class="section-title" id="comments"><?php comments_number('', __('1 Comment', 'anno'), __('% Comments', 'anno')); ?></h2>
 		<?php
 		echo '<ol class="reply-list">', wp_list_comments('callback=cfct_threaded_comment'), '</ol>';
 			
