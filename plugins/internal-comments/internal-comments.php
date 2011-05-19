@@ -4,7 +4,7 @@ global $anno_review_options;
 $anno_review_options = array(
 	0 => '',
 	1 => __('Approve', 'anno'),
-	2 => __('Request Revisions', 'anno'),
+	2 => __('Revisions', 'anno'),
 	3 => __('Reject', 'anno'),
 );
 
@@ -15,7 +15,7 @@ function anno_add_meta_boxes() {
 	if (anno_user_can('view_general_comments')) {
 		add_meta_box('general-comment', __('Internal Comments: General', 'anno'), 'anno_internal_comments_general_comments', 'article', 'normal');
 	}
-	if (anno_user_can('view_reviewer_comments')) {
+	if (anno_user_can('view_review_comments')) {
 		add_meta_box('reviewer-comment', __('Internal Comments: Reviews', 'anno'), 'anno_internal_comments_reviewer_comments', 'article', 'normal');
 	}
 }
@@ -59,7 +59,7 @@ function anno_internal_comments_display($type) {
 	}
 	if (anno_user_can('manage_'.$type.'_comment')) {
 		anno_internal_comments_form($type);
-	}2
+	}
 ?>
 	</tbody>
 </table>
@@ -159,8 +159,8 @@ function anno_internal_comments_reviewer_comments() {
 	global $anno_review_options, $current_user, $post;
 	$round = anno_get_round($post->ID);
 	$user_review = get_user_meta($current_user->ID, '_'.$post->ID.'_review_'.$round, true);
-
-	if (anno_role() == 'reviewer') {
+	$reviewers = anno_get_post_users($post->ID, '_reviewers');
+	if (in_array($current_user->ID, $reviewers)) {
 ?>
 <div class="review-section">
 	<label for="anno-review"><?php _e('Leave a Review: ', 'anno'); ?></label>

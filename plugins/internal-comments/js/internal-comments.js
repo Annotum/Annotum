@@ -24,7 +24,7 @@ jQuery(document).ready(function($) {
 
 		$('#anno-internal-comment-' + type + '-form').insertAfter('#comment-' + comment_id);
 		$('#anno-internal-comment-' + type + '-form input.parent-id').val(comment_id);
-		$('table.anno-comments .anno-cancel').show();
+		$('#anno-internal-comment-' + type + '-form .anno-cancel').show();
 		return false;
 	});
 	

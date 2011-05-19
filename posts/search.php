@@ -30,7 +30,7 @@ else {
 <?php
 echo '<div id="content">';
 cfct_loop();
-cfct_misc('nav-posts');
+cfct_misc('nav-posts-search');
 echo '</div>';
 
 get_sidebar();
