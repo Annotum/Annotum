@@ -786,26 +786,42 @@ form.search .type-submit {
 .social-nav li {
   margin-left: 6px;
 }
-.reply-list {
+#comments-container {
+  margin-bottom: 22px;
+}
+#comments-container .section-title {
+  background: none;
+  margin-bottom: 6px;
+}
+#comments-container .reply-list {
   border-bottom: 1px #ccc solid;
   margin: 0 0 18px;
   padding: 0;
 }
-.reply-list li {
+#comments-container .reply-list li {
   list-style: none;
   margin: 0;
   padding: 0;
 }
-.reply-list .comment {
+#comments-container .reply-list .comment, #comments-container .reply-list .ping {
   border-top: 1px #ccc solid;
+  padding: 14px 0;
+}
+#comments-container .reply-list .comment {
   margin-bottom: 15px;
-  padding: 14px 0 0 180px;
+  padding-left: 180px;
   position: relative;
 }
-.reply-list .children .li-comment {
+#comments-container .reply-list .comment ul li {
+  list-style-type: disc;
+}
+#comments-container .reply-list .comment ol li {
+  list-style-type: decimal;
+}
+#comments-container .reply-list .children .li-comment {
   padding-left: 40px;
 }
-.reply-list .comment .header {
+#comments-container .reply-list .comment .header {
   /**
 	 * @workaround min-height Fast Hack
 	 *
@@ -825,42 +841,46 @@ form.search .type-submit {
   top: 14px;
   width: 134px;
 }
-.reply-list .comment .header img {
+#comments-container .reply-list .comment .header img {
   left: 0;
   position: absolute;
   top: 0;
 }
-.reply-list .comment .header .title, .reply-list .comment .header time {
+#comments-container .reply-list .comment .header .title, #comments-container .reply-list .comment .header time {
   font: normal 13px Arial, Helvetica, Sans-Serif;
   margin: 0;
 }
-.reply-list .comment .header .title {
+#comments-container .reply-list .comment .header .title {
   margin: 0;
 }
-.reply-list .comment .content {
+#comments-container .reply-list .comment .content {
   font-size: 13px;
   line-height: 1.38;
 }
-.reply-list .comment .footer {
+#comments-container .reply-list .comment .footer {
   font-size: 12px;
 }
-.comments-form {
+#reply {
   color: #666;
   width: 627px;
 }
-.comments-form .logged-in {
+#reply .section-title {
+  background: none;
+  margin-bottom: 16px;
+}
+#reply .logged-in {
   margin-bottom: 1em;
 }
-.comments-form .input-row {
+#reply .input-row {
   display: inline-block;
   margin-bottom: 10px;
   padding-left: 180px;
   position: relative;
 }
-.comments-form .input-row-submit {
+#reply .input-row-submit {
   background: none;
 }
-.comments-form .input-row label {
+#reply .input-row label {
   font-size: 14px;
   left: 0;
   padding: 5px 0 5px 8px;
@@ -868,20 +888,20 @@ form.search .type-submit {
   top: 0;
   width: 172px;
 }
-.comments-form .input-row .text, .comments-form .input-row textarea {
+#reply .input-row .text, #reply .input-row textarea {
   background: #fff;
   border: 1px #999 solid;
   font-size: 14px;
   padding: 6px;
 }
-.comments-form .input-row .text {
+#reply .input-row .text {
   width: 206px;
 }
-.comments-form .input-row textarea {
+#reply .input-row textarea {
   display: block;
   width: 433px;
 }
-.comments-form button {
+#reply button {
   border: 0;
   color: #fff;
   font-size: 16px;
@@ -924,8 +944,37 @@ form.search .type-submit {
   top: 4px;
 }
 /* Content Styles */
-.content p, .content ul, .content ol {
+.content p,
+.content ul,
+.content ol,
+.content pre,
+.content blockquote,
+.content dl,
+.content address,
+.content table {
   margin-bottom: 1em;
+}
+.content blockquote {
+  margin-top: 1em;
+}
+.content th {
+  text-align: left;
+}
+.content th, .content td {
+  padding-right: 5px;
+}
+.content dt {
+  font-style: italic;
+  font-weight: bold;
+}
+.content dd {
+  margin-bottom: .75em;
+}
+.content ul ul,
+.content ol ol,
+.content ul ol,
+.content ol ul {
+  margin-bottom: 0;
 }
 .content h1 {
   font-size: 22px;
@@ -939,12 +988,32 @@ form.search .type-submit {
 .content h4, .content h5, .content h6 {
   font-size: 14px;
 }
-.content ul, .content ol {
+.content h1 {
+  margin-bottom: 1em;
+}
+.content h2 {
+  margin-bottom: .75em;
+}
+.content h3 {
+  margin-bottom: .5em;
+}
+.content h4 {
+  margin-bottom: .25em;
+}
+.content ul, .content ol, .content pre {
   margin-left: 2em;
 }
-.content ul {
-  list-style-type: disc;
+.content ul li {
+  list-style: disc;
 }
 .content ol {
-  list-style-type: decimal;
+  list-style: decimal;
+}
+.content blockquote {
+  font: italic normal 18px/1.2 Georgia Serif;
+  margin-left: 2em;
+  margin-right: 2em;
+}
+.content blockquote cite {
+  font-weight: bold;
 }

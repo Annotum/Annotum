@@ -36,7 +36,7 @@ if (comments_open()) {
 	}
 	else { 
 ?>
-<div class="comments-form">
+<section id="reply">
 	
 	<form id="comments-form" action="<?php echo trailingslashit(get_bloginfo('wpurl')); ?>wp-comments-post.php" method="post">
 		<h2 class="section-title">Leave A Comment</h2>
@@ -80,7 +80,7 @@ if (comments_open()) {
 			?>
 		</div>
 	</form>
-</div><!-- .comments-form -->
+</section><!-- #reply -->
 <?php 
 	} // If registration required and not logged in 
 } // If you delete this the sky will fall on your head

@@ -18,7 +18,7 @@
 		#header,
 		.featured-posts .control-panel a,
 		.widget .tab-active,
-		.comments-form button,
+		#reply button,
 		.tools-nav li a {
 			background-color: <?php echo $color1; ?>;
 		}

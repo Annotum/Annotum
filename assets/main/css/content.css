@@ -20,7 +20,14 @@
   top: 4px;
 }
 /* Content Styles */
-.content p, .content ul, .content ol {
+.content p,
+.content ul,
+.content ol,
+.content pre,
+.content code,
+.content blockquote,
+.content dl,
+.content table {
   margin-bottom: 1em;
 }
 .content h1 {
@@ -43,4 +50,9 @@
 }
 .content ol {
   list-style-type: decimal;
+}
+.content blockquote {
+  font: italic normal 14px Georgia Serif;
+  margin-left: 2em;
+  margin-right: 2em;
 }
