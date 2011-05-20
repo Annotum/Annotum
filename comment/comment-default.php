@@ -17,28 +17,21 @@ global $comment, $post;
 extract($data);
 ?>
 <article <?php comment_class('article'); ?> id="comment-<?php comment_ID(); ?>">
-	<header class="header">
-		<?php
-		echo get_avatar($comment, 54);
-
-		?>
-		<p>
-			<?php comment_author_link(); ?> on <?php comment_date(); ?>
-		</p>
-	</header>
-	<div class="content">
-		<?php
-		if ($comment->comment_approved == '0') {
-			echo '<p>' . __('Your comment is awaiting moderation.', 'anno') . '</p>';
-		}
-		comment_text();
-		?>
+	<?php if ($comment->comment_approved == '0') {
+		_e('Your comment is awaiting moderation.', 'discovery-education');
+	} ?>
+	<div class="header">
+		<?php echo get_avatar($comment, 40); ?>
+		<h3 class="title"><?php comment_author_link(); ?></h3>
+		<time><?php comment_date(); ?><time>
 	</div>
-	<footer class="footer">
-		<?php
-		comment_reply_link(array_merge( $args, array('depth' => $depth, 'max_depth' => $args['max_depth'])), $comment, $post);
-		echo ' &bull; ';
-		edit_comment_link(__('Edit This', 'anno'), '', '');
+	<div class="content">
+			<?php comment_text(); ?>
+	</div><!-- .content -->
+	<div class="footer">
+		<?php 
+			comment_reply_link(array_merge( $args, array('depth' => $depth, 'max_depth' => $args['max_depth'])), $comment, $post); 
+			edit_comment_link(__('Edit This', 'discovery-education'), ' <span class="delimiter">&middot;</span> ', ''); 
 		?>
-	</footer>
+	</div><!-- .footer -->
 </article>

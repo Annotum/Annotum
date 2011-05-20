@@ -36,10 +36,12 @@
 	top: 18px;
 }
 .featured-posts .carousel-item .title {
-	color: #fff;
 	font: italic bold 24px Georgia, Serif;
 	margin-bottom: 6px;
-	text-shadow: 0 1px 1px #2d7092;
+}
+.featured-posts .carousel-item .title a {
+	color: #fff;
+	text-shadow: 0 1px 1px rgba(51, 51, 51, .6);
 }
 .featured-posts .carousel-item .content {
 	font-size: 14px;
@@ -60,7 +62,13 @@
 
 .featured-posts .control-panel .previous,
 .featured-posts .control-panel .next {
-	background: url(../img/sprite-y.8bit.png) 0 100px no-repeat;	
+	-moz-border-radius: 10px; /* FF1+ */
+	-webkit-border-radius: 10px; /* Saf3+, Chrome */
+	-khtml-border-radius: 10px; /* Konqueror */
+	border-radius: 10px; /* Standard. IE9 */
+	
+	background-image: url(../img/sprite-y.24bit.png);	
+	background-repeat: no-repeat;
 	display: inline-block;
 	height: 20px;
 	position: absolute;
@@ -68,10 +76,10 @@
 	width: 20px;
 }
 .featured-posts .control-panel .previous {
-	background-position: 0 -200px;
+	background-position: 7px 6px;
 	right: 27px;
 }	
 .featured-posts .control-panel .next {
-	background-position: right -200px;
+	background-position: 8px -94px;
 	right: 0;
 }

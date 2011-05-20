@@ -22,6 +22,7 @@ Act 3: Footer
 #header .header-body {
 	height: 86px;
 	position: relative;
+	zoom: 1;
 }
 #header a {
 	color: #fff;
@@ -29,11 +30,17 @@ Act 3: Footer
 #main {
 	padding-top: 35px;
 }
-#main-body {
+#main-body,
+#masthead-body {
+	float: left;
+	overflow: hidden;
 	padding-right: 15px;
 	width: 630px;
 }
-#main-sidebar {
+#main-sidebar,
+#masthead-sidebar {
+	float: left;
+	overflow: hidden;
 	padding-left: 15px;
 	width: 300px;
 }
@@ -53,6 +60,7 @@ Act 3: Footer
 	float: left;
 }
 #site-nav li {
+	border-right: 1px solid #006b94;
 	color: #66A6BF;
 }
 #site-nav li ul {
@@ -61,22 +69,21 @@ Act 3: Footer
 	z-index: 1000;
 }
 #site-nav li li {
+	border: none;
 	float: none;
 }
 #site-nav li li a {
 	background: #66A6BF;
-	border: none;
 }
 #site-nav li:hover ul {
 	display: block;
 }
 #site-nav a {
-	border-right: 1px solid #006b94;
 	line-height: 20px;
 	padding: 7px 10px;
 }
 
-#secondary-nav {
+#secondary-nav .nav {
 	bottom: 13px;
 	position: absolute;
 	right: 0;
@@ -91,4 +98,8 @@ Act 3: Footer
 	background: none;
 	margin-left: 0;
 	padding-left: 0;
+}
+
+#masthead {
+	padding: 35px 0;
 }

@@ -45,12 +45,17 @@ if (CFCT_DEBUG) { cfct_banner(__FILE__); }
 		$args = array(
 			'theme_location' => 'main',
 			'container' => false,
-			'menu_class' => 'nav color1 color2'
+			'menu_class' => 'nav'
 		);
 		wp_nav_menu($args);
 		cfct_form('search');
 		?>
 		</nav>
+		<?php
+			if (is_home()) {
+				cfct_template_file('header', 'masthead');
+			}
+		?>
 	</div>
 </header>
 <div id="main" class="act">

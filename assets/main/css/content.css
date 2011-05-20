@@ -1,0 +1,58 @@
+.pagination .previous {
+  float: left;
+}
+.pagination .next {
+  float: right;
+}
+.section-title {
+  background: url(../img/border-background.png) 0 bottom repeat-x;
+  color: #000;
+  font: italic bold 16px Georgia, Serif;
+  margin-bottom: 15px;
+}
+.home .section-title {
+  margin-bottom: 27px;
+}
+.section-title span {
+  background: #fff;
+  padding-right: 3px;
+  position: relative;
+  top: 4px;
+}
+/* Content Styles */
+.content p,
+.content ul,
+.content ol,
+.content pre,
+.content code,
+.content blockquote,
+.content dl,
+.content table {
+  margin-bottom: 1em;
+}
+.content h1 {
+  font-size: 22px;
+}
+.content h2 {
+  font-size: 18px;
+}
+.content h3 {
+  font-size: 16px;
+}
+.content h4, .content h5, .content h6 {
+  font-size: 14px;
+}
+.content ul, .content ol {
+  margin-left: 2em;
+}
+.content ul {
+  list-style-type: disc;
+}
+.content ol {
+  list-style-type: decimal;
+}
+.content blockquote {
+  font: italic normal 14px Georgia Serif;
+  margin-left: 2em;
+  margin-right: 2em;
+}
