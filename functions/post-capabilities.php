@@ -13,7 +13,6 @@
  * @return bool True if user has the given capability for the given post
  */ 
 function anno_user_can($cap, $user_id = null, $post_id = null, $comment_id = null) {
-	error_log($post_id);
 	if (is_null($user_id)) {
 		global $current_user;
 		$user_id = $current_user->ID;
@@ -23,7 +22,7 @@ function anno_user_can($cap, $user_id = null, $post_id = null, $comment_id = nul
 		global $post;
 		$post_id = $post->ID;
 	}
-	$post_state = anno_get_post_state($post->ID);
+	$post_state = anno_get_post_state($post_id);
 
 	$user_role = anno_role($user_id, $post_id);
 	
@@ -112,7 +111,6 @@ function anno_user_can($cap, $user_id = null, $post_id = null, $comment_id = nul
 		case 'manage_reviewers':
 			// if in review state and user is editor+
 			if (in_array($user_role, array($admin, $editor)) && in_array($post_state, array('submitted', 'in_review'))) {
-				error_log('treu');
 				return true;
 			}
 			break;

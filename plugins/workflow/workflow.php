@@ -575,7 +575,6 @@ function anno_reviewers_meta_box() {
 		<div id="reviewer-add-error" class="anno-error"></div>
 <?php
 	$reviewers = anno_get_post_users($post->ID, '_reviewers');
-	error_log('test');
 	if (anno_user_can('manage_reviewers', null, $post->ID)) {
 ?>
 		<div class="user-input-wrap">
@@ -639,13 +638,21 @@ function anno_co_authors_meta_box() {
  */
 function anno_user_li_markup($user, $type = null) {		
 	$extra = '&nbsp;';
-	if ($type == 'reviewer') {
-		global $post, $anno_review_options;
-		$round = anno_get_round($post->ID);
-		$extra = $anno_review_options[intval(get_user_meta($user->ID, '_'.$post->ID.'_review_'.$round, true))].'&nbsp;';
+	global $post;
+	if (empty($post)) {
+		$post_id = $_POST['post_id'];
+	}
+	else {
+		$post_id = $post->ID;
+	}
+	
+	if ($type == 'reviewer' && anno_user_can('manage_'.$type.'s', null, $post_id)) {
+		global $anno_review_options;
+		$round = anno_get_round($post_id);
+		$extra = $anno_review_options[intval(get_user_meta($user->ID, '_'.$post_id.'_review_'.$round, true))].'&nbsp;';
 	}
 	$remove = '&nbsp;';
-	if (anno_user_can('manage_'.$type.'s', null, $post->ID)) {
+	if (anno_user_can('manage_'.$type.'s', null, $post_id)) {
 		$remove = '&nbsp;&middot;&nbsp;<a href="#" class="anno-user-remove">remove</a>';
 	}
 ?>
@@ -783,7 +790,6 @@ function anno_remove_user($type) {
  */ 
 function anno_get_post_state($post_id) {
 	$post_state = get_post_meta($post_id, '_post_state', true);
-	error_log($post_state);
 	if (!$post_state) {
 		$post = get_post($post_id);
 		if ($post) {
