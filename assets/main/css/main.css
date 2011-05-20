@@ -157,10 +157,8 @@ a:hover {
   text-decoration: underline;
 }
 ul, ol {
-  margin-left: 2em;
-}
-ol {
-  list-style-type: decimal;
+  margin: 0;
+  list-style-type: none;
 }
 /* Remove margins for navigation lists */
 nav ul, nav li {
@@ -412,6 +410,7 @@ Act 3: Footer
   float: left;
 }
 #site-nav li {
+  border-right: 1px solid #006b94;
   color: #66A6BF;
 }
 #site-nav li ul {
@@ -420,17 +419,16 @@ Act 3: Footer
   z-index: 1000;
 }
 #site-nav li li {
+  border: none;
   float: none;
 }
 #site-nav li li a {
   background: #66A6BF;
-  border: none;
 }
 #site-nav li:hover ul {
   display: block;
 }
 #site-nav a {
-  border-right: 1px solid #006b94;
   line-height: 20px;
   padding: 7px 10px;
 }
@@ -519,9 +517,11 @@ form.search .type-submit {
   top: 18px;
 }
 .featured-posts .carousel-item .title {
-  color: #fff;
   font: italic bold 24px Georgia, Serif;
   margin-bottom: 6px;
+}
+.featured-posts .carousel-item .title a {
+  color: #fff;
   text-shadow: 0 1px 1px rgba(51, 51, 51, 0.6);
 }
 .featured-posts .carousel-item .content {
@@ -686,8 +686,6 @@ form.search .type-submit {
 }
 .callout-item {
   background: #f0f0f0;
-}
-.callout-item-interior {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-top-style: solid;
@@ -724,8 +722,10 @@ form.search .type-submit {
   top: 4px;
 }
 .post-teaser-item .content {
-  color: #fff;
   font: italic bold 15px/1.47 Georgia, Serif;
+}
+.post-teaser-item .content a {
+  color: #fff;
   text-shadow: rgba(51, 51, 51, 0.6) 0 1px 0;
 }
 .tools-bar {
@@ -752,6 +752,36 @@ form.search .type-submit {
 }
 .tools-bar .share {
   float: right;
+}
+/* Tools Nav */
+.tools-nav {
+  left: 0;
+  position: absolute;
+  top: 0;
+}
+.tools-nav li {
+  display: block;
+  float: none;
+  margin-bottom: 1px;
+}
+#selector {
+  width: 100px;
+  height: 700px;
+}
+.tools-nav li a {
+  background: #006b94 url(../img/sprite-y.24bit.png) 0 100px no-repeat;
+  display: block;
+  height: 22px;
+  width: 22px;
+}
+.tools-nav li a.content {
+  background-position: 4px -394px;
+}
+.tools-nav li a.download {
+  background-position: 5px -596px;
+}
+.tools-nav li a.comments {
+  background-position: 5px -495px;
 }
 .social-nav li {
   margin-left: 6px;
@@ -858,6 +888,20 @@ form.search .type-submit {
   font-weight: bold;
   height: 31px;
 }
+#sidebar .widget {
+  background: #f0f0f0;
+  margin-bottom: 1px;
+  padding: 20px;
+}
+#sidebar .widget_text {
+  background: none;
+  padding: 0;
+}
+#sidebar .widget .title {
+  color: #000;
+  font: italic bold 14px Georgia, Serif;
+  margin-bottom: 10px;
+}
 .pagination .previous {
   float: left;
 }
@@ -878,4 +922,29 @@ form.search .type-submit {
   padding-right: 3px;
   position: relative;
   top: 4px;
+}
+/* Content Styles */
+.content p, .content ul, .content ol {
+  margin-bottom: 1em;
+}
+.content h1 {
+  font-size: 22px;
+}
+.content h2 {
+  font-size: 18px;
+}
+.content h3 {
+  font-size: 16px;
+}
+.content h4, .content h5, .content h6 {
+  font-size: 14px;
+}
+.content ul, .content ol {
+  margin-left: 2em;
+}
+.content ul {
+  list-style-type: disc;
+}
+.content ol {
+  list-style-type: decimal;
 }

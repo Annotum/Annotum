@@ -13,6 +13,7 @@ if (__FILE__ == $_SERVER['SCRIPT_FILENAME']) { die(); }
 if (CFCT_DEBUG) { cfct_banner(__FILE__); }
 
 ?>
+<?php cfct_misc('tools-nav'); ?>
 <article class="article">
 	<div  <?php post_class('clearfix'); ?>>
 		<?php 
@@ -43,8 +44,18 @@ if (CFCT_DEBUG) { cfct_banner(__FILE__); }
 				<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
 				<div class="supplement figure">
 					<img src="<?php bloginfo('template_url'); ?>/assets/main/img/example-article-figure.jpg" width="150" height="120" alt="Example Article Figure" />
-					<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+					<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>			
 				</div>
+				<ol>
+					<li>numbered</li>
+					<li>numbered</li>
+					<li>numbered</li>
+				</ol>
+				<ul>
+					<li>bullets</li>
+					<li>bullets</li>
+					<li>bullets</li>
+				</ul>
 			</div>
 		</section>
 		<section class="article-section supporting-information">

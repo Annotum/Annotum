@@ -45,7 +45,7 @@ if (CFCT_DEBUG) { cfct_banner(__FILE__); }
 		$args = array(
 			'theme_location' => 'main',
 			'container' => false,
-			'menu_class' => 'nav color1 color2'
+			'menu_class' => 'nav'
 		);
 		wp_nav_menu($args);
 		cfct_form('search');
