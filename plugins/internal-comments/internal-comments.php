@@ -293,11 +293,11 @@ function anno_internal_comments_ajax() {
 		$user_ID = $user->ID;
 	}
 	else {
-		die( __('Sorry, you must be logged in to reply to a comment.') );
+		die( __('Sorry, you must be logged in to reply to a comment.', 'anno') );
 	}
 	
 	if ( '' == $comment_content ) {
-		die( __('Error: please type a comment.') );
+		die( __('Error: please type a comment.', 'anno') );
 	}
 	
 	$comment_parent = absint($_POST['parent_id']);
@@ -390,28 +390,10 @@ function anno_internal_comments_get_comment_root($comment) {
 }
 
 //TODO Better implementation of below. Possible WP Core patch for hook in notify_author function
-
-/**
- * Set a global to be checked by anno_pre_option_comments_notify
- */ 
-function anno_insert_comment($id, $comment) {
-	global $anno_insert_comment;
-	$anno_insert_comment = $comment;
+function anno_internal_comments_query($query) {
+	$query = str_replace('WHERE', 'WHERE comment_type NOT IN (\'article_general\', \'article_review\')', $query);
+	return $query;
 }
-add_action('wp_insert_comment', 'anno_insert_comment', 10, 2);
-
-/**
- * Prevent sending of comment notifications on new posts if its an internal comment type.
- */ 
-function anno_pre_option_comments_notify($option) {
-	global $anno_insert_comment;
-	if ($anno_insert_comment && !in_array($anno_insert_comment->comment_type, array('article_general', 'article_reviewer'))) {
-		unset ($anno_insert_comment);
-		return 0;
-	}
-	return false;
-}
-add_filter('pre_option_comments_notify', 'anno_pre_option_comments_notify');
 
 
 ?>
