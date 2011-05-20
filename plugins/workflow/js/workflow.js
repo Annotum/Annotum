@@ -35,10 +35,14 @@ jQuery(document).ready( function($) {
 		}, 'json');
 	});
 	
-	$('.anno-user-remove').click(function() {
+	$('.anno-user-remove').live('click', function() {
 		var click = $(this);
+		var type = $(this).closest('ul').attr('data-type');
 		var user_id = $(this).closest('li').attr('id').replace('user-', '');
-		$.post(ajaxurl, {action: 'anno-remove-reviewer', user_id: user_id, post_id: ANNO_POST_ID}, function(d) {
+		var data = {action: 'anno-remove-' + type, user_id: user_id, post_id: ANNO_POST_ID};
+		data['_ajax_nonce-manage-' + type] = $('#_ajax_nonce-manage-' + type).val();
+		
+		$.post(ajaxurl, data, function(d) {
 			if (d.message == 'success') {
 				click.closest('li').fadeOut();
 			}

@@ -13,6 +13,7 @@
  * @return bool True if user has the given capability for the given post
  */ 
 function anno_user_can($cap, $user_id = null, $post_id = null, $comment_id = null) {
+	error_log($post_id);
 	if (is_null($user_id)) {
 		global $current_user;
 		$user_id = $current_user->ID;
@@ -22,10 +23,8 @@ function anno_user_can($cap, $user_id = null, $post_id = null, $comment_id = nul
 		global $post;
 		$post_id = $post->ID;
 	}
-	$post_state = get_post_meta($post_id, '_post_state', true);
-	if (empty($post_state)) {
-		$post_state = 'draft';
-	}
+	$post_state = anno_get_post_state($post->ID);
+
 	$user_role = anno_role($user_id, $post_id);
 	
 	// Number of times this item has gone back to draft state.
@@ -80,13 +79,13 @@ function anno_user_can($cap, $user_id = null, $post_id = null, $comment_id = nul
 				return true;
 			}
 			break;
-		case 'manage_reviewer_comment':
+		case 'manage_review_comment':
 			// if user is reviewer or editor+ and state is in review
 			if ($user_role && !in_array($user_role, array('author', 'co-author')) && $post_state == 'in_review') {
 				return true;
 			}
 			break;
-		case 'view_reviewer_comment':
+		case 'view_review_comment':
 			// if user is or editor+
 			if (in_array($user_role, array($admin, $editor))) {
 				return true;
@@ -97,7 +96,7 @@ function anno_user_can($cap, $user_id = null, $post_id = null, $comment_id = nul
 				return true;
 			}
 			break;
-		case 'view_reviewer_comments':
+		case 'view_review_comments':
 			//Reviewer or editor+
 			if ($user_role && !in_array($user_role, array('author', 'co-author'))) {
 				return true;
@@ -105,6 +104,7 @@ function anno_user_can($cap, $user_id = null, $post_id = null, $comment_id = nul
 			break;
 		case 'manage_co_authors':
 			// If in draft state and author or editor+
+
 			if ($user_role && !in_array($user_role, array('reviewer', 'co-author')) && $post_state == 'draft') {
 				return true;
 			}
@@ -112,6 +112,7 @@ function anno_user_can($cap, $user_id = null, $post_id = null, $comment_id = nul
 		case 'manage_reviewers':
 			// if in review state and user is editor+
 			if (in_array($user_role, array($admin, $editor)) && in_array($post_state, array('submitted', 'in_review'))) {
+				error_log('treu');
 				return true;
 			}
 			break;
@@ -249,7 +250,7 @@ function anno_get_post_users($post_id = null, $type) {
  * @param int $post_id ID of the post to add the user to. Loads from global if nothing is passed.
  * @return bool True if successfully added, false otherwise
  */ 
-function anno_add_post_user_to_post($type, $user_id, $post_id = null) {
+function anno_add_user_to_post($type, $user_id, $post_id = null) {
 	$type = str_replace('-', '_', $type);
 	if ($type == 'reviewers' || $type == 'co_authors') {
 		$type = '_'.$type;

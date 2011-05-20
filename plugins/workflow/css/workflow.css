@@ -39,18 +39,20 @@
 }
 
 ul#reviewer-list li,
-ul#co-authors-list li {
+ul#co-author-list li {
 	margin-bottom: 8px;
 }
 
 ul#reviewer-list li:hover .anno-user-remove,
-ul#co-authors-list li:hover .anno-user-remove {
-	display: inline;
+ul#co-author-list li:hover .anno-user-remove {
+	visibility: visible;
 }
 
 ul#reviewer-list img,
 ul#co-author-list img {
-	vertical-align: middle;
+	vertical-align: top;
+	float: left;
+	margin-right: 10px;
 }
 
 .user-input-wrap {
@@ -60,8 +62,12 @@ ul#co-author-list img {
 	
 }
 
+.anno-user-info {
+	font-size: 12px;
+}
+
 .anno-user-remove {
-	display: none;
+	visibility: hidden;
 }
 
 .anno-error {

@@ -17,9 +17,6 @@ $anno_post_save = array(
 function anno_workflow_meta_boxes() {
 	global $post;
 	$post_state = anno_get_post_state($post->ID);
-	if (empty($post_state)) {
-		$post_state = 'draft';
-	}
 	
 	// Remove the WP Publish box
 	remove_meta_box('submitdiv', 'article', 'side');
@@ -73,10 +70,7 @@ function anno_status_markup() {
 		$post_type_object = get_post_type_object($post_type);
 		$can_publish = current_user_can($post_type_object->cap->publish_posts);
 		$post_state = anno_get_post_state($post->ID);
-		if (empty($post_state)) {
-			$post_state = 'draft';
-		}
-		
+
 	?>
 <div class="submitbox" id="submitpost">
 	<input name="post_state" type="hidden" value="<?php esc_attr_e($post_state); ?>" />
@@ -581,17 +575,18 @@ function anno_reviewers_meta_box() {
 		<div id="reviewer-add-error" class="anno-error"></div>
 <?php
 	$reviewers = anno_get_post_users($post->ID, '_reviewers');
+	error_log('test');
 	if (anno_user_can('manage_reviewers', null, $post->ID)) {
 ?>
 		<div class="user-input-wrap">
 			<input type="text" id="reviewer-input" class="user-input" name="reviewer_input" /> 
 			<input id="reviewer-add" class="user-add button" type="button" value="add" />
-			<?php wp_nonce_field('anno_add_reviewer', '_ajax_nonce-manage-reviewer', false); ?>
+			<?php wp_nonce_field('anno_manage_reviewer', '_ajax_nonce-manage-reviewer', false); ?>
 		</div>
 <?php
 	}
 ?>
-		<ul id="reviewer-list">
+		<ul id="reviewer-list" data-type="reviewer">
 <?php
 	foreach ($reviewers as $user_id) {
 		$user = get_userdata($user_id);
@@ -620,17 +615,17 @@ function anno_co_authors_meta_box() {
 		<div class="user-input-wrap">
 			<input type="text" id="co-author-input" class="user-input" name="co_author_input" /> 
 			<input id="co-author-add" class="user-add button" type="button" value="add" />
-			<?php wp_nonce_field('anno_add_co_author', '_ajax_nonce-manage-co_author', false); ?>
+			<?php wp_nonce_field('anno_manage_co_author', '_ajax_nonce-manage-co_author', false); ?>
 		</div>
 <?php 	
 	}
 ?>
-		<ul id="co-author-list">
+		<ul id="co-author-list" data-type="co_author">
 <?php
 	foreach ($co_authors as $user_id) {
 		$user = get_userdata($user_id);
 		if ($user) {
-				anno_user_li_markup($user, 'co-author');
+				anno_user_li_markup($user, 'co_author');
 			}
 		}
 ?>
@@ -642,17 +637,23 @@ function anno_co_authors_meta_box() {
 /**
  * Markup for user display in meta boxes
  */
-function anno_user_li_markup($user, $type = null) {
-	$extra = '';
+function anno_user_li_markup($user, $type = null) {		
+	$extra = '&nbsp;';
 	if ($type == 'reviewer') {
 		global $post, $anno_review_options;
 		$round = anno_get_round($post->ID);
-		$extra = ' '.$anno_review_options[intval(get_user_meta($user->ID, '_'.$post->ID.'_review_'.$round, true))];
+		$extra = $anno_review_options[intval(get_user_meta($user->ID, '_'.$post->ID.'_review_'.$round, true))].'&nbsp;';
+	}
+	$remove = '&nbsp;';
+	if (anno_user_can('manage_'.$type.'s', null, $post->ID)) {
+		$remove = '&nbsp;&middot;&nbsp;<a href="#" class="anno-user-remove">remove</a>';
 	}
 ?>
 	<li id="<?php echo esc_attr('user-'.$user->ID); ?>">
-		<?php echo get_avatar($user->ID, '24'); ?>
-		<a href="<?php echo get_author_posts_url($user->ID); ?>"><?php echo esc_html($user->user_login) ?></a><?php echo $extra; ?>&middot<a href="#" class="anno-user-remove">remove</a>
+		<?php echo get_avatar($user->ID, '36'); ?>
+		<div class="anno-user-info">
+			<a href="<?php echo get_author_posts_url($user->ID); ?>"><?php echo esc_html($user->user_login); ?></a><?php echo $remove; ?><br /><?php echo $extra; ?>
+		</div>
 	</li>
 <?php
 }
@@ -689,7 +690,7 @@ add_action('wp_ajax_anno-add-co-author', 'anno_add_co_author');
  * @return bool True if successfully added, false otherwise
  */
 function anno_add_user($type) {
-	check_ajax_referer('anno_add_'.$type, '_ajax_nonce-manage-'.$type);
+	check_ajax_referer('anno_manage_'.$type, '_ajax_nonce-manage-'.$type);
 	$message = 'error';
 	$html = '';
 	if (isset($_POST['user']) && isset($_POST['post_id'])) {
@@ -734,7 +735,12 @@ function anno_add_user($type) {
  * Handles AJAX request for remove a reviewer to a post.
  */ 
 function anno_remove_reviewer() {
-	anno_remove_user('reviewer');
+	// Send back to submitted state if we've removed all the reviewers
+	if (anno_remove_user('reviewer')) {
+		if (count(anno_get_post_users($_POST['post_id'], '_reviewers')) == 0) {
+			update_post_meta($post_id, '_post_state', 'submitted');
+		}
+	}
 	die();
 }
 add_action('wp_ajax_anno-remove-reviewer', 'anno_remove_reviewer');
@@ -752,7 +758,7 @@ add_action('wp_ajax_anno-remove-co-author', 'anno_remove_co_author');
  * AJAX handler for removing users from a post for a given type
  */ 
 function anno_remove_user($type) {
-	//check_ajax_referer('anno_add_'.$type, '_ajax_nonce-manage-'.$type);
+	check_ajax_referer('anno_manage_'.$type, '_ajax_nonce-manage-'.$type);
 	$message = 'error';
 	if (isset($_POST['user_id']) && isset($_POST['post_id'])) {
 		if (anno_remove_user_from_post($type.'s', $_POST['user_id'], intval($_POST['post_id']))) {
@@ -777,6 +783,7 @@ function anno_remove_user($type) {
  */ 
 function anno_get_post_state($post_id) {
 	$post_state = get_post_meta($post_id, '_post_state', true);
+	error_log($post_state);
 	if (!$post_state) {
 		$post = get_post($post_id);
 		if ($post) {
