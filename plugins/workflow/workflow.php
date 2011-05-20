@@ -21,6 +21,9 @@ function anno_workflow_meta_boxes() {
 	// Remove the WP Publish box
 	remove_meta_box('submitdiv', 'article', 'side');
 
+	// Remove discussion box
+	remove_meta_box('commentstatusdiv', 'article', 'core');
+
 	// Remove taxonomy boxes when a user is unable to save/edit
 	if (!anno_user_can('edit_post', null, $post->ID)) {
 		remove_meta_box('article_tagdiv', 'article', 'side');

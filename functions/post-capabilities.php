@@ -67,7 +67,7 @@ function anno_user_can($cap, $user_id = null, $post_id = null, $comment_id = nul
 			break;
 		case 'manage_general_comment':
 			// Anyone who isn't a reviewer, attached to the post and not in published state
-			if ($user_role && $user_role != 'reviewer' && $post_state != 'published') {
+			if ($user_role && $user_role != 'reviewer') {
 				return true;
 			}
 			break;
