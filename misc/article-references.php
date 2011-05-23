@@ -1,4 +1,4 @@
-<section class="article-section article-references">
+<section class="article-section article-section-references">
 	<h1 class="section-title"><span>References</span></h1>
 	<ol>
 		<li>Sendae Ptatem Quaspit (2008) <i>Laut Ex Quiscilit qui Imint Volo.</i> <a href="#">reference link</a></li>

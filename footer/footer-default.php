@@ -14,6 +14,18 @@ if (CFCT_DEBUG) { cfct_banner(__FILE__); }
 
 ?>
 	</div>
+	<footer id="footer" class="act clearfix">
+		<div class="in">
+			<label>Footer Menu</label>
+			<?php
+			$args = array(
+				'theme_location' => 'footer',
+				'container' => false,
+			);
+			wp_nav_menu($args);
+			?>
+		</div>
+	</footer>
 </div><!--/main-->
 <?php
 wp_footer();

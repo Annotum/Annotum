@@ -25,16 +25,15 @@ else {
 
 ?>
 
-<h1><?php printf(__('Search Results for: %s', 'anno'), $search_title); ?></h1>
-
-<?php
-echo '<div id="content">';
-cfct_loop();
-cfct_misc('nav-posts-search');
-echo '</div>';
-
-get_sidebar();
-
-get_footer();
-
+<h1 class="section-title"><?php printf(__('Search Results for: %s', 'anno'), $search_title); ?></h1>
+<div class="main-body">
+	<?php
+	cfct_loop();
+	cfct_misc('nav-posts-search');
+	?>
+</div>
+<div class="main-body">
+<?php get_sidebar();
 ?>
+</div>
+<?php get_footer(); ?>

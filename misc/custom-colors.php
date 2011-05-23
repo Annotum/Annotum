@@ -19,7 +19,7 @@
 		.featured-posts .control-panel a,
 		.widget .tab-active,
 		#reply button,
-		.tools-nav li a {
+		.tools-nav nav li a {
 			background-color: <?php echo $color1; ?>;
 		}
 
