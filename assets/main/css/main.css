@@ -144,7 +144,6 @@ html {
 */
 body {
   font: 14px/1.43 Arial, Helvetica, sans-serif;
-  margin-bottom: 20px;
 }
 /* Accessible focus treatment: people.opera.com/patrickl/experiments/keyboard/test */
 a:hover, a:active {
@@ -465,6 +464,9 @@ Act 3: Footer
 #masthead {
   padding: 35px 0;
 }
+#footer {
+  padding-bottom: 20px;
+}
 #footer .in {
   border-top: #ddd solid 1px;
   padding-top: 10px;
@@ -480,6 +482,11 @@ Act 3: Footer
   background: url(../img/sprite-y.8bit.png) 0 -293px no-repeat;
   margin-left: 6px;
   padding-left: 8px;
+}
+#footer .nav li:first-child {
+  background: none;
+  margin: 0;
+  padding: 0;
 }
 /* Re-usable features */
 form.search {
@@ -513,6 +520,7 @@ form.search .type-submit {
 .featured-posts {
   overflow: hidden;
   position: relative;
+  zoom: 1;
 }
 .featured-posts ul {
   margin: 0;
@@ -652,6 +660,13 @@ form.search .type-submit {
 .article .header .meta {
   color: #666;
   font: italic 13px Georgia, Serif;
+}
+.article .header .meta a:link {
+  color: #666;
+}
+.article .header .meta a:hover {
+  color: #006b94;
+  text-decoration: none;
 }
 .article .article-section {
   margin-bottom: 24px;
@@ -956,7 +971,7 @@ form.search .type-submit {
 #sidebar .widget {
   background: #f0f0f0;
   margin-bottom: 1px;
-  padding: 20px;
+  padding-bottom: 20px;
 }
 #sidebar .widget_text {
   background: none;
@@ -966,6 +981,19 @@ form.search .type-submit {
   color: #000;
   font: italic bold 14px Georgia, Serif;
   margin-bottom: 10px;
+  padding: 20px 0 0 20px;
+}
+.widget li {
+  font-size: 13px;
+  line-height: 1.38;
+}
+.widget ol li a, .widget ul li a {
+  display: block;
+  padding: 3px 20px;
+}
+.widget ol li a:hover, .widget ul li a:hover {
+  background: #dadada;
+  text-decoration: none;
 }
 .pagination .previous {
   float: left;
@@ -1114,4 +1142,32 @@ form.search .type-submit {
   margin: 0;
   position: relative;
   top: 1px;
+}
+/* requires jQuery Tabs */
+.widget-recent-posts .nav {
+  margin-bottom: 11px;
+  padding: 20px 0 0 20px;
+}
+.widget-recent-posts .nav li {
+  background: #dadada;
+  border-bottom: #006B94 solid 1px;
+  font: italic bold 14px Georgia, Serif;
+  margin-right: 6px;
+}
+.widget-recent-posts .nav li a {
+  display: block;
+  padding: 4px 8px;
+}
+.widget-recent-posts .nav .ui-tabs-selected {
+  background: #006B94;
+}
+.widget-recent-posts .nav .ui-tabs-selected a {
+  color: #fff;
+}
+.widget-recent-posts .panel ol {
+  background: url(../img/widget-hr.png) center bottom no-repeat;
+  padding-bottom: 16px;
+}
+.ui-tabs-hide {
+  display: none;
 }

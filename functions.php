@@ -61,7 +61,8 @@ function anno_assets() {
 		// Scripts
 		wp_enqueue_script('modernizr', $main.'js/libs/modernizr-1.7.min.js', array(), ANNO_VER);
 		wp_enqueue_script('placeholder', $main.'js/libs/jquery.placeholder.js', array('jquery'), ANNO_VER);
-		//wp_enqueue_script('anno-main', $main.'js/main.js', array('placeholder'), ANNO_VER);
+		wp_enqueue_script('ui_tabs', $main.'js/libs/jquery-ui-tabs.min.js', array('jquery'), ANNO_VER);
+		wp_enqueue_script('anno-main', $main.'js/main.js', array('placeholder'), ANNO_VER);
 
 		if ( is_singular() ) { wp_enqueue_script( 'comment-reply' ); }
 	}
