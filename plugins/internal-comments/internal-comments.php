@@ -391,7 +391,7 @@ function anno_internal_comments_get_comment_root($comment) {
 
 //TODO Better implementation of below. Possible WP Core patch for hook in notify_author function
 function anno_internal_comments_query($query) {
-	$query = str_replace('WHERE', 'WHERE comment_type NOT IN (\'article_general\', \'article_review\')', $query);
+	$query = str_replace('WHERE', 'WHERE comment_type NOT IN (\'article_general\', \'article_review\') AND', $query);
 	return $query;
 }
 
