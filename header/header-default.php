@@ -25,38 +25,42 @@ if (CFCT_DEBUG) { cfct_banner(__FILE__); }
 </head>
 
 <body <?php body_class(); ?>>
-<header id="header" class="act">
-	<div class="in">
+	<header id="header" class="act">
 		<div class="header-body">
-			<h1 id="site-name"><a href="<?php bloginfo('url') ?>/" title="Home" rel="home"><?php bloginfo('name') ?></a></h1>
-			<nav id="secondary-nav" class="clearfix">
-			<?php
-			$args = array(
-				'theme_location' => 'secondary',
-				'container' => false,
-			);
-			wp_nav_menu($args);
-			?>
-			</nav>			
+			<div class="in">
+				<h1 id="site-name"><a href="<?php bloginfo('url') ?>/" title="Home" rel="home"><?php bloginfo('name') ?></a></h1>
+				<nav id="secondary-nav" class="clearfix">
+				<?php
+				$args = array(
+					'theme_location' => 'secondary',
+					'container' => false,
+				);
+				wp_nav_menu($args);
+				?>
+				</nav>	
+			</div>		
+		</div>
+		<div class="navigation">
+			<div class="in">
+				<nav id="site-nav" class="clearfix">
+				<?php
+				$args = array(
+					'theme_location' => 'main',
+					'container' => false,
+					'menu_class' => 'nav'
+				);
+				wp_nav_menu($args);
+				cfct_form('search');
+				?>
+				</nav>				
+			</div>
 		</div>
 
-		<nav id="site-nav" class="clearfix">
-		<?php
-		$args = array(
-			'theme_location' => 'main',
-			'container' => false,
-			'menu_class' => 'nav'
-		);
-		wp_nav_menu($args);
-		cfct_form('search');
-		?>
-		</nav>
 		<?php
 			if (is_home()) {
 				cfct_template_file('header', 'masthead');
 			}
 		?>
-	</div>
-</header>
+	</header>
 <div id="main" class="act">
 	<div class="in">

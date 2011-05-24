@@ -15,7 +15,9 @@
 	/* Color 1 */
 	
 		/* Background Color */
-		#header,
+		#header .header-body,
+		#header .navigation,
+		#masthead,
 		.featured-posts .control-panel a,
 		.widget .tab-active,
 		#reply button,
