@@ -80,12 +80,8 @@ add_action('admin_print_scripts', 'anno_workflow_js');
  * Display status meta box markup. Heavily based on code from the WP Core 3.1.2
  */ 
 function anno_status_markup() {
-		global $post;
-		$post_type = 'article';
-		$post_type_object = get_post_type_object($post_type);
-		$can_publish = current_user_can($post_type_object->cap->publish_posts);
+		global $post;		
 		$post_state = anno_get_post_state($post->ID);
-
 	?>
 <div class="submitbox" id="submitpost">
 	<input name="post_state" type="hidden" value="<?php esc_attr_e($post_state); ?>" />
@@ -98,89 +94,11 @@ function anno_status_markup() {
 			?>			
 		</div> <!-- #minor-publishing-actions -->
 	</div> <!-- #minor-publising -->
-	<?php if ($post_state == 'approved' && anno_user_can('alter_post_state')) { ?>
-		<div id="misc-publishing-actions">
-			<div class="misc-pub-section " id="visibility">
-			<?php _e('Visibility:'); ?> <span id="post-visibility-display"><?php
-
-			if ( 'private' == $post->post_status ) {
-				$post->post_password = '';
-				$visibility = 'private';
-				$visibility_trans = __('Private');
-			} 
-			elseif ( !empty( $post->post_password ) ) {
-				$visibility = 'password';
-				$visibility_trans = __('Password protected');
-			} 
-			elseif ( $post_type == 'post' && is_sticky( $post->ID ) ) {
-				$visibility = 'public';
-				$visibility_trans = __('Public, Sticky');
-			}
-			else {
-				$visibility = 'public';
-				$visibility_trans = __('Public');
-			}
-
-			echo esc_html( $visibility_trans ); ?></span>
-			<?php if ( $can_publish ) { ?>
-				<a href="#visibility" class="edit-visibility hide-if-no-js"><?php _e('Edit'); ?></a>
-
-				<div id="post-visibility-select" class="hide-if-js">
-					<input type="hidden" name="hidden_post_password" id="hidden-post-password" value="<?php echo esc_attr($post->post_password); ?>" />
-				<?php if ($post_type == 'post'): ?>
-					<input type="checkbox" style="display:none" name="hidden_post_sticky" id="hidden-post-sticky" value="sticky" <?php checked(is_sticky($post->ID)); ?> />
-				<?php endif; ?>
-					<input type="hidden" name="hidden_post_visibility" id="hidden-post-visibility" value="<?php echo esc_attr( $visibility ); ?>" />
-					<input type="radio" name="visibility" id="visibility-radio-public" value="public" <?php checked( $visibility, 'public' ); ?> /> <label for="visibility-radio-public" class="selectit"><?php _e('Public'); ?></label><br />
-				<?php if ($post_type == 'post'): ?>
-					<span id="sticky-span"><input id="sticky" name="sticky" type="checkbox" value="sticky" <?php checked(is_sticky($post->ID)); ?> tabindex="4" /> <label for="sticky" class="selectit"><?php _e('Stick this post to the front page') ?></label><br /></span>
-				<?php endif; ?>
-					<input type="radio" name="visibility" id="visibility-radio-password" value="password" <?php checked( $visibility, 'password' ); ?> /> <label 	for="visibility-radio-password" class="selectit"><?php _e('Password protected'); ?></label><br />
-					<span id="password-span"><label for="post_password"><?php _e('Password:'); ?></label> <input type="text" name="post_password" id="post_password" value="<?php echo esc_attr($post->post_password); ?>" /><br /></span>
-					<input type="radio" name="visibility" id="visibility-radio-private" value="private" <?php checked( $visibility, 'private' ); ?> /> <label for="visibility-radio-private" class="selectit"><?php _e('Private'); ?></label><br />
-
-					<p>
-					 <a href="#visibility" class="save-post-visibility hide-if-no-js button"><?php _e('OK'); ?></a>
-					 <a href="#visibility" class="cancel-post-visibility hide-if-no-js"><?php _e('Cancel'); ?></a>
-					</p>
-				</div>
-			<?php } ?>
-			</div><?php // /misc-pub-section ?>
-			<div class="clear"></div>
-			<?php
-				// translators: Publish box date formt, see http://php.net/date
-				$datef = __( 'M j, Y @ G:i' );
-				if ( 0 != $post->ID ) {
-					if ( 'future' == $post->post_status ) { // scheduled for publishing at a future date
-						$stamp = __('Scheduled for: <b>%1$s</b>');
-					} else if ( 'publish' == $post->post_status || 'private' == $post->post_status ) { // already published
-						$stamp = __('Published on: <b>%1$s</b>');
-					} else if ( '0000-00-00 00:00:00' == $post->post_date_gmt ) { // draft, 1 or more saves, no date specified
-						$stamp = __('Publish <b>immediately</b>');
-					} else if ( time() < strtotime( $post->post_date_gmt . ' +0000' ) ) { // draft, 1 or more saves, future date specified
-						$stamp = __('Schedule for: <b>%1$s</b>');
-					} else { // draft, 1 or more saves, date specified
-						$stamp = __('Publish on: <b>%1$s</b>');
-					}
-					$date = date_i18n( $datef, strtotime( $post->post_date ) );
-				} else { // draft (no saves, and thus no date specified)
-					$stamp = __('Publish <b>immediately</b>');
-					$date = date_i18n( $datef, strtotime( current_time('mysql') ) );
-				}
-
-				if ( $can_publish ) : // Contributors don't get to choose the date of publish ?>
-				<div class="misc-pub-section curtime misc-pub-section-last">
-					<span id="timestamp">
-					<?php printf($stamp, $date); ?></span>
-					<a href="#edit_timestamp" class="edit-timestamp hide-if-no-js" tabindex='4'><?php _e('Edit') ?></a>
-					<div id="timestampdiv" class="hide-if-js"><?php touch_time(($action == 'edit'),1,4); ?></div>
-				</div><?php // /misc-pub-section ?>
-				<?php endif; ?>
-
-			<?php do_action('post_submitbox_misc_actions'); ?>
-
-		</div>
-	<?php } ?>
+	<?php 
+		if ($post_state == 'approved' && anno_user_can('alter_post_state')) { 
+			anno_misc_action_approved_markup();
+ 		} 
+	?>
 	
 	<input type="hidden" name="hidden_post_status" id="hidden_post_status" value="<?php echo esc_attr( ('auto-draft' == $post->post_status ) ? 'draft' : $post->post_status); ?>" />
 	<div id="major-publishing-actions">
@@ -348,6 +266,100 @@ function anno_major_action_approved_markup() {
 		anno_major_action_preview_markup();
 	}
 }
+
+/**
+ * Approved state markup for misc actions
+ */
+function anno_misc_action_approved_markup() {
+	global $post;
+	$post_type = 'article';
+	$post_type_object = get_post_type_object($post_type);
+	$can_publish = current_user_can($post_type_object->cap->publish_posts);
+?>
+<div id="misc-publishing-actions">
+	<div class="misc-pub-section " id="visibility">
+	<?php _e('Visibility:'); ?> <span id="post-visibility-display"><?php
+
+	if ( 'private' == $post->post_status ) {
+		$post->post_password = '';
+		$visibility = 'private';
+		$visibility_trans = __('Private');
+	} 
+	elseif ( !empty( $post->post_password ) ) {
+		$visibility = 'password';
+		$visibility_trans = __('Password protected');
+	} 
+	elseif ( $post_type == 'post' && is_sticky( $post->ID ) ) {
+		$visibility = 'public';
+		$visibility_trans = __('Public, Sticky');
+	}
+	else {
+		$visibility = 'public';
+		$visibility_trans = __('Public');
+	}
+
+	echo esc_html( $visibility_trans ); ?></span>
+	<?php if ( $can_publish ) { ?>
+		<a href="#visibility" class="edit-visibility hide-if-no-js"><?php _e('Edit'); ?></a>
+
+		<div id="post-visibility-select" class="hide-if-js">
+			<input type="hidden" name="hidden_post_password" id="hidden-post-password" value="<?php echo esc_attr($post->post_password); ?>" />
+		<?php if ($post_type == 'post'): ?>
+			<input type="checkbox" style="display:none" name="hidden_post_sticky" id="hidden-post-sticky" value="sticky" <?php checked(is_sticky($post->ID)); ?> />
+		<?php endif; ?>
+			<input type="hidden" name="hidden_post_visibility" id="hidden-post-visibility" value="<?php echo esc_attr( $visibility ); ?>" />
+			<input type="radio" name="visibility" id="visibility-radio-public" value="public" <?php checked( $visibility, 'public' ); ?> /> <label for="visibility-radio-public" class="selectit"><?php _e('Public'); ?></label><br />
+		<?php if ($post_type == 'post'): ?>
+			<span id="sticky-span"><input id="sticky" name="sticky" type="checkbox" value="sticky" <?php checked(is_sticky($post->ID)); ?> tabindex="4" /> <label for="sticky" class="selectit"><?php _e('Stick this post to the front page') ?></label><br /></span>
+		<?php endif; ?>
+			<input type="radio" name="visibility" id="visibility-radio-password" value="password" <?php checked( $visibility, 'password' ); ?> /> <label 	for="visibility-radio-password" class="selectit"><?php _e('Password protected'); ?></label><br />
+			<span id="password-span"><label for="post_password"><?php _e('Password:'); ?></label> <input type="text" name="post_password" id="post_password" value="<?php echo esc_attr($post->post_password); ?>" /><br /></span>
+			<input type="radio" name="visibility" id="visibility-radio-private" value="private" <?php checked( $visibility, 'private' ); ?> /> <label for="visibility-radio-private" class="selectit"><?php _e('Private'); ?></label><br />
+
+			<p>
+			 <a href="#visibility" class="save-post-visibility hide-if-no-js button"><?php _e('OK'); ?></a>
+			 <a href="#visibility" class="cancel-post-visibility hide-if-no-js"><?php _e('Cancel'); ?></a>
+			</p>
+		</div>
+	<?php } ?>
+	</div><?php // /misc-pub-section ?>
+	<div class="clear"></div>
+	<?php
+		// translators: Publish box date formt, see http://php.net/date
+		$datef = __( 'M j, Y @ G:i' );
+		if ( 0 != $post->ID ) {
+			if ( 'future' == $post->post_status ) { // scheduled for publishing at a future date
+				$stamp = __('Scheduled for: <b>%1$s</b>');
+			} else if ( 'publish' == $post->post_status || 'private' == $post->post_status ) { // already published
+				$stamp = __('Published on: <b>%1$s</b>');
+			} else if ( '0000-00-00 00:00:00' == $post->post_date_gmt ) { // draft, 1 or more saves, no date specified
+				$stamp = __('Publish <b>immediately</b>');
+			} else if ( time() < strtotime( $post->post_date_gmt . ' +0000' ) ) { // draft, 1 or more saves, future date specified
+				$stamp = __('Schedule for: <b>%1$s</b>');
+			} else { // draft, 1 or more saves, date specified
+				$stamp = __('Publish on: <b>%1$s</b>');
+			}
+			$date = date_i18n( $datef, strtotime( $post->post_date ) );
+		} else { // draft (no saves, and thus no date specified)
+			$stamp = __('Publish <b>immediately</b>');
+			$date = date_i18n( $datef, strtotime( current_time('mysql') ) );
+		}
+
+		if ( $can_publish ) : // Contributors don't get to choose the date of publish ?>
+		<div class="misc-pub-section curtime misc-pub-section-last">
+			<span id="timestamp">
+			<?php printf($stamp, $date); ?></span>
+			<a href="#edit_timestamp" class="edit-timestamp hide-if-no-js" tabindex='4'><?php _e('Edit') ?></a>
+			<div id="timestampdiv" class="hide-if-js"><?php touch_time(($action == 'edit'),1,4); ?></div>
+		</div><?php // /misc-pub-section ?>
+		<?php endif; ?>
+
+	<?php do_action('post_submitbox_misc_actions'); ?>
+
+</div>	
+<?php
+}
+
 
 /**
  * Rejected state markup for minor actions.
@@ -989,6 +1001,9 @@ function anno_author_metabox() {
 	));
 }
 
+/**
+ * Add Workflow settings page
+ */ 
 function anno_add_submenu_page() {
 	add_submenu_page(
 		'themes.php', 
@@ -1001,15 +1016,61 @@ function anno_add_submenu_page() {
 }
 add_action('admin_menu', 'anno_add_submenu_page');
 
+/**
+ * Add Workflow settings page markup
+ */
 function anno_settings_page() {
 ?>
 <div class="wrap">
 	<h2><?php _e('Annotum Workflow Settings', 'anno'); ?></h2>
-	
+	<form action="<?php admin_url('/'); ?>" method="post">
+		<p>
+			<label for="anno-workflow">Enbable Workflow</label>
+			<input id="anno-workflow" type="checkbox" value="1" name="anno_workflow"<?php checked(get_option('annowf_setting'), 1); ?> />
+		</p>
+		<p class="submit">
+			<?php wp_nonce_field('annowf_settings', '_wpnonce', true, true); ?>
+			<input type="hidden" name="anno_action" value="annowf_update_settings" />
+			<input type="submit" name="submit_button" class="button-primary" value="<?php _e('Save Changes', 'anno'); ?>" />
+		</p>
+	</form>
 </div>
-
 <?php
-	
+}
+
+function annowf_admin_request_handler() {
+	if (isset($_POST['anno_action'])) {
+		switch ($_POST['anno_action']) {
+			case 'annowf_update_settings':
+				if (!check_admin_referer('annowf_settings')) {
+					die();
+				}
+				if (isset($_POST['anno_workflow']) && !empty($_POST['anno_workflow'])) {
+					update_option('annowf_setting', 1);
+				}
+				else {
+					update_option('annowf_setting', 0);
+				}
+				wp_redirect(admin_url('/themes.php?page=anno-workflow-settings&updated=true'));
+				die();
+				break;
+			default:
+				break;
+		}
+	}
+}
+if (is_admin()) {
+	add_action('init', 'annowf_admin_request_handler', 0);
+}
+
+/**
+ * Helper function to determine if the workflow is enabled
+ */ 
+function anno_workflow_enabled() {
+	if (get_option('annowf_setting') == 1) {
+		return true;
+	}
+	return false;
 }
 
 ?>
