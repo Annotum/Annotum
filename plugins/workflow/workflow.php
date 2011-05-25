@@ -890,8 +890,8 @@ function anno_clone_post($orig_id) {
 
 	unset($post['ID']);
 	$post['post_author'] = $current_user->ID;
-	$post
-	$new_id = wp_insert_post($postdata);
+	
+	$new_id = wp_insert_post($post);
 	if ($new_id) {
 		$posts_cloned = get_post_meta($orig_id, '_anno_posts_cloned', true);
 		if (!is_array($posts_cloned)) {
