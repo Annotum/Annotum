@@ -360,7 +360,6 @@ function anno_misc_action_approved_markup() {
 <?php
 }
 
-
 /**
  * Rejected state markup for minor actions.
  */
@@ -1057,6 +1056,11 @@ function annowf_admin_request_handler() {
 			default:
 				break;
 		}
+	}
+	
+	// Cloning
+	if (isset($_POST['publish'])) {
+		
 	}
 }
 if (is_admin()) {
