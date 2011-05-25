@@ -24,10 +24,17 @@ function anno_workflow_meta_boxes() {
 	// Remove discussion box
 	remove_meta_box('commentstatusdiv', 'article', 'core');
 
+	// Remove author box
+	remove_meta_box('authordiv', 'article', 'normal', 'core');
+	
 	// Remove taxonomy boxes when a user is unable to save/edit
 	if (!anno_user_can('edit_post', null, $post->ID)) {
 		remove_meta_box('article_tagdiv', 'article', 'side');
 		remove_meta_box('article_category_select', 'article', 'side');
+	}
+	
+	if (anno_user_can('manage_co_authors', null, $post->ID)) {
+		add_meta_box('authordiv', __('Author', 'anno'), 'anno_author_metabox', 'article', 'side', 'low');
 	}
 	
 	// Add the Annotum workflow publish box.
@@ -470,7 +477,9 @@ function anno_major_action_clone_markup() {
 /**
  * Article Save action for correcting WP status updating. Fires before insertion into DB
  */ 
-function anno_save_article($post) {
+function anno_save_article($post, $postarr) {
+	if (isset($po))
+	
 	if ($post['post_type'] == 'article' && $post['post_status'] != 'auto-draft') {
 		global $anno_post_save;
 		if (isset($_POST['publish'])) {
@@ -500,7 +509,7 @@ add_filter('wp_insert_post_data', 'anno_save_article', 10, 2);
 /**
  * Article state transistioning. Fires after post has been inserted into the database
  */ 
-function anno_transistion_state($post_id, $post) {
+function anno_transistion_state($post_id, $post, $post_before) {
 	if ($post->post_type == 'article' && $post->post_status != 'auto-draft') {
 		global $anno_post_save;
 		
@@ -563,9 +572,15 @@ function anno_transistion_state($post_id, $post) {
 			do_action('anno_state_change', $new_state, $old_state);
 			//TODO hook in email action to anno_state_change
 		}
+		
+		// Author has changed, add original author as co-author, remove new author from co-authors
+		if ($post->post_author !== $post_before->post_author) {
+			anno_add_user_to_post('_co_authors', $post_before->post_author, $post->ID);
+			anno_remove_user_from_post('_co_authors', $post->post_author, $post->ID);
+		}
 	}
 }
-add_action('save_post', 'anno_transistion_state', 10, 2);
+add_action('post_updated', 'anno_transistion_state', 10, 3);
 
 //TODO move out of workflow
 // Look into apply_filters( 'redirect_post_location', $location, $post_id ) );
@@ -770,8 +785,18 @@ function anno_add_user($type) {
 function anno_remove_reviewer() {
 	// Send back to submitted state if we've removed all the reviewers
 	if (anno_remove_user('reviewer')) {
-		if (count(anno_get_post_users($_POST['post_id'], '_reviewers')) == 0) {
+		$post_id = intval($_POST['post_id']);
+		$user_id = intval($_POST['user_id']);
+
+		if (count(anno_get_post_users($post_id, '_reviewers')) == 0) {
 			update_post_meta($post_id, '_post_state', 'submitted');
+		}
+		$round = anno_get_round($post_id);
+		$reviews = anno_get_post_users($post_id, '_round_'.$round.'_reviewed');
+		if (is_array($reviews) && in_array($user_id, $reviews)) {
+			$key = array_search($user_id, $reviews);
+			unset($reviews[$key]);
+			update_post_meta($post_id, '_round_'.$round.'_reviewed', $reviews);
 		}
 	}
 	die();
@@ -874,6 +899,46 @@ function anno_user_search() {
 add_action('wp_ajax_anno-user-search', 'anno_user_search');
 
 
+
+/********* Cloning/Revisions *********/
+
+
+/**
+ * Metabox for posts that have been cloned from this post
+ */ 
+//TODO style
+function anno_cloned_metabox() {
+	global $post;
+	$posts_cloned = get_post_meta($post->ID, '_anno_posts_cloned', true);
+	if (!empty($posts_cloned) && is_array($posts_cloned)) {
+?>
+	<div>
+		<ul id="anno-posts-cloned">
+<?php
+		foreach ($posts_cloned as $cloned_post_id) {
+			$cloned_post = get_post($cloned_post_id);
+			echo '<li>'.esc_html($cloned_post->post_title).'</li>';
+		}
+?>
+		</ul>
+	</div>
+<?php
+	}
+	
+	$cloned_from = get_post_meta($post->ID< '_anno_cloned_from', true);
+	if (!empty($cloned_from)) {
+		$cloned_post = get_post($cloned_from)
+?>
+	<div>
+		<ul id="anno-cloned-from">
+			<?php echo '<li>'.esc_html($cloned_post->post_title).'</li>'; ?>
+		</ul>
+	</div>
+	
+<?php	
+	}
+}
+
 /**
  * Clones a post, and inserts it into the DB. Maintains all post properties (no post_meta). Also
  * saves the association on both posts.
@@ -905,5 +970,31 @@ function anno_clone_post($orig_id) {
 	}
 	return $new_id;
 }
+
+/**
+ * Meta Box For Author select.
+ */
+function anno_author_metabox() {
+	global $post;
+	$authors = anno_get_post_users($post->ID, '_co_authors');
+	$authors[] = $post->post_author;	
+?>
+<label class="screen-reader-text" for="post_author_override"><?php _e('Author'); ?></label>
+<?php
+	wp_dropdown_users(array(
+		'include' => implode(',', $authors),
+		'name' => 'post_author_override',
+		'selected' => empty($post->ID) ? $user_ID : $post->post_author,
+		'include_selected' => true
+	));
+}
+
+function anno_pre_get_shortlink($return, $id, $context) {
+	if ($context == 'post') {
+		return '';
+	}
+	return $return;
+}
+add_filter('get_sample_permalink_html', 'anno_pre_get_shortlink', 9999, 3);
 
 ?>

@@ -47,6 +47,6 @@ function anno_remove_roles_and_capabilities() {
 }
 add_action('admin_init', 'anno_remove_roles_and_capabilities');
 
-//TODO Restore roles/caps on switch_theme
+//TODO Restore roles/caps on switch_theme, deactivation of feature
 
 ?>
