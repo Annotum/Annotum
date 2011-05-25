@@ -60,6 +60,11 @@ add_action('admin_print_styles', 'anno_workflow_css');
 function anno_workflow_js() {
 	wp_enqueue_script('suggest');
 	wp_enqueue_script('anno-workflow', trailingslashit(get_bloginfo('stylesheet_directory')).'plugins/workflow/js/workflow.js', array('jquery', 'suggest'));
+	
+	// Remove Auto-Save feature if a user cannot edit a post. *Note this prevents previewing inputted markup
+	if (!anno_user_can('edit_post')) {
+		wp_deregister_script('autosave');
+	}
 }
 add_action('admin_print_scripts', 'anno_workflow_js');
 
@@ -462,7 +467,6 @@ function anno_major_action_clone_markup() {
 <?php
 }
 
-
 /**
  * Article Save action for correcting WP status updating. Fires before insertion into DB
  */ 
@@ -563,9 +567,28 @@ function anno_transistion_state($post_id, $post) {
 }
 add_action('save_post', 'anno_transistion_state', 10, 2);
 
-// Filters needed for modification of message displayed
-//apply_filters( 'post_updated_messages', $messages ); $messages['post']
-//apply_filters( 'redirect_post_location', $location, $post_id ) );
+//TODO move out of workflow
+// Look into apply_filters( 'redirect_post_location', $location, $post_id ) );
+function anno_post_updated_messages($messages) {
+	global $post;
+	// Based on message code in WP Core 3.2
+	$messages['article'] = array(
+		0 => '', // Unused. Messages start at index 1.
+		1 => sprintf(__('Article updated. <a href="%s">View article</a>', 'anno'), esc_url(get_permalink($post->ID))),
+		2 => __('Custom field updated.', 'anno'),
+		3 => __('Custom field deleted.', 'anno'),
+		4 => __('Article updated.', 'anno'),
+	 	5 => isset($_GET['revision']) ? sprintf( __('Article restored to revision from %s', 'anno'), wp_post_revision_title((int) $_GET['revision'], false )) : false,
+		6 => sprintf( __('Article published. <a href="%s">View article</a>', 'anno'), esc_url(get_permalink($post->ID))),
+		7 => __('Article saved.', 'anno'),
+		8 => sprintf( __('Article submitted. <a target="_blank" href="%s">Preview article</a>'), esc_url(add_query_arg('preview', 'true', get_permalink($post->ID)))),
+		9 => sprintf( __('Article scheduled for: <strong>%1$s</strong>. <a target="_blank" href="%2$s">Preview article</a>'), date_i18n( __( 'M j, Y @ G:i' ), strtotime( $post->post_date )), esc_url( get_permalink($post->ID))),
+		10 => sprintf( __('Article draft updated. <a target="_blank" href="%s">Preview article</a>', 'article'), esc_url( add_query_arg('preview', 'true', get_permalink($post->ID)))),
+	);
+
+	return $messages;
+}
+add_filter('post_updated_messages', 'anno_post_updated_messages');
 
 //TODO Abstract the two meta below?
 /**
@@ -849,5 +872,38 @@ function anno_user_search() {
 	die;
 }
 add_action('wp_ajax_anno-user-search', 'anno_user_search');
+
+
+/**
+ * Clones a post, and inserts it into the DB. Maintains all post properties (no post_meta). Also
+ * saves the association on both posts.
+ *
+ * @param int $orig_id The original ID of the post to clone from
+ * @return int|bool The newly created (clone) post ID. false if post failed to insert.
+ */
+function anno_clone_post($orig_id) {
+	global $current_user;
+	
+	//Get post, convert to Array.
+	$post = get_post($orig_id);
+	$post = get_object_vars($post);
+
+	unset($post['ID']);
+	$post['post_author'] = $current_user->ID;
+	$post
+	$new_id = wp_insert_post($postdata);
+	if ($new_id) {
+		$posts_cloned = get_post_meta($orig_id, '_anno_posts_cloned', true);
+		if (!is_array($posts_cloned)) {
+			$posts_cloned = array($new_id);
+		}
+		else {
+			$posts_cloned[] = $new_id;
+		}
+		update_post_meta($orig_id, '_anno_posts_cloned', $posts_cloned);
+		update_post_meta($new_id, '_anno_cloned_from', $orig_id);
+	}
+	return $new_id;
+}
 
 ?>
