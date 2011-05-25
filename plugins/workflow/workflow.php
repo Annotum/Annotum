@@ -978,7 +978,7 @@ function anno_author_metabox() {
 	global $post;
 	$authors = anno_get_post_users($post->ID, '_co_authors');
 	$authors[] = $post->post_author;	
-?>
+?>s
 <label class="screen-reader-text" for="post_author_override"><?php _e('Author'); ?></label>
 <?php
 	wp_dropdown_users(array(
@@ -989,12 +989,27 @@ function anno_author_metabox() {
 	));
 }
 
-function anno_pre_get_shortlink($return, $id, $context) {
-	if ($context == 'post') {
-		return '';
-	}
-	return $return;
+function anno_add_submenu_page() {
+	add_submenu_page(
+		'themes.php', 
+		__('Annotum Workflow Settings', 'anno'), 
+		__('Workflow Settings', 'anno'), 
+		'manage_options',
+		'anno-workflow-settings',
+		'anno_settings_page' 
+	);
 }
-add_filter('get_sample_permalink_html', 'anno_pre_get_shortlink', 9999, 3);
+add_action('admin_menu', 'anno_add_submenu_page');
+
+function anno_settings_page() {
+?>
+<div class="wrap">
+	<h2><?php _e('Annotum Workflow Settings', 'anno'); ?></h2>
+	
+</div>
+
+<?php
+	
+}
 
 ?>
