@@ -13,10 +13,10 @@ $anno_review_options = array(
  */
 function anno_add_meta_boxes() {
 	if (anno_user_can('view_general_comments')) {
-		add_meta_box('general-comment', __('Internal Comments: General', 'anno'), 'anno_internal_comments_general_comments', 'article', 'normal');
+		add_meta_box('general-comment', __('Internal Comments', 'anno'), 'anno_internal_comments_general_comments', 'article', 'normal');
 	}
 	if (anno_user_can('view_review_comments')) {
-		add_meta_box('reviewer-comment', __('Internal Comments: Reviews', 'anno'), 'anno_internal_comments_reviewer_comments', 'article', 'normal');
+		add_meta_box('reviewer-comment', __('Reviews', 'anno'), 'anno_internal_comments_reviewer_comments', 'article', 'normal');
 	}
 }
 add_action('admin_head-post.php', 'anno_add_meta_boxes');
@@ -47,7 +47,7 @@ function anno_internal_comments_display($type) {
 	global $post;
 	$comments = anno_internal_comments_get_comments('article_'.$type, $post->ID);
 ?>
-<table class="widefat fixed comments comments-box anno-comments" data-comment-type="<?php echo esc_attr($type); ?>" cellspacing="0">
+<table class="widefat comments comments-box anno-comments" data-comment-type="<?php echo esc_attr($type); ?>" cellspacing="0">
 	<tbody id="<?php echo esc_attr('the-comment-list-'.$type); ?>" class="list:comment">
 <?php
 	if (is_array($comments) && !empty($comments)) {
@@ -162,20 +162,18 @@ function anno_internal_comments_reviewer_comments() {
 	$reviewers = anno_get_post_users($post->ID, '_reviewers');
 	if (in_array($current_user->ID, $reviewers)) {
 ?>
-<div class="review-section">
-	<label for="anno-review"><?php _e('Leave a Review: ', 'anno'); ?></label>
+<div class="review-section <?php echo 'status-'.$user_review; ?>">
+	<label for="anno-review"><?php _e('Recommendation: ', 'anno'); ?></label>
 	<select id="anno-review" name="anno_review">
-
 	<?php 
 		foreach ($anno_review_options as $opt_key => $opt_val) {
 	?>	
-
 		<option value="<?php echo esc_attr($opt_key); ?>"<?php selected($user_review, $opt_key, true); ?>><?php echo esc_html($opt_val); ?></option>
-
 	<?php 
 		} 
 	?>
 	</select>
+	<span class="review-notice"></span>
 </div>
 
 <?php 
@@ -351,7 +349,9 @@ function anno_internal_comments_review_ajax() {
 				update_post_meta($post_id, '_round_'.$post_round.'_reviewed', array_unique($reviewed));
 			}
 		}
+		echo $review;
 	}
+	die();
 }
 add_action('wp_ajax_anno-review', 'anno_internal_comments_review_ajax');
 

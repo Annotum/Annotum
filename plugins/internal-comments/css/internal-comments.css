@@ -11,8 +11,9 @@
 
 #the-comment-list-general td.author,
 #the-comment-list-review td.author {
-	width:25%;
-	min-width: 250px;
+	width: 25%;
+	min-width: 220px;
+	line-height: 1.4em;
 }
 
 #the-comment-list-general textarea,
@@ -34,5 +35,21 @@ a.anno-trash-comment{
 
 .review-section {
 	border-bottom: 1px solid #DFDFDF;
-	padding: 10px 5px;
+	padding: 10px;
+}
+.review-section select {
+	margin: 0 3px;
+}
+.review-section span {
+	color: #666;
+	font-style: italic;
+}
+.review-section.status-1 { /* approve */
+	background-color: #dff9e4;
+}
+.review-section.status-2 { /* revisions */
+	background-color: #faecde;
+}
+.review-section.status-3 { /* reject */
+	background-color: #fbe1e3;
 }
