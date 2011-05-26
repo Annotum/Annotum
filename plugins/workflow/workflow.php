@@ -512,28 +512,25 @@ function anno_cloned_meta_box() {
 	if (!empty($cloned_from)) {
 		$cloned_post = get_post($cloned_from);
 ?>
-	<p>
-		<?php echo __('Cloned From: ', 'anno').'<a href="'.esc_url(get_edit_post_link($cloned_from)).'">'.esc_html($cloned_post->post_title).'</a>'; ?>
-		<hr />
-	</p>
+	<dl class="anno-versions">
+		<dt><?php echo __('Cloned From', 'anno'); ?></dt>
+		<dd><?php echo '<a href="'.esc_url(get_edit_post_link($cloned_from)).'">'.esc_html($cloned_post->post_title).'</a>'; ?></dd>
 <?php	
 	}
 	
 	$posts_cloned = get_post_meta($post->ID, '_anno_posts_cloned', true);
 	if (!empty($posts_cloned) && is_array($posts_cloned)) {
 ?>
-	<p>
-		<ul id="anno-posts-cloned">
+		<dt><?php echo __('Clones', 'anno'); ?></dt>
 <?php
 		foreach ($posts_cloned as $cloned_post_id) {
 			$cloned_post = get_post($cloned_post_id);
-			echo '<li><a href="'.esc_url(get_edit_post_link($cloned_post_id)).'">'.esc_html($cloned_post->post_title).'</a></li>';
+			echo '<dd><a href="'.esc_url(get_edit_post_link($cloned_post_id)).'">'.esc_html($cloned_post->post_title).'</a></dd>';
 		}
-?>
-		</ul>
-	</p>
-<?php
 	}
+?>
+	</dl>
+<?php
 }
 
 /**

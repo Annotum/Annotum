@@ -53,3 +53,15 @@ a.anno-trash-comment{
 .review-section.status-3 { /* reject */
 	background-color: #fbe1e3;
 }
+
+dl.anno-versions {
+	margin-bottom: 10px;
+}
+dl.anno-versions dt {
+	color: #777;
+	margin: 8px 0 2px 0;
+}
+dl.anno-versions dd {
+	margin: 0 0 4px 0;
+	padding-left: 10px;
+}
