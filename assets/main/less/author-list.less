@@ -3,10 +3,9 @@
 }
 
 .article .article-section-author-list .author-info .content {
-	background: #fff;
-	border: #ddd solid 1px;
+	background: url(../img/author-card-background.png) center bottom no-repeat;
 	margin: 0;
-	padding: 7px 10px;
+	padding: 1px 15px 15px;
 }
 .article .article-section-author-list .author-info .content p {
 	margin: 0;
@@ -18,6 +17,7 @@
 	float: left;
 	margin-right: 10px;
 	position: relative;
+	zoom: 1;
 }
 .article .article-section-author-list li:hover .author-info {
 	display: block;
@@ -27,13 +27,15 @@
 	left: 50%;
 	margin-left: -119px;
 	position: absolute;
-	width: 238px;
+	width: 248px;
 	z-index: 1000;
 }
+html.ie7 .article .article-section-author-list .author-info {
+	top: 15px;
+}
+
 .article .article-section-author-list .author-info .header {
-	background: url(../img/author-list-box-pointer.png) center 0 no-repeat;
-	height: 7px;
+	background: url(../img/author-card-background.png) center 0 no-repeat;
+	height: 15px;
 	margin: 0;
-	position: relative;
-	top: 1px;
 }

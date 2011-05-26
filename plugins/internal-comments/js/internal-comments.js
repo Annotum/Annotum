@@ -54,7 +54,14 @@ jQuery(document).ready(function($) {
 		
 		var data = {action: 'anno-review', review: value, post_id: ANNO_POST_ID};
 		data['_ajax_nonce-review'] = nonce;
-		
-		$.post(ajaxurl, data);
+
+		$('.review-notice').html('saving...');
+
+		$.post(ajaxurl, data, function(review){
+			$('.review-notice').html('recommendation saved');
+			$('.review-section').removeClass().addClass('review-section status-'+review);
+		});
 	});
+	
+	
 });

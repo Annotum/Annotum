@@ -21,14 +21,15 @@
 		.featured-posts .control-panel a,
 		.widget .tab-active,
 		#reply button,
-		.tools-nav nav li a {
+		.tools-nav nav li a,
+		.widget-recent-posts .nav .ui-tabs-selected {
 			background-color: <?php echo $color1; ?>;
 		}
 
 		/* Border Color */
 		#site-nav li,
 		.callout-item,
-		.widget .tab { 
+		.widget-recent-posts .nav li { 
 			border-color: <?php echo $color1; ?>;
 		}
 	

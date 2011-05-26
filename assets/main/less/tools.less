@@ -38,23 +38,42 @@
 	font-size: 12px;
 	left: 0;
 	line-height: 1.5;
-	padding-right: 24px;
+	padding-right: 23px;
 	position: absolute;
 	top: 0;
 	width: 165px;
 	z-index: 1000;
 }
 .tools-nav .tools-menu-item {
-	background: #fff;
-	border: #006b94 solid 2px;
-	border-left: 0;
 	padding: 12px;
 	position: absolute;
+	width: 158px;
+}
+.tools-nav .tools-menu-item .header {
+	background: url(../img/tools-content-background.png) 0 0 no-repeat;
+	padding: 17px 18px 0 11px;
+}
+
+.tools-nav .tools-menu-item .body {
+	background: url(../img/tools-content-background.png) 0 bottom no-repeat;
+	padding: 7px 16px 21px 11px;
+}
+.tools-nav .tools-menu-item .title {
+	border-bottom: #d3dbe1 solid 1px;
+	font: italic bold 14px Georgia, Serif;
+	padding: 0 0 2px;
+}
+.tools-nav .tools-menu-item ul {
+	margin-left: 1px;
+}
+.tools-nav .tools-menu-item li {
+	background: url(../img/sprite-y.8bit.png) 0 -393px no-repeat;
+	padding-left: 7px;
 }
 .tools-nav .nav {
 	right: 0;
 	position: absolute;
-	top: 0;
+	top: 14px;
 }
 .tools-nav .nav li {
 	display: block;
@@ -68,14 +87,25 @@
 	height: 22px;
 	width: 22px;
 }
-
+.tools-nav .nav li.active a {
+	background-color: #e0e6ea;
+}
 .tools-nav .nav li a.content {
-	background-position: 4px -394px;
+	background-position: -96px -394px;
 }
 .tools-nav .nav li a.download {
-	background-position: 5px -596px;
+	background-position: -96px -296px;
 }
 .tools-nav .nav li a.comments {
-	background-position: 5px -495px;
+	background-position: -96px -495px;
+}
+.tools-nav .nav li.active a.content {
+	background-position: -196px -394px;
+}
+.tools-nav .nav li.active a.download {
+	background-position: -196px -296px;
+}
+.tools-nav .nav li.active a.comments {
+	background-position: -196px -495px;
 }
 
