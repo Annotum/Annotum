@@ -15,7 +15,7 @@ if (CFCT_DEBUG) { cfct_banner(__FILE__); }
 ?>
 <?php cfct_misc('tools-nav'); ?>
 <article class="article">
-	<div  <?php post_class('clearfix'); ?>>
+	<div <?php post_class('clearfix'); ?>>
 		<?php 
 		cfct_template_file('content', 'header');
 		cfct_misc('tools-bar');	 
@@ -122,7 +122,7 @@ if (CFCT_DEBUG) { cfct_banner(__FILE__); }
 		</div><!--/content-->
 		<footer class="footer">
 			<?php
-			the_tags('', ',', '');
+			the_tags('<strong>Tags:</strong> ', ' <span class="sep">&middot;</span> ', '');
 			?>
 		</footer>
 	</div>	

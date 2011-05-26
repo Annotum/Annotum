@@ -14,7 +14,13 @@
 			</ol>
 		</div>
 		<div class="panel" id="panel-comments">
-		
+			<ul>
+				<li><a class="url" rel="external nofollow" href="#">Mr WordPress</a> on <a href="#">Hello world!</a></li>
+				<li>admin on <a href="#">Comment Test</a></li>
+				<li>Test Contributor on <a href="#">Comment Test</a></li>
+				<li>tellyworthtest2 on <a href="#">Comment Test</a></li>
+				<li>Test Author on <a href="#">Comment Test</a></li>
+			</ul>
 		</div>
 	</div>
 </aside>		

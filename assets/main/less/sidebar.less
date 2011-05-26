@@ -16,14 +16,23 @@
 .widget li {
 	font-size: 13px;
 	line-height: 1.38;
-}
-.widget ol li a,
-.widget ul li a {
-	display: block;
 	padding: 3px 20px;
 }
-.widget ol li a:hover,
-.widget ul li a:hover {
-	background: #dadada;
+.widget li a {
+	display: block;
+}
+.widget li a:hover {
 	text-decoration: none;
+}
+.widget ol li:hover,
+.widget ul li:hover {
+	background-color: #dadada;
+	text-decoration: none;
+}
+.widget ol li.recentcomments:hover,
+.widget ul li.recentcomments:hover {
+	background-color: none;
+}
+.widget li.recentcomments a:hover {
+	text-decoration: underline;
 }

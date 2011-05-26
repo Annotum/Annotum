@@ -400,7 +400,7 @@ Act 3: Footer
   overflow: hidden;
 }
 #main-body, #main-sidebar {
-  margin-bottom: 50px;
+  padding-bottom: 50px;
 }
 #main-sidebar, #masthead-sidebar {
   float: left;
@@ -452,7 +452,7 @@ Act 3: Footer
   right: 0;
 }
 #secondary-nav li {
-  background: url(../img/sprite-y.8bit.png) 0 7px no-repeat;
+  background: url(../img/sprite-y.8bit.png) 0 10px no-repeat;
   margin-left: 8px;
   padding-left: 9px;
 }
@@ -608,47 +608,6 @@ form.search .type-submit {
   background-position: 8px -94px;
   right: 0;
 }
-.article-excerpt {
-  border-bottom: #ccc solid 1px;
-  margin-bottom: 27px;
-  padding-bottom: 30px;
-  overflow: hidden;
-}
-.article-excerpt .title {
-  font: bold 18px Georgia, Serif;
-  margin-bottom: 5px;
-}
-.article-excerpt .meta {
-  color: #666;
-  font: italic 13px Georgia, Serif;
-  margin-bottom: 10px;
-}
-.article-excerpt .sep {
-  padding: 0 2px;
-}
-.article-excerpt .has-featured-image .body {
-  /**
-	 * @workaround min-height Fast Hack
-	 *
-	 * IE6 doesn't support min-height, but treats elements with
-	 * height and overflow:visible as min-height.
-	 *
-	 * @affected IE5, IE6
-	 * @see http://www.dustindiaz.com/min-height-fast-hack/
-	 */
-
-  height: auto !important;
-  height: 122px;
-  min-height: 122px;
-  position: relative;
-  padding-left: 155px;
-  zoom: 1;
-}
-.article-excerpt .has-featured-image img {
-  left: 0;
-  position: absolute;
-  top: 2px;
-}
 .article .header {
   margin-bottom: 18px;
 }
@@ -713,6 +672,47 @@ form.search .type-submit {
   left: 12px;
   position: absolute;
   top: 12px;
+}
+.article-excerpt {
+  border-bottom: #ccc solid 1px;
+  margin-bottom: 27px;
+  padding-bottom: 30px;
+  overflow: hidden;
+}
+.article-excerpt .header .title {
+  font: bold 18px Georgia, Serif;
+  margin-bottom: 5px;
+}
+.article-excerpt .header .meta {
+  color: #666;
+  font: italic 13px Georgia, Serif;
+  margin-bottom: 10px;
+}
+.article-excerpt .sep {
+  padding: 0 2px;
+}
+.article-excerpt .has-featured-image .body {
+  /**
+	 * @workaround min-height Fast Hack
+	 *
+	 * IE6 doesn't support min-height, but treats elements with
+	 * height and overflow:visible as min-height.
+	 *
+	 * @affected IE5, IE6
+	 * @see http://www.dustindiaz.com/min-height-fast-hack/
+	 */
+
+  height: auto !important;
+  height: 122px;
+  min-height: 122px;
+  position: relative;
+  padding-left: 155px;
+  zoom: 1;
+}
+.article-excerpt .has-featured-image img {
+  left: 0;
+  position: absolute;
+  top: 2px;
 }
 .callouts {
   margin-bottom: 30px;
@@ -805,23 +805,41 @@ form.search .type-submit {
   font-size: 12px;
   left: 0;
   line-height: 1.5;
-  padding-right: 24px;
+  padding-right: 23px;
   position: absolute;
   top: 0;
   width: 165px;
   z-index: 1000;
 }
 .tools-nav .tools-menu-item {
-  background: #fff;
-  border: #006b94 solid 2px;
-  border-left: 0;
   padding: 12px;
   position: absolute;
+  width: 158px;
+}
+.tools-nav .tools-menu-item .header {
+  background: url(../img/tools-content-background.png) 0 0 no-repeat;
+  padding: 17px 18px 0 11px;
+}
+.tools-nav .tools-menu-item .body {
+  background: url(../img/tools-content-background.png) 0 bottom no-repeat;
+  padding: 7px 16px 21px 11px;
+}
+.tools-nav .tools-menu-item .title {
+  border-bottom: #d3dbe1 solid 1px;
+  font: italic bold 14px Georgia, Serif;
+  padding: 0 0 2px;
+}
+.tools-nav .tools-menu-item ul {
+  margin-left: 1px;
+}
+.tools-nav .tools-menu-item li {
+  background: url(../img/sprite-y.8bit.png) 0 -393px no-repeat;
+  padding-left: 7px;
 }
 .tools-nav .nav {
   right: 0;
   position: absolute;
-  top: 0;
+  top: 14px;
 }
 .tools-nav .nav li {
   display: block;
@@ -835,14 +853,26 @@ form.search .type-submit {
   height: 22px;
   width: 22px;
 }
+.tools-nav .nav li.active a {
+  background-color: #e0e6ea;
+}
 .tools-nav .nav li a.content {
-  background-position: 4px -394px;
+  background-position: -96px -394px;
 }
 .tools-nav .nav li a.download {
-  background-position: 5px -596px;
+  background-position: -96px -296px;
 }
 .tools-nav .nav li a.comments {
-  background-position: 5px -495px;
+  background-position: -96px -495px;
+}
+.tools-nav .nav li.active a.content {
+  background-position: -196px -394px;
+}
+.tools-nav .nav li.active a.download {
+  background-position: -196px -296px;
+}
+.tools-nav .nav li.active a.comments {
+  background-position: -196px -495px;
 }
 .social-nav li {
   margin-left: 6px;
@@ -986,14 +1016,23 @@ form.search .type-submit {
 .widget li {
   font-size: 13px;
   line-height: 1.38;
-}
-.widget ol li a, .widget ul li a {
-  display: block;
   padding: 3px 20px;
 }
-.widget ol li a:hover, .widget ul li a:hover {
-  background: #dadada;
+.widget li a {
+  display: block;
+}
+.widget li a:hover {
   text-decoration: none;
+}
+.widget ol li:hover, .widget ul li:hover {
+  background-color: #dadada;
+  text-decoration: none;
+}
+.widget ol li.recentcomments:hover, .widget ul li.recentcomments:hover {
+  background-color: none;
+}
+.widget li.recentcomments a:hover {
+  text-decoration: underline;
 }
 .pagination .previous {
   float: left;
@@ -1109,10 +1148,9 @@ form.search .type-submit {
   overflow: visible;
 }
 .article .article-section-author-list .author-info .content {
-  background: #fff;
-  border: #ddd solid 1px;
+  background: url(../img/author-card-background.png) center bottom no-repeat;
   margin: 0;
-  padding: 7px 10px;
+  padding: 1px 15px 15px;
 }
 .article .article-section-author-list .author-info .content p {
   margin: 0;
@@ -1124,6 +1162,7 @@ form.search .type-submit {
   float: left;
   margin-right: 10px;
   position: relative;
+  zoom: 1;
 }
 .article .article-section-author-list li:hover .author-info {
   display: block;
@@ -1133,15 +1172,16 @@ form.search .type-submit {
   left: 50%;
   margin-left: -119px;
   position: absolute;
-  width: 238px;
+  width: 248px;
   z-index: 1000;
 }
+html.ie7 .article .article-section-author-list .author-info {
+  top: 15px;
+}
 .article .article-section-author-list .author-info .header {
-  background: url(../img/author-list-box-pointer.png) center 0 no-repeat;
-  height: 7px;
+  background: url(../img/author-card-background.png) center 0 no-repeat;
+  height: 15px;
   margin: 0;
-  position: relative;
-  top: 1px;
 }
 /* requires jQuery Tabs */
 .widget-recent-posts .nav {
@@ -1153,6 +1193,7 @@ form.search .type-submit {
   border-bottom: #006B94 solid 1px;
   font: italic bold 14px Georgia, Serif;
   margin-right: 6px;
+  padding: 0;
 }
 .widget-recent-posts .nav li a {
   display: block;
