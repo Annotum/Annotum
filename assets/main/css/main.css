@@ -676,6 +676,12 @@ form.search .type-submit {
 .article .to-top {
   text-align: right;
 }
+.article .to-top a {
+  background: #006B94;
+  color: #fff;
+  font-weight: bold;
+  padding: 4px 8px;
+}
 .article-excerpt {
   border-bottom: #ccc solid 1px;
   margin-bottom: 27px;
