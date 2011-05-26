@@ -18,10 +18,9 @@ function anno_user_can($cap, $user_id = null, $post_id = null, $comment_id = nul
 		$user_id = $current_user->ID;
 	}
 	if (is_null($post_id)) {
-		// Assume post, since only one cap checks comments
-		global $post;
-		$post_id = $post->ID;
+		$post_id = annowf_get_post_id();
 	}
+	
 	$post_state = anno_get_post_state($post_id);
 
 	$user_role = anno_role($user_id, $post_id);
@@ -34,6 +33,10 @@ function anno_user_can($cap, $user_id = null, $post_id = null, $comment_id = nul
 	$editor = 'editor';
 	
 	switch ($cap) {
+		case 'admin': 
+			if ($user_role == $admin) {
+				return $true;
+			}
 		case 'trash_post':
 			// Draft state, author or editor+
 			if ($post_round < 1 && $post_state == 'draft' && $user_role && !in_array($user_role, array('reviewer', 'co-author'))) {
@@ -48,7 +51,8 @@ function anno_user_can($cap, $user_id = null, $post_id = null, $comment_id = nul
 			break;
 		case 'edit_post':
 			global $pagenow;
-			// Allow edits for things such as typos
+			
+			// Allow edits for things such as typos (in any state)
 			if ($user_role == $admin) {
 				return true;
 			}

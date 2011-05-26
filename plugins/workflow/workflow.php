@@ -75,7 +75,6 @@ function anno_workflow_js() {
 }
 add_action('admin_print_scripts', 'anno_workflow_js');
 
-
 /**
  * Display status meta box markup. Heavily based on code from the WP Core 3.1.2
  */ 
@@ -477,8 +476,8 @@ function anno_minor_action_save_markup() {
  */
 function anno_major_action_clone_markup() {
 ?>
-	<div id="preview-action" class="major center-wrap">
-		<a class="button-primary" href="#" id="post-clone" tabindex="5"><?php _e('Clone', 'anno') ?></a>
+	<div id="clone-action" class="major center-wrap">
+		<?php submit_button('Clone', 'primary', 'publish', false, array( 'tabindex' => '5', 'accesskey' => 'p' )); ?>
 	</div>
 	<div class="clear"></div>
 		
@@ -957,7 +956,7 @@ function anno_cloned_metabox() {
  * @param int $orig_id The original ID of the post to clone from
  * @return int|bool The newly created (clone) post ID. false if post failed to insert.
  */
-function anno_clone_post($orig_id) {
+function annowf_clone_post($orig_id) {
 	global $current_user;
 	
 	//Get post, convert to Array.
@@ -966,6 +965,8 @@ function anno_clone_post($orig_id) {
 
 	unset($post['ID']);
 	$post['post_author'] = $current_user->ID;
+	$post['post_status'] = 'draft';
+	$post['post_title'] = __('Cloned: ', 'anno').' '.$post['post_title'];
 	
 	$new_id = wp_insert_post($post);
 	if ($new_id) {
@@ -989,7 +990,7 @@ function anno_author_metabox() {
 	global $post;
 	$authors = anno_get_post_users($post->ID, '_co_authors');
 	$authors[] = $post->post_author;	
-?>s
+?>
 <label class="screen-reader-text" for="post_author_override"><?php _e('Author'); ?></label>
 <?php
 	wp_dropdown_users(array(
@@ -1001,80 +1002,115 @@ function anno_author_metabox() {
 }
 
 /**
- * Add Workflow settings page
+ * Admin request handler. Handles backend permission enforcement, cloning.
  */ 
-function anno_add_submenu_page() {
-	add_submenu_page(
-		'themes.php', 
-		__('Annotum Workflow Settings', 'anno'), 
-		__('Workflow Settings', 'anno'), 
-		'manage_options',
-		'anno-workflow-settings',
-		'anno_settings_page' 
-	);
-}
-add_action('admin_menu', 'anno_add_submenu_page');
+function annowf_admin_request_handler() {	
+	// Enforce Capabilities on the backend.
+	if (isset($_POST['action'])) {
+		$wp_action = $_POST['action'];
+	}
+	else if (isset($_GET['action'])) {
+		$wp_action = $_GET['action'];
+	}
+	if (isset( $_POST['deletepost'])) {
+		$wp_action = 'delete';
+	}
+	
+	if (isset($_POST['post_type'])) {
+		$post_type = $_POST['post_type'];
+	}
+	else if (isset($_GET['action'])) {
+		$post_type = $_GET['action'];
+	}
 
-/**
- * Add Workflow settings page markup
- */
-function anno_settings_page() {
-?>
-<div class="wrap">
-	<h2><?php _e('Annotum Workflow Settings', 'anno'); ?></h2>
-	<form action="<?php admin_url('/'); ?>" method="post">
-		<p>
-			<label for="anno-workflow">Enbable Workflow</label>
-			<input id="anno-workflow" type="checkbox" value="1" name="anno_workflow"<?php checked(get_option('annowf_setting'), 1); ?> />
-		</p>
-		<p class="submit">
-			<?php wp_nonce_field('annowf_settings', '_wpnonce', true, true); ?>
-			<input type="hidden" name="anno_action" value="annowf_update_settings" />
-			<input type="submit" name="submit_button" class="button-primary" value="<?php _e('Save Changes', 'anno'); ?>" />
-		</p>
-	</form>
-</div>
-<?php
-}
-
-function annowf_admin_request_handler() {
-	if (isset($_POST['anno_action'])) {
-		switch ($_POST['anno_action']) {
-			case 'annowf_update_settings':
-				if (!check_admin_referer('annowf_settings')) {
-					die();
-				}
-				if (isset($_POST['anno_workflow']) && !empty($_POST['anno_workflow'])) {
-					update_option('annowf_setting', 1);
-				}
-				else {
-					update_option('annowf_setting', 0);
-				}
-				wp_redirect(admin_url('/themes.php?page=anno-workflow-settings&updated=true'));
-				die();
+	if (!empty($wp_action) && $post_type == 'article') {
+		switch ($wp_action) {
+			case 'postajaxpost':
+			case 'post':
+			case 'post-quickpress-publish':
+			case 'post-quickpress-save':
+				$anno_cap = 'edit_post';
 				break;
+			// Creation and editing
+			case 'editpost':
+			case 'editattachment':
+			case 'autosave':
+				$anno_cap = 'edit_post';
+				break;
+			// For Viewing post-edit screen
+			case 'edit':
+				$anno_cap = 'view_post';
+				break;
+			case 'trash':
+			case 'untrash':
+				$anno_cap = 'trash_post';
+				break;
+			case 'delete':
+				$anno_cap = 'admin';
+				break;			
 			default:
 				break;
+		}
+		
+		if (!empty($anno_cap) && !anno_user_can($anno_cap)) {
+			add_filter('user_has_cap', 'annowf_user_has_cap_filter');
 		}
 	}
 	
 	// Cloning
-	if (isset($_POST['publish'])) {
-		
+	if (isset($_POST['publish']) && $_POST['publish'] == 'Clone') {
+		if (!anno_user_can('clone_post')) {
+			wp_die(__('You are not allowed to clone this post.'));
+		}
+		$post_id = annowf_get_post_id();
+		$new_id = annowf_clone_post($post_id);
+		if (!empty($new_id)) {
+			// TODO alert post has been cloned
+			$url = get_edit_post_link($new_id, 'redirect');
+		} 
+		else {
+			//TODO alert unable to clone for w/e reason (possibly hook into messages)
+			$url = get_edit_post_link($post_id, 'redirect');
+		}
+
+		wp_redirect($url);
+		die();
 	}
 }
-if (is_admin()) {
-	add_action('init', 'annowf_admin_request_handler', 0);
+add_action('admin_init', 'annowf_admin_request_handler', 0);
+
+/**
+ * Filter to remove caps 
+ */
+function annowf_user_has_cap_filter($user_caps) {
+	// Remove all capabilities so the user cannot perform the current action.
+	return false;
 }
 
 /**
- * Helper function to determine if the workflow is enabled
+ * Returns a post ID if it can find it in any of the common places
+ * 
+ * @return int Post ID loaded on a given page, 0 otherwise.
+ * 
  */ 
-function anno_workflow_enabled() {
-	if (get_option('annowf_setting') == 1) {
-		return true;
+function annowf_get_post_id() {
+	global $post;
+	$post_id = $post->ID;
+	if (empty($post_id)) {
+		if (isset($_POST['post'])) {
+			$post_id = $_POST['post'];
+		}
+		else if (isset($_POST['post_ID'])) {
+			$post_id = $_POST['post_ID'];
+		}
+		else if (isset($_GET['post'])) {
+			$post_id = $_GET['post'];
+		}
+		else {
+			$post_id = 0;
+		}
 	}
-	return false;
+	return $post_id;
 }
 
 ?>
