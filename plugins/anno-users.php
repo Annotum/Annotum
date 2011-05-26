@@ -5,7 +5,7 @@
  */
 
 /**
- * This determines whether or not a user has the given abilities for a given post
+ * Determines whether or not a user has the given abilities for a given post
  * 
  * @param string $cap The capability to check
  * @param int $user_id The user id to check for a capability. Defaults to current user (global)
@@ -99,6 +99,7 @@ function anno_user_can($cap, $user_id = null, $post_id = null, $comment_id = nul
 				return true;
 			}
 			break;
+		case 'view_reviewers':
 		case 'view_review_comments':
 			//Reviewer or editor+
 			if ($user_role && !in_array($user_role, array('author', 'co-author'))) {
@@ -153,7 +154,7 @@ function anno_user_can($cap, $user_id = null, $post_id = null, $comment_id = nul
 			break;
 		case 'clone_post':
 			// Anyone can clone the post when its published
-			if ($post_state == 'published') {
+			if ($post_state == 'published' || $post_state == 'rejected') {
 				return true;
 			}
 			break;
