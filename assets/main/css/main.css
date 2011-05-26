@@ -673,6 +673,9 @@ form.search .type-submit {
   position: absolute;
   top: 12px;
 }
+.article .to-top {
+  text-align: right;
+}
 .article-excerpt {
   border-bottom: #ccc solid 1px;
   margin-bottom: 27px;
@@ -805,23 +808,21 @@ form.search .type-submit {
   font-size: 12px;
   left: 0;
   line-height: 1.5;
-  padding-right: 23px;
   position: absolute;
   top: 0;
   width: 165px;
   z-index: 1000;
 }
 .tools-nav .tools-menu-item {
-  padding: 12px;
   position: absolute;
   width: 158px;
 }
 .tools-nav .tools-menu-item .header {
-  background: url(../img/tools-content-background.png) 0 0 no-repeat;
+  background: url(../img/tools-content-background.png) right 0 no-repeat;
   padding: 17px 18px 0 11px;
 }
 .tools-nav .tools-menu-item .body {
-  background: url(../img/tools-content-background.png) 0 bottom no-repeat;
+  background: url(../img/tools-content-background.png) right bottom no-repeat;
   padding: 7px 16px 21px 11px;
 }
 .tools-nav .tools-menu-item .title {
@@ -837,9 +838,9 @@ form.search .type-submit {
   padding-left: 7px;
 }
 .tools-nav .nav {
-  right: 0;
+  right: -11px;
   position: absolute;
-  top: 14px;
+  top: 2px;
 }
 .tools-nav .nav li {
   display: block;
