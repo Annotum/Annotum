@@ -29,13 +29,16 @@ class Anno_Cacheer {
 	}
 }
 
-class Anno_Featured_Posts extends Anno_Cacheer {
+class Anno_Featured_Articles extends Anno_Cacheer {
 	public $key = 'anno_featured_posts';
+	public $enable_cache = false;
+	public static $already_shown = array();
 	
 	public function view() {
 		$q = new WP_Query(array(
 			'post_type' => 'article',
-			'posts_per_page' => 5
+			'posts_per_page' => 5,
+			'exclude' => self::$already_shown
 		));
 		if ($q->have_posts()) {
 			?>
@@ -72,5 +75,5 @@ class Anno_Featured_Posts extends Anno_Cacheer {
 	<?php
 	}
 }
-
+class Anno_Teaser_Articles extends Anno_Featured_Articles
 ?>

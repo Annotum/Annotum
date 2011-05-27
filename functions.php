@@ -21,7 +21,7 @@ include_once(CFCT_PATH.'carrington-core/carrington.php');
 include_once(CFCT_PATH.'functions/post-types.php');
 include_once(CFCT_PATH.'functions/taxonomies.php');
 include_once(CFCT_PATH.'functions/capabilities.php');
-include_once(CFCT_PATH.'functions/Anno_Featured_Posts.php');
+include_once(CFCT_PATH.'functions/featured-articles.php');
 include_once(CFCT_PATH.'plugins/load.php');
 
 function anno_setup() {

@@ -2,7 +2,7 @@
 	<div class="in">
 		<div id="masthead-body">
 			<?php
-			$featured = new Anno_Featured_Posts();
+			$featured = new Anno_Featured_Articles();
 			$featured->render();
 			?>
 		</div><!-- #masthead-body -->
