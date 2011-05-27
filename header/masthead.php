@@ -7,7 +7,10 @@
 			?>
 		</div><!-- #masthead-body -->
 		<div id="masthead-sidebar">
-			<?php cfct_misc('post-teasers'); ?>
-		</div><!-- #masthead-sidebar -->		
+			<?php
+			$teasers = new Anno_Teaser_Articles();
+			$teasers->render();
+			?>
+		</div><!-- #masthead-sidebar -->
 	</div>
 </div><!-- #masthead -->
