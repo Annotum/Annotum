@@ -30,6 +30,7 @@ class Anno_Cacheer {
 }
 
 class Anno_Featured_Articles extends Anno_Cacheer {
+	public $post_meta_key = '_featured';
 	public $enable_cache = false;
 	public static $already_shown = array();
 	public static $keys = array();
@@ -51,6 +52,10 @@ class Anno_Featured_Articles extends Anno_Cacheer {
 		$this->clear_caches();
 		
 		$q = new WP_Query(array(
+			'meta_query' => array(
+				'key' => $this->post_meta_key,
+				'value' => 'yes'
+			),
 			'post_type' => 'article',
 			'posts_per_page' => $this->number,
 			'post__not_in' => self::$already_shown
@@ -96,16 +101,25 @@ class Anno_Featured_Articles extends Anno_Cacheer {
 	<?php
 	}
 }
+
 class Anno_Teaser_Articles extends Anno_Featured_Articles {
 	public $number = 3;
 	
+	public function before_items() {
+		echo '<div class="post-teasers"><ul>';
+	}
+	
+	public function after_items() {
+		echo '</div></ul>';
+	}
+
 	public function render_item() { ?>
 		<li>
-			<div <?php post_class('carousel-item'); ?>>
-				<?php the_post_thumbnail('featured'); ?>
+			<div <?php post_class('post-teaser-item'); ?>>
+				<?php the_post_thumbnail('post-teaser'); ?>
 				<h2 class="title"><a href="<?php the_permalink() ?>"><?php the_title(); ?></a></h2>
 				<div class="content">
-					<?php the_excerpt(); ?>
+					<?php the_title(); ?>
 				</div>
 			</div>
 		</li>
