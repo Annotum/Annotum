@@ -547,8 +547,11 @@ form.search .type-submit {
   min-height: 232px;
   background: #66a6bf;
   color: #000;
-  padding: 16px 16px 16px 300px;
+  padding: 16px;
   position: relative;
+}
+.featured-posts .has-featured-image {
+	padding-left: 300px;
 }
 .featured-posts .carousel-item img {
   left: 16px;
