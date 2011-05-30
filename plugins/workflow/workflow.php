@@ -675,7 +675,7 @@ function annowf_admin_request_handler() {
 add_action('admin_init', 'annowf_admin_request_handler', 0);
 
 /**
- * Filter to remove caps 
+ * Filter to remove WP caps from a user for a given action if they do not have the workflow caps
  */
 function annowf_user_has_cap_filter($user_caps) {
 	// Remove all capabilities so the user cannot perform the current action.

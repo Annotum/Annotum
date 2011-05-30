@@ -9,11 +9,13 @@ function anno_register_taxonomies() {
 				'single' => __('Article Category', 'anno'),
 				'plural' => __('Article Categories', 'anno'),
 				'slug' => 'article_category',
+				'hierarchical' => true,
 			),
 			array(
 				'single' => __('Article Tag', 'anno'),
 				'plural' => __('Article Tags', 'anno'),
 				'slug' => 'article_tag',
+				'hierarchical' => false,
 			),
 		);
 	
@@ -36,7 +38,7 @@ function anno_register_taxonomies() {
 			); 
 
 			register_taxonomy($taxonomy['slug'], 'article', array(
-				'hierarchical' => true,
+				'hierarchical' => $taxonomy['hierarchical'],
 				'labels' => $labels,
 				'show_ui' => true,
 				'query_var' => true,
