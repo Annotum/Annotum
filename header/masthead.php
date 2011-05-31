@@ -1,10 +1,16 @@
 <div id="masthead" class="clearfix">
 	<div class="in">
 		<div id="masthead-body">
-			<?php cfct_misc('featured-posts'); ?>
+			<?php
+			$featured = new Anno_Featured_Articles();
+			$featured->render();
+			?>
 		</div><!-- #masthead-body -->
 		<div id="masthead-sidebar">
-			<?php cfct_misc('post-teasers'); ?>
-		</div><!-- #masthead-sidebar -->		
+			<?php
+			$teasers = new Anno_Teaser_Articles();
+			$teasers->render();
+			?>
+		</div><!-- #masthead-sidebar -->
 	</div>
 </div><!-- #masthead -->
