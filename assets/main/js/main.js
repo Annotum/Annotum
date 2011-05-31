@@ -11,6 +11,7 @@
 
 /**
  * Annotum module
+ * @author Crowd Favorite
  */
 var Anno = function($, Exe) {
 	/* A dictionary for localizing strings in PHP.
