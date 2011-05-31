@@ -9,11 +9,13 @@ function anno_register_taxonomies() {
 				'single' => __('Article Category', 'anno'),
 				'plural' => __('Article Categories', 'anno'),
 				'slug' => 'article_category',
+				'hierarchical' => true,
 			),
 			array(
 				'single' => __('Article Tag', 'anno'),
 				'plural' => __('Article Tags', 'anno'),
 				'slug' => 'article_tag',
+				'hierarchical' => false,
 			),
 		);
 	
@@ -28,7 +30,7 @@ function anno_register_taxonomies() {
 				'all_items' => __( 'All', 'anno').' '.$plural,
 				'edit_item' => __( 'Edit', 'anno' ).' '.$single,
 				'update_item' => __( 'Update', 'anno' ).' '.$single,
-				'add_new_item' => __( 'Add New' ).' '.$single,
+				'add_new_item' => __( 'Add New', 'anno' ).' '.$single,
 				'new_item_name' => __( 'New', 'anno' ).' '.$single.' '.__( 'Name', 'anno' ),
 				'add_or_remove_items' => __( 'Add or remove', 'anno' ).' '.$plural,
 				'choose_from_most_used' => __( 'Choose from the most used ', 'anno' ).' '.strtolower($single),
@@ -36,7 +38,7 @@ function anno_register_taxonomies() {
 			); 
 
 			register_taxonomy($taxonomy['slug'], 'article', array(
-				'hierarchical' => true,
+				'hierarchical' => $taxonomy['hierarchical'],
 				'labels' => $labels,
 				'show_ui' => true,
 				'query_var' => true,

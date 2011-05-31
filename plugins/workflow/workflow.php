@@ -1,6 +1,4 @@
 <?php
-//TODO Restructure!
-
 // Used in generating save buttons and proccess state changes
 global $anno_post_save;
 $anno_post_save = array(
@@ -161,10 +159,15 @@ function anno_transistion_state($post_id, $post, $post_before) {
 			}
 		}
 		
+		$notification_type = $new_state;
+		if ($old_state == 'draft' && $new_state == 'in_review') {
+			$notification_type = 're_review';
+		}
 		// Send back for revisions
 		if ($new_state == 'draft' && !empty($old_state) && $old_state != 'draft') {
 			$round = anno_get_round($post_id);
 			update_post_meta($post_id, '_round', intval($round) + 1);
+			$notification_type = 'revisions';
 		}
 	
 		if ($new_state != $old_state) {
@@ -173,7 +176,9 @@ function anno_transistion_state($post_id, $post, $post_before) {
 			}
 			update_post_meta($post->ID, '_post_state', $new_state);
 			do_action('anno_state_change', $new_state, $old_state);
-			//TODO hook in email action to anno_state_change
+			
+			// Send notifications
+			annowf_send_notification($notification_type, $post);
 		}
 		
 		// Author has changed, add original author as co-author, remove new author from co-authors
@@ -185,32 +190,9 @@ function anno_transistion_state($post_id, $post, $post_before) {
 }
 add_action('post_updated', 'anno_transistion_state', 10, 3);
 
-//TODO move out of workflow
-// Look into apply_filters( 'redirect_post_location', $location, $post_id ) );
-function anno_post_updated_messages($messages) {
-	global $post;
-	// Based on message code in WP Core 3.2
-	$messages['article'] = array(
-		0 => '', // Unused. Messages start at index 1.
-		1 => sprintf(__('Article updated. <a href="%s">View article</a>', 'anno'), esc_url(get_permalink($post->ID))),
-		2 => __('Custom field updated.', 'anno'),
-		3 => __('Custom field deleted.', 'anno'),
-		4 => __('Article updated.', 'anno'),
-	 	5 => isset($_GET['revision']) ? sprintf( __('Article restored to revision from %s', 'anno'), wp_post_revision_title((int) $_GET['revision'], false )) : false,
-		6 => sprintf( __('Article published. <a href="%s">View article</a>', 'anno'), esc_url(get_permalink($post->ID))),
-		7 => __('Article saved.', 'anno'),
-		8 => sprintf( __('Article submitted. <a target="_blank" href="%s">Preview article</a>'), esc_url(add_query_arg('preview', 'true', get_permalink($post->ID)))),
-		9 => sprintf( __('Article scheduled for: <strong>%1$s</strong>. <a target="_blank" href="%2$s">Preview article</a>'), date_i18n( __( 'M j, Y @ G:i' ), strtotime( $post->post_date )), esc_url( get_permalink($post->ID))),
-		10 => sprintf( __('Article draft updated. <a target="_blank" href="%s">Preview article</a>', 'article'), esc_url( add_query_arg('preview', 'true', get_permalink($post->ID)))),
-	);
-
-	return $messages;
-}
-add_filter('post_updated_messages', 'anno_post_updated_messages');
-
-//TODO Abstract the two meta below?
 /**
  * Meta box for reviewer management and display
+ * @todo Abstract to pass type to meta box markup for co-authors or reviewers
  */
 function anno_reviewers_meta_box() {
 	global $post;
@@ -313,13 +295,17 @@ function anno_user_li_markup($user, $type = null) {
  * Handles AJAX request for adding a reviewer to a post. As well as transitioning states.
  */ 
 function anno_add_reviewer() {
-	if (anno_add_user('reviewer')) {
-		$post_id = $_POST['post_id'];
+	$user = anno_add_user('reviewer');
+	if (!empty($user)) {
+		$post_id = intval($_POST['post_id']);
 		$post_state = anno_get_post_state($post_id);
 		if ($post_state == 'submitted') {
 			update_post_meta($post_id, '_post_state', 'in_review');
 			//TODO reload?
 		}
+		//Send email
+		$post = get_post($post_id);
+		annowf_send_notification('reviewer_added', $post, '', array($user->user_email));
 	}
 	die();
 }
@@ -329,7 +315,11 @@ add_action('wp_ajax_anno-add-reviewer', 'anno_add_reviewer');
  * Handles AJAX request for adding a co-author to a post.
  */
 function anno_add_co_author() {
-	anno_add_user('co_author');
+	$user = anno_add_user('co_author');
+	if (!empty($user)) {
+		$post = get_post(intval($_POST['post_id']));
+		annowf_send_notification('co_author_added', $post, '', array($user->user_email));
+	}
 	die();
 }
 add_action('wp_ajax_anno-add-co-author', 'anno_add_co_author');
@@ -375,7 +365,7 @@ function anno_add_user($type) {
 	}
 	echo json_encode(array('message' => $message, 'html' => $html));
 	if ($message == 'success') {
-		return true;
+		return $user;
 	}
 	else {
 		return false;
@@ -504,15 +494,16 @@ add_action('wp_ajax_anno-user-search', 'anno_user_search');
 /**
  * Metabox for posts that have been cloned from this post
  */ 
-//TODO style
 function anno_cloned_meta_box() {
 	global $post;
 	
 	$cloned_from = get_post_meta($post->ID, '_anno_cloned_from', true);
+?>
+	<dl class="anno-versions">
+<?php
 	if (!empty($cloned_from)) {
 		$cloned_post = get_post($cloned_from);
 ?>
-	<dl class="anno-versions">
 		<dt><?php echo __('Cloned From', 'anno'); ?></dt>
 		<dd><?php echo '<a href="'.esc_url(get_edit_post_link($cloned_from)).'">'.esc_html($cloned_post->post_title).'</a>'; ?></dd>
 <?php	
@@ -551,7 +542,7 @@ function annowf_clone_post($orig_id) {
 	unset($post['ID']);
 	$post['post_author'] = $current_user->ID;
 	$post['post_status'] = 'draft';
-	$post['post_title'] = __('Cloned: ', 'anno').' '.$post['post_title'];
+	$post['post_title'] = __('Cloned:', 'anno').' '.$post['post_title'];
 	
 	$new_id = wp_insert_post($post);
 	if ($new_id) {
@@ -657,12 +648,10 @@ function annowf_admin_request_handler() {
 		$post_id = annowf_get_post_id();
 		$new_id = annowf_clone_post($post_id);
 		if (!empty($new_id)) {
-			// TODO alert post has been cloned
-			$url = get_edit_post_link($new_id, 'redirect');
+			$url = add_query_arg( 'message', 11, get_edit_post_link($new_id, 'url'));
 		} 
 		else {
-			//TODO alert unable to clone for w/e reason (possibly hook into messages)
-			$url = get_edit_post_link($post_id, 'redirect');
+			$url = add_query_arg( 'message', 12, get_edit_post_link($post_id, 'url'));
 		}
 
 		wp_redirect($url);
@@ -672,7 +661,7 @@ function annowf_admin_request_handler() {
 add_action('admin_init', 'annowf_admin_request_handler', 0);
 
 /**
- * Filter to remove caps 
+ * Filter to remove WP caps from a user for a given action if they do not have the workflow caps
  */
 function annowf_user_has_cap_filter($user_caps) {
 	// Remove all capabilities so the user cannot perform the current action.

@@ -155,6 +155,9 @@ function anno_internal_comments_general_comments() {
 	anno_internal_comments_display('general');
 }
 
+/**
+ * Meta box markup for reviewer review and comments
+ */
 function anno_internal_comments_reviewer_comments() {
 	global $anno_review_options, $current_user, $post;
 	$round = anno_get_round($post->ID);
@@ -253,7 +256,6 @@ if (!is_admin()) {
 	add_filter('comments_clauses', 'anno_internal_comments_clauses');
 }
 
-
 /**
  * Modify the comment count stored in the wp_post comment_count column, so internal comments don't show up there.
  * Based on code in the WP Core function wp_update_comment_count
@@ -276,6 +278,8 @@ add_action('wp_update_comment_count', 'anno_internal_comments_update_comment_cou
 /**
  * Processes an AJAX request when submitting an internal comment
  * Based on code in the WP Core
+ * 
+ * @todo handle comment errors instead of just dying.
  */ 
 function anno_internal_comments_ajax() {
 	check_ajax_referer('anno_comment', '_ajax_nonce-anno-comment-'.$_POST['type']);
@@ -292,11 +296,11 @@ function anno_internal_comments_ajax() {
 		$user_ID = $user->ID;
 	}
 	else {
-		die( __('Sorry, you must be logged in to reply to a comment.', 'anno') );
+		die();
 	}
 	
 	if ( '' == $comment_content ) {
-		die( __('Error: please type a comment.', 'anno') );
+		die();
 	}
 	
 	$comment_parent = absint($_POST['parent_id']);
@@ -310,9 +314,20 @@ function anno_internal_comments_ajax() {
 	
 	$comment = get_comment($comment_id);
 	if (!$comment) {
-		 die('-1');
+		 die();
 	}
-	
+
+	// Send email notifications of new commment
+	$post = get_post($comment_post_ID);
+	annowf_send_notification(trim($_POST['type']).'_comment', $post, $comment);
+
+	// Send email notification for a reply to a comment
+	if (!empty($comment_parent)) {
+		$parent_comment = get_comment($comment_parent);
+		$recipients = array(annowf_user_email($parent_comment->user_id));
+		annowf_send_notification(trim($_POST['type']).'_comment_reply', $post, $comment, $recipients);
+	}
+
 	//Display markup for AJAX
 	anno_internal_comment_table_row($comment);
 
@@ -390,11 +405,15 @@ function anno_internal_comments_get_comment_root($comment) {
 	return $comment;
 }
 
-//TODO Better implementation of below. Possible WP Core patch for hook in notify_author function
+/**
+ * Function to limit front-end display of comments. 
+ * Wrap this filter around comments_template();
+ * 
+ * @todo Update to WP_Comment_Query filter when WP updates core to use non-hardcoded queries.
+ */
 function anno_internal_comments_query($query) {
 	$query = str_replace('WHERE', 'WHERE comment_type NOT IN (\'article_general\', \'article_review\') AND', $query);
 	return $query;
 }
-
 
 ?>
