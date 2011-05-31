@@ -13,7 +13,7 @@ if (__FILE__ == $_SERVER['SCRIPT_FILENAME']) { die(); }
 if (CFCT_DEBUG) { cfct_banner(__FILE__); }
 
 ?>
-<?php cfct_misc('tools-nav'); ?>
+<?php //cfct_misc('tools-nav'); ?>
 
 
 <article class="article">

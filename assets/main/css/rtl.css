@@ -88,6 +88,10 @@ form.search .type-submit {
 	right: 0;
 }
 
+.widget-recent-posts .nav li {
+	float: right;
+}
+
 #reply .input-row {
 	padding-left: 0;
 	padding-right: 180px;
