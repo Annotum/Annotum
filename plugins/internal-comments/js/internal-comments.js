@@ -10,7 +10,6 @@ jQuery(document).ready(function($) {
 		var data = {action: 'anno-internal-comment', type: type, content: content, parent_id: parent_id, post_id: ANNO_POST_ID};
 		data[nonce_name] = nonce;
 		$.post(ajaxurl, data, function(data) {
-			//TODO check for failure in data
 			content_area.val('');
 			$('#the-comment-list-' + type).prepend(data);
 		});

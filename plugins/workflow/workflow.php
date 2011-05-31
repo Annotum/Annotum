@@ -1,6 +1,4 @@
 <?php
-//TODO Restructure!
-
 // Used in generating save buttons and proccess state changes
 global $anno_post_save;
 $anno_post_save = array(
@@ -192,32 +190,9 @@ function anno_transistion_state($post_id, $post, $post_before) {
 }
 add_action('post_updated', 'anno_transistion_state', 10, 3);
 
-//TODO move out of workflow
-// Look into apply_filters( 'redirect_post_location', $location, $post_id ) );
-function anno_post_updated_messages($messages) {
-	global $post;
-	// Based on message code in WP Core 3.2
-	$messages['article'] = array(
-		0 => '', // Unused. Messages start at index 1.
-		1 => sprintf(__('Article updated. <a href="%s">View article</a>', 'anno'), esc_url(get_permalink($post->ID))),
-		2 => __('Custom field updated.', 'anno'),
-		3 => __('Custom field deleted.', 'anno'),
-		4 => __('Article updated.', 'anno'),
-	 	5 => isset($_GET['revision']) ? sprintf( __('Article restored to revision from %s', 'anno'), wp_post_revision_title((int) $_GET['revision'], false )) : false,
-		6 => sprintf( __('Article published. <a href="%s">View article</a>', 'anno'), esc_url(get_permalink($post->ID))),
-		7 => __('Article saved.', 'anno'),
-		8 => sprintf( __('Article submitted. <a target="_blank" href="%s">Preview article</a>'), esc_url(add_query_arg('preview', 'true', get_permalink($post->ID)))),
-		9 => sprintf( __('Article scheduled for: <strong>%1$s</strong>. <a target="_blank" href="%2$s">Preview article</a>'), date_i18n( __( 'M j, Y @ G:i' ), strtotime( $post->post_date )), esc_url( get_permalink($post->ID))),
-		10 => sprintf( __('Article draft updated. <a target="_blank" href="%s">Preview article</a>', 'article'), esc_url( add_query_arg('preview', 'true', get_permalink($post->ID)))),
-	);
-
-	return $messages;
-}
-add_filter('post_updated_messages', 'anno_post_updated_messages');
-
-//TODO Abstract the two meta below?
 /**
  * Meta box for reviewer management and display
+ * @todo Abstract to pass type to meta box markup for co-authors or reviewers
  */
 function anno_reviewers_meta_box() {
 	global $post;
@@ -519,7 +494,6 @@ add_action('wp_ajax_anno-user-search', 'anno_user_search');
 /**
  * Metabox for posts that have been cloned from this post
  */ 
-//TODO style
 function anno_cloned_meta_box() {
 	global $post;
 	
@@ -568,7 +542,7 @@ function annowf_clone_post($orig_id) {
 	unset($post['ID']);
 	$post['post_author'] = $current_user->ID;
 	$post['post_status'] = 'draft';
-	$post['post_title'] = __('Cloned: ', 'anno').' '.$post['post_title'];
+	$post['post_title'] = __('Cloned:', 'anno').' '.$post['post_title'];
 	
 	$new_id = wp_insert_post($post);
 	if ($new_id) {
@@ -674,12 +648,10 @@ function annowf_admin_request_handler() {
 		$post_id = annowf_get_post_id();
 		$new_id = annowf_clone_post($post_id);
 		if (!empty($new_id)) {
-			// TODO alert post has been cloned
-			$url = get_edit_post_link($new_id, 'redirect');
+			$url = add_query_arg( 'message', 11, get_edit_post_link($new_id, 'url'));
 		} 
 		else {
-			//TODO alert unable to clone for w/e reason (possibly hook into messages)
-			$url = get_edit_post_link($post_id, 'redirect');
+			$url = add_query_arg( 'message', 12, get_edit_post_link($post_id, 'url'));
 		}
 
 		wp_redirect($url);

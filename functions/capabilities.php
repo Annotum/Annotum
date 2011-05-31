@@ -5,10 +5,11 @@
  */ 
 function anno_remove_roles_and_capabilities() {
 	$wp_roles = new WP_Roles();
-//TODO Remove subscriver, author roles?
+//TODO Remove subscriber, author roles? 
 //	$wp_roles->remove_role('subscriber');
 //	$wp_roles->remove_role('author');
 	
+// TODO Enable editing for all existing roles?
 	$roles_to_modify = array(
 		'administrator' => array(
 			'edit_articles',
