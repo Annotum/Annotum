@@ -51,6 +51,9 @@ function annowf_notification_recipients($type, $post) {
 		case 'approved':
 			$recipients = array_merge($recipients, annowf_get_role_emails('administrator'));
 			break;
+		case 're_review':
+			$recipients = annowf_get_role_emails('reviewer', $post);
+			break;
 		//No case for reviewer_added. Recipeients passed in directly to annowf_send_notification here.
 		default:
 			break;
@@ -103,7 +106,7 @@ Excerpt: %s
 %s', 'anno'), $title, implode(',', $author_names), $post->post_excerpt, $edit_link, $footer)	
 			);
 			break;
-		// Status change to: in_review
+		// Status change to: in_review from submitted
 		case 'in_review':
 			$notification = array(
 				'subject' => sprintf(__('%s now in review.', 'anno'), $title),
@@ -113,6 +116,18 @@ Excerpt: %s
 %s
 
 %s', 'anno'), $title, $edit_link, $footer)	
+			);
+			break;
+		// Status change to: in_review from draft (revisions have occured)
+		case 're_review':
+			$notification = array(
+				'subject' => sprintf(__('%s now in review.', 'anno'), $title),
+				'body' => sprintf(__(
+'Revisions have been made for %s and we ask you to please re-review the article.
+
+%s
+
+%s', 'anno'), $title, $edit_link, $footer),
 			);
 			break;
 		// Status change to: approved
@@ -179,47 +194,81 @@ Excerpt: %s
 %s
 
 %s
-%s', 'anno'), $post->post_title, implode($author_names), $post->post_excerpt, $edit_link, $reviewer_instructions, $footer),
+%s', 'anno'), $title, implode($author_names), $post->post_excerpt, $edit_link, $reviewer_instructions, $footer),
 			);
 			break;
+			case 'co_author_added':
+				$notification = array(
+					'subject' => sprintf(__('You have been invited to co-author %s by %s', 'anno'), $title, $author),
+					'body' => sprintf(__(
+'You are have been invited to co-author %s by %s.
+%s
+
+%s', 'anno'), $title, $author, $foorer),
+				);
+				break;
 		default:
 			break;
 	}
-	
 	if (!empty($comment)) {
-		$comment_author = get_userdata($comment->user_id);
-		$comment_author = $comment_author->first_name.' '.$comment_author->last_name;
+		$comment_author = annowf_user_display($comment->user_id);
+		$comment_edit_link =  get_edit_post_link($comment->comment_post_ID, null).'#comment-'.$comment->comment_ID;
 		switch ($type) {
 			case 'general_comment':
 				$notification = array(
-					'subject' => sprintf(__('New internal comment on %s.', 'anno'), $author),
+					'subject' => sprintf(__('New internal comment on %s.', 'anno'), $title),
 					'body' => sprintf(__(
-'The following comment was submitted on %s by %s
+'The following comment was submitted on %s by %s.
 --------------------
 %s
 --------------------
 %s
 
-%s', 'anno'), $title, $comment_author, $comment->comment_content, $edit_link, $footer)
+%s', 'anno'), $title, $comment_author, $comment->comment_content, $comment_edit_link, $footer),
+				);
+				break;
+			case 'general_comment_reply':
+				$notification = array(
+					'subject' => sprintf(__('Reply to internal comment on %s', 'anno'), $title),
+					'body' => sprintf(__(
+'%s has replied to your internal comment on %s.
+--------------------
+%s
+--------------------
+%s
+
+%s', 'anno'), $comment_author, $title, $comment->comment_content, $comment_edit_link, $footer),
 				);
 				break;
 			case 'review_comment':
 				$notification = array(
-					'subject' => sprintf(__('New reviewer comment on %s.', 'anno'), $author),
+					'subject' => sprintf(__('New reviewer comment on %s', 'anno'), $title),
 					'body' => sprintf(__(
-'The following comment was submitted on %s by %s
+'The following comment was submitted on %s by %s.
 --------------------
 %s
 --------------------
 %s
 
-%s', 'anno'), $title, $comment_author, $comment->comment_content, $edit_link, $footer),
+%s', 'anno'), $title, $comment_author, $comment->comment_content, $comment_edit_link, $footer),
+				);
+				break;
+			case 'review_comment_reply':
+				$notification = array(
+					'subject' => sprintf(__('Reply to reviewer comment on %s', 'anno'), $title),
+					'body' => sprintf(__(
+'%s has replied to your reviewer comment on %s.
+--------------------
+%s
+--------------------
+%s
+
+%s', 'anno'), $comment_author, $title, $comment->comment_content, $comment_edit_link, $footer),
 				);
 				break;
 			default:
 				break;
 		}
-		
 	}
 	
 	return apply_filters('annowf_notfication', $notification, $type, $post, $comment);

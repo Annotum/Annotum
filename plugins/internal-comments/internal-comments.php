@@ -316,9 +316,16 @@ function anno_internal_comments_ajax() {
 		 die('-1');
 	}
 
-	// Send email notification of new commment
+	// Send email notifications of new commment
 	$post = get_post($comment_post_ID);
 	annowf_send_notification(trim($_POST['type']).'_comment', $post, $comment);
+
+	// Send email notification for a reply to a comment
+	if (!empty($comment_parent)) {
+		$parent_comment = get_comment($comment_parent);
+		$recipients = array(annowf_user_email($parent_comment->user_id));
+		annowf_send_notification(trim($_POST['type']).'_comment_reply', $post, $comment, $recipients);
+	}
 
 	//Display markup for AJAX
 	anno_internal_comment_table_row($comment);

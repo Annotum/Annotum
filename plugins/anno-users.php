@@ -333,7 +333,7 @@ function annowf_get_role_emails($role, $post = null) {
 			}
 			break;
 		case 'reviewer':
-			$user_ids = anno_get_post_users($post->ID, 'reviewers');
+			$user_ids = anno_get_post_users($post->ID, '_reviewers');
 			if (!empty($user_ids)) {
 				$users = get_users(array('include' => $user_ids));
 			}
@@ -356,6 +356,9 @@ function annowf_get_role_emails($role, $post = null) {
  * @return string The email of the given user
  */
 function annowf_user_email($user) {
+	if (is_numeric($user)) {
+		$user = get_userdata(intval($user));
+	}
 	return $user->user_email;
 }
 
@@ -367,7 +370,7 @@ function annowf_user_email($user) {
  */
 function annowf_user_display($user) {
 	if (is_numeric($user)) {
-		$user = get_userdata($user);
+		$user = get_userdata(intval($user));
 	}
 	
 	if (!empty($user->first_name) || !empty($user->last_name)) {
