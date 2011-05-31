@@ -1,0 +1,218 @@
+html {
+	direction: rtl;
+}
+
+/* Search */
+#site-nav .search {
+	float: left;
+}
+form.search input.type-text {
+	padding-left: 19px;
+	padding-right: 0;
+}
+form.search .type-submit {
+	left: 11px;
+	right: auto;  
+}
+
+/* Primary Nav */
+#site-nav .nav {
+	float: right;
+}
+#site-nav li {
+	border-right: 0;
+	border-left-width: 1px;
+	float: right;
+}
+
+/* Secondary Nav */
+#secondary-nav .nav {
+	left: 0;
+	right: auto;
+}
+#secondary-nav .nav li {
+	background-position: right 10px;
+	float: right;
+	margin-left: 0;
+	margin-right: 8px;
+	padding-left: 0;
+	padding-right: 9px;
+}
+
+/* Content */
+#main-body,
+#masthead-body {
+	float: right;
+	padding-right: 0;
+	padding-left: 15px;
+}
+#main-sidebar,
+#masthead-sidebar {
+	float: left;
+	padding-right: 15px;
+	padding-left: 0;
+}
+.section-title span {
+	padding: 0 0 0 3px;
+}
+.content ul,
+.content ol,
+.content pre {
+	margin-left: 0;
+	margin-right: 2em;
+}
+.article .to-top {
+	text-align: left;
+}
+.article-section-references ol {
+	margin-left: 0;
+	margin-right: 35px;
+}
+
+#comments-container .section-header a {
+	left: 0;
+	right: auto;
+}
+#comments-container .reply-list .comment {
+	padding-left: 0;
+	padding-right: 180px;
+}
+#comments-container .reply-list .comment .header {
+	left: auto;
+	padding-left: 0;
+	padding-right: 46px;
+	right: 0;
+}
+#comments-container .reply-list .comment .header img {
+	left: auto;
+	right: 0;
+}
+
+#reply .input-row {
+	padding-left: 0;
+	padding-right: 180px;
+}
+#reply .input-row label {
+	left: auto;
+	right: 0;
+}
+.tools-bar .cell {
+	float: right;
+	text-align: right;
+}
+.tools-bar .download label {
+	background-position: right -300px;
+	padding-left: 0;
+	padding-right: 17px;
+}
+.tools-bar .print {
+	margin-left: 50px;
+	margin-right: 0;
+}
+.tools-bar .print a {
+	background-position: right -200px;
+	padding-left: 0;
+	padding-right: 19px;
+}
+.tools-bar .share {
+	float: left;
+}
+.tools-bar .share li {
+	float: right;
+}
+
+.tools-nav .tools-menu-item .header {
+	background: url(../img/tools-content-background.png) right 0 no-repeat;
+	padding: 17px  0 ;
+	padding-left: 18px;
+	padding-right: 11px;
+}
+
+.tools-nav .tools-menu-item .body {
+	background: url(../img/tools-content-background.png) right bottom no-repeat;
+	padding-left: 16px;
+	padding-right: 11px;
+}
+.tools-nav .tools-menu-item ul {
+	margin-left: 0;
+	margin-right: 1px;
+}
+.tools-nav .tools-menu-item li {
+	background-position: right -593px;
+	padding-left: 0;
+	padding-right: 7px;
+}
+.tools-nav .nav {
+	left: -11px;
+	right: auto;
+}
+
+/* Featured Post Carousel */
+.featured-posts .carousel-item {
+	padding: 15px 298px 15px 15px;
+}
+.featured-posts .carousel-item img {
+	left: auto;
+	right: 16px;
+}
+.featured-posts .control-panel {
+	left: 15px;
+	padding-left: 55px;
+	padding-right: 0;
+	right: auto;
+}
+.featured-posts .control-panel label {
+	float: right;
+}
+.featured-posts .control-panel .previous {
+	right: auto;
+	left: 0;
+}
+.featured-posts .control-panel .next {
+	right: auto;
+	left: 27px;
+}
+
+/* Post Teasers */
+.post-teaser-item {
+	padding: 10px 113px 10px 10px;
+}
+.post-teaser-item img {
+	left: auto;
+	right: 4px;
+}
+/* Excerpt */
+.article-excerpt .has-featured-image .body {
+	padding: 0 155px 0 0;
+}
+.article-excerpt .has-featured-image .body img {
+	left: auto;
+	right: 0;
+}
+
+/* Pagination */
+.pagination .previous {
+	float: right;
+}
+.pagination .next {
+	float: left;
+}
+
+/* Widgets */
+#sidebar .widget .title {
+	padding-left: 0;
+	padding-right: 20px;
+}
+
+/* Footer */
+#footer label, #footer .nav {
+	float: right;
+}
+#footer .nav li {
+	background-position: right -493px;
+	float: right;
+	margin-left: 0;
+	margin-right: 6px;
+	padding-left: 0;
+	padding-right: 8px;
+}

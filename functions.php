@@ -46,8 +46,26 @@ function anno_setup() {
 		'name' => 'Default Sidebar',
 		'id' => 'default'
 	)));
+	add_action('wp_head', 'anno_css3_pie', 8);
 }
 add_action('after_setup_theme', 'anno_setup');
+
+function anno_css3_pie() {
+	$assets_root = get_bloginfo('template_url') . '/assets/main/';
+	?>
+	<!--[if lte IE 8]>
+	<style type="text/css" media="screen">
+		.featured-posts .control-panel .previous,
+		.featured-posts .control-panel .next,
+		.widget-recent-posts .nav .ui-tabs-selected,
+		.widget-recent-posts .panel {
+			behavior: url(<?php echo $assets_root; ?>js/libs/css3pie/PIE.php);
+		}
+	</style>
+	<![endif]-->
+<?php
+}
+
 
 function anno_assets() {
 	if (!is_admin()) {
@@ -56,10 +74,11 @@ function anno_assets() {
 		
 		// Styles
 		wp_enqueue_style('anno', $main.'css/main.css', array(), ANNO_VER, 'screen');
+		wp_enqueue_style('anno-rtl', $main.'css/rtl.css', array('anno'), ANNO_VER, 'screen');
 
 		// Scripts
 		wp_enqueue_script('modernizr', $main.'js/libs/modernizr-1.7.min.js', array(), ANNO_VER);
-		wp_enqueue_script('placeholder', $main.'js/libs/jquery.placeholder.js', array('jquery'), ANNO_VER);
+		//wp_enqueue_script('placeholder', $main.'js/libs/jquery.placeholder.js', array('jquery'), ANNO_VER);
 		wp_enqueue_script('ui_tabs', $main.'js/libs/jquery-ui-tabs.min.js', array('jquery'), ANNO_VER);
 		wp_enqueue_script('anno-main', $main.'js/main.js', array('placeholder'), ANNO_VER);
 

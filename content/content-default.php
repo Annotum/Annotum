@@ -14,6 +14,8 @@ if (CFCT_DEBUG) { cfct_banner(__FILE__); }
 
 ?>
 <?php cfct_misc('tools-nav'); ?>
+
+
 <article class="article">
 	<div <?php post_class('clearfix'); ?>>
 		<?php 

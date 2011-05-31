@@ -20,11 +20,7 @@ extract($data);
 	<?php if ($comment->comment_approved == '0') {
 		_e('Your comment is awaiting moderation.', 'discovery-education');
 	} ?>
-	<div class="header">
-		<?php echo get_avatar($comment, 40); ?>
-		<h3 class="title"><?php comment_author_link(); ?></h3>
-		<time><?php comment_date(); ?><time>
-	</div>
+	<?php cfct_template_file('comment', 'comment-header'); ?>
 	<div class="content">
 			<?php comment_text(); ?>
 	</div><!-- .content -->

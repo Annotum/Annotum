@@ -11,7 +11,7 @@
 		</li>
 	</ul>
 	<div class="control-panel">
-		2 of 4
+		<label>2 of 4</label>
 		<a class="previous imr" href="#">Previous</a>
 		<a class="next imr" href="#">Next</a>
 	</div>

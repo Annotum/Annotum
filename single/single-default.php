@@ -16,14 +16,12 @@ get_header();
 ?>
 <div id="main-body" class="clearfix">
 	<?php 
-	
-	echo '<div id="content">';
+
 	cfct_loop();
 	// Remove internal comments from being displayed.
 	add_filter('query', 'anno_internal_comments_query');
 	comments_template();
-	remove_filter('query', 'anno_internal_comments_query');
-	echo '</div>'; ?> 
+	remove_filter('query', 'anno_internal_comments_query'); ?> 
 </div><!-- #main-content -->
 <div id="main-sidebar" class="clearfix">
 	<?php get_sidebar(); ?>

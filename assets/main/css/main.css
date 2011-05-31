@@ -424,7 +424,9 @@ Act 3: Footer
   float: left;
 }
 #site-nav li {
-  border-right: 1px solid #006b94;
+  border-color: #006b94;
+  border-style: solid;
+  border-right-width: 1px;
   color: #66A6BF;
 }
 #site-nav li ul {
@@ -522,12 +524,9 @@ form.search .type-submit {
   position: relative;
   zoom: 1;
 }
-.featured-posts ul {
-  margin: 0;
-  padding: 0;
-}
-.featured-posts li {
+.featured-posts ul, .featured-posts li {
   list-style: none;
+  list-style-position: outside;
   margin: 0;
   padding: 0;
 }
@@ -579,6 +578,7 @@ form.search .type-submit {
   text-align: right;
   text-transform: uppercase;
 }
+/* CSS3Pie */
 .featured-posts .control-panel .previous, .featured-posts .control-panel .next {
   -moz-border-radius: 10px;
   /* FF1+ */
@@ -824,11 +824,11 @@ form.search .type-submit {
   width: 158px;
 }
 .tools-nav .tools-menu-item .header {
-  background: url(../img/tools-content-background.png) right 0 no-repeat;
+  background: url(../img/tools-content-background.png) 0 0 no-repeat;
   padding: 17px 18px 0 11px;
 }
 .tools-nav .tools-menu-item .body {
-  background: url(../img/tools-content-background.png) right bottom no-repeat;
+  background: url(../img/tools-content-background.png) 0 bottom no-repeat;
   padding: 7px 16px 21px 11px;
 }
 .tools-nav .tools-menu-item .title {
@@ -887,6 +887,14 @@ form.search .type-submit {
 #comments-container {
   margin-bottom: 22px;
 }
+#comments-container .section-header {
+  position: relative;
+}
+#comments-container .section-header a {
+  position: absolute;
+  right: 0;
+  top: 0;
+}
 #comments-container .section-title {
   background: none;
   margin-bottom: 6px;
@@ -909,6 +917,9 @@ form.search .type-submit {
   margin-bottom: 15px;
   padding-left: 180px;
   position: relative;
+  zoom: 1;
+  /* fix absolute positioning of gravatar and heading information in ie6 */
+
 }
 #comments-container .reply-list .comment ul li {
   list-style-type: disc;
@@ -944,7 +955,7 @@ form.search .type-submit {
   position: absolute;
   top: 0;
 }
-#comments-container .reply-list .comment .header .title, #comments-container .reply-list .comment .header time {
+#comments-container .reply-list .comment .header .title, #comments-container .reply-list .comment .header .published {
   font: normal 13px Arial, Helvetica, Sans-Serif;
   margin: 0;
 }
