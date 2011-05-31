@@ -4,6 +4,13 @@
  * Register article post type
  */
 function anno_register_post_types() {
+	if (anno_workflow_enabled()) {
+		$capability_type = array('article', 'articles');
+	} 
+	else {
+		$capability_type = 'post';
+	}
+	
 	$single = __('Article', 'anno');
 	$plural = __('Articles', 'anno');
 	$labels = array(
@@ -29,7 +36,7 @@ function anno_register_post_types() {
 	        'supports' => array('title', 'editor', 'thumbnail', 'comments', 'excerpt', 'revisions', 'author'),
 			'taxonomies' => array(),
 			'menu_position' => 5,
-			'capability_type' => array('article', 'articles'),
+			'capability_type' => $capability_type,
 	);
 	register_post_type('article', $args);
 }
