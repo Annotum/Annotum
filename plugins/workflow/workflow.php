@@ -161,10 +161,13 @@ function anno_transistion_state($post_id, $post, $post_before) {
 			}
 		}
 		
+		$notification_type = $new_state;
+
 		// Send back for revisions
 		if ($new_state == 'draft' && !empty($old_state) && $old_state != 'draft') {
 			$round = anno_get_round($post_id);
 			update_post_meta($post_id, '_round', intval($round) + 1);
+			$notification_type = 'revisions';
 		}
 	
 		if ($new_state != $old_state) {
@@ -173,7 +176,9 @@ function anno_transistion_state($post_id, $post, $post_before) {
 			}
 			update_post_meta($post->ID, '_post_state', $new_state);
 			do_action('anno_state_change', $new_state, $old_state);
-			//TODO hook in email action to anno_state_change
+			
+			// Send notifications
+			annowf_send_notification($notification_type, $post);
 		}
 		
 		// Author has changed, add original author as co-author, remove new author from co-authors
@@ -313,13 +318,17 @@ function anno_user_li_markup($user, $type = null) {
  * Handles AJAX request for adding a reviewer to a post. As well as transitioning states.
  */ 
 function anno_add_reviewer() {
-	if (anno_add_user('reviewer')) {
+	$user = anno_add_user('reviewer');
+	if (!empty($user)) {
 		$post_id = $_POST['post_id'];
 		$post_state = anno_get_post_state($post_id);
 		if ($post_state == 'submitted') {
 			update_post_meta($post_id, '_post_state', 'in_review');
 			//TODO reload?
 		}
+		//Send email
+		$post = get_post($post_id);
+		annowf_send_notification('reviewer_added', $post, '', array($user->user_email));
 	}
 	die();
 }
@@ -375,7 +384,7 @@ function anno_add_user($type) {
 	}
 	echo json_encode(array('message' => $message, 'html' => $html));
 	if ($message == 'success') {
-		return true;
+		return $user;
 	}
 	else {
 		return false;
