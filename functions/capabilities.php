@@ -5,9 +5,11 @@
  */ 
 function anno_remove_roles_and_capabilities() {
 	$wp_roles = new WP_Roles();
-	$wp_roles->remove_role('subscriber');
-	$wp_roles->remove_role('author');
+//TODO Remove subscriber, author roles? 
+//	$wp_roles->remove_role('subscriber');
+//	$wp_roles->remove_role('author');
 	
+// TODO Enable editing for all existing roles?
 	$roles_to_modify = array(
 		'administrator' => array(
 			'edit_articles',
@@ -28,6 +30,8 @@ function anno_remove_roles_and_capabilities() {
 			'delete_article',
 			'delete_others_articles',
 		),
+		// Give contributors this access so they can view articles on the backend. Contributors cannot actually save/edit the articles for various states.
+		// Enforced by worflow capabilities.
 		'contributor' => array(
 			'edit_articles',
 			'edit_article',
@@ -46,10 +50,4 @@ function anno_remove_roles_and_capabilities() {
 	}
 }
 add_action('admin_init', 'anno_remove_roles_and_capabilities');
-
-//TODO Restore roles/caps on switch_theme, deactivation of feature
-function anno_restore_roles_and_capabilities() {
-	
-}
-add_action('switch_theme', 'anno_restore_roles_and_capabilities');
 ?>
