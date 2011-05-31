@@ -20,13 +20,13 @@ var Anno = function($, Exe) {
 	return {
 		/* Run this method first */
 		init: function() {
-			this.everywhere();
+			this.common();
 			
 			Exe('body')
 				.given('home', this.home);
 		},
 		
-		everywhere: function() {
+		common: function() {
 			$('input[placeholder],textarea[placeholder]').placeholder();
 			$('.widget-recent-posts .tabs').tabs();
 		},
