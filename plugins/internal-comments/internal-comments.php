@@ -155,6 +155,9 @@ function anno_internal_comments_general_comments() {
 	anno_internal_comments_display('general');
 }
 
+/**
+ * Meta box markup for reviewer review and comments
+ */
 function anno_internal_comments_reviewer_comments() {
 	global $anno_review_options, $current_user, $post;
 	$round = anno_get_round($post->ID);
@@ -253,7 +256,6 @@ if (!is_admin()) {
 	add_filter('comments_clauses', 'anno_internal_comments_clauses');
 }
 
-
 /**
  * Modify the comment count stored in the wp_post comment_count column, so internal comments don't show up there.
  * Based on code in the WP Core function wp_update_comment_count
@@ -308,11 +310,23 @@ function anno_internal_comments_ajax() {
 	$comment_id = wp_new_comment($commentdata);
 	remove_filter('pre_comment_approved', 'anno_internal_comments_pre_comment_approved');
 	
+	//TODO better handling of comment errors
 	$comment = get_comment($comment_id);
 	if (!$comment) {
 		 die('-1');
 	}
-	
+
+	// Send email notifications of new commment
+	$post = get_post($comment_post_ID);
+	annowf_send_notification(trim($_POST['type']).'_comment', $post, $comment);
+
+	// Send email notification for a reply to a comment
+	if (!empty($comment_parent)) {
+		$parent_comment = get_comment($comment_parent);
+		$recipients = array(annowf_user_email($parent_comment->user_id));
+		annowf_send_notification(trim($_POST['type']).'_comment_reply', $post, $comment, $recipients);
+	}
+
 	//Display markup for AJAX
 	anno_internal_comment_table_row($comment);
 
