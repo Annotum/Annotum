@@ -91,7 +91,8 @@ function anno_assets() {
 		wp_enqueue_script('anno-main', $main.'js/main.js', array('placeholder'), $v);
 		wp_localize_script('anno-main', 'ANNO_DICTIONARY', array(
 			'previous' => __('Previous', 'anno'),
-			'next' => __('Next', 'anno')
+			'next' => __('Next', 'anno'),
+			'xofy' => __('%1$s of %2$s')
 		));
 
 		if ( is_singular() ) {

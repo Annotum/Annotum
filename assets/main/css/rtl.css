@@ -160,6 +160,7 @@ form.search .type-submit {
 	padding-left: 55px;
 	padding-right: 0;
 	right: auto;
+	text-align: left;
 }
 .featured-posts .control-panel label {
 	float: right;
