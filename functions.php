@@ -22,6 +22,7 @@ include_once(CFCT_PATH.'functions/post-types.php');
 include_once(CFCT_PATH.'functions/taxonomies.php');
 include_once(CFCT_PATH.'functions/capabilities.php');
 include_once(CFCT_PATH.'functions/featured-articles.php');
+include_once(CFCT_PATH.'functions/template-tags.php');
 include_once(CFCT_PATH.'plugins/load.php');
 
 function anno_setup() {
@@ -51,25 +52,40 @@ function anno_setup() {
 }
 add_action('after_setup_theme', 'anno_setup');
 
+/**
+ * Enqueue and add CSS and JS assets.
+ * Hook into 'wp' action when conditional checks like is_single() are available.
+ */
 function anno_assets() {
 	if (!is_admin()) {
-		$theme = trailingslashit(get_bloginfo('template_directory'));
-		$main = $theme . 'assets/main/';
+		$main =  trailingslashit(get_bloginfo('template_directory')) . 'assets/main/';
+		$v = ANNO_VER;
 		
 		// Styles
-		wp_enqueue_style('anno', $main.'css/main.css', array(), ANNO_VER, 'screen');
+		wp_enqueue_style('anno', $main.'css/main.css', array(), $v, 'screen');
 
 		// Scripts
-		wp_enqueue_script('modernizr', $main.'js/libs/modernizr-1.7.min.js', array(), ANNO_VER);
-		wp_enqueue_script('placeholder', $main.'js/libs/jquery.placeholder.js', array('jquery'), ANNO_VER);
-		wp_enqueue_script('ui_tabs', $main.'js/libs/jquery-ui-tabs.min.js', array('jquery'), ANNO_VER);
-		wp_enqueue_script('anno-main', $main.'js/main.js', array('placeholder'), ANNO_VER);
+		wp_enqueue_script('modernizr', $main.'js/libs/modernizr-1.7.min.js', array(), $v);
+		wp_enqueue_script('placeholder', $main.'js/libs/jquery.placeholder.js', array('jquery'), $v);
+		wp_enqueue_script('ui_tabs', $main.'js/libs/jquery-ui-tabs.min.js', array('jquery'), $v);
+		wp_enqueue_script('anno-main', $main.'js/main.js', array('placeholder'), $v);
 
-		if ( is_singular() ) { wp_enqueue_script( 'comment-reply' ); }
+		if ( is_singular() ) {
+			wp_enqueue_script( 'comment-reply' );
+		}
+		
+		/* Home page featured post cycler */
+		if (is_home()) {
+			wp_enqueue_script('jquery-cycle-lite', $main.'js/libs/jquery.cycle.lite.1.1.min.js', array('jquery'), $v);
+		}
 	}
 }
 add_action('wp', 'anno_assets');
 
+/*
+ * Outputs a few extra semantic tags in the <head> area.
+ * Hook into 'wp_head' action.
+ */
 function anno_head_extra() {
 	echo '<link rel="pingback" href="'.get_bloginfo('pingback_url').'" />'."\n";
 	$args = array(
@@ -104,5 +120,4 @@ function anno_post_class($classes, $class) {
 	return $classes;
 }
 add_filter('post_class', 'anno_post_class', 10, 2);
-
 ?>

@@ -48,10 +48,8 @@ class Anno_Featured_Articles extends Anno_Cacheer {
 		}
 	}
 	
-	public function cached() {
-		$this->clear_caches();
-		
-		$q = new WP_Query(array(
+	public function modify_query() {
+		return new WP_Query(array(
 			'meta_query' => array(
 				'key' => $this->post_meta_key,
 				'value' => 'yes'
@@ -60,70 +58,76 @@ class Anno_Featured_Articles extends Anno_Cacheer {
 			'posts_per_page' => $this->number,
 			'post__not_in' => self::$already_shown
 		));
-		if ($q->have_posts()) {
-			$this->before_items();
+	}
+	
+	public function cached() {
+		$this->clear_caches();
+		$q = $this->modify_query();
+		if ($q->have_posts()) { ?>
+<div id="home-featured" class="featured-posts carousel">
+		<ul>
+			<?php
 			while ($q->have_posts()) {
-				$q->the_post();
-				$this->render_item();
-				
+				$q->the_post(); ?>
+			<li>
+				<div <?php post_class('carousel-item'); ?>>
+					<?php the_post_thumbnail('featured'); ?>
+					<h2 class="title"><a href="<?php the_permalink() ?>"><?php the_title(); ?></a></h2>
+					<div class="content">
+						<?php the_excerpt(); ?>
+					</div>
+				</div>
+			</li>
+			<?php
 				// Store ID of shown item. Make sure it doesn't get shown twice!
 				self::$already_shown[] = get_the_ID();
 			}
-			$this->after_items();
-			wp_reset_postdata();
-		}
-	}
-	
-	public function before_items() {
-		echo '<div class="featured-posts carousel"><ul>';
-	}
-	
-	public function after_items() {
-		echo '</ul>
+			?>
+		</ul>
 	<div class="control-panel">
 		2 of 4
 		<a class="previous imr" href="#">Previous</a>
 		<a class="next imr" href="#">Next</a>
 	</div>
-</div>';
-	}
-	
-	public function render_item() { ?>
-		<li>
-			<div <?php post_class('carousel-item'); ?>>
-				<?php the_post_thumbnail('featured'); ?>
-				<h2 class="title"><a href="<?php the_permalink() ?>"><?php the_title(); ?></a></h2>
-				<div class="content">
-					<?php the_excerpt(); ?>
-				</div>
-			</div>
-		</li>
-	<?php
+</div>
+				<?php
+			wp_reset_postdata();
+		}
 	}
 }
 
 class Anno_Teaser_Articles extends Anno_Featured_Articles {
 	public $number = 3;
 	
-	public function before_items() {
-		echo '<div class="post-teasers"><ul>';
-	}
-	
-	public function after_items() {
-		echo '</div></ul>';
-	}
+	public function cached() {
+		$this->clear_caches();
+		$q = $this->modify_query();
 
-	public function render_item() { ?>
-		<li>
-			<div <?php post_class('post-teaser-item'); ?>>
-				<?php the_post_thumbnail('post-teaser'); ?>
-				<h2 class="title"><a href="<?php the_permalink() ?>"><?php the_title(); ?></a></h2>
-				<div class="content">
-					<?php the_title(); ?>
+		if ($q->have_posts()) { ?>
+<div id="home-featured" class="post-teasers">
+		<ul>
+			<?php
+			while ($q->have_posts()) {
+				$q->the_post(); ?>
+			<li>
+				<div <?php post_class('post-teaser-item'); ?>>
+					<?php the_post_thumbnail('post-teaser'); ?>
+					<h2 class="title"><a href="<?php the_permalink() ?>"><?php the_title(); ?></a></h2>
+					<div class="content">
+						<?php the_title(); ?>
+					</div>
 				</div>
-			</div>
-		</li>
-	<?php
+			</li>
+			<?php
+				// Store ID of shown item. Make sure it doesn't get shown twice!
+				self::$already_shown[] = get_the_ID();
+			}
+			?>
+		</ul>
+</div>
+			<?php
+			wp_reset_postdata();
+		}
 	}
 }
 ?>
