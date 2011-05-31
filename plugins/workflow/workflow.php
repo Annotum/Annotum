@@ -524,10 +524,12 @@ function anno_cloned_meta_box() {
 	global $post;
 	
 	$cloned_from = get_post_meta($post->ID, '_anno_cloned_from', true);
+?>
+	<dl class="anno-versions">
+<?php
 	if (!empty($cloned_from)) {
 		$cloned_post = get_post($cloned_from);
 ?>
-	<dl class="anno-versions">
 		<dt><?php echo __('Cloned From', 'anno'); ?></dt>
 		<dd><?php echo '<a href="'.esc_url(get_edit_post_link($cloned_from)).'">'.esc_html($cloned_post->post_title).'</a>'; ?></dd>
 <?php	

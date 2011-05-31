@@ -278,6 +278,8 @@ add_action('wp_update_comment_count', 'anno_internal_comments_update_comment_cou
 /**
  * Processes an AJAX request when submitting an internal comment
  * Based on code in the WP Core
+ * 
+ * @todo handle comment errors instead of just dying.
  */ 
 function anno_internal_comments_ajax() {
 	check_ajax_referer('anno_comment', '_ajax_nonce-anno-comment-'.$_POST['type']);
@@ -294,11 +296,11 @@ function anno_internal_comments_ajax() {
 		$user_ID = $user->ID;
 	}
 	else {
-		die( __('Sorry, you must be logged in to reply to a comment.', 'anno') );
+		die();
 	}
 	
 	if ( '' == $comment_content ) {
-		die( __('Error: please type a comment.', 'anno') );
+		die();
 	}
 	
 	$comment_parent = absint($_POST['parent_id']);
@@ -310,10 +312,9 @@ function anno_internal_comments_ajax() {
 	$comment_id = wp_new_comment($commentdata);
 	remove_filter('pre_comment_approved', 'anno_internal_comments_pre_comment_approved');
 	
-	//TODO better handling of comment errors
 	$comment = get_comment($comment_id);
 	if (!$comment) {
-		 die('-1');
+		 die();
 	}
 
 	// Send email notifications of new commment
@@ -404,11 +405,15 @@ function anno_internal_comments_get_comment_root($comment) {
 	return $comment;
 }
 
-//TODO Better implementation of below. Possible WP Core patch for hook in notify_author function
+/**
+ * Function to limit front-end display of comments. 
+ * Wrap this filter around comments_template();
+ * 
+ * @todo Update to WP_Comment_Query filter when WP updates core to use non-hardcoded queries.
+ */
 function anno_internal_comments_query($query) {
 	$query = str_replace('WHERE', 'WHERE comment_type NOT IN (\'article_general\', \'article_review\') AND', $query);
 	return $query;
 }
-
 
 ?>
