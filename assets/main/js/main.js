@@ -13,6 +13,9 @@
  * Annotum module
  */
 var Anno = function($, Exe) {
+	/* A dictionary for localizing strings in PHP.
+	ANNO_DICTIONARY is populated using wp_localize_script in functions.php.*/
+	var lang = ANNO_DICTIONARY;
 	return {
 		/* Run this method first */
 		init: function() {
@@ -28,7 +31,21 @@ var Anno = function($, Exe) {
 		},
 		
 		home: function () {
-			$('#home-featured ul').cycle({
+			var $cycler = $('#home-featured'),
+				$pagination = $cycler.find('.control-panel'),
+				$controls = $('<div class="control-panel" />'),
+				$prev = $('<a class="previous imr">'+lang.previous+'</a>'),
+				$next = $('<a class="next imr">'+lang.next+'</a>');
+				
+			$controls
+				.append($next)
+				.append($prev);
+			
+			$cycler.append($controls);
+			
+			$cycler.find('ul').cycle({
+				'next': $next,
+				'prev': $prev
 			});
 		}
 	};

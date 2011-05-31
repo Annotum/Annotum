@@ -84,11 +84,6 @@ class Anno_Featured_Articles extends Anno_Cacheer {
 			}
 			?>
 		</ul>
-	<div class="control-panel">
-		2 of 4
-		<a class="previous imr" href="#">Previous</a>
-		<a class="next imr" href="#">Next</a>
-	</div>
 </div>
 				<?php
 			wp_reset_postdata();
