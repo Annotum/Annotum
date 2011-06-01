@@ -13,17 +13,23 @@ if (__FILE__ == $_SERVER['SCRIPT_FILENAME']) { die(); }
 if (CFCT_DEBUG) { cfct_banner(__FILE__); }
 
 ?>
-<article class="article article-excerpt">
-	<div <?php post_class('clearfix'); ?>>
-		<?php cfct_template_file('content', 'header'); ?>
-		<section class="body">
-			<?php if (has_post_thumbnail()): ?>
-				<a href="<?php the_permalink(); ?>"><?php the_post_thumbnail('post-excerpt'); ?></a>
+<article <?php post_class('article article-excerpt'); ?>>
+	<header class="header">
+		<div class="entry-title">
+			<h1 class="title"><a rel="bookmark" href="<?php the_permalink() ?>"><?php the_title(); ?></a></h1>
+			<?php if (anno_has_subtitle()): ?>
+				<p class="subtitle"><?php anno_the_subtitle(); ?></p>
 			<?php endif; ?>
-			<div class="content">
-				<?php the_excerpt(); ?>
-			</div><!--/content-->
-		</section>		
-	</div>
-
+		</div>
+		<div class="meta">
+			<time class="published" pubdate datetime="<?php the_time('c'); ?>"><?php the_time('F j, Y'); ?></time>
+			<?php anno_the_terms('article_category', '<span class="article-categories"> <span class="sep">&middot;</span> ', ',', '</span>'); ?>
+		</div>
+	</header>
+	<div class="content entry-summary">
+		<?php if (has_post_thumbnail()): ?>
+			<a href="<?php the_permalink(); ?>"><?php the_post_thumbnail('post-excerpt'); ?></a>
+		<?php endif; ?>
+		<?php the_excerpt(); ?>
+	</div><!--/content-->
 </article>

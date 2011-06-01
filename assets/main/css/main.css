@@ -699,7 +699,7 @@ form.search .type-submit {
 .article-excerpt .sep {
   padding: 0 2px;
 }
-.article-excerpt .has-featured-image .body {
+.article-excerpt .has-featured-image .content {
   /**
 	 * @workaround min-height Fast Hack
 	 *
