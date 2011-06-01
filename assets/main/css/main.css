@@ -525,10 +525,12 @@ form.search .type-submit {
   zoom: 1;
 }
 .featured-posts ul, .featured-posts li {
+  height: 262px;
   list-style: none;
   list-style-position: outside;
   margin: 0;
-  padding: 0;
+  overflow: hidden;
+  width: 100%;
 }
 .featured-posts .carousel-item {
   /**
@@ -571,15 +573,20 @@ form.search .type-submit {
   color: #006b94;
   font-size: 11px;
   font-weight: bold;
+  height: 20px;
   line-height: 20px;
   padding: 0 55px 0 0;
   position: absolute;
   right: 15px;
   text-align: right;
   text-transform: uppercase;
+  width: 200px;
+  z-index: 10;
 }
 /* CSS3Pie */
 .featured-posts .control-panel .previous, .featured-posts .control-panel .next {
+  background-image: url(../img/sprite-y.24bit.png);
+  background-repeat: no-repeat;
   -moz-border-radius: 10px;
   /* FF1+ */
 
@@ -592,9 +599,7 @@ form.search .type-submit {
   border-radius: 10px;
   /* Standard. IE9 */
 
-  background-image: url(../img/sprite-y.24bit.png);
-  background-repeat: no-repeat;
-  display: inline-block;
+  cursor: pointer;
   height: 20px;
   position: absolute;
   top: 0;
@@ -1073,7 +1078,7 @@ form.search .type-submit {
   position: relative;
   top: 4px;
 }
-/* Content Styles */
+/* In-content Styles */
 .content p,
 .content ul,
 .content ol,
@@ -1108,26 +1113,18 @@ form.search .type-submit {
 }
 .content h1 {
   font-size: 22px;
-}
-.content h2 {
-  font-size: 18px;
-}
-.content h3 {
-  font-size: 16px;
-}
-.content h4, .content h5, .content h6 {
-  font-size: 14px;
-}
-.content h1 {
   margin-bottom: 1em;
 }
 .content h2 {
+  font-size: 18px;
   margin-bottom: .75em;
 }
 .content h3 {
+  font-size: 16px;
   margin-bottom: .5em;
 }
-.content h4 {
+.content h4, .content h5, .content h6 {
+  font-size: 14px;
   margin-bottom: .25em;
 }
 .content ul, .content ol, .content pre {
@@ -1229,4 +1226,19 @@ html.ie7 .article .article-section-author-list .author-info {
 }
 .ui-tabs-hide {
   display: none;
+}
+/* Content sections */
+.sec {
+  overflow: hidden;
+}
+.ie6 .sec {
+  /* Make sure overflow is cropped */
+
+  width: 100%;
+}
+.sec h1 {
+  border-bottom: 1px solid #ddd;
+  color: #000;
+  font: italic bold 16px/1.2 Georgia, Serif;
+  margin-bottom: 15px;
 }
