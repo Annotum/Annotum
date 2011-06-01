@@ -29,7 +29,7 @@ if (CFCT_DEBUG) { cfct_banner(__FILE__); }
 		</div>
 		<div class="sec">
 			<span class="title"><?php _e('Authors', 'anno'); ?></span>
-			<ul class="authors">
+			<ul class="authors nav">
 				<?php anno_the_author(); ?>
 			</ul>
 		</div>

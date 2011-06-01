@@ -13,7 +13,7 @@ if (__FILE__ == $_SERVER['SCRIPT_FILENAME']) { die(); }
 
 load_theme_textdomain('anno');
 
-define('CFCT_DEBUG', true);
+define('CFCT_DEBUG', false);
 define('CFCT_PATH', trailingslashit(TEMPLATEPATH));
 define('ANNO_VER', '1.0');
 
@@ -81,7 +81,7 @@ function anno_assets() {
 		
 		// Styles
 		wp_enqueue_style('anno', $main.'css/main.css', array(), $v, 'screen');
-		//wp_enqueue_style('anno-rtl', $main.'css/rtl.css', array('anno'), $v, 'screen');
+		wp_enqueue_style('anno-rtl', $main.'css/rtl.css', array('anno'), $v, 'screen');
 		
 		// Scripts
 		wp_enqueue_script('modernizr', $main.'js/libs/modernizr-1.7.min.js', array(), $v);

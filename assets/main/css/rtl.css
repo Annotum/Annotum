@@ -40,17 +40,16 @@ form.search .type-submit {
 }
 
 /* Content */
+
 #main-body,
 #masthead-body {
 	float: right;
-	padding-right: 0;
-	padding-left: 15px;
+	margin-right: 0;
 }
 #main-sidebar,
 #masthead-sidebar {
 	float: left;
-	padding-right: 15px;
-	padding-left: 0;
+	margin-right: 30px;
 }
 .section-title span {
 	padding: 0 0 0 3px;
@@ -61,8 +60,16 @@ form.search .type-submit {
 	margin-left: 0;
 	margin-right: 2em;
 }
+.article .header .sec .authors li {
+	float: right;
+	margin-left: 10px;
+	margin-right: 0;
+}
 .article .to-top {
 	text-align: left;
+}
+.article .to-top a {
+	zoom: 1;
 }
 .article-section-references ol {
 	margin-left: 0;
@@ -87,9 +94,14 @@ form.search .type-submit {
 	left: auto;
 	right: 0;
 }
-
+.widget-recent-posts .nav {
+	padding-left: 0;
+	padding-right: 20px;
+}
 .widget-recent-posts .nav li {
 	float: right;
+	margin-left: 6px;
+	margin-right: 0;
 }
 
 #reply .input-row {
