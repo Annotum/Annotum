@@ -28,7 +28,7 @@ function anno_workflow_meta_boxes() {
 	
 	// Remove taxonomy boxes when a user is unable to save/edit
 	if (!anno_user_can('edit_post', null, $post->ID)) {
-		remove_meta_box('article_tagdiv', 'article', 'side');
+		remove_meta_box('tagsdiv-article_tag', 'article', 'side');
 		remove_meta_box('article_category_select', 'article', 'side');
 	}
 	
