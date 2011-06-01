@@ -1,0 +1,838 @@
+body {
+  font-family: Helvetica, Arial, sans-serif;
+  font-size: 13px;
+  line-height: 18px;
+}
+a {
+  color: #a2220f;
+}
+html {
+  min-width: 960px;
+}
+body {
+  background: url(../img/body-background.png) center 0 repeat-y;
+}
+#header .header-body {
+  background: #2a2822;
+  height: 75px;
+}
+#header .navigation {
+  /**
+	 * @workaround min-height Fast Hack
+	 *
+	 * IE6 doesn't support min-height, but treats elements with
+	 * height and overflow:visible as min-height.
+	 *
+	 * @affected IE5, IE6
+	 * @see http://www.dustindiaz.com/min-height-fast-hack/
+	 */
+
+  height: auto !important;
+  height: 37px;
+  min-height: 37px;
+  background: url(../img/sprite-y.8bit.png) 0 -100px repeat-x;
+}
+#site-name {
+  padding-top: 11px;
+}
+#site-name a {
+  background: url(../img/sprite-y.8bit.png) 0 0 no-repeat;
+  display: block;
+  height: 52px;
+  overflow: hidden;
+  text-indent: -1000px;
+  text-decoration: none;
+  width: 148px;
+}
+#site-nav {
+  background: none;
+  line-height: 22px;
+}
+#site-nav li {
+  border: 0;
+}
+#site-nav li a {
+  color: #f1e9d0;
+  margin-right: 24px;
+  padding-left: 0;
+  padding-right: 0;
+  text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.4);
+}
+#site-nav li li a {
+  background-color: #A2220F;
+  padding: 5px 10px;
+}
+#secondary-nav {
+  font-size: 11px;
+}
+#secondary-nav .nav {
+  bottom: 4px;
+}
+#secondary-nav li {
+  background: url(../img/sprite-y.8bit.png) 0 -293px no-repeat;
+}
+#secondary-nav li a {
+  color: #aaa9a7;
+}
+#masthead {
+  background: #b5a988;
+  border-bottom: #766845 solid 1px;
+}
+#selector {
+  width: 3100px;
+  height: 1px;
+}
+#main-body {
+  padding-right: 19px;
+  width: 626px;
+}
+#footer {
+  background: #2a2822;
+  border-top: #000 solid 1px;
+  color: #aaa9a7;
+}
+#footer a {
+  color: #aaa9a7;
+}
+#footer .in {
+  border: 0;
+}
+/*
+
+.pagination .previous {
+	float: left;
+}
+.pagination .next {
+	float: right;
+}
+
+
+.content p,
+.content ul,
+.content ol,
+.content pre,
+.content blockquote,
+.content dl,
+.content address,
+.content table {
+	margin-bottom: 1em;
+}
+.content blockquote {
+	margin-top: 1em;
+}
+.content th {
+	text-align: left;
+}
+.content th,
+.content td {
+	padding-right: 5px;
+}
+.content dt {
+	font-style: italic;
+	font-weight: bold;
+}
+.content dd {
+	margin-bottom: .75em;
+}
+
+.content ul ul,
+.content ol ol,
+.content ul ol,
+.content ol ul {
+	margin-bottom: 0;
+}
+
+.content h1 {font-size: 22px;}
+.content h2 {font-size: 18px;}
+.content h3 {font-size: 16px;}
+.content h4,
+.content h5,
+.content h6 {font-size: 14px;}
+.content h1 {margin-bottom: 1em;}
+.content h2 {margin-bottom: .75em;}
+.content h3 {margin-bottom: .5em;}
+.content h4 {margin-bottom: .25em;}
+
+
+
+.content ul,
+.content ol,
+.content pre {
+	margin-left: 2em;
+}
+
+
+
+.content ul li {list-style: disc;}
+.content ol {list-style: decimal;}
+
+.content blockquote cite {
+	font-weight: bold;
+}*/
+/****************/
+.page-title {
+  color: #000;
+  font: normal 28px Helvetica, Arial, sans-serif;
+  margin-bottom: 5px;
+}
+.section-title {
+  background: url(../img/sprite-y.8bit.png) 0 -499px no-repeat;
+  color: #a29674;
+  font: bold 11px/12px Helvetica, Arial, sans-serif;
+  font-style: normal;
+  letter-spacing: 1px;
+  margin-bottom: 14px;
+  padding-left: 9px;
+  text-transform: uppercase;
+  zoom: 1;
+  /* required to get background indicators to appear in IE6 */
+
+}
+html.ie6 .section-title {
+  background-position: 0 -498px;
+}
+.home .section-title {
+  margin-bottom: 27px;
+}
+.section-title span {
+  background: none;
+  padding: 0;
+  position: static;
+}
+.content blockquote {
+  font-size: 16px;
+}
+.featured-posts ul {
+  -moz-border-radius: 4px;
+  /* FF1+ */
+
+  -webkit-border-radius: 4px;
+  /* Saf3+, Chrome */
+
+  -khtml-border-radius: 4px;
+  /* Konqueror */
+
+  border-radius: 4px;
+  /* Standard. IE9 */
+
+  border: #7e765f solid 1px;
+  overflow: hidden;
+  zoom: 1;
+}
+.featured-posts .carousel-item {
+  -moz-border-radius: 3px;
+  /* FF1+ */
+
+  -webkit-border-radius: 3px;
+  /* Saf3+, Chrome */
+
+  -khtml-border-radius: 3px;
+  /* Konqueror */
+
+  border-radius: 3px;
+  /* Standard. IE9 */
+
+  min-height: 230px;
+  padding: 15px 15px 15px 298px;
+}
+.featured-posts .carousel-item img {
+  left: 15px;
+  top: 15px;
+}
+.featured-posts .carousel-item .title {
+  font: normal 26px Helvetica, Arial, sans-serif;
+}
+.featured-posts .carousel-item .title a {
+  color: #A2220F;
+  text-shadow: none;
+}
+.featured-posts .carousel-item {
+  background: #c3b898;
+  color: #333;
+}
+.featured-posts .control-panel {
+  color: #8a7b56;
+  line-height: 22px;
+}
+.featured-posts .control-panel .previous, .featured-posts .control-panel .next {
+  background-color: #a2220f;
+}
+.post-teasers li {
+  margin-bottom: 5px;
+}
+.post-teaser-item {
+  background: none;
+  padding-bottom: 7px;
+  padding-right: 7px;
+  padding-top: 7px;
+}
+.post-teaser-item .content {
+  font: normal 16px/1.5 Helvetica, Arial, sans-serif;
+}
+.post-teaser-item .content a {
+  color: #A2220F;
+  text-shadow: none;
+}
+form.search {
+  margin: 6px 6px 0 0;
+  width: 200px;
+}
+form.search input.type-text {
+  -moz-border-radius: 2px;
+  /* FF1+ */
+
+  -webkit-border-radius: 2px;
+  /* Saf3+, Chrome */
+
+  -khtml-border-radius: 2px;
+  /* Konqueror */
+
+  border-radius: 2px;
+  /* Standard. IE9 */
+
+  background: #f5f2e9;
+  border: 0;
+  color: #999;
+  padding-top: 4px;
+  padding-bottom: 4px;
+}
+form.search {
+  position: relative;
+}
+form.search .type-submit {
+  background: url(../img/sprite-y.8bit.png) 0 -200px no-repeat;
+  right: 10px;
+}
+/* Search form when in header */
+#site-nav .search {
+  float: right;
+}
+.callouts {
+  border-bottom: #afa27d solid 1px;
+  padding-bottom: 31px;
+  margin-bottom: 28px;
+}
+.callouts li {
+  margin-left: 26px;
+}
+/* CSS3Pie */
+.callout-item {
+  -moz-border-radius: 4px;
+  /* FF1+ */
+
+  -webkit-border-radius: 4px;
+  /* Saf3+, Chrome */
+
+  -khtml-border-radius: 4px;
+  /* Konqueror */
+
+  border-radius: 4px;
+  /* Standard. IE9 */
+
+  background: #ebe6d5;
+  border: #e4d7b0 solid 1px;
+  padding: 15px 15px 0;
+}
+.callout-item .title {
+  font: normal 18px Helvetica, Arial, sans-serif;
+}
+.callout-item .content {
+  font-size: 14px;
+  line-height: 1.43;
+  margin-bottom: 15px;
+}
+.article .article-section .subtitle {
+  font-size: 14px;
+  font-weight: bold;
+}
+.article .content p, .article .content .supplement {
+  margin-bottom: 1em;
+}
+/* Supplement Styles */
+.article .figure {
+  /**
+	 * @workaround min-height Fast Hack
+	 *
+	 * IE6 doesn't support min-height, but treats elements with
+	 * height and overflow:visible as min-height.
+	 *
+	 * @affected IE5, IE6
+	 * @see http://www.dustindiaz.com/min-height-fast-hack/
+	 */
+
+  height: auto !important;
+  height: 120px;
+  min-height: 120px;
+  padding: 12px 12px 12px 175px;
+  position: relative;
+}
+.article .figure img {
+  left: 12px;
+  position: absolute;
+  top: 12px;
+}
+/*******************/
+.article .header {
+  margin-bottom: 17px;
+}
+.article .header .meta {
+  color: #A29674;
+  font: bold 11px Helvetica, Arial, sans-serif;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+.article .header .meta a:link {
+  color: #A29674;
+}
+.article .header .meta a:hover {
+  color: #A2220F;
+  text-decoration: none;
+}
+.article .article-section .content {
+  margin: 0;
+}
+.article .supplement {
+  background: #f1ead4;
+  border: 0;
+  padding: 10px 10px;
+  margin: 0 0 28px;
+}
+.article .header .title a {
+  color: #000;
+}
+.article .article-section {
+  margin-bottom: 22px;
+}
+.article .to-top {
+  text-align: right;
+}
+.article .to-top a {
+  background: url(../img/sprite-y.8bit.png) 0 -700px no-repeat;
+  color: #F1E9D0;
+  display: inline-block;
+  font: bold 11px/1 Helvetica, Arial, sans-serif;
+  letter-spacing: 1px;
+  padding: 0 0 0 4px;
+  text-transform: uppercase;
+}
+.article .to-top a span {
+  background: url(../img/sprite-y.8bit.png) right -600px no-repeat;
+  display: block;
+  padding: 5px 18px 3px 7px;
+}
+.article-excerpt .sep {
+  padding: 0 2px;
+}
+.article-excerpt .has-featured-image .body {
+  /**
+	 * @workaround min-height Fast Hack
+	 *
+	 * IE6 doesn't support min-height, but treats elements with
+	 * height and overflow:visible as min-height.
+	 *
+	 * @affected IE5, IE6
+	 * @see http://www.dustindiaz.com/min-height-fast-hack/
+	 */
+
+  height: auto !important;
+  height: 122px;
+  min-height: 122px;
+  position: relative;
+  padding-left: 155px;
+  zoom: 1;
+}
+.article-excerpt .has-featured-image img {
+  left: 0;
+  position: absolute;
+  top: 2px;
+}
+/***************/
+.article-excerpt {
+  border: 0;
+  margin-bottom: 0;
+  padding-bottom: 0;
+}
+.article-excerpt .header {
+  margin-bottom: 8px;
+}
+.article-excerpt .header .title {
+  font: normal 18px Helvetica, Arial, sans-serif;
+  margin-bottom: 8px;
+}
+.article-excerpt .header .title a {
+  color: #A2220F;
+}
+.article-excerpt .header .meta {
+  color: #a29674;
+  font: bold 11px Helvetica, Arial, sans-serif;
+  letter-spacing: 1px;
+  margin: 0;
+  text-transform: uppercase;
+}
+.article-excerpt .header .meta a:link {
+  color: #a29674;
+}
+.article-excerpt .header .meta a:hover {
+  color: #A2220F;
+  text-decoration: none;
+}
+.article-excerpt .body {
+  margin-bottom: 30px;
+}
+/* requires jQuery Tabs */
+.widget-recent-posts .nav li a {
+  display: block;
+  padding: 4px 8px;
+}
+.widget-recent-posts .panel ol {
+  background: url(../img/widget-hr.png) center bottom no-repeat;
+  padding-bottom: 16px;
+}
+/******/
+.widget-recent-posts .nav {
+  margin: 0;
+  padding: 0;
+  position: relative;
+  top: 1px;
+}
+.widget-recent-posts .nav li {
+  background: none;
+  border: 0;
+  font: bold 13px Helvetica, Arial, sans-serif;
+  margin-right: 0;
+  padding: 1px 0;
+}
+.widget-recent-posts .nav li a {
+  padding-left: 14px;
+  padding-right: 14px;
+}
+.widget-recent-posts .tabs {
+  margin: 0;
+}
+/* CSS3Pie */
+.widget-recent-posts .nav .ui-tabs-selected {
+  -moz-border-radius: 4px 4px 0 0;
+  /* FF1+ */
+
+  -webkit-border-radius: 4px 4px 0 0;
+  /* Saf3+, Chrome */
+
+  -khtml-border-radius: 4px 4px 0 0;
+  /* Konqueror */
+
+  border-radius: 4px 4px 0 0;
+  /* Standard. IE9 */
+
+  background-color: #f5f2e9;
+  border: #e4d7b0 solid 1px;
+  border-bottom-color: #f5f2e9;
+  padding: 0;
+  zoom: 1;
+}
+.widget-recent-posts .nav .ui-tabs-selected a {
+  color: #A2220F;
+}
+/* CSS3Pie */
+.widget-recent-posts .panel {
+  -moz-border-radius: 0 4px 4px 4px;
+  /* FF1+ */
+
+  -webkit-border-radius: 0 4px 4px 4px;
+  /* Saf3+, Chrome */
+
+  -khtml-border-radius: 0 4px 4px 4px;
+  /* Konqueror */
+
+  border-radius: 0 4px 4px 4px;
+  /* Standard. IE9 */
+
+  background: #f5f2e9;
+  border: #e4d7b0 solid 1px;
+  padding: 0 14px;
+}
+.widget-recent-posts .panel ul, .widget-recent-posts .panel ol {
+  margin: 0;
+  padding: 0;
+}
+.widget-recent-posts .panel li {
+  background-image: none;
+  border-top: #e4d7b0 solid 1px;
+  margin: 10px 0;
+  padding: 10px 0 0;
+}
+.widget-recent-posts .panel li:first-child {
+  border: 0;
+  margin: 0;
+}
+.widget-recent-posts li.recentcomments a {
+  display: inline;
+}
+#sidebar .widget_text {
+  background: none;
+  padding: 0;
+}
+.widget li {
+  font-size: 13px;
+  line-height: 1.38;
+}
+/*******************/
+#sidebar .widget {
+  background: none;
+  margin-bottom: 1px;
+  padding: 0 0 20px;
+}
+/* CSS3Pie */
+#sidebar .widget .title {
+  -moz-border-radius: 2px;
+  /* FF1+ */
+
+  -webkit-border-radius: 2px;
+  /* Saf3+, Chrome */
+
+  -khtml-border-radius: 2px;
+  /* Konqueror */
+
+  border-radius: 2px;
+  /* Standard. IE9 */
+
+  background: #e4d7b0;
+  color: #000;
+  font: bold 13px/25px Helvetica, Arial, sans-serif;
+  margin-bottom: 10px;
+  padding: 0 9px;
+}
+.widget ul {
+  margin-left: 10px;
+}
+.widget ul li {
+  background: url(../img/sprite-y.8bit.png) 0 -390px no-repeat;
+  padding-left: 10px;
+}
+.widget ol li:hover, .widget ul li:hover {
+  background-color: transparent;
+}
+.widget ol li a, .widget ul li a {
+  display: inline;
+  padding: 0;
+}
+.widget ol li a:hover, .widget ul li a:hover {
+  text-decoration: underline;
+}
+.article .article-section-author-list .author-info .header {
+  background: url(../img/author-card-background.png) center 0 no-repeat;
+}
+.article .article-section-author-list .author-info .content {
+  background: url(../img/author-card-background.png) center bottom no-repeat;
+}
+.tools-bar .print a {
+  background: url(../img/sprite-y.24bit.png) 0 0 no-repeat;
+}
+.tools-bar .download label {
+  background: url(../img/sprite-y.24bit.png) 0 -100px no-repeat;
+}
+.tools-nav .tools-menu-item {
+  z-index: 1000;
+}
+.tools-nav .tools-menu-item .header {
+  background: url(../img/tools-content-background.png) right 0 no-repeat;
+}
+.tools-nav .tools-menu-item .title {
+  background: url(../img/sprite-y.8bit.png) 0 -499px no-repeat;
+  color: #a29674;
+  border: 0;
+  font: bold 11px/1 Helvetica, Arial, sans-serif;
+  padding-left: 9px;
+  text-transform: uppercase;
+}
+.tools-nav .tools-menu-item .body {
+  background: url(../img/tools-content-background.png) right bottom no-repeat;
+}
+.tools-nav .tools-menu-item li {
+  background: url(../img/sprite-y.8bit.png) 0 -393px no-repeat;
+}
+.tools-nav .nav li {
+  margin-bottom: 5px;
+}
+.tools-nav .nav li a {
+  -moz-border-radius: 0 4px 4px 0;
+  /* FF1+ */
+
+  -webkit-border-radius: 0 4px 4px 0;
+  /* Saf3+, Chrome */
+
+  -khtml-border-radius: 0 4px 4px 0;
+  /* Konqueror */
+
+  border-radius: 0 4px 4px 0;
+  /* Standard. IE9 */
+
+  background: #a2220f url(../img/sprite-y.24bit.png) 0 100px no-repeat;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.25);
+}
+.tools-nav .nav li.active a {
+  background-color: #a29674;
+}
+.tools-nav .nav li a.content, .tools-nav .nav li.active a.content {
+  background-position: -96px -194px;
+}
+.tools-nav .nav li a.download, .tools-nav .nav li.active a.download {
+  background-position: -96px -96px;
+}
+.tools-nav .nav li a.comments, .tools-nav .nav li.active a.comments {
+  background-position: -96px -295px;
+}
+/*#comments-container {
+	margin-bottom: 22px;
+}
+#comments-container .section-title {
+	background: none;
+	margin-bottom: 6px;
+}
+
+#comments-container .reply-list {
+	border-bottom: 1px #ccc solid;
+	margin: 0 0 18px;
+	padding: 0;
+}
+#comments-container .reply-list li {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+}
+#comments-container .reply-list .comment,
+#comments-container .reply-list .ping {
+	border-top: 1px #ccc solid;
+	padding: 14px 0;
+
+}
+#comments-container .reply-list .comment {
+	margin-bottom: 15px;
+	padding-left: 180px;
+	position: relative;
+}
+
+#comments-container .reply-list .comment ul li {
+	list-style-type: disc;
+}
+#comments-container .reply-list .comment ol li {
+	list-style-type: decimal;
+}
+#comments-container .reply-list .children .li-comment {
+	padding-left: 40px;
+}
+
+#comments-container .reply-list .comment .header img {
+	left: 0;
+	position: absolute;
+	top: 0;
+}
+#comments-container .reply-list .comment .header .title {
+	margin: 0;
+}
+#comments-container .reply-list .comment .content {
+	font-size: 13px;
+	line-height: 1.38;
+}
+
+#comments-container .reply-list .comment .footer {
+	font-size: 12px;
+}
+
+
+#reply {
+	color: #666;
+	width: 627px;
+}
+#reply .logged-in {
+	margin-bottom: 1em;
+}
+#reply .input-row {
+	display: inline-block;
+	margin-bottom: 10px;
+	padding-left: 180px;
+	position: relative;
+}
+#reply .input-row-submit {
+	background: none;
+}
+#reply .input-row label {
+	font-size: 14px;
+	left: 0;
+	position: absolute;
+	top: 0;
+	width: 172px;
+}
+#reply .input-row .text,
+#reply .input-row textarea {
+	background: #fff;
+	border: 1px #999 solid;
+	font-size: 14px;
+	padding: 6px;
+}
+#reply .input-row .text {
+	width: 206px;
+}
+#reply .input-row textarea {
+	display: block;
+	width: 433px;
+}
+*/
+/*********/
+#comments-container .reply-list {
+  padding-bottom: 15px;
+}
+#comments-container .reply-list .comment, #comments-container .reply-list .ping {
+  border-color: #d7d1bf;
+  padding: 15px 0 0;
+  margin: 15px 0 0;
+  position: static;
+}
+#comments-container .reply-list li:first-child .comment, #comments-container .reply-list li:first-child .ping {
+  border: 0;
+  padding-top: 0;
+}
+#comments-container .reply-list .comment .header {
+  height: auto;
+  min-height: auto;
+  margin-bottom: 10px;
+  position: relative;
+  padding: 0;
+  width: auto;
+}
+#comments-container .reply-list .comment .header .title {
+  font-weight: bold;
+}
+#comments-container .reply-list .comment .header .title a {
+  color: #A2220F;
+}
+#comments-container .reply-list .comment .header .published {
+  color: #666;
+  font-size: 12px;
+  font-style: italic;
+  position: absolute;
+  right: 0;
+  top: 0;
+}
+#comments-container .section-title, #reply .section-title {
+  background: none;
+  font-size: 15px;
+  letter-spacing: 0;
+  padding: 0;
+  text-transform: none;
+}
+#comments-container .section-header {
+  border-bottom: #d7d1bf solid 1px;
+  margin: 0 0 17px;
+  padding: 0 0 12px;
+}
+#comments-container .section-header a {
+  font-size: 11px;
+  top: -2px;
+}
+#reply button {
+  background: url(../img/sprite-y.8bit.png) 0 -800px no-repeat;
+  height: 28px;
+  overflow: hidden;
+  text-indent: -1000px;
+  width: 95px;
+}

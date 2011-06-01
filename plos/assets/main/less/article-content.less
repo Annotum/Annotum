@@ -1,0 +1,90 @@
+.article .article-section .subtitle {
+	font-size: 14px;
+	font-weight: bold;
+}
+
+.article .content p,
+.article .content .supplement {
+	margin-bottom: 1em;
+}
+
+
+/* Supplement Styles */
+.article .figure {
+	/**
+	 * @workaround min-height Fast Hack
+	 *
+	 * IE6 doesn't support min-height, but treats elements with
+	 * height and overflow:visible as min-height.
+	 *
+	 * @affected IE5, IE6
+	 * @see http://www.dustindiaz.com/min-height-fast-hack/
+	 */
+	height: auto !important;
+	height: 120px;
+	min-height: 120px;
+	
+	padding: 12px 12px 12px 175px;
+	position: relative;
+}
+.article .figure img {
+	left: 12px;
+	position: absolute;
+	top: 12px;
+}
+.article .figure .meta {
+	
+}
+
+/*******************/
+.article .header {
+	margin-bottom: 17px;
+}
+.article .header .meta {
+	color: #A29674;
+	font: bold 11px Helvetica, Arial, sans-serif;
+	letter-spacing: 1px;
+	text-transform: uppercase;
+}
+.article .header .meta a:link {
+	color: #A29674;
+}
+.article .header .meta a:hover {
+	color: #A2220F;
+	text-decoration: none;
+}
+
+.article .article-section .content {
+	margin: 0;
+}
+.article .supplement {
+	background: #f1ead4;
+	border: 0;
+	padding: 10px 10px;
+	margin: 0 0 28px;
+}
+
+.article .header .title a {
+	color: #000;
+}
+.article .article-section {
+	margin-bottom: 22px;
+}
+.article .to-top {
+	text-align: right;
+}
+
+.article .to-top a {
+	background: url(../img/sprite-y.8bit.png) 0 -700px no-repeat;
+	color: #F1E9D0;
+	display: inline-block;
+	font: bold 11px/1 Helvetica, Arial, sans-serif;
+	letter-spacing: 1px;
+	padding: 0 0 0 4px;
+	text-transform: uppercase;
+}
+.article .to-top a span {
+	background: url(../img/sprite-y.8bit.png) right -600px no-repeat;
+	display: block;
+	padding: 5px 18px 3px 7px;
+}

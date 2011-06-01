@@ -704,5 +704,40 @@ function annowf_get_post_id() {
 	}
 	return intval($post_id);
 }
+function anno_get_sample_permalink_html($return, $id, $new_title, $new_slug) {
+	
+	$post = &get_post($id);
+
+	list($permalink, $post_name) = get_sample_permalink($post->ID, $new_title, $new_slug);
+
+
+	if ( function_exists('mb_strlen') ) {
+		if ( mb_strlen($post_name) > 30 ) {
+			$post_name_abridged = mb_substr($post_name, 0, 14). '&hellip;' . mb_substr($post_name, -14);
+		} else {
+			$post_name_abridged = $post_name;
+		}
+	} else {
+		if ( strlen($post_name) > 30 ) {
+			$post_name_abridged = substr($post_name, 0, 14). '&hellip;' . substr($post_name, -14);
+		} else {
+			$post_name_abridged = $post_name;
+		}
+	}
+	
+	$post_name_html = $post_name_abridged;
+	$display_link = str_replace(array('%pagename%','%postname%'), $post_name_html, $permalink);
+	$view_link = str_replace(array('%pagename%','%postname%'), $post_name, $permalink);
+	$return =  '<strong>' . __('Permalink:') . "</strong>\n";
+	$return .= '<span id="sample-permalink">' . $display_link . "</span>\n";
+	$return .= '&lrm;'; // Fix bi-directional text display defect in RTL languages.
+	if ( isset($view_post) )
+		$return .= "<span id='view-post-btn'><a href='$view_link' class='button' target='_blank'>$view_post</a></span>\n";
+
+	return $return;
+}
+if (anno_user_can('edit_post')) {
+	add_filter('get_sample_permalink_html', 'anno_get_sample_permalink_html', 10, 4);
+}
 
 ?>

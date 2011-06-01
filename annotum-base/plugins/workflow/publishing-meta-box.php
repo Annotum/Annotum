@@ -17,13 +17,13 @@ function anno_status_meta_box() {
 				}
 			?>
 		</div> <!-- #minor-publishing-actions -->
-	</div> <!-- #minor-publising -->
+
 	<?php 
 		if ($post_state == 'approved' && anno_user_can('alter_post_state')) { 
 			anno_misc_action_approved_markup();
  		} 
 	?>
-
+	</div> <!-- #minor-publising -->
 	<input type="hidden" name="hidden_post_status" id="hidden_post_status" value="<?php echo esc_attr( ('auto-draft' == $post->post_status ) ? 'draft' : $post->post_status); ?>" />
 	<div id="major-publishing-actions">
 		<?php
@@ -79,6 +79,10 @@ function anno_major_action_draft_markup() {
  * Submitted state markup for minor actions.
  */
 function anno_minor_action_submitted_markup() {
+	if (anno_user_can('edit_post')) {
+		anno_minor_action_save_markup();
+		anno_minor_action_preview_markup();
+	}
 ?>
 		<p class="status-text">
 			<?php _e('Submitted - Waiting For Review'); ?>
@@ -90,7 +94,9 @@ function anno_minor_action_submitted_markup() {
  * Submitted state markup for major actions.
  */
 function anno_major_action_submitted_markup() {
-	anno_major_action_preview_markup();
+	if (!anno_user_can('edit_post')) {
+		anno_major_action_preview_markup();
+	}
 }
 
 /**
@@ -167,7 +173,6 @@ function anno_minor_action_approved_markup() {
 		<?php _e('Article Approved', 'anno'); ?>
 	</p>
 <?php
-
 	}
 }
 

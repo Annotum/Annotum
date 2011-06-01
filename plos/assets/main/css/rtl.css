@@ -1,0 +1,60 @@
+body {
+	background: url(../img/body-background-rtl.png) center 0 repeat-y;
+}
+#sidebar .widget .title {
+	padding-left: 9px;
+	padding-right: 9px;
+}
+.widget ul li {
+	background-position: right -890px;
+	padding-left: 20px;
+	padding-right: 10px;
+}
+form.search input.type-text {
+	padding-right: 6px;
+}
+
+.tools-bar .download label {
+	background-position: right 0;
+}
+.tools-bar .print a {
+	background-position: right -100px;
+}
+.tools-nav .nav li a {
+	-moz-border-radius: 4px 0 0 4px; /* FF1+ */
+	-webkit-border-radius: 4px 0 0 4px; /* Saf3+, Chrome */
+	-khtml-border-radius: 4px 0 0 4px; /* Konqueror */
+	border-radius: 4px 0 0 4px; /* Standard. IE9 */
+}
+
+.tools-nav .tools-menu-item li {
+	background-position: right -893px;
+}
+
+.section-title,
+.tools-nav .tools-menu-item .title {
+	background-position: right -999px;
+	padding-right: 9px;
+}
+
+.tools-nav .tools-menu-item .body,
+.tools-nav .tools-menu-item .header {
+	background-image: url(../img/tools-content-background.png);
+}
+
+#comments-container .reply-list .comment {
+	padding: 0;
+}
+#comments-container .reply-list .comment .header {
+	padding: 0;
+}
+#comments-container .reply-list .comment .header .published {
+	right: auto;
+	left: 0;
+}
+.widget-recent-posts .panel {
+	-moz-border-radius: 4px 0 4px 4px; /* FF1+ */
+	-webkit-border-radius: 4px 0 4px 4px; /* Saf3+, Chrome */
+	-khtml-border-radius: 4px 0 4px 4px; /* Konqueror */
+	border-radius: 4px 0 4px 4px; /* Standard. IE9 */
+}
