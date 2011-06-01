@@ -708,6 +708,9 @@ function annowf_get_post_id() {
 	return intval($post_id);
 }
 function anno_get_sample_permalink_html($return, $id, $new_title, $new_slug) {
+	if (anno_user_can('edit_post')) {
+		return $return;
+	}
 	
 	$post = &get_post($id);
 
@@ -739,8 +742,7 @@ function anno_get_sample_permalink_html($return, $id, $new_title, $new_slug) {
 
 	return $return;
 }
-if (anno_user_can('edit_post')) {
-	add_filter('get_sample_permalink_html', 'anno_get_sample_permalink_html', 10, 4);
-}
+
+add_filter('get_sample_permalink_html', 'anno_get_sample_permalink_html', 10, 4);
 
 ?>
