@@ -616,11 +616,6 @@ form.search .type-submit {
 .article .header {
   margin-bottom: 18px;
 }
-.article .header .title {
-  color: #000;
-  font: bold 28px Georgia, Serif;
-  margin-bottom: 5px;
-}
 .article .header .meta {
   color: #666;
   font: italic 13px Georgia, Serif;
@@ -643,6 +638,10 @@ form.search .type-submit {
 .article .article-section .content {
   margin-left: 15px;
   margin-right: 15px;
+}
+.article .article-section .section-title {
+  /*	font-size: 16px;*/
+
 }
 .article .content p, .article .content .supplement {
   margin-bottom: 1em;
@@ -690,7 +689,7 @@ form.search .type-submit {
 .article-excerpt {
   border-bottom: #ccc solid 1px;
   margin-bottom: 27px;
-  padding-bottom: 30px;
+  padding-bottom: 15px;
   overflow: hidden;
 }
 .article-excerpt .header .title {
@@ -727,6 +726,9 @@ form.search .type-submit {
   left: 0;
   position: absolute;
   top: 2px;
+}
+.article-excerpt .content {
+  margin-bottom: 1em;
 }
 .callouts {
   margin-bottom: 30px;
@@ -1062,6 +1064,11 @@ form.search .type-submit {
 }
 .pagination .next {
   float: right;
+}
+.page-title {
+  color: #000;
+  font: bold 28px Georgia, Serif;
+  margin-bottom: 5px;
 }
 .section-title {
   background: url(../img/border-background.png) 0 bottom repeat-x;

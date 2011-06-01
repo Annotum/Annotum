@@ -22,7 +22,7 @@ if (CFCT_DEBUG) { cfct_banner(__FILE__); }
 	cfct_misc('author-list'); ?>
 	<div class="content">
 		<section class="abstract sec">
-			<h1 class="title"><?php _e('Abstract', 'anno'); ?></h1>
+			<h1 class="page-title"><?php _e('Abstract', 'anno'); ?></h1>
 			<div class="entry-summary"><?php the_excerpt(); ?></div>
 		</section><!--/.abstract-->
 		<div class="entry-content">
