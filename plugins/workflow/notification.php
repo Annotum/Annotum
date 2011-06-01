@@ -5,25 +5,22 @@
  * @param string $type The type of notification to send
  * @param stdObj $post WP Post object
  * @param stdObj $comment WP Comment object
- * @param array $recipients Array of email addresses to send the notification to. If a non-array is passed in or empty, will use predetermined values
+ * @param array $recipients Array of email addresses to send the notification to. This will merge with predetermined values.
  * @return bool true if mail sent successfully, false otherwise.
  */
 function annowf_send_notification($type, $post = null, $comment = null, $recipients = null) {
-
 	if (empty($type)) {
 		return false;
 	}
 	$notification = annowf_notification_message($type, $post, $comment);
-	if (is_null($recipients) || !array($recipients)) {
+	if (is_null($recipients) || !is_array($recipients)) {
 		$recipients = annowf_notification_recipients($type, $post);
+	}
+	else if (is_array($recipients)) {
+		$recipients = array_merge($recipients, annowf_notification_recipients($type, $post));
 	}
 	$recipients = apply_filters('annowf_notification_recipients', array_unique($recipients), $type, $post);
 
-	error_log(print_r(array(
-		'type' => $type,
-		'recipients' => $recipients,
-		'notification' => $notification,		
-	),1));
  	return wp_mail($recipients, $notification['subject'], $notification['body']);
 }
 
@@ -38,23 +35,26 @@ function annowf_notification_recipients($type, $post) {
 	$recipients = array();
 	switch ($type) {
 		case 'submitted':
-		case 'general_comment':
-		case 'reviewer_comment':
-			$recipients = annowf_get_role_emails('administrator');
 			$recipients = array_merge($recipients, annowf_get_role_emails('editor'));
-			break;
 		case 'in_review':
-		case 'rejected':
-		case 'revisions':
-		case 'published':
-			$recipients = annowf_get_role_emails('author', $post);
-		case 'approved':
+			$recipients = array_merge($recipients, annowf_get_role_emails('author'));
 			$recipients = array_merge($recipients, annowf_get_role_emails('administrator'));
 			break;
-		case 're_review':
-			$recipients = annowf_get_role_emails('reviewer', $post);
+		case 'revisions':
+		case 'rejected':
+		case 'approved':
+		case 'general_comment':
+			$recipients = array_merge($recipients, annowf_get_role_emails('author'));
+			$recipients = array_merge($recipients, annowf_get_role_emails('administrator'));
+			$recipients = array_merge($recipients, annowf_get_role_emails('reviewer'));
+		case 'published':
+			$recipients = array_merge($recipients, annowf_get_role_emails('editor'));
 			break;
-		//No case for reviewer_added. Recipeients passed in directly to annowf_send_notification here.
+		case 'reviewer_comment':
+			$recipients = array($recipients, annowf_get_role_emails('editor'));
+			$recipients = array_merge($recipients, annowf_get_role_emails('administrator'));
+			break;
+		//Some cases intentionally left blank, should be passed to annowf_send_notification in recipients param.
 		default:
 			break;
 	}

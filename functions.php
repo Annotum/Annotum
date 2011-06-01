@@ -145,4 +145,15 @@ function anno_post_class($classes, $class) {
 	return $classes;
 }
 add_filter('post_class', 'anno_post_class', 10, 2);
+
+/**
+ * Determines whether or not an email address is valid
+ * 
+ * @param string email to check
+ * @return bool true if it is a valid email, false otherwise
+ */ 
+function anno_is_valid_email($email) {
+ return filter_var($email, FILTER_VALIDATE_EMAIL);
+}
+
 ?>

@@ -28,7 +28,7 @@ function anno_workflow_meta_boxes() {
 	
 	// Remove taxonomy boxes when a user is unable to save/edit
 	if (!anno_user_can('edit_post', null, $post->ID)) {
-		remove_meta_box('article_tagdiv', 'article', 'side');
+		remove_meta_box('tagsdiv-article_tag', 'article', 'side');
 		remove_meta_box('article_category_select', 'article', 'side');
 	}
 	
@@ -334,8 +334,19 @@ function anno_add_user($type) {
 	check_ajax_referer('anno_manage_'.$type, '_ajax_nonce-manage-'.$type);
 	$message = 'error';
 	$html = '';
-	if (isset($_POST['user']) && isset($_POST['post_id'])) {
-		$user = get_userdatabylogin($_POST['user']);
+	
+	if (isset($_POST['post_id']) && isset($_POST['user'])) {
+		$user_login = trim($_POST['user']);
+		$user = get_userdatabylogin($user_login);
+
+		// Check if the user already exists if we're adding via email
+		if (empty($user) && anno_is_valid_email($user_login)) {
+			$users = get_users(array('search' => $user_login));
+			if (!empty($users) && is_array($users)) {
+				$user = $users[0];
+			}
+		}
+		
 		if (!empty($user)) {
 			$post = get_post($_POST['post_id']);
 			$co_authors = anno_get_post_users($_POST['post_id'], '_co_authors');
@@ -359,10 +370,11 @@ function anno_add_user($type) {
 			}
 		}
 		else {
-			//TODO Check on/for email
-			$html = sprintf(__('User \'%s\' not found', 'anno'), $_POST['user']);
+			$html = sprintf(__('User \'%s\' not found', 'anno'), $user_login);
 		}
+		
 	}
+	
 	echo json_encode(array('message' => $message, 'html' => $html));
 	if ($message == 'success') {
 		return $user;

@@ -83,7 +83,6 @@ add_action('admin_print_styles', 'anno_post_type_enqueue_css');
 /**
  * Display custom messages for articles. Based on WP Core 3.1.2
  */ 
-// TODO Look into apply_filters( 'redirect_post_location', $location, $post_id ) );
 function anno_post_updated_messages($messages) {
 	global $post;
 	// Based on message code in WP Core 3.2
