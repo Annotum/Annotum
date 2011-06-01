@@ -15,10 +15,27 @@ if (CFCT_DEBUG) { cfct_banner(__FILE__); }
 ?>
 <?php //cfct_misc('tools-nav'); ?>
 <article <?php post_class('article'); ?>>
+	<header class="header">
+		<div class="entry-title">
+			<h1 class="title"><a rel="bookmark" href="<?php the_permalink() ?>"><?php the_title(); ?></a></h1>
+			<?php if (anno_has_subtitle()): ?>
+				<p class="subtitle"><?php anno_the_subtitle(); ?></p>
+			<?php endif; ?>
+		</div>
+		<div class="meta">
+			<time class="published" pubdate datetime="<?php the_time('c'); ?>"><?php the_time('F j, Y'); ?></time>
+			<?php anno_the_terms('article_category', '<span class="article-categories"> <span class="sep">&middot;</span> ', ',', '</span>'); ?>
+		</div>
+		<div class="sec">
+			<span class="title"><?php _e('Authors', 'anno'); ?></span>
+			<ul class="authors">
+				<?php anno_the_author(); ?>
+			</ul>
+		</div>
+	</header>
 	<?php 
-	cfct_template_file('content', 'header');
 	cfct_misc('tools-bar');
-	cfct_misc('author-list'); ?>
+	?>
 	<div class="content">
 		<section class="abstract sec">
 			<h1 class="title"><?php _e('Abstract', 'anno'); ?></h1>

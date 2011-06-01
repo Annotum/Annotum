@@ -13,15 +13,3 @@ if (__FILE__ == $_SERVER['SCRIPT_FILENAME']) { die(); }
 if (CFCT_DEBUG) { cfct_banner(__FILE__); }
 
 ?>
-<header class="header">
-	<div class="entry-title">
-		<h1 class="title"><a rel="bookmark" href="<?php the_permalink() ?>"><?php the_title(); ?></a></h1>
-		<?php if (anno_has_subtitle()): ?>
-			<p class="subtitle"><?php anno_the_subtitle(); ?></p>
-		<?php endif; ?>
-	</div>
-	<div class="meta">
-		<time class="published" pubdate datetime="<?php the_time('c'); ?>"><?php the_time('F j, Y'); ?></time>
-		<?php anno_the_terms('article_category', ' <span class="sep">&middot;</span> ', ','); ?>
-	</div>
-</header>

@@ -205,15 +205,17 @@ form.search .type-submit{background:url(../img/sprite-y.8bit.png) 0 -100px no-re
 .article-section-references ol{list-style:decimal;margin-left:35px;}
 .article-section-references li{margin-bottom:10px;}
 .article-section-references ol a{font-size:10px;line-height:1;text-transform:uppercase;}
-.article .article-section-author-list{overflow:visible;}
-.article .article-section-author-list .author-info .content{background:url(../img/author-card-background.png) center bottom no-repeat;margin:0;padding:1px 15px 15px;}
-.article .article-section-author-list .author-info .content p{margin:0;}
-.article .article-section-author-list ul{padding-right:.27em;}
-.article .article-section-author-list li{float:left;margin-right:10px;position:relative;zoom:1;}
-.article .article-section-author-list li:hover .author-info{display:block;}
-.article .article-section-author-list .author-info{display:none;left:50%;margin-left:-119px;position:absolute;width:248px;z-index:1000;}
-html.ie7 .article .article-section-author-list .author-info{top:15px;}
-.article .article-section-author-list .author-info .header{background:url(../img/author-card-background.png) center 0 no-repeat;height:15px;margin:0;}
+.authors{overflow:visible;}
+.authors .author-info .content{background:url(../img/author-card-background.png) center bottom no-repeat;margin:0;padding:1px 15px 15px;}
+.authors .author-info .content p{margin:0;}
+.authors ul{padding-right:.27em;}
+.authors li{float:left;margin-right:10px;zoom:1;}
+.author{display:block;position:relative;}
+.author .extra a,.author .extra span{display:block;}
+.author .extra{left:50%;display:block;margin-left:-119px;position:absolute;width:248px;z-index:1000;}
+.author:hover .extra{display:block;}
+html.ie7 .authors .extra{top:15px;}
+.authors .author-info .header{background:url(../img/author-card-background.png) center 0 no-repeat;height:15px;margin:0;}
 .widget-recent-posts .nav{margin-bottom:11px;padding:20px 0 0 20px;}
 .widget-recent-posts .nav li{background:#dadada;border-bottom:#006B94 solid 1px;font:italic bold 14px Georgia, Serif;margin-right:6px;padding:0;}
 .widget-recent-posts .nav li a{display:block;padding:4px 8px;}
