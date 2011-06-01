@@ -22,7 +22,6 @@ if (CFCT_DEBUG) { cfct_banner(__FILE__); }
 	</div>
 	<div class="meta">
 		<time class="published" pubdate datetime="<?php the_time('c'); ?>"><?php the_time('F j, Y'); ?></time>
-		<span class="sep">&middot;</span>
-		<?php the_category(', '); ?>
+		<?php anno_the_terms('article_category', ' <span class="sep">&middot;</span> ', ','); ?>
 	</div>
 </header>
