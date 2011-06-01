@@ -28,6 +28,9 @@ jQuery(document).ready( function($) {
 		$.post(ajaxurl, data, function(d) {
 			if (d.message == 'success') {
 				$('ul#co-author-list').prepend(d.html);
+				// Append co-author to author dropdown
+				$('#post_author_override').append(d.author);
+				
 			}
 			else {
 				$('#co-author-add-error').html(d.html).show();
@@ -45,6 +48,10 @@ jQuery(document).ready( function($) {
 		$.post(ajaxurl, data, function(d) {
 			if (d.message == 'success') {
 				click.closest('li').fadeOut();
+				// Remove from author dropdown menu
+				if (type == 'co_author') {
+					$('#post_author_override option[value=' + user_id + ']').remove();
+				}
 			}
 		}, 'json');
 		return false;

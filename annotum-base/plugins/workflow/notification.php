@@ -204,7 +204,7 @@ Excerpt: %s
 'You are have been invited to co-author %s by %s.
 %s
 
-%s', 'anno'), $title, $author, $foorer),
+%s', 'anno'), $title, $author, $edit_link, $foorer),
 				);
 				break;
 		default:

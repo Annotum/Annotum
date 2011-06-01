@@ -295,17 +295,22 @@ function anno_user_li_markup($user, $type = null) {
  * Handles AJAX request for adding a reviewer to a post. As well as transitioning states.
  */ 
 function anno_add_reviewer() {
-	$user = anno_add_user('reviewer');
-	if (!empty($user)) {
+	$response = anno_add_user('reviewer');
+	if ($response['message'] == 'success') {
 		$post_id = intval($_POST['post_id']);
 		$post_state = anno_get_post_state($post_id);
+	
+		//Send email
+		$post = get_post($post_id);
+		annowf_send_notification('reviewer_added', $post, '', array($response['user']->user_email));
+		
+		unset($response['user']);
+		echo json_encode($response);
+		
 		if ($post_state == 'submitted') {
 			update_post_meta($post_id, '_post_state', 'in_review');
 			//TODO reload?
 		}
-		//Send email
-		$post = get_post($post_id);
-		annowf_send_notification('reviewer_added', $post, '', array($user->user_email));
 	}
 	die();
 }
@@ -315,20 +320,25 @@ add_action('wp_ajax_anno-add-reviewer', 'anno_add_reviewer');
  * Handles AJAX request for adding a co-author to a post.
  */
 function anno_add_co_author() {
-	$user = anno_add_user('co_author');
-	if (!empty($user)) {
+	$response = anno_add_user('co_author');
+	if ($response['message'] == 'success') {
 		$post = get_post(intval($_POST['post_id']));
-		annowf_send_notification('co_author_added', $post, '', array($user->user_email));
+		annowf_send_notification('co_author_added', $post, '', array($response['user']->user_email));
+
+		// Add author to JSON for appending to author dropdown
+		$response['author'] = '<option value="'.$response['user']->ID.'">'.$response['user']->user_login.'</option>';
+		unset($response['user']);
+		echo json_encode($response);
 	}
 	die();
 }
 add_action('wp_ajax_anno-add-co-author', 'anno_add_co_author');
 
 /**
- * AJAX handler for adding user to a post with a given type
+ * AJAX handler for adding a user to a post with a given type
  * 
  * @param string $type Type of user to add to the post (co_author, reviewer)
- * @return bool True if successfully added, false otherwise
+ * @return array Array of data pertaining to user added and JSON data.
  */
 function anno_add_user($type) {
 	check_ajax_referer('anno_manage_'.$type, '_ajax_nonce-manage-'.$type);
@@ -372,16 +382,9 @@ function anno_add_user($type) {
 		else {
 			$html = sprintf(__('User \'%s\' not found', 'anno'), $user_login);
 		}
-		
 	}
 	
-	echo json_encode(array('message' => $message, 'html' => $html));
-	if ($message == 'success') {
-		return $user;
-	}
-	else {
-		return false;
-	}
+	return array('message' => $message, 'html' => $html, 'user' => $user);
 }
 
 /**
@@ -415,7 +418,7 @@ function anno_remove_co_author() {
 	anno_remove_user('co_author');
 	die();
 }
-add_action('wp_ajax_anno-remove-co-author', 'anno_remove_co_author');
+add_action('wp_ajax_anno-remove-co_author', 'anno_remove_co_author');
 
 /**
  * AJAX handler for removing users from a post for a given type
