@@ -1,6 +1,15 @@
 #comments-container {
 	margin-bottom: 22px;
 }
+#comments-container .section-header {
+	position: relative;
+}
+#comments-container .section-header a {
+	position: absolute;
+	right: 0;
+	top: 0;
+}
+
 #comments-container .section-title {
 	background: none;
 	margin-bottom: 6px;
@@ -26,6 +35,7 @@
 	margin-bottom: 15px;
 	padding-left: 180px;
 	position: relative;
+	zoom: 1; /* fix absolute positioning of gravatar and heading information in ie6 */
 }
 
 #comments-container .reply-list .comment ul li {
@@ -64,7 +74,7 @@
 	top: 0;
 }
 #comments-container .reply-list .comment .header .title,
-#comments-container .reply-list .comment .header time {
+#comments-container .reply-list .comment .header .published {
 	font: normal 13px Arial, Helvetica, Sans-Serif;
 	margin: 0;
 }

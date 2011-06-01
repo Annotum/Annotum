@@ -3,14 +3,14 @@
 	position: relative;
 	zoom: 1;
 }
-.featured-posts ul {
-	margin: 0;
-	padding: 0;
-}
+.featured-posts ul,
 .featured-posts li {
+	height: 262px;
 	list-style: none;
+	list-style-position: outside;
 	margin: 0;
-	padding: 0;
+	overflow: hidden;
+	width: 100%;
 }
 .featured-posts .carousel-item {
 	/**
@@ -53,24 +53,27 @@
 	color: #006b94;
 	font-size: 11px;
 	font-weight: bold;
+	height: 20px;
 	line-height: 20px;
 	padding: 0 55px 0 0;
 	position: absolute;
 	right: 15px;
 	text-align: right;
 	text-transform: uppercase;
+	width: 200px;
+	z-index: 10;
 }
 
+/* CSS3Pie */
 .featured-posts .control-panel .previous,
 .featured-posts .control-panel .next {
+	background-image: url(../img/sprite-y.24bit.png);
+	background-repeat: no-repeat;
 	-moz-border-radius: 10px; /* FF1+ */
 	-webkit-border-radius: 10px; /* Saf3+, Chrome */
 	-khtml-border-radius: 10px; /* Konqueror */
 	border-radius: 10px; /* Standard. IE9 */
-	
-	background-image: url(../img/sprite-y.24bit.png);	
-	background-repeat: no-repeat;
-	display: inline-block;
+	cursor: pointer;
 	height: 20px;
 	position: absolute;
 	top: 0;

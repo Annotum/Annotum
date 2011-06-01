@@ -40,8 +40,8 @@ if (CFCT_DEBUG) { cfct_banner(__FILE__); }
 				);
 				wp_nav_menu($args);
 				?>
-				</nav>	
-			</div>		
+				</nav>
+			</div>
 		</div>
 		<div class="navigation">
 			<div class="in">
@@ -55,14 +55,29 @@ if (CFCT_DEBUG) { cfct_banner(__FILE__); }
 				wp_nav_menu($args);
 				cfct_form('search');
 				?>
-				</nav>				
+				</nav>
 			</div>
 		</div>
-
 		<?php
-			if (is_home()) {
-				cfct_template_file('header', 'masthead');
-			}
+		if (is_home()) { ?>
+		<div id="masthead" class="clearfix">
+			<div class="in">
+				<div id="masthead-body">
+					<?php
+					$featured = new Anno_Featured_Articles();
+					$featured->render();
+					?>
+				</div><!-- #masthead-body -->
+				<div id="masthead-sidebar">
+					<?php
+					$teasers = new Anno_Teaser_Articles();
+					$teasers->render();
+					?>
+				</div><!-- #masthead-sidebar -->
+			</div>
+		</div><!-- #masthead -->
+		<?php
+		}
 		?>
 	</header>
 <div id="main" class="act">
