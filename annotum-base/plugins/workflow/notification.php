@@ -77,8 +77,7 @@ function annowf_notification_recipients($type, $post) {
  * @return array Array consisting of email title and body
  */
 function annowf_notification_message($type, $post, $comment) {
-	// TODO, actual footer
-	$footer = 'FOOTER';
+	$footer = get_option('blogname').' '.home_url();
 	
 	$author = get_userdata($post->post_author);
 	$author = annowf_user_display($author);
@@ -92,7 +91,6 @@ function annowf_notification_message($type, $post, $comment) {
 	$edit_link = sprintf(__('Edit This Article: %s', 'anno'), $edit_link);
 	$title = $post->post_title;
 	
-	//TODO URL, wording
 	$reviewer_instructions = __('Reviewer Instructions', 'anno');
 	
 	$notification = array('subject' => '', 'body' => '');
