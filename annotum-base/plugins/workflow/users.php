@@ -24,7 +24,7 @@ function anno_user_can($cap, $user_id = null, $post_id = null, $comment_id = nul
 	$post_state = annowf_get_post_state($post_id);
 
 	$user_role = anno_role($user_id, $post_id);
-	error_log($user_id);
+
 	// Number of times this item has gone back to draft state.
 	$post_round = get_post_meta($post_id, '_round', true);
 	
