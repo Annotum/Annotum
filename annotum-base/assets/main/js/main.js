@@ -62,8 +62,14 @@ Anno.contexts = (function () {
 
 	return {
 		common: function() {
-			$('input[placeholder],textarea[placeholder]').placeholder();
+			//$('input[placeholder],textarea[placeholder]').placeholder();
 			$('.widget-recent-posts .tabs').tabs();
+			
+			//Add hover support for li's (ie6)
+			$('li').hover(
+				function(){$(this).addClass('hover');},
+				function(){$(this).removeClass('hover');}
+			);
 		},
 
 		home: function () {

@@ -1,6 +1,11 @@
 body {
 	background: url(../img/body-background-rtl.png) center 0 repeat-y;
 }
+
+#footer .nav li,
+#header #secondary-nav li {
+	background-position: right -1093px;
+}
 #sidebar .widget .title {
 	padding-left: 9px;
 	padding-right: 9px;

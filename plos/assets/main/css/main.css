@@ -7,12 +7,14 @@ body{background:url(../img/body-background.png) center 0 repeat-y;}
 #header #site-name{padding-top:11px;}
 #header #site-name a{background:url(../img/sprite-y.8bit.png) 0 0 no-repeat;display:block;height:52px;overflow:hidden;text-indent:-1000px;text-decoration:none;width:148px;}
 #header #site-nav{background:none;line-height:22px;}
-#header #site-nav li{border:0;}
+#header #site-nav li{border:0;height:37px;}
 #header #site-nav li a{color:#f1e9d0;margin-right:24px;padding-left:0;padding-right:0;text-shadow:0 -1px 0 rgba(0, 0, 0, 0.4);}
-#header #site-nav li li a{background-color:#A2220F;padding:5px 10px;}
+#header #site-nav li ul{background-color:#8b170a;border:#580301 solid 1px;border-top:0;left:-10px;top:36px;}
+#header #site-nav li li a{background:none;margin:0;padding:5px 10px;}
 #header #secondary-nav{font-size:11px;}
 #header #secondary-nav .nav{bottom:4px;}
-#header #secondary-nav li{background:url(../img/sprite-y.8bit.png) 0 -293px no-repeat;}
+#header #secondary-nav li,#footer .nav li{background:url(../img/sprite-y.8bit.png) 0 -293px no-repeat;}
+#header #secondary-nav li:first-child{background:none;}
 #header #secondary-nav li a{color:#aaa9a7;}
 #masthead{background:#b5a988;border-bottom:#766845 solid 1px;}
 #footer{background:#2a2822;border-top:#000 solid 1px;color:#aaa9a7;}
@@ -69,7 +71,7 @@ form.search .type-submit{background:url(../img/sprite-y.8bit.png) 0 -200px no-re
 .widget-recent-posts .nav li{background:none;border:0;font:bold 13px Helvetica,Arial,sans-serif;margin-right:0;padding:1px 0;}
 .widget-recent-posts .nav li a{padding-left:14px;padding-right:14px;}
 .widget-recent-posts .tabs{margin:0;}
-.widget-recent-posts .nav .ui-tabs-selected{-moz-border-radius:4px 4px 0 0;-webkit-border-radius:4px 4px 0 0;-khtml-border-radius:4px 4px 0 0;border-radius:4px 4px 0 0;background-color:#f5f2e9;border:#e4d7b0 solid 1px;border-bottom-color:#f5f2e9;padding:0;zoom:1;}
+.widget-recent-posts .nav .ui-tabs-selected{-moz-border-radius:4px 4px 0 0;-webkit-border-radius:4px 4px 0 0;-khtml-border-radius:4px 4px 0 0;border-radius:4px 4px 0 0;background-color:#f5f2e9;border:#e4d7b0 solid 1px;border-bottom-color:#f5f2e9;padding:0;}
 .widget-recent-posts .nav .ui-tabs-selected a{color:#A2220F;}
 .widget-recent-posts .panel{-moz-border-radius:0 4px 4px 4px;-webkit-border-radius:0 4px 4px 4px;-khtml-border-radius:0 4px 4px 4px;border-radius:0 4px 4px 4px;background:#f5f2e9;border:#e4d7b0 solid 1px;padding:0 14px;}
 .widget-recent-posts .panel ul,.widget-recent-posts .panel ol{background:none;margin:0;padding:0;}

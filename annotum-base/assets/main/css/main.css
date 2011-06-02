@@ -1,1254 +1,229 @@
-/**
-* html5doctor.com Reset Stylesheet (Eric Meyer's Reset Reloaded + HTML5 baseline)
-* v1.6.1 2010-09-17 | Authors: Eric Meyer & Richard Clark
-* html5doctor.com/html-5-reset-stylesheet/
-*/
-html,
-body,
-div,
-span,
-object,
-iframe,
-h1,
-h2,
-h3,
-h4,
-h5,
-h6,
-p,
-blockquote,
-pre,
-abbr,
-address,
-cite,
-code,
-del,
-dfn,
-em,
-img,
-ins,
-kbd,
-q,
-samp,
-small,
-strong,
-sub,
-sup,
-var,
-b,
-i,
-dl,
-dt,
-dd,
-ol,
-ul,
-li,
-fieldset,
-form,
-label,
-legend,
-table,
-caption,
-tbody,
-tfoot,
-thead,
-tr,
-th,
-td,
-article,
-aside,
-canvas,
-details,
-figcaption,
-figure,
-footer,
-header,
-hgroup,
-menu,
-nav,
-section,
-summary,
-time,
-mark,
-audio,
-video {
-  margin: 0;
-  padding: 0;
-  border: 0;
-  font-size: 100%;
-  vertical-align: baseline;
-}
-article,
-aside,
-details,
-figcaption,
-figure,
-footer,
-header,
-hgroup,
-menu,
-nav,
-section {
-  display: block;
-}
-blockquote, q {
-  quotes: none;
-}
-blockquote:before,
-blockquote:after,
-q:before,
-q:after {
-  content: "";
-  content: none;
-}
-/** @section Basics and Typography
- -------------------------------------------------- */
-ins {
-  background-color: #ff9;
-  color: #000;
-  text-decoration: none;
-}
-del {
-  text-decoration: line-through;
-}
-table {
-  border-collapse: collapse;
-  border-spacing: 0;
-}
-hr {
-  display: block;
-  height: 1px;
-  border: 0;
-  border-top: 1px solid #ccc;
-  margin: 1em 0;
-  padding: 0;
-}
-/* Normalize monospace sizing:
-en.wikipedia.org/wiki/MediaWiki_talk:Common.css/Archive_11#Teletype_style_fix_for_Chrome */
-pre,
-code,
-kbd,
-samp {
-  font-family: monospace, sans-serif;
-}
-/**
-* Minimal base styles.
-*/
-/* Remove iOS text size adjust without disabling user zoom: www.456bereastreet.com/archive/201012/controlling_text_size_in_safari_for_ios_without_disabling_user_zoom/ */
-html {
-  -webkit-text-size-adjust: 100%;
-  -ms-text-size-adjust: 100%;
-}
-/**
-* Font normalization inspired by YUI Library's fonts.css: developer.yahoo.com/yui/
-*/
-body {
-  font: 14px/1.43 Arial, Helvetica, sans-serif;
-}
-/* Accessible focus treatment: people.opera.com/patrickl/experiments/keyboard/test */
-a:hover, a:active {
-  outline: none;
-}
-a {
-  color: #006b94;
-  text-decoration: none;
-}
-a:hover {
-  text-decoration: underline;
-}
-ul, ol {
-  margin: 0;
-  list-style-type: none;
-}
-/* Remove margins for navigation lists */
-nav ul, nav li {
-  margin: 0;
-  list-style: none;
-  list-style-image: none;
-}
-small {
-  font-size: 85%;
-}
-strong, th {
-  font-weight: bold;
-}
-td {
-  vertical-align: top;
-}
-/* Set sub, sup without affecting line-height: gist.github.com/413930 */
-sub, sup {
-  font-size: 75%;
-  line-height: 0;
-  position: relative;
-}
-sup {
-  top: -0.5em;
-}
-sub {
-  bottom: -0.25em;
-}
-pre {
-  /* www.pathf.com/blogs/2008/05/formatting-quoted-code-in-blog-posts-css21-white-space-pre-wrap/ */
-
-  white-space: pre;
-  white-space: pre-wrap;
-  word-wrap: break-word;
-}
-/* 1) Make inputs and buttons play nice in IE: www.viget.com/inspire/styling-the-button-element-in-internet-explorer/
-2) WebKit browsers add a 2px margin outside the chrome of form elements.
-Firefox adds a 1px margin above and below textareas
-3) Set font-size to match <body>'s, and font-family to sans-serif
-4) Align to baseline */
-button,
-input,
-select,
-textarea {
-  width: auto;
-  overflow: visible;
-  margin: 0;
-  font-size: 100%;
-  font-family: sans-serif;
-  vertical-align: baseline;
-}
-/* 1) Remove default scrollbar in IE: www.sitepoint.com/blogs/2010/08/20/ie-remove-textarea-scrollbars/
-2) Align to text-top */
-textarea {
-  overflow: auto;
-  vertical-align: text-top;
-}
-/* Hand cursor on clickable input elements */
-label,
-input[type="button"],
-input[type="submit"],
-input[type="image"],
-button {
-  cursor: pointer;
-}
-/* Remove extra padding and inner border in Firefox */
-input::-moz-focus-inner, button::-moz-focus-inner {
-  border: 0;
-  padding: 0;
-}
-/* Bicubic resizing for non-native sized IMG:
-code.flickr.com/blog/2008/11/12/on-ui-quality-the-little-things-client-side-image-resizing/
-Be aware that scaling large images can cause performance issues. */
-.ie7 img {
-  -ms-interpolation-mode: bicubic;
-}
-/**
-* You might tweak these..
-*/
-body,
-select,
-input,
-textarea {
-  /* #444 looks better than black: twitter.com/H_FJ/statuses/11800719859 */
-
-  color: #444;
-  /* Set your base font here, to apply evenly */
-
-  /* font-family: Georgia, serif; */
-
-}
-/* Headers (h1, h2, etc) have no default font-size or margin; define those yourself */
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-  font-weight: bold;
-}
-/**
-* Non-semantic helper classes: please define your styles before this section.
-*/
-/* For image replacement */
-.imr {
-  display: block;
-  text-indent: -32000px;
-  overflow: hidden;
-  background-repeat: no-repeat;
-  text-align: left;
-  direction: ltr;
-}
-/* Hide for both screenreaders and browsers:
-css-discuss.incutio.com/wiki/Screenreader_Visibility */
-.hidden {
-  display: none;
-  visibility: hidden;
-}
-/* Hide only visually, but have it available for screenreaders: by Jon Neal.
-www.webaim.org/techniques/css/invisiblecontent/ & j.mp/visuallyhidden */
-.visuallyhidden {
-  border: 0;
-  clip: rect(0 0 0 0);
-  height: 1px;
-  margin: -1px;
-  overflow: hidden;
-  padding: 0;
-  position: absolute;
-  width: 1px;
-}
-/* Extends the .visuallyhidden class to allow the element to be focusable when navigated to via the keyboard: drupal.org/node/897638 */
-.visuallyhidden.focusable:active, .visuallyhidden.focusable:focus {
-  clip: auto;
-  height: auto;
-  margin: 0;
-  overflow: visible;
-  position: static;
-  width: auto;
-}
-/* Hide visually and from screenreaders, but maintain layout */
-.invisible {
-  visibility: hidden;
-}
-/* The Magnificent Clearfix: Updated to prevent margin-collapsing on child elements in most situations.
-nicolasgallagher.com/micro-clearfix-hack/ */
-.clearfix {
-  zoom: 1;
-}
-.clearfix:before, .clearfix:after {
-  content: "";
-  display: table;
-}
-.clearfix:after {
-  clear: both;
-}
-/**
- * Easy horizontal navigation styles
- * @todo dropdowns built in.
- * Formulated for use as a mixin if needed.
- */
-.nav {
-  zoom: 1;
-  list-style: none;
-  margin: 0;
-}
-.nav:before, .nav:after {
-  content: "";
-  display: table;
-}
-.nav:after {
-  clear: both;
-}
-.nav li {
-  /**
-		 * @bugfix double-margin float bug
-		 * @affected IE6, IE7
-		 * @valid yes
-		 */
-
-  display: inline;
-  float: left;
-  margin: 0;
-}
-.nav a {
-  display: block;
-}
-/*
-Each main section of the site is an "Act"
-Act 1: Header
-Act 2: Content
-Act 3: Footer
-*/
-.act .in {
-  zoom: 1;
-  margin-left: auto;
-  margin-right: auto;
-  position: relative;
-  width: 960px;
-}
-.act .in:before, .act .in:after {
-  content: "";
-  display: table;
-}
-.act .in:after {
-  clear: both;
-}
-/** @section Header
- -------------------------------------------------- */
-#header {
-  background: #000;
-  /*background: #006b94;*/
-
-  color: #fff;
-}
-#header .header-body {
-  background: #006b94;
-  height: 86px;
-  position: relative;
-  zoom: 1;
-}
-#header .header-body a, #site-nav a {
-  color: #fff;
-}
-#header .navigation {
-  background: #006b94;
-}
-#masthead {
-  background: #006b94;
-}
-#main {
-  padding-top: 35px;
-}
-#main-body, #masthead-body {
-  float: left;
-  margin-right: 30px;
-  width: 630px;
-}
-#masthead-body {
-  overflow: hidden;
-}
-#main-body, #main-sidebar {
-  padding-bottom: 50px;
-}
-#main-sidebar, #masthead-sidebar {
-  float: left;
-  overflow: hidden;
-  width: 300px;
-}
-#site-name {
-  font-size: 36px;
-  font-weight: normal;
-  line-height: 1.2;
-  padding: 36px 0 7px 0;
-  text-shadow: rgba(0, 0, 0, 0.8) 0 1px 0;
-}
-#site-nav {
-  background: #66a6bf;
-  font-weight: bold;
-  font-size: 14px;
-}
-#site-nav .nav {
-  float: left;
-}
-#site-nav li {
-  border-color: #006b94;
-  border-style: solid;
-  border-right-width: 1px;
-  color: #66A6BF;
-}
-#site-nav li ul {
-  display: none;
-  position: absolute;
-  z-index: 1000;
-}
-#site-nav li li {
-  border: none;
-  float: none;
-}
-#site-nav li li a {
-  background: #66A6BF;
-}
-#site-nav li:hover ul {
-  display: block;
-}
-#site-nav a {
-  line-height: 20px;
-  padding: 7px 10px;
-}
-#secondary-nav .nav {
-  bottom: 13px;
-  position: absolute;
-  right: 0;
-}
-#secondary-nav li {
-  background: url(../img/sprite-y.8bit.png) 0 10px no-repeat;
-  margin-left: 8px;
-  padding-left: 9px;
-}
-#secondary-nav li:first-child, #secondary-nav li.first-child {
-  background: none;
-  margin-left: 0;
-  padding-left: 0;
-}
-#masthead {
-  padding: 35px 0;
-}
-#footer {
-  padding-bottom: 20px;
-}
-#footer .in {
-  border-top: #ddd solid 1px;
-  padding-top: 10px;
-}
-#footer, #footer a {
-  color: #787878;
-  font-size: 11px;
-}
-#footer label, #footer .nav {
-  float: left;
-}
-#footer .nav li {
-  background: url(../img/sprite-y.8bit.png) 0 -293px no-repeat;
-  margin-left: 6px;
-  padding-left: 8px;
-}
-#footer .nav li:first-child {
-  background: none;
-  margin: 0;
-  padding: 0;
-}
-/* Re-usable features */
-form.search {
-  margin: 6px 6px 0 0;
-  width: 200px;
-}
-form.search input.type-text {
-  color: #666;
-  font-size: 13px;
-  padding: 1px 19px 1px 6px;
-  width: 169px;
-  /*subtract left padding and right padding*/
-
-}
-form.search {
-  position: relative;
-}
-form.search .type-submit {
-  background: url(../img/sprite-y.8bit.png) 0 -100px no-repeat;
-  border: 0;
-  height: 13px;
-  position: absolute;
-  right: 6px;
-  top: 5px;
-  width: 14px;
-}
-/* Search form when in header */
-#site-nav .search {
-  float: right;
-}
-.featured-posts {
-  overflow: hidden;
-  position: relative;
-  zoom: 1;
-}
-.featured-posts ul, .featured-posts li {
-  height: 262px;
-  list-style: none;
-  list-style-position: outside;
-  margin: 0;
-  overflow: hidden;
-  width: 100%;
-}
-.featured-posts .carousel-item {
-  /**
-	 * @workaround min-height Fast Hack
-	 *
-	 * IE6 doesn't support min-height, but treats elements with
-	 * height and overflow:visible as min-height.
-	 *
-	 * @affected IE5, IE6
-	 * @see http://www.dustindiaz.com/min-height-fast-hack/
-	 */
-
-  height: auto !important;
-  height: 232px;
-  min-height: 232px;
-  background: #66a6bf;
-  color: #000;
-  padding: 16px 16px 16px 300px;
-  position: relative;
-}
-.featured-posts .carousel-item img {
-  left: 16px;
-  position: absolute;
-  top: 18px;
-}
-.featured-posts .carousel-item .title {
-  font: italic bold 24px Georgia, Serif;
-  margin-bottom: 6px;
-}
-.featured-posts .carousel-item .title a {
-  color: #fff;
-  text-shadow: 0 1px 1px rgba(51, 51, 51, 0.6);
-}
-.featured-posts .carousel-item .content {
-  font-size: 14px;
-  line-height: 1.5;
-}
-.featured-posts .control-panel {
-  bottom: 17px;
-  color: #006b94;
-  font-size: 11px;
-  font-weight: bold;
-  height: 20px;
-  line-height: 20px;
-  padding: 0 55px 0 0;
-  position: absolute;
-  right: 15px;
-  text-align: right;
-  text-transform: uppercase;
-  width: 200px;
-  z-index: 10;
-}
-/* CSS3Pie */
-.featured-posts .control-panel .previous, .featured-posts .control-panel .next {
-  background-image: url(../img/sprite-y.24bit.png);
-  background-repeat: no-repeat;
-  -moz-border-radius: 10px;
-  /* FF1+ */
-
-  -webkit-border-radius: 10px;
-  /* Saf3+, Chrome */
-
-  -khtml-border-radius: 10px;
-  /* Konqueror */
-
-  border-radius: 10px;
-  /* Standard. IE9 */
-
-  cursor: pointer;
-  height: 20px;
-  position: absolute;
-  top: 0;
-  width: 20px;
-}
-.featured-posts .control-panel .previous {
-  background-position: 7px 6px;
-  right: 27px;
-}
-.featured-posts .control-panel .next {
-  background-position: 8px -94px;
-  right: 0;
-}
-.article .header {
-  margin-bottom: 18px;
-}
-.article .header .meta {
-  color: #666;
-  font: italic 13px Georgia, Serif;
-}
-.article .header .meta a:link {
-  color: #666;
-}
-.article .header .meta a:hover {
-  color: #006b94;
-  text-decoration: none;
-}
-.article .article-section {
-  margin-bottom: 24px;
-  overflow: hidden;
-}
-.article .article-section .subtitle {
-  font-size: 14px;
-  font-weight: bold;
-}
-.article .article-section .content {
-  margin-left: 15px;
-  margin-right: 15px;
-}
-.article .content p, .article .content .supplement {
-  margin-bottom: 1em;
-}
-/* Supplement Styles */
-.article .supplement {
-  background: #f6f6f6;
-  border-bottom: #dadada solid 1px;
-  border-top: #dadada solid 1px;
-  margin-left: 15px;
-  margin-right: 15px;
-  position: relative;
-}
-.article .figure {
-  /**
-	 * @workaround min-height Fast Hack
-	 *
-	 * IE6 doesn't support min-height, but treats elements with
-	 * height and overflow:visible as min-height.
-	 *
-	 * @affected IE5, IE6
-	 * @see http://www.dustindiaz.com/min-height-fast-hack/
-	 */
-
-  height: auto !important;
-  height: 120px;
-  min-height: 120px;
-  padding: 12px 12px 12px 175px;
-  position: relative;
-}
-.article .figure img {
-  left: 12px;
-  position: absolute;
-  top: 12px;
-}
-.article .to-top {
-  text-align: right;
-}
-.article .to-top a {
-  background: #006B94;
-  color: #fff;
-  font-weight: bold;
-  padding: 4px 8px;
-}
-.article-excerpt {
-  border-bottom: #ccc solid 1px;
-  margin-bottom: 27px;
-  padding-bottom: 15px;
-  overflow: hidden;
-}
-.article-excerpt .header .title {
-  font: bold 18px Georgia, Serif;
-  margin-bottom: 5px;
-}
-.article-excerpt .header .meta {
-  color: #666;
-  font: italic 13px Georgia, Serif;
-  margin-bottom: 10px;
-}
-.article-excerpt .sep {
-  padding: 0 2px;
-}
-.article-excerpt .has-featured-image .content {
-  /**
-	 * @workaround min-height Fast Hack
-	 *
-	 * IE6 doesn't support min-height, but treats elements with
-	 * height and overflow:visible as min-height.
-	 *
-	 * @affected IE5, IE6
-	 * @see http://www.dustindiaz.com/min-height-fast-hack/
-	 */
-
-  height: auto !important;
-  height: 122px;
-  min-height: 122px;
-  position: relative;
-  padding-left: 155px;
-  zoom: 1;
-}
-.article-excerpt .has-featured-image img {
-  left: 0;
-  position: absolute;
-  top: 2px;
-}
-.article-excerpt .content {
-  margin-bottom: 1em;
-}
-.callouts {
-  margin-bottom: 30px;
-}
-.callouts ul {
-  margin: 0;
-  padding: 0;
-}
-.callouts li {
-  float: left;
-  list-style: none;
-  margin: 0 0 0 30px;
-  padding: 0;
-  width: 300px;
-}
-.callouts li:first-child, .callouts li.first-child {
-  margin-left: 0;
-}
-.callout-item {
-  background: #f0f0f0;
-  border-bottom-style: solid;
-  border-bottom-width: 2px;
-  border-top-style: solid;
-  border-top-width: 2px;
-  padding: 13px 17px;
-}
-.callout-item .title {
-  font: italic bold 18px Georgia, Serif;
-  margin-bottom: 4px;
-}
-.callout-item .content {
-  font-size: 14px;
-  line-height: 1.43;
-}
-.post-teasers ul {
-  margin: 0;
-  padding: 0;
-}
-.post-teasers li {
-  list-style: none;
-  margin: 0 0 1px;
-  padding: 0;
-}
-.post-teaser-item {
-  background: #66A6BF;
-  height: 67px;
-  overflow: hidden;
-  padding: 10px 10px 10px 113px;
-  position: relative;
-}
-.post-teaser-item img {
-  left: 4px;
-  position: absolute;
-  top: 4px;
-}
-.post-teaser-item .content {
-  font: italic bold 15px/1.47 Georgia, Serif;
-}
-.post-teaser-item .content a {
-  color: #fff;
-  text-shadow: rgba(51, 51, 51, 0.6) 0 1px 0;
-}
-.tools-bar {
-  margin-bottom: 25px;
-  padding: 17px 12px;
-}
-.tools-bar .cell {
-  float: left;
-}
-#selector {
-  width: 100px;
-  height: 700px;
-}
-.tools-bar .print {
-  margin-right: 50px;
-}
-.tools-bar .print a {
-  background: url(../img/sprite-y.24bit.png) 0 -200px no-repeat;
-  padding-left: 19px;
-}
-.tools-bar .download label {
-  background: url(../img/sprite-y.24bit.png) 0 -300px no-repeat;
-  padding-left: 17px;
-}
-.tools-bar .share {
-  float: right;
-}
-/* Tools Nav */
-.tools-nav {
-  font-size: 12px;
-  left: 0;
-  line-height: 1.5;
-  position: absolute;
-  top: 0;
-  width: 165px;
-  z-index: 1000;
-}
-.tools-nav .tools-menu-item {
-  position: absolute;
-  width: 158px;
-}
-.tools-nav .tools-menu-item .header {
-  background: url(../img/tools-content-background.png) 0 0 no-repeat;
-  padding: 17px 18px 0 11px;
-}
-.tools-nav .tools-menu-item .body {
-  background: url(../img/tools-content-background.png) 0 bottom no-repeat;
-  padding: 7px 16px 21px 11px;
-}
-.tools-nav .tools-menu-item .title {
-  border-bottom: #d3dbe1 solid 1px;
-  font: italic bold 14px Georgia, Serif;
-  padding: 0 0 2px;
-}
-.tools-nav .tools-menu-item ul {
-  margin-left: 1px;
-}
-.tools-nav .tools-menu-item li {
-  background: url(../img/sprite-y.8bit.png) 0 -393px no-repeat;
-  padding-left: 7px;
-}
-.tools-nav .nav {
-  right: -11px;
-  position: absolute;
-  top: 2px;
-}
-.tools-nav .nav li {
-  display: block;
-  float: none;
-  list-style: disc;
-  margin-bottom: 1px;
-}
-.tools-nav .nav li a {
-  background: #006b94 url(../img/sprite-y.24bit.png) 0 100px no-repeat;
-  display: block;
-  height: 22px;
-  width: 22px;
-}
-.tools-nav .nav li.active a {
-  background-color: #e0e6ea;
-}
-.tools-nav .nav li a.content {
-  background-position: -96px -394px;
-}
-.tools-nav .nav li a.download {
-  background-position: -96px -296px;
-}
-.tools-nav .nav li a.comments {
-  background-position: -96px -495px;
-}
-.tools-nav .nav li.active a.content {
-  background-position: -196px -394px;
-}
-.tools-nav .nav li.active a.download {
-  background-position: -196px -296px;
-}
-.tools-nav .nav li.active a.comments {
-  background-position: -196px -495px;
-}
-.social-nav li {
-  margin-left: 6px;
-}
-#comments-container {
-  margin-bottom: 22px;
-}
-#comments-container .section-header {
-  position: relative;
-}
-#comments-container .section-header a {
-  position: absolute;
-  right: 0;
-  top: 0;
-}
-#comments-container .section-title {
-  background: none;
-  margin-bottom: 6px;
-}
-#comments-container .reply-list {
-  border-bottom: 1px #ccc solid;
-  margin: 0 0 18px;
-  padding: 0;
-}
-#comments-container .reply-list li {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-}
-#comments-container .reply-list .comment, #comments-container .reply-list .ping {
-  border-top: 1px #ccc solid;
-  padding: 14px 0;
-}
-#comments-container .reply-list .comment {
-  margin-bottom: 15px;
-  padding-left: 180px;
-  position: relative;
-  zoom: 1;
-  /* fix absolute positioning of gravatar and heading information in ie6 */
-
-}
-#comments-container .reply-list .comment ul li {
-  list-style-type: disc;
-}
-#comments-container .reply-list .comment ol li {
-  list-style-type: decimal;
-}
-#comments-container .reply-list .children .li-comment {
-  padding-left: 40px;
-}
-#comments-container .reply-list .comment .header {
-  /**
-	 * @workaround min-height Fast Hack
-	 *
-	 * IE6 doesn't support min-height, but treats elements with
-	 * height and overflow:visible as min-height.
-	 *
-	 * @affected IE5, IE6
-	 * @see http://www.dustindiaz.com/min-height-fast-hack/
-	 */
-
-  height: auto !important;
-  height: 38px;
-  min-height: 38px;
-  left: 0;
-  padding: 0 0 0 46px;
-  position: absolute;
-  top: 14px;
-  width: 134px;
-}
-#comments-container .reply-list .comment .header img {
-  left: 0;
-  position: absolute;
-  top: 0;
-}
-#comments-container .reply-list .comment .header .title, #comments-container .reply-list .comment .header .published {
-  font: normal 13px Arial, Helvetica, Sans-Serif;
-  margin: 0;
-}
-#comments-container .reply-list .comment .header .title {
-  margin: 0;
-}
-#comments-container .reply-list .comment .content {
-  font-size: 13px;
-  line-height: 1.38;
-}
-#comments-container .reply-list .comment .footer {
-  font-size: 12px;
-}
-#reply {
-  color: #666;
-  width: 627px;
-}
-#reply .section-title {
-  background: none;
-  margin-bottom: 16px;
-}
-#reply .logged-in {
-  margin-bottom: 1em;
-}
-#reply .input-row {
-  display: inline-block;
-  margin-bottom: 10px;
-  padding-left: 180px;
-  position: relative;
-}
-#reply .input-row-submit {
-  background: none;
-}
-#reply .input-row label {
-  font-size: 14px;
-  left: 0;
-  position: absolute;
-  top: 0;
-  width: 172px;
-}
-#reply .input-row .text, #reply .input-row textarea {
-  background: #fff;
-  border: 1px #999 solid;
-  font-size: 14px;
-  padding: 6px;
-}
-#reply .input-row .text {
-  width: 206px;
-}
-#reply .input-row textarea {
-  display: block;
-  width: 433px;
-}
-#reply button {
-  border: 0;
-  color: #fff;
-  font-size: 16px;
-  font-weight: bold;
-  height: 31px;
-}
-#sidebar .widget {
-  background: #f0f0f0;
-  margin-bottom: 1px;
-  padding-bottom: 20px;
-}
-#sidebar .widget_text {
-  background: none;
-  padding: 0;
-}
-#sidebar .widget .title {
-  color: #000;
-  font: italic bold 14px Georgia, Serif;
-  margin-bottom: 10px;
-  padding: 20px 0 0 20px;
-}
-.widget li {
-  font-size: 13px;
-  line-height: 1.38;
-  padding: 3px 20px;
-}
-.widget li a {
-  display: block;
-}
-.widget li a:hover {
-  text-decoration: none;
-}
-.widget ol li:hover, .widget ul li:hover {
-  background-color: #dadada;
-  text-decoration: none;
-}
-.widget ol li.recentcomments:hover, .widget ul li.recentcomments:hover {
-  background-color: none;
-}
-.widget li.recentcomments a:hover {
-  text-decoration: underline;
-}
-.pagination .previous {
-  float: left;
-}
-.pagination .next {
-  float: right;
-}
-.page-title {
-  color: #000;
-  font: bold 28px Georgia, Serif;
-  margin-bottom: 5px;
-}
-.section-title {
-  background: url(../img/border-background.png) 0 bottom repeat-x;
-  color: #000;
-  font: italic bold 16px Georgia, Serif;
-  margin-bottom: 15px;
-}
-.home .section-title {
-  margin-bottom: 27px;
-}
-.section-title span {
-  background: #fff;
-  padding-right: 3px;
-  position: relative;
-  top: 4px;
-}
-/* In-content Styles */
-.content p,
-.content ul,
-.content ol,
-.content pre,
-.content blockquote,
-.content dl,
-.content address,
-.content table {
-  margin-bottom: 1em;
-}
-.content blockquote {
-  margin-top: 1em;
-}
-.content th {
-  text-align: left;
-}
-.content th, .content td {
-  padding-right: 5px;
-}
-.content dt {
-  font-style: italic;
-  font-weight: bold;
-}
-.content dd {
-  margin-bottom: .75em;
-}
-.content ul ul,
-.content ol ol,
-.content ul ol,
-.content ol ul {
-  margin-bottom: 0;
-}
-.content h1 {
-  font-size: 22px;
-  margin-bottom: 1em;
-}
-.content h2 {
-  font-size: 18px;
-  margin-bottom: .75em;
-}
-.content h3 {
-  font-size: 16px;
-  margin-bottom: .5em;
-}
-.content h4, .content h5, .content h6 {
-  font-size: 14px;
-  margin-bottom: .25em;
-}
-.content ul, .content ol, .content pre {
-  margin-left: 2em;
-}
-.content ul li {
-  list-style: disc;
-}
-.content ol {
-  list-style: decimal;
-}
-.content blockquote {
-  font: italic normal 18px/1.2 Georgia Serif;
-  margin-left: 2em;
-  margin-right: 2em;
-}
-.content blockquote cite {
-  font-weight: bold;
-}
-.article-section-references .section-title {
-  margin-bottom: 16px;
-}
-.article-section-references ol {
-  list-style: decimal;
-  margin-left: 35px;
-}
-.article-section-references li {
-  margin-bottom: 10px;
-}
-.article-section-references ol a {
-  font-size: 10px;
-  line-height: 1;
-  text-transform: uppercase;
-}
-.authors {
-  overflow: visible;
-}
-.authors .author-info .content {
-  background: url(../img/author-card-background.png) center bottom no-repeat;
-  margin: 0;
-  padding: 1px 15px 15px;
-}
-.authors .author-info .content p {
-  margin: 0;
-}
-.authors ul {
-  padding-right: .27em;
-}
-.authors li {
-  float: left;
-  margin-right: 10px;
-  zoom: 1;
-}
-.author {
-  display: block;
-  position: relative;
-}
-.author .extra a, .author .extra span {
-  display: block;
-}
-.author .extra {
-  /*	display: none;
-*/
-  left: 50%;
-  display: block;
-  margin-left: -119px;
-  position: absolute;
-  width: 248px;
-  z-index: 1000;
-}
-.author:hover .extra {
-  display: block;
-}
-html.ie7 .authors .extra {
-  top: 15px;
-}
-.authors .author-info .header {
-  background: url(../img/author-card-background.png) center 0 no-repeat;
-  height: 15px;
-  margin: 0;
-}
-/* requires jQuery Tabs */
-.widget-recent-posts .nav {
-  margin-bottom: 11px;
-  padding: 20px 0 0 20px;
-}
-.widget-recent-posts .nav li {
-  background: #dadada;
-  border-bottom: #006B94 solid 1px;
-  font: italic bold 14px Georgia, Serif;
-  margin-right: 6px;
-  padding: 0;
-}
-.widget-recent-posts .nav li a {
-  display: block;
-  padding: 4px 8px;
-}
-.widget-recent-posts .nav .ui-tabs-selected {
-  background: #006B94;
-}
-.widget-recent-posts .nav .ui-tabs-selected a {
-  color: #fff;
-}
-.widget-recent-posts .panel ol {
-  background: url(../img/widget-hr.png) center bottom no-repeat;
-  padding-bottom: 16px;
-}
-.ui-tabs-hide {
-  display: none;
-}
-/* Content sections */
-.sec {
-  overflow: hidden;
-}
-.ie6 .sec {
-  /* Make sure overflow is cropped */
-
-  width: 100%;
-}
-.sec h1 {
-  border-bottom: 1px solid #ddd;
-  color: #000;
-  font: italic bold 16px/1.2 Georgia, Serif;
-  margin-bottom: 15px;
-}
+html,body,div,span,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,abbr,address,cite,code,del,dfn,em,img,ins,kbd,q,samp,small,strong,sub,sup,var,b,i,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td,article,aside,canvas,details,figcaption,figure,footer,header,hgroup,menu,nav,section,summary,time,mark,audio,video{margin:0;padding:0;border:0;font-size:100%;vertical-align:baseline;}
+article,aside,details,figcaption,figure,footer,header,hgroup,menu,nav,section{display:block;}
+blockquote,q{quotes:none;}
+blockquote:before,blockquote:after,q:before,q:after{content:"";content:none;}
+ins{background-color:#ff9;color:#000;text-decoration:none;}
+del{text-decoration:line-through;}
+table{border-collapse:collapse;border-spacing:0;}
+hr{display:block;height:1px;border:0;border-top:1px solid #ccc;margin:1em 0;padding:0;}
+pre,code,kbd,samp{font-family:monospace,sans-serif;}
+html{-webkit-text-size-adjust:100%;-ms-text-size-adjust:100%;}
+body{font:14px/1.43 Arial,Helvetica,sans-serif;}
+a:hover,a:active{outline:none;}
+a{color:#006b94;text-decoration:none;}
+a:hover{text-decoration:underline;}
+ul,ol{margin:0;list-style-type:none;}
+nav ul,nav li{margin:0;list-style:none;list-style-image:none;}
+small{font-size:85%;}
+strong,th{font-weight:bold;}
+td{vertical-align:top;}
+sub,sup{font-size:75%;line-height:0;position:relative;}
+sup{top:-0.5em;}
+sub{bottom:-0.25em;}
+pre{white-space:pre;white-space:pre-wrap;word-wrap:break-word;}
+button,input,select,textarea{width:auto;overflow:visible;margin:0;font-size:100%;font-family:sans-serif;vertical-align:baseline;}
+textarea{overflow:auto;vertical-align:text-top;}
+label,input[type="button"],input[type="submit"],input[type="image"],button{cursor:pointer;}
+input::-moz-focus-inner,button::-moz-focus-inner{border:0;padding:0;}
+.ie7 img{-ms-interpolation-mode:bicubic;}
+body,select,input,textarea{color:#444;}
+h1,h2,h3,h4,h5,h6{font-weight:bold;}
+.imr{display:block;text-indent:-32000px;overflow:hidden;background-repeat:no-repeat;text-align:left;direction:ltr;}
+.hidden{display:none;visibility:hidden;}
+.visuallyhidden{border:0;clip:rect(0 0 0 0);height:1px;margin:-1px;overflow:hidden;padding:0;position:absolute;width:1px;}
+.visuallyhidden.focusable:active,.visuallyhidden.focusable:focus{clip:auto;height:auto;margin:0;overflow:visible;position:static;width:auto;}
+.invisible{visibility:hidden;}
+.clearfix{zoom:1;}.clearfix:before,.clearfix:after{content:"";display:table;}
+.clearfix:after{clear:both;}
+.nav{zoom:1;list-style:none;margin:0;}.nav:before,.nav:after{content:"";display:table;}
+.nav:after{clear:both;}
+.nav li{display:inline;float:left;margin:0;}
+.nav a{display:block;}
+.act .in{zoom:1;margin-left:auto;margin-right:auto;position:relative;width:960px;}.act .in:before,.act .in:after{content:"";display:table;}
+.act .in:after{clear:both;}
+#header{background:#000;color:#fff;position:relative;z-index:2;}
+#header .header-body{background:#006b94;height:86px;position:relative;zoom:1;}
+#header .header-body a,#site-nav a{color:#fff;}
+#header .navigation{background:#006b94;}
+#masthead{background:#006b94;}
+#main{padding-top:35px;}
+#main-body,#masthead-body{float:left;margin-right:30px;width:630px;}
+#masthead-body{overflow:hidden;}
+#main-body,#main-sidebar{padding-bottom:50px;}
+#main-sidebar,#masthead-sidebar{float:left;overflow:hidden;width:300px;}
+#site-name{font-size:36px;font-weight:normal;line-height:1.2;padding:36px 0 7px 0;text-shadow:rgba(0, 0, 0, 0.8) 0 1px 0;}
+#site-nav{background:#66a6bf;font-weight:bold;font-size:14px;}
+#site-nav .nav{float:left;}
+#site-nav li{border-color:#006b94;border-style:solid;border-right-width:1px;color:#66A6BF;position:relative;}
+#site-nav li ul{display:none;position:absolute;z-index:1000;}
+#site-nav li li{border:none;float:none;}
+#site-nav li li a{background:#66A6BF;}
+#site-nav li:hover ul,#site-nav li.hover ul{display:block;}
+#site-nav a{line-height:20px;padding:7px 10px;}
+#secondary-nav .nav{bottom:13px;position:absolute;right:0;}
+#secondary-nav li{background:url(../img/sprite-y.8bit.png) 0 10px no-repeat;margin-left:8px;padding-left:9px;}
+#secondary-nav li:first-child,#secondary-nav li.first-child{background:none;margin-left:0;padding-left:0;}
+#masthead{padding:35px 0;}
+#footer{padding-bottom:20px;}
+#footer .in{border-top:#ddd solid 1px;padding-top:10px;}
+#footer,#footer a{color:#787878;font-size:11px;}
+#footer label,#footer .nav{float:left;}
+#footer .nav li{background:url(../img/sprite-y.8bit.png) 0 -293px no-repeat;margin-left:6px;padding-left:8px;}
+#footer .nav li:first-child{background:none;margin:0;padding:0;}
+form.search{margin:6px 6px 0 0;width:200px;}
+form.search input.type-text{color:#666;font-size:13px;padding:1px 19px 1px 6px;width:169px;}
+form.search{position:relative;}
+form.search .type-submit{background:url(../img/sprite-y.8bit.png) 0 -100px no-repeat;border:0;height:13px;position:absolute;right:6px;top:5px;width:14px;}
+#site-nav .search{float:right;}
+.featured-posts{overflow:hidden;position:relative;zoom:1;}
+.featured-posts ul,.featured-posts li{height:262px;list-style:none;list-style-position:outside;margin:0;overflow:hidden;width:100%;}
+.featured-posts .carousel-item{height:auto !important;height:232px;min-height:232px;background:#66a6bf;color:#000;padding:16px 16px 16px 300px;position:relative;}
+.featured-posts .carousel-item img{left:16px;position:absolute;top:18px;}
+.featured-posts .carousel-item .title{font:italic bold 24px Georgia, Serif;margin-bottom:6px;}
+.featured-posts .carousel-item .title a{color:#fff;text-shadow:0 1px 1px rgba(51, 51, 51, 0.6);}
+.featured-posts .carousel-item .content{font-size:14px;line-height:1.5;}
+.featured-posts .control-panel{bottom:17px;color:#006b94;font-size:11px;font-weight:bold;height:20px;line-height:20px;padding:0 55px 0 0;position:absolute;right:15px;text-align:right;text-transform:uppercase;width:200px;z-index:10;}
+.featured-posts .control-panel .previous,.featured-posts .control-panel .next{background-image:url(../img/sprite-y.24bit.png);background-repeat:no-repeat;-moz-border-radius:10px;-webkit-border-radius:10px;-khtml-border-radius:10px;border-radius:10px;cursor:pointer;height:20px;position:absolute;top:0;width:20px;}
+.featured-posts .control-panel .previous{background-position:7px 6px;right:27px;}
+.featured-posts .control-panel .next{background-position:8px -94px;right:0;}
+.article .header{margin-bottom:18px;}
+.article .header .meta{color:#666;font:italic 13px Georgia, Serif;}
+.article .header .meta a:link{color:#666;}
+.article .header .meta a:hover{color:#006b94;text-decoration:none;}
+.article .article-section{margin-bottom:24px;overflow:hidden;}
+.article .article-section .subtitle{font-size:14px;font-weight:bold;}
+.article .article-section .content{margin-left:15px;margin-right:15px;}
+.article .content p,.article .content .supplement{margin-bottom:1em;}
+.article .supplement{background:#f6f6f6;border-bottom:#dadada solid 1px;border-top:#dadada solid 1px;margin-left:15px;margin-right:15px;position:relative;}
+.article .figure{height:auto !important;height:120px;min-height:120px;padding:12px 12px 12px 175px;position:relative;}
+.article .figure img{left:12px;position:absolute;top:12px;}
+.article .to-top{text-align:right;}
+.article .to-top a{background:#006B94;color:#fff;font-weight:bold;padding:4px 8px;}
+.article-excerpt{border-bottom:#ccc solid 1px;margin-bottom:27px;padding-bottom:15px;overflow:hidden;}
+.article-excerpt .header .title{font:bold 18px Georgia, Serif;margin-bottom:5px;}
+.article-excerpt .header .meta{color:#666;font:italic 13px Georgia, Serif;margin-bottom:10px;}
+.article-excerpt .sep{padding:0 2px;}
+.article-excerpt .has-featured-image .content{height:auto !important;height:122px;min-height:122px;position:relative;padding-left:155px;zoom:1;}
+.article-excerpt .has-featured-image img{left:0;position:absolute;top:2px;}
+.article-excerpt .content{margin-bottom:1em;}
+.callouts{margin-bottom:30px;}
+.callouts ul{margin:0;padding:0;}
+.callouts li{float:left;list-style:none;margin:0 0 0 30px;padding:0;width:300px;}
+.callouts li:first-child,.callouts li.first-child{margin-left:0;}
+.callout-item{background:#f0f0f0;border-bottom-style:solid;border-bottom-width:2px;border-top-style:solid;border-top-width:2px;padding:13px 17px;}
+.callout-item .title{font:italic bold 18px Georgia, Serif;margin-bottom:4px;}
+.callout-item .content{font-size:14px;line-height:1.43;}
+.post-teasers ul{margin:0;padding:0;}
+.post-teasers li{list-style:none;margin:0 0 1px;padding:0;}
+.post-teaser-item{background:#66A6BF;height:67px;overflow:hidden;padding:10px 10px 10px 113px;position:relative;}
+.post-teaser-item img{left:4px;position:absolute;top:4px;}
+.post-teaser-item .content{font:italic bold 15px/1.47 Georgia,Serif;}
+.post-teaser-item .content a{color:#fff;text-shadow:rgba(51, 51, 51, 0.6) 0 1px 0;}
+.tools-bar{margin-bottom:25px;padding:17px 12px;}
+.tools-bar .cell{float:left;}
+#selector{width:100px;height:700px;}
+.tools-bar .print{margin-right:50px;}
+.tools-bar .print a{background:url(../img/sprite-y.24bit.png) 0 -200px no-repeat;padding-left:19px;}
+.tools-bar .download label{background:url(../img/sprite-y.24bit.png) 0 -300px no-repeat;padding-left:17px;}
+.tools-bar .share{float:right;}
+.tools-nav{font-size:12px;left:0;line-height:1.5;position:absolute;top:0;width:165px;z-index:1000;}
+.tools-nav .tools-menu-item{position:absolute;width:158px;}
+.tools-nav .tools-menu-item .header{background:url(../img/tools-content-background.png) 0 0 no-repeat;padding:17px 18px 0 11px;}
+.tools-nav .tools-menu-item .body{background:url(../img/tools-content-background.png) 0 bottom no-repeat;padding:7px 16px 21px 11px;}
+.tools-nav .tools-menu-item .title{border-bottom:#d3dbe1 solid 1px;font:italic bold 14px Georgia, Serif;padding:0 0 2px;}
+.tools-nav .tools-menu-item ul{margin-left:1px;}
+.tools-nav .tools-menu-item li{background:url(../img/sprite-y.8bit.png) 0 -393px no-repeat;padding-left:7px;}
+.tools-nav .nav{right:-11px;position:absolute;top:2px;}
+.tools-nav .nav li{display:block;float:none;list-style:disc;margin-bottom:1px;}
+.tools-nav .nav li a{background:#006b94 url(../img/sprite-y.24bit.png) 0 100px no-repeat;display:block;height:22px;width:22px;}
+.tools-nav .nav li.active a{background-color:#e0e6ea;}
+.tools-nav .nav li a.content{background-position:-96px -394px;}
+.tools-nav .nav li a.download{background-position:-96px -296px;}
+.tools-nav .nav li a.comments{background-position:-96px -495px;}
+.tools-nav .nav li.active a.content{background-position:-196px -394px;}
+.tools-nav .nav li.active a.download{background-position:-196px -296px;}
+.tools-nav .nav li.active a.comments{background-position:-196px -495px;}
+.social-nav li{margin-left:6px;}
+#comments-container{margin-bottom:22px;}
+#comments-container .section-header{position:relative;}
+#comments-container .section-header a{position:absolute;right:0;top:0;}
+#comments-container .section-title{background:none;margin-bottom:6px;}
+#comments-container .reply-list{border-bottom:1px #ccc solid;margin:0 0 18px;padding:0;}
+#comments-container .reply-list li{list-style:none;margin:0;padding:0;}
+#comments-container .reply-list .comment,#comments-container .reply-list .ping{border-top:1px #ccc solid;padding:14px 0;}
+#comments-container .reply-list .comment{margin-bottom:15px;padding-left:180px;position:relative;zoom:1;}
+#comments-container .reply-list .comment ul li{list-style-type:disc;}
+#comments-container .reply-list .comment ol li{list-style-type:decimal;}
+#comments-container .reply-list .children .li-comment{padding-left:40px;}
+#comments-container .reply-list .comment .header{height:auto !important;height:38px;min-height:38px;left:0;padding:0 0 0 46px;position:absolute;top:14px;width:134px;}
+#comments-container .reply-list .comment .header img{left:0;position:absolute;top:0;}
+#comments-container .reply-list .comment .header .title,#comments-container .reply-list .comment .header .published{font:normal 13px Arial,Helvetica,Sans-Serif;margin:0;}
+#comments-container .reply-list .comment .header .title{margin:0;}
+#comments-container .reply-list .comment .content{font-size:13px;line-height:1.38;}
+#comments-container .reply-list .comment .footer{font-size:12px;}
+#reply{color:#666;width:627px;}
+#reply .section-title{background:none;margin-bottom:16px;}
+#reply .logged-in{margin-bottom:1em;}
+#reply .input-row{display:inline-block;margin-bottom:10px;padding-left:180px;position:relative;}
+#reply .input-row-submit{background:none;}
+#reply .input-row label{font-size:14px;left:0;position:absolute;top:0;width:172px;}
+#reply .input-row .text,#reply .input-row textarea{background:#fff;border:1px #999 solid;font-size:14px;padding:6px;}
+#reply .input-row .text{width:206px;}
+#reply .input-row textarea{display:block;width:433px;}
+#reply button{border:0;color:#fff;font-size:16px;font-weight:bold;height:31px;}
+#sidebar .widget{background:#f0f0f0;margin-bottom:1px;padding-bottom:20px;}
+#sidebar .widget_text{background:none;padding:0;}
+#sidebar .widget .title{color:#000;font:italic bold 14px Georgia, Serif;margin-bottom:10px;padding:20px 0 0 20px;}
+.widget li{font-size:13px;line-height:1.38;padding:3px 20px;}
+.widget li a{display:block;}
+.widget li a:hover{text-decoration:none;}
+.widget ol li:hover,.widget ul li:hover{background-color:#dadada;text-decoration:none;}
+.widget ol li.recentcomments:hover,.widget ul li.recentcomments:hover{background-color:none;}
+.widget li.recentcomments a:hover{text-decoration:underline;}
+.pagination .previous{float:left;}
+.pagination .next{float:right;}
+.page-title{color:#000;font:bold 28px Georgia, Serif;margin-bottom:5px;}
+.section-title{background:url(../img/border-background.png) 0 bottom repeat-x;color:#000;font:italic bold 16px Georgia, Serif;margin-bottom:15px;}
+.home .section-title{margin-bottom:27px;}
+.section-title span{background:#fff;padding-right:3px;position:relative;top:4px;}
+.content p,.content ul,.content ol,.content pre,.content blockquote,.content dl,.content address,.content table{margin-bottom:1em;}
+.content blockquote{margin-top:1em;}
+.content th{text-align:left;}
+.content th,.content td{padding-right:5px;}
+.content dt{font-style:italic;font-weight:bold;}
+.content dd{margin-bottom:.75em;}
+.content ul ul,.content ol ol,.content ul ol,.content ol ul{margin-bottom:0;}
+.content h1{font-size:22px;margin-bottom:1em;}
+.content h2{font-size:18px;margin-bottom:.75em;}
+.content h3{font-size:16px;margin-bottom:.5em;}
+.content h4,.content h5,.content h6{font-size:14px;margin-bottom:.25em;}
+.content ul,.content ol,.content pre{margin-left:2em;}
+.content ul li{list-style:disc;}
+.content ol{list-style:decimal;}
+.content blockquote{font:italic normal 18px/1.2 Georgia Serif;margin-left:2em;margin-right:2em;}
+.content blockquote cite{font-weight:bold;}
+.article-section-references .section-title{margin-bottom:16px;}
+.article-section-references ol{list-style:decimal;margin-left:35px;}
+.article-section-references li{margin-bottom:10px;}
+.article-section-references ol a{font-size:10px;line-height:1;text-transform:uppercase;}
+.authors{overflow:visible;}
+.authors .author-info .content{background:url(../img/author-card-background.png) center bottom no-repeat;margin:0;padding:1px 15px 15px;}
+.authors .author-info .content p{margin:0;}
+.authors ul{padding-right:.27em;}
+.authors li{float:left;margin-right:10px;zoom:1;}
+.author{display:block;position:relative;}
+.author .extra a,.author .extra span{display:block;}
+.author .extra{left:50%;display:block;margin-left:-119px;position:absolute;width:248px;z-index:1000;}
+.author:hover .extra{display:block;}
+html.ie7 .authors .extra{top:15px;}
+.authors .author-info .header{background:url(../img/author-card-background.png) center 0 no-repeat;height:15px;margin:0;}
+.widget-recent-posts .nav{margin-bottom:11px;padding:20px 0 0 20px;}
+.widget-recent-posts .nav li{background:#dadada;border-bottom:#006B94 solid 1px;font:italic bold 14px Georgia, Serif;margin-right:6px;padding:0;}
+.widget-recent-posts .nav li a{display:block;padding:4px 8px;}
+.widget-recent-posts .nav .ui-tabs-selected{background:#006B94;}
+.widget-recent-posts .nav .ui-tabs-selected a{color:#fff;}
+.widget-recent-posts .panel ol{background:url(../img/widget-hr.png) center bottom no-repeat;padding-bottom:16px;}
+.ui-tabs-hide{display:none;}
+.sec{overflow:hidden;}
+.ie6 .sec{width:100%;}
+.sec h1{border-bottom:1px solid #ddd;color:#000;font:italic bold 16px/1.2 Georgia,Serif;margin-bottom:15px;}

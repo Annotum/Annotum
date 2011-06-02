@@ -42,6 +42,7 @@ body {
 }
 #header #site-nav li {
 	border: 0;
+	height: 37px;
 }
 #header #site-nav li a {
 	color: #f1e9d0;
@@ -50,8 +51,16 @@ body {
 	padding-right: 0;
 	text-shadow: 0 -1px 0 rgba(0, 0 , 0, .4);
 }
+#header #site-nav li ul {
+	background-color: #8b170a;
+	border: #580301 solid 1px;
+	border-top: 0;
+	left: -10px;
+	top: 36px;
+}
 #header #site-nav li li a {
-	background-color: #A2220F;
+	background: none;
+	margin: 0;
 	padding: 5px 10px;
 }
 #header #secondary-nav {
@@ -60,8 +69,12 @@ body {
 #header #secondary-nav .nav {
 	bottom: 4px;
 }
-#header #secondary-nav li {
+#header #secondary-nav li,
+#footer .nav li {
 	background: url(../img/sprite-y.8bit.png) 0 -293px no-repeat;
+}
+#header #secondary-nav li:first-child {
+	background: none;
 }
 #header #secondary-nav li a {
  	color: #aaa9a7;
