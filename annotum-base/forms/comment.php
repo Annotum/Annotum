@@ -58,7 +58,7 @@ if (comments_open()) {
 			<label for="comment-name">Your Name</label><input class="text" type="text" name="name" value="" id="comment-name" />
 		</div>
 		<div class="input-row">
-			<label for="comment-email">Email Address</label><input class="text" type="text" name="email" value="" id="comment-email" />
+			<label for="comment-email">Email Address</label><input class="text" type="email" name="email" value="" id="comment-email" />
 		</div>
 		<div class="input-row">
 			<label for="comment-website">Website</label><input class="text" type="text" name="website" value="" id="comment-website" />

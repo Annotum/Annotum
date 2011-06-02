@@ -6,13 +6,21 @@ html {
 #site-nav .search {
 	float: left;
 }
+form.search {
+	display: inline; /* double-margin float bug */
+	margin-left: 6px;
+	margin-right: 0;
+}
 form.search input.type-text {
 	padding-left: 19px;
-	padding-right: 0;
+	padding-right: 6px;
 }
 form.search .type-submit {
-	left: 11px;
+	left: 4px;
 	right: auto;  
+}
+html.ie6 form.search .type-submit {
+	left: 6px;
 }
 
 /* Primary Nav */

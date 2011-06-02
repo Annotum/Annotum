@@ -10,8 +10,15 @@ body {
 	padding-left: 20px;
 	padding-right: 10px;
 }
+form.search {
+	margin-left: 0;
+	margin-right: 0;
+}
 form.search input.type-text {
 	padding-right: 6px;
+}
+form.search .type-submit {
+	left: 9px;
 }
 
 .tools-bar .download label {
@@ -32,6 +39,7 @@ form.search input.type-text {
 }
 
 .section-title,
+.sec h1,
 .tools-nav .tools-menu-item .title {
 	background-position: right -999px;
 	padding-right: 9px;
@@ -51,6 +59,9 @@ form.search input.type-text {
 #comments-container .reply-list .comment .header .published {
 	right: auto;
 	left: 0;
+}
+.widget-recent-posts .nav {
+	padding-right: 0;
 }
 .widget-recent-posts .panel {
 	-moz-border-radius: 4px 0 4px 4px; /* FF1+ */

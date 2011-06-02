@@ -31,7 +31,7 @@ function plos_css3_pie() {
 
 			// Styles
 			wp_enqueue_style('plos', $main.'css/main.css', array('anno'), ANNO_VER, 'screen');
-			//wp_enqueue_style('plos-rtl', $main.'css/rtl.css', array('anno-rtl'), ANNO_VER, 'screen');
+			wp_enqueue_style('plos-rtl', $main.'css/rtl.css', array('anno-rtl'), ANNO_VER, 'screen');
 		}
 	}
 	add_action('wp', 'plos_assets');
