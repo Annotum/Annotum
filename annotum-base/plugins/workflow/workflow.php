@@ -1,21 +1,11 @@
 <?php
-// Used in generating save buttons and proccess state changes
-global $anno_post_save;
-$anno_post_save = array(
-	'approve' => __('Approve', 'anno'),
-	'publish' => __('Publish', 'anno'),	
-	'reject' => __('Reject', 'anno'),
-	'review' => __('Submit For Review', 'anno'),
-	'revisions' => __('Request Revisions', 'anno'),
-	'clone' => __('Clone', 'anno'),
-);
 
 /**
- * Remove the standard publish meta box
+ * Remove/Add meta boxes
  */ 
-function anno_workflow_meta_boxes() {
+function annowf_meta_boxes() {
 	global $post;
-	$post_state = anno_get_post_state($post->ID);
+	$post_state = annowf_get_post_state($post->ID);
 	
 	// Remove the WP Publish box
 	remove_meta_box('submitdiv', 'article', 'side');
@@ -25,47 +15,50 @@ function anno_workflow_meta_boxes() {
 
 	// Remove author box
 	remove_meta_box('authordiv', 'article', 'normal', 'core');
-	
-	// Remove taxonomy boxes when a user is unable to save/edit
+		
+	// Remove taxonomy/edit boxes when a user is unable to save/edit
 	if (!anno_user_can('edit_post', null, $post->ID)) {
 		remove_meta_box('tagsdiv-article_tag', 'article', 'side');
 		remove_meta_box('article_category_select', 'article', 'side');
+		remove_meta_box('slugdiv', 'article', 'normal', 'core');
+		remove_meta_box('postimagediv', 'article', 'side', 'low');
 	}
 	
 	// Custom author select box. Only displays co-authors in the dropdown.
 
-	add_meta_box('authordiv', __('Author', 'anno'), 'anno_author_meta_box', 'article', 'side', 'low');
+	add_meta_box('authordiv', __('Author', 'anno'), 'annowf_author_meta_box', 'article', 'side', 'low');
 	
 	// Add the Annotum workflow publish box.
-	add_meta_box('submitdiv', __('Status:', 'anno').' '. $post_state, 'anno_status_meta_box', 'article', 'side', 'high');
+	add_meta_box('submitdiv', __('Status:', 'anno').' '. $post_state, 'annowf_status_meta_box', 'article', 'side', 'high');
 
 	// Clone data meta box. Only display if something has been cloned from this post, or it is a clone itself.
 	$posts_cloned = get_post_meta($post->ID, '_anno_posts_cloned', true);
 	$cloned_from = get_post_meta($post->ID, '_anno_cloned_from', true);
 	if (!empty($posts_cloned) || !empty($cloned_from)) {
-		add_meta_box('anno-cloned', __('Versions', 'anno'), 'anno_cloned_meta_box', 'article', 'side', 'low');
+		add_meta_box('anno-cloned', __('Versions', 'anno'), 'annowf_cloned_meta_box', 'article', 'side', 'low');
 	}
 
 	if (anno_user_can('view_reviewers')) {
-		add_meta_box('anno-reviewers', __('Reviewers', 'anno'), 'anno_reviewers_meta_box', 'article', 'side', 'low');
+		add_meta_box('anno-reviewers', __('Reviewers', 'anno'), 'annowf_reviewers_meta_box', 'article', 'side', 'low');
 	}
-	add_meta_box('anno-co-authors', __('Co-Authors', 'anno'), 'anno_co_authors_meta_box', 'article', 'side', 'low');
+	add_meta_box('anno-co-authors', __('Co-Authors', 'anno'), 'annowf_co_authors_meta_box', 'article', 'side', 'low');
 }
-add_action('admin_head-post.php', 'anno_workflow_meta_boxes');
-add_action('admin_head-post-new.php', 'anno_workflow_meta_boxes');
+add_action('admin_head-post.php', 'annowf_meta_boxes');
+add_action('admin_head-post-new.php', 'annowf_meta_boxes');
 
 /**
  * Enqueue css for workflow
  */
-function anno_workflow_css() {
+function annowf_css() {
 	wp_enqueue_style('anno-workflow', trailingslashit(get_bloginfo('stylesheet_directory')).'plugins/workflow/css/workflow.css');
 }
-add_action('admin_print_styles', 'anno_workflow_css');
+add_action('admin_print_styles-post-new.php', 'annowf_css');
+add_action('admin_print_styles-post.php', 'annowf_css');
 
 /**
  * Enqueue js for internal comments
  */
-function anno_workflow_js() {
+function annowf_js() {
 	wp_enqueue_script('suggest');
 	wp_enqueue_script('anno-workflow', trailingslashit(get_bloginfo('stylesheet_directory')).'plugins/workflow/js/workflow.js', array('jquery', 'suggest'));
 	
@@ -74,13 +67,13 @@ function anno_workflow_js() {
 		wp_deregister_script('autosave');
 	}
 }
-add_action('admin_print_scripts', 'anno_workflow_js');
+add_action('admin_print_scripts-post-new.php', 'annowf_js');
+add_action('admin_print_scripts-post.php', 'annowf_js');
 
 /**
  * Article Save action for correcting WP status updating. Fires before insertion into DB
  */ 
-function anno_save_article($post, $postarr) {
-	
+function annowf_insert_post_data($post, $postarr) {
 	if ($post['post_type'] == 'article' && $post['post_status'] != 'auto-draft') {
 		global $anno_post_save;
 		if (isset($_POST['publish'])) {
@@ -105,12 +98,12 @@ function anno_save_article($post, $postarr) {
 	}
 	return $post;
 }
-add_filter('wp_insert_post_data', 'anno_save_article', 10, 2);
+add_filter('wp_insert_post_data', 'annowf_insert_post_data', 10, 2);
 
 /**
  * Article state transistioning. Fires after post has been inserted into the database
  */ 
-function anno_transistion_state($post_id, $post, $post_before) {
+function annowf_transistion_state($post_id, $post, $post_before) {
 	if ($post->post_type == 'article' && $post->post_status != 'auto-draft') {
 		global $anno_post_save;
 		
@@ -146,7 +139,7 @@ function anno_transistion_state($post_id, $post, $post_before) {
 					}
 					break;
 				case $anno_post_save['review']:	
-					$reviewers = anno_get_post_users($post->ID, '_reviewers');
+					$reviewers = annowf_get_post_users($post->ID, '_reviewers');
 					if (is_array($reviewers) && count($reviewers) && in_array($old_state, array('submitted', 'draft'))) {
 						$new_state = 'in_review';
 					}
@@ -165,7 +158,7 @@ function anno_transistion_state($post_id, $post, $post_before) {
 		}
 		// Send back for revisions
 		if ($new_state == 'draft' && !empty($old_state) && $old_state != 'draft') {
-			$round = anno_get_round($post_id);
+			$round = annowf_get_round($post_id);
 			update_post_meta($post_id, '_round', intval($round) + 1);
 			$notification_type = 'revisions';
 		}
@@ -183,24 +176,24 @@ function anno_transistion_state($post_id, $post, $post_before) {
 		
 		// Author has changed, add original author as co-author, remove new author from co-authors
 		if ($post->post_author !== $post_before->post_author) {
-			anno_add_user_to_post('_co_authors', $post_before->post_author, $post->ID);
-			anno_remove_user_from_post('_co_authors', $post->post_author, $post->ID);
+			annowf_add_user_to_post('_co_authors', $post_before->post_author, $post->ID);
+			annowf_remove_user_from_post('_co_authors', $post->post_author, $post->ID);
 		}
 	}
 }
-add_action('post_updated', 'anno_transistion_state', 10, 3);
+add_action('post_updated', 'annowf_transistion_state', 10, 3);
 
 /**
  * Meta box for reviewer management and display
  * @todo Abstract to pass type to meta box markup for co-authors or reviewers
  */
-function anno_reviewers_meta_box() {
+function annowf_reviewers_meta_box() {
 	global $post;
 ?>
 	<div id="reviewers-meta-box">
 		<div id="reviewer-add-error" class="anno-error"></div>
 <?php
-	$reviewers = anno_get_post_users($post->ID, '_reviewers');
+	$reviewers = annowf_get_post_users($post->ID, '_reviewers');
 	if (anno_user_can('manage_reviewers', null, $post->ID)) {
 ?>
 		<div class="user-input-wrap">
@@ -216,7 +209,7 @@ function anno_reviewers_meta_box() {
 	foreach ($reviewers as $user_id) {
 		$user = get_userdata($user_id);
 		if ($user) {
-				anno_user_li_markup($user, 'reviewer');
+				annowf_user_li_markup($user, 'reviewer');
 			}
 		}
 ?>
@@ -228,13 +221,13 @@ function anno_reviewers_meta_box() {
 /**
  * Meta box for author management and display
  */
-function anno_co_authors_meta_box() {
+function annowf_co_authors_meta_box() {
 	global $post;
 ?>
 	<div id="co-authors-meta-box">
 		<div id="co-author-add-error" class="anno-error"></div>
 <?php
-	$co_authors = anno_get_post_users($post->ID, '_co_authors');
+	$co_authors = annowf_get_post_users($post->ID, '_co_authors');
 	if (anno_user_can('manage_co_authors', null, $post->ID)) {
 ?>
 		<div class="user-input-wrap">
@@ -250,7 +243,7 @@ function anno_co_authors_meta_box() {
 	foreach ($co_authors as $user_id) {
 		$user = get_userdata($user_id);
 		if ($user) {
-				anno_user_li_markup($user, 'co_author');
+				annowf_user_li_markup($user, 'co_author');
 			}
 		}
 ?>
@@ -262,7 +255,7 @@ function anno_co_authors_meta_box() {
 /**
  * Markup for user display in meta boxes
  */
-function anno_user_li_markup($user, $type = null) {		
+function annowf_user_li_markup($user, $type = null) {		
 	$extra = '&nbsp;';
 	global $post;
 	if (empty($post)) {
@@ -274,7 +267,7 @@ function anno_user_li_markup($user, $type = null) {
 	
 	if ($type == 'reviewer' && anno_user_can('manage_'.$type.'s', null, $post_id)) {
 		global $anno_review_options;
-		$round = anno_get_round($post_id);
+		$round = annowf_get_round($post_id);
 		$extra = $anno_review_options[intval(get_user_meta($user->ID, '_'.$post_id.'_review_'.$round, true))].'&nbsp;';
 	}
 	$remove = '&nbsp;';
@@ -294,11 +287,11 @@ function anno_user_li_markup($user, $type = null) {
 /**
  * Handles AJAX request for adding a reviewer to a post. As well as transitioning states.
  */ 
-function anno_add_reviewer() {
-	$response = anno_add_user('reviewer');
+function annowf_add_reviewer() {
+	$response = annowf_add_user('reviewer');
 	if ($response['message'] == 'success') {
 		$post_id = intval($_POST['post_id']);
-		$post_state = anno_get_post_state($post_id);
+		$post_state = annowf_get_post_state($post_id);
 	
 		//Send email
 		$post = get_post($post_id);
@@ -314,13 +307,13 @@ function anno_add_reviewer() {
 	}
 	die();
 }
-add_action('wp_ajax_anno-add-reviewer', 'anno_add_reviewer');
+add_action('wp_ajax_anno-add-reviewer', 'annowf_add_reviewer');
 
 /**
  * Handles AJAX request for adding a co-author to a post.
  */
-function anno_add_co_author() {
-	$response = anno_add_user('co_author');
+function annowf_add_co_author() {
+	$response = annowf_add_user('co_author');
 	if ($response['message'] == 'success') {
 		$post = get_post(intval($_POST['post_id']));
 		annowf_send_notification('co_author_added', $post, '', array($response['user']->user_email));
@@ -332,7 +325,7 @@ function anno_add_co_author() {
 	}
 	die();
 }
-add_action('wp_ajax_anno-add-co-author', 'anno_add_co_author');
+add_action('wp_ajax_anno-add-co-author', 'annowf_add_co_author');
 
 /**
  * AJAX handler for adding a user to a post with a given type
@@ -340,7 +333,7 @@ add_action('wp_ajax_anno-add-co-author', 'anno_add_co_author');
  * @param string $type Type of user to add to the post (co_author, reviewer)
  * @return array Array of data pertaining to user added and JSON data.
  */
-function anno_add_user($type) {
+function annowf_add_user($type) {
 	check_ajax_referer('anno_manage_'.$type, '_ajax_nonce-manage-'.$type);
 	$message = 'error';
 	$html = '';
@@ -359,8 +352,8 @@ function anno_add_user($type) {
 		
 		if (!empty($user)) {
 			$post = get_post($_POST['post_id']);
-			$co_authors = anno_get_post_users($_POST['post_id'], '_co_authors');
-			$reviewers = anno_get_post_users($_POST['post_id'], '_reviewers');
+			$co_authors = annowf_get_post_users($_POST['post_id'], '_co_authors');
+			$reviewers = annowf_get_post_users($_POST['post_id'], '_reviewers');
 
 			if ($post->post_author == $user->ID) {
 				$html = sprintf(__('Cannot add author as a %s', 'anno'), $type);
@@ -371,10 +364,10 @@ function anno_add_user($type) {
 			else if (in_array($user->ID, $reviewers)) {
 				$html = sprintf(__('Cannot add %s as %s. User is already a reviewer', 'anno'), $user->user_login, $type);
 			}
-			else if (anno_add_user_to_post($type.'s', $user->ID, intval($_POST['post_id']))) {
+			else if (annowf_add_user_to_post($type.'s', $user->ID, intval($_POST['post_id']))) {
 				$message = 'success';
 				ob_start();
-					anno_user_li_markup($user, $type);
+					annowf_user_li_markup($user, $type);
 		  			$html = ob_get_contents();
 		  		ob_end_clean();
 			}
@@ -390,17 +383,17 @@ function anno_add_user($type) {
 /**
  * Handles AJAX request for remove a reviewer to a post.
  */ 
-function anno_remove_reviewer() {
+function annowf_remove_reviewer() {
 	// Send back to submitted state if we've removed all the reviewers
-	if (anno_remove_user('reviewer')) {
+	if (annowf_remove_user('reviewer')) {
 		$post_id = intval($_POST['post_id']);
 		$user_id = intval($_POST['user_id']);
 
-		if (count(anno_get_post_users($post_id, '_reviewers')) == 0) {
+		if (count(annowf_get_post_users($post_id, '_reviewers')) == 0) {
 			update_post_meta($post_id, '_post_state', 'submitted');
 		}
-		$round = anno_get_round($post_id);
-		$reviews = anno_get_post_users($post_id, '_round_'.$round.'_reviewed');
+		$round = annowf_get_round($post_id);
+		$reviews = annowf_get_post_users($post_id, '_round_'.$round.'_reviewed');
 		if (is_array($reviews) && in_array($user_id, $reviews)) {
 			$key = array_search($user_id, $reviews);
 			unset($reviews[$key]);
@@ -409,25 +402,25 @@ function anno_remove_reviewer() {
 	}
 	die();
 }
-add_action('wp_ajax_anno-remove-reviewer', 'anno_remove_reviewer');
+add_action('wp_ajax_anno-remove-reviewer', 'annowf_remove_reviewer');
 
 /**
  * Handles AJAX request for remove a co-author to a post.
  */
-function anno_remove_co_author() {
-	anno_remove_user('co_author');
+function annowf_remove_co_author() {
+	annowf_remove_user('co_author');
 	die();
 }
-add_action('wp_ajax_anno-remove-co_author', 'anno_remove_co_author');
+add_action('wp_ajax_anno-remove-co_author', 'annowf_remove_co_author');
 
 /**
  * AJAX handler for removing users from a post for a given type
  */ 
-function anno_remove_user($type) {
+function annowf_remove_user($type) {
 	check_ajax_referer('anno_manage_'.$type, '_ajax_nonce-manage-'.$type);
 	$message = 'error';
 	if (isset($_POST['user_id']) && isset($_POST['post_id'])) {
-		if (anno_remove_user_from_post($type.'s', $_POST['user_id'], intval($_POST['post_id']))) {
+		if (annowf_remove_user_from_post($type.'s', $_POST['user_id'], intval($_POST['post_id']))) {
 			$message = 'success';
 		}
 	}
@@ -447,7 +440,7 @@ function anno_remove_user($type) {
  * @param int $post_id The id to fetch the post stat for
  * @return string Post state
  */ 
-function anno_get_post_state($post_id) {
+function annowf_get_post_state($post_id) {
 	$post_state = get_post_meta($post_id, '_post_state', true);
 	if (!$post_state) {
 		$post = get_post($post_id);
@@ -475,7 +468,7 @@ function anno_get_post_state($post_id) {
  * @param int $post_id The id to fetch the post stat for
  * @return int Round
  */ 
-function anno_get_round($post_id) {
+function annowf_get_round($post_id) {
 	$round = get_post_meta($post_id, '_round', true);
 	if (!$round) {
 		$round = 0;
@@ -486,7 +479,7 @@ function anno_get_round($post_id) {
 /**
  * Typeahead user search AJAX handler. Based on code in WP Core 3.1.2
  */ 
-function anno_user_search() {
+function annowf_user_search() {
 	global $wpdb;
 	$s = stripslashes($_GET['q']);
 
@@ -504,12 +497,12 @@ function anno_user_search() {
 	echo join($results, "\n");
 	die;
 }
-add_action('wp_ajax_anno-user-search', 'anno_user_search');
+add_action('wp_ajax_anno-user-search', 'annowf_user_search');
 
 /**
  * Metabox for posts that have been cloned from this post
  */ 
-function anno_cloned_meta_box() {
+function annowf_cloned_meta_box() {
 	global $post;
 	
 	$cloned_from = get_post_meta($post->ID, '_anno_cloned_from', true);
@@ -577,7 +570,7 @@ function annowf_clone_post($orig_id) {
 /**
  * Custom meta Box For Author select.
  */
-function anno_author_meta_box() {
+function annowf_author_meta_box() {
 	global $post;
 	if (!anno_user_can('manage_co_authors')) {
 		$author = get_userdata($post->post_author);
@@ -585,7 +578,7 @@ function anno_author_meta_box() {
 	}
 	else {
 	
-		$authors = anno_get_post_users($post->ID, '_co_authors');
+		$authors = annowf_get_post_users($post->ID, '_co_authors');
 		$authors[] = $post->post_author;	
 ?>
 <label class="screen-reader-text" for="post_author_override"><?php _e('Author'); ?></label>
@@ -707,11 +700,12 @@ function annowf_get_post_id() {
 	}
 	return intval($post_id);
 }
-function anno_get_sample_permalink_html($return, $id, $new_title, $new_slug) {
+function annowf_get_sample_permalink_html($return, $id, $new_title, $new_slug) {
 	if (anno_user_can('edit_post')) {
 		return $return;
 	}
 	
+
 	$post = &get_post($id);
 
 	list($permalink, $post_name) = get_sample_permalink($post->ID, $new_title, $new_slug);
@@ -743,6 +737,6 @@ function anno_get_sample_permalink_html($return, $id, $new_title, $new_slug) {
 	return $return;
 }
 
-add_filter('get_sample_permalink_html', 'anno_get_sample_permalink_html', 10, 4);
+add_filter('get_sample_permalink_html', 'annowf_get_sample_permalink_html', 10, 4);
 
 ?>

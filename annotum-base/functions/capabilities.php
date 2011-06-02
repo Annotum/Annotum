@@ -22,6 +22,7 @@ function anno_remove_roles_and_capabilities() {
 			'delete_private_articles',
 			'delete_published_articles',
 			'edit_published_articles',	
+			'read_article',
 		),
 		'editor' => array(
 			'edit_articles',
@@ -29,6 +30,7 @@ function anno_remove_roles_and_capabilities() {
 			'edit_others_articles',
 			'delete_article',
 			'delete_others_articles',
+			'read_article',
 		),
 		// Give contributors this access so they can view articles on the backend. Contributors cannot actually save/edit the articles for various states.
 		// Enforced by worflow capabilities.
@@ -37,6 +39,7 @@ function anno_remove_roles_and_capabilities() {
 			'edit_article',
 			'edit_others_articles',
 			'delete_article',
+			'read_article',
 		),
 	);
 	

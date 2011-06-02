@@ -21,7 +21,13 @@ function annowf_send_notification($type, $post = null, $comment = null, $recipie
 	}
 	$recipients = apply_filters('annowf_notification_recipients', array_unique($recipients), $type, $post);
 
- 	return wp_mail($recipients, $notification['subject'], $notification['body']);
+	// Sitewide admin should never recieve any workflow notifications.
+	$admin_email = get_option('admin_email');
+	if ($key = array_search($recipients, $admin_email)) {
+		unset($recipients[$key]);
+	}
+	
+ 	return @wp_mail(array_unique($recipients), $notification['subject'], $notification['body']);
 }
 
 /**
@@ -78,7 +84,7 @@ function annowf_notification_message($type, $post, $comment) {
 	$author = annowf_user_display($author);
 	
 
-	$authors = anno_get_post_users($post_id, '_co_authors');
+	$authors = annowf_get_post_users($post_id, '_co_authors');
 	$authors = array_merge(array($post->post_author), $authors);	
 	$author_names = array_map('annowf_user_display', $authors);
 

@@ -11,7 +11,7 @@ $anno_review_options = array(
 /**
  * Register meta boxes
  */
-function anno_add_meta_boxes() {
+function anno_internal_comments_add_meta_boxes() {
 	if (anno_user_can('view_general_comments')) {
 		add_meta_box('general-comment', __('Internal Comments', 'anno'), 'anno_internal_comments_general_comments', 'article', 'normal');
 	}
@@ -19,7 +19,7 @@ function anno_add_meta_boxes() {
 		add_meta_box('reviewer-comment', __('Reviews', 'anno'), 'anno_internal_comments_reviewer_comments', 'article', 'normal');
 	}
 }
-add_action('admin_head-post.php', 'anno_add_meta_boxes');
+add_action('admin_head-post.php', 'anno_internal_comments_add_meta_boxes');
 
 /**
  * Get a list of comments for a given type
@@ -160,7 +160,7 @@ function anno_internal_comments_general_comments() {
  */
 function anno_internal_comments_reviewer_comments() {
 	global $anno_review_options, $current_user, $post;
-	$round = anno_get_round($post->ID);
+	$round = annowf_get_round($post->ID);
 	$user_review = get_user_meta($current_user->ID, '_'.$post->ID.'_review_'.$round, true);
 	$reviewers = anno_get_post_users($post->ID, '_reviewers');
 	if (in_array($current_user->ID, $reviewers)) {
@@ -231,7 +231,8 @@ add_action('admin_print_scripts-post-new.php', 'anno_internal_comments_print_scr
 function anno_internal_comments_print_styles() {
 	wp_enqueue_style('anno-internal-comments', trailingslashit(get_bloginfo('stylesheet_directory')).'plugins/internal-comments/css/internal-comments.css');
 }
-add_action('admin_print_styles', 'anno_internal_comments_print_styles');
+add_action('admin_print_styles-post.php', 'anno_internal_comments_print_styles');
+add_action('admin_print_styles-post-new.php', 'anno_internal_comments_print_styles');
 
 /**
  * Filter the comment link if its an internal comment. Link will take you to the post edit page
@@ -344,7 +345,7 @@ function anno_internal_comments_review_ajax() {
 		$post_id = $_POST['post_id'];
 		$review = $_POST['review'];
 		
-		$post_round = anno_get_round($post_id);
+		$post_round = annowf_get_round($post_id);
 
 		update_user_meta($current_user->ID, '_'.$post_id.'_review_'.$post_round, $review);
 		
