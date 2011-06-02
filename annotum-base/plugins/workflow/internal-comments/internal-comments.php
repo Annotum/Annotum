@@ -162,7 +162,7 @@ function anno_internal_comments_reviewer_comments() {
 	global $anno_review_options, $current_user, $post;
 	$round = annowf_get_round($post->ID);
 	$user_review = get_user_meta($current_user->ID, '_'.$post->ID.'_review_'.$round, true);
-	$reviewers = anno_get_post_users($post->ID, '_reviewers');
+	$reviewers = annowf_get_post_users($post->ID, '_reviewers');
 	if (in_array($current_user->ID, $reviewers)) {
 ?>
 <div class="review-section <?php echo 'status-'.$user_review; ?>">
@@ -182,7 +182,7 @@ function anno_internal_comments_reviewer_comments() {
 <?php 
 		wp_nonce_field('anno_review', '_ajax_nonce-review', false);
 	}
-	anno_internal_comments_display('review');
+ 	anno_internal_comments_display('review');
 }
 
 /**
