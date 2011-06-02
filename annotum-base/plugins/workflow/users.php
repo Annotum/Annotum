@@ -24,7 +24,7 @@ function anno_user_can($cap, $user_id = null, $post_id = null, $comment_id = nul
 	$post_state = annowf_get_post_state($post_id);
 
 	$user_role = anno_role($user_id, $post_id);
-	
+	error_log($user_id);
 	// Number of times this item has gone back to draft state.
 	$post_round = get_post_meta($post_id, '_round', true);
 	
@@ -66,6 +66,13 @@ function anno_user_can($cap, $user_id = null, $post_id = null, $comment_id = nul
 			}
 			// New Article
 			else if ($pagenow == 'post-new.php') {
+				return true;
+			}
+			break;
+		case 'leave_review':
+			// Only reviewers, and in_review state
+			$reviewers = annowf_get_post_users($post_id, '_reviewers');
+			if (in_array($user_id, $reviewers) && $post_state == 'in_review') {
 				return true;
 			}
 			break;
@@ -212,7 +219,7 @@ function anno_role($user_id = null, $post_id = null) {
 		return 'co-author';
 	}
 	
-	if ($post && $post->post_author = $user_id) {
+	if ($post && $post->post_author == $user_id) {
 		return 'author';
 	}
 	

@@ -13,6 +13,7 @@ if (anno_workflow_enabled()) {
 		'review' => __('Submit For Review', 'anno'),
 		'revisions' => __('Request Revisions', 'anno'),
 		'clone' => __('Clone', 'anno'),
+		'revert' => __('Revert To Draft', 'anno'),
 	);
 	include_once(ANNO_PLUGIN_PATH.'/workflow/users.php');
 	include_once(ANNO_PLUGIN_PATH.'/workflow/workflow.php');

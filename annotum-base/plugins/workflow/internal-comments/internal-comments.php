@@ -163,7 +163,7 @@ function anno_internal_comments_reviewer_comments() {
 	$round = annowf_get_round($post->ID);
 	$user_review = get_user_meta($current_user->ID, '_'.$post->ID.'_review_'.$round, true);
 	$reviewers = annowf_get_post_users($post->ID, '_reviewers');
-	if (in_array($current_user->ID, $reviewers)) {
+	if (anno_user_can('leave_review', $current_user->ID, $post->ID)) {
 ?>
 <div class="review-section <?php echo 'status-'.$user_review; ?>">
 	<label for="anno-review"><?php _e('Recommendation: ', 'anno'); ?></label>

@@ -23,7 +23,7 @@ function annowf_send_notification($type, $post = null, $comment = null, $recipie
 
 	// Sitewide admin should never recieve any workflow notifications.
 	$admin_email = get_option('admin_email');
-	if ($key = array_search($recipients, $admin_email)) {
+	if ($key = array_search($admin_email, $recipients)) {
 		unset($recipients[$key]);
 	}
 	

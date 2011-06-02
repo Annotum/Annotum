@@ -76,21 +76,22 @@ add_action('admin_print_scripts-post.php', 'annowf_js');
 function annowf_insert_post_data($post, $postarr) {
 	if ($post['post_type'] == 'article' && $post['post_status'] != 'auto-draft') {
 		global $anno_post_save;
-		if (isset($_POST['publish'])) {
+		if (isset($_POST['revert']) && $_POST['revert'] == $anno_post_save['revert']) {
+			$post['post_status'] = 'draft';
+		}
+		else if (isset($_POST['publish'])) {
 			switch ($_POST['publish']) {
 				case $anno_post_save['publish']:
 					$post['post_status'] = 'publish';
 					break;
 				case $anno_post_save['reject']:
+				case $anno_post_save['revisions']:
 					$post['post_status'] = 'draft';
 					break;
 				case $anno_post_save['approve']:
 				case $anno_post_save['review']:
 					$post['post_status'] = 'pending';
 					break;	
-				case $anno_post_save['revisions']:
-					$post['post_status'] = 'draft';
-					break;
 				default:
 					break;
 			}
@@ -114,8 +115,15 @@ function annowf_transistion_state($post_id, $post, $post_before) {
 			$old_state = 'draft';
 		}
 		
-		if (isset($_POST['publish'])) {
+		if (isset($_POST['revert']) && $_POST['revert'] == $anno_post_save['revert']) {
+			$new_state = 'draft';
+		}
+		else if (isset($_POST['publish'])) {
 			switch ($_POST['publish']) {
+				// Make sure theres the ability to revert posts if they get a state on accident.
+				case $anno_post_save['revert']:
+					$new_state = 'draft';
+					break;
 				case $anno_post_save['approve']:
 					// Ensure proper state transitions
 					if (in_array($old_state, array('submitted', 'in_review'))) {
@@ -297,14 +305,14 @@ function annowf_add_reviewer() {
 		$post = get_post($post_id);
 		annowf_send_notification('reviewer_added', $post, '', array($response['user']->user_email));
 		
-		unset($response['user']);
-		echo json_encode($response);
 		
 		if ($post_state == 'submitted') {
 			update_post_meta($post_id, '_post_state', 'in_review');
 			//TODO reload?
 		}
 	}
+	unset($response['user']);
+	echo json_encode($response);
 	die();
 }
 add_action('wp_ajax_anno-add-reviewer', 'annowf_add_reviewer');
@@ -320,9 +328,11 @@ function annowf_add_co_author() {
 
 		// Add author to JSON for appending to author dropdown
 		$response['author'] = '<option value="'.$response['user']->ID.'">'.$response['user']->user_login.'</option>';
-		unset($response['user']);
-		echo json_encode($response);
+
 	}
+
+	unset($response['user']);
+	echo json_encode($response);
 	die();
 }
 add_action('wp_ajax_anno-add-co-author', 'annowf_add_co_author');

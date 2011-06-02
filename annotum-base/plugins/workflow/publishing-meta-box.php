@@ -94,7 +94,10 @@ function annowf_minor_action_submitted_markup() {
  * Submitted state markup for major actions.
  */
 function annowf_major_action_submitted_markup() {
-	if (!anno_user_can('edit_post')) {
+	if (anno_user_can('alter_post_state')) {
+		annowf_major_action_revert('center');
+	}
+	else {
 		annowf_major_action_preview_markup();
 	}
 }
@@ -103,8 +106,7 @@ function annowf_major_action_submitted_markup() {
  * In Review state markup for minor actions.
  */
 function annowf_minor_action_in_review_markup() {
-	// No need to check for edit_post for save button, same set of users can edit and alter state here.
-	if (anno_user_can('alter_post_state')) {
+	if (anno_user_can('edit_post')) {
 		global $post;
 		$post_round = annowf_get_round($post->ID);
 		annowf_minor_action_save_markup();
@@ -163,7 +165,7 @@ function annowf_major_action_in_review_markup() {
  */
 function annowf_minor_action_approved_markup() {
 	// We don't have to check for edit, as alter_post_state is the same set of users in this case
-	if (anno_user_can('alter_post_state')) {
+	if (anno_user_can('edit_post')) {
 		annowf_minor_action_save_markup();
 		annowf_minor_action_preview_markup();
 	}
@@ -182,14 +184,14 @@ function annowf_minor_action_approved_markup() {
 function annowf_major_action_approved_markup() {
 	if (anno_user_can('alter_post_state')) {
 		global $anno_post_save;
+		annowf_major_action_revert(); 
 ?>
-	<div id="publishing-action" class="center-wrap">
+	<div id="publishing-action" class="float-right">
 		<img src="<?php echo esc_url( admin_url( 'images/wpspin_light.gif' ) ); ?>" class="ajax-loading" id="ajax-loading" alt="" />	
 		<?php submit_button($anno_post_save['publish'], 'primary', 'publish', false, array( 'tabindex' => '5')); ?>
 	</div>
 	<div class="clear"></div>
-<?php
-		
+<?php	
 	}
 	else {
 		annowf_major_action_preview_markup();
@@ -304,7 +306,13 @@ function annowf_minor_action_rejected_markup() {
  * Rejected state markup for major actions.
  */
 function annowf_major_action_rejected_markup() {
-	annowf_major_action_clone_markup();
+	if (anno_user_can('alter_post_state')) {
+		annowf_major_action_revert('left');
+		annowf_major_action_clone_markup('right');
+	}
+	else {
+		annowf_major_action_clone_markup();
+	}
 }
 
 /**
@@ -329,7 +337,13 @@ function annowf_minor_action_published_markup() {
  * Published state markup for major actions.
  */
 function annowf_major_action_published_markup() {
-	annowf_major_action_clone_markup();
+	if (anno_user_can('edit_post')) {
+		annowf_major_action_revert('left');
+		annowf_major_action_clone_markup('right');
+	}
+	else {
+		annowf_major_action_clone_markup();
+	}
 }
 
 /**
@@ -404,15 +418,48 @@ function annowf_minor_action_save_markup() {
 /**
  * Clone button markup used in many major actions for various states
  */
-function annowf_major_action_clone_markup() {
+function annowf_major_action_clone_markup($position = 'center') {
 	global $anno_post_save;
+	if ($position == 'center') {
+		$class = 'center-wrap';
+	}
+	else {
+		$class = 'float-right';
+	}
 ?>
-	<div id="clone-action" class="major center-wrap">
+	<div id="clone-action" class="major <?php echo $class ?>">
 		<?php submit_button($anno_post_save['clone'], 'primary', 'publish', false, array( 'tabindex' => '5', 'accesskey' => 'p' )); ?>
 	</div>
-	<div class="clear"></div>
-		
-<?php
+
+<?php 
+	if ($position != 'center') {		
+?>	
+		<div class="clear"></div>
+<?php 
+	}
+}
+
+/**
+ * Revert to draft markup, used for accidental state transitions
+ */ 
+function annowf_major_action_revert($position = 'left') {
+	global $anno_post_save;
+	if ($position == 'center') {
+		$class = 'center-wrap';
+	}
+	else {
+		$class = 'float-left';
+	}
+?>
+	<div id="revert-action" class="major <?php echo $class ?>">
+		<?php submit_button($anno_post_save['revert'], 'primary', 'revert', false, array( 'tabindex' => '5', 'accesskey' => 'p' )); ?>
+	</div>
+<?php 
+	if ($position == 'center') {		
+?>	
+		<div class="clear"></div>
+<?php 
+	}
 }
 
 ?>
