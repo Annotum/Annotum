@@ -321,6 +321,11 @@ function anno_internal_comments_ajax() {
 	// Send email notifications of new commment
 	$post = get_post($comment_post_ID);
 	annowf_send_notification(trim($_POST['type']).'_comment', $post, $comment);
+	
+	// Attach a 'round' to a comment, marking which revision number this is
+	$round = annowf_get_round($comment_post_ID);
+	update_comment_meta($comment->comment_ID, '_round', $round);  
+	
 
 	// Send email notification for a reply to a comment
 	if (!empty($comment_parent)) {
