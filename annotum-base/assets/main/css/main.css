@@ -203,7 +203,8 @@ form.search .type-submit{background:url(../img/sprite-y.8bit.png) 0 -100px no-re
 .authors ul{padding-right:4px;}
 .authors li{float:left;margin-right:10px;zoom:1;}
 .author{display:block;position:relative;}
-.author .extra a,.author .extra span{display:block;}
+.author .extra a{display:inline;}
+.author .extra span{display:block;}
 .author .extra{background:url(../img/author-card-background.png) -300px bottom no-repeat;font-size:12px;left:50%;display:block;margin-left:-119px;padding-bottom:10px;position:absolute;width:248px;z-index:1000;}
 .author .extra-in{background:url(../img/author-card-background.png) 0 0 no-repeat;padding:16px 13px 5px;}
 .author:hover .extra,.author.hover .extra{display:block;}
