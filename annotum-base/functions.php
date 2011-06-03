@@ -87,7 +87,7 @@ function anno_assets() {
 		wp_enqueue_script('jquery-cf-placeholder', $main.'js/libs/jquery.placeholder.min.js', array('jquery'), $v);
 		wp_enqueue_script('jquery-ui-tabs');
 		
-		wp_enqueue_script('anno-main', $main.'js/main.js', array('placeholder'), $v);
+		wp_enqueue_script('anno-main', $main.'js/main.js', array('jquery-cf-placeholder'), $v);
 		wp_localize_script('anno-main', 'ANNO_DICTIONARY', array(
 			'previous' => __('Previous', 'anno'),
 			'next' => __('Next', 'anno'),
