@@ -68,10 +68,10 @@ function anno_the_author() {
 	$trimmed_url = substr($author->user_url, 0, 20);
 	$trimmed_url = ($trimmed_url != $author->user_url ? $trimmed_url . '&hellip;' : $author->user_url);
 	
-	$website = $author->user_url ? '<span>' . __('Website:', 'anno') . ' <a class="url" href="' . esc_url($author->user_url) . '">' . $trimmed_url . '</a></span>' : '';
+	$website = $author->user_url ? '<span class="group">' . __('Website:', 'anno') . ' <a class="url" href="' . esc_url($author->user_url) . '">' . $trimmed_url . '</a></span>' : '';
 	
 	// Note
-	$note = $author->user_description ? '<span class="note">' . esc_attr($author->user_description) . '</span>' : '';
+	$note = $author->user_description ? '<span class="group note">' . esc_attr($author->user_description) . '</span>' : '';
 
 	// @TODO Honoraries (PHD, etc)
 	
