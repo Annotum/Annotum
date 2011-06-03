@@ -19,6 +19,8 @@ Act 3: Footer
 	background: #000;
 	/*background: #006b94;*/
 	color: #fff;
+	position: relative;
+	z-index: 2;
 }
 #header .header-body {
 	background: #006b94;
@@ -30,6 +32,7 @@ Act 3: Footer
 #site-nav a {
 	color: #fff;
 }
+
 #header .navigation {
 	background: #006b94;
 }
@@ -82,10 +85,12 @@ Act 3: Footer
 	border-style: solid;
 	border-right-width: 1px;
 	color: #66A6BF;
+	position: relative;
 }
 #site-nav li ul {
 	display: none;
 	position: absolute;
+	width: 150px;
 	z-index: 1000;
 }
 #site-nav li li {
@@ -95,7 +100,8 @@ Act 3: Footer
 #site-nav li li a {
 	background: #66A6BF;
 }
-#site-nav li:hover ul {
+#site-nav li:hover ul,
+#site-nav li.hover ul {
 	display: block;
 }
 #site-nav a {

@@ -1,6 +1,23 @@
 body {
 	background: url(../img/body-background-rtl.png) center 0 repeat-y;
 }
+#header #site-nav {
+	padding-left: 200px;
+	padding-right: 0;
+}
+#header #site-nav li {
+	margin-left: 24px;
+	margin-right: 0;
+}
+#site-nav .nav li ul {
+	left: auto;
+	right: -11px;
+}
+
+#footer .nav li,
+#header #secondary-nav li {
+	background-position: right -1093px;
+}
 #sidebar .widget .title {
 	padding-left: 9px;
 	padding-right: 9px;
@@ -10,8 +27,15 @@ body {
 	padding-left: 20px;
 	padding-right: 10px;
 }
+form.search {
+	margin-left: 0;
+	margin-right: 0;
+}
 form.search input.type-text {
 	padding-right: 6px;
+}
+form.search .type-submit {
+	left: 4px;
 }
 
 .tools-bar .download label {
@@ -32,9 +56,16 @@ form.search input.type-text {
 }
 
 .section-title,
+h1.section-title,
+.sec h1,
 .tools-nav .tools-menu-item .title {
 	background-position: right -999px;
 	padding-right: 9px;
+}
+html.ie6 h1.section-title,
+html.ie6 .sec h1,
+html.ie6 .tools-nav .tools-menu-item .title {
+	background-position: right -998px;
 }
 
 .tools-nav .tools-menu-item .body,
@@ -52,9 +83,18 @@ form.search input.type-text {
 	right: auto;
 	left: 0;
 }
+.widget-recent-posts .nav {
+	padding-right: 0;
+}
 .widget-recent-posts .panel {
 	-moz-border-radius: 4px 0 4px 4px; /* FF1+ */
 	-webkit-border-radius: 4px 0 4px 4px; /* Saf3+, Chrome */
 	-khtml-border-radius: 4px 0 4px 4px; /* Konqueror */
 	border-radius: 4px 0 4px 4px; /* Standard. IE9 */
+}
+
+/* Search form when in header */
+#site-nav .search {
+	left: 0;
+	right: auto;
 }

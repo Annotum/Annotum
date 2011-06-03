@@ -13,8 +13,8 @@ if (__FILE__ == $_SERVER['SCRIPT_FILENAME']) { die(); }
 if (CFCT_DEBUG) { cfct_banner(__FILE__); }
 
 ?>
-		</div>
-	</div>
+		</div><!-- .in -->
+	</div><!-- #main -->
 	<footer id="footer" class="act clearfix">
 		<div class="in">
 			<?php
@@ -26,7 +26,6 @@ if (CFCT_DEBUG) { cfct_banner(__FILE__); }
 			?>
 		</div>
 	</footer>
-</div><!--/main-->
 <?php
 wp_footer();
 ?>

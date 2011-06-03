@@ -8,6 +8,7 @@ body {
 	background: #2a2822;
 	height: 75px;
 }
+
 #header .navigation {
 	/**
 	 * @workaround min-height Fast Hack
@@ -22,12 +23,12 @@ body {
 	height: 37px;
 	min-height: 37px;
 	
-	background: url(../img/sprite-y.8bit.png) 0 -100px repeat-x;
+	background: #a2220f url(../img/navigation-background.png) 0 bottom repeat-x;
 }
-#site-name {
+#header #site-name {
 	padding-top: 11px;
 }
-#site-name a {
+#header #site-name a {
 	background: url(../img/sprite-y.8bit.png) 0 0 no-repeat;
 	display: block;
 	height: 52px;
@@ -36,48 +37,70 @@ body {
 	text-decoration: none;
 	width: 148px;
 }
-#site-nav {
+#header #site-nav {
 	background: none;
 	line-height: 22px;
+	padding-right: 200px;
 }
-#site-nav li {
+#header #site-nav li {
+	/**
+	 * @workaround min-height Fast Hack
+	 *
+	 * IE6 doesn't support min-height, but treats elements with
+	 * height and overflow:visible as min-height.
+	 *
+	 * @affected IE5, IE6
+	 * @see http://www.dustindiaz.com/min-height-fast-hack/
+	 */
+	height: auto !important;
+	height: 37px;
+	min-height: 37px;
+	
 	border: 0;
-}
-#site-nav li a {
-	color: #f1e9d0;
 	margin-right: 24px;
+}
+#header #site-nav li li {
+	height: auto;
+	margin: 0;
+}
+#header #site-nav li a {
+	color: #f1e9d0;
 	padding-left: 0;
 	padding-right: 0;
 	text-shadow: 0 -1px 0 rgba(0, 0 , 0, .4);
 }
-#site-nav li li a {
-	background-color: #A2220F;
+#header #site-nav li ul {
+	background-color: #8b170a;
+	border: #580301 solid 1px;
+	border-top: 0;
+	left: -11px;
+	padding-bottom: 5px;
+	top: 36px;
+}
+#header #site-nav li li a {
+	background: none;
+	margin: 0;
 	padding: 5px 10px;
 }
-#secondary-nav {
+#header #secondary-nav {
 	font-size: 11px;
 }
-#secondary-nav .nav {
+#header #secondary-nav .nav {
 	bottom: 4px;
 }
-#secondary-nav li {
+#header #secondary-nav li,
+#footer .nav li {
 	background: url(../img/sprite-y.8bit.png) 0 -293px no-repeat;
 }
-#secondary-nav li a {
+#header #secondary-nav li:first-child {
+	background: none;
+}
+#header #secondary-nav li a {
  	color: #aaa9a7;
 }
 #masthead {
 	background: #b5a988;
 	border-bottom: #766845 solid 1px;
-}
-#selector {
-	
-	width: 3100px;
-	height: 1px;
-}
-#main-body {
-	padding-right: 19px;
-	width: 626px;
 }
 
 #footer {

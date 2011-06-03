@@ -45,7 +45,7 @@ if (comments_open()) {
 				if (is_user_logged_in()) {
 		?>
 			<p class="logged-in"><?php
-					printf(__('Logged in as <a href="%s">%s</a>. ', 'discovery-education'), get_bloginfo('wpurl').'/wp-admin/profile.php', $user_identity);
+					printf(__('Logged in as <a href="%s">%s</a>. ', 'anno'), get_bloginfo('wpurl').'/wp-admin/profile.php', $user_identity);
 					wp_loginout();
 				?></p>
 		<?php
@@ -58,7 +58,7 @@ if (comments_open()) {
 			<label for="comment-name">Your Name</label><input class="text" type="text" name="name" value="" id="comment-name" />
 		</div>
 		<div class="input-row">
-			<label for="comment-email">Email Address</label><input class="text" type="text" name="email" value="" id="comment-email" />
+			<label for="comment-email">Email Address</label><input class="text" type="email" name="email" value="" id="comment-email" />
 		</div>
 		<div class="input-row">
 			<label for="comment-website">Website</label><input class="text" type="text" name="website" value="" id="comment-website" />
@@ -72,8 +72,8 @@ if (comments_open()) {
 			<label for="comment">Comment</label><textarea name="comment" rows="8" cols="40" id="comment"></textarea>
 		</div>
 		<div class="input-row input-row-submit">
-			<button name="submit" type="submit" id="submit" tabindex="5"><?php _e('Submit', 'discovery-education'); ?></button>
-			<?php //printf(__('or, reply to this post via <a rel="trackback" href="%s">trackback</a>.', 'discovery-education'), get_trackback_url()); ?>
+			<button name="submit" type="submit" id="submit" tabindex="5"><?php _e('Submit', 'anno'); ?></button>
+			<?php //printf(__('or, reply to this post via <a rel="trackback" href="%s">trackback</a>.', 'anno'), get_trackback_url()); ?>
 			<?php
 				comment_id_fields();
 				do_action('comment_form', $post->ID);

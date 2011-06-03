@@ -6,13 +6,21 @@ html {
 #site-nav .search {
 	float: left;
 }
+form.search {
+	display: inline; /* double-margin float bug */
+	margin-left: 6px;
+	margin-right: 0;
+}
 form.search input.type-text {
 	padding-left: 19px;
-	padding-right: 0;
+	padding-right: 6px;
 }
 form.search .type-submit {
-	left: 11px;
+	left: 4px;
 	right: auto;  
+}
+html.ie6 form.search .type-submit {
+	left: 6px;
 }
 
 /* Primary Nav */
@@ -48,7 +56,6 @@ form.search .type-submit {
 }
 #main-sidebar,
 #masthead-sidebar {
-	float: left;
 	margin-right: 30px;
 }
 .section-title span {
@@ -58,7 +65,7 @@ form.search .type-submit {
 .content ol,
 .content pre {
 	margin-left: 0;
-	margin-right: 2em;
+	margin-right: 24px;
 }
 .article .header .sec .authors li {
 	float: right;

@@ -18,7 +18,7 @@ extract($data);
 ?>
 <article <?php comment_class('article'); ?> id="comment-<?php comment_ID(); ?>">
 	<?php if ($comment->comment_approved == '0') {
-		_e('Your comment is awaiting moderation.', 'discovery-education');
+		_e('Your comment is awaiting moderation.', 'anno');
 	} ?>
 	<?php cfct_template_file('comment', 'comment-header'); ?>
 	<div class="content">
@@ -27,7 +27,7 @@ extract($data);
 	<div class="footer">
 		<?php 
 			comment_reply_link(array_merge( $args, array('depth' => $depth, 'max_depth' => $args['max_depth'])), $comment, $post); 
-			edit_comment_link(__('Edit This', 'discovery-education'), ' <span class="delimiter">&middot;</span> ', ''); 
+			edit_comment_link(__('Edit This', 'anno'), ' <span class="delimiter">&middot;</span> ', ''); 
 		?>
 	</div><!-- .footer -->
 </article>
