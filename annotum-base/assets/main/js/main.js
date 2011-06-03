@@ -62,7 +62,7 @@ Anno.contexts = (function () {
 
 	return {
 		common: function() {
-			$('input[placeholder],textarea[placeholder]').placeholder();
+			$.placeholders();
 			$('.widget-recent-posts .tabs').tabs();
 		},
 

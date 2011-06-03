@@ -73,7 +73,6 @@ function anno_css3_pie() {
 <?php
 }
 
-
 function anno_assets() {
 	if (!is_admin()) {
 		$main =  trailingslashit(get_bloginfo('template_directory')) . 'assets/main/';
@@ -85,8 +84,8 @@ function anno_assets() {
 		
 		// Scripts
 		wp_enqueue_script('modernizr', $main.'js/libs/modernizr-1.7.min.js', array(), $v);
-		wp_enqueue_script('placeholder', $main.'js/libs/jquery.placeholder.js', array('jquery'), $v);
-		wp_enqueue_script('ui_tabs', $main.'js/libs/jquery-ui-tabs.min.js', array('jquery'), $v);
+		wp_enqueue_script('jquery-cf-placeholder', $main.'js/libs/jquery.placeholder.min.js', array('jquery'), $v);
+		wp_enqueue_script('jquery-ui-tabs');
 		
 		wp_enqueue_script('anno-main', $main.'js/main.js', array('placeholder'), $v);
 		wp_localize_script('anno-main', 'ANNO_DICTIONARY', array(
