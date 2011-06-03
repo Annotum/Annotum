@@ -82,8 +82,10 @@ function anno_the_author() {
 	if ($website || $note) {
 		$author .= '
 			<span class="extra">
-				'.$website.'
-				'.$note.'
+				<span class="extra-in">
+					'.$website.'
+					'.$note.'
+				</span>
 			</span>';
 	}
 	
