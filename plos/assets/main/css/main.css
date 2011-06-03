@@ -66,14 +66,14 @@ form.search .type-submit{background:url(../img/sprite-y.8bit.png) 0 -200px no-re
 .article-excerpt .header .meta{color:#a29674;font:bold 11px Helvetica,Arial,sans-serif;letter-spacing:1px;margin:0;text-transform:uppercase;}
 .article-excerpt .header .meta a:link{color:#a29674;}
 .article-excerpt .header .meta a:hover{color:#A2220F;text-decoration:none;}
-.article-excerpt .body{margin-bottom:30px;}
+.article-excerpt .entry-summary{margin-bottom:30px;}
 .widget-recent-posts .nav{margin:0;padding:0;position:relative;top:1px;}
 .widget-recent-posts .nav li{background:none;border:0;font:bold 13px Helvetica,Arial,sans-serif;margin-right:0;padding:1px 0;}
 .widget-recent-posts .nav li a{padding-left:14px;padding-right:14px;}
-.widget-recent-posts .tabs{margin:0;}
-.widget-recent-posts .nav .ui-tabs-selected{-moz-border-radius:4px 4px 0 0;-webkit-border-radius:4px 4px 0 0;-khtml-border-radius:4px 4px 0 0;border-radius:4px 4px 0 0;background-color:#f5f2e9;border:#e4d7b0 solid 1px;border-bottom-color:#f5f2e9;padding:0;}
+.widget-recent-posts .tabs{margin:0;position:relative;}
+.widget-recent-posts .nav .ui-tabs-selected{-moz-border-radius:4px 4px 0 0;-webkit-border-radius:4px 4px 0 0;-khtml-border-radius:4px 4px 0 0;border-radius:4px 4px 0 0;background-color:#f5f2e9;border:#e4d7b0 solid 1px;border-bottom-color:#f5f2e9;padding:0;position:relative;z-index:100;}
 .widget-recent-posts .nav .ui-tabs-selected a{color:#A2220F;}
-.widget-recent-posts .panel{-moz-border-radius:0 4px 4px 4px;-webkit-border-radius:0 4px 4px 4px;-khtml-border-radius:0 4px 4px 4px;border-radius:0 4px 4px 4px;background:#f5f2e9;border:#e4d7b0 solid 1px;padding:0 14px;}
+.widget-recent-posts .panel{-moz-border-radius:0 4px 4px 4px;-webkit-border-radius:0 4px 4px 4px;-khtml-border-radius:0 4px 4px 4px;border-radius:0 4px 4px 4px;background:#f5f2e9;border:#e4d7b0 solid 1px;padding:0 14px;position:relative;}
 .widget-recent-posts .panel ul,.widget-recent-posts .panel ol{background:none;margin:0;padding:0;}
 .widget-recent-posts .panel li{background-image:none;border-top:#e4d7b0 solid 1px;margin:10px 0;padding:10px 0 0;}
 .widget-recent-posts .panel li:first-child{border:0;margin:0;}
