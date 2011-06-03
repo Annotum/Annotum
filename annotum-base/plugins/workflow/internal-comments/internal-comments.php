@@ -357,7 +357,7 @@ function anno_internal_comments_review_ajax() {
 
 		update_user_meta($current_user->ID, '_'.$post_id.'_review_'.$post_round, $review);
 		
-		$reviewed = anno_get_post_users($post_id, '_round_'.$post_round.'_reviewed');
+		$reviewed = annowf_get_post_users($post_id, '_round_'.$post_round.'_reviewed');
 		
 		// If review is set to none, remove the user from reviewed, otherwise update it with the current user.
 		if ($review != 0) {

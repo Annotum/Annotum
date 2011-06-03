@@ -33,7 +33,7 @@ function anno_register_post_types() {
 	        'hierarchical' => false,
 	        'rewrite' => true,
 	        'query_var' => 'articles',
-	        'supports' => array('title', 'editor', 'thumbnail', 'comments', 'revisions', 'author'),
+	        'supports' => array('title', 'thumbnail', 'comments', 'revisions', 'author'),
 			'taxonomies' => array(),
 			'menu_position' => 5,
 			'capability_type' => $capability_type,
