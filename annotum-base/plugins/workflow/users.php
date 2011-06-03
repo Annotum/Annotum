@@ -134,8 +134,8 @@ function anno_user_can($cap, $user_id = null, $post_id = null, $comment_id = nul
 						return true;
 					}
 					break;
+				case 'submitted':
 				case 'in_review':
-				case 'reviewed':
 					// Must be an editor+
 					if (in_array($user_role, array($admin, $editor))) {
 						return true;
