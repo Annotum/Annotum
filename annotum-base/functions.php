@@ -80,7 +80,7 @@ function anno_assets() {
 		
 		// Styles
 		wp_enqueue_style('anno', $main.'css/main.css', array(), $v, 'screen');
-		//wp_enqueue_style('anno-rtl', $main.'css/rtl.css', array('anno'), $v, 'screen');
+		wp_enqueue_style('anno-rtl', $main.'css/rtl.css', array('anno'), $v, 'screen');
 		
 		// Scripts
 		wp_enqueue_script('modernizr', $main.'js/libs/modernizr-1.7.min.js', array(), $v);
