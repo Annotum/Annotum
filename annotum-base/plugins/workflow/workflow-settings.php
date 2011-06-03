@@ -6,7 +6,7 @@
 function anno_add_submenu_page() {
 	add_submenu_page(
 		'themes.php', 
-		__('Annotum Workflow settings', 'anno'), 
+		__('Annotum Workflow Settings', 'anno'), 
 		__('Workflow settings', 'anno'), 
 		'manage_options',
 		'anno-workflow-settings',
@@ -95,7 +95,7 @@ add_action('admin_init', 'annowf_settings_request_handler', 0);
  * @return mixed true(1) if the workflow is enabled, false(null) otherwise
  */ 
 function anno_workflow_enabled($option = null) {
-	if ($option == null) {
+	if (empty($option)) {
 		$option = 'workflow';
 	}
 

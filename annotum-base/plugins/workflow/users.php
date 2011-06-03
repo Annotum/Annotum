@@ -112,6 +112,9 @@ function anno_user_can($cap, $user_id = null, $post_id = null, $comment_id = nul
 			if ($user_role && !in_array($user_role, array('author', 'co-author'))) {
 				return true;
 			}
+			else if ($user_role == 'author' && anno_workflow_enabled('author_reviewer')) {
+				return true;
+			}
 			break;
 		case 'manage_co_authors':
 			// If in draft state and author or editor+

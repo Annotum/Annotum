@@ -11,10 +11,12 @@ function annowf_meta_boxes() {
 	remove_meta_box('submitdiv', 'article', 'side');
 
 	// Remove discussion box
-	remove_meta_box('commentstatusdiv', 'article', 'core');
+	remove_meta_box('commentstatusdiv', 'article', 'normal');
 
 	// Remove author box
-	remove_meta_box('authordiv', 'article', 'normal', 'core');
+	remove_meta_box('authordiv', 'article', 'normal');
+		
+	// Remove discussion box
 		
 	// Remove taxonomy/edit boxes when a user is unable to save/edit
 	if (!anno_user_can('edit_post', null, $post->ID)) {
