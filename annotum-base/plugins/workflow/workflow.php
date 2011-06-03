@@ -179,7 +179,9 @@ function annowf_transistion_state($post_id, $post, $post_before) {
 			do_action('anno_state_change', $new_state, $old_state);
 			
 			// Send notifications
-			annowf_send_notification($notification_type, $post);
+			if (anno_workflow_enabled('notification')) {
+				annowf_send_notification($notification_type, $post);
+			}
 		}
 		
 		// Author has changed, add original author as co-author, remove new author from co-authors
@@ -302,9 +304,10 @@ function annowf_add_reviewer() {
 		$post_state = annowf_get_post_state($post_id);
 	
 		//Send email
-		$post = get_post($post_id);
-		annowf_send_notification('reviewer_added', $post, '', array($response['user']->user_email));
-		
+		if (anno_workflow_enabled('notification')) {
+			$post = get_post($post_id);
+			annowf_send_notification('reviewer_added', $post, '', array($response['user']->user_email));
+		}
 		
 		if ($post_state == 'submitted') {
 			update_post_meta($post_id, '_post_state', 'in_review');
@@ -323,8 +326,14 @@ add_action('wp_ajax_anno-add-reviewer', 'annowf_add_reviewer');
 function annowf_add_co_author() {
 	$response = annowf_add_user('co_author');
 	if ($response['message'] == 'success') {
-		$post = get_post(intval($_POST['post_id']));
-		annowf_send_notification('co_author_added', $post, '', array($response['user']->user_email));
+		// Used for quick access when filtering posts on a post-author page
+		add_post_meta(intval($_POST['post_id']), '_article_co_author', $response['user']->ID, false);
+		
+		// Send email
+		if (anno_workflow_enabled('notification')) {
+			$post = get_post(intval($_POST['post_id']));
+			annowf_send_notification('co_author_added', $post, '', array($response['user']->user_email));
+		}
 
 		// Add author to JSON for appending to author dropdown
 		$response['author'] = '<option value="'.$response['user']->ID.'">'.$response['user']->user_login.'</option>';
@@ -418,7 +427,11 @@ add_action('wp_ajax_anno-remove-reviewer', 'annowf_remove_reviewer');
  * Handles AJAX request for remove a co-author to a post.
  */
 function annowf_remove_co_author() {
-	annowf_remove_user('co_author');
+	if (annowf_remove_user('co_author')) {
+		if (isset($_POST['user_id'])) {
+			delete_post_meta(intval($_POST['post_id']), '_article_co_author', intval($_POST['user_id']));
+		}
+	}
 	die();
 }
 add_action('wp_ajax_anno-remove-co_author', 'annowf_remove_co_author');
@@ -430,7 +443,7 @@ function annowf_remove_user($type) {
 	check_ajax_referer('anno_manage_'.$type, '_ajax_nonce-manage-'.$type);
 	$message = 'error';
 	if (isset($_POST['user_id']) && isset($_POST['post_id'])) {
-		if (annowf_remove_user_from_post($type.'s', $_POST['user_id'], intval($_POST['post_id']))) {
+		if (annowf_remove_user_from_post($type.'s', intval($_POST['user_id']), intval($_POST['post_id']))) {
 			$message = 'success';
 		}
 	}

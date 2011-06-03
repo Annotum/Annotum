@@ -9,6 +9,11 @@
  * @return bool true if mail sent successfully, false otherwise.
  */
 function annowf_send_notification($type, $post = null, $comment = null, $recipients = null) {
+	// Ensure that workflow notifications are enabled. This is also enforced prior to calls to annowf_send_notification
+	if (!anno_workflow_enabled('notification')) {
+		return false;
+	}
+	
 	if (empty($type)) {
 		return false;
 	}
