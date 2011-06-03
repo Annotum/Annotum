@@ -21,7 +21,13 @@ function annowf_send_notification($type, $post = null, $comment = null, $recipie
 	}
 	$recipients = apply_filters('annowf_notification_recipients', array_unique($recipients), $type, $post);
 
- 	return wp_mail($recipients, $notification['subject'], $notification['body']);
+	// Sitewide admin should never recieve any workflow notifications.
+	$admin_email = get_option('admin_email');
+	if ($key = array_search($admin_email, $recipients)) {
+		unset($recipients[$key]);
+	}
+	
+ 	return @wp_mail(array_unique($recipients), $notification['subject'], $notification['body']);
 }
 
 /**
@@ -71,14 +77,13 @@ function annowf_notification_recipients($type, $post) {
  * @return array Array consisting of email title and body
  */
 function annowf_notification_message($type, $post, $comment) {
-	// TODO, actual footer
-	$footer = 'FOOTER';
+	$footer = get_option('blogname').' '.home_url();
 	
 	$author = get_userdata($post->post_author);
 	$author = annowf_user_display($author);
 	
 
-	$authors = anno_get_post_users($post_id, '_co_authors');
+	$authors = annowf_get_post_users($post_id, '_co_authors');
 	$authors = array_merge(array($post->post_author), $authors);	
 	$author_names = array_map('annowf_user_display', $authors);
 
@@ -86,7 +91,6 @@ function annowf_notification_message($type, $post, $comment) {
 	$edit_link = sprintf(__('Edit This Article: %s', 'anno'), $edit_link);
 	$title = $post->post_title;
 	
-	//TODO URL, wording
 	$reviewer_instructions = __('Reviewer Instructions', 'anno');
 	
 	$notification = array('subject' => '', 'body' => '');

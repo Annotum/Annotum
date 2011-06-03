@@ -60,7 +60,5 @@ jQuery(document).ready(function($) {
 			$('.review-notice').html('recommendation saved');
 			$('.review-section').removeClass().addClass('review-section status-'+review);
 		});
-	});
-	
-	
+	});	
 });

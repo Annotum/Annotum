@@ -17,6 +17,16 @@
 	text-align: center;
 }
 
+#submitdiv .float-left {
+	float: left;
+	text-align: center;
+}
+
+#submitdiv .float-right {
+	float: right;
+	text-align: center;
+}
+
 #submitdiv .publishing {
 	display: inline;
 }
