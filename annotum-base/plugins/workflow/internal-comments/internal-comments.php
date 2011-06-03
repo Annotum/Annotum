@@ -221,7 +221,7 @@ global $post;
 	var ANNO_POST_ID = '.$post->ID.';
 </script>
 	';
-	wp_enqueue_script('anno-internal-comments', trailingslashit(get_bloginfo('stylesheet_directory')).'plugins/workflow/internal-comments/js/internal-comments.js', array('jquery'));
+	wp_enqueue_script('anno-internal-comments', trailingslashit(get_bloginfo('template_directory')).'plugins/workflow/internal-comments/js/internal-comments.js', array('jquery'));
 }
 add_action('admin_print_scripts-post.php', 'anno_internal_comments_print_scripts');
 add_action('admin_print_scripts-post-new.php', 'anno_internal_comments_print_scripts');
@@ -230,7 +230,7 @@ add_action('admin_print_scripts-post-new.php', 'anno_internal_comments_print_scr
  * Enqueue css for internal comments
  */
 function anno_internal_comments_print_styles() {
-	wp_enqueue_style('anno-internal-comments', trailingslashit(get_bloginfo('stylesheet_directory')).'plugins/workflow/internal-comments/css/internal-comments.css');
+	wp_enqueue_style('anno-internal-comments', trailingslashit(get_bloginfo('template_directory')).'plugins/workflow/internal-comments/css/internal-comments.css');
 }
 add_action('admin_print_styles-post.php', 'anno_internal_comments_print_styles');
 add_action('admin_print_styles-post-new.php', 'anno_internal_comments_print_styles');
@@ -357,7 +357,7 @@ function anno_internal_comments_review_ajax() {
 
 		update_user_meta($current_user->ID, '_'.$post_id.'_review_'.$post_round, $review);
 		
-		$reviewed = anno_get_post_users($post_id, '_round_'.$post_round.'_reviewed');
+		$reviewed = annowf_get_post_users($post_id, '_round_'.$post_round.'_reviewed');
 		
 		// If review is set to none, remove the user from reviewed, otherwise update it with the current user.
 		if ($review != 0) {

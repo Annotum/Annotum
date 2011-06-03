@@ -28,7 +28,7 @@ if (CFCT_DEBUG) { cfct_banner(__FILE__); }
 			<?php anno_the_terms('article_category', '<span class="article-categories"> <span class="sep">&middot;</span> ', ',', '</span>'); ?>
 		</div>
 		<div class="sec">
-			<span class="title"><?php _e('Authors', 'anno'); ?></span>
+			<span class="title"><span><?php _e('Authors', 'anno'); ?></span></span>
 			<ul class="authors nav">
 				<?php anno_the_author(); ?>
 			</ul>
@@ -39,7 +39,7 @@ if (CFCT_DEBUG) { cfct_banner(__FILE__); }
 	?>
 	<div class="content">
 		<section class="abstract sec">
-			<h1><?php _e('Abstract', 'anno'); ?></h1>
+			<h1><span><?php _e('Abstract', 'anno'); ?></span></h1>
 			<div class="entry-summary"><?php the_excerpt(); ?></div>
 		</section><!--/.abstract-->
 		<div class="entry-content">

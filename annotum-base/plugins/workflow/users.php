@@ -139,6 +139,8 @@ function anno_user_can($cap, $user_id = null, $post_id = null, $comment_id = nul
 					break;
 				case 'submitted':
 				case 'in_review':
+				// Revert to draft
+				case 'rejected':
 					// Must be an editor+
 					if (in_array($user_role, array($admin, $editor))) {
 						return true;
@@ -152,10 +154,6 @@ function anno_user_can($cap, $user_id = null, $post_id = null, $comment_id = nul
 					break;
 				case 'published':
 					// No one can change a published article's status
-					return false;
-					break;
-				case 'rejected':
-					// No one can change a rejected article's status
 					return false;
 					break;
 				default:

@@ -1,8 +1,4 @@
 @search-width: 200px;
-form.search {
-	margin: 6px 6px 0 0;
-	width: @search-width;
-}
 form.search input.type-text {
 	color: #666;
 	font-size: 13px;
@@ -18,6 +14,7 @@ form.search .type-submit {
 	background: url(../img/sprite-y.8bit.png) 0 -100px no-repeat;
 	border: 0;
 	height: 13px;
+	overflow: hidden;
 	position: absolute;
 	right: 6px;
 	top: 5px;
@@ -26,5 +23,7 @@ form.search .type-submit {
 
 /* Search form when in header */
 #site-nav .search {
-	float: right;
+	position: absolute;
+	right: 5px;
+	top: 5px;
 }
