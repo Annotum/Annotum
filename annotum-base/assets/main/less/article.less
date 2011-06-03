@@ -1,3 +1,26 @@
+/** @section General
+ -------------------------------------------------- */
+
+/* Crop overflow */
+.article .entry-title,
+.article .content {
+	overflow:  hidden;
+	/**
+	 * @workaround fix width in IE6 to prevent content from growing
+	 * @affected ie6
+	 */
+	width: 100%;
+	zoom: 1;
+}
+
+/* Keep margins consistent using margin collapse */
+.article .content .entry-content,
+.article .content .entry-summary {
+	margin-bottom: ;
+}
+
+/** @section Header
+ -------------------------------------------------- */
 .article .header {
 	margin-bottom: 18px;
 }
@@ -13,10 +36,14 @@
 	color: #006b94;
 	text-decoration: none;
 }
+
+/** @section Content Area
+ -------------------------------------------------- */
 .article .article-section {
 	margin-bottom: 24px;
 	overflow: hidden;
 }
+
 .article .article-section .subtitle {
 	font-size: 14px;
 	font-weight: bold;
@@ -30,7 +57,6 @@
 .article .content .supplement {
 	margin-bottom: 1em;
 }
-
 
 /* Supplement Styles */
 .article .supplement {
