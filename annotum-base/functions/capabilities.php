@@ -1,12 +1,11 @@
 <?php
 
 /**
- * Remove default WP Roles, as they are not being used. Remove publishing abilities from editor
+ * Custom capabilities for workflow
  */ 
 function anno_remove_roles_and_capabilities() {
 	$wp_roles = new WP_Roles();
-	
-// TODO Enable editing for all existing roles?
+
 	$roles_to_modify = array(
 		'administrator' => array(
 			'edit_articles',
@@ -29,9 +28,16 @@ function anno_remove_roles_and_capabilities() {
 			'delete_others_articles',
 			'read_article',
 		),
-		// Give contributors this access so they can view articles on the backend. Contributors cannot actually save/edit the articles for various states.
+		// Give contributors and authors this access so they can view articles on the backend. Contributors cannot actually save/edit the articles for various states.
 		// Enforced by worflow capabilities.
 		'contributor' => array(
+			'edit_articles',
+			'edit_article',
+			'edit_others_articles',
+			'delete_article',
+			'read_article',
+		),
+		'author' => array(
 			'edit_articles',
 			'edit_article',
 			'edit_others_articles',

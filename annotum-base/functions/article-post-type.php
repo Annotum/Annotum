@@ -33,7 +33,7 @@ function anno_register_post_types() {
 	        'hierarchical' => false,
 	        'rewrite' => true,
 	        'query_var' => 'articles',
-	        'supports' => array('title', 'editor', 'thumbnail', 'comments', 'excerpt', 'revisions', 'author'),
+	        'supports' => array('title', 'editor', 'thumbnail', 'comments', 'revisions', 'author'),
 			'taxonomies' => array(),
 			'menu_position' => 5,
 			'capability_type' => $capability_type,
@@ -81,11 +81,11 @@ function anno_post_type_enqueue_css() {
 add_action('admin_print_styles', 'anno_post_type_enqueue_css');
 
 /**
- * Display custom messages for articles. Based on WP Core 3.1.2
+ * Display custom messages for articles. Based on WP high 3.1.2
  */ 
 function anno_post_updated_messages($messages) {
 	global $post;
-	// Based on message code in WP Core 3.2
+	// Based on message code in WP high 3.2
 	$messages['article'] = array(
 		0 => '', // Unused. Messages start at index 1.
 		1 => sprintf(__('Article updated. <a href="%s">View article</a>', 'anno'), esc_url(get_permalink($post->ID))),
@@ -105,5 +105,53 @@ function anno_post_updated_messages($messages) {
 	return $messages;
 }
 add_filter('post_updated_messages', 'anno_post_updated_messages');
+
+/**
+ * Add DTD Meta Boxes
+ */ 
+function anno_dtd_meta_boxes() {
+	global $post;
+	add_meta_box('subtitle', __('Subtitle', 'anno'), 'anno_subtitle_meta_box', 'article', 'normal', 'high', $post);	
+	add_meta_box('body', __('Body', 'anno'), 'anno_body_meta_box', 'article', 'normal', 'high', $post);
+	add_meta_box('references', __('References', 'anno'), 'anno_references_meta_box', 'article', 'normal', 'high', $post);
+	add_meta_box('abstract', __('Abstract', 'anno'), 'anno_abstract_meta_box', 'article', 'normal', 'high', $post);
+	add_meta_box('funding', __('Funding Statement', 'anno'), 'anno_funding_meta_box', 'article', 'normal', 'high', $post);
+	add_meta_box('acknowledgements', __('Acknowledgements', 'anno'), 'anno_acknowledgements_meta_box', 'article', 'normal', 'high', $post);
+	add_meta_box('appendix-a', __('Appendix A', 'anno'), 'anno_appendix_a_meta_box', 'article', 'normal', 'high', $post);
+}
+add_action('add_meta_boxes_article', 'anno_dtd_meta_boxes');
+
+function anno_subtitle_meta_box($post) {
+?>
+	<input type="text" name="subtitle" value="<?php _e('Subtitle', 'anno'); ?>" style="width:100%;" />
+<?php
+}
+
+function anno_body_meta_box($post) {
+?>
+	<textarea name="body" style="width:100%; height: 250px"><?php echo esc_html($post->post_content); ?></textarea>
+<?php
+}
+
+function anno_references_meta_box($post) {
+	echo 'references';
+}
+
+function anno_abstract_meta_box($post) {
+	echo 'abstract';
+}
+
+function anno_funding_meta_box($post) {
+	echo 'funding';
+}
+
+function anno_acknowledgements_meta_box($post) {
+	echo 'acknowledgements';
+}
+
+function anno_appendix_a_meta_box($post) {
+	echo 'appendix a';
+}
+
 
 ?>

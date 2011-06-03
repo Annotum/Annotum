@@ -13,12 +13,13 @@ $anno_review_options = array(
  */
 function anno_internal_comments_add_meta_boxes() {
 	if (anno_user_can('view_general_comments')) {
-		add_meta_box('general-comment', __('Internal Comments', 'anno'), 'anno_internal_comments_general_comments', 'article', 'normal');
+		add_meta_box('general-comment', __('Internal Comments', 'anno'), 'anno_internal_comments_general_comments', 'article', 'advanced');
 	}
 	if (anno_user_can('view_review_comments')) {
-		add_meta_box('reviewer-comment', __('Reviews', 'anno'), 'anno_internal_comments_reviewer_comments', 'article', 'normal');
+		add_meta_box('reviewer-comment', __('Reviews', 'anno'), 'anno_internal_comments_reviewer_comments', 'article', 'advanced');
 	}
 }
+// We don't want to add them for new-posts
 add_action('admin_head-post.php', 'anno_internal_comments_add_meta_boxes');
 
 /**
@@ -319,11 +320,18 @@ function anno_internal_comments_ajax() {
 	}
 
 	// Send email notifications of new commment
-	$post = get_post($comment_post_ID);
-	annowf_send_notification(trim($_POST['type']).'_comment', $post, $comment);
+	if (anno_workflow_enabled('notification')) {
+		$post = get_post($comment_post_ID);
+		annowf_send_notification(trim($_POST['type']).'_comment', $post, $comment);
+	}
+	
+	// Attach a 'round' to a comment, marking which revision number this is
+	$round = annowf_get_round($comment_post_ID);
+	update_comment_meta($comment->comment_ID, '_round', $round);  
+	
 
 	// Send email notification for a reply to a comment
-	if (!empty($comment_parent)) {
+	if (anno_workflow_enabled('notification') && !empty($comment_parent)) {
 		$parent_comment = get_comment($comment_parent);
 		$recipients = array(annowf_user_email($parent_comment->user_id));
 		annowf_send_notification(trim($_POST['type']).'_comment_reply', $post, $comment, $recipients);
@@ -404,17 +412,6 @@ function anno_internal_comments_get_comment_root($comment) {
 		}
 	}
 	return $comment;
-}
-
-/**
- * Function to limit front-end display of comments. 
- * Wrap this filter around comments_template();
- * 
- * @todo Update to WP_Comment_Query filter when WP updates core to use non-hardcoded queries.
- */
-function anno_internal_comments_query($query) {
-	$query = str_replace('WHERE', 'WHERE comment_type NOT IN (\'article_general\', \'article_review\') AND', $query);
-	return $query;
 }
 
 ?>
