@@ -85,17 +85,14 @@ form.search .type-submit{background:url(../img/sprite-y.8bit.png) 0 -100px no-re
 .featured-posts .control-panel .previous{background-position:7px 6px;right:27px;}
 .featured-posts .control-panel .next{background-position:8px -94px;right:0;}
 .article .entry-title,.article .content{overflow:hidden;width:100%;zoom:1;}
-.article .content .entry-content,.article .content .entry-summary{margin-bottom:;}
+.article .content .entry-content,.article .content .entry-summary{margin-bottom:10px;}
 .article .header{margin-bottom:18px;overflow:hidden;}
 .article .header .entry-title .title{color:#000;font:bold 28px Georgia, Serif;margin-bottom:5px;}
 .article .header .sec .title{display:block;}
 .article .header .meta{color:#666;font:italic 13px Georgia, Serif;}
 .article .header .meta a:link{color:#666;}
 .article .header .meta a:hover{color:#006b94;text-decoration:none;}
-.article .article-section{margin-bottom:24px;overflow:hidden;}
 .article .article-section .subtitle{font-size:14px;font-weight:bold;}
-.article .article-section .content{margin-left:15px;margin-right:15px;}
-.article .content p,.article .content .supplement{margin-bottom:12px;}
 .article .supplement{background:#f6f6f6;border-bottom:#dadada solid 1px;border-top:#dadada solid 1px;margin-left:15px;margin-right:15px;position:relative;}
 .article .figure{height:auto !important;height:120px;min-height:120px;padding:12px 12px 12px 175px;position:relative;}
 .article .figure img{left:12px;position:absolute;top:12px;}
@@ -185,10 +182,7 @@ form.search .type-submit{background:url(../img/sprite-y.8bit.png) 0 -100px no-re
 .pagination .previous{float:left;}
 .pagination .next{float:right;}
 .page-title{color:#000;font:bold 28px Georgia, Serif;margin-bottom:5px;}
-.sec .title,.section-title{background:url(../img/border-background.png) 0 bottom repeat-x;color:#000;font:italic bold 16px Georgia, Serif;margin-bottom:15px;}
-.home .section-title{margin-bottom:27px;}
-.sec .title span,.section-title span{background:#fff;padding-right:3px;position:relative;top:4px;}
-.content,.content p,.content ul,.content ol,.content pre,.content blockquote,.content dl,.content address,.content table{margin-bottom:12px;}
+.content p,.content ul,.content ol,.content pre,.content blockquote,.content dl,.content address,.content table{margin-bottom:10px;}
 .content blockquote{margin-top:12px;}
 .content th{text-align:left;}
 .content th,.content td{padding-right:5px;}
@@ -226,6 +220,6 @@ html.ie7 .authors .extra{top:15px;}
 .widget-recent-posts .nav .ui-tabs-selected a{color:#fff;}
 .widget-recent-posts .panel ol{background:url(../img/widget-hr.png) center bottom no-repeat;padding-bottom:16px;}
 .ui-tabs-hide{display:none;}
-.sec{overflow:hidden;}
-.ie6 .sec{width:100%;}
-.sec h1{border-bottom:1px solid #ddd;color:#000;font:italic bold 16px/1.2 Georgia,Serif;margin-bottom:15px;}
+.sec h1,.section-title{background:url(../img/border-background.png) 0 bottom repeat-x;color:#000;font:italic bold 16px/1.2 Georgia,Serif;margin-bottom:15px;}
+.home .section-title{margin-bottom:27px;}
+.sec h1 span,.section-title span{background:#fff;padding-right:3px;position:relative;top:4px;}
