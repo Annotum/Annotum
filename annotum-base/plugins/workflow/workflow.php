@@ -50,7 +50,7 @@ add_action('add_meta_boxes_article', 'annowf_meta_boxes');
  * Enqueue css for workflow
  */
 function annowf_css() {
-	wp_enqueue_style('anno-workflow', trailingslashit(get_bloginfo('stylesheet_directory')).'plugins/workflow/css/workflow.css');
+	wp_enqueue_style('anno-workflow', trailingslashit(get_bloginfo('template_directory')).'plugins/workflow/css/workflow.css');
 }
 add_action('admin_print_styles-post-new.php', 'annowf_css');
 add_action('admin_print_styles-post.php', 'annowf_css');
@@ -60,7 +60,7 @@ add_action('admin_print_styles-post.php', 'annowf_css');
  */
 function annowf_js() {
 	wp_enqueue_script('suggest');
-	wp_enqueue_script('anno-workflow', trailingslashit(get_bloginfo('stylesheet_directory')).'plugins/workflow/js/workflow.js', array('jquery', 'suggest'));
+	wp_enqueue_script('anno-workflow', trailingslashit(get_bloginfo('template_directory')).'plugins/workflow/js/workflow.js', array('jquery', 'suggest'));
 	
 	// Remove Auto-Save feature if a user cannot edit a post. *Note this prevents previewing inputted markup
 	if (!anno_user_can('edit_post')) {
