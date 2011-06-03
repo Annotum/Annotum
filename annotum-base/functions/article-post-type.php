@@ -117,7 +117,7 @@ function anno_dtd_meta_boxes() {
 	add_meta_box('abstract', __('Abstract', 'anno'), 'anno_abstract_meta_box', 'article', 'normal', 'high', $post);
 	add_meta_box('funding', __('Funding Statement', 'anno'), 'anno_funding_meta_box', 'article', 'normal', 'high', $post);
 	add_meta_box('acknowledgements', __('Acknowledgements', 'anno'), 'anno_acknowledgements_meta_box', 'article', 'normal', 'high', $post);
-	add_meta_box('appendix-a', __('Appendix A', 'anno'), 'anno_appendix_a_meta_box', 'article', 'normal', 'high', $post);
+	add_meta_box('appendicies', __('Appendicies', 'anno'), 'anno_appendicies_meta_box', 'article', 'normal', 'high', $post);
 }
 add_action('add_meta_boxes_article', 'anno_dtd_meta_boxes');
 
@@ -147,10 +147,6 @@ function anno_funding_meta_box($post) {
 
 function anno_acknowledgements_meta_box($post) {
 	echo 'acknowledgements';
-}
-
-function anno_appendix_a_meta_box($post) {
-	echo 'appendix a';
 }
 
 
