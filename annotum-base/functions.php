@@ -18,7 +18,7 @@ define('CFCT_PATH', trailingslashit(TEMPLATEPATH));
 define('ANNO_VER', '1.0');
 
 include_once(CFCT_PATH.'carrington-core/carrington.php');
-include_once(CFCT_PATH.'functions/post-types.php');
+include_once(CFCT_PATH.'functions/article-post-type.php');
 include_once(CFCT_PATH.'functions/taxonomies.php');
 include_once(CFCT_PATH.'functions/capabilities.php');
 include_once(CFCT_PATH.'functions/featured-articles.php');
@@ -155,5 +155,17 @@ add_filter('post_class', 'anno_post_class', 10, 2);
 function anno_is_valid_email($email) {
  return filter_var($email, FILTER_VALIDATE_EMAIL);
 }
+
+/**
+ * Function to limit front-end display of comments. 
+ * Wrap this filter around comments_template();
+ * 
+ * @todo Update to WP_Comment_Query filter when WP updates core to use non-hardcoded queries.
+ */
+function anno_internal_comments_query($query) {
+	$query = str_replace('WHERE', 'WHERE comment_type NOT IN (\'article_general\', \'article_review\') AND', $query);
+	return $query;
+}
+
 
 ?>

@@ -13,12 +13,13 @@ $anno_review_options = array(
  */
 function anno_internal_comments_add_meta_boxes() {
 	if (anno_user_can('view_general_comments')) {
-		add_meta_box('general-comment', __('Internal Comments', 'anno'), 'anno_internal_comments_general_comments', 'article', 'normal');
+		add_meta_box('general-comment', __('Internal Comments', 'anno'), 'anno_internal_comments_general_comments', 'article', 'advanced');
 	}
 	if (anno_user_can('view_review_comments')) {
-		add_meta_box('reviewer-comment', __('Reviews', 'anno'), 'anno_internal_comments_reviewer_comments', 'article', 'normal');
+		add_meta_box('reviewer-comment', __('Reviews', 'anno'), 'anno_internal_comments_reviewer_comments', 'article', 'advanced');
 	}
 }
+// We don't want to add them for new-posts
 add_action('admin_head-post.php', 'anno_internal_comments_add_meta_boxes');
 
 /**
@@ -411,17 +412,6 @@ function anno_internal_comments_get_comment_root($comment) {
 		}
 	}
 	return $comment;
-}
-
-/**
- * Function to limit front-end display of comments. 
- * Wrap this filter around comments_template();
- * 
- * @todo Update to WP_Comment_Query filter when WP updates core to use non-hardcoded queries.
- */
-function anno_internal_comments_query($query) {
-	$query = str_replace('WHERE', 'WHERE comment_type NOT IN (\'article_general\', \'article_review\') AND', $query);
-	return $query;
 }
 
 ?>

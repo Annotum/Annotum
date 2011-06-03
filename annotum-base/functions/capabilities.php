@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Remove default WP Roles, as they are not being used. Remove publishing abilities from editor
+ * Custom capabilities for workflow
  */ 
 function anno_remove_roles_and_capabilities() {
 	$wp_roles = new WP_Roles();

@@ -43,8 +43,8 @@ function annowf_meta_boxes() {
 	}
 	add_meta_box('anno-co-authors', __('Co-Authors', 'anno'), 'annowf_co_authors_meta_box', 'article', 'side', 'low');
 }
-add_action('admin_head-post.php', 'annowf_meta_boxes');
-add_action('admin_head-post-new.php', 'annowf_meta_boxes');
+
+add_action('add_meta_boxes_article', 'annowf_meta_boxes');
 
 /**
  * Enqueue css for workflow
