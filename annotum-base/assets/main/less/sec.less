@@ -1,14 +1,29 @@
 /* Content sections */
 .sec {
-	overflow: hidden;
+	margin-bottom: 25px;
+	margin-top: 25px;
+	padding-left: 15px;
+	padding-right: 15px;
 }
-.ie6 .sec {
-	/* Make sure overflow is cropped */
-	width: 100%;
-}
-.sec h1 {
-	border-bottom: 1px solid #ddd;
+.sec h1,
+.sec .title,
+.section-title {
+	background: url(../img/border-background.png) 0 bottom repeat-x;
 	color: #000;
 	font: italic bold 16px/1.2 Georgia, Serif;
 	margin-bottom: 15px;
+	margin-top: 25px;
+}
+.sec h1,
+.sec .title {
+	margin-left: -15px;
+	margin-right: -15px;
+}
+.sec h1 span,
+.sec .title span,
+.section-title span {
+	background: #fff;
+	padding-right: 3px;
+	position: relative;
+	top: 4px;
 }
