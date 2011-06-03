@@ -182,22 +182,17 @@ form.search .type-submit{background:url(../img/sprite-y.8bit.png) 0 -100px no-re
 .pagination .previous{float:left;}
 .pagination .next{float:right;}
 .page-title{color:#000;font:bold 28px Georgia, Serif;margin-bottom:5px;}
+.content h1,.content h2,.content h3,.content h4,.content h5,.content h6{line-height:1.2;margin-top:20px;margin-bottom:10px;}
+.content h1,.content h2{font-size:16px;}
+.content h3{font-size:14px;}
+.content h4,.content h5,.content h6{color:#777;font-size:11px;text-transform:uppercase;letter-spacing:0.09em;margin-bottom:3px;}
 .content p,.content ul,.content ol,.content pre,.content blockquote,.content dl,.content address,.content table{margin-bottom:10px;}
-.content blockquote{margin-top:12px;}
-.content th{text-align:left;}
-.content th,.content td{padding-right:5px;}
+.content blockquote{font:italic normal 18px/1.2 Georgia Serif;margin:10px;}
+.content blockquote cite{font-weight:bold;}
 .content dt{font-style:italic;font-weight:bold;}
 .content dd{margin-bottom:9px;}
-.content ul ul,.content ol ol,.content ul ol,.content ol ul{margin-bottom:0;}
-.content h1{font-size:22px;margin-bottom:12px;}
-.content h2{font-size:18px;margin-bottom:9px;}
-.content h3{font-size:16px;margin-bottom:6px;}
-.content h4,.content h5,.content h6{font-size:14px;margin-bottom:3px;}
-.content ul,.content ol,.content pre{margin-left:24px;}
-.content ul li{list-style:disc;}
-.content ol{list-style:decimal;}
-.content blockquote{font:italic normal 18px/1.2 Georgia Serif;margin-left:24px;margin-right:24px;}
-.content blockquote cite{font-weight:bold;}
+.content ul,.content ol{margin-left:2em;}
+.content li ul,.content li ol{margin-bottom:0;}
 .article-section-references .section-title{margin-bottom:16px;}
 .article-section-references ol{list-style:decimal;margin-left:35px;}
 .article-section-references li{margin-bottom:10px;}

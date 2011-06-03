@@ -10,6 +10,35 @@
 	margin-bottom: 5px;
 }
 
+/** @section Basic typography for .content areas
+ -------------------------------------------------- */
+.content h1,
+.content h2,
+.content h3,
+.content h4,
+.content h5,
+.content h6 {
+	line-height: 1.2;
+	margin-top: 20px;
+	margin-bottom: 10px;
+}
+.content h1,
+.content h2 {
+	font-size: 16px;
+}
+.content h3 {
+	font-size: 14px;
+}
+.content h4,
+.content h5,
+.content h6 {
+	color: #777;
+	font-size: 11px;
+	text-transform: uppercase;
+	letter-spacing: 0.09em;
+	margin-bottom: 3px;
+}
+
 /* In-content Styles */
 .content p,
 .content ul,
@@ -21,16 +50,15 @@
 .content table {
 	margin-bottom: 10px;
 }
+
 .content blockquote {
-	margin-top: 12px;
+	font: italic normal 18px/1.2 Georgia Serif;
+	margin: 10px;
 }
-.content th {
-	text-align: left;
+.content blockquote cite {
+	font-weight: bold;
 }
-.content th,
-.content td {
-	padding-right: 5px;
-}
+
 .content dt {
 	font-style: italic;
 	font-weight: bold;
@@ -39,50 +67,11 @@
 	margin-bottom: 9px;
 }
 
-.content ul ul,
-.content ol ol,
-.content ul ol,
-.content ol ul {
-	margin-bottom: 0;
-}
-
-.content h1 {
-	font-size: 22px;
-	margin-bottom: 12px;
-}
-.content h2 {
-	font-size: 18px;
-	margin-bottom: 9px;
-}
-.content h3 {
-	font-size: 16px;
-	margin-bottom: 6px;
-}
-.content h4,
-.content h5,
-.content h6 {
-	font-size: 14px;
-	margin-bottom: 3px;
-}
-
 .content ul,
-.content ol,
-.content pre {
-	margin-left: 24px;
-}
-
-.content ul li {
-	list-style: disc;
-}
 .content ol {
-	list-style: decimal;
+	margin-left: 2em;
 }
-
-.content blockquote {
-	font: italic normal 18px/1.2 Georgia Serif;
-	margin-left: 24px;
-	margin-right: 24px;
-}
-.content blockquote cite {
-	font-weight: bold;
+.content li ul,
+.content li ol {
+	margin-bottom: 0;
 }
