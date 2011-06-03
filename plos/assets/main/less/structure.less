@@ -8,6 +8,7 @@ body {
 	background: #2a2822;
 	height: 75px;
 }
+
 #header .navigation {
 	/**
 	 * @workaround min-height Fast Hack
@@ -22,7 +23,7 @@ body {
 	height: 37px;
 	min-height: 37px;
 	
-	background: url(../img/sprite-y.8bit.png) 0 -100px repeat-x;
+	background: #a2220f url(../img/navigation-background.png) 0 bottom repeat-x;
 }
 #header #site-name {
 	padding-top: 11px;
@@ -39,14 +40,31 @@ body {
 #header #site-nav {
 	background: none;
 	line-height: 22px;
+	padding-right: 200px;
 }
 #header #site-nav li {
-	border: 0;
+	/**
+	 * @workaround min-height Fast Hack
+	 *
+	 * IE6 doesn't support min-height, but treats elements with
+	 * height and overflow:visible as min-height.
+	 *
+	 * @affected IE5, IE6
+	 * @see http://www.dustindiaz.com/min-height-fast-hack/
+	 */
+	height: auto !important;
 	height: 37px;
+	min-height: 37px;
+	
+	border: 0;
+	margin-right: 24px;
+}
+#header #site-nav li li {
+	height: auto;
+	margin: 0;
 }
 #header #site-nav li a {
 	color: #f1e9d0;
-	margin-right: 24px;
 	padding-left: 0;
 	padding-right: 0;
 	text-shadow: 0 -1px 0 rgba(0, 0 , 0, .4);
@@ -55,7 +73,8 @@ body {
 	background-color: #8b170a;
 	border: #580301 solid 1px;
 	border-top: 0;
-	left: -10px;
+	left: -11px;
+	padding-bottom: 5px;
 	top: 36px;
 }
 #header #site-nav li li a {

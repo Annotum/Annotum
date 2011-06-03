@@ -3,13 +3,14 @@ a{color:#a2220f;}
 html{min-width:960px;}
 body{background:url(../img/body-background.png) center 0 repeat-y;}
 #header .header-body{background:#2a2822;height:75px;}
-#header .navigation{height:auto !important;height:37px;min-height:37px;background:url(../img/sprite-y.8bit.png) 0 -100px repeat-x;}
+#header .navigation{height:auto !important;height:37px;min-height:37px;background:#a2220f url(../img/navigation-background.png) 0 bottom repeat-x;}
 #header #site-name{padding-top:11px;}
 #header #site-name a{background:url(../img/sprite-y.8bit.png) 0 0 no-repeat;display:block;height:52px;overflow:hidden;text-indent:-1000px;text-decoration:none;width:148px;}
-#header #site-nav{background:none;line-height:22px;}
-#header #site-nav li{border:0;height:37px;}
-#header #site-nav li a{color:#f1e9d0;margin-right:24px;padding-left:0;padding-right:0;text-shadow:0 -1px 0 rgba(0, 0, 0, 0.4);}
-#header #site-nav li ul{background-color:#8b170a;border:#580301 solid 1px;border-top:0;left:-10px;top:36px;}
+#header #site-nav{background:none;line-height:22px;padding-right:200px;}
+#header #site-nav li{height:auto !important;height:37px;min-height:37px;border:0;margin-right:24px;}
+#header #site-nav li li{height:auto;margin:0;}
+#header #site-nav li a{color:#f1e9d0;padding-left:0;padding-right:0;text-shadow:0 -1px 0 rgba(0, 0, 0, 0.4);}
+#header #site-nav li ul{background-color:#8b170a;border:#580301 solid 1px;border-top:0;left:-11px;padding-bottom:5px;top:36px;}
 #header #site-nav li li a{background:none;margin:0;padding:5px 10px;}
 #header #secondary-nav{font-size:11px;}
 #header #secondary-nav .nav{bottom:4px;}
@@ -21,7 +22,7 @@ body{background:url(../img/body-background.png) center 0 repeat-y;}
 #footer a{color:#aaa9a7;}
 #footer .in{border:0;}
 .page-title{color:#000;font:normal 28px Helvetica,Arial,sans-serif;margin-bottom:5px;}
-.section-title,.sec h1{background:url(../img/sprite-y.8bit.png) 0 -499px no-repeat;border:0;color:#a29674;font:bold 11px/12px Helvetica,Arial,sans-serif;font-style:normal;letter-spacing:1px;margin-bottom:14px;padding-left:9px;text-transform:uppercase;zoom:1;}
+.section-title,h1.section-title,.sec h1{background:url(../img/sprite-y.8bit.png) 0 -499px no-repeat;border:0;color:#a29674;font:bold 11px/12px Helvetica,Arial,sans-serif;font-style:normal;letter-spacing:1px;margin-bottom:14px;padding-left:9px;text-transform:uppercase;zoom:1;}
 html.ie6 .section-title{background-position:0 -498px;}
 .home .section-title{margin-bottom:27px;}
 .section-title span{background:none;padding:0;position:static;}
@@ -38,11 +39,10 @@ html.ie6 .section-title{background-position:0 -498px;}
 .post-teaser-item{background:none;padding-bottom:7px;padding-right:7px;padding-top:7px;}
 .post-teaser-item .content{font:normal 16px/1.5 Helvetica,Arial,sans-serif;}
 .post-teaser-item .content a{color:#A2220F;text-shadow:none;}
-form.search{margin:6px 0 0;width:200px;}
 form.search input.type-text{-moz-border-radius:2px;-webkit-border-radius:2px;-khtml-border-radius:2px;border-radius:2px;background:#f5f2e9;border:0;color:#999;padding-top:4px;padding-bottom:4px;}
 form.search{position:relative;}
-form.search .type-submit{background:url(../img/sprite-y.8bit.png) 0 -200px no-repeat;right:10px;}
-#site-nav .search{float:right;}
+form.search .type-submit{background:url(../img/sprite-y.8bit.png) 0 -200px no-repeat;right:3px;}
+#site-nav .search{right:0;top:7px;}
 .callouts{border-bottom:#afa27d solid 1px;padding-bottom:31px;margin-bottom:28px;}
 .callouts li{margin-left:26px;}
 .callout-item{-moz-border-radius:4px;-webkit-border-radius:4px;-khtml-border-radius:4px;border-radius:4px;background:#ebe6d5;border:#e4d7b0 solid 1px;padding:15px 15px 0;}
@@ -110,4 +110,5 @@ form.search .type-submit{background:url(../img/sprite-y.8bit.png) 0 -200px no-re
 #comments-container .section-title,#reply .section-title{background:none;font-size:15px;letter-spacing:0;padding:0;text-transform:none;}
 #comments-container .section-header{border-bottom:#d7d1bf solid 1px;margin:0 0 17px;padding:0 0 12px;}
 #comments-container .section-header a{font-size:11px;top:-2px;}
-#reply button{background:url(../img/sprite-y.8bit.png) 0 -800px no-repeat;height:28px;overflow:hidden;text-indent:-1000px;width:95px;}
+#reply label{color:#b9b195;}
+#reply button{background:url(../img/sprite-y.8bit.png) 0 -800px no-repeat;display:block;height:28px;overflow:hidden;text-indent:-1000px;width:95px;}

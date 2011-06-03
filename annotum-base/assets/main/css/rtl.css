@@ -56,7 +56,6 @@ html.ie6 form.search .type-submit {
 }
 #main-sidebar,
 #masthead-sidebar {
-	float: left;
 	margin-right: 30px;
 }
 .section-title span {
@@ -66,7 +65,7 @@ html.ie6 form.search .type-submit {
 .content ol,
 .content pre {
 	margin-left: 0;
-	margin-right: 2em;
+	margin-right: 24px;
 }
 .article .header .sec .authors li {
 	float: right;
