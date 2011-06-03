@@ -192,7 +192,8 @@ form.search .type-submit{background:url(../img/sprite-y.8bit.png) 0 -100px no-re
 .content dt{font-style:italic;font-weight:bold;}
 .content dd{margin-bottom:9px;}
 .content ul,.content ol{margin-left:2em;}
-.content li ul,.content li ol{margin-bottom:0;}
+.content li{margin-bottom:5px;}
+.content li ul,.content li ol{margin-top:5px;margin-bottom:0;}
 .article-section-references .section-title{margin-bottom:16px;}
 .article-section-references ol{list-style:decimal;margin-left:35px;}
 .article-section-references li{margin-bottom:10px;}
