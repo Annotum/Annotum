@@ -724,6 +724,8 @@ function annowf_get_post_id() {
 	return intval($post_id);
 }
 function annowf_get_sample_permalink_html($return, $id, $new_title, $new_slug) {
+//echo $return;
+//return $return;
 	if (anno_user_can('edit_post')) {
 		return $return;
 	}
