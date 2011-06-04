@@ -93,7 +93,8 @@ form.search .type-submit{background:url(../img/sprite-y.8bit.png) 0 -100px no-re
 .article .header .meta{color:#666;font:italic 13px/1.5384 Georgia,Serif;margin:0 15px 15px;}
 .article .header .meta a:link{color:#666;}
 .article .header .meta a:hover{color:#006b94;text-decoration:none;}
-.article .article-section .subtitle{font-size:14px;font-weight:bold;}
+.article .entry-content{padding:0 15px;}
+.article .entry-content .sec{padding-left:0;padding-right:0;}
 .article .supplement{background:#f6f6f6;border-bottom:#dadada solid 1px;border-top:#dadada solid 1px;margin-left:15px;margin-right:15px;position:relative;}
 .article .to-top{text-align:right;}
 .article .to-top a{background:#006B94;color:#fff;font-weight:bold;padding:4px 8px;}

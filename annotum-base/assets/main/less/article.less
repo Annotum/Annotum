@@ -19,6 +19,7 @@
 	margin-bottom: 10px;
 }
 
+
 /** @section Header
  -------------------------------------------------- */
 .article .header {
@@ -50,9 +51,14 @@
 /** @section Content Area
  -------------------------------------------------- */
 
-.article .article-section .subtitle {
-	font-size: 14px;
-	font-weight: bold;
+.article .entry-content {
+	padding: 0 15px;
+}
+/* Remove padding from .secs in favor of the padding provided
+by .entry-content */
+.article .entry-content .sec {
+	padding-left: 0;
+	padding-right: 0;
 }
 
 /* Supplement Styles */
