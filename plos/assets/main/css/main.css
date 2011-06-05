@@ -48,7 +48,7 @@ form.search .type-submit{background:url(../img/sprite-y.8bit.png) 0 -200px no-re
 .callout-item .title{font:normal 18px Helvetica,Arial,sans-serif;}
 .callout-item .content{font-size:14px;line-height:1.43;margin-bottom:15px;}
 .article .header{margin-bottom:17px;}
-.article .header .meta{color:#A29674;font:bold 11px Helvetica,Arial,sans-serif;letter-spacing:1px;text-transform:uppercase;}
+.article .header .meta{color:#A29674;font:bold 11px Helvetica,Arial,sans-serif;letter-spacing:1px;margin-left:0;margin-right:0;text-transform:uppercase;}
 .article .header .meta a:link{color:#A29674;}
 .article .header .meta a:hover{color:#A2220F;text-decoration:none;}
 .article .article-section .content{margin:0;}
@@ -59,6 +59,7 @@ form.search .type-submit{background:url(../img/sprite-y.8bit.png) 0 -200px no-re
 .article .to-top{text-align:right;}
 .article .to-top a{background:url(../img/sprite-y.8bit.png) 0 -700px no-repeat;color:#F1E9D0;display:inline-block;font:bold 11px/1 Helvetica,Arial,sans-serif;letter-spacing:1px;padding:0 0 0 4px;text-transform:uppercase;}
 .article .to-top a span{background:url(../img/sprite-y.8bit.png) right -600px no-repeat;display:block;padding:5px 18px 3px 7px;}
+.article .entry-content{padding-left:0;padding-right:0;}
 .article-excerpt{border:0;margin-bottom:0;padding-bottom:0;}
 .article-excerpt .header{margin-bottom:8px;}
 .article-excerpt .header .entry-title .title{font:normal 18px Helvetica,Arial,sans-serif;margin-bottom:8px;}
@@ -112,8 +113,6 @@ form.search .type-submit{background:url(../img/sprite-y.8bit.png) 0 -200px no-re
 #comments-container .section-header a{font-size:11px;top:-2px;}
 #reply label{color:#b9b195;}
 #reply button{background:url(../img/sprite-y.8bit.png) 0 -800px no-repeat;display:block;height:28px;overflow:hidden;text-indent:-1000px;width:95px;}
-.sec h1,.sec .title{margin-left:-15px;margin-right:-15px;margin-top:25px;}
-.sec h1:first-child,.sec .title:first-child{margin-top:0;}
 .sec h1,.sec .title,.section-title{background:url(../img/sprite-y.8bit.png) 0 -499px no-repeat;border:0;color:#a29674;font:bold 11px/12px Helvetica,Arial,sans-serif;font-style:normal;letter-spacing:1px;margin-bottom:14px;margin-left:0;margin-right:0;padding-left:9px;text-transform:uppercase;zoom:1;}
 .sec h1 span,.sec .title span,.section-title span{background:none;padding-right:0;position:static;}
 .sec{padding-left:0;padding-right:0;}
