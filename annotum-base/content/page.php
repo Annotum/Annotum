@@ -19,10 +19,8 @@ if (CFCT_DEBUG) { cfct_banner(__FILE__); }
 	</header>
 	<div class="content">
 		<?php
-
 		the_content(); 
 		wp_link_pages();
-
 		?>
 	</div><!--/content-->
 </article>
