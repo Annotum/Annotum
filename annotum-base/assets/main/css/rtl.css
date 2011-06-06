@@ -84,9 +84,9 @@ html.ie6 form.search .type-submit {
 	clear: right;
 	float: right;
 }
-.article-section-references ol {
+.article-full .references ol {
 	margin-left: 0;
-	margin-right: 35px;
+	margin-right: 2em;
 }
 
 #replies .section-header a {
