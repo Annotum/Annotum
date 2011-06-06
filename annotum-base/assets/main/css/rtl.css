@@ -69,37 +69,41 @@ html.ie6 form.search .type-submit {
 	margin-left: 0;
 	margin-right: 24px;
 }
-.article .header .sec .authors li {
+.article-full .header .sec .authors li {
 	float: right;
 	margin-left: 10px;
 	margin-right: 0;
 }
-.article .to-top {
+.article-full .to-top {
 	text-align: left;
 }
-.article .to-top a {
+.article-full .to-top a {
 	zoom: 1;
+}
+.article-full .footer dl.kv dt {
+	clear: right;
+	float: right;
 }
 .article-section-references ol {
 	margin-left: 0;
 	margin-right: 35px;
 }
 
-#comments-container .section-header a {
+#replies .section-header a {
 	left: 0;
 	right: auto;
 }
-#comments-container .reply-list .comment {
+#replies .reply-list .comment {
 	padding-left: 0;
 	padding-right: 180px;
 }
-#comments-container .reply-list .comment .header {
+#replies .reply-list .comment .header {
 	left: auto;
 	padding-left: 0;
 	padding-right: 46px;
 	right: 0;
 }
-#comments-container .reply-list .comment .header img {
+#replies .reply-list .comment .header img {
 	left: auto;
 	right: 0;
 }
@@ -113,11 +117,11 @@ html.ie6 form.search .type-submit {
 	margin-right: 0;
 }
 
-#reply .input-row {
+#response .input-row {
 	padding-left: 0;
 	padding-right: 180px;
 }
-#reply .input-row label {
+#response .input-row label {
 	left: auto;
 	right: 0;
 }

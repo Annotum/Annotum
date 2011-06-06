@@ -15,6 +15,13 @@ if (CFCT_DEBUG) { cfct_banner(__FILE__); }
 ?>
 
 <div id="sidebar">
-	<?php cfct_misc('widget-recent-posts'); ?>
-	<?php dynamic_sidebar('default') ?>
+	<?php
+	$sidebar = 'default';
+	if (is_page()) {
+		$sidebar = 'sidebar-page';
+	}
+	else if (get_post_type() == 'article') {
+		$sidebar = 'sidebar-article';
+	}
+	dynamic_sidebar($sidebar); ?>
 </div><!--#sidebar-->
