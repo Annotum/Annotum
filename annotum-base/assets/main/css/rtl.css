@@ -107,6 +107,11 @@ html.ie6 form.search .type-submit {
 	left: auto;
 	right: 0;
 }
+.reply-list .children .li-comment {
+	padding-left: 0;
+	padding-right: 20px;
+}
+
 .widget-recent-posts .nav {
 	padding-left: 0;
 	padding-right: 20px;
