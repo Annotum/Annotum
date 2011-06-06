@@ -67,6 +67,9 @@ html.ie6 form.search .type-submit {
 	float: right;
 	margin-right: 0;
 }
+#masthead-body {
+	margin-left: 30px;
+}
 #main-sidebar,
 #masthead-sidebar {
 	margin-right: 30px;
