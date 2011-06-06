@@ -11,8 +11,6 @@
  */
 if (__FILE__ == $_SERVER['SCRIPT_FILENAME']) { die(); }
 
-load_theme_textdomain('anno');
-
 define('CFCT_DEBUG', false);
 define('CFCT_PATH', trailingslashit(TEMPLATEPATH));
 define('ANNO_VER', '1.0');
@@ -27,6 +25,16 @@ include_once(CFCT_PATH.'functions/template-tags.php');
 include_once(CFCT_PATH.'plugins/load.php');
 
 function anno_setup() {
+	$path = trailingslashit(TEMPLATEPATH);
+
+	// i18n support
+	load_theme_textdomain('anno', $path . 'languages');
+	$locale = get_locale();
+	$locale_file = $path . '/languages/' . $locale . '.php';
+	if ( is_readable( $locale_file ) ) {
+		require_once( $locale_file );
+	}
+	
 	add_theme_support('automatic-feed-links');
 	add_theme_support('post-thumbnails', array( 'article' ) );
 	add_image_size( 'post-excerpt', 140, 120, true);

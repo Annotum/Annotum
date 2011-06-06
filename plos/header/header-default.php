@@ -39,8 +39,8 @@ if (CFCT_DEBUG) { cfct_banner(__FILE__); }
 			);
 			wp_nav_menu($args);
 			?>
-			</nav>	
-		</div>		
+			</nav>
+		</div>
 	</div>
 	<div class="navigation">
 		<div class="in">
@@ -54,7 +54,7 @@ if (CFCT_DEBUG) { cfct_banner(__FILE__); }
 			wp_nav_menu($args);
 			cfct_form('search');
 			?>
-			</nav>				
+			</nav>
 		</div>
 	</div>
 </header>

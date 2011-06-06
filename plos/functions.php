@@ -1,4 +1,15 @@
 <?php
+/**
+ * @package plos
+ * This file is part of the Plos theme for WordPress
+ * Built on the Carrington theme framework <http://carringtontheme.com>
+ *
+ * Copyright 2008-2010 Crowd Favorite, Ltd. All rights reserved. <http://crowdfavorite.com>
+ * Released under the GPL license
+ * http://www.opensource.org/licenses/gpl-license.php
+ */
+if (__FILE__ == $_SERVER['SCRIPT_FILENAME']) { die(); }
+
 function plos_setup() {
 	add_action('wp_head', 'plos_css3_pie', 8);
 }
