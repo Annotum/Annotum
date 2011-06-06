@@ -56,7 +56,7 @@ dl.kv dd{margin-bottom:8px;}
 #main-sidebar,#masthead-sidebar{float:left;overflow:hidden;width:300px;}
 #site-name{font-size:36px;font-weight:normal;line-height:1.2;padding:36px 0 7px 0;text-shadow:rgba(0, 0, 0, 0.8) 0 1px 0;}
 #site-nav{background:#66a6bf;font-weight:bold;font-size:14px;height:34px;}
-#site-nav .nav{float:left;}
+#site-nav .nav{display:inline;float:left;}
 #site-nav li{border-color:#006b94;border-style:solid;border-right-width:1px;color:#66A6BF;position:relative;}
 #site-nav li ul{display:none;position:absolute;width:150px;z-index:1000;}
 #site-nav li li{border:none;float:none;}

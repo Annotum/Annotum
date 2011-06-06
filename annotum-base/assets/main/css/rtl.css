@@ -29,6 +29,17 @@ html.ie6 form.search .type-submit {
 #site-nav .nav {
 	float: right;
 }
+/**
+ * @bugfix RTL floating bug
+ * Fix a bizzarro bug wherein IE6 actually floats the menu right, though left is
+ * is specified. If you do float it right, all content inside disappears and is
+ * unresponsive to traditional fixes like the Peekaboo fix.
+ * @affected IE6
+ * @valid yes
+ */
+.ie6 #site-nav .nav {
+	float: left;
+}
 #site-nav li {
 	border-right: 0;
 	border-left-width: 1px;
