@@ -38,9 +38,10 @@
 	top: 0;
 }
 #comments-container .section-title,
-#reply .section-title {
+#respond #reply-title {
 	background: none;
-	font-size: 15px;
+	color: #A29674;
+	font: bold 15px Helvetica, Arial, sans-serif;
 	letter-spacing: 0;
 	padding: 0;
 	text-transform: none;
@@ -54,14 +55,18 @@
 	font-size: 11px;
 	top: -2px;
 }
-#reply label {
+#respond label {
 	color: #b9b195;
 }
-#reply button {
+#respond #submit {
+	-moz-border-radius: 3px; /* FF1+ */
+	-webkit-border-radius: 3px; /* Saf3+, Chrome */
+	-khtml-border-radius: 3px; /* Konqueror */
+	border-radius: 3px; /* Standard. IE9 */
+	
 	background: url(../img/sprite-y.8bit.png) 0 -800px no-repeat;
-	display: block;
+	border: #a29674 solid 1px;
+	font-size: 14px;
 	height: 28px;
-	overflow: hidden;
-	text-indent: -1000px;
-	width: 95px;
+	line-height: 14px;
 }

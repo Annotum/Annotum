@@ -15,7 +15,7 @@ if (CFCT_DEBUG) { cfct_banner(__FILE__); }
 ?>
 <?php //cfct_misc('tools-nav'); ?>
 
-<article <?php post_class('article'); ?>>
+<article <?php post_class('article-full'); ?>>
 	<header class="header">
 		<div class="entry-title">
 			<h1 class="title"><a rel="bookmark" href="<?php the_permalink() ?>"><?php the_title(); ?></a></h1>

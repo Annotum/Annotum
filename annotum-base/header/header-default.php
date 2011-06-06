@@ -68,11 +68,8 @@ if (CFCT_DEBUG) { cfct_banner(__FILE__); }
 					$featured->render();
 					?>
 				</div><!-- #masthead-body -->
-				<div id="masthead-sidebar">
-					<?php
-					$teasers = new Anno_Teaser_Articles();
-					$teasers->render();
-					?>
+				<div class="teasers">
+					<?php dynamic_sidebar('masthead'); ?>
 				</div><!-- #masthead-sidebar -->
 			</div>
 		</div><!-- #masthead -->

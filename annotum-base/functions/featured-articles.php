@@ -90,39 +90,4 @@ class Anno_Featured_Articles extends Anno_Cacheer {
 		}
 	}
 }
-
-class Anno_Teaser_Articles extends Anno_Featured_Articles {
-	public $number = 3;
-	
-	public function cached() {
-		$this->clear_caches();
-		$q = $this->modify_query();
-
-		if ($q->have_posts()) { ?>
-<div id="home-featured" class="post-teasers">
-		<ul>
-			<?php
-			while ($q->have_posts()) {
-				$q->the_post(); ?>
-			<li>
-				<div <?php post_class('post-teaser-item'); ?>>
-					<?php the_post_thumbnail('post-teaser'); ?>
-					<h2 class="title"><a href="<?php the_permalink() ?>"><?php the_title(); ?></a></h2>
-					<div class="content">
-						<?php the_title(); ?>
-					</div>
-				</div>
-			</li>
-			<?php
-				// Store ID of shown item. Make sure it doesn't get shown twice!
-				self::$already_shown[] = get_the_ID();
-			}
-			?>
-		</ul>
-</div>
-			<?php
-			wp_reset_postdata();
-		}
-	}
-}
 ?>

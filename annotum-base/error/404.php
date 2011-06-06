@@ -15,8 +15,8 @@ if (CFCT_DEBUG) { cfct_banner(__FILE__); }
 get_header();?>
 
 <div id="main-body" class="clearfix">
-	<h1 class="section-title">Page Not Found</h1>
-	<?php _e('Sorry, we\'re not sure what you\'re looking for here.', 'anno'); ?> 
+	<h1 class="section-title"><span><?php _e('Page Not Found', 'anno') ?></span></h1>
+	<?php _e('Sorry, we&rsquo;re not sure what you&rsquo;re looking for here.', 'anno'); ?> 
 </div><!-- #main-content -->
 <div id="main-sidebar" class="clearfix">
 	<?php get_sidebar(); ?>
