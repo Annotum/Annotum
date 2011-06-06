@@ -1,20 +1,24 @@
-#comments-container .reply-list {
+#replies .reply-list {
 	padding-bottom: 15px;
 }
-#comments-container .reply-list .comment,
-#comments-container .reply-list .ping {
-	border-color: #d7d1bf;
+#replies .reply-list .comment,
+#replies .reply-list .ping {
+	border-top: #d7d1bf solid 1px;
 	padding: 15px 0 0;
 	margin: 15px 0 0;
 	position: static;
 }
-#comments-container .reply-list li:first-child .comment,
-#comments-container .reply-list li:first-child .ping {
+#replies .reply-list li:first-child .comment,
+#replies .reply-list li:first-child .ping {
 	border: 0;
 	padding-top: 0;
 }
-#comments-container .reply-list .comment .header {
-
+#replies .reply-list li li:first-child .comment,
+#replies .reply-list li li:first-child .ping {
+	border-top: #d7d1bf solid 1px;
+	padding-top: 15px;
+}
+#replies .reply-list .comment .header {
 	height: auto;
 	min-height: auto;
 
@@ -23,13 +27,13 @@
 	padding: 0;
 	width: auto;
 }
-#comments-container .reply-list .comment .header .title {
+#replies .reply-list .comment .header .title {
 	font-weight: bold;	
 }
-#comments-container .reply-list .comment .header .title a {
+#replies .reply-list .comment .header .title a {
 	color: #A2220F;
 }
-#comments-container .reply-list .comment .header .published {
+#replies .reply-list .comment .header .published {
 	color: #666;
 	font-size: 12px;
 	font-style: italic;
@@ -37,7 +41,7 @@
 	right: 0;
 	top: 0;
 }
-#comments-container .section-title,
+#replies .section-title,
 #respond #reply-title {
 	background: none;
 	color: #A29674;
@@ -46,12 +50,12 @@
 	padding: 0;
 	text-transform: none;
 }
-#comments-container .section-header {
+#replies .section-header {
 	border-bottom: #d7d1bf solid 1px;
 	margin: 0 0 17px;
 	padding: 0 0 12px;
 }
-#comments-container .section-header a {
+#replies .section-header a {
 	font-size: 11px;
 	top: -2px;
 }
