@@ -55,10 +55,10 @@ form.search .type-submit {
 	background-position: right -893px;
 }
 
-.article .sec h1,
-.article .sec .title,
-.article .section-title,
-.article .tools-nav .tools-menu-item .title {
+.article-full .sec h1,
+.article-full .sec .title,
+.article-full .section-title,
+.article-full .tools-nav .tools-menu-item .title {
 	background-position: right -999px;
 	padding-right: 9px;
 }
@@ -73,13 +73,17 @@ html.ie6 .tools-nav .tools-menu-item .title {
 	background-image: url(../img/tools-content-background.png);
 }
 
-#comments-container .reply-list .comment {
+#replies .section-header a {
+	left: 0;
+	right: auto;
+}
+#replies .reply-list .comment {
 	padding: 0;
 }
-#comments-container .reply-list .comment .header {
+#replies .reply-list .comment .header {
 	padding: 0;
 }
-#comments-container .reply-list .comment .header .published {
+#replies .reply-list .comment .header .published {
 	right: auto;
 	left: 0;
 }
