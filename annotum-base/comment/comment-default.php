@@ -16,13 +16,15 @@ global $comment, $post;
 // Extract data passed in from threaded.php for comment reply link
 extract($data);
 ?>
-<article <?php comment_class('article'); ?> id="comment-<?php comment_ID(); ?>">
-	<?php if ($comment->comment_approved == '0') {
-		_e('Your comment is awaiting moderation.', 'anno');
-	} ?>
+<article <?php comment_class('reply'); ?> id="comment-<?php comment_ID(); ?>">
 	<?php cfct_template_file('comment', 'comment-header'); ?>
 	<div class="content">
-			<?php comment_text(); ?>
+		<?php
+		if ($comment->comment_approved == '0') {
+			echo '<p><b>'.__('Your comment is awaiting moderation.', 'anno').'</b></p>';
+		}
+		comment_text();
+		?>
 	</div><!-- .content -->
 	<div class="footer">
 		<?php 

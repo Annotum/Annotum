@@ -1,9 +1,17 @@
 .article-excerpt {
+	background: transparent;
 	border-bottom: #ccc solid 1px;
 	margin-bottom: 27px;
 	padding-bottom: 15px;
-	overflow: hidden;
+	overflow:  hidden;
+	zoom: 1;
+	/**
+	 * @workaround fix width in IE6 to prevent content from growing
+	 * @affected ie6
+	 */
+	width: 100%;
 }
+
 .article-excerpt .header .title {
 	font: bold 18px Georgia, Serif;
 	margin-bottom: 5px;
@@ -16,7 +24,8 @@
 .article-excerpt .sep {
 	padding: 0 2px;
 }
-.article-excerpt-container .has-featured-image .content {
+
+.article-excerpt-has-featured-image .content {
 	/**
 	 * @workaround min-height Fast Hack
 	 *
@@ -38,7 +47,7 @@
 	padding-left: 155px;
 	zoom: 1;
 }
-.article-excerpt-container .has-featured-image img {
+.article-excerpt-has-featured-image img {
 	left: 0;
 	position: absolute;
 	top: 2px;

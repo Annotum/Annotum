@@ -35,22 +35,22 @@ if (CFCT_DEBUG) { cfct_banner(__FILE__); }
 			</ul>
 		</div>
 	</header>
-	<div class="content">
-		<section class="abstract sec">
-			<h1><span><?php _e('Abstract', 'anno'); ?></span></h1>
-			<div class="entry-summary"><?php the_excerpt(); ?></div>
-		</section><!--/.abstract-->
-		<div class="entry-content">
+	<div class="main">
+		<div class="content entry-content">
 			<?php
 			the_content(__('Continued&hellip;', 'anno'));
 			wp_link_pages();
 			?>
-		</div><!--/.entry-content-->
-	</div><!--/.content-->
-	<?php cfct_misc('article-references'); ?>
+		</div><!--/.content-->
+
+		<?php cfct_misc('article-references'); ?>
+	</div><!--/.main-->
 	<footer class="footer">
-		<?php
-		the_tags('<strong>Tags:</strong> ', ' <span class="sep">&middot;</span> ', '');
-		?>
+		<dl class="kv">
+			<dt><?php _e('Citation', 'anno'); ?>:</dt>
+			<dd><textarea class="entry-summary" readonly><?php anno_excerpt_text(); ?></textarea></dd>
+			
+			<?php the_tags('<dt>Tags:</dt> <dd class="tags">', ' <span class="sep">&middot;</span> ', '</dd>'); ?>
+		</dl>
 	</footer><!--/.footer-->
 </article>

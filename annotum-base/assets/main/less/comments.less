@@ -1,53 +1,49 @@
-#comments-container {
+#replies {
 	margin-bottom: 22px;
+	/**
+	 * @workaround crop overflow and fix width, so comments
+	 * don't break layout.
+	 * @affected ie6
+	 * @valid yes
+	 */
+	overflow: hidden;
+	width: 100%;
 }
-#comments-container .section-header {
+#replies .section-header {
 	position: relative;
 }
-#comments-container .section-header a {
+#replies .section-header a {
 	position: absolute;
 	right: 0;
 	top: 0;
 }
 
-#comments-container .section-title {
-	background: none;
-	margin-bottom: 6px;
-}
-
-#comments-container .reply-list {
+.reply-list {
 	border-bottom: 1px #ccc solid;
 	margin: 0 0 18px;
 	padding: 0;
 }
-#comments-container .reply-list li {
+.reply-list li {
 	list-style: none;
 	margin: 0;
 	padding: 0;
 }
-#comments-container .reply-list .comment,
-#comments-container .reply-list .ping {
+.comment,
+.ping {
 	border-top: 1px #ccc solid;
 	padding: 14px 0;
 
 }
-#comments-container .reply-list .comment {
-	margin-bottom: 15px;
+.comment {
 	padding-left: 180px;
 	position: relative;
 	zoom: 1; /* fix absolute positioning of gravatar and heading information in ie6 */
 }
 
-#comments-container .reply-list .comment ul li {
-	list-style-type: disc;
+.reply-list .children .li-comment {
+	padding-left: 20px;
 }
-#comments-container .reply-list .comment ol li {
-	list-style-type: decimal;
-}
-#comments-container .reply-list .children .li-comment {
-	padding-left: 40px;
-}
-#comments-container .reply-list .comment .header {
+.comment .header {
 	/**
 	 * @workaround min-height Fast Hack
 	 *
@@ -68,74 +64,85 @@
 	width: 134px;
 }
 
-#comments-container .reply-list .comment .header img {
+.comment .header img {
 	left: 0;
 	position: absolute;
 	top: 0;
 }
-#comments-container .reply-list .comment .header .title,
-#comments-container .reply-list .comment .header .published {
+.comment .header .title,
+.comment .header .published {
 	font: normal 13px Arial, Helvetica, Sans-Serif;
 	margin: 0;
 }
-#comments-container .reply-list .comment .header .title {
+.comment .header .title {
 	margin: 0;
 }
-#comments-container .reply-list .comment .content {
+.comment .content {
 	font-size: 13px;
-	line-height: 1.38;
+	line-height: 1.3847;
+	margin-bottom: 10px;
 }
 
-#comments-container .reply-list .comment .footer {
+.comment .footer {
+	font-size: 11px;
+}
+
+.ping {
 	font-size: 12px;
 }
 
-
-#reply {
+#respond {
 	color: #666;
 	width: 627px;
 }
-#reply .section-title {
-	background: none;
-	margin-bottom: 16px;
+#reply-title {
+	color: #000;
+	font: italic bold 16px/1.2 Georgia, Serif;
+	margin-bottom: 15px;
 }
-#reply .logged-in {
+#respond .logged-in {
 	margin-bottom: 12px;
 }
-#reply .input-row {
+#respond .row,
+#respond .form-submit {
 	display: inline-block;
 	margin-bottom: 10px;
 	padding-left: 180px;
 	position: relative;
 }
-#reply .input-row-submit {
+#respond .row-submit {
 	background: none;
 }
-#reply .input-row label {
+#respond .row label {
 	font-size: 14px;
+	line-height: 30px;
 	left: 0;
 	position: absolute;
 	top: 0;
 	width: 172px;
 }
-#reply .input-row .text,
-#reply .input-row textarea {
+#respond .row .type-text,
+#respond .row textarea {
 	background: #fff;
 	border: 1px #999 solid;
 	font-size: 14px;
 	padding: 6px;
 }
-#reply .input-row .text {
+#respond .row .type-text {
 	width: 206px;
 }
-#reply .input-row textarea {
+textarea#comment {
 	display: block;
+	height: 80px;
 	width: 433px;
 }
-#reply button {
+#submit {
+	background: #006b94;
 	border: 0;
 	color: #fff;
 	font-size: 16px;
 	font-weight: bold;
-	height: 31px;
+	line-height: 20px;
+	height: 30px;
+	padding: 5px 10px;
 }

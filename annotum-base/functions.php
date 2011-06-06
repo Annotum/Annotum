@@ -11,8 +11,6 @@
  */
 if (__FILE__ == $_SERVER['SCRIPT_FILENAME']) { die(); }
 
-load_theme_textdomain('anno');
-
 define('CFCT_DEBUG', false);
 define('CFCT_PATH', trailingslashit(TEMPLATEPATH));
 define('ANNO_VER', '1.0');
@@ -27,8 +25,18 @@ include_once(CFCT_PATH.'functions/template-tags.php');
 include_once(CFCT_PATH.'plugins/load.php');
 
 function anno_setup() {
+	$path = trailingslashit(TEMPLATEPATH);
+
+	// i18n support
+	load_theme_textdomain('anno', $path . 'languages');
+	$locale = get_locale();
+	$locale_file = $path . '/languages/' . $locale . '.php';
+	if ( is_readable( $locale_file ) ) {
+		require_once( $locale_file );
+	}
+	
 	add_theme_support('automatic-feed-links');
-	add_theme_support('post-thumbnails', array( 'article' ) );
+	add_theme_support('post-thumbnails', array( 'article', 'post' ) );
 	add_image_size( 'post-excerpt', 140, 120, true);
 	add_image_size( 'post-teaser', 100, 79, true);
 	add_image_size( 'featured', 270, 230, true);
@@ -74,6 +82,12 @@ function anno_css3_pie() {
 <?php
 }
 
+/**
+ * Add theme CSS, JS here. Everything should run through the enqueue system so that
+ * child themes/plugins have access to override whatever they need to.
+ * Run at 'wp' hook so we have access to conditional functions,
+ * like is_single(), etc.
+ */
 function anno_assets() {
 	if (!is_admin()) {
 		$main =  trailingslashit(get_bloginfo('template_directory')) . 'assets/main/';
@@ -126,6 +140,9 @@ function anno_head_extra() {
 }
 add_action('wp_head', 'anno_head_extra');
 
+/**
+ * Filter the default menu arguments
+ */
 function anno_wp_nav_menu_args($args) {
 	$args['fallback_cb'] = null;
 	if ($args['container'] == 'div') {
@@ -142,14 +159,66 @@ function anno_wp_nav_menu_args($args) {
 }
 add_filter('wp_nav_menu_args', 'anno_wp_nav_menu_args');
 
+/**
+ * Filter the post class to add a .has-featured-image class when featured image
+ * is present.
+ * @return array $classes array of post classes
+ */
 function anno_post_class($classes, $class) {
+	$has_img = 'has-featured-image';
+	
+	/* An array of classes that we want to create an additional faux compound class for.
+	This lets us avoid having to do something like
+	.article-excerpt.has-featured-image, which doesn't work in IE6.
+	Instead, we can do .article-excerpt-has-featured-image. While a bit verbose,
+	it will nonetheless do the trick. */
+	$compoundify = array(
+		'article-excerpt'
+	);
+	
 	if (has_post_thumbnail()) {
-		$classes[] = 'has-featured-image';
+		$classes[] = $has_img;
+		
+		foreach ($compoundify as $compound_plz) {
+			if (in_array($compound_plz, $classes)) {
+				$classes[] = $compound_plz . '-' . $has_img;
+			}
+		}
 	}
 	
 	return $classes;
 }
 add_filter('post_class', 'anno_post_class', 10, 2);
+
+/**
+ * Customize comment form defaults
+ */
+function anno_comment_form_defaults($defaults) {
+	$req = get_option( 'require_name_email' );
+	$req_attr = ( $req ? ' required' : '' );
+	$req_label = ( $req ? '<abbr class="required" title="'.__('Required', 'anno').'">*</abbr>' : '');
+	$commenter = wp_get_current_commenter();
+	
+	$fields = apply_filters('comment_form_default_fields', array(
+		'author' => '<p class="row author">' . '<label for="author">' . __('Your Name', 'anno') . $req_label . '</label> <input id="author" class="type-text" name="author" type="text" value="' . esc_attr($commenter['comment_author']) . '"' . $req_attr . '></p>',
+		'email' => '<p class="row email"><label for="email">' . __('Email Address', 'anno') . $req_label . '</label> <input id="email" class="type-text" name="email" type="email" value="' . esc_attr(  $commenter['comment_author_email'] ) . '"' . $req_attr . '></p>',
+		'url' => '<p class="row url"><label for="url">' . __( 'Website' ) . '</label> <input id="url" class="type-text" name="url" type="url" value="' . esc_attr( $commenter['comment_author_url'] ) . '"></p>'
+	));
+	
+	$new = array(
+		'comment_field' => '<p class="row"><label for="comment">' . _x('Comment', 'noun', 'anno') . '</label> <textarea id="comment" name="comment" required></textarea></p>',
+		'fields' => $fields,
+		'cancel_reply_link' => __('(cancel)', 'anno'),
+		'title_reply' => __('Leave a Comment', 'anno'),
+		'title_reply_to' => __('Leave a Reply to %s', 'anno'),
+		'label_submit' => __('Submit', 'anno'),
+		'comment_notes_after' => '',
+		'comment_notes_before' => ''
+	);
+	
+	return array_merge($defaults, $new);
+}
+add_filter('comment_form_defaults', 'anno_comment_form_defaults');
 
 /**
  * Determines whether or not an email address is valid

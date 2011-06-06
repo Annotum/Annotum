@@ -1,5 +1,5 @@
-<section class="article-section article-section-references">
-	<h1 class="section-title"><span>References</span></h1>
+<section class="sec references">
+	<h1><span>References</span></h1>
 	<ol>
 		<li>Sendae Ptatem Quaspit (2008) <i>Laut Ex Quiscilit qui Imint Volo.</i> <a href="#">reference link</a></li>
 		<li>Uptati Dolectur (1978) <i>Simus nos aut molorrum a voluptassimo mo et pedist quibus.</i></li>

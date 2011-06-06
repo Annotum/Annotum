@@ -12,15 +12,13 @@
 if (__FILE__ == $_SERVER['SCRIPT_FILENAME']) { die(); }
 if (CFCT_DEBUG) { cfct_banner(__FILE__); }
 
-global $post, $wp_query, $comments, $comment;
-
 if (comments_open()) {
 	if (!post_password_required() && have_comments() ) {
 		?>
-		<section id="comments-container">
+		<section id="replies">
 			<div class="section-header clearfix">
-				<h1 class="section-title" id="comments"><?php comments_number('', __('1 Comment', 'anno'), __('% Comments', 'anno')); ?></h2>
-				<?php post_comments_feed_link('Comments RSS'); ?>				
+				<h1 class="section-title"><?php comments_number('', __('1 Comment', 'anno'), __('% Comments', 'anno')); ?></h2>
+				<?php post_comments_feed_link('Comments RSS'); ?>
 			</div>
 
 			<?php
@@ -33,7 +31,8 @@ if (comments_open()) {
 			
 		<?php 
 	}
-	cfct_form('comment');
+	
+	comment_form();
 }
 
 ?>

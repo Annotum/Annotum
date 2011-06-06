@@ -5,7 +5,8 @@ html {
 
 /* Search */
 #site-nav .search {
-	float: left;
+	left: 5px;
+	right: auto;
 }
 form.search {
 	display: inline; /* double-margin float bug */
