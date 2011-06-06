@@ -1,4 +1,5 @@
 .article-excerpt {
+	background: transparent;
 	border-bottom: #ccc solid 1px;
 	margin-bottom: 27px;
 	padding-bottom: 15px;
@@ -16,7 +17,11 @@
 .article-excerpt .sep {
 	padding: 0 2px;
 }
-.article-excerpt-container .has-featured-image .content {
+.article-excerpt .content {
+	padding-left: 0;
+	padding-right: 0;
+}
+.article-excerpt .has-featured-image .content {
 	/**
 	 * @workaround min-height Fast Hack
 	 *
@@ -38,7 +43,7 @@
 	padding-left: 155px;
 	zoom: 1;
 }
-.article-excerpt-container .has-featured-image img {
+.article-excerpt .has-featured-image img {
 	left: 0;
 	position: absolute;
 	top: 2px;
