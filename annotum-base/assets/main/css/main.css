@@ -44,8 +44,8 @@ dl.kv dd{margin-bottom:8px;}
 .tags{font-size:12px;line-height:20px;}
 .act .in{zoom:1;margin-left:auto;margin-right:auto;position:relative;width:960px;}.act .in:before,.act .in:after{content:"";display:table;}
 .act .in:after{clear:both;}
-#header{background:#000;color:#fff;position:relative;z-index:2;}
-#header .header-body{background:#006b94;height:86px;position:relative;zoom:1;}
+#header{background:#000;color:#fff;position:relative;z-index:2;zoom:1;}
+#header .header-body{background:#006b94;height:86px;position:relative;}
 #header .header-body a,#site-nav a{color:#fff;}
 #header .navigation{background:#006b94;}
 #masthead{background:#006b94;}
@@ -146,12 +146,14 @@ form.search .type-submit{background:url(../img/sprite-y.8bit.png) 0 -100px no-re
 .tools-nav .nav li.active a.content{background-position:-196px -394px;}
 .tools-nav .nav li.active a.download{background-position:-196px -296px;}
 .tools-nav .nav li.active a.comments{background-position:-196px -495px;}
+.social-nav .nav{display:inline;}
 .social-nav li{margin-left:6px;}
 #replies{margin-bottom:22px;overflow:hidden;width:100%;}
-#replies .section-header{position:relative;}
-#replies .section-header a{position:absolute;right:0;top:0;}
+#replies .section-header{margin-bottom:4px;position:relative;}
+#replies .section-header a{font-size:11px;line-height:20px;position:absolute;right:0;top:0;}
+#replies .section-title{background:transparent;margin-bottom:0;}
 .reply-list{border-bottom:1px #ccc solid;margin:0 0 18px;padding:0;}
-.reply-list li{list-style:none;margin:0;padding:0;}
+.reply-list li{list-style:none;margin:0;padding:0;zoom:1;}
 .comment,.ping{border-top:1px #ccc solid;padding:14px 0;}
 .comment{padding-left:180px;position:relative;zoom:1;}
 .reply-list .children .li-comment{padding-left:20px;}
@@ -224,4 +226,4 @@ html.ie7 .authors .extra{top:15px;}
 .section-title{margin-bottom:25px;}
 .sec h1,.sec .title{margin-left:-15px;margin-right:-15px;margin-top:25px;}
 .sec h1:first-child,.sec .title:first-child{margin-top:0;}
-.sec h1 span,.sec .title span,.section-title span{background:#fff;padding-right:3px;position:relative;top:4px;}
+.sec h1 span,.sec .title span,.section-title span{background:#fff;padding-right:3px;position:relative;top:4px;zoom:1;}
