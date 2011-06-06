@@ -99,4 +99,18 @@ function anno_the_author() {
 	echo $author;
 }
 
+/**
+ * Text-only excerpt -- safe for textareas.
+ */
+function anno_get_excerpt_text() {
+	ob_start();
+	the_excerpt();
+	$text = ob_get_clean();
+	$text = strip_tags($text);
+	return $text;
+}
+
+function anno_excerpt_text() {
+	echo anno_get_excerpt_text();
+}
 ?>

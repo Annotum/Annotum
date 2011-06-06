@@ -3,14 +3,14 @@
 
 /* Crop overflow */
 .article .entry-title,
-.article .content {
+.article .main {
 	overflow:  hidden;
+	zoom: 1;
 	/**
 	 * @workaround fix width in IE6 to prevent content from growing
 	 * @affected ie6
 	 */
 	width: 100%;
-	zoom: 1;
 }
 
 /* Keep margins consistent using margin collapse */
@@ -51,7 +51,11 @@
 /** @section Content Area
  -------------------------------------------------- */
 
-.article .entry-content {
+.article .content {
+	/**
+	 * Keep bottom spacing consistent using margin-collapse
+	 */
+	margin-bottom: 25px;
 	padding: 0 15px;
 }
 /* Remove padding from .secs in favor of the padding provided
