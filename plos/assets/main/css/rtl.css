@@ -98,3 +98,12 @@ html.ie6 .tools-nav .tools-menu-item .title {
 	left: 0;
 	right: auto;
 }
+
+.article-excerpt-container .has-featured-image .content {
+	padding-left: 0;
+	padding-right: 155px;
+}
+.article-excerpt-container .has-featured-image .content img {
+	left: auto;
+	right: 0;
+}
