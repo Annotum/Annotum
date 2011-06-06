@@ -22,21 +22,18 @@ function plos_css3_pie() {
 <?php
 }
 
+function plos_assets() {
+	if (!is_admin()) {
+		$main =  trailingslashit(get_bloginfo('stylesheet_directory')) . 'assets/main/';
+		$v = ANNO_VER;
 
-
-	function plos_assets() {
-		if (!is_admin()) {
-			$theme = trailingslashit(get_bloginfo('stylesheet_directory'));
-			$main = $theme . 'assets/main/';
-
-			// Styles
-			wp_enqueue_style('plos', $main.'css/main.css', array('anno'), ANNO_VER, 'screen');
-			wp_enqueue_style('plos-rtl', $main.'css/rtl.css', array('anno-rtl'), ANNO_VER, 'screen');
+		// Styles
+		wp_enqueue_style('plos', $main.'css/main.css', array('anno'), $v, 'screen');
+		if (is_rtl()) {
+			wp_enqueue_style('plos-rtl', $main.'css/rtl.css', array('anno-rtl'), $v, 'screen');
 		}
 	}
-	add_action('wp', 'plos_assets');
-
-
-
+}
+add_action('wp', 'plos_assets');
 
 ?>
