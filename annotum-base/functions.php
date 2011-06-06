@@ -36,7 +36,7 @@ function anno_setup() {
 	}
 	
 	add_theme_support('automatic-feed-links');
-	add_theme_support('post-thumbnails', array( 'article' ) );
+	add_theme_support('post-thumbnails', array( 'article', 'post' ) );
 	add_image_size( 'post-excerpt', 140, 120, true);
 	add_image_size( 'post-teaser', 100, 79, true);
 	add_image_size( 'featured', 270, 230, true);
@@ -151,8 +151,25 @@ function anno_wp_nav_menu_args($args) {
 add_filter('wp_nav_menu_args', 'anno_wp_nav_menu_args');
 
 function anno_post_class($classes, $class) {
+	$has_img = 'has-featured-image';
+	
+	/* An array of classes that we want to create an additional faux compound class for.
+	This lets us avoid having to do something like
+	.article-excerpt.has-featured-image, which doesn't work in IE6.
+	Instead, we can do .article-excerpt-has-featured-image. While a bit verbose,
+	it will nonetheless do the trick. */
+	$compoundify = array(
+		'article-excerpt'
+	);
+	
 	if (has_post_thumbnail()) {
-		$classes[] = 'has-featured-image';
+		$classes[] = $has_img;
+		
+		foreach ($compoundify as $compound_plz) {
+			if (in_array($compound_plz, $classes)) {
+				$classes[] = $compound_plz . '-' . $has_img;
+			}
+		}
 	}
 	
 	return $classes;
