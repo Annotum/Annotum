@@ -36,8 +36,7 @@ if (comments_open()) {
 	}
 	else { 
 ?>
-<section id="reply">
-	
+<section id="respond">
 	<form id="comments-form" action="<?php echo trailingslashit(get_bloginfo('wpurl')); ?>wp-comments-post.php" method="post">
 		<h2 class="section-title">Leave A Comment</h2>
 		<?php //cancel_comment_reply_link(); ?>
@@ -52,8 +51,6 @@ if (comments_open()) {
 				}
 				else { 
 		?>
-		
-		
 		<div class="input-row">
 			<label for="comment-name">Your Name</label><input class="text" type="text" name="name" value="" id="comment-name" />
 		</div>
@@ -73,7 +70,6 @@ if (comments_open()) {
 		</div>
 		<div class="input-row input-row-submit">
 			<button name="submit" type="submit" id="submit" tabindex="5"><?php _e('Submit', 'anno'); ?></button>
-			<?php //printf(__('or, reply to this post via <a rel="trackback" href="%s">trackback</a>.', 'anno'), get_trackback_url()); ?>
 			<?php
 				comment_id_fields();
 				do_action('comment_form', $post->ID);

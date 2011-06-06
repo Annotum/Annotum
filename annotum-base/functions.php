@@ -191,6 +191,36 @@ function anno_post_class($classes, $class) {
 add_filter('post_class', 'anno_post_class', 10, 2);
 
 /**
+ * Customize comment form defaults
+ */
+function anno_comment_form_defaults($defaults) {
+	$req = get_option( 'require_name_email' );
+	$req_attr = ( $req ? ' required' : '' );
+	$req_label = ( $req ? '<abbr class="required" title="'.__('Required', 'anno').'">*</abbr>' : '');
+	$commenter = wp_get_current_commenter();
+	
+	$fields = apply_filters('comment_form_default_fields', array(
+		'author' => '<p class="row author">' . '<label for="author">' . __('Your Name', 'anno') . $req_label . '</label> <input id="author" class="type-text" name="author" type="text" value="' . esc_attr($commenter['comment_author']) . '"' . $req_attr . '></p>',
+		'email' => '<p class="row email"><label for="email">' . __('Email Address', 'anno') . $req_label . '</label> <input id="email" class="type-text" name="email" type="email" value="' . esc_attr(  $commenter['comment_author_email'] ) . '"' . $req_attr . '></p>',
+		'url' => '<p class="row url"><label for="url">' . __( 'Website' ) . '</label> <input id="url" class="type-text" name="url" type="url" value="' . esc_attr( $commenter['comment_author_url'] ) . '"></p>'
+	));
+	
+	$new = array(
+		'comment_field' => '<p class="row"><label for="comment">' . _x('Comment', 'noun', 'anno') . '</label> <textarea id="comment" name="comment" required></textarea></p>',
+		'fields' => $fields,
+		'cancel_reply_link' => __('(cancel)', 'anno'),
+		'title_reply' => __('Leave a Comment', 'anno'),
+		'title_reply_to' => __('Leave a Reply to %s', 'anno'),
+		'label_submit' => __('Submit', 'anno'),
+		'comment_notes_after' => '',
+		'comment_notes_before' => ''
+	);
+	
+	return array_merge($defaults, $new);
+}
+add_filter('comment_form_defaults', 'anno_comment_form_defaults');
+
+/**
  * Determines whether or not an email address is valid
  * 
  * @param string email to check
