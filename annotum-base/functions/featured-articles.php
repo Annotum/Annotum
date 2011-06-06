@@ -30,7 +30,7 @@ class Anno_Cacheer {
 }
 
 class Anno_Featured_Articles extends Anno_Cacheer {
-	public $enable_cache = false;
+	public $enable_cache = true;
 
 	public function cached() {
 		$q = new WP_Query(array(
