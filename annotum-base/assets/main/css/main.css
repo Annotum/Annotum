@@ -150,10 +150,9 @@ form.search .type-submit{background:url(../img/sprite-y.8bit.png) 0 -100px no-re
 .tools-nav .nav li.active a.download{background-position:-196px -296px;}
 .tools-nav .nav li.active a.comments{background-position:-196px -495px;}
 .social-nav li{margin-left:6px;}
-#comments-container{margin-bottom:22px;}
-#comments-container .section-header{position:relative;}
-#comments-container .section-header a{position:absolute;right:0;top:0;}
-#comments-container .section-title{background:none;margin-bottom:6px;}
+#replies{margin-bottom:22px;overflow:hidden;width:100%;}
+#replies .section-header{position:relative;}
+#replies .section-header a{position:absolute;right:0;top:0;}
 .reply-list{border-bottom:1px #ccc solid;margin:0 0 18px;padding:0;}
 .reply-list li{list-style:none;margin:0;padding:0;}
 .comment,.ping{border-top:1px #ccc solid;padding:14px 0;}
