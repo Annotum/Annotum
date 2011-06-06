@@ -226,4 +226,4 @@ html.ie7 .authors .extra{top:15px;}
 .section-title{margin-bottom:25px;}
 .sec h1,.sec .title{margin-left:-15px;margin-right:-15px;margin-top:25px;}
 .sec h1:first-child,.sec .title:first-child{margin-top:0;}
-.sec h1 span,.sec .title span,.section-title span{background:#fff;padding-right:3px;position:relative;top:4px;}
+.sec h1 span,.sec .title span,.section-title span{background:#fff;padding-right:3px;position:relative;top:4px;zoom:1;}

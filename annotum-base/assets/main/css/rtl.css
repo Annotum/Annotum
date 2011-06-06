@@ -130,16 +130,34 @@ html.ie6 form.search .type-submit {
 	text-align: right;
 }
 .tools-bar .download label {
-	background-position: right -300px;
+	display: -moz-inline-box; /* FF2 */
+	display: inline-block; /* Standard. IE8+, Saf, FF3+ */
+	/**
+	 * @bugfix inline-block fix
+	 * @see http://blog.mozilla.com/webdev/2009/02/20/cross-browser-inline-block/
+	 * @valid no
+	 */
+	zoom: 1;
+	*display: inline;
+	background-position: right -298px;
 	padding-left: 0;
-	padding-right: 17px;
+	padding-right: 17px !important;
 }
 .tools-bar .print {
 	margin-left: 50px;
 	margin-right: 0;
 }
 .tools-bar .print a {
-	background-position: right -200px;
+	background-position: right -198px;
+	display: -moz-inline-box; /* FF2 */
+	display: inline-block; /* Standard. IE8+, Saf, FF3+ */
+	/**
+	 * @bugfix inline-block fix
+	 * @see http://blog.mozilla.com/webdev/2009/02/20/cross-browser-inline-block/
+	 * @valid no
+	 */
+	zoom: 1;
+	*display: inline;
 	padding-left: 0;
 	padding-right: 19px;
 }
