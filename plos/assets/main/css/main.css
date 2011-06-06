@@ -1,5 +1,6 @@
 body{font-family:Helvetica,Arial,sans-serif;font-size:13px;line-height:18px;}
 a{color:#a2220f;}
+button,input,select,textarea{font-family:Helvetica,Arial,sans-serif;}
 html{min-width:960px;}
 body{background:url(../img/body-background.png) center 0 repeat-y;}
 #header .header-body{background:#2a2822;height:75px;}
@@ -59,8 +60,9 @@ form.search .type-submit{background:url(../img/sprite-y.8bit.png) 0 -200px no-re
 .article .to-top{text-align:right;}
 .article .to-top a{background:url(../img/sprite-y.8bit.png) 0 -700px no-repeat;color:#F1E9D0;display:inline-block;font:bold 11px/1 Helvetica,Arial,sans-serif;letter-spacing:1px;padding:0 0 0 4px;text-transform:uppercase;}
 .article .to-top a span{background:url(../img/sprite-y.8bit.png) right -600px no-repeat;display:block;padding:5px 18px 3px 7px;}
+.article .content{padding-left:0;padding-right:0;}
 .article .entry-content{padding-left:0;padding-right:0;}
-.article-excerpt{border:0;margin-bottom:0;padding-bottom:0;}
+.article-excerpt{background:none;border:0;margin-bottom:0;padding-bottom:0;}
 .article-excerpt .header{margin-bottom:8px;}
 .article-excerpt .header .entry-title .title{font:normal 18px Helvetica,Arial,sans-serif;margin-bottom:8px;}
 .article-excerpt .header .entry-title .title a{color:#A2220F;}
@@ -74,7 +76,7 @@ form.search .type-submit{background:url(../img/sprite-y.8bit.png) 0 -200px no-re
 .widget-recent-posts .tabs{margin:0;position:relative;}
 .widget-recent-posts .nav .ui-tabs-selected{-moz-border-radius:4px 4px 0 0;-webkit-border-radius:4px 4px 0 0;-khtml-border-radius:4px 4px 0 0;border-radius:4px 4px 0 0;background-color:#f5f2e9;border:#e4d7b0 solid 1px;border-bottom-color:#f5f2e9;padding:0;position:relative;z-index:100;}
 .widget-recent-posts .nav .ui-tabs-selected a{color:#A2220F;}
-.widget-recent-posts .panel{-moz-border-radius:0 4px 4px 4px;-webkit-border-radius:0 4px 4px 4px;-khtml-border-radius:0 4px 4px 4px;border-radius:0 4px 4px 4px;background:#f5f2e9;border:#e4d7b0 solid 1px;padding:0 14px;position:relative;}
+.widget-recent-posts .panel{-moz-border-radius:0 4px 4px 4px;-webkit-border-radius:0 4px 4px 4px;-khtml-border-radius:0 4px 4px 4px;border-radius:0 4px 4px 4px;background:#f5f2e9;border:#e4d7b0 solid 1px;padding:0 14px;zoom:1;}
 .widget-recent-posts .panel ul,.widget-recent-posts .panel ol{background:none;margin:0;padding:0;}
 .widget-recent-posts .panel li{background-image:none;border-top:#e4d7b0 solid 1px;list-style:none;margin:10px 0;padding:10px 0 0;}
 .widget-recent-posts .panel li:first-child{border:0;margin:0;}
