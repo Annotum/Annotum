@@ -119,12 +119,9 @@ form.search .type-submit{background:url(../img/sprite-y.8bit.png) 0 -100px no-re
 .callout-item{background:#f0f0f0;border-bottom-style:solid;border-bottom-width:2px;border-top-style:solid;border-top-width:2px;padding:13px 17px;}
 .callout-item .title{font:italic bold 18px Georgia, Serif;margin-bottom:4px;}
 .callout-item .content{font-size:14px;line-height:1.43;}
-.post-teasers ul{margin:0;padding:0;}
-.post-teasers li{list-style:none;margin:0 0 1px;padding:0;}
-.post-teaser-item{background:#66A6BF;height:67px;overflow:hidden;padding:10px 10px 10px 113px;position:relative;}
-.post-teaser-item img{left:4px;position:absolute;top:4px;}
-.post-teaser-item .content{font:italic bold 15px/1.47 Georgia,Serif;}
-.post-teaser-item .content a{color:#fff;text-shadow:rgba(51, 51, 51, 0.6) 0 1px 0;}
+.teasers{overflow:hidden;}
+.teaser{background:#66A6BF;color:#fff;margin-bottom:1px;height:auto !important;overflow:visible !important;height:67px;min-height:67px;padding:10px;position:relative;}
+.teaser .title{color:#fff;text-shadow:rgba(51, 51, 51, 0.6) 0 1px 0;font:italic bold 15px/1.47 Georgia,Serif;}
 .tools-bar{margin-bottom:25px;padding:17px 12px;}
 .tools-bar .cell{float:left;}
 #selector{width:100px;height:700px;}
@@ -184,6 +181,7 @@ textarea#comment{display:block;height:80px;width:433px;}
 .widget ol li:hover,.widget ul li:hover{background-color:#dadada;text-decoration:none;}
 .widget ol li.recentcomments:hover,.widget ul li.recentcomments:hover{background-color:none;}
 .widget li.recentcomments a:hover{text-decoration:underline;}
+.pagination{font-size:10px;font-weight:bold;text-transform:uppercase;overflow:hidden;zoom:1;}
 .pagination .previous{float:left;}
 .pagination .next{float:right;}
 .page-title{color:#000;font:bold 28px Georgia, Serif;margin-bottom:5px;}
@@ -223,6 +221,7 @@ html.ie7 .authors .extra{top:15px;}
 .ui-tabs-hide{display:none;}
 .sec{margin-bottom:25px;padding-left:15px;padding-right:15px;}
 .sec h1,.sec .title,.section-title{background:url(../img/border-background.png) 0 bottom repeat-x;color:#000;font:italic bold 16px/1.2 Georgia,Serif;margin-bottom:15px;}
+.section-title{margin-bottom:25px;}
 .sec h1,.sec .title{margin-left:-15px;margin-right:-15px;margin-top:25px;}
 .sec h1:first-child,.sec .title:first-child{margin-top:0;}
 .sec h1 span,.sec .title span,.section-title span{background:#fff;padding-right:3px;position:relative;top:4px;}

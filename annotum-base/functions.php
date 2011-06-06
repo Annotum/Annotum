@@ -69,9 +69,10 @@ function anno_setup() {
 		'description' => __('This sidebar will be shown single Articles.', 'anno')
 	)));
 	register_sidebar(array_merge($sidebar_defaults, array(
-		'name' => __('Masthead Featurettes', 'anno'),
+		'name' => __('Masthead Teasers', 'anno'),
 		'id' => 'masthead',
-		'description' => __('Display items on the home page masthead.')
+		'description' => __('Display items on the home page masthead.'),
+		'before_widget' => '<aside id="%1$s" class="teaser clearfix %2$s">'
 	)));
 
 	add_action('wp_head', 'anno_css3_pie', 8);

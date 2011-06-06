@@ -15,7 +15,7 @@ if (CFCT_DEBUG) { cfct_banner(__FILE__); }
 get_header();
 ?>
 <div id="main-body" class="clearfix">
-	<h1 class="page-title"><?php echo cfpt_get_page_title(); ?></h1>
+	<h1 class="section-title"><span><?php echo cfpt_get_page_title(); ?></span></h1>
 	<?php 
 		cfct_loop();
 		cfct_misc('nav-posts');
