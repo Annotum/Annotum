@@ -89,8 +89,7 @@ form.search .type-submit{background:url(../img/sprite-y.8bit.png) 0 -200px no-re
 .widget ol li:hover,.widget ul li:hover{background-color:transparent;}
 .widget ol li a,.widget ul li a{display:inline;padding:0;}
 .widget ol li a:hover,.widget ul li a:hover{text-decoration:underline;}
-.article .article-section-author-list .author-info .header{background:url(../img/author-card-background.png) center 0 no-repeat;}
-.article .article-section-author-list .author-info .content{background:url(../img/author-card-background.png) center bottom no-repeat;}
+.author .extra,.author .extra-in{background-image:url(../img/author-card-background.png);}
 .tools-bar .print a{background:url(../img/sprite-y.24bit.png) 0 0 no-repeat;}
 .tools-bar .download label{background:url(../img/sprite-y.24bit.png) 0 -100px no-repeat;}
 .tools-nav .tools-menu-item{z-index:1000;}

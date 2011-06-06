@@ -1,10 +1,10 @@
 <?php 
 
-function anno_appendicies_print_styles() {
+function anno_article_admin_print_styles() {
 	wp_enqueue_style('article-admin', trailingslashit(get_bloginfo('template_directory')).'/css/article-admin.css');
 }
-add_action('admin_print_styles-post.php', 'anno_appendicies_print_styles');
-add_action('admin_print_styles-post-new.php', 'anno_appendicies_print_styles');
+add_action('admin_print_styles-post.php', 'anno_article_admin_print_styles');
+add_action('admin_print_styles-post-new.php', 'anno_article_admin_print_styles');
 
 function anno_appendicies_meta_box($post) {
 	$html .= '
