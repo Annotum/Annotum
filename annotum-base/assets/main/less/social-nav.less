@@ -1,3 +1,13 @@
+.social-nav .nav {
+	/**
+	 * @workaround override hasLayout
+	 * Since .nav triggers hasLayout, we need to counteract it so the nav box
+	 * doesn't grow to the full width of the container.
+	 * @affected IE6
+	 * @valid yes
+	 */
+	display: inline;
+}
 .social-nav li {
 	margin-left: 6px;
 }

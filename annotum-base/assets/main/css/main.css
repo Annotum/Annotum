@@ -146,6 +146,7 @@ form.search .type-submit{background:url(../img/sprite-y.8bit.png) 0 -100px no-re
 .tools-nav .nav li.active a.content{background-position:-196px -394px;}
 .tools-nav .nav li.active a.download{background-position:-196px -296px;}
 .tools-nav .nav li.active a.comments{background-position:-196px -495px;}
+.social-nav .nav{display:inline;}
 .social-nav li{margin-left:6px;}
 #replies{margin-bottom:22px;overflow:hidden;width:100%;}
 #replies .section-header{margin-bottom:4px;position:relative;}
