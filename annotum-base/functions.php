@@ -158,6 +158,15 @@ function anno_head_extra() {
 add_action('wp_head', 'anno_head_extra');
 
 /**
+ * Register custom widgets extended from WP_Widget
+ */
+function anno_widgets_init() {
+	include_once(CFCT_PATH . 'functions/Anno_Widget_Recently.php');
+	register_widget('Anno_Widget_Recently');
+}
+add_action('widgets_init', 'anno_widgets_init');
+
+/**
  * Filter the default menu arguments
  */
 function anno_wp_nav_menu_args($args) {
