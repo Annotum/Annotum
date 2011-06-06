@@ -122,32 +122,63 @@ function anno_dtd_meta_boxes() {
 add_action('add_meta_boxes_article', 'anno_dtd_meta_boxes');
 
 function anno_subtitle_meta_box($post) {
+	$html = get_post_meta($post->ID, '_anno_subtitle', true);
 ?>
-	<input type="text" name="subtitle" value="<?php _e('Subtitle', 'anno'); ?>" style="width:100%;" />
+	<input type="text" name="anno_subtitle" value="<?php echo esc_attr($html); ?>" style="width:100%;" />
 <?php
 }
 
 function anno_body_meta_box($post) {
+echo 'body';
 ?>
-	<textarea name="body" style="width:100%; height: 250px"><?php echo esc_html($post->post_content); ?></textarea>
+	<textarea name="content" style="width:100%; height: 250px"><?php echo esc_html($post->post_content); ?></textarea>
 <?php
 }
 
 function anno_references_meta_box($post) {
-	echo 'references';
+	echo 'references placeholder';
 }
 
 function anno_abstract_meta_box($post) {
-	echo 'abstract';
+?>
+	<textarea class="anno-meta" name="excerpt"><?php echo esc_html($post->post_excerpt); ?></textarea>
+<?php
 }
 
 function anno_funding_meta_box($post) {
-	echo 'funding';
+	$html = get_post_meta($post->ID, '_anno_funding', true);
+?>
+	<textarea class="anno-meta" name="anno_funding"><?php echo esc_html($html); ?></textarea>
+<?php
 }
 
 function anno_acknowledgements_meta_box($post) {
-	echo 'acknowledgements';
+	$html = get_post_meta($post->ID, '_anno_acknowledgements', true);
+?>
+	<textarea class="anno-meta" name="anno_acknowledgements"><?php echo esc_html($html); ?></textarea>
+<?php
 }
+
+/**
+ * Save post meta related to an article 
+ */ 
+function anno_article_insert_post($post_id, $post) {
+	if ($post->post_type == 'article') {
+		// Use update WP nonce
+		check_admin_referer('update-article_'.$post_id);
+		
+		$anno_meta = array(
+			'anno_subtitle',
+			'anno_funding',
+			'anno_acknowledgements',
+		);
+		foreach ($anno_meta as $key) {
+			// We don't care if its set, an unset post var just means it's empty
+			update_post_meta($post_id, '_'.$key, $_POST[$key]);
+		}
+	}	
+}
+add_action('wp_insert_post', 'anno_article_insert_post', 10, 2);
 
 
 ?>

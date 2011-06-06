@@ -2,6 +2,7 @@
 	background:#f9f9f9;
 	margin:12px 0;
 }
+
 .appendix-wrapper h4 {
 	background:#f1f1f1;
 	border:1px solid #dfdfdf;
@@ -9,4 +10,9 @@
 	font-weight: bold;
 	margin:0;
 	padding:5px 8px 8px;
+}
+
+.anno-meta {
+	height: 200px;
+	width: 100%;
 }
