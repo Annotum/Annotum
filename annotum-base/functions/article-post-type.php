@@ -132,7 +132,7 @@ function anno_subtitle_meta_box($post) {
 function anno_body_meta_box($post) {
 echo 'body';
 ?>
-	<textarea name="content" style="width:100%; height: 250px"><?php echo esc_html($post->post_content); ?></textarea>
+	<textarea name="content" class="anno-meta"><?php echo esc_html($post->post_content); ?></textarea>
 <?php
 }
 
@@ -176,8 +176,8 @@ function anno_featured_meta_box($post) {
  */ 
 function anno_article_insert_post($post_id, $post) {
 	if ($post->post_type == 'article') {
-		// Use update WP nonce
-		check_admin_referer('update-article_'.$post_id);
+//TODO nonce?
+//		check_admin_referer('update-article_'.$post_id);
 		
 		$anno_meta = array(
 			'anno_subtitle',
