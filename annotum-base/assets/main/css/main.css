@@ -148,8 +148,9 @@ form.search .type-submit{background:url(../img/sprite-y.8bit.png) 0 -100px no-re
 .tools-nav .nav li.active a.comments{background-position:-196px -495px;}
 .social-nav li{margin-left:6px;}
 #replies{margin-bottom:22px;overflow:hidden;width:100%;}
-#replies .section-header{position:relative;}
-#replies .section-header a{position:absolute;right:0;top:0;}
+#replies .section-header{margin-bottom:4px;position:relative;}
+#replies .section-header a{font-size:11px;line-height:20px;position:absolute;right:0;top:0;}
+#replies .section-title{background:transparent;margin-bottom:0;}
 .reply-list{border-bottom:1px #ccc solid;margin:0 0 18px;padding:0;}
 .reply-list li{list-style:none;margin:0;padding:0;}
 .comment,.ping{border-top:1px #ccc solid;padding:14px 0;}
