@@ -82,6 +82,12 @@ function anno_css3_pie() {
 <?php
 }
 
+/**
+ * Add theme CSS, JS here. Everything should run through the enqueue system so that
+ * child themes/plugins have access to override whatever they need to.
+ * Run at 'wp' hook so we have access to conditional functions,
+ * like is_single(), etc.
+ */
 function anno_assets() {
 	if (!is_admin()) {
 		$main =  trailingslashit(get_bloginfo('template_directory')) . 'assets/main/';
@@ -134,6 +140,9 @@ function anno_head_extra() {
 }
 add_action('wp_head', 'anno_head_extra');
 
+/**
+ * Filter the default menu arguments
+ */
 function anno_wp_nav_menu_args($args) {
 	$args['fallback_cb'] = null;
 	if ($args['container'] == 'div') {
@@ -150,6 +159,11 @@ function anno_wp_nav_menu_args($args) {
 }
 add_filter('wp_nav_menu_args', 'anno_wp_nav_menu_args');
 
+/**
+ * Filter the post class to add a .has-featured-image class when featured image
+ * is present.
+ * @return array $classes array of post classes
+ */
 function anno_post_class($classes, $class) {
 	$has_img = 'has-featured-image';
 	
