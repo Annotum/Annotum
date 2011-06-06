@@ -105,11 +105,10 @@ form.search .type-submit{background:url(../img/sprite-y.8bit.png) 0 -100px no-re
 .article .supplement{background:#f6f6f6;border-bottom:#dadada solid 1px;border-top:#dadada solid 1px;margin-left:15px;margin-right:15px;position:relative;}
 .article .to-top{text-align:right;}
 .article .to-top a{background:#006B94;color:#fff;font-weight:bold;padding:4px 8px;}
-.article-excerpt{background:transparent;border-bottom:#ccc solid 1px;margin-bottom:27px;padding-bottom:15px;overflow:hidden;}
+.article-excerpt{background:transparent;border-bottom:#ccc solid 1px;margin-bottom:27px;padding-bottom:15px;overflow:hidden;zoom:1;width:100%;}
 .article-excerpt .header .title{font:bold 18px Georgia, Serif;margin-bottom:5px;}
 .article-excerpt .header .meta{color:#666;font:italic 13px Georgia, Serif;margin:0 0 10px;}
 .article-excerpt .sep{padding:0 2px;}
-.article-excerpt .content{padding-left:0;padding-right:0;}
 .article-excerpt-has-featured-image .content{height:auto !important;height:122px;min-height:122px;width:475px;position:relative;padding-left:155px;zoom:1;}
 .article-excerpt-has-featured-image img{left:0;position:absolute;top:2px;}
 .article-excerpt .content{margin-bottom:12px;}
@@ -155,19 +154,18 @@ form.search .type-submit{background:url(../img/sprite-y.8bit.png) 0 -100px no-re
 #comments-container .section-header{position:relative;}
 #comments-container .section-header a{position:absolute;right:0;top:0;}
 #comments-container .section-title{background:none;margin-bottom:6px;}
-#comments-container .reply-list{border-bottom:1px #ccc solid;margin:0 0 18px;padding:0;}
-#comments-container .reply-list li{list-style:none;margin:0;padding:0;}
-#comments-container .reply-list .comment,#comments-container .reply-list .ping{border-top:1px #ccc solid;padding:14px 0;}
-#comments-container .reply-list .comment{margin-bottom:15px;padding-left:180px;position:relative;zoom:1;}
-#comments-container .reply-list .comment ul li{list-style-type:disc;}
-#comments-container .reply-list .comment ol li{list-style-type:decimal;}
-#comments-container .reply-list .children .li-comment{padding-left:40px;}
-#comments-container .reply-list .comment .header{height:auto !important;height:38px;min-height:38px;left:0;padding:0 0 0 46px;position:absolute;top:14px;width:134px;}
-#comments-container .reply-list .comment .header img{left:0;position:absolute;top:0;}
-#comments-container .reply-list .comment .header .title,#comments-container .reply-list .comment .header .published{font:normal 13px Arial,Helvetica,Sans-Serif;margin:0;}
-#comments-container .reply-list .comment .header .title{margin:0;}
-#comments-container .reply-list .comment .content{font-size:13px;line-height:1.38;}
-#comments-container .reply-list .comment .footer{font-size:12px;}
+.reply-list{border-bottom:1px #ccc solid;margin:0 0 18px;padding:0;}
+.reply-list li{list-style:none;margin:0;padding:0;}
+.comment,.ping{border-top:1px #ccc solid;padding:14px 0;}
+.comment{padding-left:180px;position:relative;zoom:1;}
+.reply-list .children .li-comment{padding-left:20px;}
+.comment .header{height:auto !important;height:38px;min-height:38px;left:0;padding:0 0 0 46px;position:absolute;top:14px;width:134px;}
+.comment .header img{left:0;position:absolute;top:0;}
+.comment .header .title,.comment .header .published{font:normal 13px Arial,Helvetica,Sans-Serif;margin:0;}
+.comment .header .title{margin:0;}
+.comment .content{font-size:13px;line-height:1.3847;margin-bottom:10px;}
+.comment .footer{font-size:11px;}
+.ping{font-size:12px;}
 #reply{color:#666;width:627px;}
 #reply .section-title{background:none;margin-bottom:16px;}
 #reply .logged-in{margin-bottom:12px;}

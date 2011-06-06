@@ -15,39 +15,32 @@
 	margin-bottom: 6px;
 }
 
-#comments-container .reply-list {
+.reply-list {
 	border-bottom: 1px #ccc solid;
 	margin: 0 0 18px;
 	padding: 0;
 }
-#comments-container .reply-list li {
+.reply-list li {
 	list-style: none;
 	margin: 0;
 	padding: 0;
 }
-#comments-container .reply-list .comment,
-#comments-container .reply-list .ping {
+.comment,
+.ping {
 	border-top: 1px #ccc solid;
 	padding: 14px 0;
 
 }
-#comments-container .reply-list .comment {
-	margin-bottom: 15px;
+.comment {
 	padding-left: 180px;
 	position: relative;
 	zoom: 1; /* fix absolute positioning of gravatar and heading information in ie6 */
 }
 
-#comments-container .reply-list .comment ul li {
-	list-style-type: disc;
+.reply-list .children .li-comment {
+	padding-left: 20px;
 }
-#comments-container .reply-list .comment ol li {
-	list-style-type: decimal;
-}
-#comments-container .reply-list .children .li-comment {
-	padding-left: 40px;
-}
-#comments-container .reply-list .comment .header {
+.comment .header {
 	/**
 	 * @workaround min-height Fast Hack
 	 *
@@ -68,28 +61,32 @@
 	width: 134px;
 }
 
-#comments-container .reply-list .comment .header img {
+.comment .header img {
 	left: 0;
 	position: absolute;
 	top: 0;
 }
-#comments-container .reply-list .comment .header .title,
-#comments-container .reply-list .comment .header .published {
+.comment .header .title,
+.comment .header .published {
 	font: normal 13px Arial, Helvetica, Sans-Serif;
 	margin: 0;
 }
-#comments-container .reply-list .comment .header .title {
+.comment .header .title {
 	margin: 0;
 }
-#comments-container .reply-list .comment .content {
+.comment .content {
 	font-size: 13px;
-	line-height: 1.38;
+	line-height: 1.3847;
+	margin-bottom: 10px;
 }
 
-#comments-container .reply-list .comment .footer {
+.comment .footer {
+	font-size: 11px;
+}
+
+.ping {
 	font-size: 12px;
 }
-
 
 #reply {
 	color: #666;
