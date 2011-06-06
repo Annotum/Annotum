@@ -107,7 +107,7 @@ function anno_get_excerpt_text() {
 	the_excerpt();
 	$text = ob_get_clean();
 	$text = strip_tags($text);
-	return $text;
+	return trim($text);
 }
 
 function anno_excerpt_text() {

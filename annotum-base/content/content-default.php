@@ -46,12 +46,11 @@ if (CFCT_DEBUG) { cfct_banner(__FILE__); }
 		<?php cfct_misc('article-references'); ?>
 	</div><!--/.main-->
 	<footer class="footer">
-		<div class="abstract">
-			<h1><span><?php _e('Citation', 'anno'); ?></span></h1>
-			<textarea class="entry-summary" readonly><?php anno_excerpt_text(); ?></textarea>
-		</div><!--/.abstract-->
-		<?php
-		the_tags('<strong>Tags:</strong> ', ' <span class="sep">&middot;</span> ', '');
-		?>
+		<dl class="kv">
+			<dt><?php _e('Citation', 'anno'); ?>:</dt>
+			<dd><textarea class="entry-summary" readonly><?php anno_excerpt_text(); ?></textarea></dd>
+			
+			<?php the_tags('<dt>Tags:</dt> <dd class="tags">', ' <span class="sep">&middot;</span> ', '</dd>'); ?>
+		</dl>
 	</footer><!--/.footer-->
 </article>
