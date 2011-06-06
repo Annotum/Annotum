@@ -1,0 +1,28 @@
+.teasers {
+	overflow: hidden;
+}
+.teaser {
+	background: #66A6BF;
+	color: #fff;
+	margin-bottom: 1px;
+	/**
+	 * @workaround min-height Fast Hack
+	 *
+	 * IE6 doesn't support min-height, but treats elements with
+	 * height and overflow:visible as min-height.
+	 *
+	 * @affected IE5, IE6
+	 * @see http://www.dustindiaz.com/min-height-fast-hack/
+	 */
+	height: auto !important;
+	overflow: visible !important;
+	height: 67px;
+	min-height: 67px;
+	padding: 10px;
+	position: relative;
+}
+.teaser .title {
+	color: #fff;
+	text-shadow: rgba(51, 51, 51, .6) 0 1px 0;
+	font: italic bold 15px/1.47 Georgia, Serif;
+}
