@@ -1,5 +1,6 @@
 html {
 	direction: rtl;
+	unicode-bidi: embed;
 }
 
 /* Search */
