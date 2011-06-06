@@ -17,7 +17,8 @@ class Anno_Widget_Recently extends WP_Widget {
 	public $key = 'anno_recently_html';
 	public $timeout = 3600; // 1 hour
 	public $enable_cache = false;
-	public $uid;
+	public $html_uid;
+	public $number = 5;
 	
 	protected static $script_initiated = false;
 	
@@ -28,7 +29,7 @@ class Anno_Widget_Recently extends WP_Widget {
 		);
 		parent::__construct('anno_recently', __('Recently&hellip;'), $args);
 		
-		$this->uid = uniqid('anno-recently');
+		$this->html_uid = uniqid('anno-recently');
 		
 		// Clear widget cache on one of these important events
 		add_action( 'save_post', array($this, 'flush_widget_cache') );
@@ -39,6 +40,7 @@ class Anno_Widget_Recently extends WP_Widget {
 	}
 	
 	public function widget($args, $instance) {
+		extract($args);
 		$cache = get_transient($this->key);
 		if ($cache === false || $this->enable_cache === false) {
 			ob_start();
@@ -46,36 +48,59 @@ class Anno_Widget_Recently extends WP_Widget {
 			$cache = ob_get_clean();
 			set_transient($this->key, $cache, $this->timeout);
 		}
+		echo $before_widget;
 		echo $cache;
+		echo $after_widget;
 	}
 
 	public function cached($args, $instance) { ?>
-<aside class="widget widget-recent-posts">
 	<div class="tabs">
 		<ul class="nav">
-			<li><a href="#p1-<?php echo $this->uid; ?>">Recent Posts</a></li>
-			<li><a href="#p2-<?php echo $this->uid; ?>">Comments</a></li>
+			<li><a href="#p1-<?php echo $this->html_uid; ?>"><?php _e('Recent Articles', 'anno'); ?></a></li>
+			<li><a href="#p2-<?php echo $this->html_uid; ?>"><?php _e('Comments', 'anno'); ?></a></li>
 		</ul>
-		<div class="panel" id="p1-<?php echo $this->uid; ?>">
-			<ol>
-				<li><a href="#">Lorem ipsum dolor sit amet, consectetuer adi piscing tristiqut elit</a></li>
-				<li><a href="#">Integer vitae libero ac risus egestas placerat vestibulum commodo felis quis tortor</a></li>
-				<li><a href="#">Ut aliquam sollicitudin leo cras ornare Cras iaculis ultricies nulla auctor dapibus neque</a></li>
-				<li><a href="#">Nunc dignissim risus id metus fusce lobortis lorem at ipsum semper sagittis</a></li>
-				<li><a href="#">Vivamus vestibulum nulla nec ante</a></li>
-			</ol>
+		<div class="panel" id="p1-<?php echo $this->html_uid; ?>">
+			<?php 
+			$articles = new WP_Query(array(
+				'post_type' => 'article',
+				'posts_per_page' => $this->number
+			));
+			if ($articles->have_posts()) {
+				echo '<ol>';
+				while ($articles->have_posts()) {
+					$articles->the_post();
+			 ?>
+				<li><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></li>
+			<?php 
+				}
+				echo '</ol>';
+				wp_reset_postdata();
+				unset($articles);
+			}
+			?>
 		</div>
-		<div class="panel" id="p2-<?php echo $this->uid; ?>">
-			<ul>
-				<li class="recentcomments"><a class="url" rel="external nofollow" href="#">Mr WordPress</a> on <a href="#">Hello world!</a></li>
-				<li class="recentcomments">admin on <a href="#">Comment Test</a></li>
-				<li class="recentcomments">Test Contributor on <a href="#">Comment Test</a></li>
-				<li class="recentcomments">tellyworthtest2 on <a href="#">Comment Test</a></li>
-				<li class="recentcomments">Test Author on <a href="#">Comment Test</a></li>
-			</ul>
+		<div class="panel" id="p2-<?php echo $this->html_uid; ?>">
+			<?php
+			$comments = get_comments(array(
+				'number' => $this->number,
+				'status' => 'approve',
+				'post_status' => 'publish'
+			));
+			if (count($comments)) {
+				echo '<ul>';
+				foreach ((array) $comments as $comment) {
+			?>
+				<li class="recentcomments"><?php
+					/* translators: comments widget: 1: comment author, 2: post link */ 
+					printf(_x('%1$s on %2$s', 'widgets'), get_comment_author_link(), '<a href="' . esc_url(get_comment_link($comment->comment_ID)) . '">' . get_the_title($comment->comment_post_ID) . '</a>'); 
+			?></li>
+			<?php
+				}
+				echo '</ul>';
+			}
+			?>
 		</div>
 	</div>
-</aside>
 	<?php
 	}
 	
