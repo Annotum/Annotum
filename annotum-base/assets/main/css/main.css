@@ -169,13 +169,13 @@ form.search .type-submit{background:url(../img/sprite-y.8bit.png) 0 -100px no-re
 #respond{color:#666;width:627px;}
 #reply-title{color:#000;font:italic bold 16px/1.2 Georgia,Serif;margin-bottom:15px;}
 #respond .logged-in{margin-bottom:12px;}
-#respond .row{display:inline-block;margin-bottom:10px;padding-left:180px;position:relative;}
+#respond .row,#respond .form-submit{display:inline-block;margin-bottom:10px;padding-left:180px;position:relative;}
 #respond .row-submit{background:none;}
 #respond .row label{font-size:14px;line-height:30px;left:0;position:absolute;top:0;width:172px;}
 #respond .row .type-text,#respond .row textarea{background:#fff;border:1px #999 solid;font-size:14px;padding:6px;}
 #respond .row .type-text{width:206px;}
 textarea#comment{display:block;height:80px;width:433px;}
-#respond button{border:0;color:#fff;font-size:16px;font-weight:bold;height:31px;}
+#submit{background:#006b94;border:0;color:#fff;font-size:16px;font-weight:bold;line-height:20px;height:30px;padding:5px 10px;}
 #sidebar .widget{background:#f0f0f0;margin-bottom:1px;padding-bottom:20px;}
 #sidebar .widget_text{background:none;padding:0;}
 #sidebar .widget .title{color:#000;font:italic bold 14px Georgia, Serif;margin-bottom:10px;padding:20px 0 0 20px;}
