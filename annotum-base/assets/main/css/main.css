@@ -38,7 +38,7 @@ h1,h2,h3,h4,h5,h6{font-weight:bold;}
 .nav:after{clear:both;}
 .nav li{display:inline;float:left;margin:0;}
 .nav a{display:block;}
-dl.kv{overflow:hidden;margin:2px;zoom:1;}
+dl.kv{overflow:hidden;margin-bottom:12px;zoom:1;}
 dl.kv dt{color:#454545;clear:left;float:left;font:bold italic 12px/20px Georgia,serif;margin-right:.25em;}
 dl.kv dd{margin-bottom:8px;}
 .tags{font-size:12px;line-height:20px;}
@@ -88,6 +88,7 @@ form.search .type-submit{background:url(../img/sprite-y.8bit.png) 0 -100px no-re
 .featured-posts .control-panel .previous,.featured-posts .control-panel .next{background-image:url(../img/sprite-y.24bit.png);background-repeat:no-repeat;-moz-border-radius:10px;-webkit-border-radius:10px;-khtml-border-radius:10px;border-radius:10px;cursor:pointer;height:20px;position:absolute;top:0;width:20px;}
 .featured-posts .control-panel .previous{background-position:7px 6px;right:27px;}
 .featured-posts .control-panel .next{background-position:8px -94px;right:0;}
+.article{background:url(../img/article-border.png) repeat-x 0 bottom;padding-bottom:5px;}
 .article .entry-title,.article .main{overflow:hidden;zoom:1;width:100%;}
 .article .content .entry-content,.article .content .entry-summary{margin-bottom:10px;}
 .article .header{margin-bottom:20px;}
@@ -97,6 +98,7 @@ form.search .type-submit{background:url(../img/sprite-y.8bit.png) 0 -100px no-re
 .article .header .meta{color:#666;font:italic 13px/1.5384 Georgia,Serif;margin:0 15px 15px;}
 .article .header .meta a:link{color:#666;}
 .article .header .meta a:hover{color:#006b94;text-decoration:none;}
+.article .footer{margin-bottom:25px;}
 .article .content{margin-bottom:25px;padding:0 15px;}
 .article .content .sec{padding-left:0;padding-right:0;}
 .article textarea.entry-summary{clear:left;font-size:12px;line-height:18px;height:54px;padding:9px;width:95%;}
@@ -199,10 +201,9 @@ form.search .type-submit{background:url(../img/sprite-y.8bit.png) 0 -100px no-re
 .content ul,.content ol{margin-left:2em;}
 .content li{margin-bottom:5px;}
 .content li ul,.content li ol{margin-top:5px;margin-bottom:0;}
-.article-section-references .section-title{margin-bottom:16px;}
-.article-section-references ol{list-style:decimal;margin-left:35px;}
-.article-section-references li{margin-bottom:10px;}
-.article-section-references ol a{font-size:10px;line-height:1;text-transform:uppercase;}
+.references ol{margin-left:2em;}
+.references li{margin-bottom:10px;}
+.references ol a{font-size:10px;line-height:1;text-transform:uppercase;}
 .authors{overflow:visible;}
 .authors .author-info .content{background:url(../img/author-card-background.png) center bottom no-repeat;margin:0;padding:1px 15px 15px;}
 .authors .author-info .content p{margin:0;}
