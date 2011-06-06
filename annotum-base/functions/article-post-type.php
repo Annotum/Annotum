@@ -118,6 +118,7 @@ function anno_dtd_meta_boxes() {
 	add_meta_box('funding', __('Funding Statement', 'anno'), 'anno_funding_meta_box', 'article', 'normal', 'high', $post);
 	add_meta_box('acknowledgements', __('Acknowledgements', 'anno'), 'anno_acknowledgements_meta_box', 'article', 'normal', 'high', $post);
 	add_meta_box('appendicies', __('Appendicies', 'anno'), 'anno_appendicies_meta_box', 'article', 'normal', 'high', $post);
+	add_meta_box('featured', __('Featured', 'anno'), 'anno_featured_meta_box', 'article', 'side', 'default', $post);
 }
 add_action('add_meta_boxes_article', 'anno_dtd_meta_boxes');
 
@@ -160,6 +161,17 @@ function anno_acknowledgements_meta_box($post) {
 }
 
 /**
+ * Meta box markup for featuring an article in the featured carousel
+ */ 
+function anno_featured_meta_box($post) {
+	$checked = get_post_meta($post->ID, '_featured', true);
+?>
+	<label for="anno-featured"><?php _e('Featured ', 'anno'); ?></label>
+	<input id="anno-featured" type="checkbox" value="yes" name="featured"<?php checked($checked, 'yes', true); ?> />
+<?php	
+}
+
+/**
  * Save post meta related to an article 
  */ 
 function anno_article_insert_post($post_id, $post) {
@@ -171,6 +183,7 @@ function anno_article_insert_post($post_id, $post) {
 			'anno_subtitle',
 			'anno_funding',
 			'anno_acknowledgements',
+			'featured'
 		);
 		foreach ($anno_meta as $key) {
 			// We don't care if its set, an unset post var just means it's empty

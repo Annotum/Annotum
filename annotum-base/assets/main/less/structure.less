@@ -21,12 +21,18 @@ Act 3: Footer
 	color: #fff;
 	position: relative;
 	z-index: 2;
+	/**
+	 * @bugfix hasLayout fix
+	 * Resolves weird jumpy header issue.
+	 * @affected IE6
+	 * @valid no
+	 */
+	zoom: 1;
 }
 #header .header-body {
 	background: #006b94;
 	height: 86px;
 	position: relative;
-	zoom: 1;
 }
 #header .header-body a,
 #site-nav a {
