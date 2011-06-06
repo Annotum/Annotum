@@ -16,7 +16,7 @@ if (__FILE__ == $_SERVER['SCRIPT_FILENAME']) { die(); }
 class Anno_Widget_Recently extends WP_Widget {
 	public $key = 'anno_recently_html';
 	public $timeout = 3600; // 1 hour
-	public $enable_cache = false;
+	public $enable_cache = true;
 	public $html_uid;
 	public $number = 5;
 	
