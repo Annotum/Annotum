@@ -1,7 +1,7 @@
 <?php 
 
 function anno_appendicies_print_styles() {
-	wp_enqueue_style('anno-appendix-meta', trailingslashit(get_bloginfo('template_directory')).'/css/appendix-meta.css');
+	wp_enqueue_style('article-admin', trailingslashit(get_bloginfo('template_directory')).'/css/article-admin.css');
 }
 add_action('admin_print_styles-post.php', 'anno_appendicies_print_styles');
 add_action('admin_print_styles-post-new.php', 'anno_appendicies_print_styles');
