@@ -55,10 +55,10 @@ form.search .type-submit {
 	background-position: right -893px;
 }
 
-.article .sec h1,
-.article .sec .title,
-.article .section-title,
-.article .tools-nav .tools-menu-item .title {
+.article-full .sec h1,
+.article-full .sec .title,
+.article-full .section-title,
+.article-full .tools-nav .tools-menu-item .title {
 	background-position: right -999px;
 	padding-right: 9px;
 }
