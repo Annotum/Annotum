@@ -1,18 +1,21 @@
-#comments-container {
+#replies {
 	margin-bottom: 22px;
+	/**
+	 * @workaround crop overflow and fix width, so comments
+	 * don't break layout.
+	 * @affected ie6
+	 * @valid yes
+	 */
+	overflow: hidden;
+	width: 100%;
 }
-#comments-container .section-header {
+#replies .section-header {
 	position: relative;
 }
-#comments-container .section-header a {
+#replies .section-header a {
 	position: absolute;
 	right: 0;
 	top: 0;
-}
-
-#comments-container .section-title {
-	background: none;
-	margin-bottom: 6px;
 }
 
 .reply-list {

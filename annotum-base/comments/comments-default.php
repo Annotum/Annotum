@@ -15,9 +15,9 @@ if (CFCT_DEBUG) { cfct_banner(__FILE__); }
 if (comments_open()) {
 	if (!post_password_required() && have_comments() ) {
 		?>
-		<section id="comments-container">
+		<section id="replies">
 			<div class="section-header clearfix">
-				<h1 class="section-title" id="comments"><?php comments_number('', __('1 Comment', 'anno'), __('% Comments', 'anno')); ?></h2>
+				<h1 class="section-title"><?php comments_number('', __('1 Comment', 'anno'), __('% Comments', 'anno')); ?></h2>
 				<?php post_comments_feed_link('Comments RSS'); ?>
 			</div>
 

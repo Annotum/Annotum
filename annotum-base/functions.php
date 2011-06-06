@@ -55,9 +55,25 @@ function anno_setup() {
 		'after_title' => '</h1>'
 	);
 	register_sidebar(array_merge($sidebar_defaults, array(
-		'name' => 'Default Sidebar',
+		'name' => __('Default Sidebar', 'anno'),
 		'id' => 'default'
 	)));
+	register_sidebar(array_merge($sidebar_defaults, array(
+		'name' => __('Page Sidebar', 'anno'),
+		'id' => 'sidebar-page',
+		'description' => __('This sidebar will be shown on Pages.', 'anno')
+	)));
+	register_sidebar(array_merge($sidebar_defaults, array(
+		'name' => __('Article Sidebar', 'anno'),
+		'id' => 'sidebar-article',
+		'description' => __('This sidebar will be shown single Articles.', 'anno')
+	)));
+	register_sidebar(array_merge($sidebar_defaults, array(
+		'name' => __('Masthead Featurettes', 'anno'),
+		'id' => 'masthead',
+		'description' => __('Display items on the home page masthead.')
+	)));
+
 	add_action('wp_head', 'anno_css3_pie', 8);
 }
 add_action('after_setup_theme', 'anno_setup');
