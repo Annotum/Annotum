@@ -155,19 +155,18 @@ form.search .type-submit{background:url(../img/sprite-y.8bit.png) 0 -100px no-re
 #comments-container .section-header{position:relative;}
 #comments-container .section-header a{position:absolute;right:0;top:0;}
 #comments-container .section-title{background:none;margin-bottom:6px;}
-#comments-container .reply-list{border-bottom:1px #ccc solid;margin:0 0 18px;padding:0;}
-#comments-container .reply-list li{list-style:none;margin:0;padding:0;}
-#comments-container .reply-list .comment,#comments-container .reply-list .ping{border-top:1px #ccc solid;padding:14px 0;}
-#comments-container .reply-list .comment{margin-bottom:15px;padding-left:180px;position:relative;zoom:1;}
-#comments-container .reply-list .comment ul li{list-style-type:disc;}
-#comments-container .reply-list .comment ol li{list-style-type:decimal;}
-#comments-container .reply-list .children .li-comment{padding-left:40px;}
-#comments-container .reply-list .comment .header{height:auto !important;height:38px;min-height:38px;left:0;padding:0 0 0 46px;position:absolute;top:14px;width:134px;}
-#comments-container .reply-list .comment .header img{left:0;position:absolute;top:0;}
-#comments-container .reply-list .comment .header .title,#comments-container .reply-list .comment .header .published{font:normal 13px Arial,Helvetica,Sans-Serif;margin:0;}
-#comments-container .reply-list .comment .header .title{margin:0;}
-#comments-container .reply-list .comment .content{font-size:13px;line-height:1.38;}
-#comments-container .reply-list .comment .footer{font-size:12px;}
+.reply-list{border-bottom:1px #ccc solid;margin:0 0 18px;padding:0;}
+.reply-list li{list-style:none;margin:0;padding:0;}
+.comment,.ping{border-top:1px #ccc solid;padding:14px 0;}
+.comment{padding-left:180px;position:relative;zoom:1;}
+.reply-list .children .li-comment{padding-left:20px;}
+.comment .header{height:auto !important;height:38px;min-height:38px;left:0;padding:0 0 0 46px;position:absolute;top:14px;width:134px;}
+.comment .header img{left:0;position:absolute;top:0;}
+.comment .header .title,.comment .header .published{font:normal 13px Arial,Helvetica,Sans-Serif;margin:0;}
+.comment .header .title{margin:0;}
+.comment .content{font-size:13px;line-height:1.3847;margin-bottom:10px;}
+.comment .footer{font-size:11px;}
+.ping{font-size:12px;}
 #reply{color:#666;width:627px;}
 #reply .section-title{background:none;margin-bottom:16px;}
 #reply .logged-in{margin-bottom:12px;}
