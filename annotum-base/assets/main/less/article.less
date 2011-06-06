@@ -19,14 +19,16 @@
 	margin-bottom: 10px;
 }
 
+
 /** @section Header
  -------------------------------------------------- */
 .article .header {
-	margin-bottom: 18px;
-	overflow: hidden;
+	margin-bottom: 20px;
+}
+.article .header .entry-title a {
+	color: #000;
 }
 .article .header .entry-title .title {
-	color: #000;
 	font: bold 28px Georgia, Serif;
 	margin-bottom: 5px;
 }
@@ -35,8 +37,8 @@
 }
 .article .header .meta {
 	color: #666;
-	font: italic 13px Georgia, Serif;
-
+	font: italic 13px/1.5384 Georgia, Serif;
+	margin: 0 15px 15px;
 }
 .article .header .meta a:link {
 	color: #666;
@@ -49,9 +51,14 @@
 /** @section Content Area
  -------------------------------------------------- */
 
-.article .article-section .subtitle {
-	font-size: 14px;
-	font-weight: bold;
+.article .entry-content {
+	padding: 0 15px;
+}
+/* Remove padding from .secs in favor of the padding provided
+by .entry-content */
+.article .entry-content .sec {
+	padding-left: 0;
+	padding-right: 0;
 }
 
 /* Supplement Styles */
@@ -62,28 +69,6 @@
 	margin-left: 15px;
 	margin-right: 15px;
 	position: relative;
-}
-.article .figure {
-	/**
-	 * @workaround min-height Fast Hack
-	 *
-	 * IE6 doesn't support min-height, but treats elements with
-	 * height and overflow:visible as min-height.
-	 *
-	 * @affected IE5, IE6
-	 * @see http://www.dustindiaz.com/min-height-fast-hack/
-	 */
-	height: auto !important;
-	height: 120px;
-	min-height: 120px;
-	
-	padding: 12px 12px 12px 175px;
-	position: relative;
-}
-.article .figure img {
-	left: 12px;
-	position: absolute;
-	top: 12px;
 }
 
 .article .to-top {

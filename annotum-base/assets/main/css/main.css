@@ -51,7 +51,7 @@ h1,h2,h3,h4,h5,h6{font-weight:bold;}
 #main-body,#main-sidebar{padding-bottom:50px;}
 #main-sidebar,#masthead-sidebar{float:left;overflow:hidden;width:300px;}
 #site-name{font-size:36px;font-weight:normal;line-height:1.2;padding:36px 0 7px 0;text-shadow:rgba(0, 0, 0, 0.8) 0 1px 0;}
-#site-nav{background:#66a6bf;font-weight:bold;font-size:14px;}
+#site-nav{background:#66a6bf;font-weight:bold;font-size:14px;height:34px;}
 #site-nav .nav{float:left;}
 #site-nav li{border-color:#006b94;border-style:solid;border-right-width:1px;color:#66A6BF;position:relative;}
 #site-nav li ul{display:none;position:absolute;width:150px;z-index:1000;}
@@ -72,7 +72,7 @@ h1,h2,h3,h4,h5,h6{font-weight:bold;}
 form.search input.type-text{color:#666;font-size:13px;padding:1px 19px 1px 6px;width:169px;}
 form.search{position:relative;}
 form.search .type-submit{background:url(../img/sprite-y.8bit.png) 0 -100px no-repeat;border:0;height:13px;overflow:hidden;position:absolute;right:6px;top:5px;width:14px;}
-#site-nav .search{position:absolute;right:5px;top:5px;}
+#site-nav .search{position:absolute;right:5px;top:6px;}
 .featured-posts{overflow:hidden;position:relative;zoom:1;}
 .featured-posts ul,.featured-posts li{height:262px;list-style:none;list-style-position:outside;margin:0;overflow:hidden;width:100%;}
 .featured-posts .carousel-item{height:auto !important;height:232px;min-height:232px;background:#66a6bf;color:#000;padding:16px 16px 16px 300px;position:relative;}
@@ -86,23 +86,23 @@ form.search .type-submit{background:url(../img/sprite-y.8bit.png) 0 -100px no-re
 .featured-posts .control-panel .next{background-position:8px -94px;right:0;}
 .article .entry-title,.article .content{overflow:hidden;width:100%;zoom:1;}
 .article .content .entry-content,.article .content .entry-summary{margin-bottom:10px;}
-.article .header{margin-bottom:18px;overflow:hidden;}
-.article .header .entry-title .title{color:#000;font:bold 28px Georgia, Serif;margin-bottom:5px;}
+.article .header{margin-bottom:20px;}
+.article .header .entry-title a{color:#000;}
+.article .header .entry-title .title{font:bold 28px Georgia, Serif;margin-bottom:5px;}
 .article .header .sec .title{display:block;}
-.article .header .meta{color:#666;font:italic 13px Georgia, Serif;}
+.article .header .meta{color:#666;font:italic 13px/1.5384 Georgia,Serif;margin:0 15px 15px;}
 .article .header .meta a:link{color:#666;}
 .article .header .meta a:hover{color:#006b94;text-decoration:none;}
-.article .article-section .subtitle{font-size:14px;font-weight:bold;}
+.article .entry-content{padding:0 15px;}
+.article .entry-content .sec{padding-left:0;padding-right:0;}
 .article .supplement{background:#f6f6f6;border-bottom:#dadada solid 1px;border-top:#dadada solid 1px;margin-left:15px;margin-right:15px;position:relative;}
-.article .figure{height:auto !important;height:120px;min-height:120px;padding:12px 12px 12px 175px;position:relative;}
-.article .figure img{left:12px;position:absolute;top:12px;}
 .article .to-top{text-align:right;}
 .article .to-top a{background:#006B94;color:#fff;font-weight:bold;padding:4px 8px;}
 .article-excerpt{border-bottom:#ccc solid 1px;margin-bottom:27px;padding-bottom:15px;overflow:hidden;}
 .article-excerpt .header .title{font:bold 18px Georgia, Serif;margin-bottom:5px;}
-.article-excerpt .header .meta{color:#666;font:italic 13px Georgia, Serif;margin-bottom:10px;}
+.article-excerpt .header .meta{color:#666;font:italic 13px Georgia, Serif;margin:0 0 10px;}
 .article-excerpt .sep{padding:0 2px;}
-.article-excerpt-container .has-featured-image .content{height:auto !important;height:122px;min-height:122px;position:relative;padding-left:155px;zoom:1;}
+.article-excerpt-container .has-featured-image .content{height:auto !important;height:122px;min-height:122px;width:475px;position:relative;padding-left:155px;zoom:1;}
 .article-excerpt-container .has-featured-image img{left:0;position:absolute;top:2px;}
 .article-excerpt .content{margin-bottom:12px;}
 .callouts{margin-bottom:30px;}
@@ -204,11 +204,12 @@ form.search .type-submit{background:url(../img/sprite-y.8bit.png) 0 -100px no-re
 .authors ul{padding-right:4px;}
 .authors li{float:left;margin-right:10px;zoom:1;}
 .author{display:block;position:relative;}
-.author .extra a,.author .extra span{display:block;}
-.author .extra{left:50%;display:block;margin-left:-119px;position:absolute;width:248px;z-index:1000;}
-.author:hover .extra,.author,hover .extra{display:block;}
+.author .extra a{display:inline;}
+.author .extra .group{display:block;margin-bottom:5px;}
+.author .extra{background:url(../img/author-card-background.png) -300px bottom no-repeat;font-size:12px;display:none;left:50%;margin-left:-119px;padding-bottom:10px;position:absolute;width:248px;z-index:1000;}
+.author .extra-in{background:url(../img/author-card-background.png) 0 0 no-repeat;display:block;padding:16px 13px 1px;}
+.author:hover .extra,.author.hover .extra{display:block;}
 html.ie7 .authors .extra{top:15px;}
-.authors .author-info .header{background:url(../img/author-card-background.png) center 0 no-repeat;height:15px;margin:0;}
 .widget-recent-posts .nav{margin-bottom:11px;padding:20px 0 0 20px;}
 .widget-recent-posts .nav li{background:#dadada;border-bottom:#006B94 solid 1px;font:italic bold 14px Georgia, Serif;margin-right:6px;padding:0;}
 .widget-recent-posts .nav li a{display:block;padding:4px 8px;}
@@ -216,7 +217,8 @@ html.ie7 .authors .extra{top:15px;}
 .widget-recent-posts .nav .ui-tabs-selected a{color:#fff;}
 .widget-recent-posts .panel ol{background:url(../img/widget-hr.png) center bottom no-repeat;padding-bottom:16px;}
 .ui-tabs-hide{display:none;}
-.sec{margin-bottom:25px;margin-top:25px;padding-left:15px;padding-right:15px;}
-.sec h1,.sec .title,.section-title{background:url(../img/border-background.png) 0 bottom repeat-x;color:#000;font:italic bold 16px/1.2 Georgia,Serif;margin-bottom:15px;margin-top:25px;}
-.sec h1,.sec .title{margin-left:-15px;margin-right:-15px;}
+.sec{margin-bottom:25px;padding-left:15px;padding-right:15px;}
+.sec h1,.sec .title,.section-title{background:url(../img/border-background.png) 0 bottom repeat-x;color:#000;font:italic bold 16px/1.2 Georgia,Serif;margin-bottom:15px;}
+.sec h1,.sec .title{margin-left:-15px;margin-right:-15px;margin-top:25px;}
+.sec h1:first-child,.sec .title:first-child{margin-top:0;}
 .sec h1 span,.sec .title span,.section-title span{background:#fff;padding-right:3px;position:relative;top:4px;}

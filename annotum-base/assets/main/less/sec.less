@@ -1,7 +1,6 @@
 /* Content sections */
 .sec {
 	margin-bottom: 25px;
-	margin-top: 25px;
 	padding-left: 15px;
 	padding-right: 15px;
 }
@@ -12,12 +11,16 @@
 	color: #000;
 	font: italic bold 16px/1.2 Georgia, Serif;
 	margin-bottom: 15px;
-	margin-top: 25px;
 }
 .sec h1,
 .sec .title {
 	margin-left: -15px;
 	margin-right: -15px;
+	margin-top: 25px;
+}
+.sec h1:first-child,
+.sec .title:first-child {
+	margin-top: 0;
 }
 .sec h1 span,
 .sec .title span,

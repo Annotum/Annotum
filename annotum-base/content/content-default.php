@@ -27,6 +27,7 @@ if (CFCT_DEBUG) { cfct_banner(__FILE__); }
 			<time class="published" pubdate datetime="<?php the_time('c'); ?>"><?php the_time('F j, Y'); ?></time>
 			<?php anno_the_terms('article_category', '<span class="article-categories"> <span class="sep">&middot;</span> ', ',', '</span>'); ?>
 		</div>
+		<?php cfct_misc('tools-bar'); ?>
 		<div class="sec">
 			<span class="title"><span><?php _e('Authors', 'anno'); ?></span></span>
 			<ul class="authors nav">
@@ -34,9 +35,6 @@ if (CFCT_DEBUG) { cfct_banner(__FILE__); }
 			</ul>
 		</div>
 	</header>
-	<?php 
-	cfct_misc('tools-bar');
-	?>
 	<div class="content">
 		<section class="abstract sec">
 			<h1><span><?php _e('Abstract', 'anno'); ?></span></h1>

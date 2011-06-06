@@ -11,7 +11,7 @@
 .article-excerpt .header .meta {
 	color: #666;
 	font: italic 13px Georgia, Serif;
-	margin-bottom: 10px;
+	margin: 0 0 10px;
 }
 .article-excerpt .sep {
 	padding: 0 2px;
@@ -29,6 +29,11 @@
 	height: auto !important;
 	height: 122px;
 	min-height: 122px;
+	/**
+	 * @workaround fix width for IE6 so that content is properly cropped
+	 * @affected ie6
+	 */
+	width: 475px;
 	position: relative;
 	padding-left: 155px;
 	zoom: 1;

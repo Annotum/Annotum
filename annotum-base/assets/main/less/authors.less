@@ -23,29 +23,34 @@
 	display: block;
 	position: relative;
 }
-.author .extra a,
-.author .extra span {
+.author .extra a {
+	display: inline;
+}
+
+.author .extra .group {
 	display: block;
+	margin-bottom: 5px;
 }
 .author .extra {
-/*	display: none;
-*/	left: 50%;
-	display: block;
+	background: url(../img/author-card-background.png) -300px bottom no-repeat;
+	font-size: 12px;
+	display: none;
+	left: 50%;
 	margin-left: -119px;
+	padding-bottom: 10px;
 	position: absolute;
 	width: 248px;
 	z-index: 1000;
 }
+.author .extra-in {
+	background: url(../img/author-card-background.png) 0 0 no-repeat;
+	display: block;
+	padding: 16px 13px 1px;
+}
 .author:hover .extra,
-.author,hover .extra {
+.author.hover .extra {
 	display: block;
 }
 html.ie7 .authors .extra {
 	top: 15px;
-}
-
-.authors .author-info .header {
-	background: url(../img/author-card-background.png) center 0 no-repeat;
-	height: 15px;
-	margin: 0;
 }
