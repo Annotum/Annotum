@@ -69,10 +69,7 @@ if (CFCT_DEBUG) { cfct_banner(__FILE__); }
 					?>
 				</div><!-- #masthead-body -->
 				<div id="masthead-sidebar">
-					<?php
-					$teasers = new Anno_Teaser_Articles();
-					$teasers->render();
-					?>
+					<?php dynamic_sidebar('masthead'); ?>
 				</div><!-- #masthead-sidebar -->
 			</div>
 		</div><!-- #masthead -->

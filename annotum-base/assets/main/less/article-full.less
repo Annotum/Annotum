@@ -1,15 +1,15 @@
 /** @section General
  -------------------------------------------------- */
 
-.article {
+.article-full {
 	background: url(../img/article-border.png) repeat-x 0 bottom;
 	margin-bottom: 34px;
 	padding-bottom: 5px;
 }
 
 /* Crop overflow */
-.article .entry-title,
-.article .main {
+.article-full .entry-title,
+.article-full .main {
 	overflow:  hidden;
 	zoom: 1;
 	/**
@@ -20,36 +20,36 @@
 }
 
 /* Keep margins consistent using margin collapse */
-.article .content .entry-content,
-.article .content .entry-summary {
+.article-full .content .entry-content,
+.article-full .content .entry-summary {
 	margin-bottom: 10px;
 }
 
 
 /** @section Header
  -------------------------------------------------- */
-.article .header {
+.article-full .header {
 	margin-bottom: 20px;
 }
-.article .header .entry-title a {
+.article-full .header .entry-title a {
 	color: #000;
 }
-.article .header .entry-title .title {
+.article-full .header .entry-title .title {
 	font: bold 28px Georgia, Serif;
 	margin-bottom: 5px;
 }
-.article .header .sec .title {
+.article-full .header .sec .title {
 	display: block;
 }
-.article .header .meta {
+.article-full .header .meta {
 	color: #666;
 	font: italic 13px/1.5384 Georgia, Serif;
 	margin: 0 15px 15px;
 }
-.article .header .meta a:link {
+.article-full .header .meta a:link {
 	color: #666;
 }
-.article .header .meta a:hover {
+.article-full .header .meta a:hover {
 	color: #006b94;
 	text-decoration: none;
 }
@@ -57,14 +57,14 @@
 /** @section Footer
  -------------------------------------------------- */
 
-.article .footer {
+.article-full .footer {
 	margin-bottom: 25px;
 }
 
 /** @section Content Area
  -------------------------------------------------- */
 
-.article .content {
+.article-full .content {
 	/**
 	 * Keep bottom spacing consistent using margin-collapse
 	 */
@@ -73,12 +73,12 @@
 }
 /* Remove padding from .secs in favor of the padding provided
 by .entry-content */
-.article .content .sec {
+.article-full .content .sec {
 	padding-left: 0;
 	padding-right: 0;
 }
 
-.article textarea.entry-summary {
+.article-full textarea.entry-summary {
 	clear: left;
 	font-size: 12px;
 	line-height: 18px;
@@ -88,7 +88,7 @@ by .entry-content */
 }
 
 /* Supplement Styles */
-.article .supplement {
+.article-full .supplement {
 	background: #f6f6f6;
 	border-bottom: #dadada solid 1px;
 	border-top: #dadada solid 1px;
@@ -97,10 +97,10 @@ by .entry-content */
 	position: relative;
 }
 
-.article .to-top {
+.article-full .to-top {
 	text-align: right;
 }
-.article .to-top a {
+.article-full .to-top a {
 	background: #006B94;
 	color: #fff;
 	font-weight: bold;
