@@ -1,11 +1,8 @@
 <?php 
 
-function anno_article_admin_print_styles() {
-	wp_enqueue_style('article-admin', trailingslashit(get_bloginfo('template_directory')).'/css/article-admin.css');
-}
-add_action('admin_print_styles-post.php', 'anno_article_admin_print_styles');
-add_action('admin_print_styles-post-new.php', 'anno_article_admin_print_styles');
-
+/**
+ * Meta box for Article Appendicies
+ */ 
 function anno_appendicies_meta_box($post) {
 	$html .= '
 	<div id="anno_appendicies">';
@@ -54,6 +51,9 @@ function anno_appendicies_meta_box($post) {
 	echo $html;
 }
 
+/**
+ * Output for Appendix edit input.
+ */ 
 function anno_appendix_box_content($index = null, $content = null) {
 
 	if (empty($index) && $index !== 0) {
@@ -73,11 +73,15 @@ function anno_appendix_box_content($index = null, $content = null) {
 </fieldset>';
 	return $html;
 }
+
 /**
- * Create an alpha representation of the appendix number. Note that this only supports up to ZZ
+ * Create an alpha representation of the appendix number.
+ * 
+ * @param int $index Integer index to be converted to an equivalent base 26 (alphabet) sequence
+ * @return string String of capital letters representing the index integer
  */ 
 function anno_index_alpha($index) {
- 	for($r = ''; $index >= 0; $index = intval($index / 26) - 1)
-        $r = chr(intval($index % 26) + 65) . $r;
-    return $r;
+ 	for($return = ''; $index >= 0; $index = intval($index / 26) - 1)
+        $return = chr(intval($index % 26) + 65) . $return;
+    return $return;
 }
