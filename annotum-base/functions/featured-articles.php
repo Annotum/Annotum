@@ -30,39 +30,17 @@ class Anno_Cacheer {
 }
 
 class Anno_Featured_Articles extends Anno_Cacheer {
-	public $post_meta_key = '_featured';
-	public $enable_cache = false;
-	public static $already_shown = array();
-	public static $keys = array();
-	public $number = 5;
-	
-	public function __construct($key = '', $timeout = false) {
-		self::$keys[] = $this->key;
-		parent::__construct($key, $timeout);
-	}
-	
-	/* Clear ALL the caches of descendants of this class */
-	public function clear_caches() {
-		foreach (self::$keys as $key) {
-			delete_transient($key);
-		}
-	}
-	
-	public function modify_query() {
-		return new WP_Query(array(
-			'meta_query' => array(
-				'key' => $this->post_meta_key,
-				'value' => 'yes'
-			),
-			'post_type' => 'article',
-			'posts_per_page' => $this->number,
-			'post__not_in' => self::$already_shown
-		));
-	}
-	
+	public $enable_cache = true;
+
 	public function cached() {
-		$this->clear_caches();
-		$q = $this->modify_query();
+		$q = new WP_Query(array(
+			'meta_query' => array(array(
+					'key' => '_featured',
+					'value' => 'yes'
+			)),
+			'post_type' => 'article',
+			'posts_per_page' => 5
+		));
 		if ($q->have_posts()) { ?>
 <div id="home-featured" class="featured-posts carousel">
 		<ul>
@@ -79,8 +57,6 @@ class Anno_Featured_Articles extends Anno_Cacheer {
 				</div>
 			</li>
 			<?php
-				// Store ID of shown item. Make sure it doesn't get shown twice!
-				self::$already_shown[] = get_the_ID();
 			}
 			?>
 		</ul>
