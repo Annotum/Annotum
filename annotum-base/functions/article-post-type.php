@@ -189,6 +189,16 @@ function anno_article_insert_post($post_id, $post) {
 			// We don't care if its set, an unset post var just means it's empty
 			update_post_meta($post_id, '_'.$key, $_POST[$key]);
 		}
+		
+		$appendicies = array();
+		if (is_array($_POST['anno_appendix'])) {
+			foreach ($_POST['anno_appendix'] as $appendix) {
+				if (!empty($appendix)) {
+					$appendicies[] = $appendix;
+				}
+			}
+		}
+		update_post_meta($post_id, '_anno_appendicies', $appendicies);
 	}	
 }
 add_action('wp_insert_post', 'anno_article_insert_post', 10, 2);
