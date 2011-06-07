@@ -49,6 +49,14 @@ function anno_user_can($cap, $user_id = null, $post_id = null, $comment_id = nul
 				return true;
 			}
 			break;
+		case 'edit_slug':
+			if ($user_role == $admin) {
+				return true;
+			}
+			if ($user_role == $editor && $post_state == 'draft') {
+				return true;
+			}
+			break;
 		case 'edit_post':
 			global $pagenow;
 			

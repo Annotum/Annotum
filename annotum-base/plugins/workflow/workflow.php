@@ -725,7 +725,7 @@ function annowf_get_post_id() {
 }
 
 function annowf_get_sample_permalink_html($return, $id, $new_title, $new_slug) {
-	if (anno_user_can('edit_post', null, $id)) {
+	if (anno_user_can('edit_slug', null, $id)) {
 		return $return;
 	} 
 	else {
@@ -770,6 +770,6 @@ function annowf_get_sample_permalink_html($return, $id, $new_title, $new_slug) {
 	return $return;
 */
 }
-//add_filter('get_sample_permalink_html', 'annowf_get_sample_permalink_html', 10, 4);
+add_filter('get_sample_permalink_html', 'annowf_get_sample_permalink_html', 10, 4);
 
 ?>
