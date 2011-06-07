@@ -266,5 +266,6 @@ function anno_internal_comments_query($query) {
 	$query = str_replace('WHERE', 'WHERE comment_type NOT IN (\'article_general\', \'article_review\') AND', $query);
 	return $query;
 }
+add_filter('comment_feed_where', 'anno_internal_comments_query');
 
 ?>

@@ -629,7 +629,6 @@ function annowf_admin_request_handler() {
 	if (isset( $_POST['deletepost'])) {
 		$wp_action = 'delete';
 	}
-	
 	if (isset($_POST['post_type'])) {
 		$post_type = $_POST['post_type'];
 	}
@@ -649,6 +648,7 @@ function annowf_admin_request_handler() {
 			case 'editpost':
 			case 'editattachment':
 			case 'autosave':
+			case 'inline-save':
 				$anno_cap = 'edit_post';
 				break;
 			// For Viewing post-edit screen
@@ -723,18 +723,26 @@ function annowf_get_post_id() {
 	}
 	return intval($post_id);
 }
+
 function annowf_get_sample_permalink_html($return, $id, $new_title, $new_slug) {
-//echo $return;
-//return $return;
 	if (anno_user_can('edit_post')) {
 		return $return;
+	} 
+	else {
+		return '';
 	}
 	
-
-	$post = &get_post($id);
+// TODO possibly re-implement
+/*	
+	if ( 'publish' == $post->post_status ) {
+			$ptype = get_post_type_object($post->post_type);
+			$view_post = $ptype->labels->view_item;
+			$title = __('Click to edit this part of the permalink');
+		} else {
+			$title = __('Temporary permalink. Click to edit this part.');
+		}
 
 	list($permalink, $post_name) = get_sample_permalink($post->ID, $new_title, $new_slug);
-
 
 	if ( function_exists('mb_strlen') ) {
 		if ( mb_strlen($post_name) > 30 ) {
@@ -760,8 +768,8 @@ function annowf_get_sample_permalink_html($return, $id, $new_title, $new_slug) {
 		$return .= "<span id='view-post-btn'><a href='$view_link' class='button' target='_blank'>$view_post</a></span>\n";
 
 	return $return;
+*/
 }
-
 add_filter('get_sample_permalink_html', 'annowf_get_sample_permalink_html', 10, 4);
 
 ?>
