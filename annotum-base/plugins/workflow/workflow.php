@@ -731,9 +731,9 @@ function annowf_get_sample_permalink_html($return, $id, $new_title, $new_slug) {
 	else {
 		return '';
 	}
-	
+
 // TODO possibly re-implement
-/*	
+/*
 	if ( 'publish' == $post->post_status ) {
 			$ptype = get_post_type_object($post->post_type);
 			$view_post = $ptype->labels->view_item;
@@ -770,6 +770,7 @@ function annowf_get_sample_permalink_html($return, $id, $new_title, $new_slug) {
 	return $return;
 */
 }
+
 add_filter('get_sample_permalink_html', 'annowf_get_sample_permalink_html', 10, 4);
 
 ?>
