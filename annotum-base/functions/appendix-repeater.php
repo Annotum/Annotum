@@ -6,18 +6,18 @@ function anno_article_admin_print_styles() {
 add_action('admin_print_styles-post.php', 'anno_article_admin_print_styles');
 add_action('admin_print_styles-post-new.php', 'anno_article_admin_print_styles');
 
-function anno_appendicies_meta_box($post) {
+function anno_appendicies_meta_box($post) {	
 	$html .= '
 	<div id="anno_appendicies">';
 
 	$appendicies = get_post_meta($post->ID, '_anno_appendicies', true);
 	if (!empty($appendicies) && is_array($appendicies)) {
 		foreach ($appendicies as $index => $content) {
-			$html .= anno_appendix_box_content($index + 1, $content);
+			$html .= anno_appendix_box_content($index, $content);
 		}
 	}
 	else {
-		$html .= anno_appendix_box_content(1);
+		$html .= anno_appendix_box_content(0);
 	}
 	
 	$html .= '
@@ -31,7 +31,7 @@ function anno_appendicies_meta_box($post) {
 				}
 				insert_element = \''.str_replace(PHP_EOL,'',trim(anno_appendix_box_content())).'\';
 				insert_element = insert_element.replace(/'.'###INDEX###'.'/g, next_element_index);
-				insert_element = insert_element.replace(/'.'###INDEX_ALPHA###'.'/g, String.fromCharCode(next_element_index + 64));
+				insert_element = insert_element.replace(/'.'###INDEX_ALPHA###'.'/g, String.fromCharCode(next_element_index + 65));
 				jQuery(insert_element).appendTo(\'#'.'anno_appendicies'.'\');
 			}
 			function deleteAnnoAppendix'.'(del_el) {
@@ -49,19 +49,14 @@ function anno_appendicies_meta_box($post) {
 }
 
 function anno_appendix_box_content($index = null, $content = null) {
-	
-//	echo anno_index_alpha(27);
-	
-	if (empty($index)) {
+
+	if (empty($index) && $index !== 0) {
 		$index = '###INDEX###';
 		$index_alpha = '###INDEX_ALPHA###';
 		$content = '';
 	}
 	else {
-		if ($index > 25) {
-			
-		}
-		$index_alpha = chr(absint($index) + 64);
+		$index_alpha = anno_index_alpha($index);
 	}
 	$html .='
 <fieldset id="'.esc_attr('anno_appendix_'.$index).'" class="appendix-wrapper">
@@ -72,16 +67,9 @@ function anno_appendix_box_content($index = null, $content = null) {
 </fieldset>';
 	return $html;
 }
-
+/**
+ * Create an alpha representation of the appendix number. Note that this only supports up to ZZ
+ */ 
 function anno_index_alpha($index) {
-	if ($index == 0) {
-		return 'Z';
-	}
-	if ($index > 26) {
-		return chr(intval(absint($index) / 26) + 64).anno_index_alpha($index % 27);
-	}
-	else {
-		return chr(absint($index % 27) + 64);
-	}
-	return $index_alpha;
+	return chr($index + 65);
 }
