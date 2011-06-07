@@ -6,7 +6,7 @@ function anno_article_admin_print_styles() {
 add_action('admin_print_styles-post.php', 'anno_article_admin_print_styles');
 add_action('admin_print_styles-post-new.php', 'anno_article_admin_print_styles');
 
-function anno_appendicies_meta_box($post) {	
+function anno_appendicies_meta_box($post) {
 	$html .= '
 	<div id="anno_appendicies">';
 
@@ -71,5 +71,8 @@ function anno_appendix_box_content($index = null, $content = null) {
  * Create an alpha representation of the appendix number. Note that this only supports up to ZZ
  */ 
 function anno_index_alpha($index) {
-	return chr($index + 65);
+
+ 	for($r = ''; $index >= 0; $index = intval($index / 26) - 1)
+        $r = chr(intval($index % 26) + 65) . $r;
+    return $r;
 }
