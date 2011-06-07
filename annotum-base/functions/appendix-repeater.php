@@ -22,16 +22,22 @@ function anno_appendicies_meta_box($post) {
 	
 	$html .= '
 		<script type="text/javascript" charset="utf-8">
+			function annoIndexAlpha(index) {
+				for(var r = \'\'; index >= 0; index = Number(index) / 26 - 1) {
+			       	r = String.fromCharCode(Number(index) % 26 + 65) + r;
+				}
+			   	return r;
+			}
 			function addAnotherAnnoAppendix() {
-				if (jQuery(\'#'.'anno_appendicies'.'\').children(\'fieldset\').length > 0) {
-					last_element_index = jQuery(\'#anno_appendicies fieldset:last\').attr(\'id\').match(/anno_appendix_([0-9])/);
+				if (jQuery(\'#anno_appendicies\').children(\'fieldset\').length > 0) {
+					last_element_index = jQuery(\'#anno_appendicies fieldset:last\').attr(\'id\').match(/anno_appendix_([0-9]+)/);
 					next_element_index = Number(last_element_index[1])+1;
 				} else {
 					next_element_index = 1;
 				}
 				insert_element = \''.str_replace(PHP_EOL,'',trim(anno_appendix_box_content())).'\';
 				insert_element = insert_element.replace(/'.'###INDEX###'.'/g, next_element_index);
-				insert_element = insert_element.replace(/'.'###INDEX_ALPHA###'.'/g, String.fromCharCode(next_element_index + 65));
+				insert_element = insert_element.replace(/'.'###INDEX_ALPHA###'.'/g, annoIndexAlpha(next_element_index));
 				jQuery(insert_element).appendTo(\'#'.'anno_appendicies'.'\');
 			}
 			function deleteAnnoAppendix'.'(del_el) {
@@ -71,7 +77,6 @@ function anno_appendix_box_content($index = null, $content = null) {
  * Create an alpha representation of the appendix number. Note that this only supports up to ZZ
  */ 
 function anno_index_alpha($index) {
-
  	for($r = ''; $index >= 0; $index = intval($index / 26) - 1)
         $r = chr(intval($index % 26) + 65) . $r;
     return $r;
