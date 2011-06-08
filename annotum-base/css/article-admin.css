@@ -1,18 +1,33 @@
 .appendix-wrapper {
-	background:#f9f9f9;
-	margin:12px 0;
+	background: #f9f9f9;
+	margin: 0 0 20px 0;
 }
 
 .appendix-wrapper h4 {
 	background:#f1f1f1;
-	border:1px solid #dfdfdf;
-	font-size:12px;
+	border-top:1px solid #dfdfdf;
+	border-bottom:1px solid #dfdfdf;
+	font-size:13px;
 	font-weight: bold;
 	margin:0;
 	padding:5px 8px 8px;
 }
 
-.anno-meta {
-	height: 200px;
+textarea.anno-meta {
 	width: 100%;
+}
+
+#appendicies .inside {
+	margin: 0;
+	padding: 0;
+}
+
+#appendicies td.mceStatusbar {
+	color: #ff00ff;
+	border-bottom: 1px solid #000;
+}
+
+#body .wp_themeSkin .mceStatusbar a.mceResize,
+#appendicies .wp_themeSkin .mceStatusbar a.mceResize {
+	top: -2px;
 }

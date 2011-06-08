@@ -36,6 +36,7 @@ function anno_appendicies_meta_box($post) {
 				insert_element = insert_element.replace(/'.'###INDEX###'.'/g, next_element_index);
 				insert_element = insert_element.replace(/'.'###INDEX_ALPHA###'.'/g, annoIndexAlpha(next_element_index));
 				jQuery(insert_element).appendTo(\'#'.'anno_appendicies'.'\');
+				tinyMCE.execCommand(\'mceAddControl\', false, \'appendix-\' + next_element_index );
 			}
 			function deleteAnnoAppendix'.'(del_el) {
 				if(confirm(\''.__('Are you sure you want to delete this?', 'anno').'\')) {
@@ -69,8 +70,9 @@ function anno_appendix_box_content($index = null, $content = null) {
 	<h4>
 	Appendix '.esc_html($index_alpha).' - <a href="#" onclick="deleteAnnoAppendix(jQuery(this).parent()); return false;" class="delete">'.__('delete', 'anno').'</a>
 	</h4>
-	<textarea class="anno-meta" name="'.esc_attr('anno_appendix['.$index.']').'">'.esc_html($content).'</textarea>
+	<textarea id="'.esc_attr('appendix-'.$index).'" class="anno-meta" name="'.esc_attr('anno_appendix['.$index.']').'">'.esc_html($content).'</textarea>
 </fieldset>';
+
 	return $html;
 }
 

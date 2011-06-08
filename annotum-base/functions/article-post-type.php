@@ -52,7 +52,6 @@ function anno_post_type_requst_handler() {
 				anno_post_type_css();
 				die();
 				break;
-			
 			default:
 				break;
 		}
@@ -129,23 +128,38 @@ function anno_subtitle_meta_box($post) {
 <?php
 }
 
+/**
+ * Body meta box markup (stored in content)
+ */
 function anno_body_meta_box($post) {
-echo 'body';
+/*	TODO html/visual editor switch markup.
+	<a id="edButtonHTML" class="active hide-if-no-js" onclick="switchEditors.go('anno-body', 'html');"><?php _e('HTML'); ?></a>
+	<a id="edButtonPreview" class="hide-if-no-js" onclick="switchEditors.go('anno-body', 'tinymce');"><?php _e('Visual'); ?></a>
+*/	
 ?>
-	<textarea name="content" class="anno-meta"><?php echo esc_html($post->post_content); ?></textarea>
+	<textarea id="anno-body" name="content" class="anno-meta"><?php echo esc_html($post->post_content); ?></textarea>
 <?php
 }
 
+/**
+ * References meta box markup
+ */
 function anno_references_meta_box($post) {
 	echo 'references placeholder';
 }
 
+/**
+ * Abstract meta box markup (stored in excerpt)
+ */
 function anno_abstract_meta_box($post) {
 ?>
 	<textarea class="anno-meta" name="excerpt"><?php echo esc_html($post->post_excerpt); ?></textarea>
 <?php
 }
 
+/**
+ * Funding meta box markup
+ */
 function anno_funding_meta_box($post) {
 	$html = get_post_meta($post->ID, '_anno_funding', true);
 ?>
@@ -153,10 +167,13 @@ function anno_funding_meta_box($post) {
 <?php
 }
 
+/**
+ * Acknowledgements meta box markup
+ */
 function anno_acknowledgements_meta_box($post) {
 	$html = get_post_meta($post->ID, '_anno_acknowledgements', true);
 ?>
-	<textarea class="anno-meta" name="anno_acknowledgements"><?php echo esc_html($html); ?></textarea>
+	<textarea id="guy" class="anno-meta" name="anno_acknowledgements"><?php echo esc_html($html); ?></textarea>
 <?php
 }
 
@@ -211,5 +228,38 @@ function anno_article_admin_print_styles() {
 }
 add_action('admin_print_styles-post.php', 'anno_article_admin_print_styles');
 add_action('admin_print_styles-post-new.php', 'anno_article_admin_print_styles');
+
+/**
+ * Print styles for article post type.
+ */ 
+function anno_article_admin_print_scripts() {
+//	wp_enqueue_script('article-admin', trailingslashit(get_bloginfo('template_directory')).'/js/article-admin.js', array('tinymce'), '', true);
+}
+add_action('init', 'anno_article_admin_print_scripts', 99);
+
+/**
+ * Load TinyMCE for the body and appendices.
+ */
+function anno_admin_print_footer_scripts() {
+	global $post;
+	$appendicies = get_post_meta($post->ID, '_anno_appendicies', true);
+	if (empty($appendicies) || !is_array($appendicies)) {
+		$appendicies = array(0 => '0');
+	}
+	wp_tiny_mce();
+?>
+<script type="text/javascript">
+	tinyMCE.execCommand('mceAddControl', false, 'anno-body');
+<?php
+	foreach ($appendicies as $key => $value) {
+?>
+	tinyMCE.execCommand('mceAddControl', false, 'appendix-<?php echo $key; ?>');
+<?php
+	}
+?>
+</script>
+<?php
+}
+add_action('admin_print_footer_scripts', 'anno_admin_print_footer_scripts', 99);
 
 ?>
