@@ -45,58 +45,66 @@ function anno_the_terms($taxonomy = 'article_category', $before = '', $sep = '',
 	echo get_the_term_list($post_id, $taxonomy, $before, $sep, $after);
 }
 
-function anno_the_author() {
-	$id = get_the_author_meta('id');
-	$author = get_userdata($id);
-	$posts_url = get_author_posts_url($id);
-	
-	if (!is_object($author)) {
-		return false;
-	}
-	
-	// Name
-	$first_name = esc_attr($author->user_firstname);
-	$last_name = esc_attr($author->user_lastname);
-	if ($first_name && $last_name) {
-		$fn = '<a href="'.$posts_url.'" class="url name"><span class="given-name">'.$first_name.'</span> <span class="family-name">'.$last_name.'</span></a>';
-	}
-	else {
-		$fn = '<a href="'.$posts_url.'" class="fn url">' . esc_attr($author->display_name) . '</a>';
-	}
-	
-	// Website
-	$trimmed_url = substr($author->user_url, 0, 20);
-	$trimmed_url = ($trimmed_url != $author->user_url ? $trimmed_url . '&hellip;' : $author->user_url);
-	
-	$website = $author->user_url ? '<span class="group">' . __('Website:', 'anno') . ' <a class="url" href="' . esc_url($author->user_url) . '">' . $trimmed_url . '</a></span>' : '';
-	
-	// Note
-	$note = $author->user_description ? '<span class="group note">' . esc_attr($author->user_description) . '</span>' : '';
+function anno_the_authors() {
+	global $post;
+	$out = '';
+	$author_id = get_the_author_meta('id');
 
-	// @TODO Honoraries (PHD, etc)
+	$authors = array();
+	if (function_exists('annowf_get_post_users')) {
+		$authors = annowf_get_post_users($post->ID, '_co_authors');
+	}
 	
-	// @TODO organization (MIT, etc)
+	array_unshift($authors, $author_id);
+	
+	foreach ($authors as $id) {
+		$author = get_userdata($id);
+		$posts_url = get_author_posts_url($id);
+		// Name
+		$first_name = esc_attr($author->user_firstname);
+		$last_name = esc_attr($author->user_lastname);
+		if ($first_name && $last_name) {
+			$fn = '<a href="'.$posts_url.'" class="url name"><span class="given-name">'.$first_name.'</span> <span class="family-name">'.$last_name.'</span></a>';
+		}
+		else {
+			$fn = '<a href="'.$posts_url.'" class="fn url">' . esc_attr($author->display_name) . '</a>';
+		}
 
-	$author = '
+		// Website
+		$trimmed_url = substr($author->user_url, 0, 20);
+		$trimmed_url = ($trimmed_url != $author->user_url ? $trimmed_url . '&hellip;' : $author->user_url);
+
+		$website = $author->user_url ? '<span class="group">' . __('Website:', 'anno') . ' <a class="url" href="' . esc_url($author->user_url) . '">' . $trimmed_url . '</a></span>' : '';
+
+		// Note
+		$note = $author->user_description ? '<span class="group note">' . esc_attr($author->user_description) . '</span>' : '';
+
+		// @TODO Honoraries (PHD, etc)
+		// @TODO organization (MIT, etc)
+
+		$card = '
 <li>
 	<div class="author vcard">
 		'.$fn;
 
 	if ($website || $note) {
-		$author .= '
-			<span class="extra">
-				<span class="extra-in">
-					'.$website.'
-					'.$note.'
-				</span>
-			</span>';
+		$card .= '
+		<span class="extra">
+			<span class="extra-in">
+				'.$website.'
+				'.$note.'
+			</span>
+		</span>';
 	}
-	
-	$author .= '
+
+	$card .= '
 	</div>
 </li>';
 	
-	echo $author;
+		$out .= $card;
+	}
+	
+	echo $out;
 }
 
 /**
