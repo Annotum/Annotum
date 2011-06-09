@@ -93,7 +93,7 @@ function anno_user_can($cap, $user_id = null, $post_id = null, $comment_id = nul
 		case 'view_general_comment':
 		case 'view_general_comments':
 			// if user is author/co-author or editor+
-			if ($user_role && $user_role != 'reviewer') {
+			if ($user_role) {
 				return true;
 			}
 			break;

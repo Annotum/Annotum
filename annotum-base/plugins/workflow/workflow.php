@@ -1,5 +1,16 @@
 <?php
 
+// Translateable workflow states
+global $annowf_states;
+$annowf_states = array(
+	'draft' => _x('Draft', 'Post state/status', 'anno'),
+	'submitted' => _x('Submitted', 'Post state/status', 'anno'),
+	'in_review' => _x('In Review', 'Post state/status', 'anno'),
+	'approved' => _x('Approved', 'Post state/status', 'anno'),
+	'rejected' => _x('Rejected', 'Post state/status', 'anno'),
+	'published' => _x('Published', 'Post state/status', 'anno'),
+);
+
 /**
  * Remove/Add meta boxes
  */ 
@@ -29,7 +40,8 @@ function annowf_meta_boxes() {
 	add_meta_box('authordiv', __('Author', 'anno'), 'annowf_author_meta_box', 'article', 'side', 'low');
 	
 	// Add the Annotum workflow publish box.
-	add_meta_box('submitdiv', __('Status:', 'anno').' '. $post_state, 'annowf_status_meta_box', 'article', 'side', 'high');
+	global $annowf_states;
+	add_meta_box('submitdiv', __('Status:', 'anno').' '. $annowf_states[$post_state], 'annowf_status_meta_box', 'article', 'side', 'high');
 
 	// Clone data meta box. Only display if something has been cloned from this post, or it is a clone itself.
 	$posts_cloned = get_post_meta($post->ID, '_anno_posts_cloned', true);

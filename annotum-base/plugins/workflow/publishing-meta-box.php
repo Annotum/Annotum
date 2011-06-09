@@ -95,7 +95,23 @@ function annowf_minor_action_submitted_markup() {
  */
 function annowf_major_action_submitted_markup() {
 	if (anno_user_can('alter_post_state')) {
-		annowf_major_action_revert('center');
+		global $anno_post_save;
+?>
+	<div id="publishing-action-approve" class="center-wrap">
+		<input name="original_publish" type="hidden" id="original_publish" value="<?php esc_attr_e('Approve', 'anno') ?>" />	
+		<?php submit_button($anno_post_save['approve'], 'primary', 'publish', false, array( 'tabindex' => '5')); ?>
+		<img src="<?php echo esc_url( admin_url( 'images/wpspin_light.gif' ) ); ?>" class="ajax-loading" alt="" />
+	</div>
+	<div id="publishing-action-revision" class="center-wrap">
+		<?php submit_button($anno_post_save['revisions'], 'primary', 'publish', false, array( 'tabindex' => '6' )); ?>
+		<img src="<?php echo esc_url( admin_url( 'images/wpspin_light.gif' ) ); ?>" class="ajax-loading" />
+	</div>
+	<div id="publishing-action-reject" class="center-wrap">
+		<?php submit_button($anno_post_save['reject'], 'primary', 'publish', false, array( 'tabindex' => '7' )); ?>
+		<img src="<?php echo esc_url( admin_url( 'images/wpspin_light.gif' ) ); ?>" class="ajax-loading" />
+	</div>
+	
+<?php
 	}
 	else {
 		annowf_major_action_preview_markup();
