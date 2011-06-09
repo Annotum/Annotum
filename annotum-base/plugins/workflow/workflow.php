@@ -282,7 +282,7 @@ function annowf_user_li_markup($user, $type = null) {
 	}
 	$remove = '&nbsp;';
 	if (anno_user_can('manage_'.$type.'s', null, $post_id)) {
-		$remove = '&nbsp;&middot;&nbsp;<a href="#" class="anno-user-remove">remove</a>';
+		$remove = '&nbsp;&nbsp;<a href="#" class="anno-user-remove">remove</a>';
 	}
 ?>
 	<li id="<?php echo esc_attr('user-'.$user->ID); ?>">
@@ -312,6 +312,21 @@ function annowf_add_reviewer() {
 		if ($post_state == 'submitted') {
 			update_post_meta($post_id, '_post_state', 'in_review');
 			//TODO reload?
+		}
+		
+		// If the reviewer is being re-added and has already left a review for this round
+		$round = annowf_get_round($post_id);
+		$review = get_user_meta($response['user']->ID, '_'.$post_id.'_review_'.$round);
+		if (!empty($review)) {
+			$reviewed = get_post_meta($post_id, '_round_'.$round.'_reviewed', true);
+			$reviewed[] = $response['user']->ID;
+			update_post_meta($post_id, '_round_'.$round.'_reviewed', array_unique($reviewed));
+			
+			// Used for incrementation of x of x reviewed
+			$respose['increment'] = 1;
+		}
+		else {
+			$respose['increment'] = 0;
 		}
 	}
 	unset($response['user']);
@@ -403,20 +418,24 @@ function annowf_add_user($type) {
  * Handles AJAX request for remove a reviewer to a post.
  */ 
 function annowf_remove_reviewer() {
-	// Send back to submitted state if we've removed all the reviewers
 	if (annowf_remove_user('reviewer')) {
 		$post_id = intval($_POST['post_id']);
 		$user_id = intval($_POST['user_id']);
-
+		
+		// Send back to submitted state if we've removed all the reviewers
 		if (count(annowf_get_post_users($post_id, '_reviewers')) == 0) {
 			update_post_meta($post_id, '_post_state', 'submitted');
 		}
 		$round = annowf_get_round($post_id);
 		$reviews = annowf_get_post_users($post_id, '_round_'.$round.'_reviewed');
-		if (is_array($reviews) && in_array($user_id, $reviews)) {
+		if (in_array($user_id, $reviews)) {
 			$key = array_search($user_id, $reviews);
 			unset($reviews[$key]);
 			update_post_meta($post_id, '_round_'.$round.'_reviewed', $reviews);
+			$result['decrement'] == 1;
+		}
+		else {
+			$result['decrement'] == 0;			
 		}
 	}
 	die();

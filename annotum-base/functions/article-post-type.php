@@ -246,10 +246,11 @@ function anno_admin_print_footer_scripts() {
 	if (empty($appendicies) || !is_array($appendicies)) {
 		$appendicies = array(0 => '0');
 	}
-	wp_tiny_mce();
+	wp_tiny_mce(false);
+
 ?>
 <script type="text/javascript">
-	tinyMCE.execCommand('mceAddControl', false, 'anno-body');
+//	tinyMCE.execCommand('mceAddControl', false, 'anno-body');
 <?php
 	foreach ($appendicies as $key => $value) {
 ?>
