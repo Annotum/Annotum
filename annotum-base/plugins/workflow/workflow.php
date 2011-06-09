@@ -27,11 +27,13 @@ function annowf_meta_boxes() {
 	// Remove author box
 	remove_meta_box('authordiv', 'article', 'normal');
 		
+	// Remove slug div
+	remove_meta_box('slugdiv', 'article', 'normal', 'core');
+	
 	// Remove taxonomy/edit boxes when a user is unable to save/edit
 	if (!anno_user_can('edit_post', null, $post->ID)) {
 		remove_meta_box('tagsdiv-article_tag', 'article', 'side');
 		remove_meta_box('article_category_select', 'article', 'side');
-		remove_meta_box('slugdiv', 'article', 'normal', 'core');
 		remove_meta_box('postimagediv', 'article', 'side', 'low');
 	}
 	
@@ -557,6 +559,7 @@ add_action('wp_ajax_anno-user-search', 'annowf_user_search');
  * Metabox for posts that have been cloned from this post
  */ 
 function annowf_cloned_meta_box() {
+//TODO check for trash/deleted
 	global $post;
 	
 	$cloned_from = get_post_meta($post->ID, '_anno_cloned_from', true);
@@ -592,21 +595,30 @@ function annowf_cloned_meta_box() {
  *
  * @param int $orig_id The original ID of the post to clone from
  * @return int|bool The newly created (clone) post ID. false if post failed to insert.
+ * @todo Clone post-meta
  */
 function annowf_clone_post($orig_id) {
 	global $current_user;
-	
-	//Get post, convert to Array.
-	$post = get_post($orig_id);
-	$post = get_object_vars($post);
 
-	// Trick WP into thinking this is a new post. Adjust fields.
-	unset($post['ID']);
-	$post['post_author'] = $current_user->ID;
-	$post['post_status'] = 'draft';
-	$post['post_title'] = __('Cloned:', 'anno').' '.$post['post_title'];
+	$post = get_post($orig_id);	
+	if (empty($post)) {
+		return false;
+	}
 	
-	$new_id = wp_insert_post($post);
+	// Form the new cloned post
+	$new_post = array(
+		'post_author' => $current_user->ID,
+		'post_status' => 'draft',
+		'post_title' => sprintf(__('Cloned: %s', 'anno'), $post->post_title),
+		'post_content' => $post->post_content,
+		'post_excerpt' => $post->post_excerpt,
+		'post_type' => $post->post_type,
+		'post_parent' => $post->post_parent,
+	);
+	
+	$new_id = wp_insert_post($new_post);
+
+	// Add to clone/cloned post meta
 	if ($new_id) {
 		$posts_cloned = get_post_meta($orig_id, '_anno_posts_cloned', true);
 		if (!is_array($posts_cloned)) {
@@ -649,7 +661,27 @@ function annowf_author_meta_box() {
 /**
  * Admin request handler. Handles backend permission enforcement, cloning.
  */ 
-function annowf_admin_request_handler() {	
+function annowf_admin_request_handler() {
+	global $anno_post_save;
+	
+	// Cloning. This must come before the enforcing of capabilities below.
+	if (isset($_POST['publish']) && $_POST['publish'] == $anno_post_save['clone']) {
+		if (!anno_user_can('clone_post')) {
+			wp_die(__('You are not allowed to clone this post.'));
+		}
+		$post_id = annowf_get_post_id();
+		$new_id = annowf_clone_post($post_id);
+		if (!empty($new_id)) {
+			$url = add_query_arg( 'message', 11, get_edit_post_link($new_id, 'url'));
+		} 
+		else {
+			$url = add_query_arg( 'message', 12, get_edit_post_link($post_id, 'url'));
+		}
+
+		wp_redirect($url);
+		die();
+	}
+	
 	// Enforce Capabilities on the backend.
 	if (isset($_POST['action'])) {
 		$wp_action = $_POST['action'];
@@ -663,8 +695,8 @@ function annowf_admin_request_handler() {
 	if (isset($_POST['post_type'])) {
 		$post_type = $_POST['post_type'];
 	}
-	else if (isset($_GET['action'])) {
-		$post_type = $_GET['action'];
+	else if (isset($_GET['post_type'])) {
+		$post_type = $_GET['post_type'];
 	}
 
 	if (!empty($wp_action) && $post_type == 'article') {
@@ -696,29 +728,12 @@ function annowf_admin_request_handler() {
 			default:
 				break;
 		}
-		
+	
 		if (!empty($anno_cap) && !anno_user_can($anno_cap)) {
 			add_filter('user_has_cap', 'annowf_user_has_cap_filter');
 		}
 	}
 	
-	// Cloning
-	if (isset($_POST['publish']) && $_POST['publish'] == 'Clone') {
-		if (!anno_user_can('clone_post')) {
-			wp_die(__('You are not allowed to clone this post.'));
-		}
-		$post_id = annowf_get_post_id();
-		$new_id = annowf_clone_post($post_id);
-		if (!empty($new_id)) {
-			$url = add_query_arg( 'message', 11, get_edit_post_link($new_id, 'url'));
-		} 
-		else {
-			$url = add_query_arg( 'message', 12, get_edit_post_link($post_id, 'url'));
-		}
-
-		wp_redirect($url);
-		die();
-	}
 }
 add_action('admin_init', 'annowf_admin_request_handler', 0);
 
