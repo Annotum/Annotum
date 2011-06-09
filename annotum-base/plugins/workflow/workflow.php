@@ -435,7 +435,7 @@ function annowf_remove_reviewer() {
 			$result['decrement'] == 1;
 		}
 		else {
-			$result['decrement'] == 0;			
+			$result['decrement'] == 0;
 		}
 	}
 	die();

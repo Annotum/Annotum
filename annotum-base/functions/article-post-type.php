@@ -250,7 +250,7 @@ function anno_admin_print_footer_scripts() {
 
 ?>
 <script type="text/javascript">
-//	tinyMCE.execCommand('mceAddControl', false, 'anno-body');
+	tinyMCE.execCommand('mceAddControl', false, 'anno-body');
 <?php
 	foreach ($appendicies as $key => $value) {
 ?>
