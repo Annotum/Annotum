@@ -79,6 +79,12 @@ function anno_setup() {
 }
 add_action('after_setup_theme', 'anno_setup');
 
+// Adding favicon, each theme has it's own which we get with stylesheet directory
+function anno_favicon() {
+	echo '<link rel="shortcut icon" href="'.get_bloginfo('stylesheet_directory').'/assets/main/img/favicon.ico" />';
+}
+add_action('wp_head', 'anno_favicon');
+
 /**
  * Enqueue and add CSS and JS assets.
  * Hook into 'wp' action when conditional checks like is_single() are available.
