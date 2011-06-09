@@ -134,7 +134,7 @@ function annowf_minor_action_in_review_markup() {
 ?>
 			<p class="status-text">
 <?php
-			printf(__('%d of %d Reviews Complete', 'anno'), $round_reviewed, $reviewers);
+			printf(__('%s of %s Reviews Complete', 'anno'), '<span id="anno-reviewed-count">'.$round_reviewed.'</span>', '<span id="anno-reviewers-count">'.$reviewers.'</span>');
 		}
 	}
 	else {

@@ -330,17 +330,19 @@ function annowf_add_reviewer() {
 		
 		// If the reviewer is being re-added and has already left a review for this round
 		$round = annowf_get_round($post_id);
-		$review = get_user_meta($response['user']->ID, '_'.$post_id.'_review_'.$round);
+
+		$review = get_user_meta($response['user']->ID, '_'.$post_id.'_review_'.$round, true);
+
 		if (!empty($review)) {
 			$reviewed = get_post_meta($post_id, '_round_'.$round.'_reviewed', true);
 			$reviewed[] = $response['user']->ID;
 			update_post_meta($post_id, '_round_'.$round.'_reviewed', array_unique($reviewed));
 			
 			// Used for incrementation of x of x reviewed
-			$respose['increment'] = 1;
+			$response['increment'] = 1;
 		}
 		else {
-			$respose['increment'] = 0;
+			$response['increment'] = 0;
 		}
 	}
 	unset($response['user']);
@@ -432,7 +434,9 @@ function annowf_add_user($type) {
  * Handles AJAX request for remove a reviewer to a post.
  */ 
 function annowf_remove_reviewer() {
-	if (annowf_remove_user('reviewer')) {
+	$response = annowf_remove_user('reviewer');
+	$response['decrement'] = 0;
+	if ($response['message'] == 'success') {
 		$post_id = intval($_POST['post_id']);
 		$user_id = intval($_POST['user_id']);
 		
@@ -440,18 +444,18 @@ function annowf_remove_reviewer() {
 		if (count(annowf_get_post_users($post_id, '_reviewers')) == 0) {
 			update_post_meta($post_id, '_post_state', 'submitted');
 		}
+		
+		// Check if the user had already left a review and send back in response to update dom appropriately
 		$round = annowf_get_round($post_id);
 		$reviews = annowf_get_post_users($post_id, '_round_'.$round.'_reviewed');
 		if (in_array($user_id, $reviews)) {
 			$key = array_search($user_id, $reviews);
 			unset($reviews[$key]);
 			update_post_meta($post_id, '_round_'.$round.'_reviewed', $reviews);
-			$result['decrement'] == 1;
-		}
-		else {
-			$result['decrement'] == 0;
+			$response['decrement'] = 1;
 		}
 	}
+	echo json_encode($response);
 	die();
 }
 add_action('wp_ajax_anno-remove-reviewer', 'annowf_remove_reviewer');
@@ -460,7 +464,8 @@ add_action('wp_ajax_anno-remove-reviewer', 'annowf_remove_reviewer');
  * Handles AJAX request for remove a co-author to a post.
  */
 function annowf_remove_co_author() {
-	if (annowf_remove_user('co_author')) {
+	$response = annowf_remove_user('co_author');
+	if ($response['message'] == 'success') {
 		if (isset($_POST['user_id'])) {
 			delete_post_meta(intval($_POST['post_id']), '_article_co_author', intval($_POST['user_id']));
 		}
@@ -474,19 +479,13 @@ add_action('wp_ajax_anno-remove-co_author', 'annowf_remove_co_author');
  */ 
 function annowf_remove_user($type) {
 	check_ajax_referer('anno_manage_'.$type, '_ajax_nonce-manage-'.$type);
-	$message = 'error';
+	$response['message'] = 'error';
 	if (isset($_POST['user_id']) && isset($_POST['post_id'])) {
 		if (annowf_remove_user_from_post($type.'s', intval($_POST['user_id']), intval($_POST['post_id']))) {
-			$message = 'success';
+			$response['message'] = 'success';
 		}
 	}
-	echo json_encode(array('message' => $message));
-	if ($message == 'success') {
-		return true;
-	}
-	else {
-		return false;
-	}
+	return $response;
 }
 
 /**
