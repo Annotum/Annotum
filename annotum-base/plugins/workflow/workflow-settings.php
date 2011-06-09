@@ -7,7 +7,7 @@ function anno_add_submenu_page() {
 	add_submenu_page(
 		'themes.php', 
 		__('Annotum Workflow Settings', 'anno'), 
-		__('Workflow settings', 'anno'), 
+		__('Workflow Settings', 'anno'), 
 		'manage_options',
 		'anno-workflow-settings',
 		'anno_settings_page' 
@@ -33,7 +33,7 @@ function anno_settings_page() {
 	$settings = get_option('annowf_settings');
 ?>
 <div class="wrap">
-	<h2><?php _e('Annotum Workflow settings', 'anno'); ?></h2>
+	<h2><?php _e('Annotum Workflow Settings', 'anno'); ?></h2>
 	<form action="<?php admin_url('/'); ?>" method="post">
 <?php
 	foreach ($annowf_settings as $slug => $label) {
