@@ -15,9 +15,11 @@ To checkout the Annotum theme code to an existing WordPress installation:
 3. On the command line type `git clone git@github.com:Annotum/Annotum.git .` without backticks. 
 3a. If you are using SVN: `svn co https://username@github.com/Annotum/Annotum.git .`
 
-## Adding Users (contributors, authors)
+## User Roles and the Workflow (authors, contributors)
 
-TBD
+When the workflow is active, the site-wide roles of `author` and `contributor` have the exact same capabilities on the Articles post-type. This is not the case with any other post type.
+
+When the workflow is not active, the `author` and `contributor` roles should act according to their default WordPress capabilities. See [Roles and Capabilities](http://codex.wordpress.org/Roles_and_Capabilities) in the WordPress Codex for more information on the capabilities of these roles.
 
 ## Annotum in Your Language
 
@@ -30,9 +32,5 @@ Annotum has full support for internationalization. It also supports right-to-lef
 
 - Carrington theme debugging can be enabled/disabled in the functions.php file. This will output the file paths to all Carrington templates loaded into the page and is not recommended in non-development environments: `define('CFCT_DEBUG', true);`
 
-## Roles and the Workflow
-
-- When the workflow is active, the site-wide roles of `author` and `contributor` have the exact same capabilities on Articles. This does not carry over to any other post type.
-- When the workflow is not active, the `author` and `contributor` roles should act according to their default WordPress capabilities. See [Roles and Capabilities](http://codex.wordpress.org/Roles_and_Capabilities) in the WordPress Codex for more information on the capabilities of these roles.
 
 ---
