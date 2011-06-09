@@ -20,6 +20,8 @@ jQuery(document).ready( function($) {
 				$('#post_author_override').append(d.author);
 				// Clear error box
 				$('#co-author-add-error').html('').hide();
+				//Clear input box
+				$('input[type="text"]#co-author-input').val('');
 			}
 			else {
 				$('#co-author-add-error').html(d.html).show();
@@ -48,6 +50,7 @@ jQuery(document).ready( function($) {
 			if (d.message == 'success') {
 				$('ul#reviewer-list').prepend(d.html);
 				$('#reviewer-add-error').html('').hide();
+				$('input[type="text"]#reviewer-input').val('');
 			}
 			else {
 				$('#reviewer-add-error').html(d.html).show();
