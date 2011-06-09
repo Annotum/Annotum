@@ -8,12 +8,17 @@ jQuery(document).ready( function($) {
 	
 	$('input[type="button"]#reviewer-add').click(function() {
 		var user = $('input[type="text"]#reviewer-input').val();
+		if (user == '') {
+			return false;
+		}
+		
 		var data = {action: 'anno-add-reviewer', user: user, post_id: ANNO_POST_ID};
 		data['_ajax_nonce-manage-reviewer'] = $('#_ajax_nonce-manage-reviewer').val();
 		
 		$.post(ajaxurl, data, function(d) {
 			if (d.message == 'success') {
 				$('ul#reviewer-list').prepend(d.html);
+				$('#reviewer-add-error').html('').hide();
 			}
 			else {
 				$('#reviewer-add-error').html(d.html).show();
@@ -23,6 +28,9 @@ jQuery(document).ready( function($) {
 	
 	$('input[type="button"]#co-author-add').click(function() {
 		var user = $('input[type="text"]#co-author-input').val();
+		if (user == '') {
+			return false;
+		}
 		var data = {action: 'anno-add-co-author', user: user, post_id: ANNO_POST_ID};
 		data['_ajax_nonce-manage-co_author'] = $('#_ajax_nonce-manage-co_author').val();
 		$.post(ajaxurl, data, function(d) {
@@ -30,7 +38,8 @@ jQuery(document).ready( function($) {
 				$('ul#co-author-list').prepend(d.html);
 				// Append co-author to author dropdown
 				$('#post_author_override').append(d.author);
-				
+				// Clear error box
+				$('#co-author-add-error').html('').hide();
 			}
 			else {
 				$('#co-author-add-error').html(d.html).show();
