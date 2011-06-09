@@ -15,6 +15,10 @@ To checkout the Annotum theme code to an existing WordPress installation:
 3. On the command line type `git clone git@github.com:Annotum/Annotum.git .` without backticks. 
 3a. If you are using SVN: `svn co https://username@github.com/Annotum/Annotum.git .`
 
+## Adding Users (contributors, authors)
+
+TBD
+
 ## Annotum in Your Language
 
 Annotum has full support for internationalization. It also supports right-to-left languages. To get Annotum running in your language, you'll want to:

@@ -183,8 +183,8 @@ function anno_acknowledgements_meta_box($post) {
 function anno_featured_meta_box($post) {
 	$checked = get_post_meta($post->ID, '_featured', true);
 ?>
-	<label for="anno-featured"><?php _e('Featured ', 'anno'); ?></label>
 	<input id="anno-featured" type="checkbox" value="yes" name="featured"<?php checked($checked, 'yes', true); ?> />
+	<label for="anno-featured"><?php _e('Feature this article to appear in the home page carousel', 'anno'); ?></label>
 <?php	
 }
 
