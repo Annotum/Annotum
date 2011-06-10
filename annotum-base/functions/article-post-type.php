@@ -11,19 +11,17 @@ function anno_register_post_types() {
 		$capability_type = 'post';
 	}
 	
-	$single = __('Article', 'anno');
-	$plural = __('Articles', 'anno');
 	$labels = array(
-		'name' => $single,
-		'singular_name' => $single,
-		'add_new_item' => sprintf(__('Add New %s', 'anno'), $single),
-		'edit_item' => sprintf(__('Edit %s', 'anno'), $single),
-		'new_item' => sprintf(__('New %s', 'anno'), $single),
-		'view_item' => sprintf(__('View %s', 'anno'), $single),
-		'search_items' => sprintf(__('Search %s', 'anno'), $plural),
-		'not_found' => sprintf(__('No %s found', 'anno'), $plural),
-		'not_found_in_trash' => sprintf(__('No %s found in Trash', 'anno'), $plural),
-		'menu_name' => $plural,
+		'name' => _x('Article', 'post type name', 'anno'),
+		'singular_name' => _x('Article', 'post type singular name', 'anno'),
+		'add_new_item' => _x('Add New Article', 'post type plural name', 'anno'),
+		'edit_item' => _x('Edit Article', 'post type label', 'anno'),
+		'new_item' => _x('New Article', 'post type label', 'anno'),
+		'view_item' => _x('View Article', 'post type label', 'anno'),
+		'search_items' => _x('Search Articles', 'post type label', 'anno'),
+		'not_found' => _x('No Articles found', 'post type label', 'anno'),
+		'not_found_in_trash' => _x('No Articles found in Trash', 'post type label', 'anno'),
+		'menu_name' => _x('Articles', 'post type label, noun', 'anno'),
 	);
 	$args = array(
 	        'labels' => $labels,
@@ -88,18 +86,18 @@ function anno_post_updated_messages($messages) {
 	// Based on message code in WP high 3.2
 	$messages['article'] = array(
 		0 => '', // Unused. Messages start at index 1.
-		1 => sprintf(__('Article updated. <a href="%s">View article</a>', 'anno'), esc_url(get_permalink($post->ID))),
-		2 => __('Custom field updated.', 'anno'),
-		3 => __('Custom field deleted.', 'anno'),
-		4 => __('Article updated.', 'anno'),
-	 	5 => isset($_GET['revision']) ? sprintf( __('Article restored to revision from %s', 'anno'), wp_post_revision_title((int) $_GET['revision'], false )) : false,
-		6 => sprintf( __('Article published. <a href="%s">View article</a>', 'anno'), esc_url(get_permalink($post->ID))),
-		7 => __('Article saved.', 'anno'),
-		8 => sprintf( __('Article submitted. <a target="_blank" href="%s">Preview article</a>', 'anno'), esc_url(add_query_arg('preview', 'true', get_permalink($post->ID)))),
-		9 => sprintf( __('Article scheduled for: <strong>%1$s</strong>. <a target="_blank" href="%2$s">Preview article</a>', 'anno'), date_i18n( __( 'M j, Y @ G:i' ), strtotime( $post->post_date )), esc_url( get_permalink($post->ID))),
-		10 => sprintf( __('Article draft updated. <a target="_blank" href="%s">Preview article</a>', 'anno'), esc_url( add_query_arg('preview', 'true', get_permalink($post->ID)))),
-		11 => sprintf( __('Article successfully cloned.', 'anno')),
-		12 => sprintf( __('Unable to clone article.', 'anno')),
+		1 => sprintf(_x('Article updated. <a href="%s">View article</a>', 'Article updated message', 'anno'), esc_url(get_permalink($post->ID))),
+		2 => _x('Custom field updated.', 'Article updated message', 'anno'),
+		3 => _x('Custom field deleted.', 'Article updated message', 'anno'),
+		4 => _x('Article updated.', 'Article updated message', 'anno'),
+	 	5 => isset($_GET['revision']) ? sprintf( _x('Article restored to revision from %s', 'Article updated message', 'anno'), wp_post_revision_title((int) $_GET['revision'], false )) : false,
+		6 => sprintf(_x('Article published. <a href="%s">View article</a>', 'Article updated message', 'anno'), esc_url(get_permalink($post->ID))),
+		7 => _x('Article saved.', 'Article updated message', 'anno'),
+		8 => sprintf( _x('Article submitted. <a target="_blank" href="%s">Preview article</a>', 'Article updated message', 'anno'), esc_url(add_query_arg('preview', 'true', get_permalink($post->ID)))),
+		9 => sprintf( _x('Article scheduled for: <strong>%1$s</strong>. <a target="_blank" href="%2$s">Preview article</a>', 'Article updated message', 'anno'), date_i18n( _x( 'M j, Y @ G:i', 'Article updated future time format', 'anno' ), strtotime( $post->post_date )), esc_url( get_permalink($post->ID))),
+		10 => sprintf( _x('Article draft updated. <a target="_blank" href="%s">Preview article</a>', 'Article updated message', 'anno'), esc_url( add_query_arg('preview', 'true', get_permalink($post->ID)))),
+		11 => sprintf( _x('Article successfully cloned.', 'Article updated message', 'anno')),
+		12 => sprintf( _x('Unable to clone article.', 'Article updated message', 'anno')),
 	);
 
 	return $messages;
@@ -111,14 +109,14 @@ add_filter('post_updated_messages', 'anno_post_updated_messages');
  */ 
 function anno_dtd_meta_boxes() {
 	global $post;
-	add_meta_box('subtitle', __('Subtitle', 'anno'), 'anno_subtitle_meta_box', 'article', 'normal', 'high', $post);	
-	add_meta_box('body', __('Body', 'anno'), 'anno_body_meta_box', 'article', 'normal', 'high', $post);
-	add_meta_box('references', __('References', 'anno'), 'anno_references_meta_box', 'article', 'normal', 'high', $post);
-	add_meta_box('abstract', __('Abstract', 'anno'), 'anno_abstract_meta_box', 'article', 'normal', 'high', $post);
-	add_meta_box('funding', __('Funding Statement', 'anno'), 'anno_funding_meta_box', 'article', 'normal', 'high', $post);
-	add_meta_box('acknowledgements', __('Acknowledgements', 'anno'), 'anno_acknowledgements_meta_box', 'article', 'normal', 'high', $post);
-	add_meta_box('appendicies', __('Appendicies', 'anno'), 'anno_appendicies_meta_box', 'article', 'normal', 'high', $post);
-	add_meta_box('featured', __('Featured', 'anno'), 'anno_featured_meta_box', 'article', 'side', 'default', $post);
+	add_meta_box('subtitle', _x('Subtitle', 'Meta box title', 'anno'), 'anno_subtitle_meta_box', 'article', 'normal', 'high', $post);	
+	add_meta_box('body', _x('Body', 'Meta box title', 'anno'), 'anno_body_meta_box', 'article', 'normal', 'high', $post);
+	add_meta_box('references', _x('References', 'Meta box title', 'anno'), 'anno_references_meta_box', 'article', 'normal', 'high', $post);
+	add_meta_box('abstract', _x('Abstract', 'Meta box title', 'anno'), 'anno_abstract_meta_box', 'article', 'normal', 'high', $post);
+	add_meta_box('funding', _x('Funding Statement', 'Meta box title', 'anno'), 'anno_funding_meta_box', 'article', 'normal', 'high', $post);
+	add_meta_box('acknowledgements', _x('Acknowledgements', 'Meta box title', 'anno'), 'anno_acknowledgements_meta_box', 'article', 'normal', 'high', $post);
+	add_meta_box('appendicies', _x('Appendicies', 'Meta box title', 'anno'), 'anno_appendicies_meta_box', 'article', 'normal', 'high', $post);
+	add_meta_box('featured', _x('Featured', 'Meta box title', 'anno'), 'anno_featured_meta_box', 'article', 'side', 'default', $post);
 }
 add_action('add_meta_boxes_article', 'anno_dtd_meta_boxes');
 
@@ -185,7 +183,7 @@ function anno_featured_meta_box($post) {
 	$checked = get_post_meta($post->ID, '_featured', true);
 ?>
 	<input id="anno-featured" type="checkbox" value="yes" name="featured"<?php checked($checked, 'yes', true); ?> />
-	<label for="anno-featured"><?php _e('Feature this article to appear in the home page carousel', 'anno'); ?></label>
+	<label for="anno-featured"><?php _ex('Feature this article to appear in the home page carousel', 'Featured post meta box label', 'anno'); ?></label>
 <?php	
 }
 

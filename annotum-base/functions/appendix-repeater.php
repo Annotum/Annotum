@@ -39,7 +39,7 @@ function anno_appendicies_meta_box($post) {
 				tinyMCE.execCommand(\'mceAddControl\', false, \'appendix-\' + next_element_index );
 			}
 			function deleteAnnoAppendix'.'(del_el) {
-				if(confirm(\''.__('Are you sure you want to delete this?', 'anno').'\')) {
+				if(confirm(\''._x('Are you sure you want to delete this?', 'JS popup confirmation', 'anno').'\')) {
 					jQuery(del_el).parent().remove();
 				}
 			}
@@ -47,7 +47,7 @@ function anno_appendicies_meta_box($post) {
 	$html .= '</div><div>';
 	$html .= '
 			<p class="cf_meta_actions"><a href="#" onclick="addAnotherAnnoAppendix(); return false;" '.
-		     'class="add_another button-secondary">'.__('Add Another Appendix', 'anno').'</a></p>'.
+		     'class="add_another button-secondary">'._x('Add Another Appendix', 'Meta box repeater link', 'anno').'</a></p>'.
 		'</div><!-- close anno_appendix wrapper -->';
 	echo $html;
 }
@@ -68,7 +68,7 @@ function anno_appendix_box_content($index = null, $content = null) {
 	$html .='
 <fieldset id="'.esc_attr('anno_appendix_'.$index).'" class="appendix-wrapper">
 	<h4>
-	Appendix '.esc_html($index_alpha).' - <a href="#" onclick="deleteAnnoAppendix(jQuery(this).parent()); return false;" class="delete">'.__('delete', 'anno').'</a>
+	Appendix '.esc_html($index_alpha).' - <a href="#" onclick="deleteAnnoAppendix(jQuery(this).parent()); return false;" class="delete">'._x('delete', 'Meta box delete repeater link', 'anno').'</a>
 	</h4>
 	<textarea id="'.esc_attr('appendix-'.$index).'" class="anno-meta" name="'.esc_attr('anno_appendix['.$index.']').'">'.esc_html($content).'</textarea>
 </fieldset>';

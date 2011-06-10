@@ -39,23 +39,23 @@ function annowf_meta_boxes() {
 	
 	// Custom author select box. Only displays co-authors in the dropdown.
 
-	add_meta_box('authordiv', __('Author', 'anno'), 'annowf_author_meta_box', 'article', 'side', 'low');
+	add_meta_box('authordiv', _x('Author', 'Meta box title', 'anno'), 'annowf_author_meta_box', 'article', 'side', 'low');
 	
 	// Add the Annotum workflow publish box.
 	global $annowf_states;
-	add_meta_box('submitdiv', __('Status:', 'anno').' '. $annowf_states[$post_state], 'annowf_status_meta_box', 'article', 'side', 'high');
+	add_meta_box('submitdiv', _x('Status:', 'Meta box title', 'anno').' '. $annowf_states[$post_state], 'annowf_status_meta_box', 'article', 'side', 'high');
 
 	// Clone data meta box. Only display if something has been cloned from this post, or it is a clone itself.
 	$posts_cloned = get_post_meta($post->ID, '_anno_posts_cloned', true);
 	$cloned_from = get_post_meta($post->ID, '_anno_cloned_from', true);
 	if (!empty($posts_cloned) || !empty($cloned_from)) {
-		add_meta_box('anno-cloned', __('Versions', 'anno'), 'annowf_cloned_meta_box', 'article', 'side', 'low');
+		add_meta_box('anno-cloned', _x('Versions', 'Meta box title', 'anno'), 'annowf_cloned_meta_box', 'article', 'side', 'low');
 	}
 
 	if (anno_user_can('view_reviewers')) {
-		add_meta_box('anno-reviewers', __('Reviewers', 'anno'), 'annowf_reviewers_meta_box', 'article', 'side', 'low');
+		add_meta_box('anno-reviewers', _x('Reviewers', 'Meta box title', 'anno'), 'annowf_reviewers_meta_box', 'article', 'side', 'low');
 	}
-	add_meta_box('anno-co-authors', __('Co-Authors', 'anno'), 'annowf_co_authors_meta_box', 'article', 'side', 'low');
+	add_meta_box('anno-co-authors', _x('Co-Authors', 'Meta box title', 'anno'), 'annowf_co_authors_meta_box', 'article', 'side', 'low');
 }
 
 add_action('add_meta_boxes_article', 'annowf_meta_boxes');
@@ -406,13 +406,13 @@ function annowf_add_user($type) {
 			$reviewers = annowf_get_post_users($_POST['post_id'], '_reviewers');
 
 			if ($post->post_author == $user->ID) {
-				$html = sprintf(__('Cannot add author as a %s', 'anno'), $type);
+				$html = sprintf(_x('Cannot add author as a %s', 'Adding user error message for article meta box', 'anno'), $type);
 			}
 			else if (in_array($user->ID, $co_authors) ) {
-				$html = sprintf(__('Cannot add %s as %s. User is already a co-author', 'anno'), $user->user_login, $type);
+				$html = sprintf(_x('Cannot add %s as %s. User is already a co-author', 'Adding user error message for article meta box', 'anno'), $user->user_login, $type);
 			}
 			else if (in_array($user->ID, $reviewers)) {
-				$html = sprintf(__('Cannot add %s as %s. User is already a reviewer', 'anno'), $user->user_login, $type);
+				$html = sprintf(_x('Cannot add %s as %s. User is already a reviewer', 'Adding user error message for article meta box', 'anno'), $user->user_login, $type);
 			}
 			else if (annowf_add_user_to_post($type.'s', $user->ID, intval($_POST['post_id']))) {
 				$message = 'success';
@@ -423,7 +423,7 @@ function annowf_add_user($type) {
 			}
 		}
 		else {
-			$html = sprintf(__('User \'%s\' not found', 'anno'), $user_login);
+			$html = sprintf(_x('User \'%s\' not found', 'Adding user error message for article meta box', 'anno'), $user_login);
 		}
 	}
 	
@@ -568,7 +568,7 @@ function annowf_cloned_meta_box() {
 	if (!empty($cloned_from)) {
 		$cloned_post = get_post($cloned_from);
 ?>
-		<dt><?php echo __('Cloned From', 'anno'); ?></dt>
+		<dt><?php echo _x('Cloned From', 'Cloned meta box text', 'anno'); ?></dt>
 		<dd><?php echo '<a href="'.esc_url(get_edit_post_link($cloned_from)).'">'.esc_html($cloned_post->post_title).'</a>'; ?></dd>
 <?php	
 	}
@@ -576,7 +576,7 @@ function annowf_cloned_meta_box() {
 	$posts_cloned = get_post_meta($post->ID, '_anno_posts_cloned', true);
 	if (!empty($posts_cloned) && is_array($posts_cloned)) {
 ?>
-		<dt><?php echo __('Clones', 'anno'); ?></dt>
+		<dt><?php echo _x('Clones', 'Cloned meta box text', 'anno'); ?></dt>
 <?php
 		foreach ($posts_cloned as $cloned_post_id) {
 			$cloned_post = get_post($cloned_post_id);
@@ -608,7 +608,7 @@ function annowf_clone_post($orig_id) {
 	$new_post = array(
 		'post_author' => $current_user->ID,
 		'post_status' => 'draft',
-		'post_title' => sprintf(__('Cloned: %s', 'anno'), $post->post_title),
+		'post_title' => sprintf(_x('Cloned: %s', 'Cloned article title prepend', 'anno'), $post->post_title),
 		'post_content' => $post->post_content,
 		'post_excerpt' => $post->post_excerpt,
 		'post_type' => $post->post_type,
@@ -646,7 +646,7 @@ function annowf_author_meta_box() {
 		$authors = annowf_get_post_users($post->ID, '_co_authors');
 		$authors[] = $post->post_author;	
 ?>
-<label class="screen-reader-text" for="post_author_override"><?php _e('Author'); ?></label>
+<label class="screen-reader-text" for="post_author_override"><?php _ex('Author', 'Author meta box dropdown label', 'anno'); ?></label>
 <?php
 		wp_dropdown_users(array(
 			'include' => implode(',', $authors),
@@ -666,15 +666,15 @@ function annowf_admin_request_handler() {
 	// Cloning. This must come before the enforcing of capabilities below.
 	if (isset($_POST['publish']) && $_POST['publish'] == $anno_post_save['clone']) {
 		if (!anno_user_can('clone_post')) {
-			wp_die(__('You are not allowed to clone this post.'));
+			wp_die(_x('You are not allowed to clone this post.', 'Cloned article error message', 'anno'));
 		}
 		$post_id = annowf_get_post_id();
 		$new_id = annowf_clone_post($post_id);
 		if (!empty($new_id)) {
-			$url = add_query_arg( 'message', 11, get_edit_post_link($new_id, 'url'));
+			$url = add_query_arg('message', 11, get_edit_post_link($new_id, 'url'));
 		} 
 		else {
-			$url = add_query_arg( 'message', 12, get_edit_post_link($post_id, 'url'));
+			$url = add_query_arg('message', 12, get_edit_post_link($post_id, 'url'));
 		}
 
 		wp_redirect($url);

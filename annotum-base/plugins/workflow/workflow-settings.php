@@ -6,8 +6,8 @@
 function anno_add_submenu_page() {
 	add_submenu_page(
 		'themes.php', 
-		__('Annotum Workflow Settings', 'anno'), 
-		__('Workflow Settings', 'anno'), 
+		_x('Annotum Workflow Settings', 'Setting page title', 'anno'), 
+		_x('Workflow Settings', 'Admin menu option link text', 'anno'), 
 		'manage_options',
 		'anno-workflow-settings',
 		'anno_settings_page' 
@@ -20,9 +20,9 @@ add_action('admin_menu', 'anno_add_submenu_page');
  */
 global $annowf_settings;
 $annowf_settings = array(
-	'workflow' => __('Enable workflow', 'anno'),
-	'author_reviewer' => __('Allow article authors to see reviewers', 'anno'),
-	'notification' => __('Enable workflow notifications', 'anno'),
+	'workflow' => _x('Enable workflow', 'Workflow setting label', 'anno'),
+	'author_reviewer' => _x('Allow article authors to see reviewers', 'Workflow setting label', 'anno'),
+	'notification' => _x('Enable workflow notifications', 'Workflow setting label', 'anno'),
 );
 
 /**
@@ -33,7 +33,7 @@ function anno_settings_page() {
 	$settings = get_option('annowf_settings');
 ?>
 <div class="wrap">
-	<h2><?php _e('Annotum Workflow Settings', 'anno'); ?></h2>
+	<h2><?php _ex('Annotum Workflow Settings', 'Setting page header', 'anno'); ?></h2>
 	<form action="<?php admin_url('/'); ?>" method="post">
 <?php
 	foreach ($annowf_settings as $slug => $label) {
@@ -48,7 +48,7 @@ function anno_settings_page() {
 		<p class="submit">
 			<?php wp_nonce_field('annowf_settings', '_wpnonce', true, true); ?>
 			<input type="hidden" name="anno_action" value="annowf_update_settings" />
-			<input type="submit" name="submit_button" class="button-primary" value="<?php _e('Save Changes', 'anno'); ?>" />
+			<input type="submit" name="submit_button" class="button-primary" value="<?php _ex('Save Changes', 'Setting page save button value', 'anno'); ?>" />
 		</p>
 	</form>
 </div>

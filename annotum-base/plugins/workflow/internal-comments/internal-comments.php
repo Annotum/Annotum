@@ -3,9 +3,9 @@
 global $anno_review_options;
 $anno_review_options = array(
 	0 => '',
-	1 => __('Approve', 'anno'),
-	2 => __('Revisions', 'anno'),
-	3 => __('Reject', 'anno'),
+	1 => _x('Approve', 'Review left by Reviewer', 'anno'),
+	2 => _x('Revisions', 'Review left by Reviewer', 'anno'),
+	3 => _x('Reject', 'Review left by Reviewer', 'anno'),
 );
 
 /**
@@ -13,10 +13,10 @@ $anno_review_options = array(
  */
 function anno_internal_comments_add_meta_boxes() {
 	if (anno_user_can('view_general_comments')) {
-		add_meta_box('general-comment', __('Internal Comments', 'anno'), 'anno_internal_comments_general_comments', 'article', 'advanced');
+		add_meta_box('general-comment', _x('Internal Comments', 'Meta box title', 'anno'), 'anno_internal_comments_general_comments', 'article', 'advanced');
 	}
 	if (anno_user_can('view_review_comments')) {
-		add_meta_box('reviewer-comment', __('Reviews', 'anno'), 'anno_internal_comments_reviewer_comments', 'article', 'advanced');
+		add_meta_box('reviewer-comment', _x('Reviews', 'Meta box title', 'anno'), 'anno_internal_comments_reviewer_comments', 'article', 'advanced');
 	}
 }
 // We don't want to add them for new-posts
@@ -109,12 +109,12 @@ function anno_internal_comment_table_row($cur_comment) {
 			<?php
 			echo '
 			<div class="submitted-on">';
-				printf( __('Submitted on <a href="%1$s">%2$s at %3$s</a>', 'anno'), esc_url(get_comment_link($comment)), get_comment_date(__( 'Y/m/d', 'anno')), get_comment_date(get_option('time_format')));
+				printf( _x('Submitted on <a href="%1$s">%2$s at %3$s</a>', 'Internal comment date', 'anno'), esc_url(get_comment_link($comment)), get_comment_date(_x( 'Y/m/d', 'Date format for internal comments', 'anno')), get_comment_date(get_option('time_format')));
 				if ( $comment->comment_parent ) {
 					$parent = get_comment($comment->comment_parent);
 					$parent_link = esc_url(get_comment_link($comment->comment_parent));
 					$name = get_comment_author( $parent->comment_ID );
-					printf( ' | '.__( 'In reply to <a href="%1$s">%2$s</a>.', 'anno'), $parent_link, $name );
+					printf( ' | '._x( 'In reply to <a href="%1$s">%2$s</a>.', 'Internal Comment reply text' , 'anno'), $parent_link, $name );
 				}
 			echo '
 			</div>
@@ -123,9 +123,9 @@ function anno_internal_comment_table_row($cur_comment) {
 			.'</p>';
 			
 			if (anno_user_can('manage_general_comment')) {
-				$actions['reply'] = '<a href="#" class="reply">'.__( 'Reply', 'anno').'</a>';
-				$actions['edit'] = '<a href="comment.php?action=editcomment&amp;c='.$comment->comment_ID.'" title="'.esc_attr__( 'Edit comment', 'anno').'">'.__('Edit', 'anno').'</a>';
-				$actions['delete'] = '<a class="anno-trash-comment" href="'.wp_nonce_url('comment.php?action=trashcomment&amp;c='.$comment->comment_ID, 'delete-comment_'.$comment->comment_ID).'">'.__('Trash', 'anno').'</a>';
+				$actions['reply'] = '<a href="#" class="reply">'._x('Reply', 'Internal comment action link text', 'anno').'</a>';
+				$actions['edit'] = '<a href="comment.php?action=editcomment&amp;c='.$comment->comment_ID.'" title="'.esc_attr_x( 'Edit comment', 'Internal comment action link title', 'anno').'">'._x('Edit', 'Internal comment action link text',  'anno').'</a>';
+				$actions['delete'] = '<a class="anno-trash-comment" href="'.wp_nonce_url('comment.php?action=trashcomment&amp;c='.$comment->comment_ID, 'delete-comment_'.$comment->comment_ID).'">'._x('Trash', 'Internal comment action link text', 'anno').'</a>';
 				echo '
 				<div class="row-actions" data-comment-id="'.$comment->comment_ID.'">';
 				$i = 1;
@@ -167,7 +167,7 @@ function anno_internal_comments_reviewer_comments() {
 	if (anno_user_can('leave_review', $current_user->ID, $post->ID)) {
 ?>
 <div class="review-section <?php echo 'status-'.$user_review; ?>">
-	<label for="anno-review"><?php _e('Recommendation: ', 'anno'); ?></label>
+	<label for="anno-review"><?php _ex('Recommendation: ', 'Review label for reviewer meta box review dropdown', 'anno'); ?></label>
 	<select id="anno-review" name="anno_review">
 	<?php 
 		foreach ($anno_review_options as $opt_key => $opt_val) {
@@ -198,12 +198,12 @@ function anno_internal_comments_form($type) {
 			<input type="hidden" name="anno_comment_type" value="<?php echo esc_attr($type); ?>" />
 			<input type="hidden" class="parent-id" name="parent_id" value="0" />
 			<p>
-				<label for="<?php echo esc_attr('anno_comment_'.$type.'_textarea'); ?>"><?php _e('Comment', 'anno'); ?></label>
+				<label for="<?php echo esc_attr('anno_comment_'.$type.'_textarea'); ?>"><?php _ex('Comment', 'Internal comment textarea label', 'anno'); ?></label>
 				<textarea id="<?php echo esc_attr('anno_comment_'.$type.'_textarea'); ?>"></textarea>
 			</p>
 			<p>
-				<input class="anno-submit button" type="button" value="<?php _e('Submit', 'anno'); ?>" />
-				<input class="anno-cancel button" type="button" value="<?php _e('Cancel', 'anno'); ?>" style="display: none;" onClick="location.href='#<?php echo esc_attr('comment-add-pos-'.$type); ?>'"/>
+				<input class="anno-submit button" type="button" value="<?php _ex('Submit', 'Internal comment button value', 'anno'); ?>" />
+				<input class="anno-cancel button" type="button" value="<?php _ex('Cancel', 'Internal comment button value', 'anno'); ?>" style="display: none;" onClick="location.href='#<?php echo esc_attr('comment-add-pos-'.$type); ?>'"/>
 			</p>
 			<?php wp_nonce_field('anno_comment', '_ajax_nonce-anno-comment-'.esc_attr($type), false ); ?>
 		</td>
@@ -390,8 +390,8 @@ function anno_internal_comments_pre_comment_approved($approved) {
  * Dropdown filter to display only our internal comment types in the admin screen
  */ 
 function anno_internal_comment_types_dropdown($comment_types) {
-	$comment_types['article_general'] = __('Article General', 'anno');
-	$comment_types['article_review'] = __('Article Review', 'anno');
+	$comment_types['article_general'] = _x('Article General', 'Dropdown comment type selector', 'anno');
+	$comment_types['article_review'] = _x('Article Review', 'Dropdown comment type selector', 'anno');
 	return $comment_types;
 }
 add_filter('admin_comment_types_dropdown', 'anno_internal_comment_types_dropdown');

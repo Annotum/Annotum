@@ -2,14 +2,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Annotum\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-06-06 15:47-0700\n"
-"PO-Revision-Date: 2011-06-06 15:56-0700\n"
+"POT-Creation-Date: 2011-06-10 15:11-0700\n"
+"PO-Revision-Date: 2011-06-10 15:11-0700\n"
 "Last-Translator: Evan Anderson <evan@crowdfavorite.com>\n"
 "Language-Team: Crowd Favorite <crowdfavorite@gmail.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Poedit-KeywordsList: _e;__\n"
+"X-Poedit-KeywordsList: _e;_ex:2c,1;__;_x:2c,1\n"
 "X-Poedit-Basepath: ../\n"
 "X-Poedit-Language: English\n"
 "X-Poedit-Country: UNITED STATES\n"
@@ -44,49 +44,54 @@ msgstr ""
 msgid "Display items on the home page masthead."
 msgstr ""
 
-#: ../annotum-base/functions.php:129
+#: ../annotum-base/functions.php:135
 msgid "Previous"
 msgstr ""
 
-#: ../annotum-base/functions.php:130
+#: ../annotum-base/functions.php:136
 msgid "Next"
 msgstr ""
 
-#: ../annotum-base/functions.php:131
+#: ../annotum-base/functions.php:137
 #, php-format
 msgid "%1$s of %2$s"
 msgstr ""
 
-#: ../annotum-base/functions.php:225
+#: ../annotum-base/functions.php:231
 msgid "Required"
 msgstr ""
 
-#: ../annotum-base/functions.php:229
+#: ../annotum-base/functions.php:235
 msgid "Your Name"
 msgstr ""
 
-#: ../annotum-base/functions.php:230
+#: ../annotum-base/functions.php:236
 msgid "Email Address"
 msgstr ""
 
-#: ../annotum-base/functions.php:231
+#: ../annotum-base/functions.php:237
 msgid "Website"
 msgstr ""
 
-#: ../annotum-base/functions.php:237
+#: ../annotum-base/functions.php:241
+msgctxt "noun"
+msgid "Comment"
+msgstr ""
+
+#: ../annotum-base/functions.php:243
 msgid "(cancel)"
 msgstr ""
 
-#: ../annotum-base/functions.php:238
+#: ../annotum-base/functions.php:244
 msgid "Leave a Comment"
 msgstr ""
 
-#: ../annotum-base/functions.php:239
+#: ../annotum-base/functions.php:245
 #, php-format
 msgid "Leave a Reply to %s"
 msgstr ""
 
-#: ../annotum-base/functions.php:240
+#: ../annotum-base/functions.php:246
 msgid "Submit"
 msgstr ""
 
@@ -221,7 +226,6 @@ msgstr ""
 
 #: ../annotum-base/forms/search.php:20
 #: ../annotum-base/forms/search.php:21
-#: ../annotum-base/functions/taxonomies.php:28
 msgid "Search"
 msgstr ""
 
@@ -241,201 +245,311 @@ msgstr ""
 msgid "Comments"
 msgstr ""
 
-#: ../annotum-base/functions/appendix-repeater.php:27
+#: ../annotum-base/functions/Anno_Widget_Recently.php:95
+#, php-format
+msgctxt "widgets"
+msgid "%1$s on %2$s"
+msgstr ""
+
+#: ../annotum-base/functions/appendix-repeater.php:42
+msgctxt "JS popup confirmation"
 msgid "Are you sure you want to delete this?"
 msgstr ""
 
-#: ../annotum-base/functions/appendix-repeater.php:35
+#: ../annotum-base/functions/appendix-repeater.php:50
+msgctxt "Meta box repeater link"
 msgid "Add Another Appendix"
 msgstr ""
 
-#: ../annotum-base/functions/appendix-repeater.php:44
+#: ../annotum-base/functions/appendix-repeater.php:71
+msgctxt "Meta box delete repeater link"
 msgid "delete"
 msgstr ""
 
-#: ../annotum-base/functions/article-post-type.php:14
+#: ../annotum-base/functions/article-post-type.php:15
+msgctxt "post type name"
 msgid "Article"
 msgstr ""
 
-#: ../annotum-base/functions/article-post-type.php:15
-msgid "Articles"
+#: ../annotum-base/functions/article-post-type.php:16
+msgctxt "post type singular name"
+msgid "Article"
+msgstr ""
+
+#: ../annotum-base/functions/article-post-type.php:17
+msgctxt "post type plural name"
+msgid "Add New Article"
+msgstr ""
+
+#: ../annotum-base/functions/article-post-type.php:18
+msgctxt "post type label"
+msgid "Edit Article"
 msgstr ""
 
 #: ../annotum-base/functions/article-post-type.php:19
-#, php-format
-msgid "Add New %s"
+msgctxt "post type label"
+msgid "New Article"
 msgstr ""
 
 #: ../annotum-base/functions/article-post-type.php:20
-#, php-format
-msgid "Edit %s"
+msgctxt "post type label"
+msgid "View Article"
 msgstr ""
 
 #: ../annotum-base/functions/article-post-type.php:21
-#, php-format
-msgid "New %s"
+msgctxt "post type label"
+msgid "Search Articles"
 msgstr ""
 
 #: ../annotum-base/functions/article-post-type.php:22
-#, php-format
-msgid "View %s"
+msgctxt "post type label"
+msgid "No Articles found"
 msgstr ""
 
 #: ../annotum-base/functions/article-post-type.php:23
-#, php-format
-msgid "Search %s"
+msgctxt "post type label"
+msgid "No Articles found in Trash"
 msgstr ""
 
 #: ../annotum-base/functions/article-post-type.php:24
-#, php-format
-msgid "No %s found"
+msgctxt "post type label, noun"
+msgid "Articles"
 msgstr ""
 
-#: ../annotum-base/functions/article-post-type.php:25
+#: ../annotum-base/functions/article-post-type.php:89
 #, php-format
-msgid "No %s found in Trash"
-msgstr ""
-
-#: ../annotum-base/functions/article-post-type.php:91
-#, php-format
+msgctxt "Article updated message"
 msgid "Article updated. <a href=\"%s\">View article</a>"
 msgstr ""
 
-#: ../annotum-base/functions/article-post-type.php:92
+#: ../annotum-base/functions/article-post-type.php:90
+msgctxt "Article updated message"
 msgid "Custom field updated."
 msgstr ""
 
-#: ../annotum-base/functions/article-post-type.php:93
+#: ../annotum-base/functions/article-post-type.php:91
+msgctxt "Article updated message"
 msgid "Custom field deleted."
 msgstr ""
 
-#: ../annotum-base/functions/article-post-type.php:94
+#: ../annotum-base/functions/article-post-type.php:92
+msgctxt "Article updated message"
 msgid "Article updated."
 msgstr ""
 
-#: ../annotum-base/functions/article-post-type.php:95
+#: ../annotum-base/functions/article-post-type.php:93
 #, php-format
+msgctxt "Article updated message"
 msgid "Article restored to revision from %s"
+msgstr ""
+
+#: ../annotum-base/functions/article-post-type.php:94
+#, php-format
+msgctxt "Article updated message"
+msgid "Article published. <a href=\"%s\">View article</a>"
+msgstr ""
+
+#: ../annotum-base/functions/article-post-type.php:95
+msgctxt "Article updated message"
+msgid "Article saved."
 msgstr ""
 
 #: ../annotum-base/functions/article-post-type.php:96
 #, php-format
-msgid "Article published. <a href=\"%s\">View article</a>"
+msgctxt "Article updated message"
+msgid "Article submitted. <a target=\"_blank\" href=\"%s\">Preview article</a>"
 msgstr ""
 
 #: ../annotum-base/functions/article-post-type.php:97
-msgid "Article saved."
+#, php-format
+msgctxt "Article updated message"
+msgid "Article scheduled for: <strong>%1$s</strong>. <a target=\"_blank\" href=\"%2$s\">Preview article</a>"
+msgstr ""
+
+#: ../annotum-base/functions/article-post-type.php:97
+msgctxt "Article updated future time format"
+msgid "M j, Y @ G:i"
 msgstr ""
 
 #: ../annotum-base/functions/article-post-type.php:98
 #, php-format
-msgid "Article submitted. <a target=\"_blank\" href=\"%s\">Preview article</a>"
-msgstr ""
-
-#: ../annotum-base/functions/article-post-type.php:99
-#, php-format
-msgid "Article scheduled for: <strong>%1$s</strong>. <a target=\"_blank\" href=\"%2$s\">Preview article</a>"
-msgstr ""
-
-#: ../annotum-base/functions/article-post-type.php:99
-msgid "M j, Y @ G:i"
-msgstr ""
-
-#: ../annotum-base/functions/article-post-type.php:100
-#, php-format
+msgctxt "Article updated message"
 msgid "Article draft updated. <a target=\"_blank\" href=\"%s\">Preview article</a>"
 msgstr ""
 
-#: ../annotum-base/functions/article-post-type.php:101
+#: ../annotum-base/functions/article-post-type.php:99
+msgctxt "Article updated message"
 msgid "Article successfully cloned."
 msgstr ""
 
-#: ../annotum-base/functions/article-post-type.php:102
+#: ../annotum-base/functions/article-post-type.php:100
+msgctxt "Article updated message"
 msgid "Unable to clone article."
 msgstr ""
 
-#: ../annotum-base/functions/article-post-type.php:114
+#: ../annotum-base/functions/article-post-type.php:112
+msgctxt "Meta box title"
 msgid "Subtitle"
 msgstr ""
 
-#: ../annotum-base/functions/article-post-type.php:115
+#: ../annotum-base/functions/article-post-type.php:113
+msgctxt "Meta box title"
 msgid "Body"
 msgstr ""
 
-#: ../annotum-base/functions/article-post-type.php:116
+#: ../annotum-base/functions/article-post-type.php:114
+msgctxt "Meta box title"
 msgid "References"
 msgstr ""
 
-#: ../annotum-base/functions/article-post-type.php:117
+#: ../annotum-base/functions/article-post-type.php:115
+msgctxt "Meta box title"
 msgid "Abstract"
 msgstr ""
 
-#: ../annotum-base/functions/article-post-type.php:118
+#: ../annotum-base/functions/article-post-type.php:116
+msgctxt "Meta box title"
 msgid "Funding Statement"
 msgstr ""
 
-#: ../annotum-base/functions/article-post-type.php:119
+#: ../annotum-base/functions/article-post-type.php:117
+msgctxt "Meta box title"
 msgid "Acknowledgements"
 msgstr ""
 
-#: ../annotum-base/functions/article-post-type.php:120
+#: ../annotum-base/functions/article-post-type.php:118
+msgctxt "Meta box title"
 msgid "Appendicies"
 msgstr ""
 
+#: ../annotum-base/functions/article-post-type.php:119
+msgctxt "Meta box title"
+msgid "Featured"
+msgstr ""
+
+#: ../annotum-base/functions/article-post-type.php:186
+msgctxt "Featured post meta box label"
+msgid "Feature this article to appear in the home page carousel"
+msgstr ""
+
 #: ../annotum-base/functions/taxonomies.php:9
-#: ../annotum-base/functions/taxonomies.php:63
+#: ../annotum-base/functions/taxonomies.php:10
+msgctxt "taxonomy single name"
 msgid "Article Category"
 msgstr ""
 
-#: ../annotum-base/functions/taxonomies.php:10
-msgid "Article Categories"
+#: ../annotum-base/functions/taxonomies.php:11
+msgctxt "taxonomy label"
+msgid "Search Article Categories"
+msgstr ""
+
+#: ../annotum-base/functions/taxonomies.php:12
+msgctxt "taxonomy label"
+msgid "Popular Article Categories"
+msgstr ""
+
+#: ../annotum-base/functions/taxonomies.php:13
+msgctxt "taxonomy label"
+msgid "All Article Categories"
+msgstr ""
+
+#: ../annotum-base/functions/taxonomies.php:14
+msgctxt "taxonomy label"
+msgid "Edit Article Category"
 msgstr ""
 
 #: ../annotum-base/functions/taxonomies.php:15
-msgid "Article Tag"
+msgctxt "taxonomy label"
+msgid "Update Article Category"
 msgstr ""
 
 #: ../annotum-base/functions/taxonomies.php:16
-msgid "Article Tags"
+msgctxt "taxonomy label"
+msgid "Add New Article Category"
 msgstr ""
 
-#: ../annotum-base/functions/taxonomies.php:29
-msgid "Popular"
+#: ../annotum-base/functions/taxonomies.php:17
+msgctxt "taxonomy label"
+msgid "New Article Category Name"
 msgstr ""
 
-#: ../annotum-base/functions/taxonomies.php:30
-msgid "All"
+#: ../annotum-base/functions/taxonomies.php:18
+msgctxt "taxonomy label"
+msgid "Add or Remove Article Categories"
 msgstr ""
 
-#: ../annotum-base/functions/taxonomies.php:31
-msgid "Edit"
+#: ../annotum-base/functions/taxonomies.php:19
+msgctxt "taxonomy label"
+msgid "Choose from the most used article categories"
 msgstr ""
 
-#: ../annotum-base/functions/taxonomies.php:32
-msgid "Update"
+#: ../annotum-base/functions/taxonomies.php:20
+msgctxt "taxonomy menu name"
+msgid "Article Categories"
 msgstr ""
 
 #: ../annotum-base/functions/taxonomies.php:33
-msgid "Add New"
-msgstr ""
-
 #: ../annotum-base/functions/taxonomies.php:34
-msgid "New"
-msgstr ""
-
-#: ../annotum-base/functions/taxonomies.php:34
-msgid "Name"
+msgctxt "taxonomy single name"
+msgid "Article Tag"
 msgstr ""
 
 #: ../annotum-base/functions/taxonomies.php:35
-msgid "Add or remove"
+msgctxt "taxonomy label"
+msgid "Search Article Tags"
 msgstr ""
 
 #: ../annotum-base/functions/taxonomies.php:36
-msgid "Choose from the most used "
+msgctxt "taxonomy label"
+msgid "Popular Article Tags"
 msgstr ""
 
-#: ../annotum-base/functions/template-tags.php:71
+#: ../annotum-base/functions/taxonomies.php:37
+msgctxt "taxonomy label"
+msgid "All Article Tags"
+msgstr ""
+
+#: ../annotum-base/functions/taxonomies.php:38
+msgctxt "taxonomy label"
+msgid "Edit Article Tag"
+msgstr ""
+
+#: ../annotum-base/functions/taxonomies.php:39
+msgctxt "taxonomy label"
+msgid "Update Article Tag"
+msgstr ""
+
+#: ../annotum-base/functions/taxonomies.php:40
+msgctxt "taxonomy label"
+msgid "Add New Article Tag"
+msgstr ""
+
+#: ../annotum-base/functions/taxonomies.php:41
+msgctxt "taxonomy label"
+msgid "New Article Tag Name"
+msgstr ""
+
+#: ../annotum-base/functions/taxonomies.php:42
+msgctxt "taxonomy label"
+msgid "Add or Remove Article Tags"
+msgstr ""
+
+#: ../annotum-base/functions/taxonomies.php:43
+msgctxt "taxonomy label"
+msgid "Choose from the most used article tags"
+msgstr ""
+
+#: ../annotum-base/functions/taxonomies.php:44
+msgctxt "taxonomy menu name"
+msgid "Article Tags"
+msgstr ""
+
+#: ../annotum-base/functions/taxonomies.php:70
+msgctxt "Meta box title"
+msgid "Article Category"
+msgstr ""
+
+#: ../annotum-base/functions/template-tags.php:77
 msgid "Website:"
 msgstr ""
 
@@ -483,20 +597,24 @@ msgstr ""
 
 #: ../annotum-base/plugins/workflow/notification.php:96
 #, php-format
+msgctxt "Edit link text sent in notification emails"
 msgid "Edit This Article: %s"
 msgstr ""
 
-#: ../annotum-base/plugins/workflow/notification.php:99
+#: ../annotum-base/plugins/workflow/notification.php:100
+msgctxt "Instructions sent to reviewers via email notification"
 msgid "Reviewer Instructions"
 msgstr ""
 
-#: ../annotum-base/plugins/workflow/notification.php:106
+#: ../annotum-base/plugins/workflow/notification.php:107
 #, php-format
+msgctxt "Email notification subject"
 msgid "New Submission: %s by %s."
 msgstr ""
 
-#: ../annotum-base/plugins/workflow/notification.php:108
+#: ../annotum-base/plugins/workflow/notification.php:109
 #, php-format
+msgctxt "Email notification body"
 msgid ""
 "The following article has been submitted for review:\n"
 "--------------------\n"
@@ -508,14 +626,16 @@ msgid ""
 "%s"
 msgstr ""
 
-#: ../annotum-base/plugins/workflow/notification.php:121
-#: ../annotum-base/plugins/workflow/notification.php:133
+#: ../annotum-base/plugins/workflow/notification.php:122
+#: ../annotum-base/plugins/workflow/notification.php:134
 #, php-format
+msgctxt "Email notification subject"
 msgid "%s now in review."
 msgstr ""
 
-#: ../annotum-base/plugins/workflow/notification.php:123
+#: ../annotum-base/plugins/workflow/notification.php:124
 #, php-format
+msgctxt "Email notification body"
 msgid ""
 "Review has begun for: %s\n"
 "\n"
@@ -524,8 +644,9 @@ msgid ""
 "%s"
 msgstr ""
 
-#: ../annotum-base/plugins/workflow/notification.php:135
+#: ../annotum-base/plugins/workflow/notification.php:136
 #, php-format
+msgctxt "Email notification body"
 msgid ""
 "Revisions have been made for %s and we ask you to please re-review the article.\n"
 "\n"
@@ -534,13 +655,15 @@ msgid ""
 "%s"
 msgstr ""
 
-#: ../annotum-base/plugins/workflow/notification.php:145
+#: ../annotum-base/plugins/workflow/notification.php:146
 #, php-format
+msgctxt "Email notification subject"
 msgid "%s review is complete. APPROVED."
 msgstr ""
 
-#: ../annotum-base/plugins/workflow/notification.php:147
+#: ../annotum-base/plugins/workflow/notification.php:148
 #, php-format
+msgctxt "Email notification body"
 msgid ""
 "Thank you for your submission. We are pleased to inform you that your article, %s, has been approved!\n"
 "\n"
@@ -551,15 +674,17 @@ msgid ""
 "%s"
 msgstr ""
 
-#: ../annotum-base/plugins/workflow/notification.php:159
-#: ../annotum-base/plugins/workflow/notification.php:172
+#: ../annotum-base/plugins/workflow/notification.php:160
+#: ../annotum-base/plugins/workflow/notification.php:173
 #, php-format
+msgctxt "Email notification subject"
 msgid "%s review is complete."
 msgstr ""
 
-#: ../annotum-base/plugins/workflow/notification.php:161
-#: ../annotum-base/plugins/workflow/notification.php:174
+#: ../annotum-base/plugins/workflow/notification.php:162
+#: ../annotum-base/plugins/workflow/notification.php:175
 #, php-format
+msgctxt "Email notification body"
 msgid ""
 "Thank you for your submission, %s.  After our review process, we have decided not to accept your article at this time.  \n"
 "--------------------\n"
@@ -569,13 +694,15 @@ msgid ""
 "%s"
 msgstr ""
 
-#: ../annotum-base/plugins/workflow/notification.php:185
+#: ../annotum-base/plugins/workflow/notification.php:186
 #, php-format
+msgctxt "Email notification subject"
 msgid "%s has been published."
 msgstr ""
 
-#: ../annotum-base/plugins/workflow/notification.php:187
+#: ../annotum-base/plugins/workflow/notification.php:188
 #, php-format
+msgctxt "Email notification body"
 msgid ""
 "The following article has been published: %s\n"
 "\n"
@@ -584,13 +711,15 @@ msgid ""
 "%s"
 msgstr ""
 
-#: ../annotum-base/plugins/workflow/notification.php:196
+#: ../annotum-base/plugins/workflow/notification.php:197
 #, php-format
+msgctxt "Email notification subject"
 msgid "You have been invited to review %s by %s"
 msgstr ""
 
-#: ../annotum-base/plugins/workflow/notification.php:198
+#: ../annotum-base/plugins/workflow/notification.php:199
 #, php-format
+msgctxt "Email notification body"
 msgid ""
 "Please review the following article:\n"
 "--------------------\n"
@@ -603,13 +732,15 @@ msgid ""
 "%s"
 msgstr ""
 
-#: ../annotum-base/plugins/workflow/notification.php:211
+#: ../annotum-base/plugins/workflow/notification.php:212
 #, php-format
+msgctxt "Email notification subject"
 msgid "You have been invited to co-author %s by %s"
 msgstr ""
 
-#: ../annotum-base/plugins/workflow/notification.php:213
+#: ../annotum-base/plugins/workflow/notification.php:214
 #, php-format
+msgctxt "Email notification body"
 msgid ""
 "You are have been invited to co-author %s by %s.\n"
 "%s\n"
@@ -617,14 +748,16 @@ msgid ""
 "%s"
 msgstr ""
 
-#: ../annotum-base/plugins/workflow/notification.php:228
+#: ../annotum-base/plugins/workflow/notification.php:229
 #, php-format
+msgctxt "Email notification subject"
 msgid "New internal comment on %s."
 msgstr ""
 
-#: ../annotum-base/plugins/workflow/notification.php:230
-#: ../annotum-base/plugins/workflow/notification.php:256
+#: ../annotum-base/plugins/workflow/notification.php:231
+#: ../annotum-base/plugins/workflow/notification.php:257
 #, php-format
+msgctxt "Email notification body"
 msgid ""
 "The following comment was submitted on %s by %s.\n"
 "--------------------\n"
@@ -635,13 +768,15 @@ msgid ""
 "%s"
 msgstr ""
 
-#: ../annotum-base/plugins/workflow/notification.php:241
+#: ../annotum-base/plugins/workflow/notification.php:242
 #, php-format
+msgctxt "Email notification subject"
 msgid "Reply to internal comment on %s"
 msgstr ""
 
-#: ../annotum-base/plugins/workflow/notification.php:243
+#: ../annotum-base/plugins/workflow/notification.php:244
 #, php-format
+msgctxt "Email notification body"
 msgid ""
 "%s has replied to your internal comment on %s.\n"
 "--------------------\n"
@@ -652,18 +787,21 @@ msgid ""
 "%s"
 msgstr ""
 
-#: ../annotum-base/plugins/workflow/notification.php:254
+#: ../annotum-base/plugins/workflow/notification.php:255
 #, php-format
+msgctxt "Email notification subject"
 msgid "New reviewer comment on %s"
 msgstr ""
 
-#: ../annotum-base/plugins/workflow/notification.php:267
+#: ../annotum-base/plugins/workflow/notification.php:268
 #, php-format
+msgctxt "Email notification subject"
 msgid "Reply to reviewer comment on %s"
 msgstr ""
 
-#: ../annotum-base/plugins/workflow/notification.php:269
+#: ../annotum-base/plugins/workflow/notification.php:270
 #, php-format
+msgctxt "Email notification body"
 msgid ""
 "%s has replied to your reviewer comment on %s.\n"
 "--------------------\n"
@@ -675,268 +813,422 @@ msgid ""
 msgstr ""
 
 #: ../annotum-base/plugins/workflow/publishing-meta-box.php:60
+msgctxt "Publishing box trash action link text"
 msgid "Move To Trash"
 msgstr ""
 
 #: ../annotum-base/plugins/workflow/publishing-meta-box.php:88
+msgctxt "Publishing box meta text"
 msgid "Submitted - Waiting For Review"
 msgstr ""
 
-#: ../annotum-base/plugins/workflow/publishing-meta-box.php:121
+#: ../annotum-base/plugins/workflow/publishing-meta-box.php:137
 #, php-format
-msgid "%d of %d Reviews Complete"
+msgctxt "Article publishing box meta text"
+msgid "%s of %s Reviews Complete"
 msgstr ""
 
-#: ../annotum-base/plugins/workflow/publishing-meta-box.php:128
+#: ../annotum-base/plugins/workflow/publishing-meta-box.php:144
+msgctxt "Publishing box meta text"
 msgid "Submitted - In Review"
 msgstr ""
 
-#: ../annotum-base/plugins/workflow/publishing-meta-box.php:175
+#: ../annotum-base/plugins/workflow/publishing-meta-box.php:191
+msgctxt "Publishing box meta text"
 msgid "Article Approved"
 msgstr ""
 
-#: ../annotum-base/plugins/workflow/publishing-meta-box.php:212
+#: ../annotum-base/plugins/workflow/publishing-meta-box.php:228
+msgctxt "Publishing box visibility text"
 msgid "Visibility:"
 msgstr ""
 
-#: ../annotum-base/plugins/workflow/publishing-meta-box.php:217
-#: ../annotum-base/plugins/workflow/publishing-meta-box.php:248
+#: ../annotum-base/plugins/workflow/publishing-meta-box.php:233
+msgctxt "Publishing box visibility text"
 msgid "Private"
 msgstr ""
 
-#: ../annotum-base/plugins/workflow/publishing-meta-box.php:221
-#: ../annotum-base/plugins/workflow/publishing-meta-box.php:246
+#: ../annotum-base/plugins/workflow/publishing-meta-box.php:237
+msgctxt "Publishing box visibility text"
 msgid "Password protected"
 msgstr ""
 
-#: ../annotum-base/plugins/workflow/publishing-meta-box.php:225
+#: ../annotum-base/plugins/workflow/publishing-meta-box.php:241
+msgctxt "Publishing box visibility text"
 msgid "Public, Sticky"
 msgstr ""
 
-#: ../annotum-base/plugins/workflow/publishing-meta-box.php:229
-#: ../annotum-base/plugins/workflow/publishing-meta-box.php:242
+#: ../annotum-base/plugins/workflow/publishing-meta-box.php:245
+msgctxt "Publishing box visibility text"
 msgid "Public"
 msgstr ""
 
-#: ../annotum-base/plugins/workflow/publishing-meta-box.php:244
+#: ../annotum-base/plugins/workflow/publishing-meta-box.php:250
+msgctxt "verb, publising box edit visibility text"
+msgid "Edit"
+msgstr ""
+
+#: ../annotum-base/plugins/workflow/publishing-meta-box.php:258
+msgctxt "adjective, publishing box visibility label"
+msgid "Public"
+msgstr ""
+
+#: ../annotum-base/plugins/workflow/publishing-meta-box.php:260
+msgctxt "Publishing box visibility label"
 msgid "Stick this post to the front page"
 msgstr ""
 
-#: ../annotum-base/plugins/workflow/publishing-meta-box.php:247
-msgid "Password:"
-msgstr ""
-
-#: ../annotum-base/plugins/workflow/publishing-meta-box.php:251
-msgid "OK"
+#: ../annotum-base/plugins/workflow/publishing-meta-box.php:262
+msgctxt "Publishing box visibility label"
+msgid "Password protected"
 msgstr ""
 
 #: ../annotum-base/plugins/workflow/publishing-meta-box.php:263
-#, php-format
-msgid "Scheduled for: <b>%1$s</b>"
+msgctxt "Publishing box visibility label"
+msgid "Password:"
 msgstr ""
 
-#: ../annotum-base/plugins/workflow/publishing-meta-box.php:265
-#, php-format
-msgid "Published on: <b>%1$s</b>"
+#: ../annotum-base/plugins/workflow/publishing-meta-box.php:264
+msgctxt "adjective, publishing box visibility label"
+msgid "Private"
 msgstr ""
 
 #: ../annotum-base/plugins/workflow/publishing-meta-box.php:267
-#: ../annotum-base/plugins/workflow/publishing-meta-box.php:275
+msgctxt "Publishing box visibility button text"
+msgid "OK"
+msgstr ""
+
+#: ../annotum-base/plugins/workflow/publishing-meta-box.php:268
+msgctxt "Publishing box visibility button text"
+msgid "Cancel"
+msgstr ""
+
+#: ../annotum-base/plugins/workflow/publishing-meta-box.php:276
+msgctxt "Publishing box date format"
+msgid "M j, Y @ G:i"
+msgstr ""
+
+#: ../annotum-base/plugins/workflow/publishing-meta-box.php:279
+#, php-format
+msgctxt "Publishing box future date"
+msgid "Scheduled for: <b>%1$s</b>"
+msgstr ""
+
+#: ../annotum-base/plugins/workflow/publishing-meta-box.php:281
+#, php-format
+msgctxt "Publishing box publish date"
+msgid "Published on: <b>%1$s</b>"
+msgstr ""
+
+#: ../annotum-base/plugins/workflow/publishing-meta-box.php:283
+#: ../annotum-base/plugins/workflow/publishing-meta-box.php:291
+msgctxt "Publishing box publish date"
 msgid "Publish <b>immediately</b>"
 msgstr ""
 
-#: ../annotum-base/plugins/workflow/publishing-meta-box.php:269
+#: ../annotum-base/plugins/workflow/publishing-meta-box.php:285
 #, php-format
+msgctxt "Publishing box schedule date"
 msgid "Schedule for: <b>%1$s</b>"
 msgstr ""
 
-#: ../annotum-base/plugins/workflow/publishing-meta-box.php:271
+#: ../annotum-base/plugins/workflow/publishing-meta-box.php:287
 #, php-format
+msgctxt "Publishing box schedule date"
 msgid "Publish on: <b>%1$s</b>"
 msgstr ""
 
-#: ../annotum-base/plugins/workflow/publishing-meta-box.php:300
+#: ../annotum-base/plugins/workflow/publishing-meta-box.php:299
+msgctxt "Publishing box edit post date text"
+msgid "Edit"
+msgstr ""
+
+#: ../annotum-base/plugins/workflow/publishing-meta-box.php:316
+msgctxt "Publishing box meta text"
 msgid "Article Rejected"
 msgstr ""
 
-#: ../annotum-base/plugins/workflow/publishing-meta-box.php:330
+#: ../annotum-base/plugins/workflow/publishing-meta-box.php:346
+msgctxt "Publishing box meta text"
 msgid "Article Published"
 msgstr ""
 
-#: ../annotum-base/plugins/workflow/publishing-meta-box.php:359
-#: ../annotum-base/plugins/workflow/publishing-meta-box.php:385
+#: ../annotum-base/plugins/workflow/publishing-meta-box.php:375
+#: ../annotum-base/plugins/workflow/publishing-meta-box.php:401
+msgctxt "Publising box preview button text"
 msgid "Preview Changes"
 msgstr ""
 
-#: ../annotum-base/plugins/workflow/publishing-meta-box.php:365
-#: ../annotum-base/plugins/workflow/publishing-meta-box.php:392
+#: ../annotum-base/plugins/workflow/publishing-meta-box.php:381
+#: ../annotum-base/plugins/workflow/publishing-meta-box.php:408
+msgctxt "Publising box preview button text"
 msgid "Preview"
 msgstr ""
 
-#: ../annotum-base/plugins/workflow/publishing-meta-box.php:409
+#: ../annotum-base/plugins/workflow/publishing-meta-box.php:425
+msgctxt "Publishing box save button text"
 msgid "Save"
 msgstr ""
 
 #: ../annotum-base/plugins/workflow/workflow-load.php:10
+msgctxt "Publishing box action button text"
 msgid "Approve"
 msgstr ""
 
 #: ../annotum-base/plugins/workflow/workflow-load.php:11
+msgctxt "Publishing box action button text"
 msgid "Publish"
 msgstr ""
 
 #: ../annotum-base/plugins/workflow/workflow-load.php:12
+msgctxt "Publishing box action button text"
 msgid "Reject"
 msgstr ""
 
 #: ../annotum-base/plugins/workflow/workflow-load.php:13
+msgctxt "Publishing box action button text"
 msgid "Submit For Review"
 msgstr ""
 
 #: ../annotum-base/plugins/workflow/workflow-load.php:14
+msgctxt "Publishing box action button text"
 msgid "Request Revisions"
 msgstr ""
 
 #: ../annotum-base/plugins/workflow/workflow-load.php:15
+msgctxt "Publishing box action button text"
 msgid "Clone"
 msgstr ""
 
 #: ../annotum-base/plugins/workflow/workflow-load.php:16
+msgctxt "Publishing box action button text"
 msgid "Revert To Draft"
 msgstr ""
 
 #: ../annotum-base/plugins/workflow/workflow-settings.php:9
+msgctxt "Setting page title"
 msgid "Annotum Workflow Settings"
 msgstr ""
 
 #: ../annotum-base/plugins/workflow/workflow-settings.php:10
-msgid "Workflow settings"
+msgctxt "Admin menu option link text"
+msgid "Workflow Settings"
 msgstr ""
 
 #: ../annotum-base/plugins/workflow/workflow-settings.php:23
+msgctxt "Workflow setting label"
 msgid "Enable workflow"
 msgstr ""
 
 #: ../annotum-base/plugins/workflow/workflow-settings.php:24
+msgctxt "Workflow setting label"
 msgid "Allow article authors to see reviewers"
 msgstr ""
 
 #: ../annotum-base/plugins/workflow/workflow-settings.php:25
+msgctxt "Workflow setting label"
 msgid "Enable workflow notifications"
 msgstr ""
 
 #: ../annotum-base/plugins/workflow/workflow-settings.php:36
-msgid "Annotum Workflow settings"
+msgctxt "Setting page header"
+msgid "Annotum Workflow Settings"
 msgstr ""
 
-#: ../annotum-base/plugins/workflow/workflow.php:29
-#: ../annotum-base/plugins/workflow/workflow.php:607
-msgid "Author"
+#: ../annotum-base/plugins/workflow/workflow-settings.php:51
+msgctxt "Setting page save button value"
+msgid "Save Changes"
 msgstr ""
 
-#: ../annotum-base/plugins/workflow/workflow.php:32
-msgid "Status:"
+#: ../annotum-base/plugins/workflow/workflow.php:6
+msgctxt "Post state/status"
+msgid "Draft"
 msgstr ""
 
-#: ../annotum-base/plugins/workflow/workflow.php:38
-msgid "Versions"
+#: ../annotum-base/plugins/workflow/workflow.php:7
+msgctxt "Post state/status"
+msgid "Submitted"
+msgstr ""
+
+#: ../annotum-base/plugins/workflow/workflow.php:8
+msgctxt "Post state/status"
+msgid "In Review"
+msgstr ""
+
+#: ../annotum-base/plugins/workflow/workflow.php:9
+msgctxt "Post state/status"
+msgid "Approved"
+msgstr ""
+
+#: ../annotum-base/plugins/workflow/workflow.php:10
+msgctxt "Post state/status"
+msgid "Rejected"
+msgstr ""
+
+#: ../annotum-base/plugins/workflow/workflow.php:11
+msgctxt "Post state/status"
+msgid "Published"
 msgstr ""
 
 #: ../annotum-base/plugins/workflow/workflow.php:42
+msgctxt "Meta box title"
+msgid "Author"
+msgstr ""
+
+#: ../annotum-base/plugins/workflow/workflow.php:46
+msgctxt "Meta box title"
+msgid "Status:"
+msgstr ""
+
+#: ../annotum-base/plugins/workflow/workflow.php:52
+msgctxt "Meta box title"
+msgid "Versions"
+msgstr ""
+
+#: ../annotum-base/plugins/workflow/workflow.php:56
+msgctxt "Meta box title"
 msgid "Reviewers"
 msgstr ""
 
-#: ../annotum-base/plugins/workflow/workflow.php:44
+#: ../annotum-base/plugins/workflow/workflow.php:58
+msgctxt "Meta box title"
 msgid "Co-Authors"
 msgstr ""
 
-#: ../annotum-base/plugins/workflow/workflow.php:378
+#: ../annotum-base/plugins/workflow/workflow.php:409
 #, php-format
+msgctxt "Adding user error message for article meta box"
 msgid "Cannot add author as a %s"
 msgstr ""
 
-#: ../annotum-base/plugins/workflow/workflow.php:381
+#: ../annotum-base/plugins/workflow/workflow.php:412
 #, php-format
+msgctxt "Adding user error message for article meta box"
 msgid "Cannot add %s as %s. User is already a co-author"
 msgstr ""
 
-#: ../annotum-base/plugins/workflow/workflow.php:384
+#: ../annotum-base/plugins/workflow/workflow.php:415
 #, php-format
+msgctxt "Adding user error message for article meta box"
 msgid "Cannot add %s as %s. User is already a reviewer"
 msgstr ""
 
-#: ../annotum-base/plugins/workflow/workflow.php:395
+#: ../annotum-base/plugins/workflow/workflow.php:426
 #, php-format
+msgctxt "Adding user error message for article meta box"
 msgid "User '%s' not found"
 msgstr ""
 
-#: ../annotum-base/plugins/workflow/workflow.php:538
+#: ../annotum-base/plugins/workflow/workflow.php:571
+msgctxt "Cloned meta box text"
 msgid "Cloned From"
 msgstr ""
 
-#: ../annotum-base/plugins/workflow/workflow.php:546
+#: ../annotum-base/plugins/workflow/workflow.php:579
+msgctxt "Cloned meta box text"
 msgid "Clones"
 msgstr ""
 
-#: ../annotum-base/plugins/workflow/workflow.php:576
-msgid "Cloned:"
+#: ../annotum-base/plugins/workflow/workflow.php:611
+#, php-format
+msgctxt "Cloned article title prepend"
+msgid "Cloned: %s"
 msgstr ""
 
-#: ../annotum-base/plugins/workflow/workflow.php:677
+#: ../annotum-base/plugins/workflow/workflow.php:649
+msgctxt "Author meta box dropdown label"
+msgid "Author"
+msgstr ""
+
+#: ../annotum-base/plugins/workflow/workflow.php:669
+msgctxt "Cloned article error message"
 msgid "You are not allowed to clone this post."
 msgstr ""
 
-#: ../annotum-base/plugins/workflow/workflow.php:756
-msgid "Permalink:"
+#: ../annotum-base/plugins/workflow/internal-comments/internal-comments.php:6
+msgctxt "Review left by Reviewer"
+msgid "Approve"
 msgstr ""
 
 #: ../annotum-base/plugins/workflow/internal-comments/internal-comments.php:7
+msgctxt "Review left by Reviewer"
 msgid "Revisions"
 msgstr ""
 
+#: ../annotum-base/plugins/workflow/internal-comments/internal-comments.php:8
+msgctxt "Review left by Reviewer"
+msgid "Reject"
+msgstr ""
+
 #: ../annotum-base/plugins/workflow/internal-comments/internal-comments.php:16
+msgctxt "Meta box title"
 msgid "Internal Comments"
 msgstr ""
 
 #: ../annotum-base/plugins/workflow/internal-comments/internal-comments.php:19
+msgctxt "Meta box title"
 msgid "Reviews"
 msgstr ""
 
 #: ../annotum-base/plugins/workflow/internal-comments/internal-comments.php:112
 #, php-format
+msgctxt "Internal comment date"
 msgid "Submitted on <a href=\"%1$s\">%2$s at %3$s</a>"
 msgstr ""
 
 #: ../annotum-base/plugins/workflow/internal-comments/internal-comments.php:112
+msgctxt "Date format for internal comments"
 msgid "Y/m/d"
 msgstr ""
 
 #: ../annotum-base/plugins/workflow/internal-comments/internal-comments.php:117
 #, php-format
+msgctxt "Internal Comment reply text"
 msgid "In reply to <a href=\"%1$s\">%2$s</a>."
 msgstr ""
 
 #: ../annotum-base/plugins/workflow/internal-comments/internal-comments.php:126
+msgctxt "Internal comment action link text"
 msgid "Reply"
 msgstr ""
 
+#: ../annotum-base/plugins/workflow/internal-comments/internal-comments.php:127
+msgctxt "Internal comment action link text"
+msgid "Edit"
+msgstr ""
+
 #: ../annotum-base/plugins/workflow/internal-comments/internal-comments.php:128
+msgctxt "Internal comment action link text"
 msgid "Trash"
 msgstr ""
 
 #: ../annotum-base/plugins/workflow/internal-comments/internal-comments.php:170
+msgctxt "Review label for reviewer meta box review dropdown"
 msgid "Recommendation: "
 msgstr ""
 
 #: ../annotum-base/plugins/workflow/internal-comments/internal-comments.php:201
+msgctxt "Internal comment textarea label"
 msgid "Comment"
 msgstr ""
 
+#: ../annotum-base/plugins/workflow/internal-comments/internal-comments.php:205
+msgctxt "Internal comment button value"
+msgid "Submit"
+msgstr ""
+
+#: ../annotum-base/plugins/workflow/internal-comments/internal-comments.php:206
+msgctxt "Internal comment button value"
+msgid "Cancel"
+msgstr ""
+
 #: ../annotum-base/plugins/workflow/internal-comments/internal-comments.php:393
+msgctxt "Dropdown comment type selector"
 msgid "Article General"
 msgstr ""
 
 #: ../annotum-base/plugins/workflow/internal-comments/internal-comments.php:394
+msgctxt "Dropdown comment type selector"
 msgid "Article Review"
 msgstr ""
 

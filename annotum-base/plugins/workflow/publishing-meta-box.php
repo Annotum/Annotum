@@ -57,7 +57,7 @@ function annowf_major_action_draft_markup() {
 			$wrap_class = '';
 ?>
 		<div id="delete-action">
-			<a class="submitdelete deletion" href="<?php echo get_delete_post_link($post->ID); ?>"><?php _e('Move To Trash', 'anno'); ?></a>
+			<a class="submitdelete deletion" href="<?php echo get_delete_post_link($post->ID); ?>"><?php _ex('Move To Trash', 'Publishing box trash action link text', 'anno'); ?></a>
 		</div>
 <?php
 	}
@@ -67,7 +67,7 @@ function annowf_major_action_draft_markup() {
 ?>
 		<div id="publishing-action"<?php echo $wrap_class; ?>>
 			<img src="<?php echo esc_url( admin_url( 'images/wpspin_light.gif' ) ); ?>" class="ajax-loading" id="ajax-loading" alt="" />
-			<input name="original_publish" type="hidden" id="original_publish" value="<?php esc_attr_e('Submit for Review') ?>" />
+			<input name="original_publish" type="hidden" id="original_publish" value="<?php esc_attr_e($anno_post_save['review']); ?>" />
 
 			<?php submit_button($anno_post_save['review'], 'primary', 'publish', false, array( 'tabindex' => '5', 'accesskey' => 'p' )); ?>
 		</div>
@@ -85,7 +85,7 @@ function annowf_minor_action_submitted_markup() {
 	}
 ?>
 		<p class="status-text">
-			<?php _e('Submitted - Waiting For Review'); ?>
+			<?php _ex('Submitted - Waiting For Review', 'Publishing box meta text', 'anno'); ?>
 		</p>
 <?php
 }
@@ -98,7 +98,7 @@ function annowf_major_action_submitted_markup() {
 		global $anno_post_save;
 ?>
 	<div id="publishing-action-approve" class="center-wrap">
-		<input name="original_publish" type="hidden" id="original_publish" value="<?php esc_attr_e('Approve', 'anno') ?>" />	
+		<input name="original_publish" type="hidden" id="original_publish" value="<?php esc_attr_e($anno_post_save['approve']) ?>" />	
 		<?php submit_button($anno_post_save['approve'], 'primary', 'publish', false, array( 'tabindex' => '5')); ?>
 		<img src="<?php echo esc_url( admin_url( 'images/wpspin_light.gif' ) ); ?>" class="ajax-loading" alt="" />
 	</div>
@@ -134,14 +134,14 @@ function annowf_minor_action_in_review_markup() {
 ?>
 			<p class="status-text">
 <?php
-			printf(__('%s of %s Reviews Complete', 'anno'), '<span id="anno-reviewed-count">'.$round_reviewed.'</span>', '<span id="anno-reviewers-count">'.$reviewers.'</span>');
+			printf(_x('%s of %s Reviews Complete', 'Article publishing box meta text', 'anno'), '<span id="anno-reviewed-count">'.$round_reviewed.'</span>', '<span id="anno-reviewers-count">'.$reviewers.'</span>');
 		}
 	}
 	else {
 ?>
 			<p class="status-text">
 <?php
- 			_e('Submitted - In Review', 'anno'); 
+ 			_ex('Submitted - In Review', 'Publishing box meta text', 'anno'); 
 	}	
 ?>
 		</p>
@@ -156,7 +156,7 @@ function annowf_major_action_in_review_markup() {
 		global $anno_post_save;
 ?>
 	<div id="publishing-action-approve" class="center-wrap">
-		<input name="original_publish" type="hidden" id="original_publish" value="<?php esc_attr_e('Approve', 'anno') ?>" />	
+		<input name="original_publish" type="hidden" id="original_publish" value="<?php esc_attr_e($anno_post_save['approve']) ?>" />	
 		<?php submit_button($anno_post_save['approve'], 'primary', 'publish', false, array( 'tabindex' => '5')); ?>
 		<img src="<?php echo esc_url( admin_url( 'images/wpspin_light.gif' ) ); ?>" class="ajax-loading" alt="" />
 	</div>
@@ -188,7 +188,7 @@ function annowf_minor_action_approved_markup() {
 	else {
 ?>
 	<p class="status-text">
-		<?php _e('Article Approved', 'anno'); ?>
+		<?php _ex('Article Approved', 'Publishing box meta text', 'anno'); ?>
 	</p>
 <?php
 	}
@@ -225,29 +225,29 @@ function annowf_misc_action_approved_markup() {
 ?>
 <div id="misc-publishing-actions">
 	<div class="misc-pub-section " id="visibility">
-	<?php _e('Visibility:'); ?> <span id="post-visibility-display"><?php
+	<?php _ex('Visibility:', 'Publishing box visibility text', 'anno'); ?> <span id="post-visibility-display"><?php
 
 	if ( 'private' == $post->post_status ) {
 		$post->post_password = '';
 		$visibility = 'private';
-		$visibility_trans = __('Private');
+		$visibility_trans = _x('Private', 'Publishing box visibility text', 'anno');
 	} 
 	elseif ( !empty( $post->post_password ) ) {
 		$visibility = 'password';
-		$visibility_trans = __('Password protected');
+		$visibility_trans = _x('Password protected', 'Publishing box visibility text', 'anno');
 	} 
 	elseif ( $post_type == 'post' && is_sticky( $post->ID ) ) {
 		$visibility = 'public';
-		$visibility_trans = __('Public, Sticky');
+		$visibility_trans = _x('Public, Sticky', 'Publishing box visibility text', 'anno' );
 	}
 	else {
 		$visibility = 'public';
-		$visibility_trans = __('Public');
+		$visibility_trans = _x('Public', 'Publishing box visibility text', 'anno');
 	}
 
 	echo esc_html( $visibility_trans ); ?></span>
 	<?php if ( $can_publish ) { ?>
-		<a href="#visibility" class="edit-visibility hide-if-no-js"><?php _e('Edit'); ?></a>
+		<a href="#visibility" class="edit-visibility hide-if-no-js"><?php _ex('Edit', 'verb, publising box edit visibility text', 'anno'); ?></a>
 
 		<div id="post-visibility-select" class="hide-if-js">
 			<input type="hidden" name="hidden_post_password" id="hidden-post-password" value="<?php echo esc_attr($post->post_password); ?>" />
@@ -255,17 +255,17 @@ function annowf_misc_action_approved_markup() {
 			<input type="checkbox" style="display:none" name="hidden_post_sticky" id="hidden-post-sticky" value="sticky" <?php checked(is_sticky($post->ID)); ?> />
 		<?php endif; ?>
 			<input type="hidden" name="hidden_post_visibility" id="hidden-post-visibility" value="<?php echo esc_attr( $visibility ); ?>" />
-			<input type="radio" name="visibility" id="visibility-radio-public" value="public" <?php checked( $visibility, 'public' ); ?> /> <label for="visibility-radio-public" class="selectit"><?php _e('Public'); ?></label><br />
+			<input type="radio" name="visibility" id="visibility-radio-public" value="public" <?php checked( $visibility, 'public' ); ?> /> <label for="visibility-radio-public" class="selectit"><?php _ex('Public', 'adjective, publishing box visibility label', 'anno'); ?></label><br />
 		<?php if ($post_type == 'post'): ?>
-			<span id="sticky-span"><input id="sticky" name="sticky" type="checkbox" value="sticky" <?php checked(is_sticky($post->ID)); ?> tabindex="4" /> <label for="sticky" class="selectit"><?php _e('Stick this post to the front page') ?></label><br /></span>
+			<span id="sticky-span"><input id="sticky" name="sticky" type="checkbox" value="sticky" <?php checked(is_sticky($post->ID)); ?> tabindex="4" /> <label for="sticky" class="selectit"><?php _ex('Stick this post to the front page', 'Publishing box visibility label', 'anno'); ?></label><br /></span>
 		<?php endif; ?>
-			<input type="radio" name="visibility" id="visibility-radio-password" value="password" <?php checked( $visibility, 'password' ); ?> /> <label 	for="visibility-radio-password" class="selectit"><?php _e('Password protected'); ?></label><br />
-			<span id="password-span"><label for="post_password"><?php _e('Password:'); ?></label> <input type="text" name="post_password" id="post_password" value="<?php echo esc_attr($post->post_password); ?>" /><br /></span>
-			<input type="radio" name="visibility" id="visibility-radio-private" value="private" <?php checked( $visibility, 'private' ); ?> /> <label for="visibility-radio-private" class="selectit"><?php _e('Private'); ?></label><br />
+			<input type="radio" name="visibility" id="visibility-radio-password" value="password" <?php checked( $visibility, 'password' ); ?> /> <label 	for="visibility-radio-password" class="selectit"><?php _ex('Password protected', 'Publishing box visibility label', 'anno'); ?></label><br />
+			<span id="password-span"><label for="post_password"><?php _ex('Password:', 'Publishing box visibility label', 'anno'); ?></label> <input type="text" name="post_password" id="post_password" value="<?php echo esc_attr($post->post_password); ?>" /><br /></span>
+			<input type="radio" name="visibility" id="visibility-radio-private" value="private" <?php checked( $visibility, 'private' ); ?> /> <label for="visibility-radio-private" class="selectit"><?php _ex('Private', 'adjective, publishing box visibility label', 'anno'); ?></label><br />
 
 			<p>
-			 <a href="#visibility" class="save-post-visibility hide-if-no-js button"><?php _e('OK'); ?></a>
-			 <a href="#visibility" class="cancel-post-visibility hide-if-no-js"><?php _e('Cancel'); ?></a>
+			 <a href="#visibility" class="save-post-visibility hide-if-no-js button"><?php _ex('OK', 'Publishing box visibility button text', 'anno'); ?></a>
+			 <a href="#visibility" class="cancel-post-visibility hide-if-no-js"><?php _ex('Cancel', 'Publishing box visibility button text', 'anno'); ?></a>
 			</p>
 		</div>
 	<?php } ?>
@@ -273,22 +273,22 @@ function annowf_misc_action_approved_markup() {
 	<div class="clear"></div>
 	<?php
 		// translators: Publish box date formt, see http://php.net/date
-		$datef = __( 'M j, Y @ G:i' );
+		$datef = _x( 'M j, Y @ G:i', 'Publishing box date format', 'anno' );
 		if ( 0 != $post->ID ) {
 			if ( 'future' == $post->post_status ) { // scheduled for publishing at a future date
-				$stamp = __('Scheduled for: <b>%1$s</b>');
+				$stamp = _x('Scheduled for: <b>%1$s</b>', 'Publishing box future date', 'anno');
 			} else if ( 'publish' == $post->post_status || 'private' == $post->post_status ) { // already published
-				$stamp = __('Published on: <b>%1$s</b>');
+				$stamp = _x('Published on: <b>%1$s</b>', 'Publishing box publish date', 'anno');
 			} else if ( '0000-00-00 00:00:00' == $post->post_date_gmt ) { // draft, 1 or more saves, no date specified
-				$stamp = __('Publish <b>immediately</b>');
+				$stamp = _x('Publish <b>immediately</b>', 'Publishing box publish date', 'anno');
 			} else if ( time() < strtotime( $post->post_date_gmt . ' +0000' ) ) { // draft, 1 or more saves, future date specified
-				$stamp = __('Schedule for: <b>%1$s</b>');
+				$stamp = _x('Schedule for: <b>%1$s</b>', 'Publishing box schedule date', 'anno');
 			} else { // draft, 1 or more saves, date specified
-				$stamp = __('Publish on: <b>%1$s</b>');
+				$stamp = _x('Publish on: <b>%1$s</b>', 'Publishing box schedule date', 'anno');
 			}
 			$date = date_i18n( $datef, strtotime( $post->post_date ) );
 		} else { // draft (no saves, and thus no date specified)
-			$stamp = __('Publish <b>immediately</b>');
+			$stamp = _x('Publish <b>immediately</b>', 'Publishing box publish date', 'anno');
 			$date = date_i18n( $datef, strtotime( current_time('mysql') ) );
 		}
 
@@ -296,7 +296,7 @@ function annowf_misc_action_approved_markup() {
 		<div class="misc-pub-section curtime misc-pub-section-last">
 			<span id="timestamp">
 			<?php printf($stamp, $date); ?></span>
-			<a href="#edit_timestamp" class="edit-timestamp hide-if-no-js" tabindex='4'><?php _e('Edit') ?></a>
+			<a href="#edit_timestamp" class="edit-timestamp hide-if-no-js" tabindex='4'><?php _ex('Edit', 'Publishing box edit post date text', 'anno') ?></a>
 			<div id="timestampdiv" class="hide-if-js"><?php touch_time(($action == 'edit'),1,4); ?></div>
 		</div><?php // /misc-pub-section ?>
 		<?php endif; ?>
@@ -313,7 +313,7 @@ function annowf_misc_action_approved_markup() {
 function annowf_minor_action_rejected_markup() {
 ?>
 	<p class="status-text">
-		<?php _e('Article Rejected', 'anno'); ?>
+		<?php _ex('Article Rejected', 'Publishing box meta text', 'anno'); ?>
 	</p>
 <?php
 }
@@ -343,7 +343,7 @@ function annowf_minor_action_published_markup() {
 	else {
 ?>
 	<p class="status-text">
-		<?php _e('Article Published', 'anno'); ?>
+		<?php _ex('Article Published', 'Publishing box meta text', 'anno'); ?>
 	</p>
 <?php
 	}
@@ -372,13 +372,13 @@ function annowf_minor_action_preview_markup() {
 <?php
 	if ( 'publish' == $post->post_status ) {
 		$preview_link = esc_url( get_permalink( $post->ID ) );
-		$preview_button = __( 'Preview Changes' );
+		$preview_button = _x('Preview Changes', 'Publising box preview button text', 'anno');
 	} else {
 		$preview_link = get_permalink( $post->ID );
 		if ( is_ssl() )
 			$preview_link = str_replace( 'http://', 'https://', $preview_link );
 		$preview_link = esc_url( apply_filters( 'preview_post_link', add_query_arg( 'preview', 'true', $preview_link ) ) );
-		$preview_button = __( 'Preview' );
+		$preview_button = _x('Preview', 'Publising box preview button text', 'anno');
 	}
 ?>
 		<a class="preview button" href="<?php echo $preview_link; ?>" target="wp-preview" id="post-preview" tabindex="4"><?php echo $preview_button; ?></a>
@@ -398,14 +398,14 @@ function annowf_major_action_preview_markup() {
 	global $post;
 	if ( 'publish' == $post->post_status ) {
 		$preview_link = esc_url( get_permalink( $post->ID ) );
-		$preview_button = __( 'Preview Changes' );
+		$preview_button = _x('Preview Changes', 'Publising box preview button text', 'anno');
 	} 
 	else {
 		$preview_link = get_permalink( $post->ID );
 		if ( is_ssl() )
 			$preview_link = str_replace( 'http://', 'https://', $preview_link );
 		$preview_link = esc_url( apply_filters( 'preview_post_link', add_query_arg( 'preview', 'true', $preview_link ) ) );
-		$preview_button = __('Preview', 'anno');
+		$preview_button = _x('Preview', 'Publising box preview button text', 'anno');
 	}
 ?>
 		<a class="button-primary" href="<?php echo $preview_link; ?>" target="wp-preview" id="post-preview" tabindex="4"><?php echo $preview_button; ?></a>
@@ -422,7 +422,7 @@ function annowf_minor_action_save_markup() {
 	// Hidden submit button early on so that the browser chooses the right button when form is submitted with Return key
 ?>
 		<div style="display:none;">
-			<?php submit_button( __( 'Save' ), 'button', 'save' ); ?>
+			<?php submit_button( _x('Save', 'Publishing box save button text', 'anno'), 'button', 'save' ); ?>
 		</div>
 		<div id="save-action">			
 			<input <?php if ( 'private' == $post->post_status ) { ?>style="display:none"<?php } ?> type="submit" name="save" id="save-post" value="<?php esc_attr_e('Save', 'anno'); ?>" tabindex="4" class="button button-highlighted" />
