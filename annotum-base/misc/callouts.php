@@ -10,8 +10,19 @@
  */
 if (__FILE__ == $_SERVER['SCRIPT_FILENAME']) { die(); }
 
-$callouts = get_option('anno_callouts');
+$opts = get_option('anno_callouts');
+$callouts = array();
+// We only want options that have things in them...
+$callouts = array();
+foreach ($opts as $arr) {
+	foreach ($arr as $value) {
+		if (!$value) { continue; }
+		$callouts[] = $arr;
+		break;
+	}
+}
 $num = count($callouts);
+if ($num > 0) :
 ?>
 <div class="callouts callouts-<?php echo $num; ?>x">
 	<ul class="clearfix">
@@ -42,3 +53,5 @@ $num = count($callouts);
 		endforeach ?>
 	</ul>
 </div>
+<?php
+endif; ?>

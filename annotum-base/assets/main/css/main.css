@@ -114,9 +114,9 @@ form.search .type-submit{background:url(../img/sprite-y.8bit.png) 0 -100px no-re
 .article-excerpt-has-featured-image img{left:0;position:absolute;top:2px;}
 .article-excerpt .content{margin-bottom:12px;}
 .callouts{margin-bottom:30px;}
-.callouts ul{margin:0;padding:0;}
-.callouts li{float:left;list-style:none;margin:0 0 0 30px;padding:0;width:300px;}
-.callouts li:first-child,.callouts li.first-child{margin-left:0;}
+.callouts ul{list-style:none;margin:0;padding:0;}
+.callouts-2x li{float:left;list-style:none;margin:0 0 0 30px;padding:0;width:300px;}
+.callouts-2x li:first-child,.callouts-2x li.first-child{margin-left:0;}
 .callout-item{background:#f0f0f0;border-bottom-style:solid;border-bottom-width:2px;border-top-style:solid;border-top-width:2px;padding:13px 17px;}
 .callout-item .title{font:italic bold 18px Georgia, Serif;margin-bottom:4px;}
 .callout-item .content{font-size:14px;line-height:1.43;}
