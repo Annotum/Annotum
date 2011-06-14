@@ -1,9 +1,9 @@
 <?php
 
-// This file is part of the Carrington Core Framework for WordPress
+// This file is part of the Carrington Core Platform for WordPress
 // http://carringtontheme.com
 //
-// Copyright (c) 2008-2010 Crowd Favorite, Ltd. All rights reserved.
+// Copyright (c) 2008-2011 Crowd Favorite, Ltd. All rights reserved.
 // http://crowdfavorite.com
 //
 // Released under the GPL license
@@ -79,7 +79,7 @@ function cfct_update_settings() {
 	global $cfct_options;
 	foreach ($cfct_options as $option) {
 		if (isset($_POST[$option])) {
-			update_option($option, stripslashes($_POST[$option]));
+			update_option($option, stripslashes_deep($_POST[$option]));
 		}
 	}
 	do_action('cfct_update_settings');

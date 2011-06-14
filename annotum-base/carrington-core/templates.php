@@ -1,9 +1,9 @@
 <?php
 
-// This file is part of the Carrington Core Framework for WordPress
+// This file is part of the Carrington Core Platform for WordPress
 // http://carringtontheme.com
 //
-// Copyright (c) 2008-2010 Crowd Favorite, Ltd. All rights reserved.
+// Copyright (c) 2008-2011 Crowd Favorite, Ltd. All rights reserved.
 // http://crowdfavorite.com
 //
 // Released under the GPL license
@@ -103,6 +103,25 @@ function cfct_content() {
 }
 
 /**
+ * Chooses the appropriate template file for the content in a feed and returns that content
+ *  
+**/
+function cfct_content_feed($content) {
+	if (is_feed() && !get_option('rss_use_excerpt')) {
+// find template
+		$file = cfct_choose_content_template_feed();
+		if ($file) {
+// load template
+			ob_start();
+			cfct_template_file('content', $file);
+			$content = ob_get_clean();
+		}
+	}
+	return $content;
+}
+add_filter('the_content', 'cfct_content_feed');
+
+/**
  * Includes the appropriate template file for the excerpt
  *  
 **/
@@ -110,6 +129,25 @@ function cfct_excerpt() {
 	$file = cfct_choose_content_template('excerpt');
 	cfct_template_file('excerpt', $file);
 }
+
+/**
+ * Chooses the appropriate template file for the excerpt in a feed and returns that content
+ *  
+**/
+function cfct_excerpt_feed() {
+	if (is_feed() && get_option('rss_use_excerpt')) {
+// find template
+		$file = cfct_choose_content_template_feed('excerpt');
+		if ($file) {
+// load template
+			ob_start();
+			cfct_template_file('excerpt', $file);
+			$content = ob_get_clean();
+		}
+	}
+	return $content;
+}
+add_filter('the_excerpt_rss', 'cfct_excerpt_feed');
 
 /**
  * Includes the appropriate template file for comments

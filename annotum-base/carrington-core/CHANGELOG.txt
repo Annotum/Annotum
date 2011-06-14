@@ -1,6 +1,12 @@
-# Carrington Core Framework Changelog
+# Carrington Core Changelog
+
+## 3.2
+
+- Implemented support for feed-{post context} templates in content/ and excerpt/ dirs
+
 
 ## 3.1
+
 - Updated some variable names
 - Support for custom taxonomies within the general context
 - Implemented checked and selected functions for options
@@ -9,6 +15,7 @@
 - Support for post formats in the single context
 - Added support for custom post type archive pages in general context
 - Relies on features in WordPress 3.1
+
 
 ## 3.0.1
 
