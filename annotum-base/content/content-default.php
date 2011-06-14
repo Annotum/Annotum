@@ -42,8 +42,6 @@ if (CFCT_DEBUG) { cfct_banner(__FILE__); }
 			wp_link_pages();
 			?>
 		</div><!--/.content-->
-
-		<?php cfct_misc('article-references'); ?>
 	</div><!--/.main-->
 	<footer class="footer">
 		<dl class="kv">
