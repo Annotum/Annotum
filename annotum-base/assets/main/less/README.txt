@@ -7,3 +7,10 @@ We're using LESS.js to allow for modular CSS development, while keeping things e
 It's not necessary to include this directory in production code.
 
 Note that only the main.less file should be compiled. The output path should be the css directory.
+
+---
+
+Files that should be compiled to CSS:
+	main.less
+Output directory:
+	css/

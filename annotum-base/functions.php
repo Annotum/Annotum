@@ -253,6 +253,43 @@ function anno_comment_form_defaults($defaults) {
 add_filter('comment_form_defaults', 'anno_comment_form_defaults');
 
 /**
+ * Register our custom theme settings forms with Carrington so that they are saved to options
+ * table. Must run before init:10.
+ */
+function anno_register_settings_forms_to_save() {
+	global $cfct_options;
+	$cfct_options[] = 'anno_callout_1';
+	$cfct_options[] = 'anno_callout_2';
+}
+add_action('init', 'anno_register_settings_forms_to_save', 9);
+
+/**
+ * Form fragment for the Carrington theme settings page
+ */
+function anno_settings_form_top() {
+	$c1 = 'anno_callout_1';
+	$c2 = 'anno_callout_2';
+	?>
+<table class="form-table">
+	<tbody>
+		<tr>
+			<th><?php _ex('Home Page Callouts', 'Label text for settings screen', 'annotum'); ?></th>
+			<td>
+				<label>Left-side Callout</label><br />
+				<textarea name="<?php echo $c1; ?>" cols="40" rows="8"><?php echo esc_textarea(get_option($c1)); ?></textarea>
+			</td>
+			<td>
+				<label>Right-side Callout</label><br />
+				<textarea name="<?php echo $c2; ?>" cols="40" rows="8"><?php echo esc_textarea(get_option($c2)); ?></textarea>
+			</td>
+		</tr>
+	</tbody>
+</table>
+<?php
+}
+add_action('cfct_settings_form_top', 'anno_settings_form_top');
+
+/**
  * Determines whether or not an email address is valid
  * 
  * @param string email to check
