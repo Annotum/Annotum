@@ -275,11 +275,11 @@ function anno_settings_form_top() {
 		<tr>
 			<th><?php _ex('Home Page Callouts', 'Label text for settings screen', 'annotum'); ?></th>
 			<td>
-				<label>Left-side Callout</label><br />
+				<label><?php _ex('Left-side Callout', 'Label text for admin setting', 'annotum'); ?></label><br />
 				<textarea name="<?php echo $c1; ?>" cols="40" rows="8"><?php echo esc_textarea(get_option($c1)); ?></textarea>
 			</td>
 			<td>
-				<label>Right-side Callout</label><br />
+				<label><?php _ex('Right-side Callout', 'Label text for admin setting', 'annotum'); ?></label><br />
 				<textarea name="<?php echo $c2; ?>" cols="40" rows="8"><?php echo esc_textarea(get_option($c2)); ?></textarea>
 			</td>
 		</tr>
