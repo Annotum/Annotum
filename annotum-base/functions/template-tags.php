@@ -63,6 +63,7 @@ function anno_the_authors() {
 		// Name
 		$first_name = esc_attr($author->user_firstname);
 		$last_name = esc_attr($author->user_lastname);
+		
 		if ($first_name && $last_name) {
 			$fn = '<a href="'.$posts_url.'" class="url name"><span class="given-name">'.$first_name.'</span> <span class="family-name">'.$last_name.'</span></a>';
 		}
@@ -102,6 +103,7 @@ function anno_the_authors() {
 </li>';
 	
 		$out .= $card;
+		$i++;
 	}
 	
 	echo $out;

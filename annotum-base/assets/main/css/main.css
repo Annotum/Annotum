@@ -93,7 +93,8 @@ form.search .type-submit{background:url(../img/sprite-y.8bit.png) 0 -100px no-re
 .article-full .content .entry-content,.article-full .content .entry-summary{margin-bottom:10px;}
 .article-full .header{margin-bottom:20px;}
 .article-full .header .entry-title a{color:#000;}
-.article-full .header .entry-title .title{font:bold 28px Georgia, Serif;margin-bottom:5px;}
+.article-full .header .entry-title .title{font:bold 28px/1.2 Georgia,Serif;margin-bottom:5px;}
+.article-full .header .entry-title .subtitle{font:bold 18px/1.2 Georgia,Serif;margin-bottom:8px;}
 .article-full .header .sec .title{display:block;}
 .article-full .header .meta{color:#666;font:italic 13px/1.5384 Georgia,Serif;margin:0 15px 15px;}
 .article-full .header .meta a:link{color:#666;}
