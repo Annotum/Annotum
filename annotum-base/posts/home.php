@@ -16,11 +16,13 @@ get_header();
 ?>
 <div id="main-body" class="clearfix">
 	<?php cfct_misc('callouts'); ?>
-	<h1 class="section-title"><span>Recent Posts</span></h1>
-	<?php echo '<div id="content">';
+	<h1 class="section-title"><span><?php _ex('Recent Posts', 'Heading text for home page', 'anno'); ?></span></h1>
+	<div id="content">
+	<?php
 	cfct_loop();
 	cfct_misc('nav-posts');
-	echo '</div>'; ?> 
+	?>
+	</div>
 </div><!-- #main-content -->
 <div id="main-sidebar" class="clearfix">
 	<?php get_sidebar(); ?>
