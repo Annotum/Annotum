@@ -21,6 +21,16 @@ When the workflow is active, the site-wide roles of `author` and `contributor` h
 
 When the workflow is not active, the `author` and `contributor` roles should act according to their default WordPress capabilities. See [Roles and Capabilities](http://codex.wordpress.org/Roles_and_Capabilities) in the WordPress Codex for more information on the capabilities of these roles.
 
+## Home Page Callouts
+
+You can optionally add 1 or 2 callouts to the home page, that contain announcements, notices or other important info.
+
+To set up callouts, log in to the WordPress admin and go to `Appearance > Theme Options`. You'll see two groups of fields, "Home Page Callout Left" and "Home Page Callout Right". Each has three fields, all optional:
+
+- Title: display a title in the callout.
+- URL: a valid URL. If provided, the title of the callout will be linked to this address.
+- Content: Free-form content. HTML is OK.
+
 ## Annotum in Your Language
 
 Annotum has full support for internationalization. It also supports right-to-left languages. To get Annotum running in your language, you'll want to:
