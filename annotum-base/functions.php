@@ -258,8 +258,7 @@ add_filter('comment_form_defaults', 'anno_comment_form_defaults');
  */
 function anno_register_settings_forms_to_save() {
 	global $cfct_options;
-	$cfct_options[] = 'anno_callout_1';
-	$cfct_options[] = 'anno_callout_2';
+	$cfct_options[] = 'anno_callouts';
 }
 add_action('init', 'anno_register_settings_forms_to_save', 9);
 
@@ -267,11 +266,8 @@ add_action('init', 'anno_register_settings_forms_to_save', 9);
  * Form fragment for the Carrington theme settings page
  */
 function anno_settings_form_top() {
-	$c1 = 'anno_callout_1';
-	$c2 = 'anno_callout_2';
-	
-	$opt1 = get_option($c1);
-	$opt2 = get_option($c2);
+	$key = 'anno_callouts';
+	$opt = get_option($key);
 	?>
 <table class="form-table">
 	<tbody>
@@ -279,33 +275,33 @@ function anno_settings_form_top() {
 			<th><?php _ex('Home Page Callout Left', 'Label text for settings screen', 'annotum'); ?></th>
 			<td>
 				<p>
-					<label for="<?php echo $c1 ?>-title"><?php _ex('Title', 'Label text for admin setting', 'annotum'); ?></label><br />
-					<input id="<?php echo $c1 ?>-title" class="widefat" name="<?php echo $c1; ?>[title]" value="<?php echo esc_attr($opt1['title']); ?>" />
+					<label for="<?php echo $key ?>-0-title"><?php _ex('Title', 'Label text for admin setting', 'annotum'); ?></label><br />
+					<input id="<?php echo $key ?>-0-title" class="widefat" name="<?php echo $key; ?>[0][title]" value="<?php echo esc_attr($opt[0]['title']); ?>" />
 				</p>
 				<p>
-					<label for="<?php echo $c1 ?>-url"><?php _ex('URL', 'Label text for admin setting', 'annotum'); ?></label><br />
-					<input id="<?php echo $c1 ?>-url" class="widefat" name="<?php echo $c1; ?>[url]" value="<?php echo esc_url($opt1['url']); ?>" />
+					<label for="<?php echo $key ?>-0-url"><?php _ex('URL', 'Label text for admin setting', 'annotum'); ?></label><br />
+					<input id="<?php echo $key ?>-0-url" class="widefat" name="<?php echo $key; ?>[0][url]" value="<?php echo esc_url($opt[0]['url']); ?>" />
 				</p>
 				<p>
-					<label id="<?php echo $c1 ?>-content"><?php _ex('Content', 'Label text for admin setting', 'annotum'); ?></label><br />
-					<textarea id="<?php echo $c1 ?>-content" class="widefat" name="<?php echo $c1; ?>[content]" rows="4"><?php echo esc_textarea($opt1['content']); ?></textarea>
+					<label for="<?php echo $key ?>-0-content"><?php _ex('Content', 'Label text for admin setting', 'annotum'); ?></label><br />
+					<textarea id="<?php echo $key ?>-0-content" class="widefat" name="<?php echo $key; ?>[0][content]" rows="4"><?php echo esc_textarea($opt[0]['content']); ?></textarea>
 				</p>
 			</td>
 		</tr>
 		<tr>
-			<th><?php _ex('Home Page Callout Left', 'Label text for settings screen', 'annotum'); ?></th>
+			<th><?php _ex('Home Page Callout Right', 'Label text for settings screen', 'annotum'); ?></th>
 			<td>
 				<p>
-					<label for="<?php echo $c2 ?>-title"><?php _ex('Title', 'Label text for admin setting', 'annotum'); ?></label><br />
-					<input id="<?php echo $c2 ?>-title" class="widefat" name="<?php echo $c2; ?>[title]" value="<?php echo esc_attr($opt2['title']); ?>" />
+					<label for="<?php echo $key ?>-1-title"><?php _ex('Title', 'Label text for admin setting', 'annotum'); ?></label><br />
+					<input id="<?php echo $key ?>-1-title" class="widefat" name="<?php echo $key; ?>[1][title]" value="<?php echo esc_attr($opt[1]['title']); ?>" />
 				</p>
 				<p>
-					<label for="<?php echo $c2 ?>-url"><?php _ex('URL', 'Label text for admin setting', 'annotum'); ?></label><br />
-					<input id="<?php echo $c2 ?>-url" class="widefat" name="<?php echo $c2; ?>[url]" value="<?php echo esc_url($opt2['url']); ?>" />
+					<label for="<?php echo $key ?>-1-url"><?php _ex('URL', 'Label text for admin setting', 'annotum'); ?></label><br />
+					<input id="<?php echo $key ?>-1-url" class="widefat" name="<?php echo $key; ?>[1][url]" value="<?php echo esc_url($opt[1]['url']); ?>" />
 				</p>
 				<p>
-					<label id="<?php echo $c2 ?>-content"><?php _ex('Content', 'Label text for admin setting', 'annotum'); ?></label><br />
-					<textarea id="<?php echo $c2 ?>-content" class="widefat" name="<?php echo $c2; ?>[content]" rows="4"><?php echo esc_textarea($opt2['content']); ?></textarea>
+					<label for="<?php echo $key ?>-1-content"><?php _ex('Content', 'Label text for admin setting', 'annotum'); ?></label><br />
+					<textarea id="<?php echo $key ?>-1-content" class="widefat" name="<?php echo $key; ?>[1][content]" rows="4"><?php echo esc_textarea($opt[1]['content']); ?></textarea>
 				</p>
 			</td>
 		</tr>
