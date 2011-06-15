@@ -76,13 +76,13 @@ function annowf_audit_log($post) {
 		8 => _x('Added %s as a reviewer', 'article audit event', 'anno'),
 		9 => _x('Removed %s as a reviewer', 'article audit event', 'anno'),
 	);
-
+	echo '<ul>';
 	foreach ($items as $item) {
 		$html = '';
 		$actor = get_userdata(absint($item['actor']));
 		if (!empty($actor)) {
 			$edit_url = anno_edit_user_url($actor->ID);
-			$html .= '<strong><a href="'.$edit_url.'">'.$actor->user_login.'</a></strong>';
+			$html .= '<strong><a href="'.$edit_url.'">'.$actor->user_login.'</a></strong> ';
 		}
 		
 		if (!empty($item['event'])) {
@@ -126,7 +126,7 @@ function annowf_audit_log($post) {
 					if (!empty($item['data']) && is_array($item['data'])) {
 						$user = get_userdata(absint($item['data'][0]));
 						$edit_url = anno_edit_user_url($user->ID);
-						$user_markup = '<strong><a href="'.$edit_url.'">'.$user->user_login.'</a></strong>';
+						$user_markup = '<a href="'.$edit_url.'">'.$user->user_login.'</a>';
 						$event_html .= sprintf($event_array[$event], $user_markup);
 					}
 					break;
@@ -143,11 +143,11 @@ function annowf_audit_log($post) {
 
 		
 		if (!empty($item['time']) && is_numeric($item['time'])) {
-			$html .= date(_x('j F, Y @ H:i', 'audit log date format', 'anno'), absint($item['time']));
+			$html = date(_x('j F, Y @ H:i', 'audit log date format', 'anno'), absint($item['time'])).' - '.$html;
 		}
-		echo '<div>'.$html.'</div>';
+		echo '<li>'.$html.'</li>';
 	}
-		
+	echo '</ul>';
 }
 
 
