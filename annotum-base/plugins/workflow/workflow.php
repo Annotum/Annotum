@@ -14,7 +14,6 @@ $annowf_states = array(
 /**
  * Remove/Add meta boxes
  */ 
-//TODO review callbacks, make sure not re-globalling $post
 function annowf_meta_boxes() {
 	global $post;
 	$post_state = annowf_get_post_state($post->ID);
@@ -599,6 +598,10 @@ add_action('wp_ajax_anno-user-search', 'annowf_user_search');
 function annowf_cloned_meta_box($post) {
 //TODO check for trash/deleted	
 	$cloned_from = get_post_meta($post->ID, '_anno_cloned_from', true);
+	$cloned_from_post = get_post($cloned_from_post);
+	if (!$cloned_from_post) {
+		return;
+	}
 ?>
 	<dl class="anno-versions">
 <?php
@@ -617,7 +620,9 @@ function annowf_cloned_meta_box($post) {
 <?php
 		foreach ($posts_cloned as $cloned_post_id) {
 			$cloned_post = get_post($cloned_post_id);
-			echo '<dd><a href="'.esc_url(get_edit_post_link($cloned_post_id)).'">'.esc_html($cloned_post->post_title).'</a></dd>';
+			if (!empty($cloned_post)) {
+				echo '<dd><a href="'.esc_url(get_edit_post_link($cloned_post_id)).'">'.esc_html($cloned_post->post_title).'</a></dd>';
+			}
 		}
 	}
 ?>
