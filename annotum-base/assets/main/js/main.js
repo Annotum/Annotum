@@ -15,7 +15,7 @@
  */
 var Anno = {};
 
-Anno.init = function() {
+Anno.ready = function() {
 	var Exe = Contexe,
 		con = Anno.contexts;
 		
@@ -108,5 +108,5 @@ Anno.contexts = (function () {
 
 // Run on DOMReady
 jQuery(function() {
-	Anno.init();
+	Anno.ready();
 });
