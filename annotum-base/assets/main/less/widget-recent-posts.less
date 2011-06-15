@@ -24,3 +24,12 @@
 	background: url(../img/widget-hr.png) center bottom no-repeat;
 	padding-bottom: 16px;
 }
+
+/* Javascript FOUC prevention */
+.js .widget-recent-posts .panel {
+	display: none;
+}
+.js .widget-recent-posts .first-child,
+.js .widget-recent-posts .ui-tabs-panel {
+	display: block;
+}

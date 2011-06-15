@@ -16,7 +16,7 @@ if (__FILE__ == $_SERVER['SCRIPT_FILENAME']) { die(); }
 class Anno_Widget_Recently extends WP_Widget {
 	public $key = 'anno_recently_html';
 	public $timeout = 3600; // 1 hour
-	public $enable_cache = true;
+	public $enable_cache = false;
 	public $html_uid;
 	public $number = 5;
 	
@@ -59,7 +59,7 @@ class Anno_Widget_Recently extends WP_Widget {
 			<li><a href="#p1-<?php echo $this->html_uid; ?>"><?php _e('Recent Articles', 'anno'); ?></a></li>
 			<li><a href="#p2-<?php echo $this->html_uid; ?>"><?php _e('Comments', 'anno'); ?></a></li>
 		</ul>
-		<div class="panel" id="p1-<?php echo $this->html_uid; ?>">
+		<div class="panel first-child" id="p1-<?php echo $this->html_uid; ?>">
 			<?php 
 			$articles = new WP_Query(array(
 				'post_type' => 'article',
