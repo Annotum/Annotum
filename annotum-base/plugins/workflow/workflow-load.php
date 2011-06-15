@@ -17,6 +17,7 @@ if (anno_workflow_enabled()) {
 	);
 	include_once(ANNO_PLUGIN_PATH.'/workflow/users.php');
 	include_once(ANNO_PLUGIN_PATH.'/workflow/workflow.php');
+	include_once(ANNO_PLUGIN_PATH.'/workflow/audit.php');
 	include_once(ANNO_PLUGIN_PATH.'/workflow/internal-comments/internal-comments.php');
 	include_once(ANNO_PLUGIN_PATH.'/workflow/publishing-meta-box.php');
 	include_once(ANNO_PLUGIN_PATH.'/workflow/notification.php');

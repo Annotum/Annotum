@@ -319,6 +319,15 @@ function anno_internal_comments_ajax() {
 		 die();
 	}
 
+	// Save in the audit log
+	if ($comment->comment_type == 'article_general') {
+		annowf_save_audit_item($comment->comment_post_ID, $user->ID, 5, array($comment->comment_ID));
+	}
+	else if ($comment->comment_type = 'article_review') {
+		annowf_save_audit_item($comment->comment_post_ID, $user->ID, 3, array($comment->comment_ID));
+	}
+
+
 	// Send email notifications of new commment
 	if (anno_workflow_enabled('notification')) {
 		$post = get_post($comment_post_ID);
@@ -350,7 +359,7 @@ function anno_internal_comments_review_ajax() {
 	check_ajax_referer('anno_review', '_ajax_nonce-review');
 	if (isset($_POST['post_id']) && isset($_POST['review'])) {
 		global $current_user;
-		$post_id = $_POST['post_id'];
+		$post_id = absint($_POST['post_id']);
 		$review = $_POST['review'];
 		
 		$post_round = annowf_get_round($post_id);
@@ -365,6 +374,7 @@ function anno_internal_comments_review_ajax() {
 				$reviewed[] = $current_user->ID;
 				update_post_meta($post_id, '_round_'.$post_round.'_reviewed', array_unique($reviewed));
 			}
+			annowf_save_audit_item($post_id, $current_user->ID, 4, array($review));
 		}
 		else {
 			$key = array_search($current_user->ID, $reviewed);

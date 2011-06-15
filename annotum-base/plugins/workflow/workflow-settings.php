@@ -1,13 +1,109 @@
 <?php
 
+function anno_register_settings() {
+	$page = 'workflow';
+	$options = array(
+		'annowf_settings' => array(
+			'callback' => '',
+			'label' =>  _x('Workflow Options', 'options heading', 'anno'),
+			'description_callback' => 'anno_section_blank',
+			'sanitization_callback' => '',
+			'options' => array(
+				'workflow' => array(
+					'label' => _x('Enable Workflow', 'options label', 'anno'),
+					'label_for' => 'workflow',
+					'name' => 'workflow',
+					'default' => '1',
+					'type' => 'checkbox',
+				),
+				'author_reviewer' => array(
+					'label' => _x('Allow article authors to see reviewers', 'options label', 'anno'),
+					'label_for' => 'author-reviewer',
+					'name' => 'author_reviewer',
+					'default' => '1',
+					'type' => 'checkbox',
+				),
+				'notification' => array(
+					'label' => _x('Enable workflow notifications', 'options label', 'anno'),
+					'label_for' => 'notification',
+					'name' => 'notification',
+					'default' => '1',
+					'type' => 'checkbox',
+				),
+			),
+		),
+		
+		'anno_ga_id' => array(
+			'callback' => '',
+			'label' =>  _x('Google Analytics', 'options heading', 'anno'),
+			'description_callback' => 'anno_section_blank',
+			'sanitization_callback' => '',
+			'options' => array(
+				'anno_ga_id' => array(
+					'label' => _x('Google Analytics ID', 'options label', 'anno'),
+					'label_for' => 'anno-ga-id',
+					'name' => 'anno_ga_id',
+					'default' => '',
+					'type' => 'text',
+				),
+			),
+		),
+	);
+		
+	foreach ($options as $section => $fields) {
+		register_setting('workflow', $section, $fields['sanitization_callback']);
+		$settings = get_option($section);
+		add_settings_section($section,  $fields['label'], $fields['description_callback'], $page);
+		foreach ($fields['options'] as $option) {
+			$option['settings'] = $settings;
+			$option['section'] = $section;
+			add_settings_field($option['label_for'], $option['label'], 'anno_option_display', $page, $section, $option);
+		}
+	}
+}
+add_action('admin_init', 'anno_register_settings');
+
+/**
+ * Callback that does nothing for functions which require callbacks.
+ */ 
+function anno_section_blank() {
+}
+
+/**
+ * Callback for displaying options on the settings screen.
+ */ 
+function anno_option_display($args) {	
+	extract($args);
+	
+	if (is_array($settings)) {
+		$setting = $settings[$name];
+	}
+	else {
+		$setting = $settings;
+	}
+	$html = '';
+	switch ($type) {
+		case 'checkbox':
+			$html = '<input id="'.$label_for.'" name="'.esc_attr($section.'['.$name.']').'" type="checkbox" value="'.$default.'"'.checked($default, $setting, false).' />';
+			break;
+		case 'text':
+			$html = '<input id="'.$label_for.'" name="'.esc_attr($section.'['.$name.']').'" type="text" value="'.$setting.'" />';
+			break;
+		default:
+			# code...
+			break;
+	}
+	echo $html;
+}
+
 /**
  * Add Workflow settings page to the WP Admin sidebar
  */ 
 function anno_add_submenu_page() {
 	add_submenu_page(
 		'themes.php', 
-		_x('Annotum Workflow Settings', 'Setting page title', 'anno'), 
-		_x('Workflow Settings', 'Admin menu option link text', 'anno'), 
+		_x('Annotum Settings', 'Setting page title', 'anno'), 
+		_x('Annotum Settings', 'Admin menu option link text', 'anno'), 
 		'manage_options',
 		'anno-workflow-settings',
 		'anno_settings_page' 
@@ -29,64 +125,21 @@ $annowf_settings = array(
  * Workflow settings page markup
  */
 function anno_settings_page() {
-	global $annowf_settings;
-	$settings = get_option('annowf_settings');
+	settings_errors();
 ?>
 <div class="wrap">
-	<h2><?php _ex('Annotum Workflow Settings', 'Setting page header', 'anno'); ?></h2>
-	<form action="<?php admin_url('/'); ?>" method="post">
-<?php
-	foreach ($annowf_settings as $slug => $label) {
-?>
-		<p>
-			<label for="annowf-<?php echo $slug ?>"><?php echo $label; ?></label>
-			<input id="annowf-<?php echo $slug ?>" type="checkbox" value="1" name="annowf_settings[<?php echo $slug ?>]"<?php checked($settings[$slug], 1); ?> />
-		</p>	
-<?php
-	}
-?>
+	<h2><?php _ex('Annotum Settings', 'Setting page header', 'anno'); ?></h2>
+	<form method="post" action="options.php">
+		<?php do_settings_sections('workflow'); ?>
+
 		<p class="submit">
-			<?php wp_nonce_field('annowf_settings', '_wpnonce', true, true); ?>
-			<input type="hidden" name="anno_action" value="annowf_update_settings" />
+			<?php settings_fields('workflow') ?>
 			<input type="submit" name="submit_button" class="button-primary" value="<?php _ex('Save Changes', 'Setting page save button value', 'anno'); ?>" />
 		</p>
 	</form>
 </div>
 <?php
 }
-
-/**
- * Request handler for setting page settings
- */ 
-function annowf_settings_request_handler() {
-	if (isset($_POST['anno_action'])) {
-		switch ($_POST['anno_action']) {
-			case 'annowf_update_settings':
-				if (!check_admin_referer('annowf_settings')) {
-					die();
-				}
-				if (isset($_POST['annowf_settings']) && !empty($_POST['annowf_settings'])) {
-					$post_settings = $_POST['annowf_settings'];
-					global $annowf_settings;
-					foreach ($annowf_settings as $slug => $label) {
-						if (!isset($post_settings[$slug])) {
-							$post_settings[$slug] = 0;
-						}
-					}
-				}
-				else {
-					$post_settings = array();
-				}
-				update_option('annowf_settings', $post_settings);
-				wp_redirect(admin_url('/themes.php?page=anno-workflow-settings&updated=true'));
-				die();
-				break;
-			default:
-				break;
-		}
-	}	
-}
-add_action('admin_init', 'annowf_settings_request_handler', 0);
 
 /**
  * Helper function to determine if the workflow is enabled
@@ -103,4 +156,25 @@ function anno_workflow_enabled($option = null) {
 	return $settings[$option];
 }
 
+/**
+ * Sanitize google analytics
+ */ 
+function anno_sanitize_option_ga_id($value, $option) {
+		$value = $value['anno_ga_id'];
+		if ($value == '' || (bool)preg_match('/\d{5,}-\d{1,}/', $value)) {
+			$value = addslashes($value);
+			$value = wp_filter_post_kses($value); // calls stripslashes then addslashes
+			$value = stripslashes($value);
+			$value = esc_html($value);
+		}
+		else {
+			$value = get_option($option);
+			if (function_exists('add_settings_error')) {
+				add_settings_error('anno_ga_id', 'invalid_ga_id', _x('Invalid Google Analytics ID', '', 'anno'));
+			}
+		}
+
+	return $value;
+}
+add_filter('sanitize_option_anno_ga_id', 'anno_sanitize_option_ga_id', 10, 2);
 ?>

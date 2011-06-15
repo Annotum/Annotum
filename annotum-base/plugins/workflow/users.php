@@ -168,6 +168,11 @@ function anno_user_can($cap, $user_id = null, $post_id = null, $comment_id = nul
 					break;
 			}
 			break;
+		case 'view_audit': 
+		 	if ($user_role == $admin) {
+				return true;
+			}
+			break;
 		case 'clone_post':
 			// Anyone can clone the post when its published
 			if ($post_state == 'published' || $post_state == 'rejected') {

@@ -14,6 +14,7 @@ $annowf_states = array(
 /**
  * Remove/Add meta boxes
  */ 
+//TODO review callbacks, make sure not re-globalling $post
 function annowf_meta_boxes() {
 	global $post;
 	$post_state = annowf_get_post_state($post->ID);
@@ -28,7 +29,13 @@ function annowf_meta_boxes() {
 	remove_meta_box('authordiv', 'article', 'normal');
 		
 	// Remove slug div
-	remove_meta_box('slugdiv', 'article', 'normal', 'core');
+	remove_meta_box('slugdiv', 'article', 'normal');
+	
+	// Remove Revisions box in favor of audit log box
+	remove_meta_box('revisionsdiv', 'article', 'normal');
+	if (anno_user_can('view_audit')) {
+		add_meta_box('audit_log', _x('Audit Log', 'Meta box title', 'anno'), 'annowf_audit_log', 'article', 'normal', 'low');
+	}
 	
 	// Remove taxonomy/edit boxes when a user is unable to save/edit
 	if (!anno_user_can('edit_post', null, $post->ID)) {
@@ -89,6 +96,7 @@ add_action('admin_print_scripts-post.php', 'annowf_js');
  */ 
 function annowf_insert_post_data($post, $postarr) {
 	if ($post['post_type'] == 'article' && $post['post_status'] != 'auto-draft') {
+		
 		global $anno_post_save;
 		if (isset($_POST['revert']) && $_POST['revert'] == $anno_post_save['revert']) {
 			$post['post_status'] = 'draft';
@@ -119,9 +127,10 @@ add_filter('wp_insert_post_data', 'annowf_insert_post_data', 10, 2);
  * Article state transistioning. Fires after post has been inserted into the database
  */ 
 function annowf_transistion_state($post_id, $post, $post_before) {
+
 	if ($post->post_type == 'article' && $post->post_status != 'auto-draft') {
 		global $anno_post_save;
-		
+		$current_user = wp_get_current_user();		
 		$old_state = get_post_meta($post->ID, '_post_state', true);
 		$new_state = $old_state;
 		
@@ -192,6 +201,9 @@ function annowf_transistion_state($post_id, $post, $post_before) {
 			update_post_meta($post->ID, '_post_state', $new_state);
 			do_action('anno_state_change', $new_state, $old_state);
 			
+			// Save to audit log
+			annowf_save_audit_item($post->ID, $current_user->ID, 2, array($old_state, $new_state));
+			
 			// Send notifications
 			if (anno_workflow_enabled('notification')) {
 				annowf_send_notification($notification_type, $post);
@@ -207,6 +219,18 @@ function annowf_transistion_state($post_id, $post, $post_before) {
 }
 add_action('post_updated', 'annowf_transistion_state', 10, 3);
 
+/**
+ * Store revisions in the audit log.
+ */
+function anno_put_post_revision($rev_id) {
+	$current_user = wp_get_current_user();
+	$revision = get_post($rev_id);
+	$post = get_post($post_parent);
+	if ($post->post_type == 'article') {
+		annowf_save_audit_item($post->ID, $current_user->ID, 1, array($revision->ID));
+	}
+}
+add_action('_wp_put_post_revision', 'anno_put_post_revision');
 /**
  * Meta box for reviewer management and display
  * @todo Abstract to pass type to meta box markup for co-authors or reviewers
@@ -314,7 +338,7 @@ function annowf_user_li_markup($user, $type = null) {
 function annowf_add_reviewer() {
 	$response = annowf_add_user('reviewer');
 	if ($response['message'] == 'success') {
-		$post_id = intval($_POST['post_id']);
+		$post_id = absint($_POST['post_id']);
 		$post_state = annowf_get_post_state($post_id);
 	
 		//Send email
@@ -344,6 +368,11 @@ function annowf_add_reviewer() {
 		else {
 			$response['increment'] = 0;
 		}
+		
+		//Add to the audit log
+		$current_user = wp_get_current_user();
+		annowf_save_audit_item($post_id, $current_user->ID, 8, array($response['user']->ID));
+		
 	}
 	unset($response['user']);
 	echo json_encode($response);
@@ -368,7 +397,11 @@ function annowf_add_co_author() {
 
 		// Add author to JSON for appending to author dropdown
 		$response['author'] = '<option value="'.$response['user']->ID.'">'.$response['user']->user_login.'</option>';
-
+		
+		//Add to the audit log
+		$current_user = wp_get_current_user();
+		annowf_save_audit_item($post_id, $current_user->ID, 6, array($response['user']->ID));
+		
 	}
 
 	unset($response['user']);
@@ -437,8 +470,8 @@ function annowf_remove_reviewer() {
 	$response = annowf_remove_user('reviewer');
 	$response['decrement'] = 0;
 	if ($response['message'] == 'success') {
-		$post_id = intval($_POST['post_id']);
-		$user_id = intval($_POST['user_id']);
+		$post_id = absint($_POST['post_id']);
+		$user_id = absint($_POST['user_id']);
 		
 		// Send back to submitted state if we've removed all the reviewers
 		if (count(annowf_get_post_users($post_id, '_reviewers')) == 0) {
@@ -454,6 +487,11 @@ function annowf_remove_reviewer() {
 			update_post_meta($post_id, '_round_'.$round.'_reviewed', $reviews);
 			$response['decrement'] = 1;
 		}
+		
+		//Add to the audit log
+		$current_user = wp_get_current_user();
+		annowf_save_audit_item($post_id, $current_user->ID, 9, array($user_id));
+		
 	}
 	echo json_encode($response);
 	die();
@@ -467,7 +505,11 @@ function annowf_remove_co_author() {
 	$response = annowf_remove_user('co_author');
 	if ($response['message'] == 'success') {
 		if (isset($_POST['user_id'])) {
-			delete_post_meta(intval($_POST['post_id']), '_article_co_author', intval($_POST['user_id']));
+			delete_post_meta(absint($_POST['post_id']), '_article_co_author', absint($_POST['user_id']));
+			
+			//Add to the audit log
+			$current_user = wp_get_current_user();
+			annowf_save_audit_item(absint($_POST['post_id']), $current_user->ID, 7, array(absint($_POST['user_id'])));
 		}
 	}
 	die();

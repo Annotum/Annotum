@@ -262,4 +262,10 @@ function anno_admin_print_footer_scripts() {
 }
 add_action('admin_print_footer_scripts', 'anno_admin_print_footer_scripts', 99);
 
+function anno_mce_buttons($buttons) {
+	return  array( 'italic', 'strikethrough', '|', 'bullist', 'numlist', 'blockquote', '|', 'justifyleft', 'justifycenter', 'justifyright', '|', 'link', 'unlink', 'wp_more', '|', 'spellchecker', 'fullscreen', 'wp_adv');
+}
+add_filter('mce_buttons', 'anno_mce_buttons');
+
+
 ?>
