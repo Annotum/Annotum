@@ -322,6 +322,24 @@ function anno_is_valid_email($email) {
 }
 
 /**
+ * Returns an appropriate link for editing a given user.
+ * Based on code found in WP Core 3.2
+ * 
+ * @param int $user_id The id of the user to get the url for
+ * @return string edit user url
+ */ 
+function anno_edit_user_url($user_id) {
+	if ( get_current_user_id() == $user_id ) {
+		$edit_url = 'profile.php';
+	}
+	else {
+		$edit_url = admin_url(esc_url( add_query_arg( 'wp_http_referer', urlencode(stripslashes($_SERVER['REQUEST_URI'])), "user-edit.php?user_id=$user_id" )));
+	}
+	return $edit_url;
+	
+}
+
+/**
  * Function to limit front-end display of comments. 
  * Wrap this filter around comments_template();
  * 

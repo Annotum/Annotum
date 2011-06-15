@@ -108,15 +108,14 @@ add_filter('post_updated_messages', 'anno_post_updated_messages');
  * Add DTD Meta Boxes
  */ 
 function anno_dtd_meta_boxes() {
-	global $post;
-	add_meta_box('subtitle', _x('Subtitle', 'Meta box title', 'anno'), 'anno_subtitle_meta_box', 'article', 'normal', 'high', $post);	
-	add_meta_box('body', _x('Body', 'Meta box title', 'anno'), 'anno_body_meta_box', 'article', 'normal', 'high', $post);
-	add_meta_box('references', _x('References', 'Meta box title', 'anno'), 'anno_references_meta_box', 'article', 'normal', 'high', $post);
-	add_meta_box('abstract', _x('Abstract', 'Meta box title', 'anno'), 'anno_abstract_meta_box', 'article', 'normal', 'high', $post);
-	add_meta_box('funding', _x('Funding Statement', 'Meta box title', 'anno'), 'anno_funding_meta_box', 'article', 'normal', 'high', $post);
-	add_meta_box('acknowledgements', _x('Acknowledgements', 'Meta box title', 'anno'), 'anno_acknowledgements_meta_box', 'article', 'normal', 'high', $post);
-	add_meta_box('appendicies', _x('Appendicies', 'Meta box title', 'anno'), 'anno_appendicies_meta_box', 'article', 'normal', 'high', $post);
-	add_meta_box('featured', _x('Featured', 'Meta box title', 'anno'), 'anno_featured_meta_box', 'article', 'side', 'default', $post);
+	add_meta_box('subtitle', _x('Subtitle', 'Meta box title', 'anno'), 'anno_subtitle_meta_box', 'article', 'normal', 'high');
+	add_meta_box('body', _x('Body', 'Meta box title', 'anno'), 'anno_body_meta_box', 'article', 'normal', 'high');
+	add_meta_box('references', _x('References', 'Meta box title', 'anno'), 'anno_references_meta_box', 'article', 'normal', 'high');
+	add_meta_box('abstract', _x('Abstract', 'Meta box title', 'anno'), 'anno_abstract_meta_box', 'article', 'normal', 'high');
+	add_meta_box('funding', _x('Funding Statement', 'Meta box title', 'anno'), 'anno_funding_meta_box', 'article', 'normal', 'high');
+	add_meta_box('acknowledgements', _x('Acknowledgements', 'Meta box title', 'anno'), 'anno_acknowledgements_meta_box', 'article', 'normal', 'high');
+	add_meta_box('appendicies', _x('Appendicies', 'Meta box title', 'anno'), 'anno_appendicies_meta_box', 'article', 'normal', 'high');
+	add_meta_box('featured', _x('Featured', 'Meta box title', 'anno'), 'anno_featured_meta_box', 'article', 'side', 'default');
 }
 add_action('add_meta_boxes_article', 'anno_dtd_meta_boxes');
 
@@ -261,11 +260,5 @@ function anno_admin_print_footer_scripts() {
 <?php
 }
 add_action('admin_print_footer_scripts', 'anno_admin_print_footer_scripts', 99);
-
-function anno_mce_buttons($buttons) {
-	return  array( 'italic', 'strikethrough', '|', 'bullist', 'numlist', 'blockquote', '|', 'justifyleft', 'justifycenter', 'justifyright', '|', 'link', 'unlink', 'wp_more', '|', 'spellchecker', 'fullscreen', 'wp_adv');
-}
-add_filter('mce_buttons', 'anno_mce_buttons');
-
 
 ?>
