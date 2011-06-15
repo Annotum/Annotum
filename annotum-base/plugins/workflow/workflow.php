@@ -64,7 +64,6 @@ function annowf_meta_boxes() {
 	}
 	add_meta_box('anno-co-authors', _x('Co-Authors', 'Meta box title', 'anno'), 'annowf_co_authors_meta_box', 'article', 'side', 'low');
 }
-
 add_action('add_meta_boxes_article', 'annowf_meta_boxes');
 
 /**
@@ -235,8 +234,7 @@ add_action('_wp_put_post_revision', 'anno_put_post_revision');
  * Meta box for reviewer management and display
  * @todo Abstract to pass type to meta box markup for co-authors or reviewers
  */
-function annowf_reviewers_meta_box() {
-	global $post;
+function annowf_reviewers_meta_box($post) {
 ?>
 	<div id="reviewers-meta-box">
 		<div id="reviewer-add-error" class="anno-error"></div>
@@ -269,8 +267,7 @@ function annowf_reviewers_meta_box() {
 /**
  * Meta box for author management and display
  */
-function annowf_co_authors_meta_box() {
-	global $post;
+function annowf_co_authors_meta_box($post) {
 ?>
 	<div id="co-authors-meta-box">
 		<div id="co-author-add-error" class="anno-error"></div>
@@ -599,10 +596,8 @@ add_action('wp_ajax_anno-user-search', 'annowf_user_search');
 /**
  * Metabox for posts that have been cloned from this post
  */ 
-function annowf_cloned_meta_box() {
-//TODO check for trash/deleted
-	global $post;
-	
+function annowf_cloned_meta_box($post) {
+//TODO check for trash/deleted	
 	$cloned_from = get_post_meta($post->ID, '_anno_cloned_from', true);
 ?>
 	<dl class="anno-versions">
@@ -677,8 +672,7 @@ function annowf_clone_post($orig_id) {
 /**
  * Custom meta Box For Author select.
  */
-function annowf_author_meta_box() {
-	global $post;
+function annowf_author_meta_box($post) {
 	if (!anno_user_can('manage_co_authors')) {
 		$author = get_userdata($post->post_author);
 		echo esc_html($author->user_login);

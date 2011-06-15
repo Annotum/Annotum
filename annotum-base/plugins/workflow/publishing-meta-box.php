@@ -3,8 +3,7 @@
 /**
  * Callback for publish meta box. Heavily based on code from the WP Core 3.1.2
  */ 
-function annowf_status_meta_box() {
-	global $post;		
+function annowf_status_meta_box($post) {
 	$post_state = annowf_get_post_state($post->ID);
 ?>
 <div class="submitbox" id="submitpost">
