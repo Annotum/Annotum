@@ -84,8 +84,8 @@ form.search .type-submit{background:url(../img/sprite-y.8bit.png) 0 -200px no-re
 .widget-recent-posts .panel li{background-image:none;border-top:#e4d7b0 solid 1px;list-style:none;margin:10px 0;padding:10px 0 0;}
 .widget-recent-posts .panel li:first-child{border:0;margin:0;}
 .widget-recent-posts li.recentcomments a{display:inline;}
-#sidebar .widget{background:none;margin-bottom:1px;padding:0 0 20px;}
-#sidebar .widget .title{-moz-border-radius:2px;-webkit-border-radius:2px;-khtml-border-radius:2px;border-radius:2px;background:#e4d7b0;color:#000;font:bold 13px/25px Helvetica,Arial,sans-serif;margin-bottom:10px;padding:0 9px;}
+#main-sidebar .widget{background:none;margin-bottom:1px;padding:0 0 20px;}
+#main-sidebar .widget .title{-moz-border-radius:2px;-webkit-border-radius:2px;-khtml-border-radius:2px;border-radius:2px;background:#e4d7b0;color:#000;font:bold 13px/25px Helvetica,Arial,sans-serif;margin-bottom:10px;padding:0 9px;}
 .widget ul{margin-left:10px;}
 .widget ul li{background:url(../img/sprite-y.8bit.png) 0 -390px no-repeat;padding-left:10px;}
 .widget ol li:hover,.widget ul li:hover{background-color:transparent;}

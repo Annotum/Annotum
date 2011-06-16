@@ -175,9 +175,9 @@ form.search .type-submit{background:url(../img/sprite-y.8bit.png) 0 -100px no-re
 #respond .row .type-text{width:206px;}
 textarea#comment{display:block;height:80px;width:433px;}
 #submit{background:#006b94;border:0;color:#fff;font-size:16px;font-weight:bold;line-height:21px;height:31px;padding:5px 10px;}
-#sidebar .widget{background:#f0f0f0;margin-bottom:1px;padding-bottom:20px;}
-#sidebar .widget_text{background:none;padding:0;}
-#sidebar .widget .title{color:#000;font:italic bold 14px Georgia, Serif;margin-bottom:10px;padding:20px 0 0 20px;}
+#main-sidebar .widget{background:#f0f0f0;margin-bottom:1px;padding-bottom:20px;}
+#main-sidebar .widget_text{background:none;padding:0;}
+#main-sidebar .widget .title{color:#000;font:italic bold 14px Georgia, Serif;margin-bottom:10px;padding:20px 0 0 20px;}
 .widget li{font-size:13px;line-height:1.38;padding:3px 20px;}
 .widget li a{display:block;}
 .widget li a:hover{text-decoration:none;}
