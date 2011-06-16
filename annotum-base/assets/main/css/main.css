@@ -156,7 +156,7 @@ form.search .type-submit{background:url(../img/sprite-y.8bit.png) 0 -100px no-re
 .reply-list{border-bottom:1px #ccc solid;margin:0 0 18px;padding:0;}
 .reply-list li{list-style:none;margin:0;padding:0;zoom:1;}
 .comment,.ping{border-top:1px #ccc solid;padding:14px 0;}
-.comment{padding-left:180px;position:relative;zoom:1;}
+.comment{min-height:40px;padding-left:180px;position:relative;zoom:1;}
 .reply-list .children .li-comment{padding-left:20px;}
 .comment .header{height:auto !important;height:38px;min-height:38px;left:0;padding:0 0 0 46px;position:absolute;top:14px;width:134px;}
 .comment .header img{left:0;position:absolute;top:0;}
