@@ -50,13 +50,18 @@ class Anno_Template {
 		add_action('deleted_post', array($this, 'invalidate_citation_cache'));
 	}
 	
+	public function post_id_for_sure($post_id) {
+		if (!$post_id) {
+			$post_id = get_the_ID();
+		}
+		return $post_id;
+	}
+	
 	/**
 	 * Get the subtitle data stored as post meta
 	 */
 	public function get_subtitle($post_id = false) {
-		if (!$post_id) {
-			$post_id = get_the_ID();
-		}
+		$post_id = $this->post_id_for_sure($post_id);
 		return get_post_meta($post_id, '_anno_subtitle', true);
 	}
 	
@@ -94,9 +99,7 @@ class Anno_Template {
 	 */
 	public function get_contributors_list($post_id = null) {
 		$out = '';
-		if (!$post_id) {
-			$post_id = get_the_ID();
-		}
+		$post_id = $this->post_id_for_sure($post_id);
 		$authors = $this->get_contributor_ids($post_id);
 		
 		foreach ($authors as $id) {
@@ -156,9 +159,7 @@ class Anno_Template {
 	 * @param int $post_id (optional) id of post to cite.
 	 */
 	public function get_citation($post_id = null) {
-		if (!$post_id) {
-			$post_id = get_the_ID();
-		}
+		$post_id = $this->post_id_for_sure($post_id);
 		$cache_key = 'anno_citation_html_'.$post_id;
 		
 		/* Do we already have this cached? Let's return that. */
@@ -222,6 +223,20 @@ class Anno_Template {
 	public function invalidate_citation_cache($post_id) {
 		delete_transient('anno_citation_html_'.$post_id);
 	}
+	
+	public function texturized_meta($post_id = null, $key) {
+		$post_id = $this->post_id_for_sure($post_id);
+		$text = trim(get_post_meta($post_id, $key, true));
+		return wptexturize($text);
+	}
+	
+	public function get_funding_statement($post_id = null) {
+		return $this->texturized_meta($post_id, '_anno_funding');
+	}
+	
+	public function get_acknowledgements($post_id = null) {
+		return $this->texturized_meta($post_id, '_anno_acknowledgements');
+	}
 }
 
 /**
@@ -271,8 +286,28 @@ function anno_the_authors() {
  * Get citation for article. Textarea safe
  * @return string text-only (no-tags) citation for an article
  */
-function anno_citation() {
+function anno_the_citation() {
 	$template = Anno_Keeper::retrieve('template');
 	echo $template->get_citation();
+}
+
+function anno_has_acknowledgements() {
+	$template = Anno_Keeper::retrieve('template');
+	return $template->get_acknowledgements() ? true : false;
+}
+
+function anno_the_acknowledgements($before = '', $after = '') {
+	$template = Anno_Keeper::retrieve('template');
+	echo $template->get_acknowledgements();
+}
+
+function anno_has_funding_statement() {
+	$template = Anno_Keeper::retrieve('template');
+	return $template->get_funding_statement() ? true : false;
+}
+
+function anno_the_funding_statement($before = '', $after = '') {
+	$template = Anno_Keeper::retrieve('template');
+	echo $template->get_funding_statement();
 }
 ?>

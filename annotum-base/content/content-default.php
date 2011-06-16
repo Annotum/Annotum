@@ -36,18 +36,30 @@ if (CFCT_DEBUG) { cfct_banner(__FILE__); }
 	</header>
 	<div class="main">
 		<div class="content entry-content">
+			<?php if (anno_has_funding_statement()): ?>
+				<section class="sec" id="funding-statement">
+					<h1><?php _e('Funding Statement', 'anno'); ?></h1>
+					<?php anno_the_funding_statement(); ?>
+				</section>
+			<?php endif; ?>
 			<?php
 			the_content(__('Continued&hellip;', 'anno'));
 			wp_link_pages();
 			?>
+			<?php if (anno_has_acknowledgements()): ?>
+				<section class="sec" id="acknowledgements">
+					<h1><?php _e('Acknowledgements', 'anno'); ?></h1>
+					<?php anno_the_acknowledgements(); ?>
+				</section>
+			<?php endif; ?>
 		</div><!--/.content-->
 	</div><!--/.main-->
 	<footer class="footer">
 		<dl class="kv">
 			<dt><?php _e('Citation', 'anno'); ?>:</dt>
-			<dd><textarea class="entry-summary" readonly><?php anno_citation(); ?></textarea></dd>
+			<dd><textarea class="entry-summary" readonly><?php anno_the_citation(); ?></textarea></dd>
 			
-			<?php the_tags('<dt>Tags:</dt> <dd class="tags">', ' <span class="sep">&middot;</span> ', '</dd>'); ?>
+			<?php the_tags('<dt>'.__('Tags:', 'anno').'</dt> <dd class="tags">', ' <span class="sep">&middot;</span> ', '</dd>'); ?>
 		</dl>
 	</footer><!--/.footer-->
 </article>
