@@ -1,20 +1,5 @@
 <?php
 
-/*
-	- Actor 								:: Event 						:: Event data
-	--------------------------------------------------------------------------------------------------------------------------------
-	- user who can edit a post 				:: edit/revision created 		:: revision ID
-	- user that can transition post state 	:: post transitioned states		:: old state, new state (corresponds to global state array)
-	- reviewer or editor+ 					:: Reviewer comment created 	:: comment ID being replied to (if applicable)
-	- reviewer 								:: Review submitted				:: review (corresponds to a global array used for translation purposes)
-	- author, co-author, editor+ 			:: Internal comment created		:: comment ID being replied to (if applicable)
-	- author, editor+						:: Added co-author				:: co-author ID
-	- author, editor+						:: Removed co-author			:: co-author ID
-	- author, editor+ 						:: Author changed				:: author ID
-	- editor+								:: Added reviewer				:: reviewer ID
-	- editor+								:: Removed reviewer				:: reviewer ID
- */
-
 /**
  * Saves an event in post meta to be used when outputting an audit log.
  * 

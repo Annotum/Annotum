@@ -810,14 +810,20 @@ function annowf_get_post_id() {
 	return intval($post_id);
 }
 
+/**
+ * Adjust the edit display to override default WP implementation
+ */ 
 function annowf_get_sample_permalink_html($return, $id, $new_title, $new_slug) {
-	if (anno_user_can('edit_slug', null, $id)) {
-		return $return;
-	} 
-	else {
-		return '';
+	$post = get_post($id);
+	if (!empty($post) && $post->post_type == 'article') {
+		if (anno_user_can('edit_slug', null, $id)) {
+			return $return;
+		} 
+		else {
+			return '';
+		}
 	}
-	
+	return $return;
 // TODO possibly re-implement
 /*
 	if ( 'publish' == $post->post_status ) {
