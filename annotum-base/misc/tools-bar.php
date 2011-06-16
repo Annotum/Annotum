@@ -1,6 +1,6 @@
 <div class="tools-bar supplement clearfix">
 	<div class="cell print">
-		<a href="#">Print Article</a>
+		<a href="#" onclick="window.print(); return false;"><?php _e('Print Article', 'anno'); ?></a>
 	</div>
 	<div class="cell download">
 		<label>Download:</label> <a href="#">PDF</a>, <a href="#">XML</a>
