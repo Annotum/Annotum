@@ -10,7 +10,7 @@
 			<ul class="nav">
 				<li><a class="email" href="#">Email</a></li>
 				<li><?php anno_twitter_button(); ?></li>
-				<li><a class="facebook" href="#">Facebook</a></li>
+				<li><?php anno_facebook_button(); ?></li>
 			</ul>
 		</div>
 	</div>
