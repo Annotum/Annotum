@@ -320,6 +320,20 @@ class Anno_Template {
 
 		return '<a '.$attrs.'>'.$text.'</a>';
 	}
+	
+	public function get_facebook_button($attr = array()) {
+		$url = urlencode(get_permalink());
+		$default_attr = array(
+			'src' => 'http://www.facebook.com/plugins/like.php?href='.$url.'&amp;send=false&amp;layout=button_count&amp;width=90&amp;show_faces=false&amp;action=like&amp;colorscheme=light&amp;font=arial&amp;height=21',
+			'class' => 'facebook-like-button',
+			'scrolling' => 'no',
+			'frameborder' => 0,
+			'allowTransparency' => true,
+			'style' => 'width:90px;height:21px'
+		);
+		$attrs = $this->to_attr($attr, $default_attr);
+		return '<iframe '.$attrs.'></iframe>';
+	}
 }
 
 /**
@@ -402,5 +416,10 @@ function anno_the_appendices() {
 function anno_twitter_button($text = null, $attr = array()) {
 	$template = Anno_Keeper::retrieve('template');
 	echo $template->get_twitter_button($text, $attr);
+}
+
+function anno_facebook_button($attr = array()) {
+	$template = Anno_Keeper::retrieve('template');
+	echo $template->get_facebook_button($attr);
 }
 ?>
