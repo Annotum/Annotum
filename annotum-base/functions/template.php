@@ -99,6 +99,10 @@ class Anno_Template {
 		}
 		return implode(' ', $attrs);
 	}
+	
+	public function to_tag($tag, $text, $attr1 = array(), $attr2 = array()) {
+		return '<'.$tag.' '.$this->to_attr($attr1, $attr2).'>'.$text.'</'.$tag.'>';
+	}
 
 	/**
 	 * Get an array of ids for contributors to a given post.
@@ -307,7 +311,7 @@ class Anno_Template {
 	
 	public function get_twitter_button($text = null, $attr = array()) {
 		if (!$text) {
-			$text = __('Tweet', 'Text for Twitter button', 'anno');
+			$text = _x('Tweet', 'Text for Twitter button', 'anno');
 		}
 		$title = $this->truncate_words(get_the_title(), 5);
 		$url = urlencode(get_permalink());
@@ -316,9 +320,7 @@ class Anno_Template {
 			'class' => 'twitter-share-button',
 			'data-count' => 'none'
 		);
-		$attrs = $this->to_attr($default_attr, $attr);
-
-		return '<a '.$attrs.'>'.$text.'</a>';
+		return $this->to_tag('a', $text, $default_attr, $attr);
 	}
 	
 	public function get_facebook_button($attr = array()) {
@@ -331,8 +333,19 @@ class Anno_Template {
 			'allowTransparency' => true,
 			'style' => 'width:90px;height:21px'
 		);
-		$attrs = $this->to_attr($attr, $default_attr);
-		return '<iframe '.$attrs.'></iframe>';
+		return $this->to_tag('iframe', '', $default_attr, $attr);
+	}
+	
+	public function get_email_link($text = null, $attr = array()) {
+		if (!$text) {
+			$text = _x('Email', 'Text for "email this" link', 'anno');
+		}
+		
+		$default_attr = array(
+			'href' => '',
+			'class' => 'email'
+		);
+		return $this->to_tag('a', $text, $default_attr, $attr);
 	}
 }
 
