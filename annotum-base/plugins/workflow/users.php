@@ -179,6 +179,16 @@ function anno_user_can($cap, $user_id = null, $post_id = null, $comment_id = nul
 				return true;
 			}
 			break;
+		case 'select_author':
+			if ($user_role == $admin) {
+				return true;
+			}
+			else if ($user_role == $editor && !in_array($post_state, array('published', 'rejected'))) {
+				return true;
+			}
+			else if ($user_role == 'author' && $post_state == 'draft') {
+				return true;
+			}
 		default:
 			break;
 	}
