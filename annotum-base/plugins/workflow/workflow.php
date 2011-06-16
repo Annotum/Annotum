@@ -678,7 +678,7 @@ function annowf_clone_post($orig_id) {
  * Custom meta Box For Author select.
  */
 function annowf_author_meta_box($post) {
-	if (!anno_user_can('edit_post')) {
+	if (!anno_user_can('select_author')) {
 		$author = get_userdata($post->post_author);
 		echo esc_html($author->user_login);
 	}
