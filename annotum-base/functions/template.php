@@ -62,6 +62,10 @@ class Anno_Template {
 		return $post_id;
 	}
 	
+	public function strip_newlines($text) {
+		return preg_replace("/[\n\r]/", '', $text);
+	}
+	
 	/**
 	 * Truncate to a certain number of words
 	 */
@@ -101,6 +105,7 @@ class Anno_Template {
 	}
 	
 	public function to_tag($tag, $text, $attr1 = array(), $attr2 = array()) {
+		$tag = esc_attr($tag);
 		return '<'.$tag.' '.$this->to_attr($attr1, $attr2).'>'.$text.'</'.$tag.'>';
 	}
 
@@ -341,8 +346,16 @@ class Anno_Template {
 			$text = _x('Email', 'Text for "email this" link', 'anno');
 		}
 		
+		$title = esc_attr($this->truncate_words(get_the_title(), 5));
+		$url = urlencode(get_permalink());
+		
+		$excerpt = strip_tags($this->get_excerpt());
+		$excerpt = $this->strip_newlines($excerpt);
+		$excerpt = $this->truncate_words($excerpt, 10);
+		$excerpt = esc_attr($excerpt);
+		
 		$default_attr = array(
-			'href' => '',
+			'href' => 'mailto:?subject='.$title.'&amp;body='.$excerpt.'%0A%0A '.$url,
 			'class' => 'email'
 		);
 		return $this->to_tag('a', $text, $default_attr, $attr);
@@ -434,5 +447,9 @@ function anno_twitter_button($text = null, $attr = array()) {
 function anno_facebook_button($attr = array()) {
 	$template = Anno_Keeper::retrieve('template');
 	echo $template->get_facebook_button($attr);
+}
+function anno_email_link($text = null, $attr = array()) {
+	$template = Anno_Keeper::retrieve('template');
+	echo $template->get_email_link($attr);
 }
 ?>
