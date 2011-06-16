@@ -65,7 +65,7 @@ function anno_user_can($cap, $user_id = null, $post_id = null, $comment_id = nul
 				return true;
 			}
 			// Not final, published or rejected
-			else if ($user_role == $editor && $post_state && !in_array($post_state, array('final', 'published', 'rejected'))) {
+			else if ($user_role == $editor && $post_state && !in_array($post_state, array('published', 'rejected'))) {
 				return true;
 			}
 			// Draft state, authors can edit
@@ -103,6 +103,18 @@ function anno_user_can($cap, $user_id = null, $post_id = null, $comment_id = nul
 				return true;
 			}
 			break;
+		case 'manage_co_authors':
+			if ($user_role == $admin) {
+				return true;
+			}
+			else if ($user_role == $editor && $post_state && !in_array($post_state, array('published', 'rejected'))) {
+				return true;
+			}
+			// Draft state, authors can edit
+			else if ($user_role == 'author' && $post_state == 'draft') {
+				return true;
+			}
+			break;
 		case 'view_review_comment':
 			// if user is or editor+
 			if (in_array($user_role, array($admin, $editor))) {
@@ -121,13 +133,6 @@ function anno_user_can($cap, $user_id = null, $post_id = null, $comment_id = nul
 				return true;
 			}
 			else if ($user_role == 'author' && anno_workflow_enabled('author_reviewer')) {
-				return true;
-			}
-			break;
-		case 'manage_co_authors':
-			// If in draft state and author or editor+
-
-			if ($user_role && !in_array($user_role, array('reviewer', 'co-author')) && $post_state == 'draft') {
 				return true;
 			}
 			break;
