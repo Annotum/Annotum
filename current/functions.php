@@ -24,7 +24,7 @@ function current_css3_pie() {
 		.callout-item,
 		.featured-posts ul,
 		.featured-posts .carousel-item,
-		#sidebar .widget .title,
+		#main-sidebar .widget .title,
 		#respond #submit,
 		.tools-nav .nav li a {
 			behavior: url(<?php echo $assets_root; ?>js/libs/css3pie/PIE.php);

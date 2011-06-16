@@ -12,16 +12,11 @@
 if (__FILE__ == $_SERVER['SCRIPT_FILENAME']) { die(); }
 if (CFCT_DEBUG) { cfct_banner(__FILE__); }
 
-?>
-
-<div id="sidebar">
-	<?php
-	$sidebar = 'default';
-	if (is_page()) {
-		$sidebar = 'sidebar-page';
-	}
-	else if (get_post_type() == 'article') {
-		$sidebar = 'sidebar-article';
-	}
-	dynamic_sidebar($sidebar); ?>
-</div><!--#sidebar-->
+$sidebar = 'default';
+if (is_page()) {
+	$sidebar = 'sidebar-page';
+}
+else if (get_post_type() == 'article') {
+	$sidebar = 'sidebar-article';
+}
+dynamic_sidebar($sidebar); ?>

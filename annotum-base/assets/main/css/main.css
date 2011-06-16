@@ -156,7 +156,7 @@ form.search .type-submit{background:url(../img/sprite-y.8bit.png) 0 -100px no-re
 .reply-list{border-bottom:1px #ccc solid;margin:0 0 18px;padding:0;}
 .reply-list li{list-style:none;margin:0;padding:0;zoom:1;}
 .comment,.ping{border-top:1px #ccc solid;padding:14px 0;}
-.comment{padding-left:180px;position:relative;zoom:1;}
+.comment{min-height:40px;padding-left:180px;position:relative;zoom:1;}
 .reply-list .children .li-comment{padding-left:20px;}
 .comment .header{height:auto !important;height:38px;min-height:38px;left:0;padding:0 0 0 46px;position:absolute;top:14px;width:134px;}
 .comment .header img{left:0;position:absolute;top:0;}
@@ -175,9 +175,9 @@ form.search .type-submit{background:url(../img/sprite-y.8bit.png) 0 -100px no-re
 #respond .row .type-text{width:206px;}
 textarea#comment{display:block;height:80px;width:433px;}
 #submit{background:#006b94;border:0;color:#fff;font-size:16px;font-weight:bold;line-height:21px;height:31px;padding:5px 10px;}
-#sidebar .widget{background:#f0f0f0;margin-bottom:1px;padding-bottom:20px;}
-#sidebar .widget_text{background:none;padding:0;}
-#sidebar .widget .title{color:#000;font:italic bold 14px Georgia, Serif;margin-bottom:10px;padding:20px 0 0 20px;}
+#main-sidebar .widget{background:#f0f0f0;margin-bottom:1px;padding-bottom:20px;}
+#main-sidebar .widget_text{background:none;padding:0;}
+#main-sidebar .widget .title{color:#000;font:italic bold 14px Georgia, Serif;margin-bottom:10px;padding:20px 0 0 20px;}
 .widget li{font-size:13px;line-height:1.38;padding:3px 20px;}
 .widget li a{display:block;}
 .widget li a:hover{text-decoration:none;}
