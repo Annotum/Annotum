@@ -11,7 +11,6 @@
  */
 if (__FILE__ == $_SERVER['SCRIPT_FILENAME']) { die(); }
 if (CFCT_DEBUG) { cfct_banner(__FILE__); }
-
 ?>
 <?php //cfct_misc('tools-nav'); ?>
 
@@ -46,7 +45,7 @@ if (CFCT_DEBUG) { cfct_banner(__FILE__); }
 	<footer class="footer">
 		<dl class="kv">
 			<dt><?php _e('Citation', 'anno'); ?>:</dt>
-			<dd><textarea class="entry-summary" readonly><?php anno_excerpt_text(); ?></textarea></dd>
+			<dd><textarea class="entry-summary" readonly><?php anno_citation(); ?></textarea></dd>
 			
 			<?php the_tags('<dt>Tags:</dt> <dd class="tags">', ' <span class="sep">&middot;</span> ', '</dd>'); ?>
 		</dl>

@@ -45,18 +45,42 @@ function anno_the_terms($taxonomy = 'article_category', $before = '', $sep = '',
 	echo get_the_term_list($post_id, $taxonomy, $before, $sep, $after);
 }
 
-function anno_the_authors() {
-	global $post;
-	$out = '';
-	$author_id = get_the_author_meta('id');
-
+/**
+ * Get an array of ids for contributors to a given post.
+ * @param int $post_id (optional) the ID of the post to get from. Defaults to current post.
+ * @return array
+ */
+function anno_get_contributor_ids($post_id = null) {
+	if ($post_id) {
+		$post = get_post($post_id);
+		$author_id = $post->post_author;
+		unset($post);
+	}
+	else {
+		$post_id = get_the_ID();
+		$author_id = get_the_author_meta('id');
+	}
+	
 	$authors = array();
+	
+	/* Get the additional contributors, if the workflow is turned on. */
 	if (function_exists('annowf_get_post_users')) {
 		$authors = annowf_get_post_users($post->ID, '_co_authors');
 	}
-	
+	/* Everybody together now! */
 	array_unshift($authors, $author_id);
 	
+	return $authors;
+}
+
+/**
+ * Render an HTML list of all the authors, including meta info like bio and URL.
+ * @return string
+ */
+function anno_the_authors() {
+	$out = '';
+	
+	$authors = anno_get_contributor_ids();
 	foreach ($authors as $id) {
 		$author = get_userdata($id);
 		$posts_url = get_author_posts_url($id);
@@ -103,7 +127,6 @@ function anno_the_authors() {
 </li>';
 	
 		$out .= $card;
-		$i++;
 	}
 	
 	echo $out;
@@ -112,15 +135,24 @@ function anno_the_authors() {
 /**
  * Text-only excerpt -- safe for textareas.
  */
-function anno_get_excerpt_text() {
-	ob_start();
-	the_excerpt();
-	$text = ob_get_clean();
+function anno_get_citation($post_id = null) {
+	if (!$post_id) {
+		$post_id = get_the_ID();
+	}
+	
+	$title = get_the_title($post_id);
+	$subtitle = anno_get_subtitle($post_id);
+	
+	
 	$text = strip_tags($text);
 	return trim($text);
 }
 
-function anno_excerpt_text() {
-	echo anno_get_excerpt_text();
+/**
+ * Get citation for article. Textarea safe
+ * @return string text-only (no-tags) citation for an article
+ */
+function anno_citation() {
+	echo anno_get_citation();
 }
 ?>
