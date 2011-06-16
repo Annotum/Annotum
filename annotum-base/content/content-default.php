@@ -55,6 +55,7 @@ if (CFCT_DEBUG) { cfct_banner(__FILE__); }
 		</div><!--/.content-->
 	</div><!--/.main-->
 	<footer class="footer">
+		<?php anno_the_appendices(); ?>
 		<dl class="kv">
 			<dt><?php _e('Citation', 'anno'); ?>:</dt>
 			<dd><textarea class="entry-summary" readonly><?php anno_the_citation(); ?></textarea></dd>

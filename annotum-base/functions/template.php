@@ -224,6 +224,9 @@ class Anno_Template {
 		delete_transient('anno_citation_html_'.$post_id);
 	}
 	
+	/**
+	 * Get content string from a specified meta key and run it through wptexturize().
+	 */
 	public function texturized_meta($post_id = null, $key) {
 		$post_id = $this->post_id_for_sure($post_id);
 		$text = trim(get_post_meta($post_id, $key, true));
@@ -236,6 +239,27 @@ class Anno_Template {
 	
 	public function get_acknowledgements($post_id = null) {
 		return $this->texturized_meta($post_id, '_anno_acknowledgements');
+	}
+	
+	public function get_appendices($post_id = null) {
+		$out = '';
+		$post_id = $this->post_id_for_sure($post_id);
+		$appendices = get_post_meta($post_id, '_anno_appendicies', true);
+		if (is_array($appendices) && count($appendices)) {
+			$title_text = _x('Appendix %s', 'Appendix title displayed in post, auto-incremented for each appendix.', 'anno');
+
+			$out .= '<div class="appendices">';
+
+			for ($i=0, $count = count($appendices); $i < $count; $i++) {
+				$title = '<h1>'.sprintf($title_text, $i + 1).'</h1>';
+				$content = $appendices[$i];
+				
+				$out .= '<section class="appendix">'.$title.$content.'</section>';
+			}
+
+			$out .= '</div>';
+		}
+		return $out;
 	}
 }
 
@@ -254,7 +278,7 @@ add_action('init', 'anno_template_init');
  */
 function anno_has_subtitle($post_id = false) {
 	$template = Anno_Keeper::retrieve('template');
-	return $template->get_subtitle($post_id) ? true : false;
+	return (bool) $template->get_subtitle($post_id);
 }
 
 /**
@@ -293,21 +317,26 @@ function anno_the_citation() {
 
 function anno_has_acknowledgements() {
 	$template = Anno_Keeper::retrieve('template');
-	return $template->get_acknowledgements() ? true : false;
+	return (bool) $template->get_acknowledgements();
 }
 
-function anno_the_acknowledgements($before = '', $after = '') {
+function anno_the_acknowledgements() {
 	$template = Anno_Keeper::retrieve('template');
 	echo $template->get_acknowledgements();
 }
 
 function anno_has_funding_statement() {
 	$template = Anno_Keeper::retrieve('template');
-	return $template->get_funding_statement() ? true : false;
+	return (bool) $template->get_funding_statement();
 }
 
-function anno_the_funding_statement($before = '', $after = '') {
+function anno_the_funding_statement() {
 	$template = Anno_Keeper::retrieve('template');
 	echo $template->get_funding_statement();
+}
+
+function anno_the_appendices() {
+	$template = Anno_Keeper::retrieve('template');
+	echo $template->get_appendices();
 }
 ?>
