@@ -52,7 +52,7 @@ form.search .type-submit{background:url(../img/sprite-y.8bit.png) 0 -200px no-re
 .article-full,.article-full .footer{margin-bottom:17px;}
 .article-full .header{margin-bottom:17px;}
 .article-full .header .meta{color:#A29674;font:bold 11px Helvetica,Arial,sans-serif;letter-spacing:1px;margin-left:0;margin-right:0;text-transform:uppercase;}
-.article-full .header .meta a:link{color:#A29674;}
+.article-full .header .meta a{color:#A29674;}
 .article-full .header .meta a:hover{color:#A2220F;text-decoration:none;}
 .article-full .article-section .content{margin:0;}
 .article-full .supplement{background:#f1ead4;border:0;padding:10px 10px;margin:0 0 28px;}
