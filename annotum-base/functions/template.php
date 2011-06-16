@@ -251,10 +251,10 @@ class Anno_Template {
 			$out .= '<div class="appendices">';
 
 			for ($i=0, $count = count($appendices); $i < $count; $i++) {
-				$title = '<h1>'.sprintf($title_text, $i + 1).'</h1>';
+				$title = '<h1><span>'.sprintf($title_text, $i + 1).'</span></h1>';
 				$content = $appendices[$i];
 				
-				$out .= '<section class="appendix">'.$title.$content.'</section>';
+				$out .= '<section class="appendix sec">'.$title.$content.'</section>';
 			}
 
 			$out .= '</div>';

@@ -38,7 +38,7 @@ if (CFCT_DEBUG) { cfct_banner(__FILE__); }
 		<div class="content entry-content">
 			<?php if (anno_has_funding_statement()): ?>
 				<section class="sec" id="funding-statement">
-					<h1><?php _e('Funding Statement', 'anno'); ?></h1>
+					<h1><span><?php _e('Funding Statement', 'anno'); ?></span></h1>
 					<?php anno_the_funding_statement(); ?>
 				</section>
 			<?php endif; ?>
@@ -48,14 +48,14 @@ if (CFCT_DEBUG) { cfct_banner(__FILE__); }
 			?>
 			<?php if (anno_has_acknowledgements()): ?>
 				<section class="sec" id="acknowledgements">
-					<h1><?php _e('Acknowledgements', 'anno'); ?></h1>
+					<h1><span><?php _e('Acknowledgements', 'anno'); ?></span></h1>
 					<?php anno_the_acknowledgements(); ?>
 				</section>
 			<?php endif; ?>
 		</div><!--/.content-->
+		<?php anno_the_appendices(); ?>
 	</div><!--/.main-->
 	<footer class="footer">
-		<?php anno_the_appendices(); ?>
 		<dl class="kv">
 			<dt><?php _e('Citation', 'anno'); ?>:</dt>
 			<dd><textarea class="entry-summary" readonly><?php anno_the_citation(); ?></textarea></dd>
