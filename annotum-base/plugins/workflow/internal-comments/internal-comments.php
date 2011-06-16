@@ -311,9 +311,9 @@ function anno_internal_comments_ajax() {
 
 	// Create the comment and automatically approve it
 	add_filter('pre_comment_approved', 'anno_internal_comments_pre_comment_approved');
-	add_filter('pre_option_comments_notify', 'anno_internal_comments_surpress_notification')
+	add_filter('pre_option_comments_notify', 'anno_internal_comments_surpress_notification');
 	$comment_id = wp_new_comment($commentdata);
-	remove_filter('pre_option_comments_notify', 'anno_internal_comments_surpress_notification')
+	remove_filter('pre_option_comments_notify', 'anno_internal_comments_surpress_notification');
 	remove_filter('pre_comment_approved', 'anno_internal_comments_pre_comment_approved');
 	
 	$comment = get_comment($comment_id);
