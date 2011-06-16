@@ -88,10 +88,17 @@ class Anno_Template {
 		return $authors;
 	}
 	
-	public function get_author_list() {
+	/**
+	 * Get the HTML list for authors.
+	 * @param int $post_id (optional)
+	 */
+	public function get_contributors_list($post_id = null) {
 		$out = '';
-
-		$authors = $this->get_contributor_ids();
+		if (!$post_id) {
+			$post_id = get_the_ID();
+		}
+		$authors = $this->get_contributor_ids($post_id);
+		
 		foreach ($authors as $id) {
 			$author = get_userdata($id);
 			$posts_url = get_author_posts_url($id);
@@ -257,7 +264,7 @@ function anno_the_terms($taxonomy = 'article_category', $before = '', $sep = '',
  */
 function anno_the_authors() {
 	$template = Anno_Keeper::retrieve('template');
-	echo $template->get_author_list();
+	echo $template->get_contributors_list();
 }
 
 /**
