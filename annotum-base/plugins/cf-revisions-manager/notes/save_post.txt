@@ -1,0 +1,181 @@
+# Upload Attachment
+
+- media-upload.php
+	- if ( $_POST['html-upload'] )
+		- media_handle_upload()
+			- get time from parent post
+			- wp_handle_upload
+				- apply_filters( wp_handle_upload_prefilter )
+				- test form name parity
+				- test upload errors from PHP
+				- test file size limiations
+				- test file properly uploaded to temp location
+				- check file mime type
+					- wp_check_filetype_and_ext
+					- check user permissions on file type upload
+						- current_user_can
+				- check valid uploads dir
+					- wp_upload_dir
+						- setup uploads path
+						- setup uploads url
+						- jingle jangle for multisite
+						- if ( get_option( uploads_use_yearmonth_folders ) )
+							- if time not supplied, get time *** PLEASE NOTE ***
+							- build upload dir path based on time
+						- apply_filters ( upload_dir )
+						- wp_mkdir_p
+							- try to make target location
+						- return uploads dir path
+				- wp_unique_filename
+					- sanitize_title
+					- if ( name not unique )
+						- increment number until unique name is arrived at
+				- move file in to uploads dir
+				- if ( multisite )
+					delete_transient ( dirsize_cache )
+				apply_filters ( wp_handle_upload ) 
+			- wp_insert_attachment
+				- wp_parse_args
+				- sanitize_post
+				- set item category
+				- sanitize_title
+				- wp_unique_post_slug
+				- set post time & modified
+				- set comment status, parent, author, etc...
+				- stripslashes_deep
+				- if ( update )
+					- wpdb->update
+				- else
+					- try to use suggested id (import functionality)
+					- wpdb->insert
+				- set title if not already set
+				- wp_set_post_categories
+				- update_attached_file
+				- clean_post_cache
+				- if ( no parent )
+					- add_post_meta ( _wp_attachment_temp_parent )
+				- if ( update )
+					do_action ( edit_attachment )
+				- else
+					do_action ( add_attachment )
+			- if ( no error ) 
+				- wp_update_attachment_metadata ( wp_generate_attachment_metadata )
+	- id ( $_GET['upload-page-form'] )
+		- media_upload_form_handler @see #Edit Attachment for rabbit hole
+	- show upload form
+				
+# Edit Attachment
+
+- media.php: action=editattachment
+	- check_admin_referer
+	- current_user_can
+		- die on invalid permissions
+	- media_upload_form_handler
+		- check_admin_referer
+		- get $send_id if present
+		- fill attachment data from $_POST
+		- apply_filters ( attachment_fields_to_save )
+		- check for image alt-text
+			- update alt-text
+			- update_post_meta ( _wp_attachment_image_alt )
+		- wp_update_post
+		- foreach ( get_attachment_taxonomies )
+			- wp_set_object_terms
+		- if ( insert_gallery )
+			- output gallery update js
+		- if ( $send_id ) 
+			- stripslashes_deep ( $_POST['attachments'][$send_id] )
+			- build link to return to editor
+			- apply_filters ( media_send_to_editor )
+			- return media_send_to_editor ( $html )
+	- determine redirect url & error messages
+		- wp_get_original_referer
+	- wp_redirect
+
+# Save Post
+
+- post.php: action=editpost
+	- check_admin_referer
+	- edit_post
+		- get_post_type_object
+		- current_user_can
+			- die on invalid permissions
+		- if ( autosave )
+			- get_post
+			- check last update
+			- return if too soon
+		- _wp_translate_postdata
+		- handle visibility
+		- iterate over $post_data['meta']
+			- update_meta
+		- iterate over $post_data['deletemeta']
+			- delete_meta
+		- add_meta
+		- update_post_meta
+		- wp_update_post
+			- wp_get_single_post
+			- add_magic_quotes
+			- if ( is attachment )
+				- wp_insert_attachment
+			- else
+				- wp_insert_post
+					- wp_parse_args
+					- sanitize_post
+					- get_post_field (post_status)
+					- assign default category if none provided
+					- if (update)
+						- get existing post state
+					- sanitize_title
+					- set post time
+					- set comment satus
+					- make sure post is not its own parent
+					- wp_unique_post_slug
+					- apply_filters ( wp_insert_post_data )
+					- stripslashes_deep ( postdata )
+					- if (update)
+						- do_action ( pre_post_update )
+							- triggers
+								- wp_save_post_revision
+									- check for existing post
+									- check for revision support
+									- _wp_put_post_revision
+										- _wp_post_revision_fields
+											- apply_filters ( _wp_post_revision_fields )
+										- add_magic_quotes
+										- wp_insert_post
+										- do_action _wp_put_post_revision
+									- wp_get_post_revisions ( post_id )
+									- prune out of date revisions
+						- wpdb->update
+					- else
+						- check for existing id, use it if available (part of import process)
+						- wpdb->insert
+					- wpdb->update - update post_name for just inserted/updated post
+					- if (is_object_in_taxonomy ( category ))
+						- wp_set_post_categories
+					- if ( isset (tags_input) && is_object_in_taxonomy ( post_tag ))
+						- wp_set_post_tags
+					- handle custom taxonomies
+						- get_taxonomy
+						- wp_set_post_terms
+					- get post guid
+					- clean_page_/post_cache
+					- wpdb->update ( post_guid )
+					- get_post
+					- check valid page template
+						- get_page_templates
+						- update_post_meta ( _wp_page_template )
+					- wp_transition_post_status
+					- if ( update )
+						- do_action( edit_post )
+						- do_action( post_updated )
+					- do_action ( save_post )
+					- do_action ( wp_insert_post )
+					- return 
+		- _relocate_children
+		- _fix_attachment_links
+		- wp_set_post_lock
+		- stick_/unstick_post
+		- return
+	- redirect_post
+	- exit

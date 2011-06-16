@@ -1,0 +1,14 @@
+# CF Revision Manager Changelog
+
+## 1.0
+
+- wrapping entire plugin in `class_exists` check since the primary use case at this time is to use it as a library
+
+## 0.9
+
+- various bug fixes and stability enhancements
+- first tag
+
+## 0.1
+
+- initial "release"

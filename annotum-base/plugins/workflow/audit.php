@@ -150,5 +150,45 @@ function annowf_audit_log($post) {
 	echo '</ul>';
 }
 
+/**
+ * Hooks into cf-revision-manager plugin. Defines post meta to be saved with revisions. 
+ */
+function annowf_registered_post_meta_items() {
+	if (function_exists('cfr_register_metadata')) {
+		$workflow_meta_keys = array(
+			'_anno_acknowledgements',
+			'_anno_funding',
+			'_anno_subtitle',
+			'_anno_appendicies',		
+		);
+		
+		foreach ($workflow_meta_keys as $meta_key) {
+			cfr_register_metadata($meta_key, 'annowf_meta_revision_display');
+		}
 
+	}
+}
+add_action('init', 'annowf_registered_post_meta_items');
+
+/**
+ * Display callback for post meta in revisions
+ * 
+ */ 
+function annowf_meta_revision_display($meta_value) {
+	$html = '';
+	if (is_array($meta_value)) {
+		foreach ($meta_value as $key => $value) {
+			// The only occurence of serilized meta here is appendicies
+			$key = _x('Appendix', 'revision heading', 'anno').anno_index_alpha($key);
+//TODO remove padding from h4 to prevent jerkiness of JS
+			$html = '<h4>'.$key.'</h4><div>'.htmlspecialchars($value).'</div>
+';
+		}
+	}
+	else {
+		$html = '<div>'.htmlspecialchars($meta_value).'</div>';
+	}
+	
+	return $html;
+}
 ?>
