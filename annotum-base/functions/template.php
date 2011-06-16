@@ -48,6 +48,11 @@ class Anno_Template {
 	public function attach_hooks() {
 		add_action('save_post', array($this, 'invalidate_citation_cache'), 10, 2);
 		add_action('deleted_post', array($this, 'invalidate_citation_cache'));
+		add_action('wp', array($this, 'add_assets'));
+	}
+	
+	public function add_assets() {
+		wp_enqueue_script('twitter', 'http://platform.twitter.com/widgets.js', array(), null, true);
 	}
 	
 	public function post_id_for_sure($post_id) {
@@ -58,13 +63,43 @@ class Anno_Template {
 	}
 	
 	/**
-	 * Get the subtitle data stored as post meta
+	 * Truncate to a certain number of words
 	 */
-	public function get_subtitle($post_id = false) {
-		$post_id = $this->post_id_for_sure($post_id);
-		return get_post_meta($post_id, '_anno_subtitle', true);
+	public function truncate_words($text, $length, $more_delimiter = '&hellip;') {
+		$text =  strip_tags($text);
+
+		$words = explode(' ', $text, $length + 1);
+		if (count($words) > $length) {
+			array_pop($words);
+			$text = implode(' ', $words);
+			$text = $text . $more_delimiter;
+		}
+
+		return $text;
 	}
 	
+	/**
+	 * A getter for the_excerpt(). The excerpt doesn't have a getter that
+	 * is run through all the relevant filters. We'll do that here.
+	 */
+	public function get_excerpt() {
+		ob_start();
+		the_excerpt();
+		return ob_get_clean();
+	}
+	
+	/**
+	 * Turn an array or two into HTML attribute string
+	 */
+	public function to_attr($arr1 = array(), $arr2 = array()) {
+		$attrs = array();
+		$arr = array_merge($arr1, $arr2);
+		foreach ($arr as $key => $value) {
+			$attrs[] = esc_attr($key).'="'.esc_attr($value).'"';
+		}
+		return implode(' ', $attrs);
+	}
+
 	/**
 	 * Get an array of ids for contributors to a given post.
 	 * @param int $post_id (optional) the ID of the post to get from. Defaults to current post.
@@ -91,6 +126,14 @@ class Anno_Template {
 		array_unshift($authors, $author_id);
 
 		return $authors;
+	}
+
+	/**
+	 * Get the subtitle data stored as post meta
+	 */
+	public function get_subtitle($post_id = false) {
+		$post_id = $this->post_id_for_sure($post_id);
+		return get_post_meta($post_id, '_anno_subtitle', true);
 	}
 	
 	/**
@@ -261,6 +304,22 @@ class Anno_Template {
 		}
 		return $out;
 	}
+	
+	public function get_twitter_button($text = null, $attr = array()) {
+		if (!$text) {
+			$text = __('Tweet', 'Text for Twitter button', 'anno');
+		}
+		$title = $this->truncate_words(get_the_title(), 5);
+		$url = urlencode(get_permalink());
+		$default_attr = array(
+			'href' => 'http://twitter.com/share?url='.$url.'&amp;text='.$title,
+			'class' => 'twitter-share-button',
+			'data-count' => 'none'
+		);
+		$attrs = $this->to_attr($default_attr, $attr);
+
+		return '<a '.$attrs.'>'.$text.'</a>';
+	}
 }
 
 /**
@@ -338,5 +397,10 @@ function anno_the_funding_statement() {
 function anno_the_appendices() {
 	$template = Anno_Keeper::retrieve('template');
 	echo $template->get_appendices();
+}
+
+function anno_twitter_button($text = null, $attr = array()) {
+	$template = Anno_Keeper::retrieve('template');
+	echo $template->get_twitter_button($text, $attr);
 }
 ?>
