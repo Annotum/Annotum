@@ -14,13 +14,13 @@
  */ 
 function anno_user_can($cap, $user_id = null, $post_id = null, $comment_id = null) {
 	if (is_null($user_id)) {
-		global $current_user;
+		$current_user = wp_get_current_user();
 		$user_id = $current_user->ID;
 	}
 	if (is_null($post_id)) {
 		$post_id = annowf_get_post_id();
 	}
-	
+
 	$post_state = annowf_get_post_state($post_id);
 
 	$user_role = anno_role($user_id, $post_id);
@@ -39,7 +39,10 @@ function anno_user_can($cap, $user_id = null, $post_id = null, $comment_id = nul
 			}
 		case 'trash_post':
 			// Draft state, author or editor+
-			if ($post_round < 1 && $post_state == 'draft' && $user_role && !in_array($user_role, array('reviewer', 'co-author'))) {
+			if (in_array($user_role, array($admin, $editor)) && in_array($post_state, array('draft', 'rejected'))) {
+				return true;
+			}
+			else if ($post_round < 1 && $post_state == 'draft' && $user_role == 'author') {
 				return true;
 			}
 			break;

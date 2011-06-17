@@ -200,11 +200,12 @@ function anno_sanitize_options($value, $option) {
 
 	return $value;
 }
-add_filter('sanitize_option_anno_ga_id', 'anno_sanitize_option_ga_id');
+add_filter('sanitize_option_anno_ga_id', 'anno_sanitize_option_ga_id', 10, 2);
 
 /**
  * Sanitizes a string for insertion into DB
  * @param string $option The string to be sanitized
+ * @return string Sanitized string
  */ 
 function anno_sanitize_string($option) {
 	$option = addslashes($option);
@@ -231,6 +232,9 @@ function anno_settings_css() {
 add_action('admin_print_scripts-appearance_page_anno-workflow-settings', 'anno_settings_css');
 
 
+/**
+ * Styling for post-meta in revisions
+ */ 
 function anno_revisions_css() {
 ?>
 <style type="text/css">

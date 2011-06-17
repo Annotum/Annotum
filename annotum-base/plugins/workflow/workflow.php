@@ -738,7 +738,10 @@ function annowf_admin_request_handler() {
 	else if (isset($_GET['post_type'])) {
 		$post_type = $_GET['post_type'];
 	}
-
+	else if (isset($_GET['post'])) {
+		$post = get_post(absint($_GET['post']));
+		$post_type = $post->post_type;
+	}
 	if (!empty($wp_action) && $post_type == 'article') {
 		switch ($wp_action) {
 			case 'postajaxpost':
@@ -773,7 +776,6 @@ function annowf_admin_request_handler() {
 			add_filter('user_has_cap', 'annowf_user_has_cap_filter');
 		}
 	}
-	
 }
 add_action('admin_init', 'annowf_admin_request_handler', 0);
 
