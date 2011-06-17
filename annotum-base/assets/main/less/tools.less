@@ -5,10 +5,8 @@
 .tools-bar .cell {
 	float: left;
 }
-#selector {
-	
-	width: 100px;
-	height: 700px;
+.tools-bar {
+	line-height: 20px;
 }
 .tools-bar .print {
 	margin-right: 50px;
@@ -25,7 +23,6 @@
 .tools-bar .share {
 	float: right;
 }
-
 
 /* Tools Nav */
 .tools-nav {
@@ -55,10 +52,10 @@
 	font: italic bold 14px Georgia, Serif;
 	padding: 0 0 2px;
 }
-.tools-nav .tools-menu-item ul {
+.tools-menu-item ul {
 	margin-left: 1px;
 }
-.tools-nav .tools-menu-item li {
+.tools-menu-item li {
 	background: url(../img/sprite-y.8bit.png) 0 -393px no-repeat;
 	padding-left: 7px;
 }
@@ -73,31 +70,65 @@
 	list-style: disc;
 	margin-bottom: 1px;
 }
-.tools-nav .nav li a {
+.tools-nav a {
 	background: #006b94 url(../img/sprite-y.24bit.png) 0 100px no-repeat;
 	display: block;
 	height: 22px;
 	width: 22px;
 }
-.tools-nav .nav li.active a {
+.tools-nav .active a {
 	background-color: #e0e6ea;
 }
-.tools-nav .nav li a.content {
+.tools-nav a.content {
 	background-position: -96px -394px;
 }
-.tools-nav .nav li a.download {
+.tools-nav a.download {
 	background-position: -96px -296px;
 }
-.tools-nav .nav li a.comments {
+.tools-nav a.comments {
 	background-position: -96px -495px;
 }
-.tools-nav .nav li.active a.content {
+.tools-nav .active a.content {
 	background-position: -196px -394px;
 }
-.tools-nav .nav li.active a.download {
+.tools-nav .active a.download {
 	background-position: -196px -296px;
 }
-.tools-nav .nav li.active a.comments {
+.tools-nav .active a.comments {
 	background-position: -196px -495px;
 }
 
+.social-nav a,
+.social-nav iframe {
+	/**
+	 * Take care of extra space added by line-height when display:inline-block
+	 */
+	display: block;
+}
+
+/**
+ * Prevent Javascript FOUC on Twitter button
+ */
+a.twitter-share-button {
+	display: -moz-inline-box; /* FF2 */
+	display: inline-block; /* Standard. IE8+, Saf, FF3+ */
+	visibility: hidden;
+	height: 20px;
+	width: 55px;
+}
+
+/**
+ * Use in conjunction with .imr
+ */
+a.email {
+	background: url(../img/sprite-y.8bit.png) no-repeat 0 -700px;
+	height: 20px;
+	width: 60px;
+}
+a.email:hover,
+a.email:focus {
+	background-position: 0 -800px;
+}
+a.email:active {
+	background-position: 0 -900px;
+}

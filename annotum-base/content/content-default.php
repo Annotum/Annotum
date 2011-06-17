@@ -36,6 +36,12 @@ if (CFCT_DEBUG) { cfct_banner(__FILE__); }
 	</header>
 	<div class="main">
 		<div class="content entry-content">
+			<?php if (has_excerpt()): ?>
+				<section class="sec">
+					<h1><span><?php _e('Abstract', 'anno'); ?></span></h1>
+					<?php the_excerpt(); ?>
+				</section>
+			<?php endif; ?>
 			<?php if (anno_has_funding_statement()): ?>
 				<section class="sec" id="funding-statement">
 					<h1><span><?php _e('Funding Statement', 'anno'); ?></span></h1>
@@ -52,8 +58,8 @@ if (CFCT_DEBUG) { cfct_banner(__FILE__); }
 					<?php anno_the_acknowledgements(); ?>
 				</section>
 			<?php endif; ?>
+			<?php anno_the_appendices(); ?>
 		</div><!--/.content-->
-		<?php anno_the_appendices(); ?>
 	</div><!--/.main-->
 	<footer class="footer">
 		<dl class="kv">

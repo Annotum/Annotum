@@ -38,9 +38,27 @@ Annotum has full support for internationalization. It also supports right-to-lef
 1. Get [WordPress in your language](http://codex.wordpress.org/WordPress_in_Your_Language).
 2. Install your Annotum language pack in `annotum-base/languages/`. If you don't have a language pack for Annotum in your language, consider [creating a translation yourself](http://codex.wordpress.org/Translating_WordPress).
 
+
+## For Theme Developers
+
+Annotum has been developed to be easy to customize with [WordPress Child Themes](http://codex.wordpress.org/Child_Themes).
+
+- All assets are registered via `wp_enqueue` so you can enqueue/dequeue any CSS or JS file.
+
+- Custom template tags are set in `templates.php` to make it easy to access custom functionality like acknowledgements, funding statements, Tweet buttons, etc.
+
+- You can easily customize template tags by extending the class that contains the template tag library (`Anno_Template_Tags`). An easy way to do this is to register your own template tag class after `init:10`. Example:
+
+        class My_Template_Tags extends Anno_Template_Tags { /* Define something... */ }
+        function my_init_template_tags() {
+            $my_template = new My_Template_Tags();
+            Anno_Keeper::keep('template', $my_template);
+        }
+        add_action('init', 'my_init_template_tags', 11);
+
 ## Debugging
 
 - Carrington theme debugging can be enabled/disabled in the functions.php file. This will output the file paths to all Carrington templates loaded into the page and is not recommended in non-development environments: `define('CFCT_DEBUG', true);`
-
+- Some of the expensive `template.php` tags use [transient caching](http://codex.wordpress.org/Transients_API) to make sure things are speedy. If you need to troubleshoot transient caching, you can set `Anno_Template::$use_caches` to `false`. Setting `CFCT_DEBUG` to `true` will also disable the transient caches.
 
 ---
