@@ -26,8 +26,13 @@ class Anno_Keeper {
 			throw new Exception('If you\'re going to replace an instance that already exists, the new instance must be an instanceof the original class, so that methods may safely be called.', 1);
 		}
 		self::$instances[$key] = $instance;
+		return self::$instances[$key];
 	}
 	public static function retrieve($key) {
+		if (!isset(self::$instances[$key])) {
+			throw new Exception($key.' hasn\'t been set yet with ::keep()', 1);
+			
+		}
 		return self::$instances[$key];
 	}
 	public function discard($key) {
@@ -35,26 +40,10 @@ class Anno_Keeper {
 	}
 }
 
-class Anno_Template {
-	/**
-	 * An out for transient caches used in this class so you can turn them off for testing.
-	 */
-	protected $enable_caches = true;
-	
-	/**
-	 * Attach WordPress hooks. This should be a single point of attachment for all hooks in this
-	 * class. It should be called once per instance.
-	 */
-	public function attach_hooks() {
-		add_action('save_post', array($this, 'invalidate_citation_cache'), 10, 2);
-		add_action('deleted_post', array($this, 'invalidate_citation_cache'));
-		add_action('wp', array($this, 'add_assets'));
-	}
-	
-	public function add_assets() {
-		wp_enqueue_script('twitter', 'http://platform.twitter.com/widgets.js', array(), null, true);
-	}
-	
+/**
+ * Little utility functions.
+ */
+class Anno_Utils {
 	public function post_id_for_sure($post_id) {
 		if (!$post_id) {
 			$post_id = get_the_ID();
@@ -62,6 +51,10 @@ class Anno_Template {
 		return $post_id;
 	}
 	
+	public function strip_newlines($text) {
+		return preg_replace("/[\n\r]/", '', $text);
+	}
+
 	/**
 	 * Truncate to a certain number of words
 	 */
@@ -77,17 +70,7 @@ class Anno_Template {
 
 		return $text;
 	}
-	
-	/**
-	 * A getter for the_excerpt(). The excerpt doesn't have a getter that
-	 * is run through all the relevant filters. We'll do that here.
-	 */
-	public function get_excerpt() {
-		ob_start();
-		the_excerpt();
-		return ob_get_clean();
-	}
-	
+
 	/**
 	 * Turn an array or two into HTML attribute string
 	 */
@@ -98,6 +81,62 @@ class Anno_Template {
 			$attrs[] = esc_attr($key).'="'.esc_attr($value).'"';
 		}
 		return implode(' ', $attrs);
+	}
+	
+	public function to_tag($tag, $text, $attr1 = array(), $attr2 = array()) {
+		$tag = esc_attr($tag);
+		return '<'.$tag.' '.$this->to_attr($attr1, $attr2).'>'.$text.'</'.$tag.'>';
+	}
+	
+	/**
+	 * Get content string from a specified meta key and run it through wptexturize().
+	 */
+	public function texturized_meta($post_id = null, $key) {
+		$post_id = $this->post_id_for_sure($post_id);
+		$text = trim(get_post_meta($post_id, $key, true));
+		return wptexturize($text);
+	}
+}
+
+class Anno_Template {
+	/**
+	 * An out for transient caches used in this class so you can turn them off for testing.
+	 */
+	protected $enable_caches = true;
+	protected $utils; // An instance of the Anno_Utils class -- or whatever comes back from Anno_Keeper
+	
+	public function __construct() {
+		try {
+			$utils = Anno_Keeper::retrieve('utils');
+		}
+		catch (Exception $e) {
+			$utils = Anno_Keeper::keep('utils', new Anno_Utils());
+		}
+		$this->utils = $utils;
+	}
+	
+	/**
+	 * Attach WordPress hooks. This should be a single point of attachment for all hooks in this
+	 * class. It should be called once per instance.
+	 */
+	public function attach_hooks() {
+		add_action('save_post', array($this, 'invalidate_citation_cache'), 10, 2);
+		add_action('deleted_post', array($this, 'invalidate_citation_cache'));
+		add_action('wp', array($this, 'add_assets'));
+	}
+	
+	public function add_assets() {
+		wp_enqueue_script('twitter', 'http://platform.twitter.com/widgets.js', array(), null, true);
+	}
+	
+	/**
+	 * A getter for the_excerpt(). The excerpt doesn't have a getter that
+	 * is run through all the relevant filters. We'll do that here.
+	 */
+	public function get_excerpt() {
+		ob_start();
+		the_excerpt();
+		return ob_get_clean();
 	}
 
 	/**
@@ -132,7 +171,7 @@ class Anno_Template {
 	 * Get the subtitle data stored as post meta
 	 */
 	public function get_subtitle($post_id = false) {
-		$post_id = $this->post_id_for_sure($post_id);
+		$post_id = $this->utils->post_id_for_sure($post_id);
 		return get_post_meta($post_id, '_anno_subtitle', true);
 	}
 	
@@ -142,7 +181,7 @@ class Anno_Template {
 	 */
 	public function get_contributors_list($post_id = null) {
 		$out = '';
-		$post_id = $this->post_id_for_sure($post_id);
+		$post_id = $this->utils->post_id_for_sure($post_id);
 		$authors = $this->get_contributor_ids($post_id);
 		
 		foreach ($authors as $id) {
@@ -202,7 +241,7 @@ class Anno_Template {
 	 * @param int $post_id (optional) id of post to cite.
 	 */
 	public function get_citation($post_id = null) {
-		$post_id = $this->post_id_for_sure($post_id);
+		$post_id = $this->utils->post_id_for_sure($post_id);
 		$cache_key = 'anno_citation_html_'.$post_id;
 		
 		/* Do we already have this cached? Let's return that. */
@@ -267,26 +306,17 @@ class Anno_Template {
 		delete_transient('anno_citation_html_'.$post_id);
 	}
 	
-	/**
-	 * Get content string from a specified meta key and run it through wptexturize().
-	 */
-	public function texturized_meta($post_id = null, $key) {
-		$post_id = $this->post_id_for_sure($post_id);
-		$text = trim(get_post_meta($post_id, $key, true));
-		return wptexturize($text);
-	}
-	
 	public function get_funding_statement($post_id = null) {
-		return $this->texturized_meta($post_id, '_anno_funding');
+		return $this->utils->texturized_meta($post_id, '_anno_funding');
 	}
 	
 	public function get_acknowledgements($post_id = null) {
-		return $this->texturized_meta($post_id, '_anno_acknowledgements');
+		return $this->utils->texturized_meta($post_id, '_anno_acknowledgements');
 	}
 	
 	public function get_appendices($post_id = null) {
 		$out = '';
-		$post_id = $this->post_id_for_sure($post_id);
+		$post_id = $this->utils->post_id_for_sure($post_id);
 		$appendices = get_post_meta($post_id, '_anno_appendicies', true);
 		if (is_array($appendices) && count($appendices)) {
 			$title_text = _x('Appendix %s', 'Appendix title displayed in post, auto-incremented for each appendix.', 'anno');
@@ -307,18 +337,16 @@ class Anno_Template {
 	
 	public function get_twitter_button($text = null, $attr = array()) {
 		if (!$text) {
-			$text = __('Tweet', 'Text for Twitter button', 'anno');
+			$text = _x('Tweet', 'Text for Twitter button', 'anno');
 		}
-		$title = $this->truncate_words(get_the_title(), 5);
+		$title = $this->utils->truncate_words(get_the_title(), 5);
 		$url = urlencode(get_permalink());
 		$default_attr = array(
 			'href' => 'http://twitter.com/share?url='.$url.'&amp;text='.$title,
 			'class' => 'twitter-share-button',
 			'data-count' => 'none'
 		);
-		$attrs = $this->to_attr($default_attr, $attr);
-
-		return '<a '.$attrs.'>'.$text.'</a>';
+		return $this->utils->to_tag('a', $text, $default_attr, $attr);
 	}
 	
 	public function get_facebook_button($attr = array()) {
@@ -331,8 +359,27 @@ class Anno_Template {
 			'allowTransparency' => true,
 			'style' => 'width:90px;height:21px'
 		);
-		$attrs = $this->to_attr($attr, $default_attr);
-		return '<iframe '.$attrs.'></iframe>';
+		return $this->utils->to_tag('iframe', '', $default_attr, $attr);
+	}
+	
+	public function get_email_link($text = null, $attr = array()) {
+		if (!$text) {
+			$text = _x('Email', 'Text for "email this" link', 'anno');
+		}
+		
+		$title = esc_attr($this->utils->truncate_words(get_the_title(), 5));
+		$url = urlencode(get_permalink());
+		
+		$excerpt = strip_tags($this->get_excerpt());
+		$excerpt = $this->utils->strip_newlines($excerpt);
+		$excerpt = $this->utils->truncate_words($excerpt, 10);
+		$excerpt = esc_attr($excerpt);
+		
+		$default_attr = array(
+			'href' => 'mailto:?subject='.$title.'&amp;body='.$excerpt.'%0A%0A '.$url,
+			'class' => 'email'
+		);
+		return $this->utils->to_tag('a', $text, $default_attr, $attr);
 	}
 }
 
@@ -421,5 +468,9 @@ function anno_twitter_button($text = null, $attr = array()) {
 function anno_facebook_button($attr = array()) {
 	$template = Anno_Keeper::retrieve('template');
 	echo $template->get_facebook_button($attr);
+}
+function anno_email_link($text = null, $attr = array()) {
+	$template = Anno_Keeper::retrieve('template');
+	echo $template->get_email_link($attr);
 }
 ?>
