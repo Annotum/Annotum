@@ -203,7 +203,7 @@ function annowf_transistion_state($post_id, $post, $post_before) {
 			annowf_save_audit_item($post->ID, $current_user->ID, 2, array($old_state, $new_state));
 			
 			// Send notifications
-			if (anno_workflow_enabled('notification')) {
+			if (anno_workflow_enabled('workflow_notifications')) {
 				annowf_send_notification($notification_type, $post);
 			}
 		}
@@ -338,7 +338,7 @@ function annowf_add_reviewer() {
 		$post_state = annowf_get_post_state($post_id);
 	
 		//Send email
-		if (anno_workflow_enabled('notification')) {
+		if (anno_workflow_enabled('workflow_notifications')) {
 			$post = get_post($post_id);
 			annowf_send_notification('reviewer_added', $post, '', array($response['user']->user_email));
 		}
@@ -386,7 +386,7 @@ function annowf_add_co_author() {
 		add_post_meta(intval($_POST['post_id']), '_article_co_author', $response['user']->ID, false);
 		
 		// Send email
-		if (anno_workflow_enabled('notification')) {
+		if (anno_workflow_enabled('workflow_notifications')) {
 			$post = get_post(intval($_POST['post_id']));
 			annowf_send_notification('co_author_added', $post, '', array($response['user']->user_email));
 		}

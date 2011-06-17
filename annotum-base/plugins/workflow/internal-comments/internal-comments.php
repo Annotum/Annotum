@@ -331,7 +331,7 @@ function anno_internal_comments_ajax() {
 
 
 	// Send email notifications of new commment
-	if (anno_workflow_enabled('notification')) {
+	if (anno_workflow_enabled('workflow_notifications')) {
 		$post = get_post($comment_post_ID);
 		annowf_send_notification(trim($_POST['type']).'_comment', $post, $comment);
 	}
@@ -342,7 +342,7 @@ function anno_internal_comments_ajax() {
 	
 
 	// Send email notification for a reply to a comment
-	if (anno_workflow_enabled('notification') && !empty($comment_parent)) {
+	if (anno_workflow_enabled('workflow_notifications') && !empty($comment_parent)) {
 		$parent_comment = get_comment($comment_parent);
 		$recipients = array(annowf_user_email($parent_comment->user_id));
 		annowf_send_notification(trim($_POST['type']).'_comment_reply', $post, $comment, $recipients);

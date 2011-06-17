@@ -10,7 +10,7 @@
  */
 function annowf_send_notification($type, $post = null, $comment = null, $recipients = null) {
 	// Ensure that workflow notifications are enabled. This is also enforced prior to calls to annowf_send_notification
-	if (!anno_workflow_enabled('notification')) {
+	if (!anno_workflow_enabled('workflow_notifications')) {
 		return false;
 	}
 	
