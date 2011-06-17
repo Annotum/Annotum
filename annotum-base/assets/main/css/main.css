@@ -125,6 +125,7 @@ form.search .type-submit{background:url(../img/sprite-y.8bit.png) 0 -100px no-re
 .teaser .title{color:#fff;text-shadow:rgba(51, 51, 51, 0.6) 0 1px 0;font:italic bold 15px/1.47 Georgia,Serif;}
 .tools-bar{margin-bottom:25px;padding:17px 12px;}
 .tools-bar .cell{float:left;}
+.tools-bar{line-height:20px;}
 .tools-bar .print{margin-right:50px;}
 .tools-bar .print a{background:url(../img/sprite-y.24bit.png) 0 -200px no-repeat;padding-left:19px;}
 .tools-bar .download label{background:url(../img/sprite-y.24bit.png) 0 -300px no-repeat;padding-left:17px;}
