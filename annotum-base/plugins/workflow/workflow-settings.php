@@ -231,6 +231,16 @@ function anno_settings_css() {
 add_action('admin_print_scripts-appearance_page_anno-workflow-settings', 'anno_settings_css');
 
 
+function anno_revisions_css() {
+?>
+<style type="text/css">
+h4 {
+	margin: 0;
+}
+</style>
+<?php
+}
+add_action('admin_print_scripts-revision.php', 'anno_revisions_css');
 ?>
 
 
