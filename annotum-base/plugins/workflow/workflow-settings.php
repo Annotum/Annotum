@@ -7,7 +7,6 @@ function anno_register_settings() {
 			'callback' => '',
 			'label' =>  _x('Workflow Options', 'options heading', 'anno'),
 			'description_callback' => 'anno_section_blank',
-			'sanitization_callback' => '',
 			'options' => array(
 				'workflow' => array(
 					'label' => _x('Enable Workflow', 'options label', 'anno'),
@@ -19,14 +18,14 @@ function anno_register_settings() {
 				'author_reviewer' => array(
 					'label' => _x('Allow article authors to see reviewers', 'options label', 'anno'),
 					'label_for' => 'author-reviewer',
-					'name' => 'author_reviewer',
+					'name' => 'workflow_author_reviewer',
 					'default' => '1',
 					'type' => 'checkbox',
 				),
 				'notification' => array(
 					'label' => _x('Enable workflow notifications', 'options label', 'anno'),
 					'label_for' => 'notification',
-					'name' => 'notification',
+					'name' => 'workflow_notifications',
 					'default' => '1',
 					'type' => 'checkbox',
 				),
@@ -37,22 +36,22 @@ function anno_register_settings() {
 			'callback' => '',
 			'label' =>  _x('Google Analytics', 'options heading', 'anno'),
 			'description_callback' => 'anno_section_blank',
-			'sanitization_callback' => '',
 			'options' => array(
 				'anno_ga_id' => array(
 					'label' => _x('Google Analytics ID', 'options label', 'anno'),
 					'label_for' => 'anno-ga-id',
-					'name' => 'anno_ga_id',
+					'name' => 'ga_id',
 					'default' => '',
 					'type' => 'text',
+					'help' => _x('ex: UA-123456-12', 'help text for option input', 'anno'),
 				),
 			),
 		),
 	);
 		
+	register_setting('workflow', 'anontum_settings', 'anno_sanitize_options');
+	$settings = get_option('anontum_settings');
 	foreach ($options as $section => $fields) {
-		register_setting('workflow', $section, $fields['sanitization_callback']);
-		$settings = get_option($section);
 		add_settings_section($section,  $fields['label'], $fields['description_callback'], $page);
 		foreach ($fields['options'] as $option) {
 			$option['settings'] = $settings;
@@ -78,20 +77,21 @@ function anno_option_display($args) {
 	if (is_array($settings)) {
 		$setting = $settings[$name];
 	}
-	else {
-		$setting = $settings;
-	}
+
 	$html = '';
 	switch ($type) {
 		case 'checkbox':
-			$html = '<input id="'.$label_for.'" name="'.esc_attr($section.'['.$name.']').'" type="checkbox" value="'.$default.'"'.checked($default, $setting, false).' />';
+			$html = '<input id="'.$label_for.'" name="'.esc_attr('anontum_settings['.$name.']').'" type="checkbox" value="'.$default.'"'.checked($default, $setting, false).' />';
 			break;
 		case 'text':
-			$html = '<input id="'.$label_for.'" name="'.esc_attr($section.'['.$name.']').'" type="text" value="'.$setting.'" />';
+			$html = '<input id="'.$label_for.'" name="'.esc_attr('anontum_settings['.$name.']').'" type="text" value="'.$setting.'" />';
 			break;
 		default:
 			# code...
 			break;
+	}
+	if (!empty($help)) {
+		$html .= '<span class="anno-help">'.esc_html($help).'</span>';
 	}
 	echo $html;
 }
@@ -142,6 +142,22 @@ function anno_settings_page() {
 }
 
 /**
+ * 
+ * @param string $key option name to get
+ * @param mixed $default What to return if the given option is not set
+ * @return mixed
+ */ 
+function anno_get_option($key, $default = false) {
+	$option = get_option('anontum_settings');
+	if (is_null($option[$key])) {
+		return $default;
+	}
+	else {
+		return $option[$key];
+	}
+}
+
+/**
  * Helper function to determine if the workflow is enabled
  * 
  * @param string $option Name of the workflow option to check. Defaults to workflow (entire workflow enabled/disabled)
@@ -152,29 +168,69 @@ function anno_workflow_enabled($option = null) {
 		$option = 'workflow';
 	}
 
-	$settings = get_option('annowf_settings');
+	$settings = anno_get_option($option);
 	return $settings[$option];
 }
 
 /**
  * Sanitize google analytics
  */ 
-function anno_sanitize_option_ga_id($value, $option) {
-		$value = $value['anno_ga_id'];
-		if ($value == '' || (bool)preg_match('/\d{5,}-\d{1,}/', $value)) {
-			$value = addslashes($value);
-			$value = wp_filter_post_kses($value); // calls stripslashes then addslashes
-			$value = stripslashes($value);
-			$value = esc_html($value);
+//TODO default
+function anno_sanitize_options($value, $option) {
+	
+	$original_options = get_option($option);
+	
+	foreach ($value as $option_name => $option_value) {
+		switch ($option_name) {
+			case 'ga_id':
+				if ($option_value == '' || (bool)preg_match('/[a-zA-Z]{2,}-[a-zA-Z0-9]{2,}-[a-zA-Z0-9]{2,}/', $option_value)) {
+					$value[$option_name] = anno_sanitize_string($option_value);
+				}
+				else {
+					$value[$option_name] = $original_option[$option_name];
+					if (function_exists('add_settings_error')) {
+						add_settings_error('anontum_settings', 'invalid_ga_id', _x('Invalid Google Analytics ID', '', 'anno'));
+					}
+				}
+				break;
+			default:
+				break;
 		}
-		else {
-			$value = get_option($option);
-			if (function_exists('add_settings_error')) {
-				add_settings_error('anno_ga_id', 'invalid_ga_id', _x('Invalid Google Analytics ID', '', 'anno'));
-			}
-		}
+	}
 
 	return $value;
 }
-add_filter('sanitize_option_anno_ga_id', 'anno_sanitize_option_ga_id', 10, 2);
+add_filter('sanitize_option_anno_ga_id', 'anno_sanitize_option_ga_id');
+
+/**
+ * Sanitizes a string for insertion into DB
+ * @param string $option The string to be sanitized
+ */ 
+function anno_sanitize_string($option) {
+	$option = addslashes($option);
+	$option = wp_filter_post_kses($option); // calls stripslashes then addslashes
+	$option = stripslashes($option);
+	$option = esc_html($option);
+	
+	return $option;
+}
+
+/**
+ * Style settings input
+ */ 
+function anno_settings_css() {
 ?>
+<style type="text/css">
+.anno-help {
+	margin-left: 10px;
+	color: #AAAAAA;
+}
+</style>
+<?php
+}
+add_action('admin_print_scripts-appearance_page_anno-workflow-settings', 'anno_settings_css');
+
+
+?>
+
+

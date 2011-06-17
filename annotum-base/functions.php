@@ -358,7 +358,7 @@ add_filter('comment_feed_where', 'anno_internal_comments_query');
  * 
  */
 function anno_ga_js() {
-	$ga_id = get_option('anno_ga_id');
+	$ga_id = anno_get_option('anno_ga_id');
 	if (!empty($ga_id)) {
 	
 ?>
