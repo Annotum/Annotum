@@ -26,7 +26,6 @@
 	float: right;
 }
 
-
 /* Tools Nav */
 .tools-nav {
 	font-size: 12px;
@@ -101,3 +100,29 @@
 	background-position: -196px -495px;
 }
 
+/**
+ * Prevent Javascript FOUC on Twitter button
+ */
+a.twitter-share-button {
+	display: -moz-inline-box; /* FF2 */
+	display: inline-block; /* Standard. IE8+, Saf, FF3+ */
+	visibility: hidden;
+	height: 20px;
+	width: 55px;
+}
+
+/**
+ * Use in conjunction with .imr
+ */
+a.email {
+	background: url(../img/sprite-y.8bit.png) no-repeat 0 -700px;
+	height: 20px;
+	width: 60px;
+}
+a.email:hover,
+a.email:focus {
+	background-position: 0 -800px;
+}
+a.email:active {
+	background-position: 0 -900px;
+}

@@ -43,7 +43,7 @@ class Anno_Keeper {
 /**
  * Little utility functions.
  */
-class Anno_Utils {
+class Anno_Template_Utils {
 	public function post_id_for_sure($post_id) {
 		if (!$post_id) {
 			$post_id = get_the_ID();
@@ -110,7 +110,7 @@ class Anno_Template {
 			$utils = Anno_Keeper::retrieve('utils');
 		}
 		catch (Exception $e) {
-			$utils = Anno_Keeper::keep('utils', new Anno_Utils());
+			$utils = Anno_Keeper::keep('utils', new Anno_Template_Utils());
 		}
 		$this->utils = $utils;
 	}
@@ -377,7 +377,7 @@ class Anno_Template {
 		
 		$default_attr = array(
 			'href' => 'mailto:?subject='.$title.'&amp;body='.$excerpt.'%0A%0A '.$url,
-			'class' => 'email'
+			'class' => 'email imr'
 		);
 		return $this->utils->to_tag('a', $text, $default_attr, $attr);
 	}

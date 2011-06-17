@@ -147,6 +147,10 @@ form.search .type-submit{background:url(../img/sprite-y.8bit.png) 0 -100px no-re
 .tools-nav .nav li.active a.content{background-position:-196px -394px;}
 .tools-nav .nav li.active a.download{background-position:-196px -296px;}
 .tools-nav .nav li.active a.comments{background-position:-196px -495px;}
+a.twitter-share-button{display:-moz-inline-box;display:inline-block;visibility:hidden;height:20px;width:55px;}
+a.email{background:url(../img/sprite-y.8bit.png) no-repeat 0 -700px;height:20px;width:60px;}
+a.email:hover,a.email:focus{background-position:0 -800px;}
+a.email:active{background-position:0 -900px;}
 .social-nav .nav{display:inline;}
 .social-nav li{margin-left:6px;}
 #replies{margin-bottom:22px;overflow:hidden;width:100%;}
