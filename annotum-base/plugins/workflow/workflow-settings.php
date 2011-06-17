@@ -183,7 +183,7 @@ function anno_sanitize_options($value, $option) {
 	foreach ($value as $option_name => $option_value) {
 		switch ($option_name) {
 			case 'ga_id':
-				if ($option_value == '' || (bool)preg_match('/[a-zA-Z]{2,}-[a-zA-Z0-9]{2,}-[a-zA-Z0-9]{2,}/', $option_value)) {
+				if ($option_value == '' || (bool)preg_match('/[a-zA-Z]{2,}-[a-zA-Z0-9]{2,}-[a-zA-Z0-9]{1,}/', $option_value)) {
 					$value[$option_name] = anno_sanitize_string($option_value);
 				}
 				else {
