@@ -14,11 +14,13 @@ $opts = get_option('anno_callouts');
 $callouts = array();
 // We only want options that have things in them...
 $callouts = array();
-foreach ($opts as $arr) {
-	foreach ($arr as $value) {
-		if (!$value) { continue; }
-		$callouts[] = $arr;
-		break;
+if (!empty($opts) && is_array($opts)) {
+	foreach ($opts as $arr) {
+		foreach ($arr as $value) {
+			if (!$value) { continue; }
+			$callouts[] = $arr;
+			break;
+		}
 	}
 }
 $num = count($callouts);

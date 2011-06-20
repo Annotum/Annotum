@@ -240,25 +240,79 @@ add_action('init', 'anno_article_admin_print_scripts', 99);
  */
 function anno_admin_print_footer_scripts() {
 	global $post;
-	$appendicies = get_post_meta($post->ID, '_anno_appendicies', true);
-	if (empty($appendicies) || !is_array($appendicies)) {
-		$appendicies = array(0 => '0');
-	}
-	wp_tiny_mce(false);
-
+	if ($post->post_type == 'article') {
+		$appendicies = get_post_meta($post->ID, '_anno_appendicies', true);
+		if (empty($appendicies) || !is_array($appendicies)) {
+			$appendicies = array(0 => '0');
+		}
+		wp_tiny_mce(false, array(
+			'content_css' => trailingslashit(get_bloginfo('template_directory')).'/css/tinymce.css',
+			'wp_fullscreen_content_css' => trailingslashit(get_bloginfo('template_directory')).'/css/tinymce.css',
+		));
 ?>
 <script type="text/javascript">
 	tinyMCE.execCommand('mceAddControl', false, 'anno-body');
 <?php
-	foreach ($appendicies as $key => $value) {
+		foreach ($appendicies as $key => $value) {
 ?>
 	tinyMCE.execCommand('mceAddControl', false, 'appendix-<?php echo $key; ?>');
 <?php
-	}
+		}
 ?>
 </script>
 <?php
+	}
 }
 add_action('admin_print_footer_scripts', 'anno_admin_print_footer_scripts', 99);
+
+
+function tinyplugin_add_button($buttons)
+{
+    array_push($buttons, "separator", "tinyplugin");
+    return $buttons;
+}
+ 
+function tinyplugin_register($plugin_array)
+{
+    $url = trailingslashit(get_bloginfo('template_directory')).'/js/tinymce.js';
+
+
+ 
+    $plugin_array["tinyplugin"] = $url;
+    return $plugin_array;
+}
+add_filter('mce_external_plugins', "tinyplugin_register");
+add_filter('mce_buttons', 'tinyplugin_add_button', 0);
+
+
+class ILC_Syntax_Buttons {
+   function ILC_Syntax_Buttons(){
+    if(is_admin()){
+        if ( current_user_can('edit_posts') && current_user_can('edit_pages') && get_user_option('rich_editing') == 'true')
+        {
+           add_filter('tiny_mce_version', array(&$this, 'tiny_mce_version') );
+           add_filter("mce_external_plugins", array(&$this, "mce_external_plugins"));
+           add_filter('mce_buttons_2', array(&$this, 'mce_buttons'));
+        }
+    }
+   }
+   function mce_buttons($buttons) {
+    array_push($buttons, "separator", "ilcPHP", "ilcCSS", "ilcHTML", "ilcJS" );
+    return $buttons;
+   }
+   function mce_external_plugins($plugin_array) {
+    $plugin_array['ilcsyntax']  =  trailingslashit(get_bloginfo('template_directory')).'/js/tinymce.js';
+    return $plugin_array;
+   }
+   function tiny_mce_version($version) {
+    return ++$version;
+   }
+}
+ 
+add_action('init', 'ILC_Syntax_Buttons');
+function ILC_Syntax_Buttons(){
+   global $ILC_Syntax_Buttons;
+   $ILC_Syntax_Buttons = new ILC_Syntax_Buttons();
+}
 
 ?>
