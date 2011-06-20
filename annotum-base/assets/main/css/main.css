@@ -192,6 +192,9 @@ textarea#comment{display:block;height:80px;width:433px;}
 #wp-calendar th{text-align:left;}
 #wp-calendar tfoot td{padding-top:10px;}
 #main-sidebar .widget_solvitor_ad{background:none;padding:0;}
+#main-sidebar .widget_search #s{width:115px;}
+html.ie8 #main-sidebar .widget_search #s{width:100px;}
+#main-sidebar .widget_nav_menu .nav li{display:block;float:none;}
 .widget li{font-size:13px;line-height:1.38;padding:3px 0;}
 .widget ol li.recentcomments:hover,.widget ul li.recentcomments:hover{background-color:none;}
 .widget li.recentcomments a:hover{text-decoration:underline;}
@@ -234,6 +237,7 @@ html.ie7 .authors .extra{top:15px;}
 .widget-recent-posts .panel ol{background:url(../img/widget-hr.png) center bottom no-repeat;padding-bottom:16px;}
 .js .widget-recent-posts .panel{display:none;}
 .js .widget-recent-posts .first-child,.js .widget-recent-posts .ui-tabs-panel{display:block;}
+.widget-recent-posts .recently-container{border-bottom:#c2c2c2 solid 1px;padding:0 0 20px;}
 .ui-tabs-hide{display:none !important;}
 .sec{margin-bottom:25px;padding-left:15px;padding-right:15px;}
 .sec h1,.sec .title,.section-title{background:url(../img/border-background.png) 0 bottom repeat-x;color:#000;font:italic bold 16px/1.2 Georgia,Serif;margin-bottom:15px;}
