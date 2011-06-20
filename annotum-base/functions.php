@@ -171,6 +171,7 @@ add_action('wp_head', 'anno_head_extra');
 function anno_widgets_init() {
 	include_once(CFCT_PATH . 'functions/Anno_Widget_Recently.php');
 	register_widget('Anno_Widget_Recently');
+	register_widget('WP_Widget_Solvitor_Ad');
 }
 add_action('widgets_init', 'anno_widgets_init');
 

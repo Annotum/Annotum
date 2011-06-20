@@ -16,7 +16,7 @@ class WP_Widget_Solvitor_Ad extends WP_Widget_Text {
 		extract($args);
 		$text = apply_filters( 'widget_solvitor_ad', $instance['text'], $instance );
 		echo $before_widget; ?>
-		<div class="textwidget solvitor_ad"><?php echo $instance['filter'] ? wpautop($text) : $text; ?></div>
+		<div class="textwidget"><?php echo $instance['filter'] ? wpautop($text) : $text; ?></div>
 		<?php
 		echo $after_widget;
 	}
