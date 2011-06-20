@@ -70,6 +70,9 @@ Anno.contexts = (function () {
 				function(){$(this).addClass('hover');},
 				function(){$(this).removeClass('hover');}
 			);
+			$('.tools-bar .citation a').click(function(){
+				$('.tools-bar .citation-container').toggle();
+			});
 		},
 
 		home: function () {

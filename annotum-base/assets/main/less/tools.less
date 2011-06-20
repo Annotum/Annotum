@@ -8,21 +8,43 @@
 .tools-bar {
 	line-height: 20px;
 }
-.tools-bar .print {
-	margin-right: 50px;
+.tools-bar .print,
+.tools-bar .citation {
+	margin-right: 15px;
 }
-.tools-bar .print a {
+.tools-bar .citation {
+	position: relative;
+}
+.tools-bar .citation-container {
+	background: #f6f6f6;
+	border: #dadada solid 1px;
+	display: none;
+	left: -10px;
+	padding: 10px;
+	position: absolute;
+	top: 38px;
+	width: 471px;
+}
+.tools-bar .citation textarea.entry-summary {
+	width: 451px;
+}
+.tools-bar .print a,
+.tools-bar .citation a {
 	background: url(../img/sprite-y.24bit.png) 0 -200px no-repeat;
 	padding-left: 19px;
+}
+.tools-bar .citation a {
+	cursor: pointer;
 }
 .tools-bar .download label {
 	background: url(../img/sprite-y.24bit.png) 0 -300px no-repeat;
 	padding-left: 17px;
 }
-
 .tools-bar .share {
 	float: right;
 }
+
+
 
 /* Tools Nav */
 .tools-nav {

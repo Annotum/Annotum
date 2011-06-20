@@ -2,6 +2,12 @@
 	<div class="cell print">
 		<a href="#" onclick="window.print(); return false;"><?php _e('Print Article', 'anno'); ?></a>
 	</div>
+	<div class="cell citation">
+		<a><?php _e('Citation', 'anno'); ?></a>
+		<div class="citation-container">
+			<textarea class="entry-summary" readonly><?php anno_the_citation(); ?></textarea>
+		</div><!--/.citation-container -->
+	</div>
 	<div class="cell download">
 		<label>Download:</label> <a href="#">PDF</a>, <a href="#">XML</a>
 	</div>
