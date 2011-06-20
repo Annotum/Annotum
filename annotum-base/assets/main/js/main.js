@@ -12,25 +12,6 @@
 /* Main Annotum JS sandbox */
 (function ($) {
 
-/* Duck-punched fix for jQuery Cycle Lite's fade effect. We need it to really hide elements,
-not just set opacity: 0; */
-$.fn.cycle.transitions.fade = function($cont, $slides, opts){
-	opts.cssBefore = {
-		opacity: 0,
-		display: 'block'
-	};
-	opts.cssAfter = {
-		opacity: 1,
-		display: 'none'
-	};
-	opts.animOut = {
-		opacity: 0
-	};
-	opts.animIn = {
-		opacity: 1
-	};
-};
-
 /**
  * Annotum module
  * @author Crowd Favorite
@@ -99,7 +80,9 @@ Anno.contexts = (function () {
 				$numbers = $('<div class="numbers"></div>'),
 				$prev = $('<a class="previous imr">'+util._ents(lang.previous)+'</a>'),
 				$next = $('<a class="next imr">'+util._ents(lang.next)+'</a>'),
-				numbering;
+				numbering,
+				trans,
+				oldfade;
 
 			$controls
 				.append($next)
@@ -114,6 +97,27 @@ Anno.contexts = (function () {
 					xofy = util._l(lang.xofy, [i + 1, $items.length]);
 				$numbers.html(xofy);
 			};
+			
+			/* Duck-punched fix for jQuery Cycle Lite's fade effect. We need it to really hide elements,
+			not just set opacity: 0; */
+			trans = $.fn.cycle.transitions;
+			oldfade = trans.fade;
+			trans.fade = function($cont, $slides, opts){
+				opts.cssBefore = {
+					opacity: 0,
+					display: 'block'
+				};
+				opts.cssAfter = {
+					opacity: 1,
+					display: 'none'
+				};
+				opts.animOut = {
+					opacity: 0
+				};
+				opts.animIn = {
+					opacity: 1
+				};
+			};
 
 			$cycler.find('ul').cycle({
 				timeout: 0,
@@ -122,6 +126,8 @@ Anno.contexts = (function () {
 				fit: true,
 				before: numbering
 			});
+			
+			trans.fade = oldfade;
 		}
 	};
 })();
