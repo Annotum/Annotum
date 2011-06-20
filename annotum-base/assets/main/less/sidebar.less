@@ -1,33 +1,35 @@
 #main-sidebar .widget {
 	background: #f0f0f0;
 	margin-bottom: 1px;
-	padding-bottom: 20px;
-}
-#main-sidebar .widget_text {
-	background: none;
-	padding: 0;
+	padding: 20px;
 }
 #main-sidebar .widget .title {
+	border-top: #c2c2c2 solid 1px;
 	color: #000;
 	font: italic bold 14px Georgia, Serif;
 	margin-bottom: 10px;
-	padding: 20px 0 0 20px;
+	padding-top: 20px;
 }
+
+/* widget style edge cases */
+/* calendar */
+#wp-calendar {
+	width: 100%;
+}
+#wp-calendar caption {
+	margin-bottom: 10px;
+	text-align: left;
+}
+#wp-calendar th {
+	text-align: left;
+}
+#wp-calendar tfoot td {
+	padding-top: 10px;
+} 
 .widget li {
 	font-size: 13px;
 	line-height: 1.38;
-	padding: 3px 20px;
-}
-.widget li a {
-	display: block;
-}
-.widget li a:hover {
-	text-decoration: none;
-}
-.widget ol li:hover,
-.widget ul li:hover {
-	background-color: #dadada;
-	text-decoration: none;
+	padding: 3px 0;
 }
 .widget ol li.recentcomments:hover,
 .widget ul li.recentcomments:hover {

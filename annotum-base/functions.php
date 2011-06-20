@@ -22,6 +22,7 @@ include_once(CFCT_PATH.'functions/taxonomies.php');
 include_once(CFCT_PATH.'functions/capabilities.php');
 include_once(CFCT_PATH.'functions/featured-articles.php');
 include_once(CFCT_PATH.'functions/template.php');
+include_once(CFCT_PATH.'functions/widgets.php');
 include_once(CFCT_PATH.'plugins/load.php');
 
 function anno_setup() {
