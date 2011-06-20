@@ -100,7 +100,8 @@ class Anno_Template_Utils {
 
 class Anno_Template {
 	/**
-	 * An out for transient caches used in this class so you can turn them off for testing.
+	 * An opt-out for transient caches used in this class.
+	 * Useful for turning them off when testing.
 	 */
 	protected $enable_caches = true;
 	protected $utils; // An instance of the Anno_Utils class -- or whatever comes back from Anno_Keeper
@@ -113,6 +114,11 @@ class Anno_Template {
 			$utils = Anno_Keeper::keep('utils', new Anno_Template_Utils());
 		}
 		$this->utils = $utils;
+		
+		/* If we're in debug mode, turn of the transient caches. */
+		if (CFCT_DEBUG === true) {
+			$this->enable_caches = false;
+		}
 	}
 	
 	/**
