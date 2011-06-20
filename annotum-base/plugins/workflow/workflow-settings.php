@@ -246,5 +246,3 @@ h4 {
 }
 add_action('admin_print_scripts-revision.php', 'anno_revisions_css');
 ?>
-
-
