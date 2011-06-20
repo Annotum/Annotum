@@ -240,25 +240,30 @@ add_action('init', 'anno_article_admin_print_scripts', 99);
  */
 function anno_admin_print_footer_scripts() {
 	global $post;
-	$appendicies = get_post_meta($post->ID, '_anno_appendicies', true);
-	if (empty($appendicies) || !is_array($appendicies)) {
-		$appendicies = array(0 => '0');
-	}
-	wp_tiny_mce(false);
-
+	if ($post->post_type == 'article') {
+		$appendicies = get_post_meta($post->ID, '_anno_appendicies', true);
+		if (empty($appendicies) || !is_array($appendicies)) {
+			$appendicies = array(0 => '0');
+		}
+		wp_tiny_mce(false, array(
+			'content_css' => trailingslashit(get_bloginfo('template_directory')).'/css/tinymce.css',
+			'wp_fullscreen_content_css' => trailingslashit(get_bloginfo('template_directory')).'/css/tinymce.css',
+		));
 ?>
 <script type="text/javascript">
 	tinyMCE.execCommand('mceAddControl', false, 'anno-body');
 <?php
-	foreach ($appendicies as $key => $value) {
+		foreach ($appendicies as $key => $value) {
 ?>
 	tinyMCE.execCommand('mceAddControl', false, 'appendix-<?php echo $key; ?>');
 <?php
-	}
+		}
 ?>
 </script>
 <?php
+	}
 }
 add_action('admin_print_footer_scripts', 'anno_admin_print_footer_scripts', 99);
+
 
 ?>
