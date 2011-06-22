@@ -17,7 +17,7 @@ if (comments_open()) {
 		?>
 		<section id="replies">
 			<div class="section-header clearfix">
-				<h1 class="section-title"><?php comments_number('', __('1 Comment', 'anno'), __('% Comments', 'anno')); ?></h2>
+				<h1 class="section-title"><?php comments_number('', __('1 Comment', 'anno'), __('% Comments', 'anno')); ?></h1>
 				<?php post_comments_feed_link('Comments RSS'); ?>
 			</div>
 

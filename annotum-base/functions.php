@@ -22,6 +22,7 @@ include_once(CFCT_PATH.'functions/taxonomies.php');
 include_once(CFCT_PATH.'functions/capabilities.php');
 include_once(CFCT_PATH.'functions/featured-articles.php');
 include_once(CFCT_PATH.'functions/template.php');
+include_once(CFCT_PATH.'functions/widgets.php');
 include_once(CFCT_PATH.'plugins/load.php');
 
 function anno_setup() {
@@ -118,7 +119,6 @@ function anno_assets() {
 		
 		// Styles
 		wp_enqueue_style('anno', $main.'css/main.css', array(), $v, 'screen, print');
-		wp_enqueue_style('anno-print', $main.'css/print.css', array('anno'), $v, 'print');
 		
 		// Right-to-left languages
 		if (is_rtl()) {
@@ -128,10 +128,10 @@ function anno_assets() {
 		
 		// Scripts
 		wp_enqueue_script('modernizr', $main.'js/libs/modernizr-1.7.min.js', array(), $v);
-		wp_enqueue_script('jquery-cf-placeholder', $main.'js/libs/jquery.placeholder.min.js', array('jquery'), $v);
-		wp_enqueue_script('jquery-ui-tabs');
+		wp_register_script('jquery-cf-placeholder', $main.'js/libs/jquery.placeholder.min.js', array('jquery'), $v);
+		wp_register_script('jquery-cycle-lite', $main.'js/libs/jquery.cycle.lite.1.1.min.js', array('jquery'), $v);
 		
-		wp_enqueue_script('anno-main', $main.'js/main.js', array('jquery-cf-placeholder'), $v);
+		wp_enqueue_script('anno-main', $main.'js/main.js', array('jquery-cf-placeholder', 'jquery-cycle-lite', 'jquery-ui-tabs'), $v);
 		wp_localize_script('anno-main', 'ANNO_DICTIONARY', array(
 			'previous' => __('Previous', 'anno'),
 			'next' => __('Next', 'anno'),
@@ -140,11 +140,6 @@ function anno_assets() {
 
 		if ( is_singular() ) {
 			wp_enqueue_script( 'comment-reply' );
-		}
-		
-		/* Home page featured post cycler */
-		if (is_home()) {
-			wp_enqueue_script('jquery-cycle-lite', $main.'js/libs/jquery.cycle.lite.1.1.min.js', array('jquery'), $v);
 		}
 	}
 }
@@ -170,6 +165,7 @@ add_action('wp_head', 'anno_head_extra');
 function anno_widgets_init() {
 	include_once(CFCT_PATH . 'functions/Anno_Widget_Recently.php');
 	register_widget('Anno_Widget_Recently');
+	register_widget('WP_Widget_Solvitor_Ad');
 }
 add_action('widgets_init', 'anno_widgets_init');
 

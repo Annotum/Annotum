@@ -8,21 +8,45 @@
 .tools-bar {
 	line-height: 20px;
 }
-.tools-bar .print {
-	margin-right: 50px;
+.tools-bar .print,
+.tools-bar .citation {
+	margin-right: 36px;
+}
+.tools-bar .citation {
+	position: relative;
+}
+.tools-bar .citation-container {
+	background: #f6f6f6;
+	border: #dadada solid 1px;
+	display: none;
+	left: -10px;
+	padding: 10px;
+	position: absolute;
+	top: 38px;
+	width: 450px;
+	z-index: 1000;
+}
+.tools-bar .citation textarea.entry-summary {
+	width: 430px;
 }
 .tools-bar .print a {
 	background: url(../img/sprite-y.24bit.png) 0 -200px no-repeat;
 	padding-left: 19px;
 }
-.tools-bar .download label {
-	background: url(../img/sprite-y.24bit.png) 0 -300px no-repeat;
+.tools-bar .citation a {
+	background: url(../img/sprite-y.24bit.png) 0 -595px no-repeat;
+	cursor: pointer;
+	padding-left: 19px;
+}
+.tools-bar .download {
+	background: url(../img/sprite-y.24bit.png) 0 -297px no-repeat;
 	padding-left: 17px;
 }
-
 .tools-bar .share {
 	float: right;
 }
+
+
 
 /* Tools Nav */
 .tools-nav {

@@ -40,25 +40,30 @@ html.ie6 form.search .type-submit {
 .ie6 #site-nav .nav {
 	float: left;
 }
+
+#site-nav .nav ul {
+	left:  auto;
+	right: 0;
+}
 #site-nav li {
 	border-right: 0;
 	border-left-width: 1px;
-	float: right;
 }
 
 /* Secondary Nav */
-#secondary-nav .nav {
+#secondary-nav {
 	left: 0;
 	right: auto;
 }
 #secondary-nav .nav li {
 	background-position: right 10px;
-	float: right;
 	margin-left: 0;
 	margin-right: 8px;
 	padding-left: 0;
 	padding-right: 9px;
 }
+
+
 
 /* Content */
 
@@ -125,15 +130,16 @@ html.ie6 form.search .type-submit {
 	padding-left: 0;
 	padding-right: 20px;
 }
-
-.widget-recent-posts .nav {
-	padding-left: 0;
-	padding-right: 20px;
-}
+/* Recent Posts Widget */
 .widget-recent-posts .nav li {
 	float: right;
 	margin-left: 6px;
 	margin-right: 0;
+}
+/* Calendar Widget */
+#wp-calendar th,
+#wp-calendar caption {
+	text-align: right;
 }
 
 #response .input-row {
@@ -148,7 +154,7 @@ html.ie6 form.search .type-submit {
 	float: right;
 	text-align: right;
 }
-.tools-bar .download label {
+.tools-bar .download {
 	display: -moz-inline-box; /* FF2 */
 	display: inline-block; /* Standard. IE8+, Saf, FF3+ */
 	/**
@@ -158,12 +164,13 @@ html.ie6 form.search .type-submit {
 	 */
 	zoom: 1;
 	*display: inline;
-	background-position: right -298px;
+	background-position: right -297px;
 	padding-left: 0;
 	padding-right: 17px !important;
 }
-.tools-bar .print {
-	margin-left: 50px;
+.tools-bar .print,
+.tools-bar .citation {
+	margin-left: 36px;
 	margin-right: 0;
 }
 .tools-bar .print a {
@@ -180,11 +187,33 @@ html.ie6 form.search .type-submit {
 	padding-left: 0;
 	padding-right: 19px;
 }
+.tools-bar .citation a {
+	background-position: right -595px;
+	display: -moz-inline-box; /* FF2 */
+	display: inline-block; /* Standard. IE8+, Saf, FF3+ */
+	/**
+	 * @bugfix inline-block fix
+	 * @see http://blog.mozilla.com/webdev/2009/02/20/cross-browser-inline-block/
+	 * @valid no
+	 */
+	zoom: 1;
+	*display: inline;
+	padding-left: 0;
+	padding-right: 19px;
+}
+.tools-bar .citation .citation-container {
+	left: auto;
+	right: -10px;
+}
 .tools-bar .share {
 	float: left;
 }
 .tools-bar .share li {
 	float: right;
+}
+.social-nav li {
+	margin-left: 0;
+	margin-right: 6px;
 }
 
 .tools-nav .tools-menu-item .header {
@@ -265,21 +294,46 @@ html.ie6 form.search .type-submit {
 	float: left;
 }
 
-/* Widgets */
-#main-sidebar .widget .title {
-	padding-left: 0;
-	padding-right: 20px;
-}
-
 /* Footer */
 #footer label, #footer .nav {
 	float: right;
 }
 #footer .nav li {
 	background-position: right -493px;
-	float: right;
 	margin-left: 0;
 	margin-right: 6px;
 	padding-left: 0;
 	padding-right: 8px;
+}
+
+/* Float navigation elements right on RTL */
+
+.nav li {
+	display: inline;
+	float: right;
+}
+
+
+
+/* 	
+ *	IE7 Navigation Item Float-Switch Weirdness
+ *	
+ *	IE7 has very strange issues with floating nav items right while RTL is enabled.
+ *	
+ *	If this style is not here, the floats on the nav menus in RTL break the site
+ *	in a spectacular way.  navigation items misalign, or disappear completely.
+ *	The page gets crazy horizontal margins, resulting in horizontal scrollbars.
+ *	The header background breaks.
+ *	
+ *	disabling the float allows IE7 to treat the list items like inline elements,
+ *	thereby naturally reordering them RTL, and zoom:1 gives layout to the list
+ *	items, making them emulate inline-block elements, which keeps the margin
+ *	assignments valid.
+ *	
+ */
+
+html.ie7 .nav li {
+	zoom: 1;
+	
+	float: none;
 }

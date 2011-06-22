@@ -11,6 +11,9 @@
 if (__FILE__ == $_SERVER['SCRIPT_FILENAME']) { die(); }
 
 $opts = get_option('anno_callouts');
+if(!$opts) {
+	return;
+}
 $callouts = array();
 // We only want options that have things in them...
 $callouts = array();

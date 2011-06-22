@@ -54,53 +54,56 @@ class Anno_Widget_Recently extends WP_Widget {
 	}
 
 	public function cached($args, $instance) { ?>
-	<div class="tabs">
-		<ul class="nav">
-			<li><a href="#p1-<?php echo $this->html_uid; ?>"><?php _e('Recent Articles', 'anno'); ?></a></li>
-			<li><a href="#p2-<?php echo $this->html_uid; ?>"><?php _e('Comments', 'anno'); ?></a></li>
-		</ul>
-		<div class="panel first-child" id="p1-<?php echo $this->html_uid; ?>">
-			<?php 
-			$articles = new WP_Query(array(
-				'post_type' => 'article',
-				'posts_per_page' => $this->number
-			));
-			if ($articles->have_posts()) {
-				echo '<ol>';
-				while ($articles->have_posts()) {
-					$articles->the_post();
-			 ?>
-				<li><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></li>
-			<?php 
+	<div class="recently-container">
+		<div class="tabs">
+			<ul class="nav">
+				<li><a href="#p1-<?php echo $this->html_uid; ?>"><?php _e('Recent Articles', 'anno'); ?></a></li>
+				<li><a href="#p2-<?php echo $this->html_uid; ?>"><?php _e('Comments', 'anno'); ?></a></li>
+			</ul>
+			<div class="panel first-child" id="p1-<?php echo $this->html_uid; ?>">
+				<?php 
+				$articles = new WP_Query(array(
+					'post_type' => 'article',
+					'posts_per_page' => $this->number
+				));
+				if ($articles->have_posts()) {
+					echo '<ol>';
+					while ($articles->have_posts()) {
+						$articles->the_post();
+				 ?>
+					<li><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></li>
+				<?php 
+					}
+					echo '</ol>';
+					wp_reset_postdata();
+					unset($articles);
 				}
-				echo '</ol>';
-				wp_reset_postdata();
-				unset($articles);
-			}
-			?>
-		</div>
-		<div class="panel" id="p2-<?php echo $this->html_uid; ?>">
-			<?php
-			$comments = get_comments(array(
-				'number' => $this->number,
-				'status' => 'approve',
-				'post_status' => 'publish'
-			));
-			if (count($comments)) {
-				echo '<ul>';
-				foreach ((array) $comments as $comment) {
-			?>
-				<li class="recentcomments"><?php
-					/* translators: comments widget: 1: comment author, 2: post link */ 
-					printf(_x('%1$s on %2$s', 'widgets'), get_comment_author_link(), '<a href="' . esc_url(get_comment_link($comment->comment_ID)) . '">' . get_the_title($comment->comment_post_ID) . '</a>'); 
-			?></li>
-			<?php
+				?>
+			</div>
+			<div class="panel" id="p2-<?php echo $this->html_uid; ?>">
+				<?php
+				$comments = get_comments(array(
+					'number' => $this->number,
+					'status' => 'approve',
+					'post_status' => 'publish'
+				));
+				if (count($comments)) {
+					echo '<ul>';
+					foreach ((array) $comments as $comment) {
+				?>
+					<li class="recentcomments"><?php
+						/* translators: comments widget: 1: comment author, 2: post link */ 
+						printf(_x('%1$s on %2$s', 'widgets'), get_comment_author_link(), '<a href="' . esc_url(get_comment_link($comment->comment_ID)) . '">' . get_the_title($comment->comment_post_ID) . '</a>'); 
+				?></li>
+				<?php
+					}
+					echo '</ul>';
 				}
-				echo '</ul>';
-			}
-			?>
+				?>
+			</div>
 		</div>
-	</div>
+	</div><!-- .recently-container -->
+	
 	<?php
 	}
 	

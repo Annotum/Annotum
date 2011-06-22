@@ -31,7 +31,6 @@ Act 3: Footer
 }
 #header .header-body {
 	background: #006b94;
-	height: 86px;
 	position: relative;
 }
 #header .header-body a,
@@ -75,7 +74,7 @@ Act 3: Footer
 	font-size: 36px;
 	font-weight: normal;
 	line-height: 1.2;
-	padding: 36px 0 7px 0;
+	padding: 35px 0 8px 0;
 	text-shadow: rgba(0, 0, 0, .8) 0 1px 0;
 }
 #site-nav {
@@ -94,8 +93,10 @@ Act 3: Footer
 	border-right-width: 1px;
 	color: #66A6BF;
 	position: relative;
+	zoom: 1;
 }
 #site-nav li ul {
+	background: #66A6BF;
 	display: none;
 	position: absolute;
 	width: 150px;
@@ -106,7 +107,7 @@ Act 3: Footer
 	float: none;
 }
 #site-nav li li a {
-	background: #66A6BF;
+	background: none;
 }
 #site-nav li:hover ul,
 #site-nav li.hover ul {
@@ -116,14 +117,16 @@ Act 3: Footer
 	line-height: 20px;
 	padding: 7px 10px;
 }
-
-#secondary-nav .nav {
-	bottom: 13px;
+#secondary-nav {
+	bottom: 11px;
 	position: absolute;
 	right: 0;
 }
+
 #secondary-nav li {
-	background: url(../img/sprite-y.8bit.png) 0 10px no-repeat;
+	background-image: url(../img/sprite-y.8bit.png);
+	background-position: 0 10px;
+	background-repeat: no-repeat;
 	margin-left: 8px;
 	padding-left: 9px;
 }
