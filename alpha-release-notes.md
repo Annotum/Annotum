@@ -1,8 +1,8 @@
-# Annotum - Release Notes for Alpha Version 0.1a
+# Annotum - Release Notes for Alpha Version
 
 ## About this version
 
-Annotum Alpha .01 is the initial release version of the Annotum WordPress theme.  It may contain bugs and should not be used for a production system.
+Annotum Alpha is the initial release version of the Annotum WordPress theme.  It may contain bugs and should not be used for a production system.
 
 You will need a functioning installation of WordPress to use Annotum -- on your own server or on a managed hosting service that allows you to install themes and plugins.  
 
