@@ -119,7 +119,6 @@ function anno_assets() {
 		
 		// Styles
 		wp_enqueue_style('anno', $main.'css/main.css', array(), $v, 'screen, print');
-		wp_enqueue_style('anno-print', $main.'css/print.css', array('anno'), $v, 'print');
 		
 		// Right-to-left languages
 		if (is_rtl()) {
