@@ -24,6 +24,8 @@ To add the Annotum theme to an existing WordPress installation:
 
 > Note: workflow notifications generate an email message to every editor and author for every workflow action. This can generate quite a bit of email on an active site!
 
+> IMPORTANT: Enabling / Disabling the workflow multiple times will generate unpredictable results.  For this version it is strongly recommended that you enable the workflow and leave it enabled.
+
 ## Getting Started
 
 To get started using Annotum, you'll need to set up your theme, add some users, create articles, and process the articles via the workflow.
