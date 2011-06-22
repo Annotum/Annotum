@@ -33,7 +33,7 @@
 	top: 0;
 	width: auto;
 }
-#replies .reply-list .comment .header .title {
+#replies .reply-list .comment .header h3 {
 	font-weight: bold;	
 }
 #replies .reply-list .comment .header .title a {
@@ -46,6 +46,12 @@
 	position: absolute;
 	right: 0;
 	top: 0;
+}
+/* IE Italic Bug breaking Layout in IE7.  Supposedly this only happens in IE5 and IE6, but was defintely happening in IE7. 
+http://www.positioniseverything.net/explorer/italicbug-ie.html
+*/
+html.ie7 #replies .reply-list .comment .header .published {
+	font-style: normal;
 }
 #replies .section-title,
 #respond #reply-title {
