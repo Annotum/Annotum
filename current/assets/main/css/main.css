@@ -73,6 +73,7 @@ form.search .type-submit{background:url(../img/sprite-y.8bit.png) 0 -200px no-re
 .article-excerpt .header .meta a:link{color:#a29674;}
 .article-excerpt .header .meta a:hover{color:#A2220F;text-decoration:none;}
 .article-excerpt .entry-summary{margin-bottom:30px;}
+.widget-recent-posts .recently-container{border:0;padding:0;}
 .widget-recent-posts .nav{margin:0;padding:0;position:relative;top:1px;}
 .widget-recent-posts .nav li{background:none;border:0;font:bold 13px Helvetica,Arial,sans-serif;margin-right:0;padding:1px 0;}
 .widget-recent-posts .nav li a{padding-left:14px;padding-right:14px;}
@@ -85,7 +86,7 @@ form.search .type-submit{background:url(../img/sprite-y.8bit.png) 0 -200px no-re
 .widget-recent-posts .panel li:first-child{border:0;margin:0;}
 .widget-recent-posts li.recentcomments a{display:inline;}
 #main-sidebar .widget{background:none;margin-bottom:1px;padding:0 0 20px;}
-#main-sidebar .widget .title{-moz-border-radius:2px;-webkit-border-radius:2px;-khtml-border-radius:2px;border-radius:2px;background:#e4d7b0;color:#000;font:bold 13px/25px Helvetica,Arial,sans-serif;margin-bottom:10px;padding:0 9px;}
+#main-sidebar .widget .title{-moz-border-radius:2px;-webkit-border-radius:2px;-khtml-border-radius:2px;border-radius:2px;background:#e4d7b0;border:0;border-color:transparent;color:#000;font:bold 13px/25px Helvetica,Arial,sans-serif;margin-bottom:10px;padding:0 9px;}
 .widget ul{margin-left:10px;}
 .widget ul li{background:url(../img/sprite-y.8bit.png) 0 -390px no-repeat;padding-left:10px;}
 .widget ol li:hover,.widget ul li:hover{background-color:transparent;}
