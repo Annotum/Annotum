@@ -10,10 +10,10 @@ All features are packaged within the theme. Once the theme is activated, many se
 
 To checkout the Annotum theme code to an existing WordPress installation:
 
-1. Navigate to the wp-content/themes directory in the WP install
-2. Create the annotum directory within the themes directory and change directory into it.
-3. On the command line type `git clone git@github.com:Annotum/Annotum.git .` without backticks. 
-3a. If you are using SVN: `svn co https://username@github.com/Annotum/Annotum.git .`
+1. Navigate to the `wp-content/themes` directory in your WordPress installation
+2. On the command line type: `git clone git@github.com:Annotum/Annotum.git annotum` without backticks. 
+3. Or, if you prefer to use subversion: `svn co https://username@svn.github.com/Annotum/Annotum.git annotum`
+4. That's it! Log in to your WordPress administrator dashboard, navigate to `Appearance > Themes` and Activate the theme
 
 ## User Roles and the Workflow (authors, contributors)
 
