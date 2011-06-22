@@ -12,8 +12,6 @@ To obtain the alpha distribution, download it from [GitHub](https://github.com/A
 
 Unzip the file to a local folder; you'll see two zip files: annotum-base.cip and current.zip -- these are the main Annotum theme and child theme respectively.
 
-Follow the steps below to install the themes.
-
 ## Installation
 
 To add the Annotum theme to an existing WordPress installation:
@@ -21,9 +19,10 @@ To add the Annotum theme to an existing WordPress installation:
 1. Go to your Dashboard, navigate to `Appearance > Themes`, and click to the `Install Themes` tab.
 2. Use the `Upload` link to upload annotum-base.zip and current.zip from the distribution file.
 3. Activate the Annotum 0.1 theme. 
-4. On the `Annotum Settings` page, you'll want to enable workflow and (optionally) workflow notifications.
+4. From the Themes dashboard, click `Annotum Settings`.  You'll want to enable workflow and (optionally) workflow notifications.  The `Allow article authors to see reviewers` option does just that; otherwise all reviewers' comments and identities are hidden from the authors.
+5. Optionally go to `Theme Settings` and enter any desired options (e.g. Google Analytics code).
 
-> Note: workflow notifications can generate A LOT OF EMAIL, one message to every editor and author for every workflow action. 
+> Note: workflow notifications generate an email message to every editor and author for every workflow action. This can generate quite a bit of email on an active site!
 
 ## Getting Started
 
@@ -33,7 +32,9 @@ To get started using Annotum, you'll need to set up your theme, add some users, 
 
 Annotum uses standard WordPress features such as widgets and menus for customization.  There are also some Theme Settings such as callouts.  In a future version, multiple color schemes will be available, but for now you'll have to tweak the CSS to change the colors.
 
-> Note: because full equation support is not yet implemented in Annotum, you may want to enable the WordPress JetPack plugin set to take advantage of the built-in LaTeX equation rendering.
+> Note: because full equation support is not yet implemented in Annotum, you may want to enable the WordPress JetPack plugin set to take advantage of its built-in LaTeX equation rendering.
+
+> Note: the initial theme layout is quite sparse by design.  You will almost certainly want to add menus and sidebar widgets to enhance the layout of your site.
 
 ### Adding Users
 
@@ -44,6 +45,8 @@ Annotum's workflow is based around the `Articles` custom post type and a few cus
 3. Author.  Authors can create articles, add and remove coauthors, and submit articles for review. Authors cannot see review comments on their articles, nor do they see who the reviewers are.  Authors can be added with either the "Contributor" or "Author" WordPress user level.  If "Author" is used, the user will be able to create regular posts and pages via the built-in WordPress functions.  Note that Co-authors are defined at the article level (not user level) when they are added by the article author. They can be any level from Contributor on up.
 4. Reviewer. Reviewers can submit review comments and view replies to their own review comments only. Reviewers are defined at the article level when they are added by the editor. They can be any level from Contributor on up. 
 5. Subscriber.  Essentially a site viewer, they can make comments on published articles.
+
+> A more complete list of roles, actions, and permissions can be found here: http://annotum.files.wordpress.com/2011/06/annotum-permissions-matrix.pdf
 
 ### Creating Articles
 
@@ -58,6 +61,7 @@ Once you'ce created an article, you can:
 ### Using Workflow 
 
 The basic workflow is:
+
 1. Author (and potentially co-authors) create and edit their article.  All co-authors can post internal comments on the article during this process.
 2. When ready, the Author submits the article for review. 
 3. The editor assigns reviewers, each of whom can enter review comments and a recommendation: Approve, Reject, or Request Revisions.  The editor may reply to review comments; reviewers can only see their own comments and replies to them.
@@ -68,3 +72,9 @@ The basic workflow is:
 
 Support.  Annotum is in a pre-release state so support is limited to the [Annotum Discussion List](https://groups.google.com/group/annotum). Please feel free to submit questions, bug reports, or suggestions there.
 
+Regular updates on http://annotum.wordpress.com and [@annotum](http://twitter.com/annotum).
+## Credits
+
+Annotum is a production of [Solvitor LLC](http://solvitor.com) with heavy lifting provided by [Crowd Favorite](http://crowdfavorite.com)
+
+Special thanks to: Google, PLoS, NIH/NLM/NCBI, and Automattic.
