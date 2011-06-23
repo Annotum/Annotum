@@ -62,7 +62,7 @@ function annowf_audit_log($post) {
 		9 => _x('Removed %s as a reviewer', 'article audit event', 'anno'),
 	);
 	echo '<ul>';
-	foreach ($items as $item) {
+	foreach (array_reverse($items, true) as $item) {
 		$html = '';
 		$actor = get_userdata(absint($item['actor']));
 		if (!empty($actor)) {
