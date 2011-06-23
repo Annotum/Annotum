@@ -31,7 +31,7 @@ if (CFCT_DEBUG) { cfct_banner(__FILE__); }
 					<h1 id="site-name"><a href="<?php bloginfo('url') ?>/" title="Home" rel="home"><?php anno_header_image(); ?></a></h1>
 				<?php else: ?>
 					<h1 id="site-name"><a href="<?php bloginfo('url') ?>/" title="Home" rel="home"><?php bloginfo('name') ?></a></h1>
-				<?php endif ?>
+				<?php endif; ?>
 				<nav id="secondary-nav" class="clearfix">
 				<?php
 				$args = array(
