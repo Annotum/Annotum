@@ -80,15 +80,16 @@ function anno_setup() {
 		'description' => __('Display items on the home page masthead.'),
 		'before_widget' => '<aside id="%1$s" class="teaser clearfix %2$s">'
 	)));
-
+	// Customize the Carrington Core Admin Settings Form Title
+	add_filter('cfct_admin_settings_form_title', 'anno_admin_settings_form_title');
 	add_action('wp_head', 'anno_css3_pie', 8);
 }
 add_action('after_setup_theme', 'anno_setup');
 
-function anno_header_image_init() {
-
+// Filter to customize the Carrington Core Admin Settings Form Title
+function anno_admin_settings_form_title() {
+	return __('Theme Settings', 'anno');
 }
-add_action('init', 'anno_header_image_init');
 
 // Adding favicon, each theme has it's own which we get with stylesheet directory
 function anno_favicon() {
