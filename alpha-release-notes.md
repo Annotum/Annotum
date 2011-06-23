@@ -4,14 +4,14 @@
 
 Annotum Alpha is a pre-release version of the Annotum WordPress theme.  It may contain bugs and should not be used for a production system.
 
-Please note that certain sigificant pieces of functionality, in particular the authoring tools, conformance with document structure, and the import/export of XML are not implemented in this Alpha release.  The workflow elements are *mostly* implemented but some gaps remain.  
+Please note that certain significant pieces of functionality, in particular the authoring tools, conformance with document structure, and the import/export of XML are not implemented in this Alpha release.  The workflow elements are *mostly* implemented but some gaps remain.  
 
 You will need a functioning installation of WordPress to use Annotum -- on your own server or on a managed hosting service that allows you to install themes and plugins.  
 
 > ### Notes:
 
 > * It is recommended that you install Annotum Alpha in a new, empty, test WordPress installation.
-> * Annotum alpha has been tested with WordPress 3.1.3.  Other versions *may* also work.
+> * Annotum alpha has been tested on WordPress 3.1.3 and WordPress 3.2-RC1.  Other versions *may* also work but the minimum requirements have not yet been finalized.
 > * Because full equation support is not yet implemented in Annotum, you may want to enable the WordPress JetPack plugin set to take advantage of its built-in LaTeX equation rendering.
 
 ## Obtaining the code
@@ -32,7 +32,7 @@ To add the Annotum theme to an existing WordPress installation:
     * `Enable workflow notifications`: sends an email to appropriate authors/editors/reviewers whenever workflow actions are taken.
 5. Optionally go to `Theme Settings` and enter any desired options (e.g. Home page callouts, Google Analytics code).
 
-> Note: workflow notifications generate an email message to every editor and author for every workflow action. This can generate quite a bit of email on an active site!
+> Note: workflow notifications generate an email message to every site admin and editor for every workflow action in addition to role-specific (author, co-author) notifications. This can generate quite a bit of email on an active site!
 
 ## Getting Started
 
@@ -60,7 +60,7 @@ Annotum's workflow is based around the `Articles` custom post type and a few cus
 
 Create a new article via the "new article" button from the "Articles" dashboard.  You'll see various sections for adding co-authors, including sections of your article, etc.  Note that future versions will have a greatly-enhanced set of authoring controls including the ability to import and export XML, structured equation/figure/table support, and other features such as robust handling of references.
 
-Once you'ce created an article, you can:
+Once you've created an article, you can:
 
 1. Preview the article
 2. Add Co-authors (once you do, they can also edit the article)
@@ -73,12 +73,12 @@ The basic workflow is:
 1. The Author creates a new article, and optionally invites co-authors to work on it. All co-authors can post internal comments on the article during this process.
 2. When ready, the Author submits the article for review via the `Submit for Review` button on the article editing screen.
 3. The editor assigns reviewers, each of whom can enter review comments and a recommendation: Approve, Reject, or Request Revisions.  The editor may reply to review comments; reviewers can only see their own comments and replies to them.
-4. When the reviews are in, the editor can Approve or Reject the article or Request Revsions.  Only Approved articles can be published.
+4. When the reviews are in, the editor can Approve or Reject the article or Request Revisions.  Only Approved articles can be published.
 5. Once an article is approved, an admin (think of admins as the publication staff) can publish it to the site.
 
 ## Additional Notes
 
-Support.  Annotum is in a pre-release state so support is limited to the [Annotum Discussion List](https://groups.google.com/group/annotum). Please feel free to submit questions, bug reports, or suggestions there.
+Annotum is in a pre-release state so support is limited to the [Annotum Discussion List](https://groups.google.com/group/annotum). Please feel free to submit questions, bug reports, or suggestions there.
 
 Background on the project, regular updates and links to related sites and information are provided on http://annotum.wordpress.com. You can also follow [@annotum](http://twitter.com/annotum) on Twitter.
 
