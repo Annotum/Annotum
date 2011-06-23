@@ -2,15 +2,17 @@
 
 ## About this version
 
-Annotum Alpha is the initial release version of the Annotum WordPress theme.  It may contain bugs and should not be used for a production system.
+Annotum Alpha is a pre-release version of the Annotum WordPress theme.  It may contain bugs and should not be used for a production system.
 
 Please note that certain sigificant pieces of functionality, in particular the authoring tools, conformance with document structure, and the import/export of XML are not implemented in this Alpha release.  The workflow elements are *mostly* implemented but some gaps remain.  
 
-> Note: because full equation support is not yet implemented in Annotum, you may want to enable the WordPress JetPack plugin set to take advantage of its built-in LaTeX equation rendering.
-
 You will need a functioning installation of WordPress to use Annotum -- on your own server or on a managed hosting service that allows you to install themes and plugins.  
 
-> It is recommended that you install Annotum Alpha in a new, empty, test WordPress installation.
+> ### Notes:
+
+> * It is recommended that you install Annotum Alpha in a new, empty, test WordPress installation.
+> * Annotum alpha has been tested with WordPress 3.1.3.  Other versions *may* also work.
+> * Because full equation support is not yet implemented in Annotum, you may want to enable the WordPress JetPack plugin set to take advantage of its built-in LaTeX equation rendering.
 
 ## Obtaining the code
 
@@ -24,7 +26,10 @@ To add the Annotum theme to an existing WordPress installation:
 1. Go to your Dashboard, navigate to `Appearance > Themes`, and click to the `Install Themes` tab.
 2. Use the `Upload` link to upload `annotum-base.zip` and `current.zip` from the distribution file.
 3. Activate the Annotum 0.1 theme. 
-4. From the Themes dashboard, click `Annotum Settings`.  You'll want to enable workflow and (optionally) workflow notifications.  The `Allow article authors to see reviewers` option does just that; otherwise all reviewers' comments and identities are hidden from the authors.
+4. From the Themes dashboard, click `Annotum Settings`, and select the desired options:
+    * `Enable Workflow: Check the box`: This enables the Annotum workflow features. Recommended setting = enabled.
+	* `Allow article authors to see reviewers`: This enables an "open-process" review style in which article authors can see all reviewers and their review comments.  You may wish to leave this deselected for a more traditional anonymous review process.
+    * `Enable workflow notifications`: sends an email to appropriate authors/editors/reviewers whenever workflow actions are taken.
 5. Optionally go to `Theme Settings` and enter any desired options (e.g. Home page callouts, Google Analytics code).
 
 > Note: workflow notifications generate an email message to every editor and author for every workflow action. This can generate quite a bit of email on an active site!
@@ -53,7 +58,7 @@ Annotum's workflow is based around the `Articles` custom post type and a few cus
 
 ### Creating Articles
 
-Create a new article via the "new article" button from the "Articles" dashboard.  You'll see various sections for adding co-authors, including sections of your article, etc.  Note that future versions will have a greatly-enhanced set of authoring controls including the ability to import and export XML, ensure conformance with the NLM DTD, and other features such as robust handling of references.
+Create a new article via the "new article" button from the "Articles" dashboard.  You'll see various sections for adding co-authors, including sections of your article, etc.  Note that future versions will have a greatly-enhanced set of authoring controls including the ability to import and export XML, structured equation/figure/table support, and other features such as robust handling of references.
 
 Once you'ce created an article, you can:
 
@@ -65,7 +70,7 @@ Once you'ce created an article, you can:
 
 The basic workflow is:
 
-1. The Author creates a new article, and optionally invites co-authors to work on it.) All co-authors can post internal comments on the article during this process.
+1. The Author creates a new article, and optionally invites co-authors to work on it. All co-authors can post internal comments on the article during this process.
 2. When ready, the Author submits the article for review via the `Submit for Review` button on the article editing screen.
 3. The editor assigns reviewers, each of whom can enter review comments and a recommendation: Approve, Reject, or Request Revisions.  The editor may reply to review comments; reviewers can only see their own comments and replies to them.
 4. When the reviews are in, the editor can Approve or Reject the article or Request Revsions.  Only Approved articles can be published.
