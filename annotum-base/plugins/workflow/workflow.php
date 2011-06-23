@@ -42,6 +42,7 @@ function annowf_meta_boxes() {
 		remove_meta_box('article_category_select', 'article', 'side');
 		remove_meta_box('postimagediv', 'article', 'side', 'low');
 	}
+
 	
 	// Custom author select box. Only displays co-authors in the dropdown.
 
@@ -212,6 +213,9 @@ function annowf_transistion_state($post_id, $post, $post_before) {
 		if ($post->post_author !== $post_before->post_author) {
 			annowf_add_user_to_post('_co_authors', $post_before->post_author, $post->ID);
 			annowf_remove_user_from_post('_co_authors', $post->post_author, $post->ID);
+			if (anno_workflow_enabled('workflow_notifications')) {
+				annowf_send_notification('primary_author', $post, null, array(annowf_user_email($post->post_author)));
+			}
 		}
 	}
 }
@@ -340,11 +344,15 @@ function annowf_add_reviewer() {
 		//Send email
 		if (anno_workflow_enabled('workflow_notifications')) {
 			$post = get_post($post_id);
-			annowf_send_notification('reviewer_added', $post, '', array($response['user']->user_email));
+			annowf_send_notification('reviewer_added', $post, '', array($response['user']->user_email), $response['user']);
 		}
 		
 		if ($post_state == 'submitted') {
 			update_post_meta($post_id, '_post_state', 'in_review');
+			if (anno_workflow_enabled('workflow_notifications')) {
+				$post = get_post($post_id);
+				annowf_send_notification('in_review', $post);
+			}
 			//TODO reload?
 		}
 		
@@ -383,12 +391,13 @@ function annowf_add_co_author() {
 	$response = annowf_add_user('co_author');
 	if ($response['message'] == 'success') {
 		// Used for quick access when filtering posts on a post-author page
-		add_post_meta(intval($_POST['post_id']), '_article_co_author', $response['user']->ID, false);
+		$post_id = absint($_POST['post_id']);
+		add_post_meta($post_id, '_article_co_author', $response['user']->ID, false);
 		
 		// Send email
 		if (anno_workflow_enabled('workflow_notifications')) {
-			$post = get_post(intval($_POST['post_id']));
-			annowf_send_notification('co_author_added', $post, '', array($response['user']->user_email));
+			$post = get_post($post_id);
+			annowf_send_notification('co_author_added', $post, '', array($response['user']->user_email), $response['user']);
 		}
 
 		// Add author to JSON for appending to author dropdown
@@ -631,7 +640,7 @@ function annowf_cloned_meta_box($post) {
 }
 
 /**
- * Clones a post, and inserts it into the DB. Maintains all post properties (no post_meta). Also
+ * Clones a post and inserts it into the DB. Maintains all post properties (no post_meta). Also
  * saves the association on both posts.
  *
  * @param int $orig_id The original ID of the post to clone from
