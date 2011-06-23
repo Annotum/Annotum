@@ -27,7 +27,7 @@ To add the Annotum theme to an existing WordPress installation:
 2. Use the `Upload` link to upload `annotum-base.zip` and `current.zip` from the distribution file.
 3. Activate the Annotum 0.1 theme. 
 4. From the Themes dashboard, click `Annotum Settings`, and select the desired options:
-    * `Enable Workflow`: This enables the Annotum workflow features. Recommended setting = enabled.
+    * `Enable Workflow`: This enables the Annotum workflow features. IMPORTANT: enable this or you won't get any of the workflow features.
 	* `Allow article authors to see reviewers`: This enables an "open-process" review style in which article authors can see all reviewers and their review comments.  You may wish to leave this deselected for a more traditional anonymous review process.
     * `Enable workflow notifications`: sends an email to appropriate authors/editors/reviewers whenever workflow actions are taken.
 5. Optionally go to `Theme Settings` and enter any desired options (e.g. Home page callouts, Google Analytics code).
