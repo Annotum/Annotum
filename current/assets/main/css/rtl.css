@@ -38,11 +38,14 @@ form.search .type-submit {
 	left: 4px;
 }
 
-.tools-bar .download label {
-	background-position: right 0;
+.tools-bar .download {
+	background-position: right -97px;
+}
+.tools-bar .citation a {
+	background-position: right -395px;
 }
 .tools-bar .print a {
-	background-position: right -100px;
+	background-position: right 2px;
 }
 .tools-nav .nav li a {
 	-moz-border-radius: 4px 0 0 4px; /* FF1+ */
