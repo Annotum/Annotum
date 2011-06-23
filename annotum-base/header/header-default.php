@@ -13,10 +13,7 @@ if (__FILE__ == $_SERVER['SCRIPT_FILENAME']) { die(); }
 if (CFCT_DEBUG) { cfct_banner(__FILE__); }
 ?>
 <!doctype html>
-<!--[if lt IE 7]> <html class="no-js ie6 oldie" <?php language_attributes() ?>> <![endif]-->
-<!--[if IE 7]>    <html class="no-js ie7 oldie" <?php language_attributes() ?>> <![endif]-->
-<!--[if IE 8]>    <html class="no-js ie8 oldie" <?php language_attributes() ?>> <![endif]-->
-<!--[if gt IE 8]><!--> <html class="no-js" <?php language_attributes() ?>> <!--<![endif]-->
+<?php anno_open_html(); ?>
 <head>
 	<meta charset="<?php bloginfo('charset') ?>" />
 
@@ -30,7 +27,11 @@ if (CFCT_DEBUG) { cfct_banner(__FILE__); }
 	<header id="header" class="act">
 		<div class="header-body">
 			<div class="in">
-				<h1 id="site-name"><a href="<?php bloginfo('url') ?>/" title="Home" rel="home"><?php bloginfo('name') ?></a></h1>
+				<?php if (anno_has_header_image()): ?>
+					<h1 id="site-name"><a href="<?php bloginfo('url') ?>/" title="Home" rel="home"><?php anno_header_image(); ?></a></h1>
+				<?php else: ?>
+					<h1 id="site-name"><a href="<?php bloginfo('url') ?>/" title="Home" rel="home"><?php bloginfo('name') ?></a></h1>
+				<?php endif ?>
 				<nav id="secondary-nav" class="clearfix">
 				<?php
 				$args = array(

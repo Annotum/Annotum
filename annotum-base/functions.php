@@ -16,6 +16,7 @@ define('CFCT_PATH', trailingslashit(TEMPLATEPATH));
 define('ANNO_VER', '1.1');
 
 include_once(CFCT_PATH.'carrington-core/carrington.php');
+include_once(CFCT_PATH.'functions/Anno_Keeper.php');
 include_once(CFCT_PATH.'functions/article-post-type.php');
 include_once(CFCT_PATH.'functions/appendix-repeater.php');
 include_once(CFCT_PATH.'functions/taxonomies.php');
@@ -41,6 +42,10 @@ function anno_setup() {
 	add_image_size( 'post-excerpt', 140, 120, true);
 	add_image_size( 'post-teaser', 100, 79, true);
 	add_image_size( 'featured', 270, 230, true);
+	add_image_size( 'header', 500, 500, false);
+	
+	$header_image = Anno_Keeper::retrieve('header_image');
+	$header_image->add_custom_image_header();
 	
 	$menus = array(
 		'main' => 'Main Menu (Header)',
@@ -79,6 +84,11 @@ function anno_setup() {
 	add_action('wp_head', 'anno_css3_pie', 8);
 }
 add_action('after_setup_theme', 'anno_setup');
+
+function anno_header_image_init() {
+
+}
+add_action('init', 'anno_header_image_init');
 
 // Adding favicon, each theme has it's own which we get with stylesheet directory
 function anno_favicon() {

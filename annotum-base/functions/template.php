@@ -14,33 +14,6 @@
 if (__FILE__ == $_SERVER['SCRIPT_FILENAME']) { die(); }
 
 /**
- * Globally keep around instances without polluting the global namespace.
- * Get and set instances with a keyword.
- * Also allows for easy overrides by re-keeping something with the same key.
- * Replaced keys must be an instance of the original.
- */
-class Anno_Keeper {
-	protected static $instances = array();
-	public static function keep($key, $instance) {
-		if (isset(self::$instances[$key]) && !($instance instanceof self::$instances[$key])) {
-			throw new Exception('If you\'re going to replace an instance that already exists, the new instance must be an instanceof the original class, so that methods may safely be called.', 1);
-		}
-		self::$instances[$key] = $instance;
-		return self::$instances[$key];
-	}
-	public static function retrieve($key) {
-		if (!isset(self::$instances[$key])) {
-			throw new Exception($key.' hasn\'t been set yet with ::keep()', 1);
-			
-		}
-		return self::$instances[$key];
-	}
-	public function discard($key) {
-		unset(self::$instances[$key]);
-	}
-}
-
-/**
  * Little utility functions.
  */
 class Anno_Template_Utils {
@@ -133,6 +106,13 @@ class Anno_Template {
 	
 	public function add_assets() {
 		wp_enqueue_script('twitter', 'http://platform.twitter.com/widgets.js', array(), null, true);
+	}
+	
+	public function render_open_html() { ?><!--[if lt IE 7]> <html class="no-js ie6 oldie" <?php language_attributes() ?>> <![endif]-->
+<!--[if IE 7]>    <html class="no-js ie7 oldie" <?php language_attributes() ?>> <![endif]-->
+<!--[if IE 8]>    <html class="no-js ie8 oldie" <?php language_attributes() ?>> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" <?php language_attributes() ?>> <!--<![endif]-->
+<?php
 	}
 	
 	/**
@@ -390,14 +370,125 @@ class Anno_Template {
 }
 
 /**
+ * Just an override-able collection of properties and functions used for defining a custom header.
+ * Also abstracts some of the weird redundancy in the WordPress custom header implementation.
+ */
+class Anno_Header_Image {
+	protected $utils;
+	public $dimensions = array();
+	public $default_image_path;
+	public $header_image = '';
+	
+	/**
+	 * @param array $output_dimensions
+	 * @param string $image_size
+	 */
+	public function __construct($image_size, $output_dimensions = array(), $default_image_path = '') {
+		try {
+			$utils = Anno_Keeper::retrieve('utils');
+		}
+		catch (Exception $e) {
+			$utils = Anno_Keeper::keep('utils', new Anno_Template_Utils());
+		}
+		$this->utils = $utils;
+		
+		if (count($output_dimensions)) {
+			$this->dimensions = array(
+				$output_dimensions[0],
+				$output_dimensions[1]
+			);
+		}
+		else {
+			global $_wp_additional_image_sizes;
+
+			$image_info = $_wp_additional_image_sizes[$image_size];
+			$this->dimensions = array(
+				$image_info['width'],
+				$image_info['height']
+			);
+		}
+		$this->default_image_path = $default_image_path;
+	}
+	
+	public function add_custom_image_header() {
+		/* All four of these constants are required for WordPress to activate the
+		custom header functionality.*/
+		define('HEADER_TEXTCOLOR', '');
+		define('HEADER_IMAGE', $this->default_image_path); // %s is the template dir uri
+		define('HEADER_IMAGE_WIDTH', $this->dimensions[0]); // use width and height appropriate for your theme
+		define('HEADER_IMAGE_HEIGHT', $this->dimensions[1]);
+		
+		add_custom_image_header(array($this, 'head_callback'), array($this, 'admin_head_callback'));
+	}
+	
+	public function head_callback() {
+		
+	}
+	public function admin_head_callback() {
+		echo '<style type="text/css" media="screen">
+	.appearance_page_custom-header #headimg {
+		min-height: 0;
+	}
+</style>';
+	}
+	
+	public function get_image_url() {
+		if (!$this->header_image) {
+			$this->header_image = get_header_image();
+		}
+		return $this->header_image;
+	}
+	
+	public function has_image() {
+		return (bool) $this->get_image_url();
+	}
+	
+	public function image_tag($attr = array()) {
+		if ($this->has_image()) {
+			$default_attr = array(
+				'src' => $this->get_image_url(),
+				'width' => HEADER_IMAGE_WIDTH,
+				'height' => HEADER_IMAGE_HEIGHT,
+				'alt' => esc_attr(get_bloginfo('name'))
+			);
+			$attr = $this->utils->to_attr($default_attr, $attr);
+			return '<img '.$attr.' />';
+		}
+	}
+}
+
+/**
  * Instantiate Anno_Template. Let theme authors override.
  */
 function anno_template_init() {
 	$template = new Anno_Template();
 	$template->attach_hooks();
 	Anno_Keeper::keep('template', $template);
+	
+	/* Set up Header Image
+	Header image registered later, at 'init'. This gives child themes a chance to override
+	the class used. */
+	Anno_Keeper::keep('header_image', new Anno_Header_Image('header', array(500, 52)));
 }
-add_action('init', 'anno_template_init');
+add_action('after_setup_theme', 'anno_template_init', 9);
+
+function anno_has_header_image() {
+	$header_image = Anno_Keeper::retrieve('header_image');
+	return $header_image->has_image();
+}
+
+function anno_header_image() {
+	$header_image = Anno_Keeper::retrieve('header_image');
+	echo $header_image->image_tag();
+}
+
+/**
+ * Opening HTML tags with HTML5 Boilerplate-style conditional comments
+ */
+function anno_open_html() {
+	$template = Anno_Keeper::retrieve('template');
+	$template->render_open_html($post_id);
+}
 
 /**
  * Check if an article has a subtitle
