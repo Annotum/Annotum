@@ -288,13 +288,16 @@ function anno_internal_comments_ajax() {
 	//Check to make sure user can post comments on this post
 	global $wpdb;
 	$user = wp_get_current_user();
+
 	if ($user->ID) {
+		$comment_base_type = $wpdb->escape(trim($_POST['type']));
+		
 		$comment_author = $wpdb->escape($user->display_name);
 		$comment_author_email = $wpdb->escape($user->user_email);
 		$comment_author_url = $wpdb->escape($user->user_url);
 		$comment_content = trim($_POST['content']);
-		$comment_type = 'article_'.trim($_POST['type']);
-		$comment_post_ID = intval($_POST['post_id']);
+		$comment_type = 'article_'.$comment_base_type;
+		$comment_post_ID = $wpdb->escape(intval($_POST['post_id']));
 		$user_ID = $user->ID;
 	}
 	else {
@@ -333,7 +336,12 @@ function anno_internal_comments_ajax() {
 	// Send email notifications of new commment
 	if (anno_workflow_enabled('workflow_notifications')) {
 		$post = get_post($comment_post_ID);
-		annowf_send_notification(trim($_POST['type']).'_comment', $post, $comment);
+		$recipients = array();
+		if ($comment_base_type == 'review') {
+			$recipients[] = $user->user_email;
+		}
+		
+		annowf_send_notification($comment_base_type.'_comment', $post, $comment, $recipients);
 	}
 	
 	// Attach a 'round' to a comment, marking which revision number this is
@@ -345,7 +353,7 @@ function anno_internal_comments_ajax() {
 	if (anno_workflow_enabled('workflow_notifications') && !empty($comment_parent)) {
 		$parent_comment = get_comment($comment_parent);
 		$recipients = array(annowf_user_email($parent_comment->user_id));
-		annowf_send_notification(trim($_POST['type']).'_comment_reply', $post, $comment, $recipients);
+		annowf_send_notification($comment_base_type.'_comment_reply', $post, $comment, $recipients);
 	}
 
 	//Display markup for AJAX
@@ -432,5 +440,13 @@ function anno_internal_comments_get_comment_root($comment) {
 function anno_internal_comments_surpress_notification() {
 	return 0;
 }
+
+/**
+ * Enforce general comment capabilities
+ */
+function anno_internal_comments_capabilities() {
+	
+}
+add_action('admin_init', 'anno_internal_comments_capabilities', 1);
 
 ?>
