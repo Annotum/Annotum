@@ -173,11 +173,10 @@ function anno_workflow_enabled($option = null) {
 }
 
 /**
- * Sanitize google analytics
+ * Sanitize settings
  */ 
-//TODO default
-function anno_sanitize_options($value, $option) {
-	
+function anno_sanitize_options($value) {
+	$option = 'anontum_settings';
 	$original_options = get_option($option);
 	
 	foreach ($value as $option_name => $option_value) {
@@ -200,7 +199,6 @@ function anno_sanitize_options($value, $option) {
 
 	return $value;
 }
-add_filter('sanitize_option_anno_ga_id', 'anno_sanitize_option_ga_id', 10, 2);
 
 /**
  * Sanitizes a string for insertion into DB
