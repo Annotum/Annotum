@@ -367,6 +367,7 @@ function annowf_get_role_emails($role, $post = null) {
 		case 'author':
 			$user_ids = annowf_get_post_users($post->ID, '_co_authors');
 			$user_ids[] = $post->post_author;
+			error_log(annowf_user_email($post->post_author));
 			if (!empty($user_ids)) {
 				$users = get_users(array('include' => $user_ids));
 			}
