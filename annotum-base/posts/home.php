@@ -13,6 +13,8 @@ if (__FILE__ == $_SERVER['SCRIPT_FILENAME']) { die(); }
 if (CFCT_DEBUG) { cfct_banner(__FILE__); }
 
 get_header();
+global $wp_query;
+$wp_query = new WP_Query(array('post_type' => 'article'));
 ?>
 <div id="main-body" class="clearfix">
 	<?php cfct_misc('callouts'); ?>
