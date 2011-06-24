@@ -192,6 +192,7 @@ textarea#comment{display:block;height:80px;width:433px;}
 #wp-calendar th{text-align:left;}
 #wp-calendar tfoot td{padding-top:10px;}
 #main-sidebar .widget_solvitor_ad{background:none;padding:0;}
+#main-sidebar .widget_solvitor_ad img{display:block;}
 #main-sidebar .widget_search #s{width:115px;}
 html.ie8 #main-sidebar .widget_search #s{width:100px;}
 #main-sidebar .widget_nav_menu .nav li{display:block;float:none;}
