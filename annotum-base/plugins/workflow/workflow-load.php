@@ -1,5 +1,6 @@
 <?php
 
+//TODO use Anno_Keeper for globals
 
 include_once(ANNO_PLUGIN_PATH.'/workflow/workflow-settings.php');
 

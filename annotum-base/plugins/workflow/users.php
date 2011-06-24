@@ -118,6 +118,11 @@ function anno_user_can($cap, $user_id = null, $post_id = null, $comment_id = nul
 				return true;
 			}
 			break;
+		case 'manage_public_comments':
+			if (in_array($user_role, array($admin, $editor))) {
+				return true;
+			}
+			break;
 		case 'view_review_comment':
 			// if user is or editor+
 			if (in_array($user_role, array($admin, $editor))) {
@@ -265,6 +270,7 @@ function anno_role($user_id = null, $post_id = null) {
  * @param string $type the type/role of user to get. Accepts meta key or role.
  * @return array Array of reviewers (or empty array if none exist)
  */
+//TODO remove from workflow
 function annowf_get_post_users($post_id = null, $type) {
 	$type = str_replace('-', '_', $type);
 	if ($type == 'reviewers' || $type == 'co_authors') {
@@ -367,7 +373,6 @@ function annowf_get_role_emails($role, $post = null) {
 		case 'author':
 			$user_ids = annowf_get_post_users($post->ID, '_co_authors');
 			$user_ids[] = $post->post_author;
-			error_log(annowf_user_email($post->post_author));
 			if (!empty($user_ids)) {
 				$users = get_users(array('include' => $user_ids));
 			}

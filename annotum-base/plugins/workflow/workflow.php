@@ -30,6 +30,10 @@ function annowf_meta_boxes() {
 	// Remove slug div
 	remove_meta_box('slugdiv', 'article', 'normal');
 	
+	if (!anno_user_can('manage_public_comments', null, $post->ID)) {
+		remove_meta_box('commentsdiv', 'article', 'normal');
+	}
+	
 	// Remove Revisions box in favor of audit log box
 	remove_meta_box('revisionsdiv', 'article', 'normal');
 	if (anno_user_can('view_audit')) {
@@ -192,7 +196,7 @@ function annowf_transistion_state($post_id, $post, $post_before) {
 			update_post_meta($post_id, '_round', intval($round) + 1);
 			$notification_type = 'revisions';
 		}
-	
+
 		if ($new_state != $old_state) {
 			if (empty($new_state)) {
 				$new_state = 'draft';

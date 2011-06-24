@@ -49,6 +49,7 @@ function annowf_notification_recipients($type, $post) {
 		case 'submitted':
 			$recipients = array_merge($recipients, annowf_get_role_emails('editor', $post));
 		case 'in_review':
+		case 're_review':
 			$recipients = array_merge($recipients, annowf_get_role_emails('author', $post));	
 			$recipients = array_merge($recipients, annowf_get_role_emails('administrator', $post));
 			break;
@@ -136,7 +137,7 @@ Excerpt: %s
 			$notification = array(
 				'subject' => sprintf(_x('%s now in review.', 'Email notification subject', 'anno'), $title),
 				'body' => sprintf(_x(
-'Revisions have been made for %s and we ask you to please re-review the article %s.
+'Revisions have been made for %s and we ask you to please re-review the article.
 
 %s
 
