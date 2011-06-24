@@ -410,14 +410,24 @@ class Anno_Header_Image {
 		$this->default_image_path = $default_image_path;
 	}
 	
+	/**
+	 * Wraps all of the constants necessary, plus a function call. Basically trying to
+	 * make the current WP header image implementation simpler to work with.
+	 */
 	public function add_custom_image_header() {
 		/* All four of these constants are required for WordPress to activate the
 		custom header functionality.*/
-		define('HEADER_TEXTCOLOR', '');
+		// This constant is optional. If you get rid of it, be sure to set the one below.
+		define('NO_HEADER_TEXT', true);
+		// define('HEADER_TEXTCOLOR', '');
+		
+		// These constants are required
 		define('HEADER_IMAGE', $this->default_image_path); // %s is the template dir uri
 		define('HEADER_IMAGE_WIDTH', $this->dimensions[0]); // use width and height appropriate for your theme
 		define('HEADER_IMAGE_HEIGHT', $this->dimensions[1]);
 		
+		/* The callbacks are non-optional but may be empty. They both execute at wp_head and are
+		useful for adding ad-hoc styles */
 		add_custom_image_header(array($this, 'head_callback'), array($this, 'admin_head_callback'));
 	}
 	
@@ -432,6 +442,9 @@ class Anno_Header_Image {
 </style>';
 	}
 	
+	/**
+	 * A header image URL getter that memoizes the result for this instance.
+	 */
 	public function get_image_url() {
 		if (!$this->header_image) {
 			$this->header_image = get_header_image();
@@ -439,10 +452,16 @@ class Anno_Header_Image {
 		return $this->header_image;
 	}
 	
+	/**
+	 * Custom header image set?
+	 */
 	public function has_image() {
 		return (bool) $this->get_image_url();
 	}
 	
+	/**
+	 * Get back an image tag for the header image if one exists
+	 */
 	public function image_tag($attr = array()) {
 		if ($this->has_image()) {
 			$default_attr = array(
