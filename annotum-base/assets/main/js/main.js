@@ -7,7 +7,7 @@
  * http://www.opensource.org/licenses/mit-license.php
  * http://www.gnu.org/licenses/gpl.html
  */
-(function(d,e){Contexe=function(b){var a=b||"html",c=Contexe;if(!(this instanceof c))return a=c.ins,typeof a[b]==="undefined"&&(a[b]=new c(b)),a[b];a==="html"?a=e.getElementsByTagName("html")[0]:a==="body"&&(a=e.getElementsByTagName("body")[0]);this.el=a};Contexe.ins=[];Contexe.prototype={classReg:function(b){return RegExp("(^|\\s+)"+b+"(\\s+|$)")},hasClass:function(b,a){return this.classReg(a).test(b.className)},given:function(b,a,c){this.hasClass(this.el,b)&&a.apply(null,c);return this}};d.Contexe=Contexe;return d})(this,document);
+!function(a,b){Contexe=function(a){var c=a||"html",d=Contexe;if(!(this instanceof d)){var e=d.ins;typeof e[a]=="undefined"&&(e[a]=new d(a));return e[a]}c==="html"?c=b.getElementsByTagName("html")[0]:c==="body"&&(c=b.getElementsByTagName("body")[0]),this.el=c},Contexe.ins=[],Contexe.prototype={classReg:function(a){return new RegExp("(^|\\s+)"+a+"(\\s+|$)")},hasClass:function(a,b){return this.classReg(b).test(a.className)},given:function(a,b,c){c=c||[],this.hasClass(this.el,a)&&b.apply(null,c);return this}},a.Contexe=Contexe;return a}(this,document);
 
 /* Main Annotum JS sandbox */
 (function ($) {
@@ -133,7 +133,7 @@ Anno.contexts = (function () {
 })();
 
 // Run on DOMReady
-$(function () {
+$(function ($) {
 	Anno.ready();
 });
 	
