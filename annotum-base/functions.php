@@ -336,8 +336,8 @@ function anno_settings_form_bottom() {
 			<th><label for="<?php echo $key; ?>"><?php _ex('Front Page Post Type', 'Label text for settings screen', 'annotum'); ?></label></th>
 			<td>
 				<select id="<?php echo $key; ?>" name="<?php echo $key; ?>">
-					<option value="post" <?php selected($opt, 'post'); ?>>Post</option>
-					<option value="article" <?php selected($opt, 'article'); ?>>Article</option>						
+					<option value="post" <?php selected($opt, 'post'); ?>><?php _ex('Post', 'post type name for select option', 'anno'); ?></option>
+					<option value="article" <?php selected($opt, 'article'); ?>><?php _ex('Article', 'post type name for select option', 'anno'); ?></option>						
 				</select>
 			</td>
 		</tr>
