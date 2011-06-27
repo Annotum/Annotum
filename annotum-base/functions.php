@@ -268,6 +268,7 @@ add_filter('comment_form_defaults', 'anno_comment_form_defaults');
 function anno_register_settings_forms_to_save() {
 	global $cfct_options;
 	$cfct_options[] = 'anno_callouts';
+	$cfct_options[] = 'anno_home_post_type';
 }
 add_action('init', 'anno_register_settings_forms_to_save', 9);
 
@@ -281,44 +282,70 @@ function anno_settings_form_top() {
 <table class="form-table">
 	<tbody>
 		<tr>
-			<th><?php _ex('Home Page Callout Left', 'Label text for settings screen', 'annotum'); ?></th>
+			<th><?php _ex('Home Page Callout Left', 'Label text for settings screen', 'anno'); ?></th>
 			<td>
 				<p>
-					<label for="<?php echo $key ?>-0-title"><?php _ex('Title', 'Label text for admin setting', 'annotum'); ?></label><br />
+					<label for="<?php echo $key ?>-0-title"><?php _ex('Title', 'Label text for admin setting', 'anno'); ?></label><br />
 					<input id="<?php echo $key ?>-0-title" class="widefat" name="<?php echo $key; ?>[0][title]" value="<?php echo esc_attr($opt[0]['title']); ?>" />
 				</p>
 				<p>
-					<label for="<?php echo $key ?>-0-url"><?php _ex('URL', 'Label text for admin setting', 'annotum'); ?></label><br />
+					<label for="<?php echo $key ?>-0-url"><?php _ex('URL', 'Label text for admin setting', 'anno'); ?></label><br />
 					<input id="<?php echo $key ?>-0-url" class="widefat" name="<?php echo $key; ?>[0][url]" value="<?php echo esc_url($opt[0]['url']); ?>" />
 				</p>
 				<p>
-					<label for="<?php echo $key ?>-0-content"><?php _ex('Content', 'Label text for admin setting', 'annotum'); ?></label><br />
+					<label for="<?php echo $key ?>-0-content"><?php _ex('Content', 'Label text for admin setting', 'anno'); ?></label><br />
 					<textarea id="<?php echo $key ?>-0-content" class="widefat" name="<?php echo $key; ?>[0][content]" rows="4"><?php echo esc_textarea($opt[0]['content']); ?></textarea>
 				</p>
 			</td>
 		</tr>
 		<tr>
-			<th><?php _ex('Home Page Callout Right', 'Label text for settings screen', 'annotum'); ?></th>
+			<th><?php _ex('Home Page Callout Right', 'Label text for settings screen', 'anno'); ?></th>
 			<td>
 				<p>
-					<label for="<?php echo $key ?>-1-title"><?php _ex('Title', 'Label text for admin setting', 'annotum'); ?></label><br />
+					<label for="<?php echo $key ?>-1-title"><?php _ex('Title', 'Label text for admin setting', 'anno'); ?></label><br />
 					<input id="<?php echo $key ?>-1-title" class="widefat" name="<?php echo $key; ?>[1][title]" value="<?php echo esc_attr($opt[1]['title']); ?>" />
 				</p>
 				<p>
-					<label for="<?php echo $key ?>-1-url"><?php _ex('URL', 'Label text for admin setting', 'annotum'); ?></label><br />
+					<label for="<?php echo $key ?>-1-url"><?php _ex('URL', 'Label text for admin setting', 'anno'); ?></label><br />
 					<input id="<?php echo $key ?>-1-url" class="widefat" name="<?php echo $key; ?>[1][url]" value="<?php echo esc_url($opt[1]['url']); ?>" />
 				</p>
 				<p>
-					<label for="<?php echo $key ?>-1-content"><?php _ex('Content', 'Label text for admin setting', 'annotum'); ?></label><br />
+					<label for="<?php echo $key ?>-1-content"><?php _ex('Content', 'Label text for admin setting', 'anno'); ?></label><br />
 					<textarea id="<?php echo $key ?>-1-content" class="widefat" name="<?php echo $key; ?>[1][content]" rows="4"><?php echo esc_textarea($opt[1]['content']); ?></textarea>
 				</p>
 			</td>
 		</tr>
 	</tbody>
 </table>
+
+
 <?php
 }
 add_action('cfct_settings_form_top', 'anno_settings_form_top');
+
+/**
+ * Form fragment for the Carrington theme settings page
+ */
+function anno_settings_form_bottom() {
+	$key = 'anno_home_post_type';
+	$opt = get_option($key, 'article'); 
+?>	
+<table class="form-table">
+	<tbody>
+		<tr>
+			<th><label for="<?php echo $key; ?>"><?php _ex('Front Page Post Type', 'Label text for settings screen', 'annotum'); ?></label></th>
+			<td>
+				<select id="<?php echo $key; ?>" name="<?php echo $key; ?>">
+					<option value="post" <?php selected($opt, 'post'); ?>>Post</option>
+					<option value="article" <?php selected($opt, 'article'); ?>>Article</option>						
+				</select>
+			</td>
+		</tr>
+	</tbody>
+</table>
+<?php
+}
+add_action('cfct_settings_form_bottom', 'anno_settings_form_bottom');
 
 /**
  * Determines whether or not an email address is valid
