@@ -254,19 +254,6 @@ Excerpt: %s
 %s', 'Email notification body', 'anno'), $title, $comment_author, $comment->comment_content, $comment_edit_link, $footer),
 				);
 				break;
-			case 'general_comment_reply':
-				$notification = array(
-					'subject' => sprintf(_x('Reply to internal comment on %s', 'Email notification subject', 'anno'), $title),
-					'body' => sprintf(_x(
-'%s has replied to your internal comment on %s.
---------------------
-%s
---------------------
-%s
-
-%s', 'Email notification body', 'anno'), $comment_author, $title, $comment->comment_content, $comment_edit_link, $footer),
-				);
-				break;
 			case 'review_comment':
 				$notification = array(
 					'subject' => sprintf(_x('New reviewer comment on %s', 'Email notification subject', 'anno'), $title),
@@ -278,19 +265,6 @@ Excerpt: %s
 %s
 
 %s', 'Email notification body', 'anno'), $title, $comment_author, $comment->comment_content, $comment_edit_link, $footer),
-				);
-				break;
-			case 'review_comment_reply':
-				$notification = array(
-					'subject' => sprintf(_x('Reply to reviewer comment on %s', 'Email notification subject', 'anno'), $title),
-					'body' => sprintf(_x(
-'%s has replied to your reviewer comment on %s.
---------------------
-%s
---------------------
-%s
-
-%s', 'Email notification body', 'anno'), $comment_author, $title, $comment->comment_content, $comment_edit_link, $footer),
 				);
 				break;
 			default:

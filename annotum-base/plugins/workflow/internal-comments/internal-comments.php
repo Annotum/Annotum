@@ -347,14 +347,6 @@ function anno_internal_comments_ajax() {
 	// Attach a 'round' to a comment, marking which revision number this is
 	$round = annowf_get_round($comment_post_ID);
 	update_comment_meta($comment->comment_ID, '_round', $round);  
-	
-
-	// Send email notification for a reply to a comment
-	if (anno_workflow_enabled('workflow_notifications') && !empty($comment_parent)) {
-		$parent_comment = get_comment($comment_parent);
-		$recipients = array(annowf_user_email($parent_comment->user_id));
-		annowf_send_notification($comment_base_type.'_comment_reply', $post, $comment, $recipients);
-	}
 
 	//Display markup for AJAX
 	anno_internal_comment_table_row($comment);
@@ -444,9 +436,27 @@ function anno_internal_comments_surpress_notification() {
 /**
  * Enforce general comment capabilities
  */
-function anno_internal_comments_capabilities() {
-	
+function anno_internal_comments_capabilities($allcaps, $caps, $args) {
+// $args are an array => 'capability_name' , 'user_id', 'additional args (obj id)'
+	if ($args[0] == 'edit_comment') {
+		$comment = get_comment($args[2]);
+		if (!empty($comment) && ($comment->comment_type == 'article_general' || $comment->comment_type == 'article_review')) {
+			if (anno_workflow_enabled()) {
+				if (!anno_user_can('manage_'.$comment->comment_type, $args[1], '', $args[2])) {
+					$allcaps = array();
+				}
+			}
+			//No internal comments should be editable if the workflow is disabled
+			else {
+				$allcaps = array();
+			}	
+		}
+	}
+	return $allcaps;
 }
-add_action('admin_init', 'anno_internal_comments_capabilities', 1);
+add_action('user_has_cap', 'anno_internal_comments_capabilities', 1, 3);
 
+
+
+//annowf_user_has_cap_filter
 ?>
