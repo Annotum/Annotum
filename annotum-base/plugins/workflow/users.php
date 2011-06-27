@@ -9,7 +9,8 @@
  * 
  * @param string $cap The capability to check
  * @param int $user_id The user id to check for a capability. Defaults to current user (global)
- * @param int $post_id The ID of the object to check (post, comment etc..). Defaults to current post (global)
+ * @param int $post_id The ID of the post to check Defaults to current post (global)
+ * @param int $comment_id the ID of the comment to check
  * @return bool True if user has the given capability for the given post
  */ 
 function anno_user_can($cap, $user_id = null, $post_id = null, $comment_id = null) {
@@ -87,7 +88,13 @@ function anno_user_can($cap, $user_id = null, $post_id = null, $comment_id = nul
 				return true;
 			}
 			break;
-		case 'manage_general_comment':
+		case 'edit_comment':
+			$comment = get_comment($comment_id);
+			if (($user_role && in_array($user_role, array($editor, $admin))) || $user_id == $comment->user_id) {
+				return true;
+			}
+			break;
+		case 'add_general_comment':
 			// Anyone who isn't a reviewer, attached to the post and not in published state
 			if ($user_role && $user_role != 'reviewer') {
 				return true;
@@ -95,12 +102,11 @@ function anno_user_can($cap, $user_id = null, $post_id = null, $comment_id = nul
 			break;
 		case 'view_general_comment':
 		case 'view_general_comments':
-			// if user is author/co-author or editor+
 			if ($user_role) {
 				return true;
 			}
 			break;
-		case 'manage_review_comment':
+		case 'add_review_comment':
 			// if user is reviewer or editor+ and state is in review
 			if ($user_role && !in_array($user_role, array('author', 'co-author')) && $post_state == 'in_review') {
 				return true;

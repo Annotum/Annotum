@@ -87,7 +87,6 @@ function anno_option_display($args) {
 			$html = '<input id="'.$label_for.'" name="'.esc_attr('anontum_settings['.$name.']').'" type="text" value="'.$setting.'" />';
 			break;
 		default:
-			# code...
 			break;
 	}
 	if (!empty($help)) {

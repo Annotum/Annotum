@@ -58,7 +58,7 @@ function anno_internal_comments_display($type) {
 			}
 		}
 	}
-	if (anno_user_can('manage_'.$type.'_comment')) {
+	if (anno_user_can('add_'.$type.'_comment')) {
 		anno_internal_comments_form($type);
 	}
 ?>
@@ -122,10 +122,15 @@ function anno_internal_comment_table_row($cur_comment) {
 				$comment->comment_content
 			.'</p>';
 			
-			if (anno_user_can('manage_general_comment')) {
+			$actions = array();
+			if (anno_user_can('add_'.str_replace('article_', '', $comment->comment_type).'_comment')) {
 				$actions['reply'] = '<a href="#" class="reply">'._x('Reply', 'Internal comment action link text', 'anno').'</a>';
+			}
+			
+			if (anno_user_can('edit_comment', null, null, $comment->comment_ID )) {
 				$actions['edit'] = '<a href="comment.php?action=editcomment&amp;c='.$comment->comment_ID.'" title="'.esc_attr_x( 'Edit comment', 'Internal comment action link title', 'anno').'">'._x('Edit', 'Internal comment action link text',  'anno').'</a>';
 				$actions['delete'] = '<a class="anno-trash-comment" href="'.wp_nonce_url('comment.php?action=trashcomment&amp;c='.$comment->comment_ID, 'delete-comment_'.$comment->comment_ID).'">'._x('Trash', 'Internal comment action link text', 'anno').'</a>';
+			}
 				echo '
 				<div class="row-actions" data-comment-id="'.$comment->comment_ID.'">';
 				$i = 1;
@@ -141,7 +146,6 @@ function anno_internal_comment_table_row($cur_comment) {
 				}
 				echo '
 				</div>';
-			}
 			?>
 		</td>
 	</tr>
@@ -442,7 +446,7 @@ function anno_internal_comments_capabilities($allcaps, $caps, $args) {
 		$comment = get_comment($args[2]);
 		if (!empty($comment) && ($comment->comment_type == 'article_general' || $comment->comment_type == 'article_review')) {
 			if (anno_workflow_enabled()) {
-				if (!anno_user_can('manage_'.$comment->comment_type, $args[1], '', $args[2])) {
+				if (!anno_user_can('edit_comment', $args[1], '', $args[2])) {
 					$allcaps = array();
 				}
 			}
