@@ -100,8 +100,7 @@ function annowf_notification_message($type, $post, $comment, $single_user = null
 	$edit_link = get_edit_post_link($post->ID, null);
 	$title = $post->post_title;
 	
-	//TODO
-	$reviewer_instructions = _x('Reviewer Instructions', 'Instructions sent to reviewers via email notification', 'anno');
+	$reviewer_instructions = _x('To review this article, please visit the URL above and navigate to the Reviews section. You may leave comments and questions in this sections as well as providing a general review of \'Approve\', \'Reject\' or \'Request Revisions\' from the dropdown.', 'Instructions sent to reviewers via email notification', 'anno');
 	
 	$notification = array('subject' => '', 'body' => '');
 	switch ($type) {
