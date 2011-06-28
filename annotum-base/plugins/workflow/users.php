@@ -304,7 +304,7 @@ function annowf_add_user_to_post($type, $user_id, $post_id) {
  */
 function annowf_remove_user_from_post($type, $user_id, $post_id) {
 	$type = str_replace('-', '_', $type);
-	if ($type == 'reviewer' || $type == 'co_authors') {
+	if ($type == 'reviewer' || $type == 'co_author') {
 		$type = '_anno_'.$type;
 	}
 

@@ -515,13 +515,13 @@ add_action('wp_ajax_anno-remove-reviewer', 'annowf_remove_reviewer');
 function annowf_remove_co_author() {
 	$response = annowf_remove_user('co_author');
 	if ($response['message'] == 'success') {
-		if (isset($_POST['user_id'])) {
-						
+		if (isset($_POST['user_id'])) {	
 			//Add to the audit log
 			$current_user = wp_get_current_user();
 			annowf_save_audit_item(absint($_POST['post_id']), $current_user->ID, 7, array(absint($_POST['user_id'])));
 		}
 	}
+	echo json_encode($response);
 	die();
 }
 add_action('wp_ajax_anno-remove-co_author', 'annowf_remove_co_author');
