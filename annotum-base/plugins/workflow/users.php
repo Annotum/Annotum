@@ -83,7 +83,7 @@ function anno_user_can($cap, $user_id = null, $post_id = null, $comment_id = nul
 			break;
 		case 'leave_review':
 			// Only reviewers, and in_review state
-			$reviewers = annowf_get_post_users($post_id, '_reviewers');
+			$reviewers = anno_get_reviewers($post_id);
 			if (in_array($user_id, $reviewers) && $post_state == 'in_review') {
 				return true;
 			}
@@ -252,12 +252,12 @@ function anno_role($user_id = null, $post_id = null) {
 	else if ($user->has_cap('editor')) {
 		return 'editor';
 	}
-	$reviewers = annowf_get_post_users($post_id, '_reviewers');
+	$reviewers = anno_get_reviewers($post_id);
 	if (is_array($reviewers) && in_array($user_id, $reviewers)) {
 		return 'reviewer';
 	}
 	
-	$co_authors = annowf_get_post_users($post_id, '_co_authors');
+	$co_authors = anno_get_co_authors($post_id);
 	if (is_array($co_authors) && in_array($user_id, $co_authors)) {
 		return 'co-author';
 	}
@@ -270,60 +270,28 @@ function anno_role($user_id = null, $post_id = null) {
 }
 
 /**
- * Gets all user of a certain role for a given post 
- *
- * @param int $post_id ID of the post to check
- * @param string $type the type/role of user to get. Accepts meta key or role.
- * @return array Array of reviewers (or empty array if none exist)
- */
-//TODO remove from workflow
-function annowf_get_post_users($post_id = null, $type) {
-	$type = str_replace('-', '_', $type);
-	if ($type == 'reviewers' || $type == 'co_authors') {
-		$type = '_'.$type;
-	}
-	
-	if ($post_id == null) {
-		global $post;
-		$post_id = $post->ID;
-	}
-	$users = get_post_meta($post_id, $type, true);
-	if (!is_array($users)) {
-		return array();
-	}
-	else {
-		return $users;
-	}
-}
-
-/**
  * Adds a user to a given post with a given role
  * 
  * @param string $type Type of user to add. Can be the meta_key.
  * @param int $user_id ID of the user being added to the post
  * @param int $post_id ID of the post to add the user to. Loads from global if nothing is passed.
- * @return bool True if successfully added, false otherwise
+ * @return bool True if successfully added or already a user associated with the post, false otherwise
  */ 
-function annowf_add_user_to_post($type, $user_id, $post_id = null) {
+function annowf_add_user_to_post($type, $user_id, $post_id) {
 	$type = str_replace('-', '_', $type);
-	if ($type == 'reviewers' || $type == 'co_authors') {
-		$type = '_'.$type;
+	if ($type == 'reviewer' || $type == 'co_author') {
+		$type = '_anno_'.$type;
 	}
 	
-	if ($post_id == null) {
-		global $post;
-		$post_id = $post->ID;
-	}
-	
-	$users = get_post_meta($post_id, $type, true);
+	$users = get_post_meta($post_id, $type, false);
 	if (!is_array($users)) {
-		$users = array($user_id);
+		return add_post_meta($post_id, $type, $user_id);
 	}
-	else {
-		$users[] = $user_id;
+	else if (!in_array($user_id, $users)) {
+		return add_post_meta($post_id, $type, $user_id);
 	}
 	
-	return update_post_meta($post_id, $type, array_unique($users));
+	return true;
 }
 
 /**
@@ -334,31 +302,13 @@ function annowf_add_user_to_post($type, $user_id, $post_id = null) {
  * @param int $post_id ID of the post to remove the user from. Loads from global if nothing is passed.
  * @return bool True if successfully removed, false otherwise
  */
-function annowf_remove_user_from_post($type, $user_id, $post_id = null) {
+function annowf_remove_user_from_post($type, $user_id, $post_id) {
 	$type = str_replace('-', '_', $type);
-	if ($type == 'reviewers' || $type == 'co_authors') {
-		$type = '_'.$type;
-	}
-	
-	if ($post_id == null) {
-		global $post;
-		$post_id = $post->ID;
-	}
-	
-	$users = get_post_meta($post_id, $type, true);
-	if (!is_array($users)) {
-		return true;
+	if ($type == 'reviewer' || $type == 'co_authors') {
+		$type = '_anno_'.$type;
 	}
 
-	$key = array_search($user_id, $users);
-	if ($key !== false) {
-		unset($users[$key]);
-	}
-	else {
-		return true;
-	}
-	
-	return update_post_meta($post_id, $type, array_unique($users));
+	return delete_post_meta($post_id, $type, $user_id);
 }
 
 /**
@@ -377,14 +327,14 @@ function annowf_get_role_emails($role, $post = null) {
 		case 'co-author':
 		case 'co_author':
 		case 'author':
-			$user_ids = annowf_get_post_users($post->ID, '_co_authors');
+			$user_ids = anno_get_co_authors($post->ID);
 			$user_ids[] = $post->post_author;
 			if (!empty($user_ids)) {
 				$users = get_users(array('include' => $user_ids));
 			}
 			break;
 		case 'reviewer':
-			$user_ids = annowf_get_post_users($post->ID, '_reviewers');
+			$user_ids = anno_get_reviewers($post->ID);
 			if (!empty($user_ids)) {
 				$users = get_users(array('include' => $user_ids));
 			}

@@ -93,7 +93,7 @@ function annowf_notification_message($type, $post, $comment, $single_user = null
 		$single_user = annowf_user_display($single_user);
 	}
 
-	$authors = annowf_get_post_users($post_id, '_co_authors');
+	$authors = anno_get_co_authors($post_id);
 	$authors = array_merge(array($post->post_author), $authors);	
 	$author_names = array_map('annowf_user_display', $authors);
 

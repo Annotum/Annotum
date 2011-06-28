@@ -167,7 +167,7 @@ function anno_internal_comments_reviewer_comments() {
 	global $anno_review_options, $current_user, $post;
 	$round = annowf_get_round($post->ID);
 	$user_review = get_user_meta($current_user->ID, '_'.$post->ID.'_review_'.$round, true);
-	$reviewers = annowf_get_post_users($post->ID, '_reviewers');
+	$reviewers = anno_get_reviewers($post->ID);
 	if (anno_user_can('leave_review', $current_user->ID, $post->ID)) {
 ?>
 <div class="review-section <?php echo 'status-'.$user_review; ?>">
@@ -372,8 +372,11 @@ function anno_internal_comments_review_ajax() {
 
 		update_user_meta($current_user->ID, '_'.$post_id.'_review_'.$post_round, $review);
 		
-		$reviewed = annowf_get_post_users($post_id, '_round_'.$post_round.'_reviewed');
-		
+		$reviewed = get_post_meta($post_id, '_round_'.$post_round.'_reviewed', true);
+		if (!is_array($reviewed)) {
+			$reviewed = array();
+		}
+				
 		// If review is set to none, remove the user from reviewed, otherwise update it with the current user.
 		if ($review != 0) {
 			if (!in_array($current_user->ID, $reviewed)) {

@@ -389,8 +389,7 @@ add_filter('comment_feed_where', 'anno_internal_comments_query');
 
 
 /**
- * 
- * 
+ * Output Google Analytics Code if a GA ID is present
  */
 function anno_ga_js() {
 	$ga_id = anno_get_option('anno_ga_id');
@@ -415,6 +414,48 @@ function anno_ga_js() {
 }
 if (!is_admin()) {
 	add_action('wp_print_scripts', 'anno_ga_js');
+}
+
+/**
+ * Get a list of co-authors for a given post
+ * 
+ * @param int post_id post ID to retrieve users from
+ * @return array Array of user IDs
+ */ 
+function anno_get_co_authors($post_id) {
+	return anno_get_post_users($post_id, '_anno_co_author');
+}
+
+/**
+ * Get a list of reviewers for a given post
+ * 
+ * @param int post_id post ID to retrieve users from
+ * @return array Array of user IDs
+ */
+function anno_get_reviewers($post_id) {
+	return anno_get_post_users($post_id, '_anno_reviewer');
+}
+
+/**
+ * Gets all user of a certain role for a given post 
+ *
+ * @param int $post_id ID of the post to check
+ * @param string $type the type/role of user to get. Accepts meta key or role.
+ * @return array Array of reviewers (or empty array if none exist)
+ */
+function anno_get_post_users($post_id, $type) {
+	$type = str_replace('-', '_', $type);
+	if ($type == 'reviewer' || $type == 'co_author') {
+		$type = '_anno_'.$type;
+	}
+	
+	$users = get_post_meta($post_id, $type, false);
+	if (!is_array($users)) {
+		return array();
+	}
+	else {
+		return $users;
+	}
 }
 
 ?>
