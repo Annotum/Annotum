@@ -131,10 +131,13 @@ class Anno_Template {
 	 * @return array
 	 */
 	public function get_contributor_ids($post_id = null) {
-		//TODO ordering
+		if (empty($post_id)) {
+			global $post;
+			$post_id = $post->ID;
+		}
 		
 		/* Get the additional contributors, if the workflow is turned on. */
-		$authors = anno_get_co_authors($post->ID);
+		$authors = anno_get_co_authors($post_id);
 
 	
 		return $authors;
