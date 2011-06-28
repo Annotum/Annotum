@@ -13,14 +13,25 @@ if (__FILE__ == $_SERVER['SCRIPT_FILENAME']) { die(); }
 if (CFCT_DEBUG) { cfct_banner(__FILE__); }
 
 $author = esc_attr(get_query_var('author_name'));
+$user = get_user_by('login', $author);
 
 get_header();
+
+global $wp_query;
+$wp_query = new WP_Query(array(
+	'post_type' => array('article', 'post'),
+	'meta_query' => array(
+		array( 
+			'key' => '_anno_co_author',
+			'value' => $user->ID,
+		),
+	),
+));
 
 ?>
 <div id="main-body" class="clearfix">
 	<?php 
-		
-		$user = get_user_by('login', $author);
+
 		if (is_object($user)) {
 			global $anno_user_meta;
 			foreach ($anno_user_meta as $key => $value) {
