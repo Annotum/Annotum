@@ -257,15 +257,15 @@ function anno_role($user_id = null, $post_id = null) {
 		return 'reviewer';
 	}
 	
-	$co_authors = anno_get_co_authors($post_id);
-	if (is_array($co_authors) && in_array($user_id, $co_authors)) {
-		return 'co-author';
-	}
-	
 	if ($post && $post->post_author == $user_id) {
 		return 'author';
 	}
 	
+	$co_authors = anno_get_co_authors($post_id);
+	if (is_array($co_authors) && in_array($user_id, $co_authors)) {
+		return 'co-author';
+	}
+		
 	return false;	
 }
 
@@ -328,7 +328,6 @@ function annowf_get_role_emails($role, $post = null) {
 		case 'co_author':
 		case 'author':
 			$user_ids = anno_get_co_authors($post->ID);
-			$user_ids[] = $post->post_author;
 			if (!empty($user_ids)) {
 				$users = get_users(array('include' => $user_ids));
 			}

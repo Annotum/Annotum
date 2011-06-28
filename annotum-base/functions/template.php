@@ -131,25 +131,12 @@ class Anno_Template {
 	 * @return array
 	 */
 	public function get_contributor_ids($post_id = null) {
-		if ($post_id) {
-			$post = get_post($post_id);
-			$author_id = $post->post_author;
-			unset($post);
-		}
-		else {
-			$post_id = get_the_ID();
-			$author_id = get_the_author_meta('id');
-		}
-
-		$authors = array();
-
+		//TODO ordering
+		
 		/* Get the additional contributors, if the workflow is turned on. */
-		if (function_exists('annowf_get_post_users')) {
-			$authors = annowf_get_post_users($post->ID, '_co_authors');
-		}
-		/* Everybody together now! */
-		array_unshift($authors, $author_id);
+		$authors = anno_get_co_authors($post->ID);
 
+	
 		return $authors;
 	}
 

@@ -423,7 +423,7 @@ if (!is_admin()) {
  * @return array Array of user IDs
  */ 
 function anno_get_co_authors($post_id) {
-	return anno_get_post_users($post_id, '_anno_co_author');
+	return array_unique(anno_get_post_users($post_id, '_anno_co_author'));
 }
 
 /**
@@ -433,7 +433,7 @@ function anno_get_co_authors($post_id) {
  * @return array Array of user IDs
  */
 function anno_get_reviewers($post_id) {
-	return anno_get_post_users($post_id, '_anno_reviewer');
+	return array_unique(anno_get_post_users($post_id, '_anno_reviewer'));
 }
 
 /**
@@ -457,5 +457,22 @@ function anno_get_post_users($post_id, $type) {
 		return $users;
 	}
 }
+
+/**
+ * Add author to meta co-author for more efficient author archive queries
+ */ 
+function anno_wp_insert_post($post_id, $post) {
+	if (($post->post_type == 'article' || $post->post_type == 'post') && !in_array($post->post_status,  array('inherit', 'auto-draft'))) {
+		
+		$co_authors = get_post_meta($post_id, '_anno_co_author', false);
+		if (!is_array($co_authors)) {
+			add_post_meta($post_id, '_anno_co_author', $post->post_author);
+		}
+		else if (!in_array($post->post_author, $co_authors)) {
+			add_post_meta($post_id, '_anno_co_author', $post->post_author);
+		}
+	}
+}
+add_action('wp_insert_post', 'anno_wp_insert_post', 10, 2);
 
 ?>

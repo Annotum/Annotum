@@ -293,6 +293,10 @@ function annowf_co_authors_meta_box($post) {
 		<ul id="co-author-list" data-type="co_author">
 <?php
 	foreach ($co_authors as $user_id) {
+		// Prevent primary author from showing up in this list.
+		if ($user_id == $post->post_author) {
+			continue;
+		}
 		$user = get_userdata($user_id);
 		if ($user) {
 				annowf_user_li_markup($user, 'co_author');
@@ -697,9 +701,7 @@ function annowf_author_meta_box($post) {
 		echo esc_html($author->user_login);
 	}
 	else {
-	
-		$authors = anno_get_co_authors($post->ID);
-		$authors[] = $post->post_author;	
+		$authors = anno_get_co_authors($post->ID);	
 ?>
 <label class="screen-reader-text" for="post_author_override"><?php _ex('Author', 'Author meta box dropdown label', 'anno'); ?></label>
 <?php
