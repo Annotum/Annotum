@@ -21,6 +21,17 @@ When the workflow is active, the site-wide roles of `author` and `contributor` h
 
 When the workflow is not active, the `author` and `contributor` roles should act according to their default WordPress capabilities. See [Roles and Capabilities](http://codex.wordpress.org/Roles_and_Capabilities) in the WordPress Codex for more information on the capabilities of these roles.
 
+## Header Image
+
+You can upload a custom header image, replacing the site title that normally shows up in the header. In the current version of WordPress, header images are required to have fixed dimensions. This is slated to change with future versions of WordPress, but for now practical rules for adding a header image are:
+
+- Header images are required to be a fixed width and height.
+- The required width/height of header images is 500x52; it's extra long so longer logos will fit.
+- Uploaded images that are larger will prompt you to crop them, using a tool in the settings screen.
+- If your logo has transparency (`.gif` or `.png`), make sure you upload a version that is *exactly* 500x52. WordPress has limited support for image scaling, so if it has to scale your image, you'll lose the transparency.
+
+When a custom image is defined, it will replace the text in the header.
+
 ## Home Page Callouts
 
 You can optionally add 1 or 2 callouts to the home page, that contain announcements, notices or other important info.
@@ -37,7 +48,6 @@ Annotum has full support for internationalization. It also supports right-to-lef
 
 1. Get [WordPress in your language](http://codex.wordpress.org/WordPress_in_Your_Language).
 2. Install your Annotum language pack in `annotum-base/languages/`. If you don't have a language pack for Annotum in your language, consider [creating a translation yourself](http://codex.wordpress.org/Translating_WordPress).
-
 
 ## For Theme Developers
 
