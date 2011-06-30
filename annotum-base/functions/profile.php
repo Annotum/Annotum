@@ -115,7 +115,7 @@ add_action('init', 'anno_profile_request_handler', 0);
 //TODO Order
 function anno_users_snapshot($post_id, $post) {
 	if ($post->post_status == 'publish' && $post->post_type == 'article') {
-		$authors = anno_get_co_authors($post->ID);
+		$authors = anno_get_authors($post->ID);
 		$author_meta = get_post_meta($post_id, '_anno_author_snapshot', true);
 		if (!is_array($author_meta)) {
 			$author_meta = array();
