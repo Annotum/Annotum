@@ -137,7 +137,7 @@ class Anno_Template {
 		}
 		
 		/* Get the additional contributors, if the workflow is turned on. */
-		$authors = anno_get_co_authors($post_id);
+		$authors = anno_get_authors($post_id);
 
 	
 		return $authors;
