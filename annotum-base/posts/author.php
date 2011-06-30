@@ -22,8 +22,7 @@ $wp_query = new WP_Query(array(
 	'post_type' => array('article', 'post'),
 	'meta_query' => array(
 		array( 
-			'key' => '_anno_co_author',
-			'value' => $user->ID,
+			'key' => '_anno_author_'.$user->ID,
 		),
 	),
 ));
