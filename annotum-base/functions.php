@@ -25,6 +25,7 @@ include_once(CFCT_PATH.'functions/featured-articles.php');
 include_once(CFCT_PATH.'functions/template.php');
 include_once(CFCT_PATH.'functions/widgets.php');
 include_once(CFCT_PATH.'functions/profile.php');
+include_once(CFCT_PATH.'functions/tinymce.php');
 include_once(CFCT_PATH.'plugins/load.php');
 
 function anno_setup() {
@@ -417,13 +418,13 @@ if (!is_admin()) {
 }
 
 /**
- * Get a list of co-authors for a given post
+ * Get a list of authors for a given post
  * 
  * @param int post_id post ID to retrieve users from
  * @return array Array of user IDs
  */ 
-function anno_get_co_authors($post_id) {
-	return array_unique(anno_get_post_users($post_id, '_anno_co_author'));
+function anno_get_authors($post_id) {
+	return array_unique(anno_get_post_users($post_id, 'author'));
 }
 
 /**
@@ -433,7 +434,7 @@ function anno_get_co_authors($post_id) {
  * @return array Array of user IDs
  */
 function anno_get_reviewers($post_id) {
-	return array_unique(anno_get_post_users($post_id, '_anno_reviewer'));
+	return array_unique(anno_get_post_users($post_id, 'reviewer'));
 }
 
 /**
@@ -445,11 +446,12 @@ function anno_get_reviewers($post_id) {
  */
 function anno_get_post_users($post_id, $type) {
 	$type = str_replace('-', '_', $type);
-	if ($type == 'reviewer' || $type == 'co_author') {
-		$type = '_anno_'.$type;
+	if ($type == 'reviewer' || $type == 'author') {
+		$type = '_anno_'.$type.'_order';
 	}
-	
-	$users = get_post_meta($post_id, $type, false);
+
+	$users = get_post_meta($post_id, $type, true);
+
 	if (!is_array($users)) {
 		return array();
 	}
@@ -464,12 +466,16 @@ function anno_get_post_users($post_id, $type) {
 function anno_wp_insert_post($post_id, $post) {
 	if (($post->post_type == 'article' || $post->post_type == 'post') && !in_array($post->post_status,  array('inherit', 'auto-draft'))) {
 		
-		$co_authors = get_post_meta($post_id, '_anno_co_author', false);
-		if (!is_array($co_authors)) {
-			add_post_meta($post_id, '_anno_co_author', $post->post_author);
+		$authors = get_post_meta($post_id, '_anno_author_order', false);
+		if (!is_array($authors)) {
+			update_post_meta($post_id, '_anno_author_order', array($post->post_author));
+			add_post_meta($post_id, '_anno_author_'.$post->post_author, $post->post_author, true);
 		}
-		else if (!in_array($post->post_author, $co_authors)) {
-			add_post_meta($post_id, '_anno_co_author', $post->post_author);
+		else if (!in_array($post->post_author, $authors)) {
+			// Make sure the primary author is first
+			array_unshift($authors, $post->post_author);
+			update_post_meta($post_id, '_anno_author_order', array_unique($authors));
+			add_post_meta($post_id, '_anno_author_'.$post->post_author, $post->post_author, true);
 		}
 	}
 }

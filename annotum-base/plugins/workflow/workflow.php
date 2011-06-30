@@ -215,8 +215,8 @@ function annowf_transistion_state($post_id, $post, $post_before) {
 		
 		// Author has changed, add original author as co-author, remove new author from co-authors
 		if ($post->post_author !== $post_before->post_author) {
-			annowf_add_user_to_post('_anno_co_author', $post_before->post_author, $post->ID);
-			annowf_remove_user_from_post('_anno_co_author', $post->post_author, $post->ID);
+			annowf_add_user_to_post('author', $post_before->post_author, $post->ID);
+			annowf_remove_user_from_post('author', $post->post_author, $post->ID);
 			if (anno_workflow_enabled('workflow_notifications')) {
 				annowf_send_notification('primary_author', $post, null, array(annowf_user_email($post->post_author)));
 			}
@@ -279,7 +279,7 @@ function annowf_co_authors_meta_box($post) {
 	<div id="co-authors-meta-box">
 		<div id="co-author-add-error" class="anno-error"></div>
 <?php
-	$co_authors = anno_get_co_authors($post->ID);
+	$co_authors = anno_get_authors($post->ID);
 	if (anno_user_can('manage_co_authors', null, $post->ID)) {
 ?>
 		<div class="user-input-wrap">
@@ -447,19 +447,26 @@ function annowf_add_user($type) {
 		
 		if (!empty($user)) {
 			$post = get_post($_POST['post_id']);
-			$co_authors = anno_get_co_authors(absint($_POST['post_id']));
+			$co_authors = anno_get_authors(absint($_POST['post_id']));
 			$reviewers = anno_get_reviewers(absint($_POST['post_id']));
-
+			
+			if ($type == 'reviewer') {
+				$type_string = _x('reviewer', 'noun describing user', 'anno');
+			}
+			else {
+				$type_string = _x('co-author', 'noun describing user', 'anno');
+			}
+			
 			if ($post->post_author == $user->ID) {
-				$html = sprintf(_x('Cannot add author as a %s', 'Adding user error message for article meta box', 'anno'), $type);
+				$html = sprintf(_x('Cannot add author as a %s', 'Adding user error message for article meta box', 'anno'), $type_string);
 			}
 			else if (in_array($user->ID, $co_authors) ) {
-				$html = sprintf(_x('Cannot add %s as %s. User is already a co-author', 'Adding user error message for article meta box', 'anno'), $user->user_login, $type);
+				$html = sprintf(_x('Cannot add %s as %s. User is already a co-author', 'Adding user error message for article meta box', 'anno'), $user->user_login, $type_string);
 			}
 			else if (in_array($user->ID, $reviewers)) {
-				$html = sprintf(_x('Cannot add %s as %s. User is already a reviewer', 'Adding user error message for article meta box', 'anno'), $user->user_login, $type);
+				$html = sprintf(_x('Cannot add %s as %s. User is already a reviewer', 'Adding user error message for article meta box', 'anno'), $user->user_login, $type_string);
 			}
-			else if (annowf_add_user_to_post('_anno_'.$type, $user->ID, absint($_POST['post_id']))) {
+			else if (annowf_add_user_to_post($type, $user->ID, absint($_POST['post_id']))) {
 				$message = 'success';
 				ob_start();
 					annowf_user_li_markup($user, $type);
@@ -537,7 +544,7 @@ function annowf_remove_user($type) {
 	check_ajax_referer('anno_manage_'.$type, '_ajax_nonce-manage-'.$type);
 	$response['message'] = 'error';
 	if (isset($_POST['user_id']) && isset($_POST['post_id'])) {
-		if (annowf_remove_user_from_post('_anno_'.$type, absint($_POST['user_id']), absint($_POST['post_id']))) {
+		if (annowf_remove_user_from_post($type, absint($_POST['user_id']), absint($_POST['post_id']))) {
 			$response['message'] = 'success';
 		}
 	}
@@ -701,7 +708,7 @@ function annowf_author_meta_box($post) {
 		echo esc_html($author->user_login);
 	}
 	else {
-		$authors = anno_get_co_authors($post->ID);	
+		$authors = anno_get_authors($post->ID);	
 ?>
 <label class="screen-reader-text" for="post_author_override"><?php _ex('Author', 'Author meta box dropdown label', 'anno'); ?></label>
 <?php

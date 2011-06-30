@@ -94,7 +94,7 @@ function annowf_notification_message($type, $post, $comment, $single_user = null
 	}
 
 //TODO Ordering
-	$authors = anno_get_co_authors($post_id);
+	$authors = anno_get_authors($post_id);
 	$author_names = array_map('annowf_user_display', $authors);
 
 	$edit_link = get_edit_post_link($post->ID, null);
