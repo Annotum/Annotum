@@ -128,8 +128,12 @@ function annowf_minor_action_in_review_markup() {
 		annowf_minor_action_preview_markup();
 		if ($post_round !== false) {
 			// Return array of user ids who have given reviews for this round
-			$round_reviewed = count(annowf_get_post_users($post->ID, '_round_'.$post_round.'_reviewed'));		
-			$reviewers = count(annowf_get_post_users($post->ID, '_reviewers'));
+			$round_reviewed = get_post_meta($post->ID, '_round_'.$post_round.'_reviewed', true);
+			if (!is_array($round_reviewed)) {
+				$round_reviewed = array();
+			}
+			$round_reviewed = count($round_reviewed);		
+			$reviewers = count(anno_get_reviewers($post->ID));
 ?>
 			<p class="status-text">
 <?php

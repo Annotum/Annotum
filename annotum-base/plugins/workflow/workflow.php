@@ -173,7 +173,7 @@ function annowf_transistion_state($post_id, $post, $post_before) {
 					}
 					break;
 				case $anno_post_save['review']:	
-					$reviewers = annowf_get_post_users($post->ID, '_reviewers');
+					$reviewers = anno_get_reviewers($post->ID);
 					if (is_array($reviewers) && count($reviewers) && in_array($old_state, array('submitted', 'draft'))) {
 						$new_state = 'in_review';
 					}
@@ -215,8 +215,8 @@ function annowf_transistion_state($post_id, $post, $post_before) {
 		
 		// Author has changed, add original author as co-author, remove new author from co-authors
 		if ($post->post_author !== $post_before->post_author) {
-			annowf_add_user_to_post('_co_authors', $post_before->post_author, $post->ID);
-			annowf_remove_user_from_post('_co_authors', $post->post_author, $post->ID);
+			annowf_add_user_to_post('_anno_co_author', $post_before->post_author, $post->ID);
+			annowf_remove_user_from_post('_anno_co_author', $post->post_author, $post->ID);
 			if (anno_workflow_enabled('workflow_notifications')) {
 				annowf_send_notification('primary_author', $post, null, array(annowf_user_email($post->post_author)));
 			}
@@ -246,7 +246,7 @@ function annowf_reviewers_meta_box($post) {
 	<div id="reviewers-meta-box">
 		<div id="reviewer-add-error" class="anno-error"></div>
 <?php
-	$reviewers = annowf_get_post_users($post->ID, '_reviewers');
+	$reviewers = anno_get_reviewers($post->ID);
 	if (anno_user_can('manage_reviewers', null, $post->ID)) {
 ?>
 		<div class="user-input-wrap">
@@ -279,7 +279,7 @@ function annowf_co_authors_meta_box($post) {
 	<div id="co-authors-meta-box">
 		<div id="co-author-add-error" class="anno-error"></div>
 <?php
-	$co_authors = annowf_get_post_users($post->ID, '_co_authors');
+	$co_authors = anno_get_co_authors($post->ID);
 	if (anno_user_can('manage_co_authors', null, $post->ID)) {
 ?>
 		<div class="user-input-wrap">
@@ -293,6 +293,10 @@ function annowf_co_authors_meta_box($post) {
 		<ul id="co-author-list" data-type="co_author">
 <?php
 	foreach ($co_authors as $user_id) {
+		// Prevent primary author from showing up in this list.
+		if ($user_id == $post->post_author) {
+			continue;
+		}
 		$user = get_userdata($user_id);
 		if ($user) {
 				annowf_user_li_markup($user, 'co_author');
@@ -396,7 +400,6 @@ function annowf_add_co_author() {
 	if ($response['message'] == 'success') {
 		// Used for quick access when filtering posts on a post-author page
 		$post_id = absint($_POST['post_id']);
-		add_post_meta($post_id, '_article_co_author', $response['user']->ID, false);
 		
 		// Send email
 		if (anno_workflow_enabled('workflow_notifications')) {
@@ -444,8 +447,8 @@ function annowf_add_user($type) {
 		
 		if (!empty($user)) {
 			$post = get_post($_POST['post_id']);
-			$co_authors = annowf_get_post_users($_POST['post_id'], '_co_authors');
-			$reviewers = annowf_get_post_users($_POST['post_id'], '_reviewers');
+			$co_authors = anno_get_co_authors(absint($_POST['post_id']));
+			$reviewers = anno_get_reviewers(absint($_POST['post_id']));
 
 			if ($post->post_author == $user->ID) {
 				$html = sprintf(_x('Cannot add author as a %s', 'Adding user error message for article meta box', 'anno'), $type);
@@ -456,7 +459,7 @@ function annowf_add_user($type) {
 			else if (in_array($user->ID, $reviewers)) {
 				$html = sprintf(_x('Cannot add %s as %s. User is already a reviewer', 'Adding user error message for article meta box', 'anno'), $user->user_login, $type);
 			}
-			else if (annowf_add_user_to_post($type.'s', $user->ID, intval($_POST['post_id']))) {
+			else if (annowf_add_user_to_post('_anno_'.$type, $user->ID, absint($_POST['post_id']))) {
 				$message = 'success';
 				ob_start();
 					annowf_user_li_markup($user, $type);
@@ -483,13 +486,16 @@ function annowf_remove_reviewer() {
 		$user_id = absint($_POST['user_id']);
 		
 		// Send back to submitted state if we've removed all the reviewers
-		if (count(annowf_get_post_users($post_id, '_reviewers')) == 0) {
+		if (count(anno_get_reviewers($post_id)) == 0) {
 			update_post_meta($post_id, '_post_state', 'submitted');
 		}
 		
 		// Check if the user had already left a review and send back in response to update dom appropriately
 		$round = annowf_get_round($post_id);
-		$reviews = annowf_get_post_users($post_id, '_round_'.$round.'_reviewed');
+		$reviews = get_post_meta($post_id, '_round_'.$round.'_reviewed', true);
+		if (!is_array($reviews)) {
+			$reviews = array();
+		}
 		if (in_array($user_id, $reviews)) {
 			$key = array_search($user_id, $reviews);
 			unset($reviews[$key]);
@@ -513,14 +519,13 @@ add_action('wp_ajax_anno-remove-reviewer', 'annowf_remove_reviewer');
 function annowf_remove_co_author() {
 	$response = annowf_remove_user('co_author');
 	if ($response['message'] == 'success') {
-		if (isset($_POST['user_id'])) {
-			delete_post_meta(absint($_POST['post_id']), '_article_co_author', absint($_POST['user_id']));
-			
+		if (isset($_POST['user_id'])) {	
 			//Add to the audit log
 			$current_user = wp_get_current_user();
 			annowf_save_audit_item(absint($_POST['post_id']), $current_user->ID, 7, array(absint($_POST['user_id'])));
 		}
 	}
+	echo json_encode($response);
 	die();
 }
 add_action('wp_ajax_anno-remove-co_author', 'annowf_remove_co_author');
@@ -532,7 +537,7 @@ function annowf_remove_user($type) {
 	check_ajax_referer('anno_manage_'.$type, '_ajax_nonce-manage-'.$type);
 	$response['message'] = 'error';
 	if (isset($_POST['user_id']) && isset($_POST['post_id'])) {
-		if (annowf_remove_user_from_post($type.'s', intval($_POST['user_id']), intval($_POST['post_id']))) {
+		if (annowf_remove_user_from_post('_anno_'.$type, absint($_POST['user_id']), absint($_POST['post_id']))) {
 			$response['message'] = 'success';
 		}
 	}
@@ -696,9 +701,7 @@ function annowf_author_meta_box($post) {
 		echo esc_html($author->user_login);
 	}
 	else {
-	
-		$authors = annowf_get_post_users($post->ID, '_co_authors');
-		$authors[] = $post->post_author;	
+		$authors = anno_get_co_authors($post->ID);	
 ?>
 <label class="screen-reader-text" for="post_author_override"><?php _ex('Author', 'Author meta box dropdown label', 'anno'); ?></label>
 <?php

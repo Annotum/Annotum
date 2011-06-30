@@ -93,15 +93,14 @@ function annowf_notification_message($type, $post, $comment, $single_user = null
 		$single_user = annowf_user_display($single_user);
 	}
 
-	$authors = annowf_get_post_users($post_id, '_co_authors');
-	$authors = array_merge(array($post->post_author), $authors);	
+//TODO Ordering
+	$authors = anno_get_co_authors($post_id);
 	$author_names = array_map('annowf_user_display', $authors);
 
 	$edit_link = get_edit_post_link($post->ID, null);
 	$title = $post->post_title;
 	
-	//TODO
-	$reviewer_instructions = _x('Reviewer Instructions', 'Instructions sent to reviewers via email notification', 'anno');
+	$reviewer_instructions = _x('To review this article, please visit the URL above and navigate to the Reviews section. You may leave comments and questions in this section as well as providing a general review of \'Approve\', \'Reject\' or \'Request Revisions\' from the dropdown.', 'Instructions sent to reviewers via email notification', 'anno');
 	
 	$notification = array('subject' => '', 'body' => '');
 	switch ($type) {
@@ -254,19 +253,6 @@ Excerpt: %s
 %s', 'Email notification body', 'anno'), $title, $comment_author, $comment->comment_content, $comment_edit_link, $footer),
 				);
 				break;
-			case 'general_comment_reply':
-				$notification = array(
-					'subject' => sprintf(_x('Reply to internal comment on %s', 'Email notification subject', 'anno'), $title),
-					'body' => sprintf(_x(
-'%s has replied to your internal comment on %s.
---------------------
-%s
---------------------
-%s
-
-%s', 'Email notification body', 'anno'), $comment_author, $title, $comment->comment_content, $comment_edit_link, $footer),
-				);
-				break;
 			case 'review_comment':
 				$notification = array(
 					'subject' => sprintf(_x('New reviewer comment on %s', 'Email notification subject', 'anno'), $title),
@@ -278,19 +264,6 @@ Excerpt: %s
 %s
 
 %s', 'Email notification body', 'anno'), $title, $comment_author, $comment->comment_content, $comment_edit_link, $footer),
-				);
-				break;
-			case 'review_comment_reply':
-				$notification = array(
-					'subject' => sprintf(_x('Reply to reviewer comment on %s', 'Email notification subject', 'anno'), $title),
-					'body' => sprintf(_x(
-'%s has replied to your reviewer comment on %s.
---------------------
-%s
---------------------
-%s
-
-%s', 'Email notification body', 'anno'), $comment_author, $title, $comment->comment_content, $comment_edit_link, $footer),
 				);
 				break;
 			default:

@@ -79,25 +79,69 @@ function anno_profile() {
  * User profile request handler. Handles saving of user meta.
  */ 
 function anno_profile_request_handler() {
-	if (isset($_POST['anno_action']) && isset($_POST['user_id']) && $_POST['anno_action'] == 'update_profile') {
-		if (!check_admin_referer('anno_profile', 'anno_profile_nonce')) {
-			die();
-		}
-		global $anno_user_meta;
-		foreach ($anno_user_meta as $meta_key => $label) {
-			if (isset($_POST[$meta_key])) {
-				$value = trim($_POST[$meta_key]);
-			}
-			else {
-				$value = '';
-			}
-			update_user_meta(absint($_POST['user_id']), $meta_key, $value);
-		}
-		
-		wp_redirect(admin_url('users.php?page=anno-profile&update=true'));
-		die();
+	if (isset($_POST['anno_action'])) {
+		switch ($_POST['anno_action']) {
+			case 'update_profile':
+				if (isset($_POST['user_id'])) {
+					if (!check_admin_referer('anno_profile', 'anno_profile_nonce')) {
+						die();
+					}
+					global $anno_user_meta;
+					foreach ($anno_user_meta as $meta_key => $label) {
+						if (isset($_POST[$meta_key])) {
+							$value = trim($_POST[$meta_key]);
+						}
+						else {
+							$value = '';
+						}
+						update_user_meta(absint($_POST['user_id']), $meta_key, $value);
+					}
+
+					wp_redirect(admin_url('users.php?page=anno-profile&update=true'));
+					die();
+				}
+				break;
+			default:
+				break;
+		}		
 	}
 }
 add_action('init', 'anno_profile_request_handler', 0);
+
+/**
+ * Takes a snapshot of author/co-authors user data and stores it in post data
+ * Only stores on publish and does not overwrite existing.
+ */ 
+//TODO Order
+function anno_users_snapshot($post_id, $post) {
+	if ($post->post_status == 'publish' && $post->post_type == 'article') {
+		$authors = anno_get_co_authors($post->ID);
+		$author_meta = get_post_meta($post_id, '_anno_author_snapshot', true);
+		if (!is_array($author_meta)) {
+			$author_meta = array();
+		}
+		
+		foreach ($authors as $author) {
+			if (array_key_exists($author, $author_meta)) {
+				continue;
+			}
+			$author = get_userdata($author);
+			$author_meta[$author->ID] = array(
+				'id' => $author->ID,
+				'surname' => $author->first_name,
+				'given_names' => $author->last_name,
+				'prefix' => get_user_meta($author->ID, '_anno_prefix', true),
+				'suffix' => get_user_meta($author->ID, '_anno_suffix', true),
+				'degrees' => get_user_meta($author->ID, '_anno_degrees', true),
+				'affiliation' => get_user_meta($author->ID, '_anno_affiliation', true),
+				'bio' => $author->user_description,
+				'email' => $author->user_email,
+				'link' => $author->user_url,
+			);
+		}
+		update_post_meta($post_id, '_anno_author_snapshot', $author_meta);
+	}
+}
+add_action('wp_insert_post', 'anno_users_snapshot', 10, 2);
 
 ?>

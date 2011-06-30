@@ -58,7 +58,7 @@ function anno_internal_comments_display($type) {
 			}
 		}
 	}
-	if (anno_user_can('manage_'.$type.'_comment')) {
+	if (anno_user_can('add_'.$type.'_comment')) {
 		anno_internal_comments_form($type);
 	}
 ?>
@@ -122,10 +122,15 @@ function anno_internal_comment_table_row($cur_comment) {
 				$comment->comment_content
 			.'</p>';
 			
-			if (anno_user_can('manage_general_comment')) {
+			$actions = array();
+			if (anno_user_can('add_'.str_replace('article_', '', $comment->comment_type).'_comment')) {
 				$actions['reply'] = '<a href="#" class="reply">'._x('Reply', 'Internal comment action link text', 'anno').'</a>';
+			}
+			
+			if (anno_user_can('edit_comment', null, null, $comment->comment_ID )) {
 				$actions['edit'] = '<a href="comment.php?action=editcomment&amp;c='.$comment->comment_ID.'" title="'.esc_attr_x( 'Edit comment', 'Internal comment action link title', 'anno').'">'._x('Edit', 'Internal comment action link text',  'anno').'</a>';
 				$actions['delete'] = '<a class="anno-trash-comment" href="'.wp_nonce_url('comment.php?action=trashcomment&amp;c='.$comment->comment_ID, 'delete-comment_'.$comment->comment_ID).'">'._x('Trash', 'Internal comment action link text', 'anno').'</a>';
+			}
 				echo '
 				<div class="row-actions" data-comment-id="'.$comment->comment_ID.'">';
 				$i = 1;
@@ -141,7 +146,6 @@ function anno_internal_comment_table_row($cur_comment) {
 				}
 				echo '
 				</div>';
-			}
 			?>
 		</td>
 	</tr>
@@ -163,7 +167,7 @@ function anno_internal_comments_reviewer_comments() {
 	global $anno_review_options, $current_user, $post;
 	$round = annowf_get_round($post->ID);
 	$user_review = get_user_meta($current_user->ID, '_'.$post->ID.'_review_'.$round, true);
-	$reviewers = annowf_get_post_users($post->ID, '_reviewers');
+	$reviewers = anno_get_reviewers($post->ID);
 	if (anno_user_can('leave_review', $current_user->ID, $post->ID)) {
 ?>
 <div class="review-section <?php echo 'status-'.$user_review; ?>">
@@ -347,14 +351,6 @@ function anno_internal_comments_ajax() {
 	// Attach a 'round' to a comment, marking which revision number this is
 	$round = annowf_get_round($comment_post_ID);
 	update_comment_meta($comment->comment_ID, '_round', $round);  
-	
-
-	// Send email notification for a reply to a comment
-	if (anno_workflow_enabled('workflow_notifications') && !empty($comment_parent)) {
-		$parent_comment = get_comment($comment_parent);
-		$recipients = array(annowf_user_email($parent_comment->user_id));
-		annowf_send_notification($comment_base_type.'_comment_reply', $post, $comment, $recipients);
-	}
 
 	//Display markup for AJAX
 	anno_internal_comment_table_row($comment);
@@ -376,8 +372,11 @@ function anno_internal_comments_review_ajax() {
 
 		update_user_meta($current_user->ID, '_'.$post_id.'_review_'.$post_round, $review);
 		
-		$reviewed = annowf_get_post_users($post_id, '_round_'.$post_round.'_reviewed');
-		
+		$reviewed = get_post_meta($post_id, '_round_'.$post_round.'_reviewed', true);
+		if (!is_array($reviewed)) {
+			$reviewed = array();
+		}
+				
 		// If review is set to none, remove the user from reviewed, otherwise update it with the current user.
 		if ($review != 0) {
 			if (!in_array($current_user->ID, $reviewed)) {
@@ -444,9 +443,27 @@ function anno_internal_comments_surpress_notification() {
 /**
  * Enforce general comment capabilities
  */
-function anno_internal_comments_capabilities() {
-	
+function anno_internal_comments_capabilities($allcaps, $caps, $args) {
+// $args are an array => 'capability_name' , 'user_id', 'additional args (obj id)'
+	if ($args[0] == 'edit_comment') {
+		$comment = get_comment($args[2]);
+		if (!empty($comment) && ($comment->comment_type == 'article_general' || $comment->comment_type == 'article_review')) {
+			if (anno_workflow_enabled()) {
+				if (!anno_user_can('edit_comment', $args[1], '', $args[2])) {
+					$allcaps = array();
+				}
+			}
+			//No internal comments should be editable if the workflow is disabled
+			else {
+				$allcaps = array();
+			}	
+		}
+	}
+	return $allcaps;
 }
-add_action('admin_init', 'anno_internal_comments_capabilities', 1);
+add_action('user_has_cap', 'anno_internal_comments_capabilities', 1, 3);
 
+
+
+//annowf_user_has_cap_filter
 ?>

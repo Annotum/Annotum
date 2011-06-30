@@ -268,6 +268,7 @@ add_filter('comment_form_defaults', 'anno_comment_form_defaults');
 function anno_register_settings_forms_to_save() {
 	global $cfct_options;
 	$cfct_options[] = 'anno_callouts';
+	$cfct_options[] = 'anno_home_post_type';
 }
 add_action('init', 'anno_register_settings_forms_to_save', 9);
 
@@ -281,44 +282,70 @@ function anno_settings_form_top() {
 <table class="form-table">
 	<tbody>
 		<tr>
-			<th><?php _ex('Home Page Callout Left', 'Label text for settings screen', 'annotum'); ?></th>
+			<th><?php _ex('Home Page Callout Left', 'Label text for settings screen', 'anno'); ?></th>
 			<td>
 				<p>
-					<label for="<?php echo $key ?>-0-title"><?php _ex('Title', 'Label text for admin setting', 'annotum'); ?></label><br />
+					<label for="<?php echo $key ?>-0-title"><?php _ex('Title', 'Label text for admin setting', 'anno'); ?></label><br />
 					<input id="<?php echo $key ?>-0-title" class="widefat" name="<?php echo $key; ?>[0][title]" value="<?php echo esc_attr($opt[0]['title']); ?>" />
 				</p>
 				<p>
-					<label for="<?php echo $key ?>-0-url"><?php _ex('URL', 'Label text for admin setting', 'annotum'); ?></label><br />
+					<label for="<?php echo $key ?>-0-url"><?php _ex('URL', 'Label text for admin setting', 'anno'); ?></label><br />
 					<input id="<?php echo $key ?>-0-url" class="widefat" name="<?php echo $key; ?>[0][url]" value="<?php echo esc_url($opt[0]['url']); ?>" />
 				</p>
 				<p>
-					<label for="<?php echo $key ?>-0-content"><?php _ex('Content', 'Label text for admin setting', 'annotum'); ?></label><br />
+					<label for="<?php echo $key ?>-0-content"><?php _ex('Content', 'Label text for admin setting', 'anno'); ?></label><br />
 					<textarea id="<?php echo $key ?>-0-content" class="widefat" name="<?php echo $key; ?>[0][content]" rows="4"><?php echo esc_textarea($opt[0]['content']); ?></textarea>
 				</p>
 			</td>
 		</tr>
 		<tr>
-			<th><?php _ex('Home Page Callout Right', 'Label text for settings screen', 'annotum'); ?></th>
+			<th><?php _ex('Home Page Callout Right', 'Label text for settings screen', 'anno'); ?></th>
 			<td>
 				<p>
-					<label for="<?php echo $key ?>-1-title"><?php _ex('Title', 'Label text for admin setting', 'annotum'); ?></label><br />
+					<label for="<?php echo $key ?>-1-title"><?php _ex('Title', 'Label text for admin setting', 'anno'); ?></label><br />
 					<input id="<?php echo $key ?>-1-title" class="widefat" name="<?php echo $key; ?>[1][title]" value="<?php echo esc_attr($opt[1]['title']); ?>" />
 				</p>
 				<p>
-					<label for="<?php echo $key ?>-1-url"><?php _ex('URL', 'Label text for admin setting', 'annotum'); ?></label><br />
+					<label for="<?php echo $key ?>-1-url"><?php _ex('URL', 'Label text for admin setting', 'anno'); ?></label><br />
 					<input id="<?php echo $key ?>-1-url" class="widefat" name="<?php echo $key; ?>[1][url]" value="<?php echo esc_url($opt[1]['url']); ?>" />
 				</p>
 				<p>
-					<label for="<?php echo $key ?>-1-content"><?php _ex('Content', 'Label text for admin setting', 'annotum'); ?></label><br />
+					<label for="<?php echo $key ?>-1-content"><?php _ex('Content', 'Label text for admin setting', 'anno'); ?></label><br />
 					<textarea id="<?php echo $key ?>-1-content" class="widefat" name="<?php echo $key; ?>[1][content]" rows="4"><?php echo esc_textarea($opt[1]['content']); ?></textarea>
 				</p>
 			</td>
 		</tr>
 	</tbody>
 </table>
+
+
 <?php
 }
 add_action('cfct_settings_form_top', 'anno_settings_form_top');
+
+/**
+ * Form fragment for the Carrington theme settings page
+ */
+function anno_settings_form_bottom() {
+	$key = 'anno_home_post_type';
+	$opt = get_option($key, 'article'); 
+?>	
+<table class="form-table">
+	<tbody>
+		<tr>
+			<th><label for="<?php echo $key; ?>"><?php _ex('Front Page Post Type', 'Label text for settings screen', 'annotum'); ?></label></th>
+			<td>
+				<select id="<?php echo $key; ?>" name="<?php echo $key; ?>">
+					<option value="post" <?php selected($opt, 'post'); ?>><?php _ex('Post', 'post type name for select option', 'anno'); ?></option>
+					<option value="article" <?php selected($opt, 'article'); ?>><?php _ex('Article', 'post type name for select option', 'anno'); ?></option>						
+				</select>
+			</td>
+		</tr>
+	</tbody>
+</table>
+<?php
+}
+add_action('cfct_settings_form_bottom', 'anno_settings_form_bottom');
 
 /**
  * Determines whether or not an email address is valid
@@ -362,8 +389,7 @@ add_filter('comment_feed_where', 'anno_internal_comments_query');
 
 
 /**
- * 
- * 
+ * Output Google Analytics Code if a GA ID is present
  */
 function anno_ga_js() {
 	$ga_id = anno_get_option('anno_ga_id');
@@ -389,5 +415,64 @@ function anno_ga_js() {
 if (!is_admin()) {
 	add_action('wp_print_scripts', 'anno_ga_js');
 }
+
+/**
+ * Get a list of co-authors for a given post
+ * 
+ * @param int post_id post ID to retrieve users from
+ * @return array Array of user IDs
+ */ 
+function anno_get_co_authors($post_id) {
+	return array_unique(anno_get_post_users($post_id, '_anno_co_author'));
+}
+
+/**
+ * Get a list of reviewers for a given post
+ * 
+ * @param int post_id post ID to retrieve users from
+ * @return array Array of user IDs
+ */
+function anno_get_reviewers($post_id) {
+	return array_unique(anno_get_post_users($post_id, '_anno_reviewer'));
+}
+
+/**
+ * Gets all user of a certain role for a given post 
+ *
+ * @param int $post_id ID of the post to check
+ * @param string $type the type/role of user to get. Accepts meta key or role.
+ * @return array Array of reviewers (or empty array if none exist)
+ */
+function anno_get_post_users($post_id, $type) {
+	$type = str_replace('-', '_', $type);
+	if ($type == 'reviewer' || $type == 'co_author') {
+		$type = '_anno_'.$type;
+	}
+	
+	$users = get_post_meta($post_id, $type, false);
+	if (!is_array($users)) {
+		return array();
+	}
+	else {
+		return $users;
+	}
+}
+
+/**
+ * Add author to meta co-author for more efficient author archive queries
+ */ 
+function anno_wp_insert_post($post_id, $post) {
+	if (($post->post_type == 'article' || $post->post_type == 'post') && !in_array($post->post_status,  array('inherit', 'auto-draft'))) {
+		
+		$co_authors = get_post_meta($post_id, '_anno_co_author', false);
+		if (!is_array($co_authors)) {
+			add_post_meta($post_id, '_anno_co_author', $post->post_author);
+		}
+		else if (!in_array($post->post_author, $co_authors)) {
+			add_post_meta($post_id, '_anno_co_author', $post->post_author);
+		}
+	}
+}
+add_action('wp_insert_post', 'anno_wp_insert_post', 10, 2);
 
 ?>
