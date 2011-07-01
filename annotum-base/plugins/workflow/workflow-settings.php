@@ -181,11 +181,11 @@ function anno_sanitize_options($value) {
 	foreach ($value as $option_name => $option_value) {
 		switch ($option_name) {
 			case 'ga_id':
-				if ($option_value == '' || (bool)preg_match('/[a-zA-Z]{2,}-[a-zA-Z0-9]{2,}-[a-zA-Z0-9]{1,}/', $option_value)) {
+				if ($option_value == '' || (bool)preg_match('/^[a-zA-Z]{2,}-[a-zA-Z0-9]{2,}-[a-zA-Z0-9]{1,}$/', $option_value)) {
 					$value[$option_name] = anno_sanitize_string($option_value);
 				}
 				else {
-					$value[$option_name] = $original_option[$option_name];
+					$value[$option_name] = $original_options[$option_name];
 					if (function_exists('add_settings_error')) {
 						add_settings_error('anontum_settings', 'invalid_ga_id', _x('Invalid Google Analytics ID', '', 'anno'));
 					}
