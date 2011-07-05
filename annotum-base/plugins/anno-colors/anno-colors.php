@@ -20,9 +20,6 @@ define('CF_ANNO_COLORS', 'anno_colors');
 
 function cfcp_admin_init() {
 	if (!empty($_GET['page']) && $_GET['page'] == basename(__FILE__)) {
-		//add_action('admin_head', 'cfcp_admin_css');
-		add_action('admin_head', 'cfcp_admin_scrolljs');
-		
 		$plugin_dir = trailingslashit(get_template_directory_uri()).'plugins/'.basename(__FILE__, '.php');
 		
 		wp_enqueue_style('anno-colors-admin-css', $plugin_dir.'/css/admin.css', array(), '20090523', 'screen');
@@ -46,12 +43,6 @@ add_action('admin_init', 'cfcp_admin_init');
 //     $cfcp_admin_styles = get_bloginfo('template_url').'/plugins/cf-colors/css/admin.css';
 //     echo '<link rel="stylesheet" type="text/css" href="' . $cfcp_admin_styles . '" />';
 // }
-
-/* Now load some extra JS */
-function cfcp_admin_scrolljs() {
-    $cfcp_admin_scroll = get_bloginfo('template_url').'/js/jquery.scrollTo-1.4.2-min.js';
-    echo '<script type="text/javascript" src="' . $cfcp_admin_scroll . '"></script>';
-}
 
 function cf_kuler_color($key = 'text', $context = null) {
 	$color = '';
@@ -82,9 +73,9 @@ function cf_kuler_get_colors() {
 function anno_colors_get_settings() {
 	return get_option(CF_ANNO_COLORS, array(
 		'colors' => array(
-			'#0b1a0e',
-            '#3b3d35',
-            '#05ab4a'
+			'#0867ab',
+            '#006b94',
+            '#66a6bf'
 		),
 		'theme' => array(
             'swatches' => '#0b1a0e,#3b3d35,#05ab4a,#65c752,#d0dec7'

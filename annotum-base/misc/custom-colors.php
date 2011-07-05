@@ -1,11 +1,6 @@
 <?php
 	$color1 = cf_kuler_color('header');
-	//$color1 = '#f00';
-	
 	$color2 = cf_kuler_color('navbar');
-	//$color2 = '#00f';
-	
-	//$color3 = '#006b94';
 	$color3 = cf_kuler_color('links');
 
 ?>
@@ -44,6 +39,7 @@
 		/* Background Color */
 		#site-nav,
 		#site-nav li,
+		#site-nav li ul,
 		.featured-posts .carousel-item,
 		.post-teasers .post-teaser-item {
 			background-color: <?php echo $color2; ?>;
