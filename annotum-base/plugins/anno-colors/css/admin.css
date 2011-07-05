@@ -1,0 +1,470 @@
+/* --------------------------------------------------
+ * Theme Settings Styles
+ -------------------------------------------------- */
+
+/* section and section-title */
+.cfcp-section {
+	margin: 0 0 30px 0;
+}
+.cfcp-section-title {
+	background: url('../img/line-medium.gif') left center repeat-x;
+	margin: 15px 0;
+}
+.cfcp-section-title span {
+	background-color: #f9f9f9;
+	margin: 0 10px;
+	padding: 0 5px;
+}
+
+/** Color settings page
+ -------------------------------------------------- */
+/* set width for colors page */
+.cf-kuler-wrap {
+	width: 802px;
+}
+/* search results */
+.cf-kuler-theme {
+	float: left;
+	padding: 0 0 18px 0;
+	width: 100%;
+}
+.cf-kuler-theme ul,
+.cf-kuler-theme ul li {
+	height: 90px;
+	margin: 0;
+	padding: 0;
+}
+
+.cf-kuler-theme ul {
+	border: 1px solid #c7c7c7;
+}
+.cf-kuler-theme ul.labels {
+	border: 0;
+	height: auto;
+}
+.cf-kuler-theme ul li {
+	border-left: #aaa solid 1px;
+	float: left;
+	width: 110px;
+}
+.cf-kuler-theme ul.labels li {
+	border: 0;
+}
+.cf-kuler-theme ul.labels li span {
+	padding-left: 11px;
+}
+.cf-kuler-theme ul li:first-child {
+	border: 0;
+}
+.cf-kuler-theme-description {
+	margin: 3px 0 0 0;
+}
+.cf-kuler-theme-description a {
+	font-weight: bold;	
+	text-decoration: none;
+}
+.cf-kuler-theme-description em {
+	font-size: .9em;
+	font-family: Georgia, "Times New Roman", Times, serif;
+}
+.cf-kuler-theme-edit-swatch {
+	display: none;
+}
+#cf-kuler-swatch-selected .cf-kuler-theme .cf-kuler-theme-edit-swatch {
+	background: url(../img/color-edit.png) 107px 0 no-repeat;
+	display: block;
+	height: 140px;
+	overflow: hidden;
+	text-indent: -9999px;
+	width: 266px;
+}
+#cf-kuler-swatch-selected .cf-kuler-theme ul li:hover .cf-kuler-theme-edit-swatch {
+	background-position: 107px -140px;
+}
+#cf-kuler-swatch-selected #cf-kuler-color-picker .cf-kuler-theme-edit-swatch {
+	display: none;
+}
+
+/* apply and preview from search results */
+#cf-kuler-swatch-selector {
+	clear: both;
+	margin-bottom: 80px;
+}
+#cf-kuler-swatch-selector .cf-kuler-theme-actions {
+	background-color: #888;
+	display: none;
+	float: left;
+	height: 82px;
+	padding: 5px 0;
+	text-align: center;
+	width: 110px;
+	-moz-border-radius-topright: 5px;
+	-webkit-border-top-right-radius: 5px;
+	border-top-right-radius: 5px;
+	-moz-border-radius-bottomright: 5px; 
+	-webkit-border-bottom-right-radius: 5px;
+	border-bottom-right-radius: 5px;
+}
+#cf-kuler-swatch-selector .cf-kuler-theme-actions p {
+	margin: 12px 0;
+}
+#cf-kuler-swatch-selector .cf-kuler-theme-actions a.button {
+	border: 1px solid #666;
+	display: inline-block;
+	margin: 0;
+	width: 46px;
+}
+#cf-kuler-swatch-selector .cf-kuler-theme:hover ul {
+	border: 1px solid #888;
+}
+#cf-kuler-swatch-selector .cf-kuler-theme:hover .cf-kuler-theme-actions,
+#cf-kuler-swatch-selector .cf-kuler-theme.hover .cf-kuler-theme-actions {
+	display: block;
+}
+#cf-kuler-swatch-selector .cf-kuler-theme ul li:hover {
+	cursor: pointer;
+}
+
+/* Selected Color Theme */
+#cf-kuler-swatch-selected {
+	width: 802px;
+}
+#cf-kuler-swatch-selected .cf-kuler-theme {
+	float: left;
+	padding: 0;
+}
+#cf-kuler-swatch-selected .cf-kuler-theme ul,
+#cf-kuler-swatch-selected .cf-kuler-theme ul li,
+.cf-kuler-theme-swatch-placeholder {
+	height: 140px;
+}
+#cf-kuler-swatch-selected .cf-kuler-theme ul.labels,
+#cf-kuler-swatch-selected .cf-kuler-theme ul.labels li {
+	height: auto;
+}
+
+#cf-kuler-swatch-selected .cf-kuler-theme ul {
+	width: 800px;
+	margin: 0 auto 7px;
+}
+#cf-kuler-swatch-selected .cf-kuler-theme ul.labels {
+	margin: 0 auto 10px;
+}
+#cf-kuler-swatch-selected .cf-kuler-theme ul li,
+.cf-kuler-theme-swatch-placeholder {
+	width: 266px;
+}
+#cf-kuler-swatch-selected .cf-kuler-theme p {
+	margin: 0;
+}
+.cf-kuler-theme-swatch-placeholder {
+	background-color: #E0E0E0;
+	-moz-box-shadow: inset 2px 2px 8px #333; /* FF3.5+ */
+	-webkit-box-shadow: inset 2px 2px 8px #333; /* Saf3+, Chrome */
+	box-shadow: inset 2px 2px 8px #333; /* Standard. Opera 10.5, IE9 */
+}
+
+/* pagination */
+.cf-kuler-pagination {
+	border-top: 1px solid #ccc;
+	margin-top: 1em;
+	min-height: 18px;
+	padding: 5px 0;
+	width: 550px;
+}
+.cf-kuler-paging.next {
+	float: right;
+}
+.kuler-credit {
+	margin-top: 1em;
+	float: right;
+}
+
+
+/** Color Preview
+ * colors set in cf-kuler.php
+ -------------------------------------------------- */
+#cf-kuler-preview.cfp-popover {
+	width: 372px;
+}
+#cf-kuler-preview .cfp-popover-notch {
+	background-position: 0px -20px;
+	height: 14px;
+	right: 0;
+	top: 191px;
+	width: 8px;
+}
+#cf-kuler-preview .cfp-popover-content {
+	padding: 5px;
+}
+.cf-kuler-preview-page {
+	background: url('../img/color-preview.png') 0 0 no-repeat;
+	height: 380px;
+	width: 360px;
+	position: relative;
+}
+.cf-kuler-preview-header {
+	height: 30px;
+}
+.cf-kuler-preview-logo {
+	height: 10px;
+	left: 22px;
+	position: absolute;
+	top: 15px;
+	width: 100px;
+}
+.cf-kuler-preview-link {
+	position: absolute;
+	right: 22px;
+	top: 20px;
+}
+.cf-kuler-preview-link li {
+	float: left;
+	height: 5px;
+	margin: 0 0 0 8px;
+	width: 20px;
+}
+.cf-kuler-preview-masthead {
+	height: 80px;
+	padding: 0 18px;
+}
+.cf-kuler-preview-featured {
+	float: left;
+	height: 58px;
+	width: 100px;
+	margin: 11px 4px;
+}
+.cf-kuler-preview-sidebar {
+	margin-left: 238px;
+	padding: 11px 0;
+	width: 100px;
+}
+.cf-kuler-preview-bio {
+	height: 58px;
+	margin-bottom: 10px;
+}
+.cf-kuler-preview-widget {
+	height: 12px;
+	margin-bottom: 52px;
+}
+.cf-kuler-preview-footer {
+	bottom: 0;
+	height: 30px;
+	left: 0;
+	position: absolute;
+	width: 360px;
+}
+
+/** Color Picker
+ -------------------------------------------------- */
+#cf-kuler-color-picker .colorpicker {
+	background-image: url(../js/colorpicker/images/custom_background.png);
+	position: relative;
+	bottom: 0;
+	left: 0;
+}
+#cf-kuler-color-picker .colorpicker_hue div {
+	background-image: url(../js/colorpicker/images/custom_indic.gif);
+}
+#cf-kuler-color-picker .colorpicker_hex {
+	background-image: url(../js/colorpicker/images/custom_hex.png);
+}
+#cf-kuler-color-picker .colorpicker_rgb_r {
+	background-image: url(../js/colorpicker/images/custom_rgb_r.png);
+}
+#cf-kuler-color-picker .colorpicker_rgb_g {
+	background-image: url(../js/colorpicker/images/custom_rgb_g.png);
+}
+#cf-kuler-color-picker .colorpicker_rgb_b {
+	background-image: url(../js/colorpicker/images/custom_rgb_b.png);
+}
+#cf-kuler-color-picker .colorpicker_hsb_s {
+	background-image: url(../js/colorpicker/images/custom_hsb_s.png);
+	display: none;
+}
+#cf-kuler-color-picker .colorpicker_hsb_h {
+	background-image: url(../js/colorpicker/images/custom_hsb_h.png);
+	display: none;
+}
+#cf-kuler-color-picker .colorpicker_hsb_b {
+	background-image: url(../js/colorpicker/images/custom_hsb_b.png);
+	display: none;
+}
+#cf-kuler-color-picker .colorpicker_submit {
+	background-image: url(../js/colorpicker/images/custom_submit.png);
+}
+#cf-kuler-color-picker .colorpicker input {
+	color: #778398;
+	border: none;
+	-moz-border-radius: 0;
+	-webkit-border-radius: 0;
+	-khtml-border-radius: 0;
+	border-radius: 0;
+	background-color: transparent;
+	padding-top: 3px;
+	font-weight: bold;
+	font-size: 11px;
+	text-align: center;
+}
+#cf-kuler-color-picker .theme-swatches .cf-kuler-theme {
+	float: none;
+	height: 31px;
+}
+#cf-kuler-color-picker .theme-swatches .cf-kuler-theme ul {
+	height: 36px;
+}
+#cf-kuler-color-picker .theme-swatches .cf-kuler-theme li {
+	width: 68px;
+	height: 36px;
+}
+#cf-kuler-color-picker .theme-swatches .cf-kuler-theme li:first-child, 
+#cf-kuler-color-picker .theme-swatches .cf-kuler-theme li:last-child {
+	width: 70px;
+}
+#cf-kuler-color-picker .theme-swatches .cf-kuler-theme p {
+	display: none;
+}
+
+/** Utilities
+ -------------------------------------------------- */
+#cf_kuler_settings_form p {
+	background: url(../img/form-border.png) 0 11px repeat-x;
+	text-align: center;
+}
+#cf_kuler_settings_form p span {
+	background: #f9f9f9;
+	padding: 0 5px;
+}
+/* Clearing */
+.cf-clearfix {
+	display: block;
+}
+.cf-clearfix:after {
+	content: ".";
+	display: block;
+	height: 0;
+	clear: both;
+	visibility: hidden;
+}
+/* Loading gif */
+.cfcp-loading {
+	background: url('../img/ajax-loader.gif') center center no-repeat;
+	min-height: 32px;
+	min-width: 32px;
+}
+.cfcp-loading em {
+	display: none;
+}
+/* taller for loading kuler color  */
+#cf-kuler-swatch-selector .cfcp-loading {
+	height: 250px;
+}
+
+
+/* Popover and Color Picker */
+/** Popover - notch menus
+ -------------------------------------------------- */
+.cfp-popover {
+	display: block;
+	padding: 7px;
+	position: absolute;
+	width: 388px;
+	z-index: 99;
+}
+/* notch and positioning */
+.cfp-popover-notch {
+	background: url(../img/popover-notch.png) 0 0 no-repeat;
+	display: block;
+	position: absolute;
+}
+.cfp-popover-top-left .cfp-popover-notch,
+.cfp-popover-top-right .cfp-popover-notch,
+.cfp-popover-top-center .cfp-popover-notch {
+	background-position: 0px 0px;
+	height: 8px;
+	top: 0;
+	width: 14px;
+}
+.cfp-popover-top-left .cfp-popover-notch {
+	left: 20px;
+}
+.cfp-popover-top-right .cfp-popover-notch {
+	right: 20px;
+}
+.cfp-popover-top-center .cfp-popover-notch {
+	left: 185px;
+}
+/* used for the preview window in color settings, has fixed size */
+.cfp-popover-color-preview .cfp-popover-notch {
+	background-position: 0px -20px;
+	height: 14px;
+	width: 8px;
+	right: 0;
+	top: 50px;
+}
+/* wrapper for border, bg-color, shadow */
+.cfp-popover-inner {
+	background-color: #f1f1f1;
+	border: 1px solid #aaa;
+	-moz-box-shadow: 0px 2px 5px #888; /* FF3.5+ */
+	-webkit-box-shadow: 0px 2px 5px #888; /* Saf3+, Chrome */
+	box-shadow: 0px 2px 5px #888; /* Standard. Opera 10.5, IE9 */
+	-moz-border-radius: 5px; /* FF1+ */
+	-webkit-border-radius: 5px; /* Saf3+, Chrome */
+	-khtml-border-radius: 5px; /* Konqueror */
+	border-radius: 5px; /* Standard. IE9 */
+	/**
+	 * @bugfix border-radius background bleed
+	 * @see http://tumble.sneak.co.nz/post/928998513/fixing-the-background-bleed
+	 */
+	-webkit-background-clip: padding-box;
+	
+	padding: 25px 0 16px;
+}
+/* wrapper for content */
+.cfp-popover-content {
+	padding: 10px 15px;
+}
+/* scrollable content area */
+.cfp-popover-scroll {
+	background: #d5d5d5 url(../img/admin/popover-scroll-fade.png) 0 0 repeat-x;
+	border-bottom: 1px solid #aaa;
+	border-top: 1px solid #aaa;
+	margin-bottom: 5px;
+	max-height: 230px;
+	overflow: auto;
+	padding: 15px 10px 10px 18px;
+}
+/* footer for save and delete links */
+.cfp-popover-footer {
+	background-color: #e4e4e4;
+	-moz-border-radius-bottomleft: 4px;
+	-webkit-border-bottom-left-radius: 4px;
+	border-bottom-left-radius: 4px;
+	-moz-border-radius-bottomright: 4px; 
+	-webkit-border-bottom-right-radius: 4px;
+	border-bottom-right-radius: 4px;
+	padding: 7px 15px;
+	position: relative;
+	text-align: center;
+}
+.cfp-popover-footer .cf-remove-link {
+	line-height: 1em;
+	margin: 6px 15px;
+	position: absolute;
+	right: 0;
+}
+.cfp-popover-inner .header {
+/*	height: 20px;*/
+}
+
+/* color picker popover */
+#cf-kuler-color-picker.cfp-popover {
+	width: 378px;
+}
+#cf-kuler-color-picker p {
+	margin: 5px 0;
+}
+#cf-kuler-color-picker .colorpicker {
+	margin: -15px 0 -5px 10px;	
+}
