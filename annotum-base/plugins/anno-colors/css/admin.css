@@ -38,19 +38,12 @@
 .cf-kuler-theme ul {
 	border: 1px solid #c7c7c7;
 }
-.cf-kuler-theme ul.labels {
-	border: 0;
-	height: auto;
-}
 .cf-kuler-theme ul li {
 	border-left: #aaa solid 1px;
 	float: left;
 	width: 110px;
 }
-.cf-kuler-theme ul.labels li {
-	border: 0;
-}
-.cf-kuler-theme ul.labels li span {
+#cf-kuler-swatch-selected ul.labels li span {
 	padding-left: 11px;
 }
 .cf-kuler-theme ul li:first-child {
@@ -138,22 +131,27 @@
 .cf-kuler-theme-swatch-placeholder {
 	height: 140px;
 }
-#cf-kuler-swatch-selected .cf-kuler-theme ul.labels,
-#cf-kuler-swatch-selected .cf-kuler-theme ul.labels li {
-	height: auto;
-}
 
 #cf-kuler-swatch-selected .cf-kuler-theme ul {
 	width: 800px;
 	margin: 0 auto 7px;
 }
-#cf-kuler-swatch-selected .cf-kuler-theme ul.labels {
+#cf-kuler-swatch-selected ul.labels {
 	margin: 0 auto 10px;
 }
 #cf-kuler-swatch-selected .cf-kuler-theme ul li,
+#cf-kuler-swatch-selected ul.labels li,
 .cf-kuler-theme-swatch-placeholder {
 	width: 266px;
 }
+#cf-kuler-swatch-selected ul.labels li {
+	float: left;
+	padding-left: 1px;
+}
+#cf-kuler-swatch-selected ul.labels li:first-child {
+	padding: 0;
+}
+
 #cf-kuler-swatch-selected .cf-kuler-theme p {
 	margin: 0;
 }

@@ -53,20 +53,20 @@ function cfcp_admin_scrolljs() {
     echo '<script type="text/javascript" src="' . $cfcp_admin_scroll . '"></script>';
 }
 
-function cf_kuler_color($key = 'darkest', $context = null) {
+function cf_kuler_color($key = 'text', $context = null) {
 	$color = '';
 	if (!empty($context)) {
 		$key = apply_filters('cf_kuler_'.$context, $key);
 	}
 	if ($colors = cf_kuler_get_colors()) {
-		switch ($key) {
-			case 'darkest':
+		switch (strToLower($key)) {
+			case 'text':
 				$color = $colors[0];
 				break;
-			case 'dark':
+			case 'header':
 				$color = $colors[1];
 				break;
-			case 'medium':
+			case 'navbar':
 				$color = $colors[2];
 				break;
 		}
@@ -99,6 +99,11 @@ function cf_kuler_colors_html($settings) {
 		<div class="cf-kuler-theme" data-swatches="'.implode(',', $colors).'">
 			'.cf_kuler_colors_list($colors).'
 		</div>
+		<ul class="labels clearfix">
+			<li><span>Text Link Color</span></li>
+			<li><span>Header Background</span></li>
+			<li><span>Navigation Bar &amp; Featured Posts</span></li>
+		</ul>
 	';
 	return $html;
 }

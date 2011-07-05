@@ -5,8 +5,8 @@
 	$color2 = '#66A6BF';
 	//$color2 = '#00f';
 	
-	$color3 = '#006b94';
-	//$color3 = '#f00';
+	//$color3 = '#006b94';
+	$color3 = '#f00';
 
 ?>
 <style type="text/css" media="screen">
