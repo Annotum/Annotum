@@ -1,12 +1,12 @@
 <?php
-	$color1 = '#006b94';
+	$color1 = cf_kuler_color('header');
 	//$color1 = '#f00';
 	
-	$color2 = '#66A6BF';
+	$color2 = cf_kuler_color('navbar');
 	//$color2 = '#00f';
 	
 	//$color3 = '#006b94';
-	$color3 = '#f00';
+	$color3 = cf_kuler_color('links');
 
 ?>
 <style type="text/css" media="screen">

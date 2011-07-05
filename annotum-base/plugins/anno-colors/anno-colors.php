@@ -60,7 +60,7 @@ function cf_kuler_color($key = 'text', $context = null) {
 	}
 	if ($colors = cf_kuler_get_colors()) {
 		switch (strToLower($key)) {
-			case 'text':
+			case 'links':
 				$color = $colors[0];
 				break;
 			case 'header':
