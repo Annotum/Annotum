@@ -41,7 +41,7 @@
 		#site-nav li,
 		#site-nav li ul,
 		.featured-posts .carousel-item,
-		.post-teasers .post-teaser-item {
+		#masthead .teaser {
 			background-color: <?php echo $color2; ?>;
 		}
 
