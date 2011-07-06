@@ -116,7 +116,8 @@ form.search .type-submit{background:url(../img/sprite-y.8bit.png) 0 -100px no-re
 .article-excerpt{background:transparent;border-bottom:#ccc solid 1px;margin-bottom:27px;padding-bottom:15px;overflow:hidden;zoom:1;width:100%;}
 .article-excerpt .header .title{font:bold 18px Georgia, Serif;margin-bottom:5px;}
 .article-excerpt .header .meta{color:#666;font:italic 13px Georgia, Serif;margin:0 0 10px;}
-.article-excerpt .header .meta a{color:#666;}
+.article-excerpt .header .meta a:link{color:#666;}
+.article-excerpt .header .meta a:hover{color:#006b94;text-decoration:none;}
 .article-excerpt .sep{padding:0 2px;}
 .article-excerpt-has-featured-image .content{height:auto !important;height:122px;min-height:122px;width:475px;position:relative;padding-left:155px;zoom:1;}
 .article-excerpt-has-featured-image img{left:0;position:absolute;top:2px;}
