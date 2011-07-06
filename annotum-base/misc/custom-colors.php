@@ -46,7 +46,6 @@
 		}
 		
 		/* Text Color */
-		,
 		.article-excerpt .header .meta a:hover,
 		.article-full .header .meta a:hover {
 			color: <?php echo $color2; ?>;
