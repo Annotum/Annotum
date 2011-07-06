@@ -71,15 +71,27 @@ function cf_kuler_preset_panel() {
 		'Header' => '#006b94',
 		'Navbar' => '#66a6bf'
 	);
-	$anno_presets['Scheme 1'] = array(
-		'Text' => '#f00',
-		'Header' => '#0f0',
-		'Navbar' => '#00f'
+	$anno_presets['Rust'] = array(
+		'Text' => '#b87546',
+		'Header' => '#753a2b',
+		'Navbar' => '#9e5a3b'
 	);
+	
+	$anno_presets['Grape'] = array(
+		'Text' => '#b8a3a7',
+		'Header' => '#574f7d',
+		'Navbar' => '#8b799e'
+	);
+	$anno_presets['Forest'] = array(
+		'Text' => '#a3bf59',
+		'Header' => '#224732',
+		'Navbar' => '#4f8749' 
+	);
+
 	$html = '';
 	foreach($anno_presets as $scheme_label => $color_list) { 
 		$html.='<div class="scheme-item">';
-		$html.='<a href="#" data="'.implode(',', $preset_list).'">'.$scheme_label.'</a>';
+		$html.='<a href="#" data="'.implode(',', $color_list).'">'.$scheme_label.'</a>';
 		$html.='<ul class="cf-clearfix">';
 		foreach($color_list as $color_label => $color) {
 			$html.='<li style="background:'.$color.'"></li>';

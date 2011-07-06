@@ -26,6 +26,15 @@ jQuery(function($) {
 		e.preventDefault();
 	});
 	
+	$('.cf-kuler-wrap .scheme-item a').click(function() {
+		var swatches = $(this).attr('data').split(',');
+		var idx = 0;
+		$('#cf-kuler-swatch-selected .cf-kuler-theme li').each(function(){
+			$(this).attr('style', 'background:'+ swatches[idx++]);
+		});
+		
+	});
+	
 	$('#cf-kuler-search-form').submit(function(e) {
 		$swatches = $('#cf-kuler-swatch-selector');
 		$swatches.html('<div class="cfcp-loading"><em>' + cf_kuler_settings.loading + '</em></div>');
