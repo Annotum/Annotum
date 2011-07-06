@@ -17,7 +17,9 @@
 		.widget .tab-active,
 		#reply button,
 		.tools-nav nav li a,
-		.widget-recent-posts .nav .ui-tabs-selected {
+		.widget-recent-posts .nav .ui-tabs-selected,
+		.article-excerpt .header .meta a:hover,
+		.article-full .header .meta a:hover {
 			background-color: <?php echo $color1; ?>;
 		}
 

@@ -25,6 +25,49 @@
 	margin-bottom: 10px;
 }
 
+/** @author Header
+ -------------------------------------------------- */
+
+.author-header {
+	/**
+	 * @workaround min-height Fast Hack
+	 *
+	 * IE6 doesn't support min-height, but treats elements with
+	 * height and overflow:visible as min-height.
+	 *
+	 * @affected IE5, IE6
+	 * @see http://www.dustindiaz.com/min-height-fast-hack/
+	 */
+	height: auto !important;
+	height: 145px;
+	min-height: 145px;
+	
+	position: relative;
+	padding-left: 160px;
+}
+.author-header .avatar {
+	left: 0;
+	position: absolute;
+	top: 5px;
+}
+.author-header .author-name {
+	display: block;
+	font-size: 18px;
+	font-weight: normal;
+	margin-bottom: -4px;
+}
+
+.author-header .author-link a {
+	font: italic normal 14px Georgia, serif;
+}
+.author-header .author-link,
+.author-header .author-degrees,
+.author-header .author-affiliations {
+	margin-bottom: 7px;
+}
+.author-header .author-bio {
+	line-height: 1.29;
+}
 
 /** @section Header
  -------------------------------------------------- */
