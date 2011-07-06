@@ -466,3 +466,10 @@
 #cf-kuler-color-picker .colorpicker {
 	margin: -15px 0 -5px 10px;	
 }
+
+.scheme-item li {
+	float: left;
+	height: 50px;
+	width: 50px;
+}
+

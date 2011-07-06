@@ -64,6 +64,33 @@ function cf_kuler_color($key = 'text', $context = null) {
 	}
 	return $color;
 }
+function cf_kuler_preset_panel() {
+	$anno_presets = array();
+	$anno_presets['Default'] = array(
+		'Text' => '#0867ab',
+		'Header' => '#006b94',
+		'Navbar' => '#66a6bf'
+	);
+	$anno_presets['Scheme 1'] = array(
+		'Text' => '#f00',
+		'Header' => '#0f0',
+		'Navbar' => '#00f'
+	);
+	$html = '';
+	foreach($anno_presets as $scheme_label => $color_list) { 
+		$html.='<div class="scheme-item">';
+		$html.='<a href="#" data="'.implode(',', $preset_list).'">'.$scheme_label.'</a>';
+		$html.='<ul class="cf-clearfix">';
+		foreach($color_list as $color_label => $color) {
+			$html.='<li style="background:'.$color.'"></li>';
+		}
+		$html.='</ul>';
+		$html.='</div>';
+	}
+	
+	return $html;
+}
+
 
 function cf_kuler_get_colors() {
 	$settings = anno_colors_get_settings();
@@ -82,6 +109,8 @@ function anno_colors_get_settings() {
 		)
 	));
 }
+
+
 
 function cf_kuler_colors_html($settings) {
 	extract($settings); // extracts $colors & $theme
@@ -214,9 +243,14 @@ function cf_kuler_settings_form() {
 		wp_nonce_field('cf_kuler_update_settings');
 		print('
 		</form>
-	</div><!-- .cfcp-section -->
-</div>
-	');
+	</div><!-- .cfcp-section -->');
+	
+	print('<div class="cfcp-section">
+	<h3 class="cfcp-section-title"><span>Preset Schemes</span></h3>
+	'.cf_kuler_preset_panel().'
+	</div><!-- .cfcp-section -->');
+	
+	print('</div><!-- .cf-kuler-wrap -->');
 }
 
 function cf_kuler_update_settings() {
