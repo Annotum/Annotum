@@ -17,9 +17,7 @@
 		.widget .tab-active,
 		#reply button,
 		.tools-nav nav li a,
-		.widget-recent-posts .nav .ui-tabs-selected,
-		.article-excerpt .header .meta a:hover,
-		.article-full .header .meta a:hover {
+		.widget-recent-posts .nav .ui-tabs-selected {
 			background-color: <?php echo $color1; ?>;
 		}
 
@@ -45,6 +43,13 @@
 		.featured-posts .carousel-item,
 		#masthead .teaser {
 			background-color: <?php echo $color2; ?>;
+		}
+		
+		/* Text Color */
+		,
+		.article-excerpt .header .meta a:hover,
+		.article-full .header .meta a:hover {
+			color: <?php echo $color2; ?>;
 		}
 
 	/* Link Color */
