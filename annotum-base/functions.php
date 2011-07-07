@@ -466,7 +466,7 @@ function anno_get_post_users($post_id, $type) {
 function anno_wp_insert_post($post_id, $post) {
 	if (($post->post_type == 'article' || $post->post_type == 'post') && !in_array($post->post_status,  array('inherit', 'auto-draft'))) {
 		
-		$authors = get_post_meta($post_id, '_anno_author_order', false);
+		$authors = get_post_meta($post_id, '_anno_author_order', true);
 		if (!is_array($authors)) {
 			update_post_meta($post_id, '_anno_author_order', array($post->post_author));
 			add_post_meta($post_id, '_anno_author_'.$post->post_author, $post->post_author, true);
