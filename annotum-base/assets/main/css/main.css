@@ -230,7 +230,7 @@ html.ie8 #main-sidebar .widget_search #s{width:100px;}
 .authors .author-info .content{background:url(../img/author-card-background.png) center bottom no-repeat;margin:0;padding:1px 15px 15px;}
 .authors .author-info .content p{margin:0;}
 .authors ul{padding-right:4px;}
-.authors li{display:inline;float:left;margin-right:10px;position:relative;}
+.authors li{zoom:1;display:inline;float:left;margin-right:10px;position:relative;}
 .authors li.hover{z-index:2;}
 .authors li a{zoom:1;display:inline;position:relative;}
 .author{display:block;position:relative;}
