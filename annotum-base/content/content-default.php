@@ -27,7 +27,7 @@ if (CFCT_DEBUG) { cfct_banner(__FILE__); }
 			<?php anno_the_terms('article_category', '<span class="article-categories"> <span class="sep">&middot;</span> ', ',', '</span>'); ?>
 		</div>
 		<?php cfct_misc('tools-bar'); ?>
-		<div class="sec">
+		<div class="sec sec-authors">
 			<span class="title"><span><?php _e('Authors', 'anno'); ?></span></span>
 			<ul class="authors nav">
 				<?php anno_the_authors(); ?>

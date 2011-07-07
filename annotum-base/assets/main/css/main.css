@@ -64,7 +64,7 @@ dl.kv dd{margin-bottom:8px;}
 #site-nav li li a{background:none;}
 #site-nav li:hover ul,#site-nav li.hover ul{display:block;}
 #site-nav a{line-height:20px;padding:7px 10px;}
-#secondary-nav{bottom:11px;position:absolute;right:0;}
+#secondary-nav{zoom:1;bottom:11px;position:absolute;right:0;}
 #secondary-nav li{background-image:url(../img/sprite-y.8bit.png);background-position:0 10px;background-repeat:no-repeat;margin-left:8px;padding-left:9px;}
 #secondary-nav li:first-child,#secondary-nav li.first-child{background:none;margin-left:0;padding-left:0;}
 #masthead{padding:35px 0;}
@@ -235,7 +235,7 @@ html.ie8 #main-sidebar .widget_search #s{width:100px;}
 .author{display:block;position:relative;}
 .author .extra a{display:inline;}
 .author .extra .group{display:block;margin-bottom:5px;}
-.author .extra{background:url(../img/author-card-background.png) -300px bottom no-repeat;font-size:12px;display:none;left:50%;margin-left:-119px;padding-bottom:10px;position:absolute;width:248px;z-index:1000;}
+.author .extra{background:url(../img/author-card-background.png) -300px bottom no-repeat;font-size:12px;display:none;left:50%;margin-left:-119px;padding-bottom:10px;position:absolute;top:20px;width:248px;z-index:1000;}
 .author .extra-in{background:url(../img/author-card-background.png) 0 0 no-repeat;display:block;padding:16px 13px 1px;}
 .author:hover .extra,.author.hover .extra{display:block;}
 html.ie7 .authors .extra{top:15px;}
@@ -254,4 +254,5 @@ html.ie7 .authors .extra{top:15px;}
 .sec h1,.sec .title{margin-left:-15px;margin-right:-15px;margin-top:25px;}
 .sec h1:first-child,.sec .title:first-child{margin-top:0;}
 .sec h1 span,.sec .title span,.section-title span{background:#fff;padding-right:3px;position:relative;top:4px;zoom:1;}
+.sec-authors{position:relative;z-index:2;}
 @media print{#header,#footer,#main-sidebar,#wpadminbar,#respond,.article-full .footer,.comment .footer,.tools-bar,#replies .section-header a{display:none;} body{background:#fff;color:#000;} .article-full .header .meta,.article-full .header .meta a,#replies .section-title,#respond #reply-title,.sec h1,.sec .title,.section-title{color:#000;} #replies{padding:0;} #main{padding:0;} #main-body{float:none;margin:0;padding:0;width:auto;} .act .in{width:auto;} .article-full{background:none;margin:0;padding:0;} .reply-list{margin:0;} .callouts{margin-left:auto;margin-right:auto;width:630px;}}
