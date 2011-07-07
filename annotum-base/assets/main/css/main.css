@@ -231,7 +231,6 @@ html.ie8 #main-sidebar .widget_search #s{width:100px;}
 .authors .author-info .content p{margin:0;}
 .authors ul{padding-right:4px;}
 .authors li{display:inline;float:left;margin-right:10px;position:relative;}
-.authors li.hover{z-index:2;}
 .authors li a{zoom:1;display:inline;position:relative;}
 .author{display:block;position:relative;}
 .author .extra a{display:inline;}
