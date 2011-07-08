@@ -1,6 +1,12 @@
 .authors {
 	overflow: visible;
-	zoom: 1;
+	/**
+	 * @bugfix jump-on-hover bug
+	 * @affected IE6
+	 * If position relative isn't applied, the authors list will appear out of place and
+	 * then jump into place on hover.
+	 */
+	position: relative;
 }
 
 .authors .author-info .content {

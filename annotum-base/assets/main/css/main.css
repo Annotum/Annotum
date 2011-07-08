@@ -226,7 +226,7 @@ html.ie8 #main-sidebar .widget_search #s{width:100px;}
 .references ol{margin-left:2em;}
 .references li{margin-bottom:10px;}
 .references ol a{font-size:10px;line-height:1;text-transform:uppercase;}
-.authors{overflow:visible;zoom:1;}
+.authors{overflow:visible;position:relative;}
 .authors .author-info .content{background:url(../img/author-card-background.png) center bottom no-repeat;margin:0;padding:1px 15px 15px;}
 .authors .author-info .content p{margin:0;}
 .authors ul{zoom:1;padding-right:4px;}
