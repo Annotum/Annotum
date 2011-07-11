@@ -93,7 +93,7 @@ form.search .type-submit{background:url(../img/sprite-y.8bit.png) 0 -100px no-re
 .article-full{background:url(../img/article-border.png) repeat-x 0 bottom;margin-bottom:34px;padding-bottom:5px;}
 .article-full .entry-title,.article-full .main{overflow:hidden;zoom:1;width:100%;}
 .article-full .content .entry-content,.article-full .content .entry-summary{margin-bottom:10px;}
-.author-header{height:auto !important;height:145px;min-height:145px;position:relative;padding-left:160px;}
+.author-header{height:auto !important;height:145px;min-height:145px;margin-bottom:25px;position:relative;padding-left:160px;}
 .author-header .avatar{left:0;position:absolute;top:5px;}
 .author-header .author-name{display:block;font-size:18px;font-weight:normal;margin-bottom:-4px;}
 .author-header .author-link a{font:italic normal 14px Georgia, serif;}
