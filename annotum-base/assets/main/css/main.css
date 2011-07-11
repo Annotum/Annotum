@@ -64,7 +64,8 @@ dl.kv dd{margin-bottom:8px;}
 #site-nav li li a{background:none;}
 #site-nav li:hover ul,#site-nav li.hover ul{display:block;}
 #site-nav a{line-height:20px;padding:7px 10px;}
-#secondary-nav{zoom:1;bottom:11px;position:absolute;right:0;}
+#secondary-nav{display:inline;bottom:11px;position:absolute;right:0;zoom:1;}
+.ie6 #secondary-nav,.ie6 #secondary-nav .nav{display:inline;}
 #secondary-nav li{background-image:url(../img/sprite-y.8bit.png);background-position:0 10px;background-repeat:no-repeat;margin-left:8px;padding-left:9px;}
 #secondary-nav li:first-child,#secondary-nav li.first-child{background:none;margin-left:0;padding-left:0;}
 #masthead{padding:35px 0;}

@@ -118,12 +118,26 @@ Act 3: Footer
 	padding: 7px 10px;
 }
 #secondary-nav {
-	zoom: 1;
+	display: inline;
 	bottom: 11px;
 	position: absolute;
 	right: 0;
+	zoom: 1;
 }
 
+/**
+ * @bugfix hasLayout reversal
+ * @affected IE6
+ * @valid yes
+ * Fixes bug that causes menu items to be aligned left and overlap the logo.
+ * hasLayout triggered on these nav els, which prevents the "shrink wrapping" that
+ * position:absolute normally triggers. We'll work around this by triggering
+ * faux inline-block with hasLayout + display:inline.
+ */
+.ie6 #secondary-nav,
+.ie6 #secondary-nav .nav {
+	display: inline;
+}
 #secondary-nav li {
 	background-image: url(../img/sprite-y.8bit.png);
 	background-position: 0 10px;
