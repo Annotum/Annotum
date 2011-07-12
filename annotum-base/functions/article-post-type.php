@@ -45,6 +45,14 @@ add_action('after_setup_theme', 'anno_register_post_types');
  * Request handler for post types (article)
  */ 
 function anno_post_type_requst_handler() {
+	if (isset($_POST['anno_convert'])) {
+		// Check nonce
+		$post_id = absint($_POST['post_ID']);
+		anno_article_to_post($post_id);
+		wp_redirect(get_edit_post_link($post_id, 'redirect'));
+		die();
+	}
+
 	if (isset($_GET['anno_action'])) {
 		switch ($_GET['anno_action']) {
 			case 'article_css':
@@ -107,7 +115,7 @@ add_filter('post_updated_messages', 'anno_post_updated_messages');
 /**
  * Add DTD Meta Boxes
  */ 
-function anno_dtd_meta_boxes() {
+function anno_article_meta_boxes() {
 	add_meta_box('subtitle', _x('Subtitle', 'Meta box title', 'anno'), 'anno_subtitle_meta_box', 'article', 'normal', 'high');
 	add_meta_box('body', _x('Body', 'Meta box title', 'anno'), 'anno_body_meta_box', 'article', 'normal', 'high');
 	add_meta_box('references', _x('References', 'Meta box title', 'anno'), 'anno_references_meta_box', 'article', 'normal', 'high');
@@ -116,8 +124,12 @@ function anno_dtd_meta_boxes() {
 	add_meta_box('acknowledgements', _x('Acknowledgements', 'Meta box title', 'anno'), 'anno_acknowledgements_meta_box', 'article', 'normal', 'high');
 	add_meta_box('appendicies', _x('Appendicies', 'Meta box title', 'anno'), 'anno_appendicies_meta_box', 'article', 'normal', 'high');
 	add_meta_box('featured', _x('Featured', 'Meta box title', 'anno'), 'anno_featured_meta_box', 'article', 'side', 'default');
+	
+//	if (current_user_can($admin)) {
+		add_meta_box('convert', _x('Convert To Post', 'Meta box title', 'anno'), 'anno_convert_meta_box', 'article', 'side', 'low');
+//	}
 }
-add_action('add_meta_boxes_article', 'anno_dtd_meta_boxes');
+add_action('add_meta_boxes_article', 'anno_article_meta_boxes');
 
 function anno_subtitle_meta_box($post) {
 	$html = get_post_meta($post->ID, '_anno_subtitle', true);
@@ -133,7 +145,8 @@ function anno_body_meta_box($post) {
 /*	TODO html/visual editor switch markup.
 	<a id="edButtonHTML" class="active hide-if-no-js" onclick="switchEditors.go('anno-body', 'html');"><?php _e('HTML'); ?></a>
 	<a id="edButtonPreview" class="hide-if-no-js" onclick="switchEditors.go('anno-body', 'tinymce');"><?php _e('Visual'); ?></a>
-*/	
+*/
+	media_buttons();
 ?>
 	<textarea id="anno-body" name="content" class="anno-meta"><?php echo esc_html($post->post_content); ?></textarea>
 <?php
@@ -213,8 +226,8 @@ function anno_article_insert_post($post_id, $post) {
 				}
 			}
 		}
-		update_post_meta($post_id, '_anno_appendicies', $appendicies);
-	}	
+		update_post_meta($post_id, '_anno_appendicies', $appendicies);		
+	}
 }
 add_action('wp_insert_post', 'anno_article_insert_post', 10, 2);
 
@@ -236,34 +249,101 @@ function anno_article_admin_print_scripts() {
 add_action('init', 'anno_article_admin_print_scripts', 99);
 
 /**
- * Load TinyMCE for the body and appendices.
- */
-function anno_admin_print_footer_scripts() {
-	global $post;
-	if ($post->post_type == 'article') {
-		$appendicies = get_post_meta($post->ID, '_anno_appendicies', true);
-		if (empty($appendicies) || !is_array($appendicies)) {
-			$appendicies = array(0 => '0');
-		}
-		wp_tiny_mce(false, array(
-			'content_css' => trailingslashit(get_bloginfo('template_directory')).'/css/tinymce.css',
-			'wp_fullscreen_content_css' => trailingslashit(get_bloginfo('template_directory')).'/css/tinymce.css',
-		));
-?>
-<script type="text/javascript">
-	tinyMCE.execCommand('mceAddControl', false, 'anno-body');
-<?php
-		foreach ($appendicies as $key => $value) {
-?>
-	tinyMCE.execCommand('mceAddControl', false, 'appendix-<?php echo $key; ?>');
-<?php
-		}
-?>
-</script>
-<?php
+ * Converts a post with the article post-type to the post post-type
+ * 
+ * @param int $post_id The ID of the post to convert
+ * @return void
+ */ 
+function anno_article_to_post($post_id) {
+	$post = wp_get_single_post(absint($post_id), ARRAY_A);
+	if ($post['post_type'] != 'article') {
+		return;
 	}
-}
-add_action('admin_print_footer_scripts', 'anno_admin_print_footer_scripts', 99);
 
+	// Convert the taxonomies before inserting so we don't get default categories assigned.
+	$taxonomy_conversion = array(
+		'article_tag' => 'post_tag',
+		'article_category' => 'category',
+	);
+	foreach ($taxonomy_conversion as $from_tax => $to_tax) {
+		anno_convert_taxonomies($post['ID'], $from_tax, $to_tax);
+	}
+
+
+	$post['post_type'] = 'post';
+	$post['post_category'] = wp_get_post_categories($post['ID']);
+	$post['tags_input'] = wp_get_post_tags($post['ID'], array('fields' => 'names'));	
+
+	$post_id = wp_insert_post($post);
+}
+
+/**
+ * Converts a post's terms from one taxonomy to another.
+ * 
+ * @param int $post_id The id of the post to convert the terms for
+ * @param String $from_tax The original taxonomy of the term
+ * @param String $to_tax The taxonomy to convert the term to
+ */ 
+function anno_convert_taxonomies($post_id, $from_tax, $to_tax) {
+	$post_terms = wp_get_object_terms($post_id, $from_tax);
+	if (is_array($post_terms)) {
+		$new_terms = array();
+		foreach ($post_terms as $term) {
+			$term_id = anno_convert_term($term, $from_tax, $to_tax);
+			$new_terms[] = (int) $term_id;
+		}
+		wp_set_object_terms($post_id, $new_terms, $to_tax, true);
+	}
+ 	wp_set_object_terms($post_id, array(), $from_tax, false);
+}
+
+/**
+ * Converts a term and all its ancestors from one taxonomy to another
+ * 
+ * @param Term Object $term The original term to convert
+ * @param String $from_tax The original taxonomy of the term
+ * @param String $to_tax The taxonomy to convert the term to
+ * @return int The ID of the newly converted term. 
+ */ 
+function anno_convert_term($term, $from_tax, $to_tax) {
+	if (!empty($term->parent)) {
+		$parent_term = get_term($term->parent, $from_tax);
+		$new_parent_id = anno_convert_term($parent_term, $from_tax, $to_tax);
+		if (!term_exists($term->name, $to_tax)) {
+			$term_data = wp_insert_term($term->name, $to_tax, array('parent' => $new_parent_id));
+			$term_id = $term_data['term_id'];
+		}
+		else {
+			$term = get_term_by('slug', $term->slug, $to_tax);
+			$term_id = $term->term_id;
+		}
+	}
+	else {
+		if (!term_exists($term->name, $to_tax)) {
+			$term_data = wp_insert_term($term->name, $to_tax);
+			$term_id = $term_data['term_id'];
+		}
+		else {
+			$term = get_term_by('slug', $term->slug, $to_tax);
+			$term_id = $term->term_id;
+		}
+	}
+	return $term_id;
+} 
+
+/**
+ * Markup for the convert mechanism meta box
+ */ 
+function anno_convert_meta_box($post) {
+?>
+	<p>
+	<?php _ex('Clicking the button below will convert the current <strong>Article</strong> to a <strong>Post</strong>. This will also convert any terms in article taxonomies to post taxonomies. You will not be able to revert this Article back once it has been converted to a Post.', 'conversion instructions', 'anno'); ?>
+	</p>
+	<p style="text-align: center;">
+		<input type="submit" name="anno_convert" class="button-primary" value="Convert To Post" />
+	</p>
+	
+<?php
+}
 
 ?>

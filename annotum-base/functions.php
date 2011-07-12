@@ -481,7 +481,6 @@ function anno_wp_insert_post($post_id, $post) {
 }
 add_action('wp_insert_post', 'anno_wp_insert_post', 10, 2);
 
-
 function anno_format_name($prefix, $first, $last, $suffix) {
 	$name = $first.' '.$last;
 	$name = ($prefix!='')?$prefix.' '.$name:$name;
