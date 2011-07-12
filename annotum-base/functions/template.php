@@ -126,11 +126,11 @@ class Anno_Template {
 	}
 
 	/**
-	 * Get an array of ids for contributors to a given post.
+	 * Get an array of ids for all contributors to a given post.
 	 * @param int $post_id (optional) the ID of the post to get from. Defaults to current post.
 	 * @return array
 	 */
-	public function get_contributor_ids($post_id = null) {
+	public function get_author_ids($post_id = null) {
 		if (empty($post_id)) {
 			global $post;
 			$post_id = $post->ID;
@@ -138,7 +138,6 @@ class Anno_Template {
 		
 		/* Get the additional contributors, if the workflow is turned on. */
 		$authors = anno_get_authors($post_id);
-
 	
 		return $authors;
 	}
@@ -158,7 +157,7 @@ class Anno_Template {
 	public function get_contributors_list($post_id = null) {
 		$out = '';
 		$post_id = $this->utils->post_id_for_sure($post_id);
-		$authors = $this->get_contributor_ids($post_id);
+		$authors = $this->get_author_ids($post_id);
 		
 		foreach ($authors as $id) {
 			$author = get_userdata($id);
@@ -238,7 +237,7 @@ class Anno_Template {
 			$title = sprintf(_x('%1$s: %2$s', 'Title and subtitle as a textarea-safe string', 'anno'), $title, $subtitle);
 		}
 
-		$contributors = $this->get_contributor_ids($post_id);
+		$contributors = $this->get_author_ids($post_id);
 
 		$names = array();
 		foreach ($contributors as $id) {
