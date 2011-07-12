@@ -25,7 +25,6 @@ include_once(CFCT_PATH.'functions/featured-articles.php');
 include_once(CFCT_PATH.'functions/template.php');
 include_once(CFCT_PATH.'functions/widgets.php');
 include_once(CFCT_PATH.'functions/profile.php');
-include_once(CFCT_PATH.'functions/tinymce.php');
 include_once(CFCT_PATH.'plugins/load.php');
 
 function anno_setup() {

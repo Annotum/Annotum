@@ -12,28 +12,21 @@
 if (__FILE__ == $_SERVER['SCRIPT_FILENAME']) { die(); }
 if (CFCT_DEBUG) { cfct_banner(__FILE__); }
 ?>
+<?php //cfct_misc('tools-nav'); ?>
+
 <article <?php post_class('article-full'); ?>>
 	<header class="header">
 		<div class="entry-title">
 			<h1 class="title"><a rel="bookmark" href="<?php the_permalink() ?>"><?php the_title(); ?></a></h1>
+			<?php if (anno_has_subtitle()): ?>
+				<p class="subtitle"><?php anno_the_subtitle(); ?></p>
+			<?php endif; ?>
 		</div>
 		<div class="meta">
 			<time class="published" pubdate datetime="<?php the_time('c'); ?>"><?php the_time('F j, Y'); ?></time>
+			<?php anno_the_terms('article_category', '<span class="article-categories"> <span class="sep">&middot;</span> ', ',', '</span>'); ?>
 		</div>
-		<div class="tools-bar supplement clearfix">
-			<div class="cell print">
-				<a href="#" onclick="window.print(); return false;"><?php _e('Print Post', 'anno'); ?></a>
-			</div>
-			<div class="cell share clearfix">
-				<div class="social-nav">
-					<ul class="nav">
-						<li><?php anno_email_link(); ?></li>
-						<li><?php anno_twitter_button(); ?></li>
-						<li><?php anno_facebook_button(); ?></li>
-					</ul>
-				</div>
-			</div>
-		</div><!-- .tools-bar -->
+		<?php cfct_misc('tools-bar'); ?>
 		<div class="sec sec-authors">
 			<span class="title"><span><?php _e('Authors', 'anno'); ?></span></span>
 			<ul class="authors nav">
@@ -43,10 +36,29 @@ if (CFCT_DEBUG) { cfct_banner(__FILE__); }
 	</header>
 	<div class="main">
 		<div class="content entry-content">
+			<?php if (has_excerpt()): ?>
+				<section class="sec">
+					<h1><span><?php _e('Abstract', 'anno'); ?></span></h1>
+					<?php the_excerpt(); ?>
+				</section>
+			<?php endif; ?>
+			<?php if (anno_has_funding_statement()): ?>
+				<section class="sec" id="funding-statement">
+					<h1><span><?php _e('Funding Statement', 'anno'); ?></span></h1>
+					<?php anno_the_funding_statement(); ?>
+				</section>
+			<?php endif; ?>
 			<?php
 			the_content(__('Continued&hellip;', 'anno'));
 			wp_link_pages();
 			?>
+			<?php if (anno_has_acknowledgements()): ?>
+				<section class="sec" id="acknowledgements">
+					<h1><span><?php _e('Acknowledgements', 'anno'); ?></span></h1>
+					<?php anno_the_acknowledgements(); ?>
+				</section>
+			<?php endif; ?>
+			<?php anno_the_appendices(); ?>
 		</div><!--/.content-->
 	</div><!--/.main-->
 	<footer class="footer">
