@@ -46,7 +46,9 @@ add_action('after_setup_theme', 'anno_register_post_types');
  */ 
 function anno_post_type_requst_handler() {
 	if (isset($_POST['anno_convert'])) {
-		// Check nonce
+		if(!wp_verify_nonce($_POST['anno_convert_nonce'], 'anno_convert')) {
+			wp_die(_x('Unable to perform that ability', 'wp_die error message', 'anno'));
+		}
 		$post_id = absint($_POST['post_ID']);
 		anno_article_to_post($post_id);
 		wp_redirect(get_edit_post_link($post_id, 'redirect'));
@@ -340,6 +342,7 @@ function anno_convert_meta_box($post) {
 	<?php _ex('Clicking the button below will convert the current <strong>Article</strong> to a <strong>Post</strong>. This will also convert any terms in article taxonomies to post taxonomies. You will not be able to revert this Article back once it has been converted to a Post.', 'conversion instructions', 'anno'); ?>
 	</p>
 	<p style="text-align: center;">
+		<?php wp_nonce_field('anno_convert', 'anno_convert_nonce', true, true); ?>
 		<input type="submit" name="anno_convert" class="button-primary" value="Convert To Post" />
 	</p>
 	
