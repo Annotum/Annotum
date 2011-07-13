@@ -62,6 +62,8 @@ if (CFCT_DEBUG) { cfct_banner(__FILE__); }
 		</div><!--/.content-->
 	</div><!--/.main-->
 	<footer class="footer">
-		<?php the_tags('<dt>'.__('Tags:', 'anno').'</dt> <dd class="tags">', ' <span class="sep">&middot;</span> ', '</dd>'); ?>
+		<?php
+		anno_the_terms('article_tag', '<dl class="kv"><dt>'.__('Tags:', 'anno').'</dt> <dd class="tags">', ' <span class="sep">&middot;</span> ', '</dd></dl>'); 
+		//the_tags('<dt>'.__('Tags:', 'anno').'</dt> <dd class="tags">', ' <span class="sep">&middot;</span> ', '</dd>'); ?>
 	</footer><!-- .footer -->
 </article>
