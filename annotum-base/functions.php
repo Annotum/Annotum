@@ -356,8 +356,8 @@ add_filter('cfct_option_defaults', 'anno_defaults');
  * Override the default cfct prefix if we've already name spaced our options.
  */ 
 function anno_option_prefix($prefix, $name) {
-	if (strpos('anno', $name) !== false)) {
-		return ''
+	if (strpos('anno', $name) !== false) {
+		return '';
 	}
 	else {
 		return $prefix;
