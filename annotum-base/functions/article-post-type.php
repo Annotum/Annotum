@@ -127,9 +127,9 @@ function anno_article_meta_boxes() {
 	add_meta_box('appendicies', _x('Appendicies', 'Meta box title', 'anno'), 'anno_appendicies_meta_box', 'article', 'normal', 'high');
 	add_meta_box('featured', _x('Featured', 'Meta box title', 'anno'), 'anno_featured_meta_box', 'article', 'side', 'default');
 	
-//	if (current_user_can($admin)) {
+	if (current_user_can('administrator')) {
 		add_meta_box('convert', _x('Convert To Post', 'Meta box title', 'anno'), 'anno_convert_meta_box', 'article', 'side', 'low');
-//	}
+	}
 }
 add_action('add_meta_boxes_article', 'anno_article_meta_boxes');
 
