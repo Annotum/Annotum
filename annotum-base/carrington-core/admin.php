@@ -74,11 +74,13 @@ function cfct_update_settings() {
  * Prefix options names
  */ 
 function cfct_option_name($name) {
-	$prefix = apply_filters('cfct_option_prefix', 'cfct');
+	$prefix = apply_filters('cfct_option_prefix', 'cfct', $name);
 	return $prefix.'_'.$name;
 }
 
-//stripslashes_deep($_POST[$option]
+/**
+ * Register Theme Settings screen options using WP Settings API
+ */ 
 function cfct_register_options() {
 	global $cfct_hidden_fields;
 	$yn_options = array(
@@ -96,35 +98,35 @@ function cfct_register_options() {
 					'label' => __('About text (shown in sidebar)', 'carrington'),
 					'cols' => 60,
 					'rows' => 5,
-					'name' => 'cfct_about_text',
+					'name' => 'about_text',
 				),
 				'header' => array(
 					'type' => 'textarea',
 					'label' => __('Header code (analytics, etc.)', 'carrington'),
-					'name' => 'cfct_wp_header',
+					'name' => 'wp_header',
 				),
 				'footer' => array(
 					'type' => 'textarea',
 					'label' => __('Footer code (analytics, etc.)', 'carrington'),
-					'name' => 'cfct_wp_footer',
+					'name' => 'wp_footer',
 				),
 				'copyright' => array(
 					'type' => 'text',
 					'label' => __('Copyright / legal footer text', 'carrington'),
-					'name' => 'cfct_copyright',
+					'name' => 'copyright',
 					'help' => '<br /><span class="cfct-help">'.__('(add %Y to output the current year)', 'carrington').'</span>',
 					'class' => 'cfct-text-long',
 				),
 				'login' => array(
 					'type' => 'radio',
 					'label' => __('Show log in/out links in footer', 'carrington'),
-					'name' => 'cfct_login_link_enabled',
+					'name' => 'login_link_enabled',
 					'options' => $yn_options,
 				),
 				'credit' => array(
 					'type' => 'radio',
 					'label' => __('Give credit in footer', 'carrington'),
-					'name' => 'cfct_credit',
+					'name' => 'credit',
 					'options' => $yn_options,
 				),
 				/**
@@ -157,24 +159,21 @@ function cfct_register_options() {
 			$section['description'] = 'cfct_options_blank';
 		}
 		add_settings_section($section_name, $section['label'], $section['description'], 'cfct');
-		if (!is_array($section['fields'])) {
-			error_log(print_r($section,1));
-			error_log('dead');
-		}
+
 		foreach ($section['fields'] as $key => $option) {
 		
 			// Support for serialized options
 			// First we want to match on the name of the option. (everything up to the first []). Only matchs on alpha-numeric, dashes and underscores
 			if (preg_match('/^([a-zA-Z0-9-_]+)\[[a-zA-Z0-9-_]+\]/', $option['name'], $basename_match)) {
-				$basename = $basename_match[1];
+				$basename = cfct_option_name($basename_match[1]);
 				register_setting('cfct', $basename, 'cfct_sanitize_options');
 				$serialize_option = cfct_get_option($basename);
 
 				// match on any subsequent [] with at least one character to determine the value of the option. Only matchs on alpha-numeric, dashes and underscores.
 				if(preg_match_all('/\[([a-zA-Z0-9-_]+)\]/', $option['name'], $key_matches)) {
 					$value = $serialize_option;
-					foreach ($key_matches[1] as $key) {
-						if (is_array($value) && array_key_exists($key, $value)) {
+					foreach ($key_matches[1] as $key_match) {
+						if (is_array($value) && array_key_exists($key_match, $value)) {
 							$value = $value[$key];
 						}
 					}
@@ -182,8 +181,9 @@ function cfct_register_options() {
 				}
 			}
 			else {
-				register_setting('cfct', $option['name'], 'cfct_sanitize_options');
-				$option['value'] = cfct_get_option($option['name']);
+				$name = cfct_option_name($option['name']);
+				register_setting('cfct', $name, 'cfct_sanitize_options');
+				$option['value'] = cfct_get_option($name);
 			}
 						
 			$option['label_for'] = $section_name.'_'.$key;

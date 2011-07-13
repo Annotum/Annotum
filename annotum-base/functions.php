@@ -273,79 +273,97 @@ function anno_register_settings_forms_to_save() {
 add_action('init', 'anno_register_settings_forms_to_save', 9);
 
 /**
- * Form fragment for the Carrington theme settings page
+ * Register Theme settings
  */
-function anno_settings_form_top() {
-	$key = 'anno_callouts';
-	$opt = get_option($key);
-	?>
-<table class="form-table">
-	<tbody>
-		<tr>
-			<th><?php _ex('Home Page Callout Left', 'Label text for settings screen', 'anno'); ?></th>
-			<td>
-				<p>
-					<label for="<?php echo $key ?>-0-title"><?php _ex('Title', 'Label text for admin setting', 'anno'); ?></label><br />
-					<input id="<?php echo $key ?>-0-title" class="widefat" name="<?php echo $key; ?>[0][title]" value="<?php echo esc_attr($opt[0]['title']); ?>" />
-				</p>
-				<p>
-					<label for="<?php echo $key ?>-0-url"><?php _ex('URL', 'Label text for admin setting', 'anno'); ?></label><br />
-					<input id="<?php echo $key ?>-0-url" class="widefat" name="<?php echo $key; ?>[0][url]" value="<?php echo esc_url($opt[0]['url']); ?>" />
-				</p>
-				<p>
-					<label for="<?php echo $key ?>-0-content"><?php _ex('Content', 'Label text for admin setting', 'anno'); ?></label><br />
-					<textarea id="<?php echo $key ?>-0-content" class="widefat" name="<?php echo $key; ?>[0][content]" rows="4"><?php echo esc_textarea($opt[0]['content']); ?></textarea>
-				</p>
-			</td>
-		</tr>
-		<tr>
-			<th><?php _ex('Home Page Callout Right', 'Label text for settings screen', 'anno'); ?></th>
-			<td>
-				<p>
-					<label for="<?php echo $key ?>-1-title"><?php _ex('Title', 'Label text for admin setting', 'anno'); ?></label><br />
-					<input id="<?php echo $key ?>-1-title" class="widefat" name="<?php echo $key; ?>[1][title]" value="<?php echo esc_attr($opt[1]['title']); ?>" />
-				</p>
-				<p>
-					<label for="<?php echo $key ?>-1-url"><?php _ex('URL', 'Label text for admin setting', 'anno'); ?></label><br />
-					<input id="<?php echo $key ?>-1-url" class="widefat" name="<?php echo $key; ?>[1][url]" value="<?php echo esc_url($opt[1]['url']); ?>" />
-				</p>
-				<p>
-					<label for="<?php echo $key ?>-1-content"><?php _ex('Content', 'Label text for admin setting', 'anno'); ?></label><br />
-					<textarea id="<?php echo $key ?>-1-content" class="widefat" name="<?php echo $key; ?>[1][content]" rows="4"><?php echo esc_textarea($opt[1]['content']); ?></textarea>
-				</p>
-			</td>
-		</tr>
-	</tbody>
-</table>
-
-
-<?php
+function anno_settings_form_top($settings) {
+	$anno_settings_top = array(
+		'anno_top' => array(
+			'label' => '',
+			'fields' => array(
+				'callout-left-title' => array(
+					'type' => 'text',
+					'name' => 'anno_callouts[0][title]',
+					'label' => _x('Home Page Callout Left Title', 'Label text for settings screen', 'anno'),
+					'class' => 'cfct-text-long',
+				),
+				'callout-left-url' => array(
+					'type' => 'text',
+					'name' => 'anno_callouts[0][url]',
+					'label' => _x('Home Page Callout Left URL', 'Label text for settings screen', 'anno'),
+					'class' => 'cfct-text-long',
+				),
+				'callout_left-content' => array(
+					'type' => 'textarea',
+					'name' => 'anno_callouts[0][content]',
+					'label' => _x('Home Page Callout Left Content', 'Label text for settings screen', 'anno'),
+				),
+				'callout-right-title' => array(
+					'type' => 'text',
+					'name' => 'anno_callouts[1][title]',
+					'label' => _x('Home Page Callout Right Title', 'Label text for settings screen', 'anno'),
+					'class' => 'cfct-text-long',
+				),
+				'callout-right-url' => array(
+					'type' => 'text',
+					'name' => 'anno_callouts[1][url]',
+					'label' => _x('Home Page Callout Right URL', 'Label text for settings screen', 'anno'),
+					'class' => 'cfct-text-long',
+				),
+				'callout-right-content' => array(
+					'type' => 'textarea',
+					'name' => 'anno_callouts[1][content]',
+					'label' => _x('Home Page Callout Right Content', 'Label text for settings screen', 'anno'),
+				),
+			),		
+		),
+	);
+	
+	$settings = array_merge($anno_settings_top, $settings);
+	
+	$anno_settings_bottom = array(
+		'anno_bottom' => array(
+			'label' => '',
+			'fields' => array(
+				'callout-right-content' => array(
+					'type' => 'select',
+					'name' => 'anno_home_post_type',
+					'label' => _x('Front Page Post Type', 'Label text for settings screen', 'anno'),
+					'options' => array(
+						'article' => _x('Article', 'post type name for select option', 'anno'),
+						'post' => _x('Post', 'post type name for select option', 'anno'),
+					),
+				),
+			),		
+		),
+	);
+	
+	$settings = array_merge($settings, $anno_settings_bottom);
+	
+	return $settings;
 }
-add_action('cfct_settings_form_top', 'anno_settings_form_top');
+add_filter('cfct_options', 'anno_settings_form_top');
 
 /**
- * Form fragment for the Carrington theme settings page
- */
-function anno_settings_form_bottom() {
-	$key = 'anno_home_post_type';
-	$opt = get_option($key, 'article'); 
-?>	
-<table class="form-table">
-	<tbody>
-		<tr>
-			<th><label for="<?php echo $key; ?>"><?php _ex('Front Page Post Type', 'Label text for settings screen', 'annotum'); ?></label></th>
-			<td>
-				<select id="<?php echo $key; ?>" name="<?php echo $key; ?>">
-					<option value="post" <?php selected($opt, 'post'); ?>><?php _ex('Post', 'post type name for select option', 'anno'); ?></option>
-					<option value="article" <?php selected($opt, 'article'); ?>><?php _ex('Article', 'post type name for select option', 'anno'); ?></option>						
-				</select>
-			</td>
-		</tr>
-	</tbody>
-</table>
-<?php
+ * Register default option values
+ */ 
+function anno_defaults($defaults) {
+	$defaults['anno_home_post_type'] = 'article';
+	return $defaults;
 }
-add_action('cfct_settings_form_bottom', 'anno_settings_form_bottom');
+add_filter('cfct_option_defaults', 'anno_defaults');
+
+/**
+ * Override the default cfct prefix if we've already name spaced our options.
+ */ 
+function anno_option_prefix($prefix, $name) {
+	if (strpos('anno', $name) !== false)) {
+		return ''
+	}
+	else {
+		return $prefix;
+	}
+}
+add_filter('cfct_option_prefix', 'anno_option_prefix', 10, 2);
 
 /**
  * Determines whether or not an email address is valid
