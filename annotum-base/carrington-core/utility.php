@@ -61,13 +61,18 @@ function cfct_banner($str = '') {
 **/
 function cfct_get_option($name) {
 	$defaults = array(
+		'cfct_login_link_enabled' => 'yes',
+		'cfct_copyright' => sprintf(__('Copyright &copy; %s &nbsp;&middot;&nbsp; %s', 'favepersonal'), date('Y'), get_bloginfo('name')),
 		'cfct_credit' => 'yes',
 		'cfct_lightbox' => 'yes',
 		'cfct_header_image' => 0,
 	);
 	$defaults = apply_filters('cfct_option_defaults', $defaults);
+	
+	$cfct_options = get_option('cfct_options');
+		
 	$value = get_option($name);
-	if ($value == '' && isset($defaults[$name])) {
+	if ($value === false && isset($defaults[$name])) {
 		$value = $defaults[$name];
 	}
 	return $value;
@@ -288,10 +293,11 @@ function cfct_template($dir, $keys = array()) {
  * 
  * @param string $dir Directory the file will be in
  * @param string $file Filename
- * @param $data not used
+ * @param array $data pass in data to be extracted for use by the template
  * 
 **/
-function cfct_template_file($dir, $file, $data = null) {
+function cfct_template_file($dir, $file, $data = array()) {
+	extract($data);
 	$path = '';
 	if (!empty($file)) {
 		$file = basename($file, '.php');
@@ -307,6 +313,20 @@ function cfct_template_file($dir, $file, $data = null) {
 	else {
 		cfct_die('Error loading '.$file.' '.__LINE__);
 	}
+}
+
+/**
+ * Include a specific file based on directory and filename and return the output
+ * 
+ * @param string $dir Directory the file will be in
+ * @param string $file Filename
+ * @param array $data pass in data to be extracted for use by the template
+ * 
+**/
+function cfct_template_content($dir, $file, $data = array()) {
+	ob_start();
+	cfct_template_file($dir, $file, $data);
+	return ob_get_clean();
 }
 
 /**
@@ -1485,5 +1505,19 @@ if (!function_exists('get_post_format')) {
 		return false;
 	}
 }
+
+/**
+ * Generate markup for login/logout links
+ * 
+ * @param string $redirect URL to redirect after the login or logout
+ * @param string $before Markup to display before
+ * @param string $after Markup to display after
+ * @return string Generated login/logout Markup
+ */ 
+function cfct_get_loginout($redirect = '', $before = '', $after = '') {
+	if (cfct_get_option('cfct_login_link_enabled') != 'no') {
+		return $before . wp_loginout($redirect, false) . $after;
+	}
+} 
 
 ?>

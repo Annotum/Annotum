@@ -21,11 +21,18 @@
  */
 function cfct_comment_id_fields() {
 	global $id;
-
 	$replytoid = isset($_GET['replytocom']) ? (int) $_GET['replytocom'] : 0;
-	echo "<input type='hidden' name='comment_post_ID' value='$id' id='comment_post_ID_p$id' />\n";
-	echo "<input type='hidden' name='comment_parent' id='comment_parent_p$id' value='$replytoid' />\n";
+	
+	echo cfct_get_comment_id_fields($id, $replytoid);
 }
+
+function cfct_get_comment_id_fields($id, $replytoid) {
+	$out = "<input type='hidden' name='comment_post_ID' value='$id' id='comment_post_ID_p$id' />\n";
+	$out .= "<input type='hidden' name='comment_parent' id='comment_parent_p$id' value='$replytoid' />\n";
+	
+	return $out;
+}
+
 
 /**
  * Filter the comment reply link to add a unique unique ID, based on post ID, making it safe for AJAX pull.

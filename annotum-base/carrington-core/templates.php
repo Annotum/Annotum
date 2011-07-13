@@ -134,7 +134,7 @@ function cfct_excerpt() {
  * Chooses the appropriate template file for the excerpt in a feed and returns that content
  *  
 **/
-function cfct_excerpt_feed() {
+function cfct_excerpt_feed($content) {
 	if (is_feed() && get_option('rss_use_excerpt')) {
 // find template
 		$file = cfct_choose_content_template_feed('excerpt');

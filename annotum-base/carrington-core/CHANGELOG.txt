@@ -3,7 +3,8 @@
 ## 3.2
 
 - Implemented support for feed-{post context} templates in content/ and excerpt/ dirs
-
+- Refactor options display
+- Add utility function to return template instead of echoing
 
 ## 3.1
 
