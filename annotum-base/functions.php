@@ -231,6 +231,18 @@ function anno_post_class($classes, $class) {
 }
 add_filter('post_class', 'anno_post_class', 10, 2);
 
+
+function anno_post_category_list($separator) {
+	$html = '';
+	
+	$cat_list = get_the_category_list( $separator);
+	if(!empty($cat_list)) {
+		$html.=' &middot ' . $cat_list;
+	}
+	return $html;
+	
+}
+
 /**
  * Customize comment form defaults
  */

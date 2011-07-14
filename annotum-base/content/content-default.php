@@ -19,6 +19,7 @@ if (CFCT_DEBUG) { cfct_banner(__FILE__); }
 		</div>
 		<div class="meta">
 			<time class="published" pubdate datetime="<?php the_time('c'); ?>"><?php the_time('F j, Y'); ?></time>
+			<?php echo anno_post_category_list(', '); ?>
 		</div>
 		<div class="tools-bar supplement clearfix">
 			<div class="cell print">
@@ -50,6 +51,6 @@ if (CFCT_DEBUG) { cfct_banner(__FILE__); }
 		</div><!--/.content-->
 	</div><!--/.main-->
 	<footer class="footer">
-		<?php the_tags('<dt>'.__('Tags:', 'anno').'</dt> <dd class="tags">', ' <span class="sep">&middot;</span> ', '</dd>'); ?>
+		<?php the_tags('<dl class="kv"><dt>'.__('Tags:', 'anno').'</dt> <dd class="tags">', ' <span class="sep">&middot;</span> ', '</dd></dl>'); ?>
 	</footer><!-- .footer -->
 </article>
