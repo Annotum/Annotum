@@ -82,14 +82,15 @@ function anno_setup() {
 		'before_widget' => '<aside id="%1$s" class="teaser clearfix %2$s">'
 	)));
 	// Customize the Carrington Core Admin Settings Form Title
-	add_filter('cfct_admin_settings_form_title', 'anno_admin_settings_form_title');
+	add_filter('cfct_admin_settings_menu', 'anno_admin_settings_menu_form_title');
+	add_filter('cfct_admin_settings_form_title', 'anno_admin_settings_menu_form_title');
 	add_action('wp_head', 'anno_css3_pie', 8);
 }
 add_action('after_setup_theme', 'anno_setup');
 
 // Filter to customize the Carrington Core Admin Settings Form Title
-function anno_admin_settings_form_title() {
-	return __('Theme Settings', 'anno');
+function anno_admin_settings_menu_form_title() {
+	return _x('Annotum Settings', 'menu and options heading', 'anno');
 }
 
 // Adding favicon, each theme has it's own which we get with stylesheet directory
@@ -274,23 +275,17 @@ function anno_comment_form_defaults($defaults) {
 add_filter('comment_form_defaults', 'anno_comment_form_defaults');
 
 /**
- * Register our custom theme settings forms with Carrington so that they are saved to options
- * table. Must run before init:10.
- */
-function anno_register_settings_forms_to_save() {
-	global $cfct_options;
-	$cfct_options[] = 'anno_callouts';
-	$cfct_options[] = 'anno_home_post_type';
-}
-add_action('init', 'anno_register_settings_forms_to_save', 9);
-
-/**
  * Register Theme settings
  */
-function anno_settings_form_top($settings) {
+function anno_settings($settings) {
+	$yn_options = array(
+		'1' => __('Yes', 'carrington'),
+		'0' => __('No', 'carrington')
+	);
+	
 	$anno_settings_top = array(
 		'anno_top' => array(
-			'label' => '',
+			'label' => _x('Theme Settings', 'options heading', 'anno'),
 			'fields' => array(
 				'callout-left-title' => array(
 					'type' => 'text',
@@ -347,19 +342,75 @@ function anno_settings_form_top($settings) {
 				),
 			),		
 		),
+		'anno_ga' => array(
+			'label' =>  _x('Google Analytics', 'options heading', 'anno'),
+			'fields' => array(
+				'anno_ga_id' => array(
+					'label' => _x('Google Analytics ID', 'options label', 'anno'),
+					'label_for' => 'anno-ga-id',
+					'name' => 'ga_id',
+					'type' => 'text',
+					'help' => ' <span class="cfct-help">'._x('ex: UA-123456-12', 'help text for option input', 'anno').'</span>',
+				),
+			),
+		),
+		'annowf_settings' => array(
+			'label' =>  _x('Workflow Options', 'options heading', 'anno'),
+			'fields' => array(
+				'workflow' => array(
+					'label' => _x('Enable Workflow', 'options label', 'anno'),
+					'name' => 'workflow_settings[workflow]',
+					'type' => 'radio',
+					'options' => $yn_options,
+				),
+				'author_reviewer' => array(
+					'label' => _x('Allow article authors to see reviewers', 'options label', 'anno'),
+					'name' => 'workflow_settings[author_reviewer]',
+					'type' => 'radio',
+					'options' => $yn_options,
+				),
+				'notifications' => array(
+					'label' => _x('Enable workflow notifications', 'options label', 'anno'),
+					'name' => 'workflow_settings[notifications]',
+					'type' => 'radio',
+					'options' => $yn_options,
+				),
+			),
+		),
 	);
 	
 	$settings = array_merge($settings, $anno_settings_bottom);
 	
 	return $settings;
 }
-add_filter('cfct_options', 'anno_settings_form_top');
+add_filter('cfct_options', 'anno_settings');
+
+function anno_sanitize_ga_id($new_value) {
+	// Enforces a aa-a1234b-0 pattern
+	if ($new_value == '' || (bool)preg_match('/^[a-zA-Z]{2,}-[a-zA-Z0-9]{2,}-[a-zA-Z0-9]{1,}$/', $new_value)) {
+		$new_value = anno_sanitize_string($new_value);
+	}
+	else {
+		$new_value = cfct_get_option('ga_id');
+		if (function_exists('add_settings_error')) {
+			add_settings_error('anno_ga_id', 'invalid_ga_id', _x('Invalid Google Analytics ID', 'error message', 'anno'));
+		}
+	}
+	return $new_value;
+}
+
+add_action('sanitize_option_anno_ga_id', 'anno_sanitize_ga_id');
 
 /**
  * Register default option values
  */ 
 function anno_defaults($defaults) {
 	$defaults['anno_home_post_type'] = 'article';
+	$defaults['anno_workflow_settings'] = array(
+		'workflow' => 0,
+		'author_reviewer' => 0,
+		'notifications' => 0,
+	);
 	return $defaults;
 }
 add_filter('cfct_option_defaults', 'anno_defaults');
@@ -367,13 +418,8 @@ add_filter('cfct_option_defaults', 'anno_defaults');
 /**
  * Override the default cfct prefix if we've already name spaced our options.
  */ 
-function anno_option_prefix($prefix, $name) {
-	if (strpos('anno', $name) !== false) {
-		return '';
-	}
-	else {
-		return $prefix;
-	}
+function anno_option_prefix($prefix) {
+	return 'anno';
 }
 add_filter('cfct_option_prefix', 'anno_option_prefix', 10, 2);
 
@@ -422,7 +468,7 @@ add_filter('comment_feed_where', 'anno_internal_comments_query');
  * Output Google Analytics Code if a GA ID is present
  */
 function anno_ga_js() {
-	$ga_id = anno_get_option('ga_id');
+	$ga_id = cfct_get_option('ga_id');
 	if (!empty($ga_id)) {
 	
 ?>
@@ -516,6 +562,20 @@ function anno_format_name($prefix, $first, $last, $suffix) {
 	$name = ($suffix!='')?$name.', '.$suffix:$name;
 	
 	return $name;
+}
+
+/**
+ * Sanitizes a string for insertion into DB
+ * @param string $option The string to be sanitized
+ * @return string Sanitized string
+ */ 
+function anno_sanitize_string($option) {
+	$option = addslashes($option);
+	$option = wp_filter_post_kses($option); // calls stripslashes then addslashes
+	$option = stripslashes($option);
+	$option = esc_html($option);
+	
+	return $option;
 }
 
 ?>
