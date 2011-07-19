@@ -61,16 +61,14 @@ function cfct_banner($str = '') {
 **/
 function cfct_get_option($name) {
 	$defaults = array(
-		'cfct_login_link_enabled' => 'yes',
-		'cfct_copyright' => sprintf(__('Copyright &copy; %s &nbsp;&middot;&nbsp; %s', 'favepersonal'), date('Y'), get_bloginfo('name')),
-		'cfct_credit' => 'yes',
-		'cfct_lightbox' => 'yes',
-		'cfct_header_image' => 0,
+		cfct_option_name('login_link_enabled') => 'yes',
+		cfct_option_name('copyright') => sprintf(__('Copyright &copy; %s &nbsp;&middot;&nbsp; %s', 'favepersonal'), date('Y'), get_bloginfo('name')),
+		cfct_option_name('credit') => 'yes',
+		cfct_option_name('lightbox') => 'yes',
+		cfct_option_name('header_image') => 0,
 	);
 	$defaults = apply_filters('cfct_option_defaults', $defaults);
-	
-	$cfct_options = get_option('cfct_options');
-		
+			
 	$value = get_option($name);
 	if ($value === false && isset($defaults[$name])) {
 		$value = $defaults[$name];
@@ -297,18 +295,22 @@ function cfct_template($dir, $keys = array()) {
  * 
 **/
 function cfct_template_file($dir, $file, $data = array()) {
-	extract($data);
 	$path = '';
 	if (!empty($file)) {
 		$file = basename($file, '.php');
-		// child theme support
-		$path = STYLESHEETPATH.'/'.$dir.'/'.$file.'.php';
-		if (!file_exists($path)) {
-			$path = CFCT_PATH.$dir.'/'.$file.'.php';
+		/* Check for file in the child theme first
+		var name is deliberately funny. Avoids inadvertantly
+		overwriting path variable with extract() below. */
+		$_cfct_filepath = STYLESHEETPATH.'/'.$dir.'/'.$file.'.php';
+		if (!file_exists($_cfct_filepath)) {
+			$_cfct_filepath = CFCT_PATH.$dir.'/'.$file.'.php';
 		}
 	}
-	if (file_exists($path)) {
-		include($path);
+	if (file_exists($_cfct_filepath)) {
+		/* Extract $data as late as possible, so we don't accidentally overwrite
+		local function vars */
+		extract($data);
+		include($_cfct_filepath);
 	}
 	else {
 		cfct_die('Error loading '.$file.' '.__LINE__);
@@ -1515,9 +1517,30 @@ if (!function_exists('get_post_format')) {
  * @return string Generated login/logout Markup
  */ 
 function cfct_get_loginout($redirect = '', $before = '', $after = '') {
-	if (cfct_get_option('cfct_login_link_enabled') != 'no') {
+	if (cfct_get_option('login_link_enabled') != 'no') {
 		return $before . wp_loginout($redirect, false) . $after;
 	}
 } 
+
+/**
+ * Recursively merges two arrays down overwriting values if keys match.
+ * 
+ * @param array $array_1 Array to merge into
+ * @param array $array_2 Array in which values are merged from
+ * 
+ * @return array Merged array
+ */ 
+function cfct_array_merge_recursive($array_1, $array_2) {
+	foreach ($array_2 as $key => $value) {
+		if (is_array($array_1[$key]) && isset($array_1[$key]) && is_array($value)) {
+			$array_1[$key] = cfct_array_merge_recursive($array_1[$key], $value);
+		}
+		else {
+			$array_1[$key] = $value;
+		}
+	}
+	
+	return $array_1;
+}
 
 ?>

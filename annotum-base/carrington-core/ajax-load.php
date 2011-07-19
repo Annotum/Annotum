@@ -118,7 +118,7 @@ add_filter('comments_popup_link_attributes', 'cfct_ajax_comment_link');
  * @return int The number of posts to display on an archive page
 **/
 function cfct_posts_per_archive_page_setting() {
-	$count = get_option('cfct_posts_per_archive_page');
+	$count = cfct_get_option('posts_per_archive_page');
 	intval($count) > 0 ? $count = $count : $count = 25;
 	return $count;
 }

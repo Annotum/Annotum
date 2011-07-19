@@ -71,11 +71,24 @@ function cfct_update_settings() {
 }
 
 /**
+ * Returns the options prefix
+ */ 
+function cfct_get_option_prefix() {
+	return apply_filters('cfct_option_prefix', 'cfct');
+}
+
+/**
  * Prefix options names
  */ 
 function cfct_option_name($name) {
-	$prefix = apply_filters('cfct_option_prefix', 'cfct', $name);
-	return $prefix.'_'.$name;
+	$prefix = cfct_get_option_prefix();
+	// If its already prefixed, we don't need to do it again.
+	if (strpos($prefix.'_', $name) !== 0) {
+		return $prefix.'_'.$name;
+	}
+	else {
+		return $name;
+	}
 }
 
 /**
@@ -161,11 +174,14 @@ function cfct_register_options() {
 		add_settings_section($section_name, $section['label'], $section['description'], 'cfct');
 
 		foreach ($section['fields'] as $key => $option) {
-		
+			
+			// Prefix the option name
+			$option['name'] = cfct_option_name($option['name']);
+
 			// Support for serialized options
 			// First we want to match on the name of the option. (everything up to the first []). Only matchs on alpha-numeric, dashes and underscores
 			if (preg_match('/^([a-zA-Z0-9-_]+)\[[a-zA-Z0-9-_]+\]/', $option['name'], $basename_match)) {
-				$basename = cfct_option_name($basename_match[1]);
+				$basename = $basename_match[1];
 				register_setting('cfct', $basename, 'cfct_sanitize_options');
 				$serialize_option = cfct_get_option($basename);
 
@@ -174,16 +190,15 @@ function cfct_register_options() {
 					$value = $serialize_option;
 					foreach ($key_matches[1] as $key_match) {
 						if (is_array($value) && array_key_exists($key_match, $value)) {
-							$value = $value[$key];
+							$value = $value[$key_match];
 						}
 					}
 					$option['value'] = $value;
 				}
 			}
 			else {
-				$name = cfct_option_name($option['name']);
-				register_setting('cfct', $name, 'cfct_sanitize_options');
-				$option['value'] = cfct_get_option($name);
+				register_setting('cfct', $option['name'], 'cfct_sanitize_options');
+				$option['value'] = cfct_get_option($option['name']);
 			}
 						
 			$option['label_for'] = $section_name.'_'.$key;
@@ -361,7 +376,7 @@ function cfct_header_image_form() {
 		LIMIT 50
 	");
 	$upload_url = admin_url('media-new.php');
-	$header_image = get_option('cfct_header_image');
+	$header_image = cfct_get_option('header_image');
 	if (empty($header_image)) {
 		$header_image = 0;
 	}
@@ -370,18 +385,18 @@ function cfct_header_image_form() {
 <ul style="width: '.((count($images) + 1) * 152).'px">
 	<li style="background: #666;">
 		<label for="cfct_header_image_0">
-			<input type="radio" name="cfct_header_image" value="0" id="cfct_header_image_0" '.checked($header_image, 0, false).'/>'.__('No Image', 'carrington-core').'
+			<input type="radio" name="'.esc_attr(cfct_option_name('header_image')).'" value="0" id="'.esc_attr(cfct_option_name('header_image_0')).'" '.checked($header_image, 0, false).'/>'.__('No Image', 'carrington-core').'
 		</label>
 	</li>
 	';
 	if (count($images)) {
 		foreach ($images as $image) {
-			$id = 'cfct_header_image_'.$image->ID;
+			$id = cfct_option_name('header_image_'.$image->ID);
 			$thumbnail = wp_get_attachment_image_src($image->ID);
 			$output .= '
 	<li style="background-image: url('.$thumbnail[0].')">
 		<label for="'.$id.'">
-			<input type="radio" name="cfct_header_image" value="'.$image->ID.'" id="'.$id.'"'.checked($header_image, $image->ID, false).' />'.esc_html($image->post_title).'
+			<input type="radio" name="'.esc_attr(cfct_option_name('header_image')).'" value="'.$image->ID.'" id="'.$id.'"'.checked($header_image, $image->ID, false).' />'.esc_html($image->post_title).'
 		</label>
 	</li>';
 		}

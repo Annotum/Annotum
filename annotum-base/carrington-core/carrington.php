@@ -29,11 +29,6 @@ if (!defined('CFCT_PATH')) {
 
 load_theme_textdomain('carrington');
 
-$cfct_options[] = 'cfct_about_text';
-$cfct_options[] = 'cfct_credit';
-$cfct_options[] = 'cfct_wp_head';
-$cfct_options[] = 'cfct_wp_footer';
-
 include_once(CFCT_PATH.'carrington-core/admin.php');
 include_once(CFCT_PATH.'carrington-core/templates.php');
 include_once(CFCT_PATH.'carrington-core/utility.php');
@@ -49,7 +44,7 @@ cfct_load_plugins();
 **/ 
 function cfct_init() {
 	cfct_admin_request_handler();
-	if (cfct_get_option('cfct_ajax_load') == 'yes') {
+	if (cfct_get_option('ajax_load') == 'yes') {
 		cfct_ajax_load();
 	}
 }
@@ -60,7 +55,7 @@ function cfct_init() {
  * 
 **/
 function cfct_wp_head() {
-	echo get_option('cfct_wp_head');
+	echo cfct_get_option('wp_head');
 }
 add_action('wp_head', 'cfct_wp_head');
 
@@ -69,7 +64,7 @@ add_action('wp_head', 'cfct_wp_head');
  * 
 **/
 function cfct_wp_footer() {
-	echo get_option('cfct_wp_footer');
+	echo cfct_get_option('wp_footer');
 }
 add_action('wp_footer', 'cfct_wp_footer');
 
@@ -80,7 +75,7 @@ add_action('wp_footer', 'cfct_wp_footer');
  * 
 **/
 function cfct_about_text() {
-	$about_text = get_option('cfct_about_text');
+	$about_text = cfct_get_option('about_text');
 	if (!empty($about_text)) {
 		$about_text = cfct_basic_content_formatting($about_text);
 	}

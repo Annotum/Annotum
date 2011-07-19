@@ -5,6 +5,7 @@
 - Implemented support for feed-{post context} templates in content/ and excerpt/ dirs
 - Refactor options display
 - Add utility function to return template instead of echoing
+- Converted Carrington Settings pages to utilize the WordPress Settings API
 
 ## 3.1
 
