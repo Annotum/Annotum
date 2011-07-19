@@ -176,4 +176,18 @@ function annowf_meta_revision_display($meta_value) {
 	
 	return $html;
 }
+
+/**
+ * Styling for post-meta in revisions
+ */ 
+function anno_revisions_css() {
+?>
+<style type="text/css">
+h4 {
+	margin: 0;
+}
+</style>
+<?php
+}
+add_action('admin_print_scripts-revision.php', 'anno_revisions_css');
 ?>

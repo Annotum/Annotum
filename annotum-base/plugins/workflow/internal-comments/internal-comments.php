@@ -338,7 +338,7 @@ function anno_internal_comments_ajax() {
 
 
 	// Send email notifications of new commment
-	if (anno_workflow_enabled('workflow_notifications')) {
+	if (anno_workflow_enabled('notifications')) {
 		$post = get_post($comment_post_ID);
 		$recipients = array();
 		if ($comment_base_type == 'review') {

@@ -1,8 +1,36 @@
 <?php
+ 
+/**
+ * 
+ * @param string $key option name to get
+ * @param mixed $default What to return if the given option is not set
+ * @return mixed
+ */ 
+function annowf_get_option($key, $default = false) {
+	$option = cfct_get_option('workflow_settings');
+	if (is_null($option[$key])) {
+		return $default;
+	}
+	else {
+		return $option[$key];
+	}
+}
 
-//TODO use Anno_Keeper for globals
+/**
+ * Helper function to determine if the workflow is enabled
+ * 
+ * @param string $option Name of the workflow option to check. Defaults to workflow (entire workflow enabled/disabled)
+ * @return mixed true(1) if the workflow is enabled, false(null) otherwise
+ */ 
+function anno_workflow_enabled($option = null) {
+	if (empty($option)) {
+		$option = 'workflow';
+	}
 
-include_once(ANNO_PLUGIN_PATH.'/workflow/workflow-settings.php');
+	$settings = annowf_get_option($option);
+	return $settings[$option];
+}
+
 
 if (anno_workflow_enabled()) {
 	// Used in generating save buttons and proccess state changes
@@ -16,6 +44,7 @@ if (anno_workflow_enabled()) {
 		'clone' => _x('Clone', 'Publishing box action button text', 'anno'),
 		'revert' => _x('Revert To Draft', 'Publishing box action button text', 'anno'),
 	);
+	
 	include_once(ANNO_PLUGIN_PATH.'/workflow/users.php');
 	include_once(ANNO_PLUGIN_PATH.'/workflow/workflow.php');
 	include_once(ANNO_PLUGIN_PATH.'/workflow/audit.php');
