@@ -27,6 +27,7 @@ include_once(CFCT_PATH.'functions/widgets.php');
 include_once(CFCT_PATH.'functions/profile.php');
 include_once(CFCT_PATH.'plugins/load.php');
 
+
 function anno_setup() {
 	$path = trailingslashit(TEMPLATEPATH);
 
@@ -278,6 +279,11 @@ add_filter('comment_form_defaults', 'anno_comment_form_defaults');
  * Register Theme settings
  */
 function anno_settings($settings) {
+	unset($settings['cfct']['fields']['login']);
+	unset($settings['cfct']['fields']['copyright']);
+	unset($settings['cfct']['fields']['credit']);
+	unset($settings['cfct']['fields']['about']);
+	
 	$yn_options = array(
 		'1' => __('Yes', 'carrington'),
 		'0' => __('No', 'carrington')
@@ -470,7 +476,6 @@ add_filter('comment_feed_where', 'anno_internal_comments_query');
 function anno_ga_js() {
 	$ga_id = cfct_get_option('ga_id');
 	if (!empty($ga_id)) {
-	
 ?>
 <script type="text/javascript">
 
@@ -577,5 +582,4 @@ function anno_sanitize_string($option) {
 	
 	return $option;
 }
-
 ?>
