@@ -1,5 +1,5 @@
 <?php
- 
+
 /**
  * 
  * @param string $key option name to get
@@ -8,6 +8,7 @@
  */ 
 function annowf_get_option($key, $default = false) {
 	$option = cfct_get_option('workflow_settings');
+
 	if (is_null($option[$key])) {
 		return $default;
 	}
@@ -26,13 +27,12 @@ function anno_workflow_enabled($option = null) {
 	if (empty($option)) {
 		$option = 'workflow';
 	}
-
-	$settings = annowf_get_option($option);
-	return $settings[$option];
+	
+	return annowf_get_option($option);
 }
 
-
-if (anno_workflow_enabled()) {
+function annowf_setup() {
+	if (anno_workflow_enabled()) {
 	// Used in generating save buttons and proccess state changes
 	global $anno_post_save;
 	$anno_post_save = array(
@@ -44,13 +44,16 @@ if (anno_workflow_enabled()) {
 		'clone' => _x('Clone', 'Publishing box action button text', 'anno'),
 		'revert' => _x('Revert To Draft', 'Publishing box action button text', 'anno'),
 	);
-	
+
 	include_once(ANNO_PLUGIN_PATH.'/workflow/users.php');
 	include_once(ANNO_PLUGIN_PATH.'/workflow/workflow.php');
 	include_once(ANNO_PLUGIN_PATH.'/workflow/audit.php');
 	include_once(ANNO_PLUGIN_PATH.'/workflow/internal-comments/internal-comments.php');
 	include_once(ANNO_PLUGIN_PATH.'/workflow/publishing-meta-box.php');
 	include_once(ANNO_PLUGIN_PATH.'/workflow/notification.php');
+
+	}
 }
+add_action('after_setup_theme', 'annowf_setup');
 
 ?>
