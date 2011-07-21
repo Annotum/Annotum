@@ -69,7 +69,7 @@ function cfct_get_option($name) {
 	);
 	$defaults = apply_filters('cfct_option_defaults', $defaults);
 			
-	$value = get_option($name);
+	$value = get_option(cfct_option_name($name));
 	if ($value === false && isset($defaults[$name])) {
 		$value = $defaults[$name];
 	}
