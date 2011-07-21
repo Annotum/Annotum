@@ -83,7 +83,7 @@ function cfct_get_option_prefix() {
 function cfct_option_name($name) {
 	$prefix = cfct_get_option_prefix();
 	// If its already prefixed, we don't need to do it again.
-	if (strpos($prefix.'_', $name) !== 0) {
+	if (strpos($prefix.'_', $name) !== 1) {
 		return $prefix.'_'.$name;
 	}
 	else {
