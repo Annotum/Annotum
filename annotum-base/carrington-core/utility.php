@@ -68,11 +68,13 @@ function cfct_get_option($name) {
 		cfct_option_name('header_image') => 0,
 	);
 	$defaults = apply_filters('cfct_option_defaults', $defaults);
-			
+			error_log(cfct_option_name($name));
 	$value = get_option(cfct_option_name($name));
+	
 	if ($value === false && isset($defaults[$name])) {
 		$value = $defaults[$name];
 	}
+
 	return $value;
 }
 
