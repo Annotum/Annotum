@@ -208,15 +208,15 @@ function anno_popup_references() {
 								<div id="<?php echo esc_attr('anno-reference-edit-'.$reference_key); ?>" class="anno-reference-edit">
 									<label>
 										<span><?php _ex('DOI', 'input label for defining tables', 'anno'); ?></span>
-										<input type="text" name="doi" id="doi" value="<?php echo esc_attr($reference['doi']) ?>" />
+										<input type="text" name="<?php echo esc_attr('doi-'.$reference_key); ?>" id="<?php echo esc_attr('doi-'.$reference_key); ?>" value="<?php echo esc_attr($reference['doi']) ?>" />
 									</label>
 									<label>
 										<span><?php _ex('PCMID', 'input label for defining tables', 'anno'); ?></span>
-										<input type="text" name="pcmid" id="pcmid" value="<?php echo esc_attr($reference['pcmid']) ?>" />
+										<input type="text" name="<?php echo esc_attr('pcmid-'.$reference_key); ?>" id="<?php echo esc_attr('pcmid-'.$reference_key); ?>" value="<?php echo esc_attr($reference['pcmid']) ?>" />
 									</label>
 									<label>
 										<span><?php _ex('Figures', 'input label for defining tables', 'anno'); ?></span>
-										<select name="figures" id="figures">
+										<select name="<?php echo esc_attr('reffigures-'.$reference_key); ?>" id="<?php echo esc_attr('reffigures-'.$reference_key); ?>">
 											<option value=""><?php _ex('Select Figure', 'select option', 'anno'); ?></option>
 										</select>
 									</label>
