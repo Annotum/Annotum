@@ -52,11 +52,12 @@ function annowf_minor_action_draft_markup() {
  */
 function annowf_major_action_draft_markup() {
 	global $anno_post_save;
+	$post_id = anno_get_post_id();
 	if (anno_user_can('trash_post')) {
 			$wrap_class = '';
 ?>
 		<div id="delete-action">
-			<a class="submitdelete deletion" href="<?php echo get_delete_post_link($post->ID); ?>"><?php _ex('Move To Trash', 'Publishing box trash action link text', 'anno'); ?></a>
+			<a class="submitdelete deletion" href="<?php echo get_delete_post_link($post_id); ?>"><?php _ex('Move To Trash', 'Publishing box trash action link text', 'anno'); ?></a>
 		</div>
 <?php
 	}
@@ -423,6 +424,7 @@ function annowf_major_action_preview_markup() {
  */
 function annowf_minor_action_save_markup() {
 	// Hidden submit button early on so that the browser chooses the right button when form is submitted with Return key
+	global $post;
 ?>
 		<div style="display:none;">
 			<?php submit_button( _x('Save', 'Publishing box save button text', 'anno'), 'button', 'save' ); ?>

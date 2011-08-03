@@ -2,9 +2,21 @@ body {
 	background: #F4F4F4;
 }
 
-h1,h2,h3,h4,h5,h6,p {
+h1,h2,h3,h4,h5,h6,p,.section {
 	padding: 10px;
 	border: 1px solid #DFDFDF;
 	background: #FFFFFF;
 	margin-bottom: 10px;
+}
+
+ext-link {
+	text-decoration: underline;
+	color: #0000FF;
+}
+
+xref {
+	font-size: xx-small;
+	vertical-align:top;
+	font-weight: bold;
+	padding-right: 1px;
 }

@@ -1,12 +1,13 @@
 jQuery(document).ready( function($) {
 	// Type-ahead
+	//TODO prevent enter from submitting form
 	$('.user-input').suggest( 'admin-ajax.php?action=anno-user-search', { delay: 200, minchars: 2, multiple: false} );
 	
 	$('input[type="submit"], a.submitdelete, #submitpost').click(function() {
 		$(this).siblings('.ajax-loading').css('visibility', 'visible');
 	});
 
-	//todo possibly abstract this and anno_add_reviewer into a single function;
+	//TODO possibly abstract this and anno_add_reviewer into a single function;
 	function anno_add_co_author() {
 		var user = $('input[type="text"]#co-author-input').val();
 		if (user == '') {

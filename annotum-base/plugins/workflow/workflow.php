@@ -732,7 +732,7 @@ function annowf_admin_request_handler() {
 		if (!anno_user_can('clone_post')) {
 			wp_die(_x('You are not allowed to clone this post.', 'Cloned article error message', 'anno'));
 		}
-		$post_id = annowf_get_post_id();
+		$post_id = anno_get_post_id();
 		$new_id = annowf_clone_post($post_id);
 		if (!empty($new_id)) {
 			$url = add_query_arg('message', 11, get_edit_post_link($new_id, 'url'));
@@ -808,31 +808,6 @@ add_action('admin_init', 'annowf_admin_request_handler', 0);
 function annowf_user_has_cap_filter($user_caps) {
 	// Remove all capabilities so the user cannot perform the current action.
 	return false;
-}
-
-/**
- * Returns a post ID if it can find it in any of the common places
- * 
- * @return int Post ID loaded on a given page, 0 otherwise.
- */ 
-function annowf_get_post_id() {
-	global $post;
-	$post_id = $post->ID;
-	if (empty($post_id)) {
-		if (isset($_POST['post'])) {
-			$post_id = $_POST['post'];
-		}
-		else if (isset($_POST['post_ID'])) {
-			$post_id = $_POST['post_ID'];
-		}
-		else if (isset($_GET['post'])) {
-			$post_id = $_GET['post'];
-		}
-		else {
-			$post_id = 0;
-		}
-	}
-	return intval($post_id);
 }
 
 /**

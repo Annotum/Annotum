@@ -494,6 +494,7 @@ function anno_header_image() {
  * Opening HTML tags with HTML5 Boilerplate-style conditional comments
  */
 function anno_open_html() {
+	$post_id = anno_get_post_id();
 	$template = Anno_Keeper::retrieve('template');
 	$template->render_open_html($post_id);
 }

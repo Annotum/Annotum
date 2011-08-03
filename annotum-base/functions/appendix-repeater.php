@@ -4,6 +4,7 @@
  * Meta box for Article Appendicies
  */ 
 function anno_appendicies_meta_box($post) {
+	$html = '';
 	$html .= '
 	<div id="anno_appendicies">';
 
@@ -56,7 +57,7 @@ function anno_appendicies_meta_box($post) {
  * Output for Appendix edit input.
  */ 
 function anno_appendix_box_content($index = null, $content = null) {
-
+$html = '<a title="Add an Image" class="thickbox" id="add_image" href="media-upload.php?post_id=331&amp;type=image&amp;TB_iframe=1&amp;width=640&amp;height=410"><img onclick="annoActiveEditor(\\\''.esc_attr('appendix-'.$index).'\\\'); return false;" alt="Add an Image" src="http://annotum.local/wp-admin/images/media-button-image.gif?ver=20100531"></a>';
 	if (empty($index) && $index !== 0) {
 		$index = '###INDEX###';
 		$index_alpha = '###INDEX_ALPHA###';

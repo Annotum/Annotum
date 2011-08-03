@@ -19,7 +19,7 @@ function anno_user_can($cap, $user_id = null, $post_id = null, $comment_id = nul
 		$user_id = $current_user->ID;
 	}
 	if (is_null($post_id)) {
-		$post_id = annowf_get_post_id();
+		$post_id = anno_get_post_id();
 	}
 
 	$post_state = annowf_get_post_state($post_id);
@@ -242,7 +242,7 @@ function anno_role($user_id = null, $post_id = null) {
 		$post = get_post($post_id);
 	}
 	
-	if (!$user || !post_id) {
+	if (!$user || !$post_id) {
 		return false;
 	}
 	

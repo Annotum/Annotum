@@ -25,6 +25,7 @@ include_once(CFCT_PATH.'functions/featured-articles.php');
 include_once(CFCT_PATH.'functions/template.php');
 include_once(CFCT_PATH.'functions/widgets.php');
 include_once(CFCT_PATH.'functions/profile.php');
+include_once(CFCT_PATH.'functions/tinymce.php');
 include_once(CFCT_PATH.'plugins/load.php');
 
 
@@ -582,4 +583,34 @@ function anno_sanitize_string($option) {
 	
 	return $option;
 }
+
+/**
+ * Returns a post ID if it can be found in any of the common places
+ * 
+ * @return int Post ID
+ */ 
+function anno_get_post_id() {
+	global $post_id;
+
+	if (empty($post_id)) {
+		global $post;
+		if (isset($post->ID)) {
+			$post_id = $post->ID;
+		}
+		else if (isset($_POST['post'])) {
+			$post_id = $_POST['post'];
+		}
+		else if (isset($_POST['post_ID'])) {
+			$post_id = $_POST['post_ID'];
+		}
+		else if (isset($_GET['post'])) {
+			$post_id = $_GET['post'];
+		}
+		else {
+			$post_id = 0;
+		}
+	}
+	return intval($post_id);
+}
+
 ?>
