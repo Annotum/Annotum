@@ -1,4 +1,4 @@
-a(function() {
+(function() {
 	tinymce.create('tinymce.plugins.annoImages', {
 		/**
 		 * Initializes the plugin, this will be executed after the plugin has been created.
@@ -12,7 +12,7 @@ a(function() {
 			var disabled = true;
 
 			// Register the command so that it can be invoked by using tinyMCE.activeEditor.execCommand('mceExample');
-			ed.addCommand('Anno_Link', function() {
+			ed.addCommand('Anno_Images', function() {
 			//	if ( disabled )
 			//		return;
 				ed.windowManager.open({
@@ -58,3 +58,27 @@ a(function() {
 	// Register plugin
 	tinymce.PluginManager.add('annoImages', tinymce.plugins.annoImages);
 })();
+
+jQuery(document).ready( function($) {
+	$('.img-list-actions .show-img').live('click', function() {
+		var img_id = $(this).attr('id').replace('toggle-', '');
+		$(this).removeClass('show-img');
+		$(this).addClass('hide-img');
+
+		$('#img-edit-' + img_id).slideDown();
+		//TODO translate
+		$(this).html('Hide');
+		return false;
+	});
+	
+	$('.img-list-actions .hide-img').live('click', function() {
+		var img_id = $(this).attr('id').replace('toggle-', '');
+		$(this).removeClass('hide-img');
+		$(this).addClass('show-img');
+		
+		$('#img-edit-' + img_id).slideUp();
+		//TODO translate
+		$(this).html('Show');
+		return false;
+	});
+});

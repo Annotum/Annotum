@@ -53,12 +53,12 @@ textarea.anno-meta {
 
 .anno-mce-popup {
 	margin-top: 5px;
-	min-height: 129px;
 	padding: 10px 15px;
 }
 
 .anno-mce-popup-fields {
 	margin: 10px;
+	min-height: 129px;
 }
 
 #anno-popup-references .anno-mce-popup-fields {
@@ -72,7 +72,7 @@ textarea.anno-meta {
 	padding: 5px 0px;
 }
 
-.anno-mce-popup label span{
+.anno-mce-popup label span {
 	width: 125px;
 	display: block;
 	float: left;
@@ -165,7 +165,7 @@ table {
 }
 
 
-table.anno-references td {
+table td {
 	margin: 0px;
 	padding: 0px;
 	border-bottom: 1px solid #444444;
@@ -175,6 +175,108 @@ table.anno-references td.anno-references-edit-td {
 	border: none;
 }
 
+.reference-text {
+	width: 340px;
+}
+
 table.anno-references tr label {
 
+}
+
+
+
+
+/** Image Popup **/
+
+#anno-popup-images table {
+	border: 1px solid #444444;
+}
+
+#anno-popup-image table tr th {
+	height: 0px;
+}
+
+.img-list-img img {
+	width: 50px;
+	height: 50px;
+}
+
+.img-list-img {
+	width: 50px;
+}
+
+.img-list-title {
+	padding: 0 10px;
+	width: 340px;
+}
+
+.img-list-actions {
+	width: 100px;
+	text-align: center;
+}
+
+.anno-image-upload-box {
+	height: 40px;
+	text-align: center;
+	background: #EEEEEE;
+	border-top: none;
+}
+
+.img-list-actions a{
+	color: #21759B;
+}
+
+.img-edit {
+	display: none;
+	border-bottom: 1px solid #444444;
+	padding: 10px;
+}
+
+.img-edit-td {
+	border-bottom: none;
+	border-top: none;
+}
+
+.img-edit img {
+	float: left;
+	height: 130px;
+	width: 130px;
+	margin: 10px 10px 0 0;
+}
+
+#anno-popup-images fieldset input,
+#anno-popup-images fieldset textarea {
+	width: 250px;
+}
+
+#anno-popup-images fieldset label span {
+	width: 120px;
+	float: left;
+}
+
+#anno-popup-images fieldset input[type="radio"] {
+	width: auto;
+}
+
+#anno-popup-images fieldset label.radio {
+	margin: 0 10px 0 45px;
+}
+
+#anno-popup-images fieldset label.radio span {
+	width: 120px;
+	float: none;
+}
+
+.img-edit-details input,
+.img-edit-details textarea  {
+	width: 280px;
+	min-width: 280px;
+	max-width: 280px;
+}
+
+.img-insert {
+	padding: 10px;
+	height: 20px;
+	background: #EEEEEE;
+	text-align: center;
 }
