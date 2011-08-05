@@ -621,7 +621,7 @@ function cfct_choose_single_template_type($dir, $files, $filter) {
 function cfct_choose_single_template_author($dir, $files, $filter) {
 	$author_files = cfct_author_templates($dir, $files, $filter);
 	if (count($author_files)) {
-		$author = get_the_author_login();
+		$author = get_the_author_meta('login');
 		$file = cfct_filename_filter('author-'.$author.'.php', $filter);
 		if (in_array($file, $author_files)) {
 			return $file;
