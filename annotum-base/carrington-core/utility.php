@@ -1360,7 +1360,7 @@ function cfct_cat_id_to_slug($id) {
  * 
 **/
 function cfct_username_to_id($username) {
-	return get_profile('ID', $username);
+	return get_the_author_meta('ID', $username);
 }
 
 /**
