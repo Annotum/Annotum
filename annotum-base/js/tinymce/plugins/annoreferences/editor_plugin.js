@@ -38,23 +38,62 @@
 })();
 
 jQuery(document).ready( function($) {
-	$('.reference-actions .delete').click(function() {
+		
+	$('.reference-actions .delete').live('click', function() {
+		var ref_id = $(this).attr('id').replace('reference-action-delete-', '');
+		var post_data = {ref_id : ref_id, post_id : ANNO_POST_ID, action : 'anno-reference-delete'};
+		$.post(ajaxurl, post_data, function(data) {
+			if (data) {
+				$('#reference-' + ref_id).fadeOut('400', function(){
+					$(this).remove();
+				});
+				// Update all our reference keys
+			}
+		}, 'json');
 		return false;
 	});
 	
-	$('.reference-actions .edit').click(function() {
+	$('.reference-actions .edit').live('click', function() {
 		var ref_id = $(this).attr('id').replace('reference-action-edit-', '');
-		$('#anno-reference-edit-' + ref_id).slideToggle();
+		$('#reference-form-' + ref_id).slideToggle();
 		return false;
 	});
 	
-	$('.reference-edit-actions .cancel').click(function() {
+	$('.reference-edit-actions .cancel').live('click', function() {
 		var ref_id = $(this).attr('id').replace('reference-action-cancel-', '');
-		$('#anno-reference-edit-' + ref_id).slideToggle();
+		$('#reference-form-' + ref_id).slideToggle();
 		return false;
 	});	
 	
-	$('.reference-edit-actions .save').click(function() {
+	$('.reference-edit-actions .save').live('click', function() {
+		var ref_id = $(this).attr('id').replace('reference-action-save-', '');
+		var form = $('#reference-form-' + ref_id);
+		form.submit();
 		return false;
-	});	
+	});
+	
+	$('#anno-references-new').click(function() {
+		$('#reference-form-new').slideDown();
+		return false;
+	});
+	
+	$('.anno-mce-popup form').submit(function() {
+		var form = $(this)
+		$.post(ajaxurl, $(this).serialize(), function(data) {
+		//	var message_container = $('#popup-message-' + data.type + '-' + data.ref_id);
+			if (data.code == 'success') {
+				if ($('#reference-' + data.ref_id).length == 0) {
+					$('#reference-edit-new').before(data.ref_markup);
+				}
+				form.slideUp();
+				form[0].reset();
+			//	$(message_container).html('').removeClass('error').addclass('success').html(data.message);
+			}
+			else {
+				$(message_container).html('').removeClass('success').addclass('error').html(data.message);
+			}			
+		}, 'json');
+		return false;
+	});
+	
 });

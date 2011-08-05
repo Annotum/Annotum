@@ -159,100 +159,114 @@ function anno_popup_table() {
 <?php 
 }
 
+function anno_popup_references_row_top($reference_key, $reference) {
+?>
+	<tr id="<?php echo esc_attr('reference-'.$reference_key); ?>">
+		<td class="reference-checkbox">
+			<?php echo $reference_key + 1; ?>.<input id="<?php echo esc_attr('reference-checkbox-'.$reference_key); ?>" type="checkbox" />
+		</td>
+		<td class="reference-text">
+			<label for="<?php echo esc_attr('reference-checkbox-'.$reference_key); ?>">
+				<?php echo esc_html($reference['text']); ?>
+			</label>
+		</td>
+		<td class="reference-actions">
+			<a href="#" id="<?php echo esc_attr('reference-action-edit-'.$reference_key); ?>" class="edit">Edit</a>
+			<a href="#" id="<?php echo esc_attr('reference-action-delete-'.$reference_key); ?>" class="delete">Delete</a>
+		</td>
+	</tr>
+<?php 
+}
+
+function anno_popup_references_row_edit($reference_key, $reference, $post_id) {
+?>
+	<tr id="<?php echo esc_attr('reference-edit-'.$reference_key); ?>">
+		<td class="anno-references-edit-td" colspan="3">
+			<div id="<?php echo esc_attr('#popup-message-reference-'.$reference_key); ?>"></div>
+				<form id="<?php echo esc_attr('reference-form-'.$reference_key); ?>" class="anno-reference-edit">
+					<label>
+						<span><?php _ex('DOI', 'input label for defining tables', 'anno'); ?></span>
+						<input type="text" name="doi" id="<?php echo esc_attr('doi-'.$reference_key); ?>" value="<?php echo esc_attr($reference['doi']) ?>" />
+						</label>
+					<label>
+						<span><?php _ex('PCMID', 'input label for defining tables', 'anno'); ?></span>
+						<input type="text" name="pcmid" id="<?php echo esc_attr('pcmid-'.$reference_key); ?>" value="<?php echo esc_attr($reference['pcmid']) ?>" />
+					</label>
+					<label>
+						<span><?php _ex('Figures', 'input label for defining tables', 'anno'); ?></span>
+						<select name="figureselect" id="<?php echo esc_attr('reffigures-'.$reference_key); ?>">
+							<option value=""><?php _ex('Select Figure', 'select option', 'anno'); ?></option>
+						</select>
+					</label>
+					<p>
+						<textarea name="figures"></textarea>
+					</p>
+					<label>
+						<span><?php _ex('Text', 'input label for defining tables', 'anno'); ?></span>
+						<textarea type="text" name="text" id="text"><?php echo esc_textarea($reference['text']) ?></textarea>
+					</label>
+					<label>
+						<span><?php _ex('URL', 'input label for defining tables', 'anno'); ?></span>
+						<input type="text" name="url" id="url" value="<?php echo esc_attr($reference['url']) ?>" />
+					</label>
+
+					<div class="reference-edit-actions clearfix">
+						<a href="#" id="<?php echo esc_attr('reference-action-save-'.$reference_key); ?>" class="save left">Save</a>
+						<a href="#" id="<?php echo esc_attr('reference-action-cancel-'.$reference_key); ?>" class="cancel right">Cancel</a>
+					</div>
+					<div class="clearfix"></div>
+					<input type="hidden" name="ref_id" value="<?php echo esc_attr($reference_key); ?>" />
+					<input type="hidden" name="post_id" value="<?php echo esc_attr($post_id); ?>" />
+					<input type="hidden" name="action" value="anno-reference-save" />
+				</form>
+			</div>
+		</td>
+	</tr>
+<?php 
+}
+
 function anno_popup_references() {
 	global $post;
-	$references = get_option($post->ID, '_anno_references', true);
-	$references = array(
-		array(
-			'text' => 'Short Text',
-		),
-		array(
-			'text' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus eu turpis non neque commodo placerat a sodales dui. Praesent et eros et neque aliquam ullamcorper faucibus ut dui. Mauris ultrices tincidunt lacinia. Cras sagittis cursus tincidunt. Aliquam posuere, diam id mattis convallis, sem eros tincidunt dui, ut molestie purus orci at ligula.',
-			'doi' => '123a.3'
-		),
-		array(
-			'text' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
-			'url' => 'http://www.google.com',
-			'pcmid' => '123465',
-		),
-	);
+	$references = get_post_meta($post->ID, '_anno_references', true);
+	
 ?>
 	<div id="anno-popup-references" class="anno-mce-popup">
-		<form id="anno-tinymce-references-form" class="" tabindex="-1">
-			<?php //TODO NONCE ?>
-			<div class="anno-mce-popup-fields">
-				<table class="anno-references">
-					<tbody>
+		<?php //TODO NONCE ?>
+		<div class="anno-mce-popup-fields">
+			<table class="anno-references">
+				<thead>
+					<tr>
+						<th class="reference-checkbox"></th>
+						<th class="reference-text"></th>
+						<th class="reference-actions"></th>
+					</tr>
+				</thead>
+				<tbody>
 <?php
-	foreach ($references as $reference_key => $reference) {
-		// Prevent undefined index errors
-		$reference_keys = array('text', 'doi', 'pcmid', 'url', 'figures');
-		foreach ($reference_keys as $key_val) {
-			$reference[$key_val] = isset($reference[$key_val]) ? $reference[$key_val] : '';
-		}							
-?>
-						<tr id="<?php echo esc_attr('reference-'.$reference_key); ?>">
-							<td class="reference-checkbox">
-								<?php echo $reference_key + 1; ?>.<input id="<?php echo esc_attr('reference-checkbox-'.$reference_key); ?>" type="checkbox" />
-							</td>
-							<td class="reference-text">
-								<label for="<?php echo esc_attr('reference-checkbox-'.$reference_key); ?>">
-									<?php echo esc_html($reference['text']); ?>
-								</label>
-							</td>
-							<td class="reference-actions">
-								<a href="#" id="<?php echo esc_attr('reference-action-edit-'.$reference_key); ?>" class="edit">Edit</a>
-								<a href="#" id="<?php echo esc_attr('reference-action-delete-'.$reference_key); ?>" class="delete">Delete</a>
-							</td>
-						</tr>
-						
-						<tr>
-							<td class="anno-references-edit-td" colspan="3">
-								<div id="<?php echo esc_attr('anno-reference-edit-'.$reference_key); ?>" class="anno-reference-edit">
-									<label>
-										<span><?php _ex('DOI', 'input label for defining tables', 'anno'); ?></span>
-										<input type="text" name="<?php echo esc_attr('doi-'.$reference_key); ?>" id="<?php echo esc_attr('doi-'.$reference_key); ?>" value="<?php echo esc_attr($reference['doi']) ?>" />
-									</label>
-									<label>
-										<span><?php _ex('PCMID', 'input label for defining tables', 'anno'); ?></span>
-										<input type="text" name="<?php echo esc_attr('pcmid-'.$reference_key); ?>" id="<?php echo esc_attr('pcmid-'.$reference_key); ?>" value="<?php echo esc_attr($reference['pcmid']) ?>" />
-									</label>
-									<label>
-										<span><?php _ex('Figures', 'input label for defining tables', 'anno'); ?></span>
-										<select name="<?php echo esc_attr('reffigures-'.$reference_key); ?>" id="<?php echo esc_attr('reffigures-'.$reference_key); ?>">
-											<option value=""><?php _ex('Select Figure', 'select option', 'anno'); ?></option>
-										</select>
-									</label>
-									<p>
-										<textarea></textarea>
-									</p>
-									<label>
-										<span><?php _ex('Text', 'input label for defining tables', 'anno'); ?></span>
-										<textarea type="text" name="text" id="text"><?php echo esc_textarea($reference['text']) ?></textarea>
-									</label>
-									<label>
-										<span><?php _ex('URL', 'input label for defining tables', 'anno'); ?></span>
-										<input type="text" name="url" id="url" value="<?php echo esc_attr($reference['url']) ?>" />
-									</label>
-
-									<div class="reference-edit-actions clearfix">
-										<a href="#" id="<?php echo esc_attr('reference-action-save-'.$reference_key); ?>" class="save left">Save</a>
-										<a href="#" id="<?php echo esc_attr('reference-action-cancel-'.$reference_key); ?>" class="cancel right">Cancel</a>
-									</div>
-									<div class="clearfix"></div>
-								</div>
-							</td>
-						</tr>
-<?php
+	if (!empty($references) && is_array($references)) {
+		foreach ($references as $reference_key => $reference) {
+			//prevent undefined index errors;
+			$reference_keys = array('text', 'doi', 'pcmid', 'url', 'figures');
+			foreach ($reference_keys as $key_val) {
+				$reference[$key_val] = isset($reference[$key_val]) ? $reference[$key_val] : '';
+			}
+			anno_popup_references_row_top($reference_key, $reference);
+			anno_popup_references_row_edit($reference_key, $reference, $post->ID);
+		}
 	}
+	anno_popup_references_row_edit('new', array('text' => '', 'doi' => '', 'pcmid' => '', 'url' => '', 'figures' => ''), $post->ID);
 ?>
-					</tbody>
-				</table>	
-			</div>
-			<div class="anno-mce-popup-footer">
-				<?php _anno_popup_submit_button('anno-references-submit', _x('Insert Reference(s)', 'button value', 'anno')) ?>
-			</div>
-		</form>
+					<tr>
+						<td colspan="3" class="anno-mce-popup-footer">
+							<?php _anno_popup_submit_button('anno-references-new', _x('New Reference', 'button value', 'anno')); ?>
+						</td>
+					</tr>
+				</tbody>
+			</table>	
+		</div>
+		<div class="anno-mce-popup-footer">
+			<?php _anno_popup_submit_button('anno-references-submit', _x('Insert Reference(s)', 'button value', 'anno')); ?>
+		</div>
 	</div>
 <?php
 }
@@ -309,22 +323,24 @@ function anno_popup_images() {
 							</div>
 							<fieldset class="img-display">
 								<legend><?php _ex('Display', 'legend', 'anno'); ?></legend>
-								<label for="<?php echo esc_attr('img-displayfigure-'.$attachment->ID); ?>" class="radio">
-									<input type="radio" name="<?php echo esc_attr('img-display-'.$attachment->ID); ?>" id="<?php echo esc_attr('img-displayfigure-'.$attachment->ID); ?>" />
+								<label for="<?php echo esc_attr('img-display-figure-'.$attachment->ID); ?>" class="radio">
+									<input type="radio" name="<?php echo esc_attr('img-display-'.$attachment->ID); ?>" class="img-display-selection img-display-figure" id="<?php echo esc_attr('img-display-figure-'.$attachment->ID); ?>" />
 									<span><?php _ex('Display as Figure', 'input label', 'anno'); ?></span>
 								</label>
-								<label for="<?php echo esc_attr('img-displayinline-'.$attachment->ID); ?>" class="radio">
-									<input type="radio" name="<?php echo esc_attr('img-display-'.$attachment->ID); ?>" id="<?php echo esc_attr('img-displayinline-'.$attachment->ID); ?>" />
+								<label for="<?php echo esc_attr('img-display-inline-'.$attachment->ID); ?>" class="radio">
+									<input type="radio" name="<?php echo esc_attr('img-display-'.$attachment->ID); ?>" class="img-display-selection img-display-inline" id="<?php echo esc_attr('img-display-inline-'.$attachment->ID); ?>" />
 									<span><?php _ex('Display Inline', 'input label', 'anno'); ?></span>
 								</label>
-								<label for="<?php echo esc_attr('img-label-'.$attachment->ID); ?>">
-									<span><?php _ex('Label', 'input label', 'anno'); ?></span>
-									<input type="text" name="<?php echo esc_attr('img-label-'.$attachment->ID); ?>" id="<?php echo esc_attr('img-label-'.$attachment->ID); ?>" />
-								</label>
-								<label for="<?php echo  esc_attr('img-caption-'.$attachment->ID); ?>">
-									<span><?php _ex('Caption', 'input label', 'anno'); ?></span>
-									<textarea id="<?php echo esc_attr('img-caption-'.$attachment->ID); ?>" name="<?php echo esc_attr('img-caption-'.$attachment->ID); ?>"></textarea>
-								</label>
+								<div id="<?php echo esc_attr('img-figure-details-'.$attachment->ID); ?>">
+									<label for="<?php echo esc_attr('img-label-'.$attachment->ID); ?>">
+										<span><?php _ex('Label', 'input label', 'anno'); ?></span>
+										<input type="text" name="<?php echo esc_attr('img-label-'.$attachment->ID); ?>" id="<?php echo esc_attr('img-label-'.$attachment->ID); ?>" />
+									</label>
+									<label for="<?php echo  esc_attr('img-caption-'.$attachment->ID); ?>">
+										<span><?php _ex('Caption', 'input label', 'anno'); ?></span>
+										<textarea id="<?php echo esc_attr('img-caption-'.$attachment->ID); ?>" name="<?php echo esc_attr('img-caption-'.$attachment->ID); ?>"></textarea>
+									</label>
+								</div>
 							</fieldset>
 							<fieldset id="<?php echo esc_attr('img-permissions-'.$post->ID); ?>" class="img-permissions">
 								<legend><?php _ex('Permissions', 'legend', 'anno'); ?></legend>
@@ -341,7 +357,7 @@ function anno_popup_images() {
 									<input type="text" name="<?php echo esc_attr('img-license-'.$attachment->ID); ?>" id="<?php echo esc_attr('img-license-'.$attachment->ID); ?>" />
 								</label>
 							</fieldset>
-							<div class="img-insert">
+							<div class="anno-mce-popup-footer">
 								<?php _anno_popup_submit_button('anno-image-upload', _x('INSERT IMAGE', 'button value', 'anno')); ?>
 							</div>
 						</div>
@@ -392,5 +408,109 @@ function anno_preload_dialogs($init) {
 <?php 
 }
 add_action('after_wp_tiny_mce', 'anno_preload_dialogs', 10, 1 );
+
+
+/**
+ * Ajax Handler for creating/updating references
+ */ 
+function anno_tinymce_reference_save() {
+
+	$success = true;
+	$response = array();
+	$messages = array();
+	
+	if (!isset($_POST['post_id'])) {
+		$messages[] = _x('Could not evaluate Article ID please try again.', 'error message', 'anno');
+		$success = false;
+	}
+	
+	if (!isset($_POST['text'])) {
+		$messages[] = _x('Text cannot be blank.', 'error message', 'anno');
+		$success = false;
+	}
+	
+	if (!isset($_POST['ref_id'])) {
+		$response['message'][] = _x('Could not evaluate Reference ID please try again.', 'error message', 'anno');
+		$success = false;
+	}
+	
+	if ($success) {
+		$reference = anno_insert_reference($_POST);
+		$response['ref_id'] = $reference['ref_id'];
+		ob_start();
+			anno_popup_references_row_top($reference['ref_id'], $reference);
+			anno_popup_references_row_edit($reference['ref_id'], $reference, $_POST['post_id']);
+			$response['ref_markup'] = ob_get_contents();
+		ob_end_clean();
+		
+		$messages[] =  _x('Reference Saved.', 'success message', 'anno');
+	}
+	
+	$response['code'] = $success ? 'success' : 'error';
+	$response['message'] = implode($messages, '<br />');
+
+	
+	echo json_encode($response);
+	die();
+}
+add_action('wp_ajax_anno-reference-save', 'anno_tinymce_reference_save');
+
+function anno_tinymce_reference_delete() {
+	echo json_encode(anno_delete_reference($_POST['post_id'], $_POST['ref_id']));
+	die();
+}
+add_action('wp_ajax_anno-reference-delete', 'anno_tinymce_reference_delete');
+
+/**
+ * Updates or creates a new reference for a given post. 
+ * New posts should be passed in without a 'ref_id' key, or with 'new' as a value
+ * 
+ * @param array $ref_array Array of reference data
+ * @return mixed bool|Array array of the updated/created reference false otherwise
+ */ 
+function anno_insert_reference($ref_array) {
+	if (!isset($ref_array['post_id']) || !isset($ref_array['text'])) {
+		return false;
+	}
+		
+	$ref_args = array(
+		'doi' => $ref_array['doi'],
+		'pcmid' => $ref_array['pcmid'],
+		'text' => $ref_array['text'],
+		'figures' => $ref_array['figures'],
+		'url' => $ref_array['url'],
+	);
+	
+	$references = get_post_meta(absint($ref_array['post_id']), '_anno_references', true);
+	
+	// Do new item
+	if (!isset($ref_array['ref_id']) || $ref_array['ref_id'] == 'new') {
+		$references[] = $ref_args;
+		// Grab the key of our newly created reference
+		$ref_args['ref_id'] = array_pop(array_keys($references));
+	}
+	else if (array_key_exists(absint($ref_array['ref_id']), $references)) {
+		$references[absint($ref_array['ref_id'])] = $ref_args;
+		$ref_args['ref_id'] = absint($ref_array['ref_id']);
+	}
+	else {
+		return false;
+	}
+	// TODO Reset our array keys in case any have become offset account for in post_content
+	update_post_meta(absint($ref_array['post_id']), '_anno_references', $references);
+	
+	return $ref_args;
+}
+
+function anno_delete_reference($post_id, $ref_id) {
+	$references = get_post_meta($post_id, '_anno_references', true);
+	if (array_key_exists($ref_id, $references)) {
+		unset($references[$ref_id]);
+		// TODO Reset our array keys in case any have become offset account for in post_content
+		update_post_meta($post_id, '_anno_references', $references);
+		return true;
+	} 
+	return false;
+}
 
 ?>

@@ -127,19 +127,6 @@ textarea.anno-meta {
 	float: none;
 }
 
-.anno-mce-popup-footer {
-	display: block;
-	background: #EEEEEE;
-	text-align: center;
-	border-top: 1px solid #444444;
-	margin: 10px 0 0 0;
-}
-
-.anno-mce-popup-footer input {
-	font-size: 13px;
-	margin: 8px;
-}
-
 .references-link {
 	display: none;
 }
@@ -151,7 +138,7 @@ textarea.anno-meta {
 	padding: 10px;
 }
 
-td.reference-checkbox {
+.reference-checkbox {
 	min-width: 40px;
 }
 
@@ -182,9 +169,6 @@ table.anno-references td.anno-references-edit-td {
 table.anno-references tr label {
 
 }
-
-
-
 
 /** Image Popup **/
 
@@ -277,6 +261,13 @@ table.anno-references tr label {
 .img-insert {
 	padding: 10px;
 	height: 20px;
+	background: #EEEEEE;
+	text-align: center;
+}
+
+.anno-mce-popup-footer {
+	width: 460px;
+	padding: 10px;
 	background: #EEEEEE;
 	text-align: center;
 }

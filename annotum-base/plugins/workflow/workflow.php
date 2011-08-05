@@ -765,7 +765,7 @@ function annowf_admin_request_handler() {
 		$post = get_post(absint($_GET['post']));
 		$post_type = $post->post_type;
 	}
-	if (!empty($wp_action) && $post_type == 'article') {
+	if (!empty($wp_action) && !empty($post_type) && $post_type == 'article') {
 		switch ($wp_action) {
 			case 'postajaxpost':
 			case 'post':
