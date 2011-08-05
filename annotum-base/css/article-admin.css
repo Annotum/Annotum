@@ -158,7 +158,7 @@ table td {
 	border-bottom: 1px solid #444444;
 }
 
-table.anno-references td.anno-references-edit-td {
+table#anno-references td.anno-references-edit-td {
 	border: none;
 }
 
@@ -166,10 +166,19 @@ table.anno-references td.anno-references-edit-td {
 	width: 340px;
 }
 
-table.anno-references tr label {
+table#anno-references tr label {
 
 }
 
+table#anno-references table td {
+	border: none;
+}
+
+table#anno-references table td table td {
+	margin: 0px;
+	padding: 0px;
+	border-bottom: 1px solid #444444;
+}
 /** Image Popup **/
 
 #anno-popup-images table {

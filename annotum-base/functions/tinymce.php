@@ -161,7 +161,8 @@ function anno_popup_table() {
 
 function anno_popup_references_row_top($reference_key, $reference) {
 ?>
-	<tr id="<?php echo esc_attr('reference-'.$reference_key); ?>">
+	<table>
+	<tr>
 		<td class="reference-checkbox">
 			<?php echo $reference_key + 1; ?>.<input id="<?php echo esc_attr('reference-checkbox-'.$reference_key); ?>" type="checkbox" />
 		</td>
@@ -175,54 +176,68 @@ function anno_popup_references_row_top($reference_key, $reference) {
 			<a href="#" id="<?php echo esc_attr('reference-action-delete-'.$reference_key); ?>" class="delete">Delete</a>
 		</td>
 	</tr>
+	</table>
 <?php 
 }
 
 function anno_popup_references_row_edit($reference_key, $reference, $post_id) {
 ?>
-	<tr id="<?php echo esc_attr('reference-edit-'.$reference_key); ?>">
-		<td class="anno-references-edit-td" colspan="3">
-			<div id="<?php echo esc_attr('#popup-message-reference-'.$reference_key); ?>"></div>
-				<form id="<?php echo esc_attr('reference-form-'.$reference_key); ?>" class="anno-reference-edit">
-					<label>
-						<span><?php _ex('DOI', 'input label for defining tables', 'anno'); ?></span>
-						<input type="text" name="doi" id="<?php echo esc_attr('doi-'.$reference_key); ?>" value="<?php echo esc_attr($reference['doi']) ?>" />
+	<table id="<?php echo esc_attr('reference-edit-'.$reference_key); ?>">
+		<tr>
+			<td class="anno-references-edit-td" colspan="3">
+				<div id="<?php echo esc_attr('#popup-message-reference-'.$reference_key); ?>"></div>
+					<form id="<?php echo esc_attr('reference-form-'.$reference_key); ?>" class="anno-reference-edit">
+						<label>
+							<span><?php _ex('DOI', 'input label for defining tables', 'anno'); ?></span>
+							<input type="text" name="doi" id="<?php echo esc_attr('doi-'.$reference_key); ?>" value="<?php echo esc_attr($reference['doi']) ?>" />
+							</label>
+						<label>
+							<span><?php _ex('PCMID', 'input label for defining tables', 'anno'); ?></span>
+							<input type="text" name="pcmid" id="<?php echo esc_attr('pcmid-'.$reference_key); ?>" value="<?php echo esc_attr($reference['pcmid']) ?>" />
 						</label>
-					<label>
-						<span><?php _ex('PCMID', 'input label for defining tables', 'anno'); ?></span>
-						<input type="text" name="pcmid" id="<?php echo esc_attr('pcmid-'.$reference_key); ?>" value="<?php echo esc_attr($reference['pcmid']) ?>" />
-					</label>
-					<label>
-						<span><?php _ex('Figures', 'input label for defining tables', 'anno'); ?></span>
-						<select name="figureselect" id="<?php echo esc_attr('reffigures-'.$reference_key); ?>">
-							<option value=""><?php _ex('Select Figure', 'select option', 'anno'); ?></option>
-						</select>
-					</label>
-					<p>
-						<textarea name="figures"></textarea>
-					</p>
-					<label>
-						<span><?php _ex('Text', 'input label for defining tables', 'anno'); ?></span>
-						<textarea type="text" name="text" id="text"><?php echo esc_textarea($reference['text']) ?></textarea>
-					</label>
-					<label>
-						<span><?php _ex('URL', 'input label for defining tables', 'anno'); ?></span>
-						<input type="text" name="url" id="url" value="<?php echo esc_attr($reference['url']) ?>" />
-					</label>
+						<label>
+							<span><?php _ex('Figures', 'input label for defining tables', 'anno'); ?></span>
+							<select name="figureselect" id="<?php echo esc_attr('reffigures-'.$reference_key); ?>">
+								<option value=""><?php _ex('Select Figure', 'select option', 'anno'); ?></option>
+							</select>
+						</label>
+						<p>
+							<textarea name="figures"></textarea>
+						</p>
+						<label>
+							<span><?php _ex('Text', 'input label for defining tables', 'anno'); ?></span>
+							<textarea type="text" name="text" id="text"><?php echo esc_textarea($reference['text']) ?></textarea>
+						</label>
+						<label>
+							<span><?php _ex('URL', 'input label for defining tables', 'anno'); ?></span>
+							<input type="text" name="url" id="url" value="<?php echo esc_attr($reference['url']) ?>" />
+						</label>
 
-					<div class="reference-edit-actions clearfix">
-						<a href="#" id="<?php echo esc_attr('reference-action-save-'.$reference_key); ?>" class="save left">Save</a>
-						<a href="#" id="<?php echo esc_attr('reference-action-cancel-'.$reference_key); ?>" class="cancel right">Cancel</a>
-					</div>
-					<div class="clearfix"></div>
-					<input type="hidden" name="ref_id" value="<?php echo esc_attr($reference_key); ?>" />
-					<input type="hidden" name="post_id" value="<?php echo esc_attr($post_id); ?>" />
-					<input type="hidden" name="action" value="anno-reference-save" />
-				</form>
-			</div>
+						<div class="reference-edit-actions clearfix">
+							<a href="#" id="<?php echo esc_attr('reference-action-save-'.$reference_key); ?>" class="save left">Save</a>
+							<a href="#" id="<?php echo esc_attr('reference-action-cancel-'.$reference_key); ?>" class="cancel right">Cancel</a>
+						</div>
+						<div class="clearfix"></div>
+						<input type="hidden" name="ref_id" value="<?php echo esc_attr($reference_key); ?>" />
+						<input type="hidden" name="post_id" value="<?php echo esc_attr($post_id); ?>" />
+						<input type="hidden" name="action" value="anno-reference-save" />
+					</form>
+				</div>
+			</td>
+		</tr>
+	</table>
+<?php 
+}
+
+function anno_popup_reference_row($reference_key, $reference, $post_id) {
+?>
+	<tr id="<?php echo esc_attr('reference-'.$reference_key); ?>">
+		<td colspan="3">
+			<?php anno_popup_references_row_top($reference_key, $reference); ?>
+			<?php anno_popup_references_row_edit($reference_key, $reference, $post_id); ?>
 		</td>
 	</tr>
-<?php 
+<?php
 }
 
 function anno_popup_references() {
@@ -233,7 +248,7 @@ function anno_popup_references() {
 	<div id="anno-popup-references" class="anno-mce-popup">
 		<?php //TODO NONCE ?>
 		<div class="anno-mce-popup-fields">
-			<table class="anno-references">
+			<table id="anno-references">
 				<thead>
 					<tr>
 						<th class="reference-checkbox"></th>
@@ -250,12 +265,15 @@ function anno_popup_references() {
 			foreach ($reference_keys as $key_val) {
 				$reference[$key_val] = isset($reference[$key_val]) ? $reference[$key_val] : '';
 			}
-			anno_popup_references_row_top($reference_key, $reference);
-			anno_popup_references_row_edit($reference_key, $reference, $post->ID);
+			
+			anno_popup_reference_row($reference_key, $reference, $post->ID);
 		}
 	}
-	anno_popup_references_row_edit('new', array('text' => '', 'doi' => '', 'pcmid' => '', 'url' => '', 'figures' => ''), $post->ID);
 ?>
+					<tr id="<?php echo esc_attr('reference-new'); ?>">
+						<td colspan="3">
+							<?php anno_popup_references_row_edit('new', array('text' => '', 'doi' => '', 'pcmid' => '', 'url' => '', 'figures' => ''), $post->ID); ?>
+						</td>
 					<tr>
 						<td colspan="3" class="anno-mce-popup-footer">
 							<?php _anno_popup_submit_button('anno-references-new', _x('New Reference', 'button value', 'anno')); ?>
@@ -301,7 +319,7 @@ function anno_popup_images() {
 						<img src="<?php echo esc_url($img_url_small[0]); ?>" alt="<?php echo esc_attr($attachment->post_title); ?>" />
 					</td>
 					<td class="img-list-title">
-						<?php echo esc_html($attachment->post_title); ?> <span id="<?php esc_attr('img-action-show-'.$attachment->ID); ?>" class="img-action-show">
+						<?php echo esc_html($attachment->post_title); ?>
 					</td>
 					<td class="img-list-actions">
 						<a href="#" id="<?php echo esc_attr('toggle-'.$attachment->ID); ?>" class="show-img"><?php _ex('Show ', 'edit image link text', 'anno'); ?></a>
@@ -438,11 +456,10 @@ function anno_tinymce_reference_save() {
 		$reference = anno_insert_reference($_POST);
 		$response['ref_id'] = $reference['ref_id'];
 		ob_start();
-			anno_popup_references_row_top($reference['ref_id'], $reference);
-			anno_popup_references_row_edit($reference['ref_id'], $reference, $_POST['post_id']);
+			anno_popup_reference_row($reference['ref_id'], $reference, $_POST['post_id']);
 			$response['ref_markup'] = ob_get_contents();
 		ob_end_clean();
-		
+		$response['text'] = $reference['text'];
 		$messages[] =  _x('Reference Saved.', 'success message', 'anno');
 	}
 	

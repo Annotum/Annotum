@@ -84,9 +84,15 @@ jQuery(document).ready( function($) {
 			if (data.code == 'success') {
 				if ($('#reference-' + data.ref_id).length == 0) {
 					$('#reference-edit-new').before(data.ref_markup);
+					form.slideUp();
+					form[0].reset();
 				}
-				form.slideUp();
-				form[0].reset();
+				else {
+					$('#reference-' + data.ref_id + ' .reference-text').html(data.text);
+					form.slideUp();
+				}
+
+				
 			//	$(message_container).html('').removeClass('error').addclass('success').html(data.message);
 			}
 			else {
