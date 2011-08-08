@@ -90,7 +90,8 @@ textarea.anno-meta {
 	margin: 0;
 }
 
-.anno-mce-popup input[type="button"] {
+.anno-mce-popup input[type="button"],
+.anno-mce-popup input[type="submit"] {
 	width: auto;
 	min-width: 100px;
 }
@@ -190,7 +191,7 @@ table#anno-references table td table td {
 	height: 0px;
 }
 
-.img-list-img img {
+.img-list-img img{
 	width: 50px;
 	height: 50px;
 }
@@ -220,7 +221,7 @@ table#anno-references table td table td {
 	color: #21759B;
 }
 
-.img-edit {
+.anno-img-edit {
 	display: none;
 	border-bottom: 1px solid #444444;
 	padding: 10px;
@@ -235,7 +236,7 @@ table#anno-references table td table td {
 	width: auto;
 }
 
-.img-edit img {
+.anno-img-edit img {
 	float: left;
 	height: 130px;
 	width: 130px;

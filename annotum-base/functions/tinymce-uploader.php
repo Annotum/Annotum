@@ -190,10 +190,6 @@ jQuery(function($){
 });
 //]]>
 </script>
-
-<p class="savebutton ml-submit">
-<?php submit_button( __( 'Save all changes' ), 'button', 'save', false ); ?>
-</p>
 </form>
 <?php 
 }
