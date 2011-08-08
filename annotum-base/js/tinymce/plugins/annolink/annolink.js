@@ -37,32 +37,12 @@ var annoLink;
 			}
 		},
 
-		open : function() {
-			// Initialize the dialog if necessary (html mode).
-			if ( ! inputs.dialog.data('wpdialog') ) {
-				inputs.dialog.wpdialog({
-					title: annoLinkL10n.title,
-					width: 480,
-					height: 'auto',
-					modal: true,
-					dialogClass: 'wp-dialog',
-					zIndex: 300000
-				});
-			}
-
-			inputs.dialog.wpdialog('open');
-		},
-
 		isMCE : function() {
 			return tinyMCEPopup && ( ed = tinyMCEPopup.editor ) && ! ed.isHidden();
 		},
 
 		refresh : function() {
-			// Refresh rivers (clear links, check visibility)
-			if ( annoLink.isMCE() )
-				annoLink.mceRefresh();
-			else
-				annoLink.setDefaultValues();
+			annoLink.mceRefresh();
 
 			// Focus the URL field and highlight its contents.
 			//     If this is moved above the selection changes,
@@ -93,10 +73,7 @@ var annoLink;
 		},
 
 		close : function() {
-			if ( annoLink.isMCE() )
-				tinyMCEPopup.close();
-			else
-				inputs.dialog.wpdialog('close');
+			tinyMCEPopup.close();
 		},
 
 		onClose: function() {
@@ -118,70 +95,6 @@ var annoLink;
 		},
 
 		update : function() {
-			if ( annoLink.isMCE() )
-				annoLink.mceUpdate();
-			else
-				annoLink.htmlUpdate();
-		},
-
-		htmlUpdate : function() {
-			var attrs, xml, start, end, cursor,
-				textarea = annoLink.textarea();
-
-			if ( ! textarea )
-				return;
-
-			attrs = annoLink.getAttrs();
-
-			// If there's no href, return.
-			if ( ! attrs['xlink:href'] || attrs['xlink:href'] == 'http://' )
-				return;
-
-			// Build HTML
-			xml = '<ext-link xlink:href="' + attrs['xlink:href'] + '"';
-			
-			if ( attrs.title )
-				xml += ' title="' + attrs.title + '"';
-
-			xml += '>';
-
-			// Insert HTML
-			// W3C
-			if ( typeof textarea.selectionStart !== 'undefined' ) {
-				start       = textarea.selectionStart;
-				end         = textarea.selectionEnd;
-				selection   = textarea.value.substring( start, end );
-				html        = html + selection + '</ext-link>one';
-				cursor      = start + html.length;
-
-				// If no next is selected, place the cursor inside the closing tag.
-				if ( start == end )
-					cursor -= '</ext-link>three'.length;
-
-				textarea.value = textarea.value.substring( 0, start )
-				               + html
-				               + textarea.value.substring( end, textarea.value.length );
-
-				// Update cursor position
-				textarea.selectionStart = textarea.selectionEnd = cursor;
-
-			// IE
-			// Note: If no text is selected, IE will not place the cursor
-			//       inside the closing tag.
-			} else if ( document.selection && annoLink.range ) {
-				textarea.focus();
-				annoLink.range.text = html + annoLink.range.text + '</ext-link>two';
-				annoLink.range.moveToBookmark( annoLink.range.getBookmark() );
-				annoLink.range.select();
-
-				annoLink.range = null;
-			}
-
-			annoLink.close();
-			textarea.focus();
-		},
-
-		mceUpdate : function() {
 			var ed = tinyMCEPopup.editor,
 				attrs = annoLink.getAttrs(),
 				e, b;
@@ -228,7 +141,8 @@ var annoLink;
 					e = null;
 				}
 
-			} else {
+			} 
+			else {
 				ed.dom.setAttribs(e, attrs);
 			}
 

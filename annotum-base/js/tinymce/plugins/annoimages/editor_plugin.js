@@ -81,6 +81,14 @@ jQuery(document).ready( function($) {
 		$(this).html('Show');
 		return false;
 	});
+		
+	
+	$('#anno-popup-images form.anno-img-edit').submit(function() {
+		$.post(ajaxurl, $(this).serialize(), function(data) {
+			//TODO Image saved!!
+		});
+		return false;
+	})
 	
 	
 });

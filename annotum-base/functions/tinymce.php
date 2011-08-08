@@ -12,8 +12,8 @@ function anno_admin_print_footer_scripts() {
 		wp_tiny_mce(false, array(
 			'content_css' => trailingslashit(get_bloginfo('template_directory')).'/css/tinymce.css',
 			'wp_fullscreen_content_css' => trailingslashit(get_bloginfo('template_directory')).'/js/tinymce/css/tinymce.css',
-			'extended_valid_elements' => 'italic,underline,monospace,ext-link[ext-link-type:uri|xlink::href|title],sec,list[list-type],list-item,xref[ref-type|rid]',
-			'custom_elements' => '~italic,~underline,~monospace,~ext-link,sec,list,~list-item,~xref',
+			'extended_valid_elements' => 'italic,underline,monospace,ext-link[ext-link-type:uri|xlink::href|title],sec,list[list-type],list-item,xref[ref-type|rid],inline-graphic[xlink::href],alt-text,fig,label,caption,title,media[xlink::href],long-desc,permissions,copyright-statment,copyright-holder,license[license-type:creative-commons],license-p',
+			'custom_elements' => '~italic,~underline,~monospace,~ext-link,sec,list,~list-item,~xref,~inline-graphic,~alt-text,~fig,~label,~caption,~title,~media,~long-desc,~permissions,~copyright-statement,~copyright-holder,~license,~license-p',
 			//  Defines wrapper, need to set this up as its own button.
 			'formats' => '{
 					bold : {\'block\' : \'sec\', \'wrapper\' : true},
@@ -309,7 +309,8 @@ function anno_popup_images_row_display($attachment) {
 
 function anno_popup_images_row_edit($attachment) {
 		$img_url = wp_get_attachment_image_src($attachment->ID, 'anno_img_edit');
-
+		$img_url_full = wp_get_attachment_image_src($attachment->ID);
+		
 		$description = $attachment->post_content;
 		$caption = $attachment->post_excerpt;
 		
@@ -330,13 +331,13 @@ function anno_popup_images_row_edit($attachment) {
 					<form id="<?php echo esc_attr('img-edit-'.$attachment->ID); ?>" class="anno-img-edit">
 						<div class="img-edit-details">
 							<img src="<?php echo esc_url($img_url[0]); ?>" alt="<?php echo esc_attr($attachment->post_title); ?>" class="img-list-img" />
-							<label for="<?php esc_attr('img-alttext-'.$attachment->ID); ?>">
+							<label for="<?php echo esc_attr('img-alttext-'.$attachment->ID); ?>">
 								<div><?php _ex('Alt Text', 'input label', 'anno'); ?></div>
-								<input name="alt_text" type="text" id="<?php esc_attr('img-alttext-'.$attachment->ID); ?>" value="<?php echo esc_attr($alt_text); ?>" />
+								<input name="alt_text" type="text" id="<?php echo esc_attr('img-alttext-'.$attachment->ID); ?>" value="<?php echo esc_attr($alt_text); ?>" />
 							</label>
-							<label for="<?php esc_attr('img-description-'.$attachment->ID); ?>">
+							<label for="<?php echo esc_attr('img-description-'.$attachment->ID); ?>">
 								<div><?php _ex('Description', 'input label', 'anno'); ?></div>
-								<textarea name="description" id="<?php esc_attr('img-description-'.$attachment->ID); ?>"><?php echo esc_textarea($description); ?></textarea>
+								<textarea name="description" id="<?php echo esc_attr('img-description-'.$attachment->ID); ?>"><?php echo esc_textarea($description); ?></textarea>
 							</label>
 						</div>
 						<fieldset class="img-display">
@@ -377,10 +378,11 @@ function anno_popup_images_row_edit($attachment) {
 						</fieldset>
 						<div class="anno-mce-popup-footer">
 							<?php _anno_popup_submit_button('anno-image-save', _x('Save', 'button value', 'anno'), 'submit'); ?>
-							<?php _anno_popup_submit_button('anno-image-upload', _x('Insert', 'button value', 'anno')); ?>
+							<input type="button" id="<?php echo esc_attr('anno-image-insert-'.$attachment->ID); ?>" class="anno-image-insert button" value="<?php _ex('Insert', 'button value', 'anno'); ?>" />
 						</div>
 						<input type="hidden" name="action" value="anno-img-save" />
 						<input type="hidden" name="attachment_id" value="<?php echo esc_attr($attachment->ID); ?>" />
+						<input type="hidden" id="<?php echo esc_attr('img-url-'.$attachment->ID); ?>" name="url" value="<?php echo esc_attr($img_url_full[0]); ?>" />
 					</form>
 				</td>
 			</tr>

@@ -30,7 +30,7 @@
                 authorurl: 'http://crowdfavorite.com/',
                 infourl: 'http://annotum.wordpress.com/',
                 version: "0.1"
-            }; 
+			}; 
         }
     });
 
@@ -77,7 +77,7 @@ jQuery(document).ready( function($) {
 		return false;
 	});
 	
-	$('.anno-mce-popup form').submit(function() {
+	$('#anno-popup-references form').submit(function() {
 		var form = $(this)
 		$.post(ajaxurl, $(this).serialize(), function(data) {
 		//	var message_container = $('#popup-message-' + data.type + '-' + data.ref_id);
@@ -91,9 +91,6 @@ jQuery(document).ready( function($) {
 					$('#reference-' + data.ref_id + ' .reference-text').html(data.text);
 					form.slideUp();
 				}
-
-				
-			//	$(message_container).html('').removeClass('error').addclass('success').html(data.message);
 			}
 			else {
 				$(message_container).html('').removeClass('success').addclass('error').html(data.message);
