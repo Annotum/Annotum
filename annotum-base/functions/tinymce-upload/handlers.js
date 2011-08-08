@@ -15,7 +15,7 @@ function annoFileQueued(fileObj) {
 		jQuery('.slidetoggle').slideUp(200).siblings().removeClass('hidden');
 	}
 	// Create a progress bar containing the filename
-	jQuery('#media-items').append('<tr><td colspan="3"><div id="media-item-' + fileObj.id + '" class="media-item child-of-' + post_id + '"><div class="progress"><div class="bar"></div></div><div class="filename original"><span class="percent"></span> ' + fileObj.name + '</div></div></td></tr>');
+	jQuery('#media-items').append('<tr id="media-item-' + fileObj.id + '" class="media-item child-of-' + post_id + '"><td colspan="3"><div class="progress"><div class="bar"></div></div><div class="filename original"><span class="percent"></span> ' + fileObj.name + '</div></td></tr>');
 	// Display the progress div
 	jQuery('.progress', '#media-item-' + fileObj.id).show();
 
@@ -43,11 +43,11 @@ function uploadProgress(fileObj, bytesDone, bytesTotal) {
 		jQuery('.bar', item).html('<strong class="crunching">' + swfuploadL10n.crunching + '</strong>');
 }
 
-function prepareMediaItem(fileObj, serverData) {
+function annoPrepareMediaItem(fileObj, serverData) {
 	var f = ( typeof shortform == 'undefined' ) ? 1 : 2, item = jQuery('#media-item-' + fileObj.id);
 	// Move the progress bar to 100%
-	jQuery('.bar', item).remove();
-	jQuery('.progress', item).hide();
+//	jQuery('.bar', item).remove();
+//	jQuery('.progress', item).hide();
 
 	try {
 		if ( typeof topWin.tb_remove != 'undefined' )
@@ -61,20 +61,26 @@ function prepareMediaItem(fileObj, serverData) {
 	}
 	// New style: server data is just the attachment ID, fetch the thumbnail and form html from the server
 	else {
-		item.load('async-upload.php', {attachment_id:serverData, fetch:f}, function(){prepareMediaItemInit(fileObj);updateMediaForm()});
+		//TODO post action
+		jQuery.post('async-upload.php', {attachment_id:serverData, fetch:f}, function(data){
+			item.replaceWith(data);
+			prepareMediaItemInit(fileObj);
+			updateMediaForm();
+			}
+		);
 	}
 }
 
 function prepareMediaItemInit(fileObj) {
 	var item = jQuery('#media-item-' + fileObj.id);
 	// Clone the thumbnail as a "pinkynail" -- a tiny image to the left of the filename
-	jQuery('.thumbnail', item).clone().attr('class', 'pinkynail toggle').prependTo(item);
+//	jQuery('.thumbnail', item).clone().attr('class', 'pinkynail toggle').prependTo(item);
 
 	// Replace the original filename with the new (unique) one assigned during upload
-	jQuery('.filename.original', item).replaceWith( jQuery('.filename.new', item) );
+//	jQuery('.filename.original', item).replaceWith( jQuery('.filename.new', item) );
 
 	// Also bind toggle to the links
-	jQuery('a.toggle', item).click(function(){
+/*	jQuery('a.toggle', item).click(function(){
 		jQuery(this).siblings('.slidetoggle').slideToggle(350, function(){
 			var w = jQuery(window).height(), t = jQuery(this).offset().top, h = jQuery(this).height(), b;
 
@@ -91,9 +97,10 @@ function prepareMediaItemInit(fileObj) {
 		jQuery(this).siblings('a.toggle').focus();
 		return false;
 	});
+*/
 
 	// Bind AJAX to the new Delete button
-	jQuery('a.delete', item).click(function(){
+	/*jQuery('a.delete', item).click(function(){
 		// Tell the server to delete it. TODO: handle exceptions
 		jQuery.ajax({
 			url: 'admin-ajax.php',
@@ -108,9 +115,10 @@ function prepareMediaItemInit(fileObj) {
 			}
 		});
 		return false;
-	});
+	});*/
 
 	// Bind AJAX to the new Undo button
+	/*
 	jQuery('a.undo', item).click(function(){
 		// Tell the server to untrash it. TODO: handle exceptions
 		jQuery.ajax({
@@ -138,7 +146,7 @@ function prepareMediaItemInit(fileObj) {
 			}
 		});
 		return false;
-	});
+	});*/
 
 	// Open this item if it says to start open (e.g. to display an error)
 	jQuery('#media-item-' + fileObj.id + '.startopen').removeClass('startopen').slideToggle(500).siblings('.toggle').toggle();
@@ -221,7 +229,7 @@ function uploadSuccess(fileObj, serverData) {
 		return;
 	}
 
-	prepareMediaItem(fileObj, serverData);
+	annoPrepareMediaItem(fileObj, serverData);
 	updateMediaForm();
 
 	// Increment the counter.

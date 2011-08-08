@@ -183,6 +183,7 @@ table#anno-references table td table td {
 
 #anno-popup-images table {
 	border: 1px solid #444444;
+	border-bottom: none;
 }
 
 #anno-popup-image table tr th {
@@ -283,4 +284,16 @@ table#anno-references table td table td {
 	padding: 10px;
 	background: #EEEEEE;
 	text-align: center;
+}
+
+#anno-popup-images .media-item .original {
+	width: auto;
+	height: 50px;
+	display: table-cell;
+	vertical-align: middle;
+}
+
+#anno-popup-images .progress {
+	height: 50px;
+	margin-bottom: -50px;
 }

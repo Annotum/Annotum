@@ -376,6 +376,7 @@ function anno_popup_images() {
 		'posts_per_page' => -1,
 		'post_parent' => $post->ID,
 		'post_mime_type' => 'image',
+		'order' => 'ASC'
 	));	
 ?>
 <div id="anno-popup-images" class="anno-mce-popup">
@@ -396,15 +397,10 @@ function anno_popup_images() {
 	}
 ?>		
 			</tbody>
-			<tfoot>
-				<tr>
-					<td class="anno-image-upload-box" colspan="3">
-						<?php anno_upload_form(); ?>
-					</td>
-				</tr>
-			</tfoot>
 		</table>
-		<div id="test">
+			
+		<?php anno_upload_form(); ?>
+				
 		<?php
 		if ( !empty($id) ) {
 			if ( !is_wp_error($id) ) {
@@ -416,11 +412,6 @@ function anno_popup_images() {
 			}
 		}
 		?>
-		</div>
-	</div>
-	<div class="anno-mce-popup-footer">
-		<?php _anno_popup_submit_button('anno-image-submit', _x('Save', 'button value', 'anno')); ?>
-	</div>
 </div>
 <?php
 }

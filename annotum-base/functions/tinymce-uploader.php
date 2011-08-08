@@ -27,7 +27,8 @@ function anno_media_upload_form() {
 		if ( $u < 0 ) {
 			$upload_size_unit = 0;
 			$u = 0;
-		} else {
+		}
+		else {
 			$upload_size_unit = (int) $upload_size_unit;
 		}
 	?>
@@ -183,7 +184,7 @@ function anno_upload_form($type = 'image', $errors = null, $id = null) {
 jQuery(function($){
 	var preloaded = $(".media-item.preloaded");
 	if ( preloaded.length > 0 ) {
-		preloaded.each(function(){prepareMediaItem({id:this.id.replace(/[^0-9]/g, '')},'');});
+		preloaded.each(function(){annoPrepareMediaItem({id:this.id.replace(/[^0-9]/g, '')},'');});
 	}
 	updateMediaForm();
 });
