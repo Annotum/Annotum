@@ -134,7 +134,7 @@ textarea.anno-meta {
 .anno-reference-edit {
 	display: none;
 	background: #EEEEEE;
-	border-bottom: 1px solid #444444;
+	border-top: 1px solid #444444;
 	padding: 10px;
 }
 
@@ -228,6 +228,10 @@ table#anno-references table td table td {
 .img-edit-td {
 	border-bottom: none;
 	border-top: none;
+}
+
+.img-edit-td .anno-mce-popup-footer {
+	width: auto;
 }
 
 .img-edit img {

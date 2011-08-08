@@ -289,14 +289,94 @@ function anno_popup_references() {
 <?php
 }
 
+
+function anno_popup_images_row_display($attachment) {
+	$img_url_small = wp_get_attachment_image_src($attachment->ID, 'anno_img_list');
+?>
+			<tr id="<?php echo esc_attr('img-'.$attachment->ID); ?>">
+				<td class="img-list-img">
+					<img src="<?php echo esc_url($img_url_small[0]); ?>" alt="<?php echo esc_attr($attachment->post_title); ?>" />
+				</td>
+				<td class="img-list-title">
+					<?php echo esc_html($attachment->post_title); ?>
+				</td>
+				<td class="img-list-actions">
+					<a href="#" id="<?php echo esc_attr('toggle-'.$attachment->ID); ?>" class="show-img"><?php _ex('Show ', 'edit image link text', 'anno'); ?></a>
+				</td>
+			</tr>
+<?php 
+}
+
+function anno_popup_images_row_edit($attachment) {
+		$img_url = wp_get_attachment_image_src($attachment->ID, 'anno_img_edit');
+?>
+			<tr>
+				<td class="img-edit-td" colspan="3">
+					<div id="<?php echo esc_attr('img-edit-'.$attachment->ID); ?>" class="img-edit">
+						<div class="img-edit-details">
+							<img src="<?php echo esc_url($img_url[0]); ?>" alt="<?php echo esc_attr($attachment->post_title); ?>" />
+							<label for="<?php esc_attr('img-alttext-'.$attachment->ID); ?>">
+								<div><?php _ex('Alt Text', 'input label', 'anno'); ?></div>
+								<input name="<?php esc_attr('img-alttext-'.$attachment->ID); ?>" type="text" id="<?php esc_attr('img-alttext-'.$attachment->ID); ?>" />
+							</label>
+							<label for="<?php esc_attr('img-description-'.$attachment->ID); ?>">
+								<div><?php _ex('Description', 'input label', 'anno'); ?></div>
+								<textarea name="<?php esc_attr('img-description-'.$attachment->ID); ?>" id="<?php esc_attr('img-description-'.$attachment->ID); ?>"></textarea>
+							</label>
+						</div>
+						<fieldset class="img-display">
+							<legend><?php _ex('Display', 'legend', 'anno'); ?></legend>
+							<label for="<?php echo esc_attr('img-display-figure-'.$attachment->ID); ?>" class="radio">
+								<input type="radio" name="<?php echo esc_attr('img-display-'.$attachment->ID); ?>" class="img-display-selection img-display-figure" id="<?php echo esc_attr('img-display-figure-'.$attachment->ID); ?>" />
+								<span><?php _ex('Display as Figure', 'input label', 'anno'); ?></span>
+							</label>
+							<label for="<?php echo esc_attr('img-display-inline-'.$attachment->ID); ?>" class="radio">
+								<input type="radio" name="<?php echo esc_attr('img-display-'.$attachment->ID); ?>" class="img-display-selection img-display-inline" id="<?php echo esc_attr('img-display-inline-'.$attachment->ID); ?>" />
+								<span><?php _ex('Display Inline', 'input label', 'anno'); ?></span>
+							</label>
+							<div id="<?php echo esc_attr('img-figure-details-'.$attachment->ID); ?>">
+								<label for="<?php echo esc_attr('img-label-'.$attachment->ID); ?>">
+									<span><?php _ex('Label', 'input label', 'anno'); ?></span>
+									<input type="text" name="<?php echo esc_attr('img-label-'.$attachment->ID); ?>" id="<?php echo esc_attr('img-label-'.$attachment->ID); ?>" />
+								</label>
+								<label for="<?php echo  esc_attr('img-caption-'.$attachment->ID); ?>">
+									<span><?php _ex('Caption', 'input label', 'anno'); ?></span>
+									<textarea id="<?php echo esc_attr('img-caption-'.$attachment->ID); ?>" name="<?php echo esc_attr('img-caption-'.$attachment->ID); ?>"></textarea>
+								</label>
+							</div>
+						</fieldset>
+						<fieldset id="<?php echo esc_attr('img-permissions-'.$attachment->ID); ?>" class="img-permissions">
+							<legend><?php _ex('Permissions', 'legend', 'anno'); ?></legend>
+							<label for="<?php echo esc_attr('img-copystatment-'.$attachment->ID); ?>">
+								<span><?php _ex('Copyright Statment', 'input label', 'anno'); ?></span>
+								<input type="text" name="<?php echo esc_attr('img-copystatment-'.$attachment->ID); ?>" id="<?php echo esc_attr('img-copystatment-'.$attachment->ID); ?>" />
+							</label>
+							<label for="<?php echo esc_attr('img-copyholder-'.$attachment->ID); ?>">
+								<span><?php _ex('Copyright Holder', 'input label', 'anno'); ?></span>
+								<input type="text" name="<?php echo esc_attr('img-copyholder-'.$attachment->ID); ?>" id="<?php echo esc_attr('img-copyholder-'.$attachment->ID); ?>" />
+							</label>
+							<label for="<?php echo esc_attr('img-license-'.$attachment->ID); ?>">
+								<span><?php _ex('License', 'input label', 'anno'); ?></span>
+								<input type="text" name="<?php echo esc_attr('img-license-'.$attachment->ID); ?>" id="<?php echo esc_attr('img-license-'.$attachment->ID); ?>" />
+							</label>
+						</fieldset>
+						<div class="anno-mce-popup-footer">
+							<?php _anno_popup_submit_button('anno-image-upload', _x('INSERT IMAGE', 'button value', 'anno')); ?>
+						</div>
+					</div>
+				</td>
+			</tr>
+<?php
+}
+
 function anno_popup_images() {
-	global $post;
+	global $post, $tab;
 	$attachments = get_posts(array(
 		'post_type' => 'attachment',
 		'posts_per_page' => -1,
 		'post_parent' => $post->ID,
 		'post_mime_type' => 'image',
-	));
+	));	
 ?>
 <div id="anno-popup-images" class="anno-mce-popup">
 	<div class="anno-mce-popup-fields">
@@ -308,89 +388,35 @@ function anno_popup_images() {
 					<th scope="col" class="img-list-actions"></th>
 				</tr>
 			</thead>
-			<tbody>
+			<tbody id="media-items">
 <?php
 	foreach ($attachments as $attachment_key => $attachment) {
-		$img_url_small = wp_get_attachment_image_src($attachment->ID, 'anno_img_list');
-		$img_url = wp_get_attachment_image_src($attachment->ID, 'anno_img_edit');
-?>
-				<tr id="<?php echo esc_attr('img-'.$attachment->ID); ?>">
-					<td class="img-list-img">
-						<img src="<?php echo esc_url($img_url_small[0]); ?>" alt="<?php echo esc_attr($attachment->post_title); ?>" />
-					</td>
-					<td class="img-list-title">
-						<?php echo esc_html($attachment->post_title); ?>
-					</td>
-					<td class="img-list-actions">
-						<a href="#" id="<?php echo esc_attr('toggle-'.$attachment->ID); ?>" class="show-img"><?php _ex('Show ', 'edit image link text', 'anno'); ?></a>
-					</td>
-				</tr>
-				<tr>
-					<td class="img-edit-td" colspan="3">
-						<div id="<?php echo esc_attr('img-edit-'.$attachment->ID); ?>" class="img-edit">
-							<div class="img-edit-details">
-								<img src="<?php echo esc_url($img_url[0]); ?>" alt="<?php echo esc_attr($attachment->post_title); ?>" />
-								<label for="<?php esc_attr('img-alttext-'.$attachment->ID); ?>">
-									<div><?php _ex('Alt Text', 'input label', 'anno'); ?></div>
-									<input name="<?php esc_attr('img-alttext-'.$attachment->ID); ?>" type="text" id="<?php esc_attr('img-alttext-'.$attachment->ID); ?>" />
-								</label>
-								<label for="<?php esc_attr('img-description-'.$attachment->ID); ?>">
-									<div><?php _ex('Description', 'input label', 'anno'); ?></div>
-									<textarea name="<?php esc_attr('img-description-'.$attachment->ID); ?>" id="<?php esc_attr('img-description-'.$attachment->ID); ?>"></textarea>
-								</label>
-							</div>
-							<fieldset class="img-display">
-								<legend><?php _ex('Display', 'legend', 'anno'); ?></legend>
-								<label for="<?php echo esc_attr('img-display-figure-'.$attachment->ID); ?>" class="radio">
-									<input type="radio" name="<?php echo esc_attr('img-display-'.$attachment->ID); ?>" class="img-display-selection img-display-figure" id="<?php echo esc_attr('img-display-figure-'.$attachment->ID); ?>" />
-									<span><?php _ex('Display as Figure', 'input label', 'anno'); ?></span>
-								</label>
-								<label for="<?php echo esc_attr('img-display-inline-'.$attachment->ID); ?>" class="radio">
-									<input type="radio" name="<?php echo esc_attr('img-display-'.$attachment->ID); ?>" class="img-display-selection img-display-inline" id="<?php echo esc_attr('img-display-inline-'.$attachment->ID); ?>" />
-									<span><?php _ex('Display Inline', 'input label', 'anno'); ?></span>
-								</label>
-								<div id="<?php echo esc_attr('img-figure-details-'.$attachment->ID); ?>">
-									<label for="<?php echo esc_attr('img-label-'.$attachment->ID); ?>">
-										<span><?php _ex('Label', 'input label', 'anno'); ?></span>
-										<input type="text" name="<?php echo esc_attr('img-label-'.$attachment->ID); ?>" id="<?php echo esc_attr('img-label-'.$attachment->ID); ?>" />
-									</label>
-									<label for="<?php echo  esc_attr('img-caption-'.$attachment->ID); ?>">
-										<span><?php _ex('Caption', 'input label', 'anno'); ?></span>
-										<textarea id="<?php echo esc_attr('img-caption-'.$attachment->ID); ?>" name="<?php echo esc_attr('img-caption-'.$attachment->ID); ?>"></textarea>
-									</label>
-								</div>
-							</fieldset>
-							<fieldset id="<?php echo esc_attr('img-permissions-'.$post->ID); ?>" class="img-permissions">
-								<legend><?php _ex('Permissions', 'legend', 'anno'); ?></legend>
-								<label for="<?php echo esc_attr('img-copystatment-'.$attachment->ID); ?>">
-									<span><?php _ex('Copyright Statment', 'input label', 'anno'); ?></span>
-									<input type="text" name="<?php echo esc_attr('img-copystatment-'.$attachment->ID); ?>" id="<?php echo esc_attr('img-copystatment-'.$attachment->ID); ?>" />
-								</label>
-								<label for="<?php echo esc_attr('img-copyholder-'.$attachment->ID); ?>">
-									<span><?php _ex('Copyright Holder', 'input label', 'anno'); ?></span>
-									<input type="text" name="<?php echo esc_attr('img-copyholder-'.$attachment->ID); ?>" id="<?php echo esc_attr('img-copyholder-'.$attachment->ID); ?>" />
-								</label>
-								<label for="<?php echo esc_attr('img-license-'.$attachment->ID); ?>">
-									<span><?php _ex('License', 'input label', 'anno'); ?></span>
-									<input type="text" name="<?php echo esc_attr('img-license-'.$attachment->ID); ?>" id="<?php echo esc_attr('img-license-'.$attachment->ID); ?>" />
-								</label>
-							</fieldset>
-							<div class="anno-mce-popup-footer">
-								<?php _anno_popup_submit_button('anno-image-upload', _x('INSERT IMAGE', 'button value', 'anno')); ?>
-							</div>
-						</div>
-					</td>
-				</tr>
-<?php
+		anno_popup_images_row_display($attachment);
+		anno_popup_images_row_edit($attachment);
 	}
 ?>		
+			</tbody>
+			<tfoot>
 				<tr>
 					<td class="anno-image-upload-box" colspan="3">
-						<?php _anno_popup_submit_button('anno-image-upload', _x('UPLOAD IMAGE', 'button value', 'anno')); ?>
+						<?php anno_upload_form(); ?>
 					</td>
 				</tr>
-			</tbody>
+			</tfoot>
 		</table>
+		<div id="test">
+		<?php
+		if ( !empty($id) ) {
+			if ( !is_wp_error($id) ) {
+				add_filter('attachment_fields_to_edit', 'media_post_single_attachment_fields_to_edit', 10, 2);
+				echo anno_get_media_items( $id, $errors );
+			} else {
+				echo '<div id="media-upload-error">'.esc_html($id->get_error_message()).'</div>';
+				exit;
+			}
+		}
+		?>
+		</div>
 	</div>
 	<div class="anno-mce-popup-footer">
 		<?php _anno_popup_submit_button('anno-image-submit', _x('Save', 'button value', 'anno')); ?>
