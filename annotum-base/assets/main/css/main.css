@@ -224,6 +224,9 @@ html.ie8 #main-sidebar .widget_search #s{width:100px;}
 .content ul,.content ol{margin-left:2em;}
 .content li{margin-bottom:5px;}
 .content li ul,.content li ol{margin-top:5px;margin-bottom:0;}
+.content .alignleft{float:left;margin:0 10px 10px 0;}
+.content .alignright{float:right;margin:0 0 10px 10px;}
+.content .aligncenter{display:block;margin:0 auto 10px auto;}
 .references ol{margin-left:2em;}
 .references li{margin-bottom:10px;}
 .references ol a{font-size:10px;line-height:1;text-transform:uppercase;}
