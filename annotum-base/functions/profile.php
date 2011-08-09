@@ -15,7 +15,7 @@ $anno_user_meta = array(
  * Adds the menu page to WP.
  */ 
 function anno_add_profile() {
-	add_users_page( 
+	add_theme_page( 
 		_x('Annotum Profile', 'admin page title', 'anno'),
 		_x('Annotum Profile', 'admin sidebar menu title', 'anno'),
 		'read',
