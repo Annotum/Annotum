@@ -237,6 +237,7 @@ add_action('wp_insert_post', 'anno_article_insert_post', 10, 2);
  * Print styles for article post type.
  */ 
 function anno_article_admin_print_styles() {
+	// TODO, only enqueue on article post type
 	wp_enqueue_style('article-admin', trailingslashit(get_bloginfo('template_directory')).'/css/article-admin.css');
 }
 add_action('admin_print_styles-post.php', 'anno_article_admin_print_styles');

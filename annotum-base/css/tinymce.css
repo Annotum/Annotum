@@ -20,3 +20,10 @@ xref {
 	font-weight: bold;
 	padding-right: 1px;
 }
+
+media[xlink\:href]:before {
+	content: attr(xlink\:href);
+	display: block;
+	background: #FFFFFF;
+	position: absolute; 
+}

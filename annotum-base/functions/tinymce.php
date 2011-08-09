@@ -58,7 +58,7 @@ class Anno_tinyMCE {
 	function mce_buttons($buttons) {
 		global $post;
 		if ($post->post_type == 'article') {
-			$buttons = array('bold', 'italic', 'underline', '|', 'bullist', 'numlist', '|', 'blockquote', '|', 'sup', 'sub', '|', 'charmap', '|', 'annolink', 'announlink', '|', 'annoimages', 'equation', '|', 'reference', '|', 'undo', 'redo', '|', 'wp_adv', 'help', 'annotable' );
+			$buttons = array('bold', 'italic', 'underline', '|', 'bullist', 'numlist', '|', 'blockquote', '|', 'sup', 'sub', '|', 'charmap', '|', 'annolink', 'announlink', '|', 'annoimages', 'equation', '|', 'reference', '|', 'undo', 'redo', '|', 'wp_adv', 'help', 'annotable', );
 		}
 		return $buttons;
 	}
@@ -66,7 +66,7 @@ class Anno_tinyMCE {
 	function mce_buttons_2($buttons) {
 		global $post;
 		if ($post->post_type == 'article') {
-			$buttons = array('formatselect', '|', 'table', '|', 'pastetext', 'pasteword', 'annolist', '|', 'annoreferences');
+			$buttons = array('formatselect', '|', 'table', 'row_before', 'row_after', 'delete_row', 'col_before', 'col_after', 'delete_col', 'split_cells', 'merge_cells', '|', 'pastetext', 'pasteword', 'annolist', '|', 'annoreferences');
 		}
 		return $buttons;
 	}
@@ -77,14 +77,15 @@ class Anno_tinyMCE {
 		$plugins['annoLink']  =  trailingslashit(get_bloginfo('template_directory')).'js/tinymce/plugins/annolink/editor_plugin.js';
 		
 		
-		$plugins['annoTable']  =  trailingslashit(get_bloginfo('template_directory')).'js/tinymce/plugins/annotable/annotable.js';
+//		$plugins['annoTable']  =  trailingslashit(get_bloginfo('template_directory')).'js/tinymce/plugins/annotable/annotable.js';
 		
 		$plugins['annoReferences_base'] = trailingslashit(get_bloginfo('template_directory')).'js/tinymce/plugins/annoreferences/annoreferences.js';
 		$plugins['annoReferences']  =  trailingslashit(get_bloginfo('template_directory')).'js/tinymce/plugins/annoreferences/editor_plugin.js';
 
 		$plugins['annoImages_base'] = trailingslashit(get_bloginfo('template_directory')).'js/tinymce/plugins/annoimages/annoimages.js';
 		$plugins['annoImages']  =  trailingslashit(get_bloginfo('template_directory')).'js/tinymce/plugins/annoimages/editor_plugin.js';
-
+		
+		$plugins['table'] = trailingslashit(get_bloginfo('template_directory')).'js/tinymce/plugins/table/editor_plugin_src.js';
 		
 		return $plugins;
 	}
@@ -127,32 +128,34 @@ function anno_popup_link() {
 
 function anno_popup_table() {
 ?>
-	<div id="anno-tinymce-table" class="anno-mce-popup">
+	<div id="anno-popup-table" class="anno-mce-popup">
 		<form id="anno-tinymce-table-form" class="" tabindex="-1">
 			<?php //TODO NONCE ?>
 			<div class="anno-mce-popup-fields">
-				<label>
-					<span><?php _ex('Label', 'input label for defining tables', 'anno'); ?></span>
-					<input type="text" name="link-href" id="link-href" />
-				</label>
-				<label>
-					<span><?php _ex('Caption', 'input label for defining tables', 'anno'); ?></span>
-					<textarea name="link-title" id="link-title" rows="2"></textarea>
-				</label>
-				<fieldset>
-				<legend><?php _ex('Table Properties', 'legend', 'anno'); ?></legend>
-					<label>
-						<span><?php _ex('Columns', 'input label for defining tables', 'anno'); ?></span>
-						<input type="text" class="short-text" name="link-href" id="link-href" />
+				<form>
+					<label for="table-label">
+						<span><?php _ex('Label', 'input label for defining tables', 'anno'); ?></span>
+						<input type="text" name="label" id="table-label" />
 					</label>
-					<label>
-						<span><?php _ex('Rows', 'input label for defining tables', 'anno'); ?></span>
-						<input type="text" class="short-text" name="link-title" id="link-title" />
+					<label for="table-caption">
+						<span><?php _ex('Caption', 'input label for defining tables', 'anno'); ?></span>
+						<textarea name="title" id="table-caption" rows="2"></textarea>
 					</label>
-				</fieldset>
+					<fieldset>
+					<legend><?php _ex('Table Properties', 'legend', 'anno'); ?></legend>
+						<label for="table-cols">
+							<span><?php _ex('Columns', 'input label for defining tables', 'anno'); ?></span>
+							<input type="text" class="short-text" name="cols" id="table-cols" />
+						</label>
+						<label for="table-rows">
+							<span><?php _ex('Rows', 'input label for defining tables', 'anno'); ?></span>
+							<input type="text" class="short-text" name="rows" id="table-rows" />
+						</label>
+					</fieldset>
+				</form>
 			</div>
 			<div class="anno-mce-popup-footer">
-				<?php _anno_popup_submit_button('anno-table-submit', _x('Save', 'button value', 'anno')); ?>
+				<?php _anno_popup_submit_button('anno-table-submit', _x('Insert', 'button value', 'anno')); ?>
 			</div>
 		</form>
 	</div>

@@ -1,9 +1,12 @@
 <?php 
 
 function anno_tinymce_enqueue() {
-	wp_enqueue_script('swfupload-all');
-	wp_enqueue_script('swfupload-handlers');
-	wp_enqueue_script('anno_upload_handlers', trailingslashit(get_bloginfo('template_directory')).'functions/tinymce-upload/handlers.js', array('jquery'));	
+	global $post_type;
+	if ($post_type == 'article') {
+		wp_enqueue_script('swfupload-all');
+		wp_enqueue_script('swfupload-handlers');
+		wp_enqueue_script('anno_upload_handlers', trailingslashit(get_bloginfo('template_directory')).'functions/tinymce-upload/handlers.js', array('jquery'));	
+	}
 }
 add_action('admin_enqueue_scripts', 'anno_tinymce_enqueue');
 
