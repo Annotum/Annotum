@@ -40,6 +40,7 @@ www.webaim.org/techniques/css/invisiblecontent/ & j.mp/visuallyhidden */
 	overflow: visible;
 	position: static;
 	width: auto;
+	
 }
 
 /* Hide visually and from screenreaders, but maintain layout */
@@ -107,4 +108,20 @@ dl.kv dd {
 .tags {
 	font-size: 12px;
 	line-height: 20px;
+}
+
+/** WordPress compatibility styles
+ --------------------------------------------------------------- */
+.content .wp-caption {
+	margin: 10px 0;
+}
+.content p.wp-caption-text,
+.content .gallery-caption {
+	margin: 0;
+}
+.sticky {
+	/* Add styles here if you wish to callout sticky posts */
+}
+.bypostauthor .header h3.title {
+	font-weight: bold;
 }
