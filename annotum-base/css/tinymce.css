@@ -27,3 +27,16 @@ media[xlink\:href]:before {
 	background: #FFFFFF;
 	position: absolute; 
 }
+
+table.mceitemtable {
+	border: none;
+	border-spacing: 0px;
+	border-collapse:collapse
+}
+table.mceitemtable td {
+	min-width: 20px;
+	border: 1px solid #000000;
+	border-spacing: 0px;
+	padding: 3px;
+	margin: 0px;
+}
