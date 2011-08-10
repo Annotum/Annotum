@@ -86,6 +86,7 @@ class Anno_tinyMCE {
 		$plugins['annoImages']  =  trailingslashit(get_bloginfo('template_directory')).'js/tinymce/plugins/annoimages/editor_plugin.js';
 		
 		$plugins['table'] = trailingslashit(get_bloginfo('template_directory')).'js/tinymce/plugins/table/editor_plugin_src.js';
+		$plugins['table_base'] = trailingslashit(get_bloginfo('template_directory')).'js/tinymce/plugins/table/js/table_src.js';
 		
 		return $plugins;
 	}

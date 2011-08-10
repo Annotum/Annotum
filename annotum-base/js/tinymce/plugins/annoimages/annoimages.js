@@ -33,25 +33,6 @@ var annoImages;
 			var ed = tinyMCEPopup.editor;
 			ed.selection.collapse(0);
 			//TODO Validation
-			
-			//<inline-graphic xlink:href="charimage.gif" ><alt-text>alternative text</alt-text></inline-graphic>
-			/*
-			<fig>
-				<label>fig X</label>
-				<caption><title>&formats;</title><p>&inlines; <xref ref-type="bibr" rid="B1">xref text</xref></p><p>&inlines; <xref ref-type="bibr" rid="B1">xref text</xref></p></caption>
-				<media xlink:href="graphic.jpg">
-					<alt-text>alt-text</alt-text>
-					<long-desc>long-desc</long-desc>
-					<permissions>
-						<copyright-statement>&formats;</copyright-statement>
-						<copyright-holder>holder</copyright-holder>
-						<license license-type="creative-commons">
-							<license-p>&inlines; <xref ref-type="bibr" rid="B1">xref text</xref></license-p>
-						</license>
-					</permissions>
-				</media>
-			</fig>
-			*/
 
 			alt_text = $('#img-alttext-' + attachment_id).val();
 			url = $('#img-url-' + attachment_id).val();
@@ -71,6 +52,8 @@ var annoImages;
 			}
 			
 			tinyMCEPopup.execCommand('mceInsertContent', false, xml);
+			tinyMCEPopup.getContent
+			
 			tinyMCEPopup.close();
 		},
 
