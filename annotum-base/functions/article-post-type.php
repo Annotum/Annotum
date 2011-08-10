@@ -144,13 +144,8 @@ function anno_subtitle_meta_box($post) {
  * Body meta box markup (stored in content)
  */
 function anno_body_meta_box($post) {
-/*	TODO html/visual editor switch markup.
-	<a id="edButtonHTML" class="active hide-if-no-js" onclick="switchEditors.go('anno-body', 'html');"><?php _e('HTML'); ?></a>
-	<a id="edButtonPreview" class="hide-if-no-js" onclick="switchEditors.go('anno-body', 'tinymce');"><?php _e('Visual'); ?></a>
-*/
-	media_buttons();
 ?>
-	<textarea id="anno-body" name="content" class="anno-meta"><?php echo esc_html($post->post_content); ?></textarea>
+	<textarea id="anno-body" name="content" class="anno-meta"><?php echo esc_textarea($post->post_content); ?></textarea>
 <?php
 }
 
@@ -158,7 +153,14 @@ function anno_body_meta_box($post) {
  * References meta box markup
  */
 function anno_references_meta_box($post) {
-	echo 'references placeholder';
+	$references = get_post_meta($post->ID, '_anno_references', true);
+	if (!empty($references) && is_array($references)) {
+		foreach ($references as $ref_key => $reference) {
+?>
+	<div><?php echo esc_html($ref_key . '. '. $reference['text']); ?></div>
+<?php
+		}
+	}
 }
 
 /**
@@ -176,7 +178,7 @@ function anno_abstract_meta_box($post) {
 function anno_funding_meta_box($post) {
 	$html = get_post_meta($post->ID, '_anno_funding', true);
 ?>
-	<textarea class="anno-meta" name="anno_funding"><?php echo esc_html($html); ?></textarea>
+	<textarea class="anno-meta" name="anno_funding"><?php echo esc_textarea($html); ?></textarea>
 <?php
 }
 
@@ -186,7 +188,7 @@ function anno_funding_meta_box($post) {
 function anno_acknowledgements_meta_box($post) {
 	$html = get_post_meta($post->ID, '_anno_acknowledgements', true);
 ?>
-	<textarea id="guy" class="anno-meta" name="anno_acknowledgements"><?php echo esc_html($html); ?></textarea>
+	<textarea id="guy" class="anno-meta" name="anno_acknowledgements"><?php echo esc_textarea($html); ?></textarea>
 <?php
 }
 

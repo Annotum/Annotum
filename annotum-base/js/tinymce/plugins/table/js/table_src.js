@@ -95,10 +95,9 @@ var annoTable;
 			cols = $('input[name$="cols"]', formObj).val();
 			rows = $('input[name$="rows"]', formObj).val();
 			label = $('input[name$="label"]', formObj).val();
-			caption = $('input[name$="caption"]', formObj).val();
+			caption = $('textarea[name$="caption"]', formObj).val();
 			
-			
-			html += '<table-wrap><label>' + label + '</label><caption><title>' + caption + '</title></caption>';
+//			html += '<table-wrap><label>' + label + '</label><caption><title>' + caption + '</title></caption>';
 			html += '<table';
 //			html += makeAttrib('data-mce-new', '1');
 			html += '>';
@@ -123,8 +122,7 @@ var annoTable;
 				html += "</tr>";
 			}
 
-			html += "</table>";
-			html += '</table-wrap>';
+			html += "</table>";//"</table-wrap>";
 
 			// Move table
 			if (ed.settings.fix_table_elements) {
@@ -166,16 +164,6 @@ var annoTable;
 			ed.execCommand('mceEndUndoLevel');
 
 			tinyMCEPopup.close();
-		},
-
-		setDefaultValues : function() {
-			// Set URL and description to defaults.
-			// Leave the new tab setting as-is.
-//			inputs.url.val('http://');
-//			inputs.title.val('');
-
-			// Update save prompt.
-//			inputs.submit.val( annoTableL10n.save );
 		},
 
 		keyup: function( event ) {

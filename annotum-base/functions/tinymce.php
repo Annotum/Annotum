@@ -12,8 +12,8 @@ function anno_admin_print_footer_scripts() {
 		wp_tiny_mce(false, array(
 			'content_css' => trailingslashit(get_bloginfo('template_directory')).'/css/tinymce.css',
 			'wp_fullscreen_content_css' => trailingslashit(get_bloginfo('template_directory')).'/js/tinymce/css/tinymce.css',
-			'extended_valid_elements' => 'italic,underline,monospace,ext-link[ext-link-type:uri|xlink::href|title],sec,list[list-type],list-item,xref[ref-type|rid],inline-graphic[xlink::href],alt-text,fig,label,caption,title,media[xlink::href],long-desc,permissions,copyright-statment,copyright-holder,license[license-type:creative-commons],license-p',
-			'custom_elements' => '~italic,~underline,~monospace,~ext-link,sec,list,~list-item,~xref,~inline-graphic,~alt-text,~fig,~label,~caption,~title,~media,~long-desc,~permissions,~copyright-statement,~copyright-holder,~license,~license-p',
+			'extended_valid_elements' => 'italic,underline,monospace,ext-link[ext-link-type:uri|xlink::href|title],sec,list[list-type],list-item,xref[ref-type|rid],inline-graphic[xlink::href],alt-text,fig,label,caption,title,media[xlink::href],long-desc,permissions,copyright-statment,copyright-holder,license[license-type:creative-commons],license-p,table-wrap,table,td,tr,disp-quote,attrib',
+			'custom_elements' => '~italic,~underline,~monospace,~ext-link,sec,list,~list-item,~xref,~inline-graphic,~alt-text,~fig,~label,~caption,~title,~media,~long-desc,~permissions,~copyright-statement,~copyright-holder,~license,~license-p,~table-wrap,~tr,~td,~table,~disp-quote,~attrib',
 			//  Defines wrapper, need to set this up as its own button.
 			'formats' => '{
 					bold : {\'block\' : \'sec\', \'wrapper\' : true},
@@ -24,6 +24,8 @@ function anno_admin_print_footer_scripts() {
 			'forced_root_block' => '',
 			'editor_css' => trailingslashit(get_bloginfo('template_directory')).'/css/tinymce-ui.css?v=2',
 			'debug' => 'true',
+			'valid_child_elements' => 'p[table]',
+			'doctype' => '',
 		));
 ?>
 
@@ -47,7 +49,7 @@ function anno_admin_print_footer_scripts() {
 }
 add_action('admin_print_footer_scripts', 'anno_admin_print_footer_scripts', 99);
 
-
+remove_filter('the_content', 'wpautop');
 class Anno_tinyMCE {
 	function Anno_tinyMCE() {	
 		add_filter("mce_external_plugins", array(&$this, "plugins"));
@@ -66,7 +68,7 @@ class Anno_tinyMCE {
 	function mce_buttons_2($buttons) {
 		global $post;
 		if ($post->post_type == 'article') {
-			$buttons = array('formatselect', '|', 'table', 'row_before', 'row_after', 'delete_row', 'col_before', 'col_after', 'delete_col', 'split_cells', 'merge_cells', '|', 'pastetext', 'pasteword', 'annolist', '|', 'annoreferences');
+			$buttons = array('formatselect', '|', 'table', 'row_before', 'row_after', 'delete_row', 'col_before', 'col_after', 'delete_col', 'split_cells', 'merge_cells', '|', 'pastetext', 'pasteword', 'annolist', '|', 'annoreferences', '|', 'annoquote');
 		}
 		return $buttons;
 	}
@@ -87,6 +89,10 @@ class Anno_tinyMCE {
 		
 		$plugins['table'] = trailingslashit(get_bloginfo('template_directory')).'js/tinymce/plugins/table/editor_plugin_src.js';
 		$plugins['table_base'] = trailingslashit(get_bloginfo('template_directory')).'js/tinymce/plugins/table/js/table_src.js';
+		
+		$plugins['annoQuote'] = trailingslashit(get_bloginfo('template_directory')).'js/tinymce/plugins/annoquote/editor_plugin.js';
+		$plugins['annoQuote_base'] = trailingslashit(get_bloginfo('template_directory')).'js/tinymce/plugins/annoquote/annoquote.js';
+		
 		
 		return $plugins;
 	}
@@ -365,7 +371,7 @@ function anno_popup_images_row_edit($attachment) {
 								</label>
 							</div>
 						</fieldset>
-						<fieldset id="<?php echo esc_attr('img-permissions-'.$attachment->ID); ?>" class="img-permissions">
+						<fieldset>
 							<legend><?php _ex('Permissions', 'legend', 'anno'); ?></legend>
 							<label for="<?php echo esc_attr('img-copystatment-'.$attachment->ID); ?>">
 								<span><?php _ex('Copyright Statment', 'input label', 'anno'); ?></span>
@@ -440,6 +446,47 @@ function anno_popup_images() {
 <?php
 }
 
+function anno_popup_quote() {
+?>
+<div id="anno-popup-quote" class="anno-mce-popup">
+	<form id="anno-popup-quote-form" class="" tabindex="-1">
+		<?php //TODO NONCE ?>
+		<div class="anno-mce-popup-fields">
+				<label for="quote-text">
+					<span><?php _ex('Text', 'input label for defining quotes', 'anno'); ?></span>
+					<input type="text" name="text" id="quote-text" />
+				</label>
+				<label for="quote-attribution">
+					<span><?php _ex('Attribution', 'input label for defining quotes', 'anno'); ?></span>
+					<input type="text" name="attribution" id="quote-attribution" />
+				</label>
+				<fieldset>
+					<legend><?php _ex('Permissions', 'legend', 'anno'); ?></legend>
+					<label for="quote-copy-statement">
+						<span><?php _ex('Copyright Statement', 'input label for defining quotes', 'anno'); ?></span>
+						<input type="text" name="copyright-statement" id="quote-copy-statement" />
+					</label>
+					<label for="quote-copy-holder">
+						<span><?php _ex('Copyright Holder', 'input label for defining quotes', 'anno'); ?></span>
+						<input type="text" name="copyright-holder" id="quote-copy-holder" />
+					</label>
+					<label for="quote-license">
+						<span><?php _ex('License', 'input label for defining quotes', 'anno'); ?></span>
+						<input type="text" name="license" id="quote-license" />
+					</label>
+				</fieldset>
+			</form>
+		</div>
+		<div class="anno-mce-popup-footer">
+			<?php _anno_popup_submit_button('anno-quote-submit', _x('Save', 'button value', 'anno')); ?>
+		</div>
+	</form>
+</div>
+	
+	
+<?php
+}
+
 function _anno_popup_submit_button($id, $value, $type = 'button') {
 ?>
 	<input id="<?php echo esc_attr($id); ?>" type="<?php echo esc_attr($type); ?>" class="button" value="<?php echo esc_attr($value); ?>" />
@@ -464,6 +511,12 @@ function anno_preload_dialogs($init) {
 	<div style="display:none;">
 	<?php anno_popup_images(); ?>
 	</div>
+	
+	<div style="display:none;">
+	<?php anno_popup_quote(); ?>
+	</div>
+	
+	
 <?php 
 }
 add_action('after_wp_tiny_mce', 'anno_preload_dialogs', 10, 1 );

@@ -2,7 +2,7 @@ body {
 	background: #F4F4F4;
 }
 
-h1,h2,h3,h4,h5,h6,p,.section {
+h1,h2,h3,h4,h5,h6,p,.section, caption, label {
 	padding: 10px;
 	border: 1px solid #DFDFDF;
 	background: #FFFFFF;

@@ -136,7 +136,7 @@
 
 		function deleteTable() {
 			var rng = dom.createRng();
-
+			
 			rng.setStartAfter(table);
 			rng.setEndAfter(table);
 

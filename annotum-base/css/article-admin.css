@@ -243,14 +243,28 @@ table#anno-references table td table td {
 	margin: 10px 10px 0 0;
 }
 
+#anno-popup-quote fieldset label,
+#anno-popup-images fieldset label {
+	display: block;
+	width: auto;
+	margin: 10px 0 0 0;
+	padding: 0;
+}
+
+#anno-popup-quote fieldset input,
 #anno-popup-images fieldset input,
 #anno-popup-images fieldset textarea {
 	width: 250px;
 }
 
+#anno-popup-quote fieldset label span,
 #anno-popup-images fieldset label span {
-	width: 120px;
+	width: 140px;
 	float: left;
+}
+
+#anno-popup-images fieldset label {
+	margin-bottom: 10px;
 }
 
 #anno-popup-images fieldset input[type="radio"] {
