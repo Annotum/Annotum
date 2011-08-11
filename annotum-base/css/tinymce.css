@@ -40,3 +40,24 @@ table.mceitemtable td {
 	padding: 3px;
 	margin: 0px;
 }
+
+list {
+	display: block;
+}
+
+list[list-type=bullet] list-item:before {
+	content: "\2022";
+}
+
+list[list-type=order] {
+	counter-reset: item;
+}
+
+list[list-type=order] list-item:before {
+	content: counter(item) ". "; 
+	counter-increment: item;
+}
+
+list-item{
+	display: block;
+}
