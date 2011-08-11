@@ -1,3 +1,13 @@
+/**
+ * editor_plugin_src.js
+ *
+ * Copyright 2011, Moxiecode Systems AB
+ * Released under LGPL License.
+ *
+ * License: http://tinymce.moxiecode.com/license
+ * Contributing: http://tinymce.moxiecode.com/contributing
+ */
+
 (function() {
 	var each = tinymce.each, Event = tinymce.dom.Event, bookmark;
 
@@ -81,13 +91,16 @@
 	function canMerge(e1, e2, allowDifferentListStyles, mergeParagraphs) {
 		if (!e1 || !e2) {
 			return false;
-		} else if (e1.tagName === 'LIST-ITEM' && e2.tagName === 'LIST-ITEM') {
+		} else if (e1.tagName === 'LIST-ITEM' && e2.tagName === 'LIST-ITEM') {			
 			return e2.style.listStyleType === 'none' || containsOnlyAList(e2);
 		} else if (isList(e1)) {
 			return (e1.tagName === e2.tagName && (allowDifferentListStyles || e1.style.listStyleType === e2.style.listStyleType)) || isListForIndent(e2);
 		} else if (mergeParagraphs && e1.tagName === 'P' && e2.tagName === 'P') {
 			return true;
 		} else {
+			//TODO Sec tags?
+
+			
 			return false;
 		}
 	}
@@ -132,20 +145,9 @@
 	tinymce.create('tinymce.plugins.annoLists', {
 		init: function(ed, url) {
 			var enterDownInEmptyList = false;
-			
-			ed.addButton('annolist', {
-				title :'annoLink',// ed.getLang('advanced.link_desc'),
-				cmd : 'annoInsertUnorderedList1'
-			});
-			
-			ed.addCommand('annoInsertUnorderedList1', function() {
-				ilc_sel_content = tinyMCE.activeEditor.selection.getContent();
-	            tinyMCE.activeEditor.selection.setContent('<list list-type="bullet"><title></title><list-item>' + ilc_sel_content + '</list-item></list>');
-				
-			}
-			
+
 			function isTriggerKey(e) {
-				return e.keyCode === 9 && (ed.queryCommandState('annoInsertUnorderedList') || ed.queryCommandState('annoInsertOrderedList'));
+				return e.keyCode === 9 && (ed.queryCommandState('InsertUnorderedList2') || ed.queryCommandState('InsertOrderedList2'));
 			};
 
 			function isEnterInEmptyListItem(ed, e) {
@@ -172,7 +174,7 @@
 			function imageJoiningListItem(ed, e) {
 				if (!tinymce.isGecko)
 					return;
-
+					//TODO modify for inline-image
 				var n = ed.selection.getStart();
 				if (e.keyCode != 8 || n.tagName !== 'IMG') 
 					return;
@@ -218,7 +220,7 @@
 
 				// copy the image an its text to the list item
 				var clone = n.parentNode.cloneNode(true);
-				if (clone.tagName === 'P' || clone.tagName === 'DIV')
+				if (clone.tagName === 'P')// || clone.tagName === 'DIV')
 					addChildren(clone, li);
 				else
 					li.appendChild(clone);
@@ -233,12 +235,22 @@
 			this.ed = ed;
 			ed.addCommand('Indent', this.indent, this);
 			ed.addCommand('Outdent', this.outdent, this);
-			ed.addCommand('annoInsertUnorderedList', function() {
-				this.applyList('LIST');
+			ed.addCommand('InsertUnorderedList2', function() {
+				this.applyList('bullet', 'order');
 			}, this);
-			ed.addCommand('annoInsertOrderedList', function() {
-				this.applyList('LIST');
+			ed.addCommand('InsertOrderedList2', function() {
+				this.applyList('order', 'bullet');
 			}, this);
+			
+			ed.addButton('annoorderedlist', {
+				title : ed.getLang('advanced.link_desc'),
+				cmd : 'InsertOrderedList2'
+			});
+			
+			ed.addButton('annobulletlist', {
+				title : ed.getLang('advanced.link_desc'),
+				cmd : 'InsertUnorderedList2'
+			});
 			
 			ed.onInit.add(function() {
 				ed.editorCommands.addCommands({
@@ -248,7 +260,7 @@
 							n = dom.getParent(n, dom.isBlock);
 							return n && (parseInt(ed.dom.getStyle(n, 'margin-left') || 0, 10) + parseInt(ed.dom.getStyle(n, 'padding-left') || 0, 10)) > 0;
 						}
-						return hasStyleIndent(sel.getStart()) || hasStyleIndent(sel.getEnd()) || ed.queryCommandState('annoInsertOrderedList') || ed.queryCommandState('annoInsertUnorderedList');
+						return hasStyleIndent(sel.getStart()) || hasStyleIndent(sel.getEnd()) || ed.queryCommandState('InsertOrderedList2') || ed.queryCommandState('InsertUnorderedList2');
 					}
 				}, 'state');
 			});
@@ -259,10 +271,10 @@
 					ed.execCommand(e.shiftKey ? 'Outdent' : 'Indent', true, null);
 					return Event.cancel(e);
 				} else if (enterDownInEmptyList && isEnterInEmptyListItem(ed, e)) {
-					if (ed.queryCommandState('annoInsertOrderedList')) {
-						ed.execCommand('annoInsertOrderedList');
+					if (ed.queryCommandState('InsertOrderedList2')) {
+						ed.execCommand('InsertOrderedList2');
 					} else {
-						ed.execCommand('annoInsertUnorderedList');
+						ed.execCommand('InsertUnorderedList2');
 					}
 					n = ed.selection.getStart();
 					if (n && n.tagName === 'LIST-ITEM') {
@@ -289,6 +301,7 @@
 		applyList: function(targetListType, oppositeListType) {
 			var t = this, ed = t.ed, dom = ed.dom, applied = [], hasSameType = false, hasOppositeType = false, hasNonList = false, actions,
 				selectedBlocks = ed.selection.getSelectedBlocks();
+			
 			function cleanupBr(e) {
 				if (e && e.tagName === 'BR') {
 					dom.remove(e);
@@ -296,7 +309,7 @@
 			}
 			
 			function makeList(element) {
-				var list = dom.create(targetListType), li;
+				var list = dom.create('LIST', {'list-type' : targetListType}), li;
 				function adjustIndentForNewList(element) {
 					// If there's a margin-left, outdent one level to account for the extra list margin.
 					if (element.style.marginLeft || element.style.paddingLeft) {
@@ -306,7 +319,7 @@
 				
 				if (element.tagName === 'LIST-ITEM') {
 					// No change required.
-				} else if (element.tagName === 'P' || element.tagName === 'DIV' || element.tagName === 'BODY') {
+				} else if (element.tagName === 'P' || element.tagName === 'BODY') {
 					processBrs(element, function(startSection, br, previousBR) {
 						doWrapList(startSection, br, element.tagName === 'BODY' ? null : startSection.parentNode);
 						li = startSection.parentNode;
@@ -361,7 +374,8 @@
 			
 			function processBrs(element, callback) {
 				var startSection, previousBR, END_TO_START = 3, START_TO_END = 1,
-					breakElements = 'br,list,p,div,h1,h2,h3,h4,h5,h6,table,blockquote,address,pre,form,center,dl';
+					//TODO set breakelemetns
+					breakElements = 'br,list,p,h1,table,pre,form,center,dl';
 				function isAnyPartSelected(start, end) {
 					var r = dom.createRng(), sel;
 					bookmark.keep = true;
@@ -473,9 +487,9 @@
 			
 			each(selectedBlocks, function(e) {
 				e = findItemToOperateOn(e, dom);
-				if (e.tagName === oppositeListType || (e.tagName === 'LIST-ITEM' && e.parentNode.tagName === oppositeListType)) {
+				if ((e.tagName === 'LIST' &&  e.attr('list-type') === oppositeListType) || (e.tagName === 'LIST-ITEM' && e.parentNode.tagName === 'LIST' && e.parentNode.attr('list-type') === oppositeListType)) {
 					hasOppositeType = true;
-				} else if (e.tagName === targetListType || (e.tagName === 'LIST-ITEM' && e.parentNode.tagName === targetListType)) {
+				} else if ((e.tagName === 'LIST' &&  e.attr('list-type') === targetListType) || (e.tagName === 'LIST-ITEM' && e.parentNode.tagName === 'LIST' && e.parentNode.attr('list-type') === targetListType)) {
 					hasSameType = true;
 				} else {
 					hasNonList = true;
@@ -483,12 +497,13 @@
 			});
 
 			if (hasNonList || hasOppositeType || selectedBlocks.length === 0) {
+				//TODO Update
 				actions = {
 					'LIST-ITEM': changeList,
 					'H1': makeList,
 					'P': makeList,
+					'SEC': makeList,
 					'BODY': makeList,
-					'DIV': selectedBlocks.length > 1 ? makeList : wrapList,
 					defaultAction: wrapList
 				};
 			} else {
@@ -509,12 +524,18 @@
 			}
 			
 			function createWrapList(element) {
+				
+				//TOOD update
 				var wrapItem = createWrapItem(element),
 					list = dom.getParent(element, 'list'),
 					listType = list.tagName,
-					listStyle = dom.getStyle(list),
+//				listStyle = dom.getStyle(list, 'list-style-type'),
 					attrs = {},
 					wrapList;
+/*				if (listStyle !== '') {
+					attrs.style = 'list-style-type: ' + listStyle + ';';
+				}
+*/
 				wrapList = dom.create(listType, attrs);
 				wrapItem.appendChild(wrapList);
 				return wrapList;
@@ -603,7 +624,7 @@
 			if (selectedBlocks.length === 0) {
 				selectedBlocks = [ dom.getRoot() ];
 			}
-
+			
 			r = sel.getRng(true);
 			if (!r.collapsed) {
 				if (brAtEdgeOfSelection(r.endContainer, r.endOffset - 1)) {
@@ -668,13 +689,15 @@
 		
 		getInfo: function() {
 			return {
-				longname : 'Lists',
-				author : 'Moxiecode Systems AB',
-				authorurl : 'http://tinymce.moxiecode.com',
+				longname : 'Anno Lists',
+				author : 'Crowd Favorite',
+				authorurl : 'http://crowdfavorite.com',
 				infourl : 'http://wiki.moxiecode.com/index.php/TinyMCE:Plugins/lists',
 				version : tinymce.majorVersion + "." + tinymce.minorVersion
 			};
 		}
 	});
+	
+	//TODO custom create
 	tinymce.PluginManager.add("annoLists", tinymce.plugins.annoLists);
 }());

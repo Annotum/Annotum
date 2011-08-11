@@ -137,7 +137,7 @@ function anno_media_upload_form() {
 	//]]>
 	</script>
 
-	<div id="flash-upload-ui" class="hide-if-no-js">
+	<div id="flash-upload-ui" class="tinymce-uploader hide-if-no-js">
 	<?php do_action('pre-flash-upload-ui'); ?>
 
 		<div>
@@ -149,16 +149,14 @@ function anno_media_upload_form() {
 	</div>
 	<?php endif; // $flash ?>
 
-	<div id="html-upload-ui" <?php if ( $flash ) echo 'class="hide-if-js"'; ?>>
+	<div id="html-upload-ui" class="tinymce-uploader<?php if ( $flash ) echo ' hide-if-js'; ?>">
 	<?php do_action('pre-html-upload-ui'); ?>
 		<p id="async-upload-wrap">
 			<label class="screen-reader-text" for="async-upload"><?php _e('Upload'); ?></label>
 			<input type="file" name="async-upload" id="async-upload" />
 			<?php submit_button( __( 'Upload' ), 'button', 'html-upload', false ); ?>
-			<a href="#" onclick="try{top.tb_remove();}catch(e){}; return false;"><?php _e('Cancel'); ?></a>
 		</p>
 		<div class="clear"></div>
-		<p class="media-upload-size"><?php printf( __( 'Maximum upload file size: %d%s' ), $upload_size_unit, $sizes[$u] ); ?></p>
 		<?php if ( is_lighttpd_before_150() ): ?>
 		<p><?php _e('If you want to use all capabilities of the uploader, like uploading multiple files at once, please update to lighttpd 1.5.'); ?></p>
 		<?php endif;?>
@@ -170,7 +168,6 @@ function anno_media_upload_form() {
 
 function anno_upload_form($type = 'image', $errors = null, $id = null) {
 	$post_id = anno_get_post_id();
-
 	$form_action_url = admin_url("media-upload.php?type=$type&tab=type&post_id=$post_id");
 	$form_action_url = apply_filters('media_upload_form_url', $form_action_url, $type);
 ?>

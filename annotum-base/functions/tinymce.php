@@ -16,11 +16,11 @@ function anno_admin_print_footer_scripts() {
 			'custom_elements' => '~italic,~underline,~monospace,~ext-link,sec,list,~list-item,~xref,~inline-graphic,~alt-text,~fig,~label,~caption,~title,~media,~long-desc,~permissions,~copyright-statement,~copyright-holder,~license,~license-p,~table-wrap,~tr,~td,~table,~disp-quote,~attrib',
 			//  Defines wrapper, need to set this up as its own button.
 			'formats' => '{
-					bold : {\'block\' : \'sec\', \'wrapper\' : true},
+					bold : {\'inlince\' : \'bole\'},
 					italic : { \'inline\' : \'italic\'},
 					underline : { \'inline\' : \'underline\'}
 				}',
-			'theme_advanced_blockformats' => 'Paragraph=p,Heading=h2',
+			'theme_advanced_blockformats' => 'Paragraph=p,Heading=h2,Section=',
 			'forced_root_block' => '',
 			'editor_css' => trailingslashit(get_bloginfo('template_directory')).'/css/tinymce-ui.css?v=2',
 			'debug' => 'true',
@@ -60,7 +60,7 @@ class Anno_tinyMCE {
 	function mce_buttons($buttons) {
 		global $post;
 		if ($post->post_type == 'article') {
-			$buttons = array('bold', 'italic', 'underline', '|', 'bullist', 'numlist', '|', 'blockquote', '|', 'sup', 'sub', '|', 'charmap', '|', 'annolink', 'announlink', '|', 'annoimages', 'equation', '|', 'reference', '|', 'undo', 'redo', '|', 'wp_adv', 'help', 'annotable', );
+			$buttons = array('bold', 'italic', 'underline', '|', 'annoorderedlist', 'annobulletlist', '|', 'annoquote', '|', 'sup', 'sub', '|', 'charmap', '|', 'annolink', 'announlink', '|', 'annoimages', 'equation', '|', 'reference', '|', 'undo', 'redo', '|', 'wp_adv', 'help', 'annotable', );
 		}
 		return $buttons;
 	}
@@ -68,7 +68,7 @@ class Anno_tinyMCE {
 	function mce_buttons_2($buttons) {
 		global $post;
 		if ($post->post_type == 'article') {
-			$buttons = array('formatselect', '|', 'table', 'row_before', 'row_after', 'delete_row', 'col_before', 'col_after', 'delete_col', 'split_cells', 'merge_cells', '|', 'pastetext', 'pasteword', 'annolist', '|', 'annoreferences', '|', 'annoquote');
+			$buttons = array('formatselect', '|', 'table', 'row_before', 'row_after', 'delete_row', 'col_before', 'col_after', 'delete_col', 'split_cells', 'merge_cells', '|', 'pastetext', 'pasteword', 'annolist', '|', 'annoreferences', '|');
 		}
 		return $buttons;
 	}
@@ -77,10 +77,7 @@ class Anno_tinyMCE {
 
 		$plugins['annoLink_base'] = trailingslashit(get_bloginfo('template_directory')).'js/tinymce/plugins/annolink/annolink.js';
 		$plugins['annoLink']  =  trailingslashit(get_bloginfo('template_directory')).'js/tinymce/plugins/annolink/editor_plugin.js';
-		
-		
-//		$plugins['annoTable']  =  trailingslashit(get_bloginfo('template_directory')).'js/tinymce/plugins/annotable/annotable.js';
-		
+				
 		$plugins['annoReferences_base'] = trailingslashit(get_bloginfo('template_directory')).'js/tinymce/plugins/annoreferences/annoreferences.js';
 		$plugins['annoReferences']  =  trailingslashit(get_bloginfo('template_directory')).'js/tinymce/plugins/annoreferences/editor_plugin.js';
 
@@ -93,6 +90,7 @@ class Anno_tinyMCE {
 		$plugins['annoQuote'] = trailingslashit(get_bloginfo('template_directory')).'js/tinymce/plugins/annoquote/editor_plugin.js';
 		$plugins['annoQuote_base'] = trailingslashit(get_bloginfo('template_directory')).'js/tinymce/plugins/annoquote/annoquote.js';
 		
+		$plugins['annoLists'] = trailingslashit(get_bloginfo('template_directory')).'js/tinymce/plugins/annolists/editor_plugin.js';
 		
 		return $plugins;
 	}

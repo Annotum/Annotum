@@ -57,7 +57,7 @@ function anno_appendicies_meta_box($post) {
  * Output for Appendix edit input.
  */ 
 function anno_appendix_box_content($index = null, $content = null) {
-$html = '<a title="Add an Image" class="thickbox" id="add_image" href="media-upload.php?post_id=331&amp;type=image&amp;TB_iframe=1&amp;width=640&amp;height=410"><img onclick="annoActiveEditor(\\\''.esc_attr('appendix-'.$index).'\\\'); return false;" alt="Add an Image" src="http://annotum.local/wp-admin/images/media-button-image.gif?ver=20100531"></a>';
+$html = '';
 	if (empty($index) && $index !== 0) {
 		$index = '###INDEX###';
 		$index_alpha = '###INDEX_ALPHA###';
@@ -69,7 +69,7 @@ $html = '<a title="Add an Image" class="thickbox" id="add_image" href="media-upl
 	$html .='
 <fieldset id="'.esc_attr('anno_appendix_'.$index).'" class="appendix-wrapper">
 	<h4>
-	Appendix '.esc_html($index_alpha).' - <a href="#" onclick="deleteAnnoAppendix(jQuery(this).parent()); return false;" class="delete">'._x('delete', 'Meta box delete repeater link', 'anno').'</a>
+	'._x('Appendix', 'meta box title', 'anno').' '.esc_html($index_alpha).' - <a href="#" onclick="deleteAnnoAppendix(jQuery(this).parent()); return false;" class="delete">'._x('delete', 'Meta box delete repeater link', 'anno').'</a>
 	</h4>
 	<textarea id="'.esc_attr('appendix-'.$index).'" class="anno-meta" name="'.esc_attr('anno_appendix['.$index.']').'">'.esc_html($content).'</textarea>
 </fieldset>';

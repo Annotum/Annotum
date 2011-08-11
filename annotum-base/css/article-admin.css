@@ -263,6 +263,10 @@ table#anno-references table td table td {
 	float: left;
 }
 
+#anno-popup-images fieldset label.radio {
+	display: inline;
+}
+
 #anno-popup-images fieldset label {
 	margin-bottom: 10px;
 }
@@ -311,4 +315,8 @@ table#anno-references table td table td {
 #anno-popup-images .progress {
 	height: 50px;
 	margin-bottom: -50px;
+}
+
+.tinymce-uploader {
+	text-align: center;
 }
