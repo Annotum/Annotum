@@ -18,7 +18,7 @@
 				
 				
 			//	removeLink(sn);
-		//		removeLink(snp);
+			//	removeLink(snp);
 			//	removeLink(en);
 				//removeLink(enp);
 				
@@ -35,14 +35,7 @@
 			
 			// Register the command so that it can be invoked by using tinyMCE.activeEditor.execCommand('mceExample');
 			ed.addCommand('Anno_Link', function() {
-				var se = ed.selection;
-//				console.log(ed.dom.select('ext-link', ed.selection.getContent()));
-				console.log(se.getStart());
-				console.log(se.getEnd());
-				se.setNode('div');
-				console.log(se.getStart());
-				console.log(se.getEnd());
-				
+				var se = ed.selection;			
 				
 				if (se.isCollapsed() && !ed.dom.getParent(se.getNode(), 'EXT-LINK'))
 					return;

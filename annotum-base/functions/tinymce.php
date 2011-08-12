@@ -15,11 +15,12 @@ function anno_admin_print_footer_scripts() {
 			'custom_elements' => '~italic,~underline,~monospace,~ext-link,sec,list,~list-item,~xref,~inline-graphic,~alt-text,~fig,~label,~caption,~title,~media,~long-desc,~permissions,~copyright-statement,~copyright-holder,~license,~license-p,~table-wrap,~tr,~td,~table,~disp-quote,~attrib,list,list-item',
 			//  Defines wrapper, need to set this up as its own button.
 			'formats' => '{
-					bold : {\'inlince\' : \'bole\'},
+					bold : {\'inline\' : \'bold\'},
 					italic : { \'inline\' : \'italic\'},
-					underline : { \'inline\' : \'underline\'}
+					underline : { \'inline\' : \'underline\'},
+					sec : { \'block\' : \'sec\', \'wrapper\' : \'true\' },
 				}',
-			'theme_advanced_blockformats' => 'Paragraph=p,Heading=h2,Section=',
+			'theme_advanced_blockformats' => 'Paragraph=p,Heading=h2,Section=sec',
 			'forced_root_block' => '',
 			'editor_css' => trailingslashit(get_bloginfo('template_directory')).'/css/tinymce-ui.css?v=2',
 			'debug' => 'true',

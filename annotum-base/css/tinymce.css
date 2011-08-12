@@ -7,6 +7,7 @@ h1,h2,h3,h4,h5,h6,p,sec, caption, label {
 	border: 1px solid #DFDFDF;
 	background: #FFFFFF;
 	margin-bottom: 10px;
+	display: block;
 }
 
 ext-link {
@@ -33,6 +34,7 @@ table.mceitemtable {
 	border-spacing: 0px;
 	border-collapse:collapse
 }
+
 table.mceitemtable td,
 table.mceitemtable th  {
 	min-width: 20px;
