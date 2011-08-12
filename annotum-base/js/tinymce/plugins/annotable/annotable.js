@@ -8,52 +8,162 @@ var annoTable;
 		textarea: function() { return edCanvas; },
 
 		init : function() {
-			inputs.dialog = $('#anno-popup-images');
-			inputs.submit = $('.anno-image-insert');
-		
-			// Bind event handlers
+			inputs.dialog = $('#anno-popup-table');
+			inputs.submit = $('#anno-table-submit');
+
+
 			inputs.dialog.keydown( annoTable.keydown );
 			inputs.dialog.keyup( annoTable.keyup );
 			inputs.submit.click( function(e){
-				var attachment_id = $(this).attr('id').replace('anno-image-insert-', '');
-				annoTable.update(attachment_id);
+				annoTable.update();
 				e.preventDefault();
 			});
 			
-			$('#anno-images-cancel').click(annoTable.close);
+			$('#anno-table-cancel').click(annoTable.close);
+
+			inputs.dialog.bind('wpdialogrefresh', annoTable.refresh);
+			inputs.dialog.bind('wpdialogbeforeopen', annoTable.beforeOpen);
+			inputs.dialog.bind('wpdialogclose', annoTable.onClose);
 		},
 
+		beforeOpen : function() {
+			annoTable.range = null;
 
-		update : function(attachment_id) {
-			var display_type, caption, label, copyright_statement, copyright_holder, license, url, xml;
-			var ed = tinyMCEPopup.editor;
-			ed.selection.collapse(0);
+			if ( ! annoTable.isMCE() && document.selection ) {
+				annoTable.textarea().focus();
+				annoTable.range = document.selection.createRange();
+			}
+		},
 
-			alt_text = $('#img-alttext-' + attachment_id).val();
-			url = $('#img-url-' + attachment_id).val();
-						
-			if (display_type == 'inline') {
-				xml = '<inline-graphic xlink:href="' + url +'" ><alt-text>' + alt_text + '</alt-text></inline-graphic>';
-			}
-			else {
-				display_type = $('#img-edit-' + attachment_id + ' input[name$="display"]:checked').val();
-				caption = $('#img-caption-' + attachment_id).val();
-				label = $('#img-label-' + attachment_id).val();
-				description = $('#img-description-' + attachment_id).val();
-				copyright_statement = $('#img-caption-' + attachment_id).val();
-				copyright_holder = $('#img-caption-' + attachment_id).val();
-				license = $('#img-caption-' + attachment_id).val();
-				xml = '<fig><label>' + label + '</label><caption><title>' + caption +'</title></caption><media xlink:href="' + url + '"><alt-text>' + alt_text + '</alt-text><long-desc>' + description + '</long-desc><permissions><copyright-statement>' + copyright_statement + '</copyright-statement><copyright-holder>' + copyright_holder + '</copyright-holder><license license-type="creative-commons"><license-p>'+ license +'</license-p></license></permissions></media></fig>';
-			}
+		isMCE : function() {
+			return tinyMCEPopup && ( ed = tinyMCEPopup.editor ) && ! ed.isHidden();
+		},
+
+		refresh : function() {
+			var e;
+			ed = tinyMCEPopup.editor;
+
+			tinyMCEPopup.restoreSelection();
 			
-			tinyMCEPopup.execCommand('mceInsertContent', false, xml);
-			tinyMCEPopup.getContent
-			
+			// If link exists, select proper values.
+			if ( e = ed.dom.getParent(ed.selection.getNode(), 'EXT-LINK') ) {
+
+				inputs.url.val( ed.dom.getAttrib(e, 'xlink:href'));
+				inputs.title.val( ed.dom.getAttrib(e, 'title') );
+				// Update save prompt.
+				inputs.submit.val( annoTableL10n.update );
+
+			// If there's no link, set the default values.
+			} else {
+				annoTable.setDefaultValues();
+			}
+
+			tinyMCEPopup.storeSelection();
+		},
+
+		close : function() {
 			tinyMCEPopup.close();
 		},
 
+		onClose: function() {
+			if ( ! annoTable.isMCE() ) {
+				annoTable.textarea().focus();
+				if ( annoTable.range ) {
+					annoTable.range.moveToBookmark( annoTable.range.getBookmark() );
+					annoTable.range.select();
+				}
+			}
+		},
 
-		keyup : function( event ) {
+		update : function() {
+			var ed = tinyMCEPopup.editor,
+				e, b, html = '';
+				
+			var formObj = $('#anno-tinymce-table-form');
+			
+			tinyMCEPopup.restoreSelection();
+			
+			//TODO validation
+			
+			cols = $('input[name$="cols"]', formObj).val();
+			rows = $('input[name$="rows"]', formObj).val();
+			label = $('input[name$="label"]', formObj).val();
+			caption = $('textarea[name$="caption"]', formObj).val();
+			
+			html += '<table-wrap><label>' + label + '</label><caption><title>' + caption + '</title></caption>';
+			html += '<table';
+//			html += makeAttrib('data-mce-new', '1');
+			html += '>';
+
+				
+			html += '<thead>';
+			html += '<tr>';
+			for (var x=0; x<cols; x++) {
+				if (!tinymce.isIE)
+					html += '<th><br data-mce-bogus="1"/></th>';
+				else
+					html += '<th></th>';
+			}
+				
+			for (var y=1; y<rows; y++) {
+				html += "<tr>";
+				for (var x=0; x<cols; x++) {
+					if (!tinymce.isIE)
+						html += '<td><br data-mce-bogus="1"/></td>';
+					else
+						html += '<td></td>';
+				}
+				html += "</tr>";
+			}
+		
+
+			
+
+			html += "</table>";//"</table-wrap>";
+
+			// Move table
+			if (ed.settings.fix_table_elements) {
+				var patt = '';
+
+				ed.focus();
+				ed.selection.setContent('<br class="_mce_marker" />');
+
+				tinymce.each('h1,h2,h3,h4,h5,h6'.split(','), function(n) {
+					if (patt)
+						patt += ',';
+
+					patt += n + ' ._mce_marker';
+				});
+
+				tinymce.each(ed.dom.select(patt), function(n) {
+					ed.dom.split(ed.dom.getParent(n, 'h1,h2,h3,h4,h5,h6,p'), n);
+				});
+
+				ed.dom.setOuterHTML(ed.dom.select('br._mce_marker')[0], html);
+			} else
+				ed.execCommand('mceInsertContent', false, html);
+
+			tinymce.each(ed.dom.select('table[data-mce-new]'), function(node) {
+				var td = ed.dom.select('td', node);
+
+				try {
+					// IE9 might fail to do this selection
+					ed.selection.select(td[0], true);
+					ed.selection.collapse();
+				} catch (ex) {
+					// Ignore
+				}
+
+				ed.dom.setAttrib(node, 'data-mce-new', '');
+			});
+
+			ed.addVisual();
+			ed.execCommand('mceEndUndoLevel');
+
+			tinyMCEPopup.close();
+		},
+
+		keyup: function( event ) {
 			var key = $.ui.keyCode;
 
 			switch( event.which ) {
@@ -72,32 +182,3 @@ var annoTable;
 	}
 	$(document).ready( annoTable.init );
 })(jQuery);
-
-
-
-/*<table-wrap>
-	<label>Table X</label>
-	<caption><title>&formats;</title><p>&inlines; <xref ref-type="bibr" rid="B1">xref text</xref></p><p>&inlines; <xref ref-type="bibr" rid="B1">xref text</xref></p></caption>
-	<media xlink:href="graphic.jpg">
-	<alt-text>alt-text</alt-text>
-	<long-desc>long-desc</long-desc>
-	</media>
-	<table >
-		<thead>
-			<tr><td>&inlines; <xref ref-type="bibr" rid="B1">xref text</xref></td></tr>
-		</thead>
-		<tbody>
-			<tr><td>&inlines; <xref ref-type="bibr" rid="B1">xref text</xref></td></tr>
-		</tbody>
-	</table>
-	<table-wrap-foot>
-		<p>&inlines; <xref ref-type="bibr" rid="B1">xref text</xref></p>
-	</table-wrap-foot>
-	<permissions>
-		<copyright-statement>&formats;</copyright-statement>
-		<copyright-holder>holder</copyright-holder>
-		<license license-type="creative-commons">
-			<license-p>&inlines; <xref ref-type="bibr" rid="B1">xref text</xref></license-p>
-		</license>
-	</permissions>
-</table-wrap>*/

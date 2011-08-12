@@ -118,8 +118,12 @@ var annoLink;
 			tinyMCEPopup.execCommand("mceBeginUndoLevel");
 			// Leverage the logic of CreateLink
 			if (e == null) {
+			
+				
 				ed.getDoc().execCommand("annoUnlink", false, null);
 				tinyMCEPopup.execCommand("CreateLink", false, "#mce_temp_url#", {skip_undo : 1});
+				
+				
 				
 				tinymce.each(ed.dom.select("a"), function(n) {
 					if (ed.dom.getAttrib(n, 'href') == '#mce_temp_url#') {

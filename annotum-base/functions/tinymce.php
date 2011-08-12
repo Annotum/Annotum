@@ -11,9 +11,8 @@ function anno_admin_print_footer_scripts() {
 		}
 		wp_tiny_mce(false, array(
 			'content_css' => trailingslashit(get_bloginfo('template_directory')).'/css/tinymce.css',
-			'wp_fullscreen_content_css' => trailingslashit(get_bloginfo('template_directory')).'/js/tinymce/css/tinymce.css',
-			'extended_valid_elements' => 'italic,underline,monospace,ext-link[ext-link-type:uri|xlink::href|title],sec,list[list-type],list-item,xref[ref-type|rid],inline-graphic[xlink::href],alt-text,fig,label,caption,title,media[xlink::href],long-desc,permissions,copyright-statment,copyright-holder,license[license-type:creative-commons],license-p,table-wrap,table,td,tr,disp-quote,attrib',
-			'custom_elements' => '~italic,~underline,~monospace,~ext-link,sec,list,~list-item,~xref,~inline-graphic,~alt-text,~fig,~label,~caption,~title,~media,~long-desc,~permissions,~copyright-statement,~copyright-holder,~license,~license-p,~table-wrap,~tr,~td,~table,~disp-quote,~attrib',
+			'extended_valid_elements' => 'italic,underline,monospace,ext-link[ext-link-type:uri|xlink::href|title],sec,xref[ref-type|rid],inline-graphic[xlink::href],alt-text,fig,label,caption,title,media[xlink::href],long-desc,permissions,copyright-statment,copyright-holder,license[license-type:creative-commons],license-p,table-wrap,table,td,tr,disp-quote,attrib,list[list-type],list-item',
+			'custom_elements' => '~italic,~underline,~monospace,~ext-link,sec,list,~list-item,~xref,~inline-graphic,~alt-text,~fig,~label,~caption,~title,~media,~long-desc,~permissions,~copyright-statement,~copyright-holder,~license,~license-p,~table-wrap,~tr,~td,~table,~disp-quote,~attrib,list,list-item',
 			//  Defines wrapper, need to set this up as its own button.
 			'formats' => '{
 					bold : {\'inlince\' : \'bole\'},
@@ -24,8 +23,7 @@ function anno_admin_print_footer_scripts() {
 			'forced_root_block' => '',
 			'editor_css' => trailingslashit(get_bloginfo('template_directory')).'/css/tinymce-ui.css?v=2',
 			'debug' => 'true',
-			'valid_child_elements' => 'p[table]',
-			'doctype' => '',
+			'valid_child_elements' => 'p[table],ul[list-item],ol[list-item]',
 		));
 ?>
 
@@ -84,14 +82,14 @@ class Anno_tinyMCE {
 		$plugins['annoImages_base'] = trailingslashit(get_bloginfo('template_directory')).'js/tinymce/plugins/annoimages/annoimages.js';
 		$plugins['annoImages']  =  trailingslashit(get_bloginfo('template_directory')).'js/tinymce/plugins/annoimages/editor_plugin.js';
 		
-		$plugins['table'] = trailingslashit(get_bloginfo('template_directory')).'js/tinymce/plugins/table/editor_plugin_src.js';
-		$plugins['table_base'] = trailingslashit(get_bloginfo('template_directory')).'js/tinymce/plugins/table/js/table_src.js';
+		$plugins['annoTable'] = trailingslashit(get_bloginfo('template_directory')).'js/tinymce/plugins/annotable/editor_plugin.js';
+		$plugins['annoTable_base'] = trailingslashit(get_bloginfo('template_directory')).'js/tinymce/plugins/annotable/annotable.js';
 		
 		$plugins['annoQuote'] = trailingslashit(get_bloginfo('template_directory')).'js/tinymce/plugins/annoquote/editor_plugin.js';
 		$plugins['annoQuote_base'] = trailingslashit(get_bloginfo('template_directory')).'js/tinymce/plugins/annoquote/annoquote.js';
 		
-		$plugins['annoLists'] = trailingslashit(get_bloginfo('template_directory')).'js/tinymce/plugins/annolists/editor_plugin.js';
-		
+		//$plugins['annoLists'] = trailingslashit(get_bloginfo('template_directory')).'js/tinymce/plugins/annolists/editor_plugin.js';
+		//$plugins['annoLists'] = trailingslashit(get_bloginfo('template_directory')).'js/tinymce/plugins/annolists/edi_plugin_orig.js';
 		return $plugins;
 	}
 }
@@ -144,7 +142,7 @@ function anno_popup_table() {
 					</label>
 					<label for="table-caption">
 						<span><?php _ex('Caption', 'input label for defining tables', 'anno'); ?></span>
-						<textarea name="title" id="table-caption" rows="2"></textarea>
+						<textarea name="caption" id="table-caption" rows="2"></textarea>
 					</label>
 					<fieldset>
 					<legend><?php _ex('Table Properties', 'legend', 'anno'); ?></legend>
@@ -666,3 +664,4 @@ function anno_tinymce_image_save() {
 add_action('wp_ajax_anno-img-save', 'anno_tinymce_image_save');
 
 ?>
+

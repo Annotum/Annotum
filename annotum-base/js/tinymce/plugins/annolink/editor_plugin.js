@@ -2,16 +2,33 @@
 	tinymce.create('tinymce.plugins.annoLink', {		
 		init : function(ed, url) {
 			this.editor = ed;
-
+			
+		/*	removeLink : function(element) {
+				if (node.nodeName == 'EXT-Link') {
+					ed.dom.remove(element, true);
+				}
+			} */
+			
 			ed.addCommand('annoUnlink', function() {
 				var se = ed.selection;
-				var n = se.getNode();
+				var sn = se.getStart(),
+					snp = ed.getParent(sn, 'EXT-LINK');
+				var en = se.getEnd(),
+					enp = ed.getParent(en, 'EXT-LINK');
+				
+				
+			//	removeLink(sn);
+		//		removeLink(snp);
+			//	removeLink(en);
+				//removeLink(enp);
+				
+								
 				if (n.nodeName != 'EXT-LINK') {
 					n = ed.dom.getParent(n, 'EXT-LINK');
 				}
 				if (se.isCollapsed() && n.nodeName != 'EXT-LINK')
 					return;
-	
+				
 				ed.dom.remove(n, true);
 				//TODO remove partial selections.
 			});
@@ -19,6 +36,14 @@
 			// Register the command so that it can be invoked by using tinyMCE.activeEditor.execCommand('mceExample');
 			ed.addCommand('Anno_Link', function() {
 				var se = ed.selection;
+//				console.log(ed.dom.select('ext-link', ed.selection.getContent()));
+				console.log(se.getStart());
+				console.log(se.getEnd());
+				se.setNode('div');
+				console.log(se.getStart());
+				console.log(se.getEnd());
+				
+				
 				if (se.isCollapsed() && !ed.dom.getParent(se.getNode(), 'EXT-LINK'))
 					return;
 									
@@ -32,7 +57,7 @@
 					plugin_url : url // Plugin absolute URL
 				});
 			});
-
+				
 			// Register example button
 			ed.addButton('annolink', {
 				title : ed.getLang('advanced.link_desc'),

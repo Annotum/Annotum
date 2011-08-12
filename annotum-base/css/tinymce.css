@@ -33,7 +33,8 @@ table.mceitemtable {
 	border-spacing: 0px;
 	border-collapse:collapse
 }
-table.mceitemtable td {
+table.mceitemtable td,
+table.mceitemtable th  {
 	min-width: 20px;
 	border: 1px solid #000000;
 	border-spacing: 0px;
@@ -41,19 +42,25 @@ table.mceitemtable td {
 	margin: 0px;
 }
 
+table.mceitemtable th {
+	font-size: 14px;
+}
+
 list {
 	display: block;
 }
 
-list[list-type=bullet] list-item:before {
-	content: "\2022";
+list[list-type=bullet] list-item:before,
+ul list-item:before {
+	content: "\2022 ";
 }
 
 list[list-type=order] {
 	counter-reset: item;
 }
 
-list[list-type=order] list-item:before {
+list[list-type=order] list-item:before,
+ol list-item:before {
 	content: counter(item) ". "; 
 	counter-increment: item;
 }

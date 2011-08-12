@@ -252,6 +252,13 @@
 				cmd : 'InsertUnorderedList2'
 			});
 			
+			 ed.onKeyPress.add(function(ed, e) {
+			 	if (e.keyCode === 13 && ed.selection.getNode().nodeName == 'LIST-ITEM') {
+
+					ed.execCommand('InsertOrderedList2');
+				}
+			});
+			
 			ed.onInit.add(function() {
 				ed.editorCommands.addCommands({
 					'outdent': function() {
@@ -301,7 +308,7 @@
 		applyList: function(targetListType, oppositeListType) {
 			var t = this, ed = t.ed, dom = ed.dom, applied = [], hasSameType = false, hasOppositeType = false, hasNonList = false, actions,
 				selectedBlocks = ed.selection.getSelectedBlocks();
-			
+							
 			function cleanupBr(e) {
 				if (e && e.tagName === 'BR') {
 					dom.remove(e);
@@ -312,11 +319,10 @@
 				var list = dom.create('LIST', {'list-type' : targetListType}), li;
 				function adjustIndentForNewList(element) {
 					// If there's a margin-left, outdent one level to account for the extra list margin.
-					if (element.style.marginLeft || element.style.paddingLeft) {
-						t.adjustPaddingFunction(false)(element);
-					}
+					// if (element.style.marginLeft || element.style.paddingLeft) {
+					// 	t.adjustPaddingFunction(false)(element);
+					// }
 				}
-				
 				if (element.tagName === 'LIST-ITEM') {
 					// No change required.
 				} else if (element.tagName === 'P' || element.tagName === 'BODY') {
@@ -329,7 +335,8 @@
 					if (element.tagName === 'P' || selectedBlocks.length > 1) {
 						dom.split(li.parentNode.parentNode, li.parentNode);
 					}
-					attemptMergeWithAdjacent(li.parentNode, true);
+					if (li !== null) 
+						attemptMergeWithAdjacent(li.parentNode, true);
 					return;
 				} else {
 					// Put the list around the element.
@@ -347,6 +354,7 @@
 			
 			function doWrapList(start, end, template) {
 				var li, n = start, tmp, i;
+
 				while (!dom.isBlock(start.parentNode) && start.parentNode !== dom.getRoot()) {
 					start = dom.split(start.parentNode, start.previousSibling);
 					start = start.nextSibling;
@@ -443,7 +451,8 @@
 				if (tinymce.inArray(applied, element) !== -1) {
 					return;
 				}
-				if (element.parentNode.tagName === oppositeListType) {
+
+				if (dom.getAttrib(element.parentNode, 'list-type') === oppositeListType) {
 					dom.split(element.parentNode, element);
 					makeList(element);
 					attemptMergeWithNext(element.parentNode, false);
@@ -620,11 +629,14 @@
 				return offset >= 0 && container.hasChildNodes() && offset < container.childNodes.length &&
 						container.childNodes[offset].tagName === 'BR';
 			}
+		
 			selectedBlocks = sel.getSelectedBlocks();
 			if (selectedBlocks.length === 0) {
-				selectedBlocks = [ dom.getRoot() ];
+				if (selectedBlocks.length === 0) {
+					selectedBlocks = [ dom.getRoot() ];
+				}
 			}
-			
+
 			r = sel.getRng(true);
 			if (!r.collapsed) {
 				if (brAtEdgeOfSelection(r.endContainer, r.endOffset - 1)) {
@@ -637,7 +649,7 @@
 				}
 			}
 			bookmark = sel.getBookmark();
-			actions.OL = actions.UL = recurse;
+			actions.LIST = recurse;
 			t.splitSafeEach(selectedBlocks, processElement);
 			sel.moveToBookmark(bookmark);
 			bookmark = null;
