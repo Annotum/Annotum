@@ -41,7 +41,7 @@ class Anno_PDF_Download {
 	}
 	
 	protected function set_pdfmaker_configs() {
-		// Define various DOMPDF Settings
+		// Define various DOMPDF Settings (typically defined in dompdf_config.custom.inc.php)
 		//define("DOMPDF_TEMP_DIR", "/tmp");
 		//define("DOMPDF_CHROOT", DOMPDF_DIR);
 		//define("DOMPDF_UNICODE_ENABLED", false);
@@ -52,7 +52,7 @@ class Anno_PDF_Download {
 		//define("DOMPDF_DEFAULT_FONT", "serif");
 		//define("DOMPDF_DPI", 72);
 		//define("DOMPDF_ENABLE_PHP", true);
-		//define("DOMPDF_ENABLE_REMOTE", true);
+		define("DOMPDF_ENABLE_REMOTE", true);
 		//define("DOMPDF_ENABLE_CSS_FLOAT", true);
 		//define("DOMPDF_ENABLE_JAVASCRIPT", false);
 		//define("DEBUGPNG", true);
@@ -89,6 +89,11 @@ class Anno_PDF_Download {
 						$this->log('Couldn\'t load the $pdfmaker');
 						$this->generic_die();
 					}
+					
+					// @TODO - Determine which stylesheets get brought in 
+					// Our stylesheets don't get brought in till 'wp', not 'init, so we need to register them anyways
+					anno_assets();
+					current_assets();
 					
 					// Get our HTML locally
 					if (!$this->get_html($id)) {
@@ -145,11 +150,32 @@ class Anno_PDF_Download {
 	 * @return bool - Whether there was HTML or not
 	 */
 	private function get_html($id) {
+		// Assign post content
+		if (!$this->get_post_content($id)) {
+			return false;
+		}
+		
+		ob_start();
+		include 'templates/default.php';
+		$this->html = ob_get_clean();
+		return !empty($this->html);
+	}
+	
+	
+	/**
+	 * Returns the content of the post...in HTML from the post_meta
+	 *
+	 * @param int $id 
+	 * @return bool - whether there was HTML or not
+	 */
+	private function get_post_content($id) {
 		// @TODO This post_meta KEY is probably going to change...
 		global $anno_html_post_meta_key;
 		$anno_html_post_meta_key = '_anno_html';
-		$this->html = get_post_meta($id, $anno_html_post_meta_key, true);
-		return !empty($this->html);
+		$this->post_html = get_post_meta($id, $anno_html_post_meta_key, true);
+		
+		$this->post_html = 'TESTING TILL POST META GETS SAVED WITH HTML';
+		return !empty($this->post_html);
 	}
 	
 	
