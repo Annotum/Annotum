@@ -1,3 +1,16 @@
+<?php 
+// Set a default PDF Link
+$pdf_link = '';
+if (function_exists('anno_pdf_download_url')) { 
+	$pdf_url = anno_pdf_download_url(get_the_ID());
+	if (!empty($pdf_url)) {
+		$pdf_link = '<a href="'.esc_url($pdf_url).'">'.__('PDF', 'anno').'</a>';
+	}
+}
+
+// Set a default XML Link
+$xml_link = '<a href="#">'.__('XML', 'anno').'</a>';
+?>
 <div class="tools-bar supplement clearfix">
 	<div class="cell print">
 		<a href="#" onclick="window.print(); return false;"><?php _e('Print Article', 'anno'); ?></a>
@@ -9,7 +22,7 @@
 		</div><!--/.citation-container -->
 	</div>
 	<div class="cell download">
-		<a href="#">PDF</a>, <a href="#">XML</a>
+		<?php echo implode(', ', array($pdf_link, $xml_link)); ?> 
 	</div>
 	<div class="cell share clearfix">
 		<div class="social-nav">

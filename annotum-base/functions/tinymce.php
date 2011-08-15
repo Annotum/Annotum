@@ -666,4 +666,3 @@ function anno_tinymce_image_save() {
 add_action('wp_ajax_anno-img-save', 'anno_tinymce_image_save');
 
 ?>
-
