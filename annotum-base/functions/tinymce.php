@@ -24,7 +24,7 @@ function anno_admin_print_footer_scripts() {
 			'forced_root_block' => '',
 			'editor_css' => trailingslashit(get_bloginfo('template_directory')).'/css/tinymce-ui.css?v=2',
 			'debug' => 'true',
-			'valid_child_elements' => 'p[table],ul[list-item],ol[list-item]',
+			'valid_child_elements' => 'p[table],ul[list-item],ol[list-item],list[list-item],list[title]',
 		));
 ?>
 
@@ -89,8 +89,9 @@ class Anno_tinyMCE {
 		$plugins['annoQuote'] = trailingslashit(get_bloginfo('template_directory')).'js/tinymce/plugins/annoquote/editor_plugin.js';
 		$plugins['annoQuote_base'] = trailingslashit(get_bloginfo('template_directory')).'js/tinymce/plugins/annoquote/annoquote.js';
 		
-		//$plugins['annoLists'] = trailingslashit(get_bloginfo('template_directory')).'js/tinymce/plugins/annolists/editor_plugin.js';
-		//$plugins['annoLists'] = trailingslashit(get_bloginfo('template_directory')).'js/tinymce/plugins/annolists/edi_plugin_orig.js';
+		$plugins['annoLists'] = trailingslashit(get_bloginfo('template_directory')).'js/tinymce/plugins/annolists/editor_plugin.js';
+		
+//		$plugins['annoSection'] = trailingslashit(get_bloginfo('template_directory')).'js/tinymce/plugins/annosection/editor_plugin.js';
 		return $plugins;
 	}
 }

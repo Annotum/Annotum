@@ -49,7 +49,6 @@ var annoQuote;
 
 */						
 			form = $('#anno-popup-quote-form');
-			console.log(form);
 			quote = $('input[name$="text"]', form).val();
 			attribution = $('input[name$="attribution"]', form).val();
 			statement = $('input[name$="statement"]', form).val();
