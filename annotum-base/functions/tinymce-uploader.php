@@ -1,8 +1,7 @@
 <?php 
 
 function anno_tinymce_enqueue() {
-	global $post_type;
-	if ($post_type == 'article') {
+	if (isset($_GET['anno_action']) && $_GET['anno_action'] == 'image_popup') {
 		wp_enqueue_script('swfupload-all');
 		wp_enqueue_script('swfupload-handlers');
 		wp_enqueue_script('anno_upload_handlers', trailingslashit(get_bloginfo('template_directory')).'functions/tinymce-upload/handlers.js', array('jquery'));	
@@ -130,6 +129,7 @@ function anno_media_upload_form() {
 					degraded_element_id : "html-upload-ui", // id of the element displayed when swfupload is unavailable
 					swfupload_element_id : "flash-upload-ui" // id of the element displayed when swfupload is available
 				},
+				file_types : "*.jpg;*.gif;*.png;*.jpeg;",
 				debug: false
 			};
 			swfu = new SWFUpload(settings);

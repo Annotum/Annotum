@@ -20,13 +20,19 @@ xref {
 	vertical-align:top;
 	font-weight: bold;
 	padding-right: 1px;
+	background: #999;
+	width: 10px;
+	display: block;
+
 }
 
-media[xlink\:href]:before {
-	content: attr(xlink\:href);
-	display: block;
-	background: #FFFFFF;
-	position: absolute; 
+xref:before {
+	content: "[" attr(rid) "]";
+	visibility: visible;
+}
+
+inline-graphic{
+	display: none;
 }
 
 table.mceitemtable {
@@ -69,4 +75,16 @@ ol list-item:before {
 
 list-item{
 	display: block;
+}
+
+underline {
+	text-decoration: underline;
+}
+
+italic {
+	font-style: italic;
+}
+
+bold {
+	font-weight: bold;
 }

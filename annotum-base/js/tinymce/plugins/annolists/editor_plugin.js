@@ -615,3 +615,4 @@
 	});
 	tinymce.PluginManager.add("annoLists", tinymce.plugins.annoLists);
 }());
+

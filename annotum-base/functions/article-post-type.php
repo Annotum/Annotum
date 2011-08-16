@@ -54,39 +54,8 @@ function anno_post_type_requst_handler() {
 		wp_redirect(get_edit_post_link($post_id, 'redirect'));
 		die();
 	}
-
-	if (isset($_GET['anno_action'])) {
-		switch ($_GET['anno_action']) {
-			case 'article_css':
-				anno_post_type_css();
-				die();
-				break;
-			default:
-				break;
-		}
-	}
 }
 add_action('admin_init', 'anno_post_type_requst_handler', 0);
-
-/**
- * Custom CSS for article post type
- */ 
-function anno_post_type_css() {
-	header("Content-type: text/css");
-?>
-select#article-category {
-	width: 90%;
-}
-<?php 
-}
-
-/**
- * Enqueue article styles
- */
-function anno_post_type_enqueue_css() {
-	wp_enqueue_style('anno-article-admin', add_query_arg('anno_action', 'article_css', admin_url()));
-}
-add_action('admin_print_styles', 'anno_post_type_enqueue_css');
 
 /**
  * Display custom messages for articles. Based on WP high 3.1.2
@@ -243,19 +212,12 @@ remove_filter ('the_content',  'wpautop');
  * Print styles for article post type.
  */ 
 function anno_article_admin_print_styles() {
-	// TODO, only enqueue on article post type
-	wp_enqueue_style('article-admin', trailingslashit(get_bloginfo('template_directory')).'/css/article-admin.css');
+	global $post;
+	if ((isset($post->post_type) && $post->post_type == 'article') || (isset($_GET['anno_action']) && $_GET['anno_action'] == 'image_popup')) {
+		wp_enqueue_style('article-admin', trailingslashit(get_bloginfo('template_directory')).'/css/article-admin.css');
+	}
 }
-add_action('admin_print_styles-post.php', 'anno_article_admin_print_styles');
-add_action('admin_print_styles-post-new.php', 'anno_article_admin_print_styles');
-
-/**
- * Print styles for article post type.
- */ 
-function anno_article_admin_print_scripts() {
-//	wp_enqueue_script('article-admin', trailingslashit(get_bloginfo('template_directory')).'/js/article-admin.js', array('tinymce'), '', true);
-}
-add_action('init', 'anno_article_admin_print_scripts', 99);
+add_action('admin_print_styles', 'anno_article_admin_print_styles');
 
 /**
  * Converts a post with the article post-type to the post post-type

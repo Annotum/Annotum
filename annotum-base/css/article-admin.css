@@ -1,3 +1,7 @@
+select#article-category {
+	width: 90%;
+}
+
 .appendix-wrapper {
 	background: #f9f9f9;
 	margin: 0 0 20px 0;
@@ -88,6 +92,11 @@ textarea.anno-meta {
 .anno-mce-popup input {
 	width: 330px;
 	margin: 0;
+}
+
+
+#anno-popup-images-inside.anno-mce-popup input[type="file"] {
+	width: 300px;
 }
 
 .anno-mce-popup input[type="button"],
@@ -182,12 +191,12 @@ table#anno-references table td table td {
 }
 /** Image Popup **/
 
-#anno-popup-images table {
+#anno-popup-images-inside table {
 	border: 1px solid #444444;
 	border-bottom: none;
 }
 
-#anno-popup-image table tr th {
+#anno-popup-images-inside table tr th {
 	height: 0px;
 }
 
@@ -244,7 +253,7 @@ table#anno-references table td table td {
 }
 
 #anno-popup-quote fieldset label,
-#anno-popup-images fieldset label {
+#anno-popup-images-inside fieldset label {
 	display: block;
 	width: auto;
 	margin: 10px 0 0 0;
@@ -252,34 +261,34 @@ table#anno-references table td table td {
 }
 
 #anno-popup-quote fieldset input,
-#anno-popup-images fieldset input,
-#anno-popup-images fieldset textarea {
+#anno-popup-images-inside fieldset input,
+#anno-popup-images-inside fieldset textarea {
 	width: 250px;
 }
 
 #anno-popup-quote fieldset label span,
-#anno-popup-images fieldset label span {
-	width: 140px;
+#anno-popup-images-inside fieldset label span {
+	width: 130px;
 	float: left;
 }
 
-#anno-popup-images fieldset label.radio {
+#anno-popup-images-inside fieldset label.radio {
 	display: inline;
 }
 
-#anno-popup-images fieldset label {
+#anno-popup-images-inside fieldset label {
 	margin-bottom: 10px;
 }
 
-#anno-popup-images fieldset input[type="radio"] {
+#anno-popup-images-inside fieldset input[type="radio"] {
 	width: auto;
 }
 
-#anno-popup-images fieldset label.radio {
+#anno-popup-images-inside fieldset label.radio {
 	margin: 0 10px 0 45px;
 }
 
-#anno-popup-images fieldset label.radio span {
+#anno-popup-images-inside fieldset label.radio span {
 	width: 120px;
 	float: none;
 }
@@ -305,18 +314,31 @@ table#anno-references table td table td {
 	text-align: center;
 }
 
-#anno-popup-images .media-item .original {
+#anno-popup-images-inside.anno-mce-popup {
+	padding: 0px;
+	margin: 0px;
+}
+
+#anno-popup-images-inside .media-item .original {
 	width: auto;
 	height: 50px;
 	display: table-cell;
 	vertical-align: middle;
 }
 
-#anno-popup-images .progress {
+#anno-popup-images-inside .progress {
 	height: 50px;
 	margin-bottom: -50px;
 }
 
 .tinymce-uploader {
 	text-align: center;
+}
+
+#anno-popup-images-inside {
+	padding-top: 10px;
+}
+
+#anno-popup-images-inside .anno-mce-popup-fields {
+	margin-top: 0px;
 }

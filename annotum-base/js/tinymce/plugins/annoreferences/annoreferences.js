@@ -23,7 +23,7 @@ var annoReferences;
 			$('#anno-references-cancel').click( annoReferences.close);
 
 			inputs.dialog.bind('wpdialogrefresh', annoReferences.refresh);
-			inputs.dialog.bind('wpdialogclose', annoReferences.onClose);
+			inputs.dialog.bind('wpdialogclose', annoReferences.onClose);			
 		},
 
 		onClose : function() {
@@ -56,54 +56,10 @@ var annoReferences;
 		},
 
 		close : function() {
-			if ( annoReferences.isMCE() )
-				tinyMCEPopup.close();
-			else
-				inputs.dialog.wpdialog('close');
+			tinyMCEPopup.close();
 		},
 		
 		update : function() {
-			if ( annoReferences.isMCE() )
-				annoReferences.mceUpdate();
-			else
-				annoReferences.htmlUpdate();
-		},
-				
-		//TODO look into removeing
-		htmlUpdate : function() {
-			var attrs, xml, start, end, cursor,
-				textarea = annoReference.textarea();
-				
-			if ( ! textarea )
-				return;
-
-			xml = '';
-			checkboxes = inputs.checkboxes;
-			if (checkboxes) {
-				for (checkbox in checkboxes) {
-					xml += '<xref ref-type="bibr" rid="B1">xref text</xref>';
-				}
-			}
-			
-			// Insert HTML
-			if ( typeof textarea.selectionStart !== 'undefined' ) {
-				start       = textarea.selectionStart;
-				end         = textarea.selectionEnd;
-				selection   = textarea.value.substring( start, end );
-				cursor      = start + xml.length;
-
-				textarea.value = textarea.value.substring( 0, start )
-				               + html
-				               + textarea.value.substring( end, textarea.value.length );
-
-				// Update cursor position
-				textarea.selectionStart = textarea.selectionEnd = cursor;
-			}
-			annoReferences.close();
-			textarea.focus();
-		},
-
-		mceUpdate : function() {
 			var ed = tinyMCEPopup.editor
 			var xml, checkboxes;
 			xml = '';
