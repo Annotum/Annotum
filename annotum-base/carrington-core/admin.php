@@ -28,7 +28,8 @@ function cfct_option_css() {
  * 
 **/
 function cfct_admin_menu() {
-	add_theme_page(
+	add_submenu_page(
+		'themes.php',
 		apply_filters('cfct_admin_settings_title', __('Carrington Theme Settings', 'carrington')),
 		apply_filters('cfct_admin_settings_menu', __('Theme Settings', 'carrington')),
 		'edit_theme_options',
@@ -67,27 +68,6 @@ function cfct_admin_request_handler() {
 **/
 function cfct_update_settings() {
 	_deprecated_function(__FUNCTION__, '3.2');
-}
-
-/**
- * Returns the options prefix
- */ 
-function cfct_get_option_prefix() {
-	return apply_filters('cfct_option_prefix', 'cfct');
-}
-
-/**
- * Prefix options names
- */ 
-function cfct_option_name($name) {
-	$prefix = cfct_get_option_prefix();
-	// If its already prefixed, we don't need to do it again.
-	if (strpos($name, $prefix.'_') !== 0) {
-		return $prefix.'_'.$name;
-	}
-	else {
-		return $name;
-	}
 }
 
 /**
@@ -244,7 +224,7 @@ function cfct_options_blank() {
  * 					  'cols' => Textarea specific
  * 					  'rows' => Textarea specific
  * 					  'options' => Radio button, Checkbox, Select specific. Used to define options
- * 					  'help' => Help text for the option.
+ * 					  'help' => Help markup for the option.
  * @return void
  */
 function cfct_options_input($args) {
@@ -253,6 +233,7 @@ function cfct_options_input($args) {
 	$name = $args['name'];
 	$id = empty($args['label_for']) ? $args['name'] : $args['label_for'];
 	$class = empty($args['class']) ? '' : ' class="'.esc_attr($args['class']).'"';
+	$html = '';
 	
 	switch ($type) {
 		case 'text':
@@ -474,7 +455,8 @@ div.cfct_header_image_carousel li label input {
 }
 
 .cfct-help {
-	color: #666666;
+	color: #777777;
+	font-size: 11px;
 }
 
 </style>

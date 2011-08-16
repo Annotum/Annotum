@@ -55,7 +55,7 @@ function cfct_init() {
  * 
 **/
 function cfct_wp_head() {
-	echo cfct_get_option('wp_header');
+	echo cfct_get_option('wp_head');
 }
 add_action('wp_head', 'cfct_wp_head');
 

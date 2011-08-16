@@ -62,18 +62,29 @@ function cfct_banner($str = '') {
 function cfct_get_option($name) {
 	$defaults = array(
 		cfct_option_name('login_link_enabled') => 'yes',
-		cfct_option_name('copyright') => sprintf(__('Copyright &copy; %s &nbsp;&middot;&nbsp; %s', 'favepersonal'), date('Y'), get_bloginfo('name')),
+		cfct_option_name('copyright') => sprintf(__('Copyright &copy; %s &nbsp;&middot;&nbsp; %s', 'carrington'), date('Y'), get_bloginfo('name')),
 		cfct_option_name('credit') => 'yes',
 		cfct_option_name('lightbox') => 'yes',
 		cfct_option_name('header_image') => 0,
 	);
-	$defaults = apply_filters('cfct_option_defaults', $defaults);
-	$value = get_option(cfct_option_name($name));
+	$name = cfct_option_name($name);
 	
-	if ($value === false && isset($defaults[$name])) {
-		$value = $defaults[$name];
+	$defaults = apply_filters('cfct_option_defaults', $defaults);
+	$value = get_option($name);
+	
+	
+	// We want to check for defaults registered using the prefixed and unprefixed versions of the option name.
+	if ($value === false) {
+		$prefix = cfct_get_option_prefix();
+		$basname = substr($name, strlen($prefix) + 1, -1);
+		
+		if (isset($defaults[$name])) {
+			$value = $defaults[$name];
+		}
+		else if (isset($basename) && isset($defaults[$basename])) {
+			$value = $defaults[$basename];
+		}
 	}
-
 	return $value;
 }
 
@@ -750,6 +761,7 @@ function cfct_choose_single_template_role($dir, $files, $filter) {
 **/
 function cfct_choose_single_template_taxonomy($dir, $files, $filter) {
 	global $post;
+
 	$tax_files = cfct_tax_templates($dir, $files, $filter);
 	if (count($tax_files)) {
 		foreach ($tax_files as $file) {
@@ -1360,7 +1372,8 @@ function cfct_cat_id_to_slug($id) {
  * 
 **/
 function cfct_username_to_id($username) {
-	return get_the_author_meta('ID', $username);
+	$user = get_user_by('ID', $username);
+	return (isset($user->ID) ? $user->ID : 0);
 }
 
 /**
@@ -1442,8 +1455,9 @@ function cfct_tax_filename_to_slug($file) {
 	$suffixes = apply_filters('cfct_tax_filename_suffixes', array('.php'));
 	$slug = str_replace(array_merge($prefixes, $suffixes), '', $file);
 	$slug = explode('-', $slug);
-	if (!empty($slug[1])) {
-		return $slug[1];
+	unset($slug[0]);
+	if (count($slug)) {
+		return implode('-', $slug);
 	}
 	return '';
 }
@@ -1533,7 +1547,7 @@ function cfct_get_loginout($redirect = '', $before = '', $after = '') {
  */ 
 function cfct_array_merge_recursive($array_1, $array_2) {
 	foreach ($array_2 as $key => $value) {
-		if (is_array($array_1[$key]) && isset($array_1[$key]) && is_array($value)) {
+		if (isset($array_1[$key]) && is_array($array_1[$key]) && is_array($value)) {
 			$array_1[$key] = cfct_array_merge_recursive($array_1[$key], $value);
 		}
 		else {
@@ -1542,6 +1556,27 @@ function cfct_array_merge_recursive($array_1, $array_2) {
 	}
 	
 	return $array_1;
+}
+
+/**
+ * Returns the options prefix
+ */ 
+function cfct_get_option_prefix() {
+	return apply_filters('cfct_option_prefix', 'cfct');
+}
+
+/**
+ * Prefix options names
+ */ 
+function cfct_option_name($name) {
+	$prefix = cfct_get_option_prefix();
+	// If its already prefixed, we don't need to do it again.
+	if (strpos($name, $prefix.'_') !== 0) {
+		return $prefix.'_'.$name;
+	}
+	else {
+		return $name;
+	}
 }
 
 ?>
