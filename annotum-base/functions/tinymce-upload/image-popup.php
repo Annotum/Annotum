@@ -17,9 +17,21 @@ if (isset($_GET['anno_action']) && $_GET['anno_action'] == 'image_popup') {
 }
 
 function anno_popup_images_iframe_html() {
+	$errors = array();
+	if ( isset($_POST['html-upload']) && !empty($_FILES) ) {
+		check_admin_referer('media-form');
+		// Upload File button was clicked
+		$id = media_handle_upload('async-upload', $_REQUEST['post_id']);
+		unset($_FILES);
+		if ( is_wp_error($id) ) {
+			$errors['upload_error'] = $id;
+			$id = false;
+		}
+	}	
+	
 	global $tab;
 
-	$post_id = isset($_GET['post']) ? $_GET['post'] : 0;
+	$post_id = anno_get_post_id();
 
 	$attachments = get_posts(array(
 		'post_type' => 'attachment',
@@ -31,6 +43,14 @@ function anno_popup_images_iframe_html() {
 ?>
 <div id="anno-popup-images-inside" class="anno-mce-popup">
 	<div class="anno-mce-popup-fields">
+<?php 
+		if ( !empty($id) ) {
+			if ( is_wp_error($id) ) {
+				echo '<div id="media-upload-error">'.esc_html($id->get_error_message()).'</div>';
+				exit;
+			}
+		}
+?>
 		<table class="anno-images">
 			<thead>
 				<tr>
@@ -50,18 +70,6 @@ function anno_popup_images_iframe_html() {
 		</table>
 
 		<?php anno_upload_form(); ?>
-
-		<?php
-		if ( !empty($id) ) {
-			if ( !is_wp_error($id) ) {
-				add_filter('attachment_fields_to_edit', 'media_post_single_attachment_fields_to_edit', 10, 2);
-				echo anno_get_media_items( $id, $errors );
-			} else {
-				echo '<div id="media-upload-error">'.esc_html($id->get_error_message()).'</div>';
-				exit;
-			}
-		}
-		?>
 	</div>
 <?php
 }

@@ -1,5 +1,5 @@
 <?php 
-
+//TODO perms :: if (!current_user_can('upload_files'))
 function anno_tinymce_enqueue() {
 	if (isset($_GET['anno_action']) && $_GET['anno_action'] == 'image_popup') {
 		wp_enqueue_script('swfupload-all');
@@ -168,8 +168,7 @@ function anno_media_upload_form() {
 
 function anno_upload_form($type = 'image', $errors = null, $id = null) {
 	$post_id = anno_get_post_id();
-	$form_action_url = admin_url("media-upload.php?type=$type&tab=type&post_id=$post_id");
-	$form_action_url = apply_filters('media_upload_form_url', $form_action_url, $type);
+	$form_action_url = admin_url("?type=$type&tab=type&post_id=$post_id&anno_action=image_popup");
 ?>
 
 <form enctype="multipart/form-data" method="post" action="<?php echo esc_attr($form_action_url); ?>" class="media-upload-form type-form validate" id="<?php echo $type; ?>-form">

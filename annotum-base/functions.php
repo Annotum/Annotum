@@ -608,6 +608,9 @@ function anno_get_post_id() {
 		else if (isset($_GET['post'])) {
 			$post_id = $_GET['post'];
 		}
+		else if (isset($_GET['post_id'])) {
+			$post_id = $_GET['post_id'];
+		}
 		else {
 			$post_id = 0;
 		}
