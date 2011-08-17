@@ -43,6 +43,10 @@ dl.kv{overflow:hidden;margin-bottom:12px;zoom:1;}
 dl.kv dt{color:#454545;clear:left;float:left;font:bold italic 12px/20px Georgia,serif;margin-right:.25em;}
 dl.kv dd{margin-bottom:8px;}
 .tags{font-size:12px;line-height:20px;}
+.content .wp-caption{margin:10px 0;}
+.content p.wp-caption-text,.content .gallery-caption{margin:0;}
+.sticky{}
+.bypostauthor .header h3.title{font-weight:bold;}
 .act .in{zoom:1;margin-left:auto;margin-right:auto;position:relative;width:960px;}.act .in:before,.act .in:after{content:"";display:table;}
 .act .in:after{clear:both;}
 #header{background:#000;color:#fff;position:relative;z-index:2;zoom:1;}
