@@ -2,7 +2,20 @@ body {
 	background: #F4F4F4;
 }
 
-h1,h2,h3,h4,h5,h6,p,sec, caption, label {
+.clearfix:after {
+  content: ".";
+  display: block;
+  height: 0;
+  clear: both;
+  visibility: hidden;
+}
+
+.clearfix {
+	visibility: hidden;
+}
+
+h1,h2,h3,h4,h5,h6,p,sec, caption, 
+fig, fig label, fig cap, fig long-desc, fig copyright-statement, fig copyright-holder, fig license-p {
 	padding: 10px;
 	border: 1px solid #DFDFDF;
 	background: #FFFFFF;
@@ -88,3 +101,43 @@ italic {
 bold {
 	font-weight: bold;
 }
+
+/** Figures **/
+fig {
+	display: block;
+	padding: 5px;
+}
+
+fig img {
+	float: left;
+	margin-right: 3px;
+	border: 1px solid #CCCCCC;
+}
+
+fig media {
+	display: none;
+}
+
+fig long-desc,
+fig copyright-statement,
+fig copyright-holder,
+fig license-p,
+fig cap,
+fig label {
+	margin: 1px 5px 1px 5px;
+	display: block;
+	margin-left: 5px;
+	overflow: hidden;
+}
+
+fig alt-text {
+	display: none;
+}
+
+fig long-desc,
+fig copyright-statement,
+fig copyright-holder,
+fig license-p {
+	font-size: 10px;
+}
+

@@ -30,7 +30,7 @@ select#article-category {
   height: 0;
   clear: both;
   visibility: hidden;
-  }
+}
 
 textarea.anno-meta {
 	width: 100%;

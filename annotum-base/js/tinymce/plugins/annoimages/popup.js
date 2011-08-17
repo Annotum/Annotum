@@ -48,9 +48,30 @@ jQuery(document).ready( function($) {
 			copyright_statement = $('#img-caption-' + attachment_id).val();
 			copyright_holder = $('#img-caption-' + attachment_id).val();
 			license = $('#img-caption-' + attachment_id).val();
-			xml = '<fig><img src="' + url + '" /><label>' + label + '</label><caption><title>' + caption +'</title></caption><media xlink:href="' + url + '"><alt-text>' + alt_text + '</alt-text><long-desc>' + description + '</long-desc><permissions><copyright-statement>' + copyright_statement + '</copyright-statement><copyright-holder>' + copyright_holder + '</copyright-holder><license license-type="creative-commons"><license-p>'+ license +'</license-p></license></permissions></media></fig>';
+			//TODO Caption Title Support
+			xml = '<fig>'
+					+'<img src="' + url + '" />'
+					+'<label>' + label + '</label>'
+					+'<cap>' + caption + '</cap>'
+					+'<media xlink:href="' + url + '">'
+						+'<alt-text>' + alt_text + '</alt-text>'
+						+'<long-desc>' + description + '</long-desc>'
+						+'<permissions>'
+							+'<copyright-statement>' + copyright_statement + '</copyright-statement>'
+							+'<copyright-holder>' + copyright_holder + '</copyright-holder>'
+							+'<license license-type="creative-commons">'
+								+'<license-p>'+ license +'</license-p>'
+							+'</license>'
+						+'</permissions>'
+					+'</media>'
+					+'<div _mce_bogus="1" class="clearfix"></div>'
+				+'</fig>';
+				
 		}
+
 		var win = window.dialogArguments || opener || parent || top;
+		
+
 		win.send_to_editor(xml);
 		win.tinyMCEPopup.close();
 		return false;

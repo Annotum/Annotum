@@ -29,7 +29,7 @@ var annoImages;
 
 
 		update : function(attachment_id) {
-			var display_type, caption, label, copyright_statement, copyright_holder, license, url, xml;
+		/*	var display_type, caption, label, copyright_statement, copyright_holder, license, url, xml;
 			var ed = tinyMCEPopup.editor;
 			ed.selection.collapse(0);
 			//TODO Validation
@@ -54,7 +54,7 @@ var annoImages;
 			tinyMCEPopup.execCommand('mceInsertContent', false, xml);
 			tinyMCEPopup.getContent
 			
-			tinyMCEPopup.close();
+			tinyMCEPopup.close();*/
 		},
 
 

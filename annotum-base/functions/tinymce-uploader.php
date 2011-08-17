@@ -1,5 +1,6 @@
 <?php 
-//TODO perms :: if (!current_user_can('upload_files'))
+// TODO perms :: if (!current_user_can('upload_files'))
+// TODO Enforce browser upload to images on backend
 function anno_tinymce_enqueue() {
 	if (isset($_GET['anno_action']) && $_GET['anno_action'] == 'image_popup') {
 		wp_enqueue_script('swfupload-all');
@@ -68,14 +69,14 @@ function anno_media_upload_form() {
 	// Set the post params, which SWFUpload will post back with the file, and pass
 	// them through a filter.
 	$post_params = array(
-			'post_id' => anno_get_post_id(),
-			'auth_cookie' => (is_ssl() ? $_COOKIE[SECURE_AUTH_COOKIE] : $_COOKIE[AUTH_COOKIE]),
-			'logged_in_cookie' => $_COOKIE[LOGGED_IN_COOKIE],
-			'_wpnonce' => wp_create_nonce('media-form'),
-			'type' => $type,
-			'tab' => $tab,
-			'short' => '1',
-			'action' => 'tinymce_upload',
+		'post_id' => anno_get_post_id(),
+		'auth_cookie' => (is_ssl() ? $_COOKIE[SECURE_AUTH_COOKIE] : $_COOKIE[AUTH_COOKIE]),
+		'logged_in_cookie' => $_COOKIE[LOGGED_IN_COOKIE],
+		'_wpnonce' => wp_create_nonce('media-form'),
+		'type' => $type,
+		'tab' => $tab,
+		'short' => '1',
+		'action' => 'tinymce_upload',
 	);
 	$post_params = apply_filters( 'swfupload_post_params', $post_params );
 	$p = array();
@@ -153,7 +154,7 @@ function anno_media_upload_form() {
 	<?php do_action('pre-html-upload-ui'); ?>
 		<p id="async-upload-wrap">
 			<label class="screen-reader-text" for="async-upload"><?php _e('Upload'); ?></label>
-			<input type="file" name="async-upload" id="async-upload" />
+			<input type="file" name="async-upload" id="async-upload" accept="image/gif, image/jpeg, image/jpg, image/png" />
 			<?php submit_button( __( 'Upload' ), 'button', 'html-upload', false ); ?>
 		</p>
 		<div class="clear"></div>
