@@ -112,11 +112,27 @@ dl.kv dd {
 
 /** WordPress compatibility styles
  --------------------------------------------------------------- */
-.content .wp-caption {
+.alignleft {
+	float: left;
+	margin-right: 1em;
+	margin-bottom: 1em;
+}
+.alignright {
+	float: right;
+	margin-left: 1em;
+	margin-bottom: 1em;
+}
+.aligncenter {
+	display: block;
+	margin-left: auto;
+	margin-right: auto;
+}
+.wp-caption,
+.gallery-caption {
 	margin: 10px 0;
 }
-.content p.wp-caption-text,
-.content .gallery-caption {
+.wp-caption-text,
+.gallery-caption {
 	margin: 0;
 }
 .sticky {
