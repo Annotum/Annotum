@@ -21,7 +21,6 @@ var annoTable;
 			
 			$('#anno-table-cancel').click(annoTable.close);
 
-			inputs.dialog.bind('wpdialogrefresh', annoTable.refresh);
 			inputs.dialog.bind('wpdialogbeforeopen', annoTable.beforeOpen);
 			inputs.dialog.bind('wpdialogclose', annoTable.onClose);
 		},
@@ -37,28 +36,6 @@ var annoTable;
 
 		isMCE : function() {
 			return tinyMCEPopup && ( ed = tinyMCEPopup.editor ) && ! ed.isHidden();
-		},
-
-		refresh : function() {
-			var e;
-			ed = tinyMCEPopup.editor;
-
-			tinyMCEPopup.restoreSelection();
-			
-			// If link exists, select proper values.
-			if ( e = ed.dom.getParent(ed.selection.getNode(), 'EXT-LINK') ) {
-
-				inputs.url.val( ed.dom.getAttrib(e, 'xlink:href'));
-				inputs.title.val( ed.dom.getAttrib(e, 'title') );
-				// Update save prompt.
-				inputs.submit.val( annoTableL10n.update );
-
-			// If there's no link, set the default values.
-			} else {
-				annoTable.setDefaultValues();
-			}
-
-			tinyMCEPopup.storeSelection();
 		},
 
 		close : function() {
@@ -90,12 +67,9 @@ var annoTable;
 			label = $('input[name$="label"]', formObj).val();
 			caption = $('textarea[name$="caption"]', formObj).val();
 			
-			html += '<table-wrap><label>' + label + '</label><caption><title>' + caption + '</title></caption>';
-			html += '<table';
-//			html += makeAttrib('data-mce-new', '1');
-			html += '>';
-
-				
+			//TODO add <title> tags
+			html += '<table-wrap><label>' + label + '</label><cap>' + caption + '</cap><table>';
+			
 			html += '<thead>';
 			html += '<tr>';
 			for (var x=0; x<cols; x++) {
@@ -104,6 +78,8 @@ var annoTable;
 				else
 					html += '<th></th>';
 			}
+			html += '</tr>';
+			html += '</thead>';
 				
 			for (var y=1; y<rows; y++) {
 				html += "<tr>";
@@ -116,10 +92,7 @@ var annoTable;
 				html += "</tr>";
 			}
 		
-
-			
-
-			html += "</table>";//"</table-wrap>";
+			html += "</table></table-wrap>";
 
 			// Move table
 			if (ed.settings.fix_table_elements) {

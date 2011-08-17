@@ -15,11 +15,23 @@ body {
 }
 
 h1,h2,h3,h4,h5,h6,p,sec, caption, 
-fig, fig label, fig cap, fig long-desc, fig copyright-statement, fig copyright-holder, fig license-p {
+fig, fig label, fig cap, fig long-desc, fig copyright-statement, fig copyright-holder, fig license-p,table-wrap{
 	padding: 10px;
 	border: 1px solid #DFDFDF;
 	background: #FFFFFF;
 	margin-bottom: 10px;
+	display: block;
+}
+
+table-wrap {
+	display: inline-block;
+}
+
+table-wrap label, table-wrap cap {
+	padding: 5px;
+	border: 1px solid #DFDFDF;
+	background: #FFFFFF;
+	margin-bottom: 2px;
 	display: block;
 }
 

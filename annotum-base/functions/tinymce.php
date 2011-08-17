@@ -545,10 +545,7 @@ function anno_tinymce_image_save() {
 add_action('wp_ajax_anno-img-save', 'anno_tinymce_image_save');
 
 function anno_process_editor_content($content) {
-	//TODO
-	// Load img tags in <fig>, 
-	// Replace xref text
-	
+
 	$doc = phpQuery::newDocument($content);
 	phpQuery::selectDocument($doc); 
 	
@@ -581,33 +578,42 @@ function anno_process_editor_content($content) {
 	return phpQuery::getDocument();
 }
 
-function anno_process_editor_content_save($data) {
+
+
+function anno_process_editor_content_save($content) {
 	// Replace inline img tags with <inline-graphic></inline-graphic>
 	// Replace xref text
 	
 	// Strip img tags, replace inline images so they're draggable.
-	if (isset($data['post_type']) && $data['post_type'] == 'article' && isset($data['post_content'])) {
-		$doc = phpQuery::newDocument(stripslashes($data['post_content']));
-		phpQuery::selectDocument($doc);
 
-		$imgs = pq('img');
-		$imgs->each(function($img) {
-			$img = pq($img);
-		 	$img_class = pq($img)->attr('class');
-			if (!empty($img_class) && $img_class == '_inline_graphic') {
-				$img_src = $img->attr('src');
-				$img_alt = $img->attr('alt');
-				$xml = '<inline-graphic xlink:href="'.$img_src.'" ><alt-text>'.$img_alt.'</alt-text></inline-graphic>';
-				$img->replaceWith($xml);
-			}
-		});
-		
+	$doc = phpQuery::newDocument(stripslashes($data['post_content']));
+	phpQuery::selectDocument($doc);
 
-		$tags = '<fig><sec><p><label><cap><media><permissions><alt-text><long-desc><copyright-statement><copyright-holder><license><license-p><xref><inline-graphic><alt-text>';
-		$data['post_content'] = strip_tags(addslashes(phpQuery::getDocument()), $tags);
-	}
+	$imgs = pq('img');
+	$imgs->each(function($img) {
+		$img = pq($img);
+	 	$img_class = pq($img)->attr('class');
+		if (!empty($img_class) && $img_class == '_inline_graphic') {
+			$img_src = $img->attr('src');
+			$img_alt = $img->attr('alt');
+			$xml = '<inline-graphic xlink:href="'.$img_src.'" ><alt-text>'.$img_alt.'</alt-text></inline-graphic>';
+			$img->replaceWith($xml);
+		}
+	});
+	
+	// Strip all tags not defined by DTD
+	$tags = '<fig><sec><p><label><cap><media><permissions><alt-text><long-desc><copyright-statement><copyright-holder><license><license-p><xref><inline-graphic><alt-text>';
+	$content = strip_tags(phpQuery::getDocument(), $tags);
 
 	return $data;
 }
-add_filter('wp_insert_post_data', 'anno_process_editor_content_save');
+
+function anno_process_editor_body_save($data) {
+	if (isset($data['post_type']) && $data['post_type'] == 'article' && isset($data['post_content'])) {
+		$data['content'] = addslashes(anno_process_editor_content_save(stripslashes($data['post_content'])));
+	}
+	return $data;
+	
+}
+add_filter('wp_insert_post_data', 'anno_process_editor_body_save');
 ?>
