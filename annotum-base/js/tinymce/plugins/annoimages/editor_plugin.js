@@ -32,6 +32,9 @@
 				cmd : 'Anno_Images'
 			});
 			
+				ed.onKeyPress.add(function(ed, e) {
+				});
+			
 			ed.addShortcut('alt+shift+a', ed.getLang('advanced.link_desc'), 'Anno_Images');
 
 		/*	ed.onNodeChange.add(function(ed, cm, n, co) {

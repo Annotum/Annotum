@@ -71,7 +71,6 @@ jQuery(document).ready( function($) {
 
 		var win = window.dialogArguments || opener || parent || top;
 		
-
 		win.send_to_editor(xml);
 		win.tinyMCEPopup.close();
 		return false;

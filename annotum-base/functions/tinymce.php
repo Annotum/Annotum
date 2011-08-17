@@ -15,11 +15,11 @@ function anno_admin_print_footer_scripts() {
 		$extendec_valid_elements = 
 'italic,underline,monospace,bold,ext-link[ext-link-type:uri|xlink::href|title],sec,xref[ref-type|rid],inline-graphic[xlink::href],alt-text,fig,label,title,media[xlink::href],long-desc,permissions,copyright-statement,copyright-holder,license[license-type:creative-commons],license-p,table-wrap,disp-quote,attrib,list[list-type],list-item,cap';
 		
-		$custom_elements =  '~bold~italic,~underline,~monospace,~ext-link,~xref,~inline-graphic,~alt-text,~label,~long-desc,~copyright-statement,~copyright-holder,~license,~license-p,~disp-quote,~attrib'.'sec,list,list-item,fig,title,media,permissions,table-wrap,~caption';
+		$custom_elements =  '~bold~italic,~underline,~monospace,~ext-link,~xref,~inline-graphic,~alt-text,~label,~long-desc,~copyright-statement,~copyright-holder,~license,~license-p,~disp-quote,~attrib'.'sec,list,list-item,fig,title,media,permissions,table-wrap,cap';
 		
 		$valid_child_elements = '';
 		
-		$valid_elements = 
+
 		
 		wp_tiny_mce(false, array(
 			'content_css' => trailingslashit(get_bloginfo('template_directory')).'css/tinymce.css',
@@ -31,13 +31,18 @@ function anno_admin_print_footer_scripts() {
 					italic : { \'inline\' : \'italic\'},
 					underline : { \'inline\' : \'underline\'},
 					sec : { \'block\' : \'sec\', \'wrapper\' : \'true\' },
+					cap : { \'block\' : \'cap\', \'wrapper\' : \'true\' },
 				}',
 			'theme_advanced_blockformats' => 'Paragraph=p,Heading=h2,Section=sec',
 			'forced_root_block' => '',
 			'editor_css' => trailingslashit(get_bloginfo('template_directory')).'/css/tinymce-ui.css?v=2',
 			'debug' => 'true',
 			'valid_child_elements' => 'p[table],ul[list-item],ol[list-item],list[list-item],list[title]'.
-			'fig[img|media|caption],caption[title]',
+			'fig[img|media|caption],caption[title],cap[p]',
+//			'valid_elements' => '',
+			'verify_html' => true,
+//			'force_p_newlines' => true,
+			'force_br_newlines' => false,
 		));
 ?>
 
@@ -103,7 +108,7 @@ class Anno_tinyMCE {
 		
 		$plugins['annoLists'] = trailingslashit(get_bloginfo('template_directory')).'js/tinymce/plugins/annolists/editor_plugin.js';
 		
-//		$plugins['annoSection'] = trailingslashit(get_bloginfo('template_directory')).'js/tinymce/plugins/annosection/editor_plugin.js';
+	$plugins['annoSection'] = trailingslashit(get_bloginfo('template_directory')).'js/tinymce/plugins/annosection/editor_plugin.js';
 
 		return $plugins;
 	}
@@ -538,5 +543,28 @@ function anno_tinymce_image_save() {
 	die();
 }
 add_action('wp_ajax_anno-img-save', 'anno_tinymce_image_save');
+
+function anno_process_editor_content($content) {
+	//TODO
+	// Load img tags in <fig>, 
+	
+	// We need a clearfix for floated images. 
+	$content = str_replace('</fig>', '<div _mce_bogus="1" class="clearfix"></div></fig>', $content);
+	return $content;
+}
+
+function anno_process_editor_content_save($data) {
+	// Replace inline img tags with <inline-graphic></inline-graphic>
+	// Strip img tags, replace inline images so they're draggable.
+	error_log(print_r($data,1));
+	if (isset($data['post_type']) && $data['post_type'] == 'article' && isset($data['post_content'])) {
+			$tags = '<fig><sec><p><label><cap><media><permissions><alt-text><long-desc><copyright-statement><copyright-holder><license><license-p>';
+			$data['post_content'] = strip_tags($data['post_content'], $tags);
+			error_log('test');
+	}
+
+	return $data;
+}
+add_filter('wp_insert_post_data', 'anno_process_editor_content_save');
 
 ?>

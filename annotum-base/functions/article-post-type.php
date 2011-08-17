@@ -114,7 +114,7 @@ function anno_subtitle_meta_box($post) {
  */
 function anno_body_meta_box($post) {
 ?>
-	<textarea id="anno-body" name="content" class="anno-meta"><?php echo esc_textarea($post->post_content); ?></textarea>
+	<textarea id="anno-body" name="content" class="anno-meta"><?php echo esc_textarea(anno_process_editor_content($post->post_content)); ?></textarea>
 <?php
 }
 
