@@ -8,6 +8,7 @@ var annoReferences;
 		textarea : function() { return edCanvas; },
 
 		init : function() {
+
 			inputs.dialog = $('#anno-popup-references');
 			inputs.submit = $('#anno-references-submit');
 			
@@ -61,13 +62,13 @@ var annoReferences;
 		
 		update : function() {
 			var ed = tinyMCEPopup.editor
-			var xml, checkboxes;
+			var xml, checkboxes, id, text;
 			xml = '';
 
 			var node = ed.selection.getNode();
 			
 			// If we're in the middle of a link or something similar, we want to insert the references after the element
-			if (node.nodeName != 'BODY' && node.nodeName != 'SEC' && node.nodeName != 'P') {
+			if (!ed.dom.isBlock(node)) {
 				ed.selection.select(node);
 			}
 			checkboxes = annoReferences.getCheckboxes();
@@ -75,10 +76,11 @@ var annoReferences;
 				
 				//TODO proper reference (text)
 				id = $(checkbox).attr('id').replace('reference-checkbox-', '');
+				text = $('label[for="reference-checkbox-' + id + '"]').html();
 				id = parseInt(id) + 1;
-				xml += '<xref ref-type="bibr" rid="' + id + '">' + id + '</xref>';
+				xml += '<xref ref-type="bibr" rid="' + id + '">' + ' a' + '</xref>';
 			});
-			ed.selection.collapse(0);
+			ed.selection.collapse();
 			ed.execCommand('mceinsertContent', null, xml);
 			
 			annoReferences.close();

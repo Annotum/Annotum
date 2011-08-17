@@ -17,7 +17,8 @@ function anno_admin_print_footer_scripts() {
 		
 		$custom_elements =  '~bold~italic,~underline,~monospace,~ext-link,~xref,~inline-graphic,~alt-text,~label,~long-desc,~copyright-statement,~copyright-holder,~license,~license-p,~disp-quote,~attrib'.'sec,list,list-item,fig,title,media,permissions,table-wrap,cap';
 		
-		$valid_child_elements = '';
+		$valid_child_elements = 'p[table],list[list-item],list[title]'.
+		'fig[img|media|cap],cap[p|xref]';
 		
 
 		
@@ -31,17 +32,16 @@ function anno_admin_print_footer_scripts() {
 					italic : { \'inline\' : \'italic\'},
 					underline : { \'inline\' : \'underline\'},
 					sec : { \'block\' : \'sec\', \'wrapper\' : \'true\' },
-					cap : { \'block\' : \'cap\', \'wrapper\' : \'true\' },
+
 				}',
 			'theme_advanced_blockformats' => 'Paragraph=p,Heading=h2,Section=sec',
 			'forced_root_block' => '',
 			'editor_css' => trailingslashit(get_bloginfo('template_directory')).'/css/tinymce-ui.css?v=2',
 			'debug' => 'true',
-			'valid_child_elements' => 'p[table],ul[list-item],ol[list-item],list[list-item],list[title]'.
-			'fig[img|media|caption],caption[title],cap[p]',
+			'valid_child_elements' => $valid_child_elements,
 //			'valid_elements' => '',
-			'verify_html' => true,
-//			'force_p_newlines' => true,
+			'verify_html' => false,
+			'force_p_newlines' => false,
 			'force_br_newlines' => false,
 		));
 ?>
@@ -108,7 +108,7 @@ class Anno_tinyMCE {
 		
 		$plugins['annoLists'] = trailingslashit(get_bloginfo('template_directory')).'js/tinymce/plugins/annolists/editor_plugin.js';
 		
-	$plugins['annoSection'] = trailingslashit(get_bloginfo('template_directory')).'js/tinymce/plugins/annosection/editor_plugin.js';
+		//$plugins['annoSection'] = trailingslashit(get_bloginfo('template_directory')).'js/tinymce/plugins/annosection/editor_plugin.js';
 
 		return $plugins;
 	}
@@ -547,24 +547,67 @@ add_action('wp_ajax_anno-img-save', 'anno_tinymce_image_save');
 function anno_process_editor_content($content) {
 	//TODO
 	// Load img tags in <fig>, 
+	// Replace xref text
 	
-	// We need a clearfix for floated images. 
-	$content = str_replace('</fig>', '<div _mce_bogus="1" class="clearfix"></div></fig>', $content);
-	return $content;
+	$doc = phpQuery::newDocument($content);
+	phpQuery::selectDocument($doc); 
+	
+	$inline_imges = pq('inline-graphic');
+	$inline_imges->each(function($img) {	
+		$img = pq($img);
+		$img_src = $img->attr('xlink:href');
+
+		if (!empty($img_src)) {
+			$img = pq($img);
+			$alt_text = $img->children('alt-text:first');
+			$html = '<img src="'.$img_src.'" class="_inline_graphic" alt="'.$alt_text.'" />';
+			$img->replaceWith($html);
+		}
+	});
+	
+	// We need a clearfix for floated images.
+	$figs = pq('fig');
+	$figs->each(function($fig) {
+		$fig = pq($fig);
+		
+		// Add in img for display in editor
+		$img_src = $fig->find('media')->attr('xlink:href');
+		$fig->prepend('<img src="'.$img_src.'"');
+		
+		// _mce_bogus stripped by tinyMCE on save
+		$fig->append('<div _mce_bogus="1" class="clearfix"></div></fig>');
+	});
+	
+	return phpQuery::getDocument();
 }
 
 function anno_process_editor_content_save($data) {
 	// Replace inline img tags with <inline-graphic></inline-graphic>
+	// Replace xref text
+	
 	// Strip img tags, replace inline images so they're draggable.
-	error_log(print_r($data,1));
 	if (isset($data['post_type']) && $data['post_type'] == 'article' && isset($data['post_content'])) {
-			$tags = '<fig><sec><p><label><cap><media><permissions><alt-text><long-desc><copyright-statement><copyright-holder><license><license-p>';
-			$data['post_content'] = strip_tags($data['post_content'], $tags);
-			error_log('test');
+		$doc = phpQuery::newDocument(stripslashes($data['post_content']));
+		phpQuery::selectDocument($doc);
+
+		$imgs = pq('img');
+		$imgs->each(function($img) {
+			$img = pq($img);
+		 	$img_class = pq($img)->attr('class');
+			if (!empty($img_class) && $img_class == '_inline_graphic') {
+				$img_src = $img->attr('src');
+				$img_alt = $img->attr('alt');
+				$xml = '<inline-graphic xlink:href="'.$img_src.'" ><alt-text>'.$img_alt.'</alt-text></inline-graphic>';
+				$img->replaceWith($xml);
+			}
+		});
+		
+
+		$tags = '<fig><sec><p><label><cap><media><permissions><alt-text><long-desc><copyright-statement><copyright-holder><license><license-p><xref><inline-graphic><alt-text>';
+		$data['post_content'] = strip_tags(addslashes(phpQuery::getDocument()), $tags);
 	}
 
 	return $data;
 }
 add_filter('wp_insert_post_data', 'anno_process_editor_content_save');
-
 ?>

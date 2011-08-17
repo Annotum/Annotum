@@ -34,14 +34,16 @@ xref {
 	font-weight: bold;
 	padding-right: 1px;
 	background: #999;
-	width: 10px;
-	display: block;
+	display: inline;
 
+	width: 20px;
 }
 
 xref:before {
-	content: "[" attr(rid) "]";
-	visibility: visible;
+
+}
+xref:after {
+
 }
 
 inline-graphic{

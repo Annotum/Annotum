@@ -39,7 +39,7 @@ jQuery(document).ready( function($) {
 		
 
 		if (display_type == 'inline') {
-			xml = '<img src="'+ url + '" /><inline-graphic xlink:href="' + url +'" ><alt-text>' + alt_text + '</alt-text></inline-graphic>';
+			xml = '<img src="'+ url + '" class="_inline_graphic" alt="'+ alt_text + '"/>';//<inline-graphic xlink:href="' + url +'" ><alt-text>' + alt_text + '</alt-text></inline-graphic>';
 		}
 		else {
 			caption = $('#img-caption-' + attachment_id).val();
