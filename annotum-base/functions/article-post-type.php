@@ -196,7 +196,7 @@ function anno_article_insert_post($post_id, $post) {
 		}
 		
 		$appendicies = array();
-		if (is_array($_POST['anno_appendix'])) {
+		if (isset($_POST['anno_appendix']) && is_array($_POST['anno_appendix'])) {
 			foreach ($_POST['anno_appendix'] as $appendix) {
 				if (!empty($appendix)) {
 					$appendicies[] = $appendix;

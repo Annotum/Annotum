@@ -29,7 +29,7 @@ jQuery(document).ready( function($) {
 		return false;
 	})
 	
-	$('.anno-image-insert').click(function() {
+	$('.anno-image-insert').live('click', function() {
 		var attachment_id = $(this).attr('id').replace('anno-image-insert-', '');
 		var display_type, caption, label, copyright_statement, copyright_holder, license, url, xml;
 
@@ -39,7 +39,8 @@ jQuery(document).ready( function($) {
 		
 
 		if (display_type == 'inline') {
-			xml = '<img src="'+ url + '" class="_inline_graphic" alt="'+ alt_text + '"/>';//<inline-graphic xlink:href="' + url +'" ><alt-text>' + alt_text + '</alt-text></inline-graphic>';
+			// Inserting for tinyMCE. is converted to XML on save.
+			xml = '<img src="'+ url + '" class="_inline_graphic" alt="'+ alt_text + '"/>';
 		}
 		else {
 			caption = $('#img-caption-' + attachment_id).val();
