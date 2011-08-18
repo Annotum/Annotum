@@ -266,12 +266,20 @@ border:0; margin:0; padding:0; white-space:nowrap; text-decoration:none; font-we
 .wp_themeSkin span.mce_annobulletlist,
 .wp_themeSkin span.mce_annoorderedlist,
 .wp_themeSkin span.mce_annoquote,
+.wp_themeSkin span.mce_annoimages,
 
 .wp_themeSkin .mce_forecolorpicker,
 .wp_themeSkin .mceSplitButton .mce_spellchecker span.mce_spellchecker,
 .wp_themeSkin .mceSplitButton .mce_forecolor span.mce_forecolor {
 	background-image: url(../img/annoicons.png);
 }
+
+/* Anno actions using default tinymce icons */
+.wp_themeSkin span.mce_annoimages {
+	background-image: url(../img/icons.gif);
+}
+.wp_themeSkin span.mce_annoimages {background-position:-380px 0;}
+
 
 /* ColorSplitButton */
 .wp_themeSkin div.mceColorSplitMenu table {}
