@@ -10,8 +10,7 @@
 					width : 480,
 					height : "auto",
 					wpDialog : true,
-					title : 'Insert/Update', 
-					//ed.getLang('advlink.link_desc')
+					title : 'Insert References',
 				}, {
 					plugin_url : url // Plugin absolute URL
 				});

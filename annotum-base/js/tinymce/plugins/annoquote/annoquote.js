@@ -20,12 +20,7 @@ var annoQuote;
 			});
 			
 			$('#anno-quote-cancel').click(annoQuote.close);
-
-		//	inputs.dialog.bind('wpdialogrefresh', annoLink.refresh);
-		//	inputs.dialog.bind('wpdialogbeforeopen', annoLink.beforeOpen);
-		//	inputs.dialog.bind('wpdialogclose', annoLink.onClose);
 		},
-
 
 		update : function(attachment_id) {
 			var display_type, caption, label, copyright_statement, copyright_holder, license, url, xml;

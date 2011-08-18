@@ -1159,7 +1159,7 @@
 						width : 480,
 						height : "auto",
 						wpDialog : true,
-						title : ed.getLang('advlink.link_desc')
+						title : 'Insert Table'
 					}, {
 						plugin_url : url // Plugin absolute URL
 					});
