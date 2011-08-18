@@ -22,7 +22,7 @@ jQuery(document).ready( function($) {
 	});
 		
 	
-	$('#anno-popup-images-inside form.anno-img-edit').submit(function() {
+	$('#anno-popup-images-inside form.anno-img-edit').live('submit', function() {
 		$.post(ajaxurl, $(this).serialize(), function(data) {
 			//TODO Image saved!!
 		});

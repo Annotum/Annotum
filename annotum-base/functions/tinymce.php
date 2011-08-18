@@ -43,7 +43,7 @@ function anno_admin_print_footer_scripts() {
 //			'valid_elements' => '',
 			'verify_html' => false,
 			'force_p_newlines' => false,
-			'force_br_newlines' => false,
+			'force_br_newlines' => true,
 		));
 ?>
 
@@ -109,7 +109,7 @@ class Anno_tinyMCE {
 		
 		$plugins['annoLists'] = trailingslashit(get_bloginfo('template_directory')).'js/tinymce/plugins/annolists/editor_plugin.js';
 		
-		//$plugins['annoSection'] = trailingslashit(get_bloginfo('template_directory')).'js/tinymce/plugins/annosection/editor_plugin.js';
+		$plugins['annoParagraphs'] = trailingslashit(get_bloginfo('template_directory')).'js/tinymce/plugins/annoparagraphs/editor_plugin.js';
 
 		return $plugins;
 	}
@@ -360,7 +360,6 @@ function anno_popup_quote() {
 		</div>
 	</form>
 </div>
-	
 	
 <?php
 }
@@ -616,4 +615,24 @@ function anno_process_editor_body_save($data) {
 	
 }
 add_filter('wp_insert_post_data', 'anno_process_editor_body_save');
+
+function anno_convert_to_html($data) {
+	if (isset($data['post_type']) && $data['post_type'] == 'article' && isset($data['post_content'])) {
+		$content = addslashes(anno_xml_to_html(stripslashes($data['post_content'])));
+
+	}
+	return $data;
+}
+add_filter('wp_insert_post_data', 'anno_convert_to_html');
+
+
+function anno_xml_to_html($content) {
+	$doc = phpQuery::newDocument(stripslashes($content));
+	phpQuery::selectDocument($doc);
+	
+	
+	
+	return phpQuery::getDocument();
+}
+
 ?>

@@ -16,9 +16,9 @@ var annoImages;
 			
 			$('#anno-images-cancel').click(annoImages.close);
 
-		//	inputs.dialog.bind('wpdialogrefresh', annoLink.refresh);
-		//	inputs.dialog.bind('wpdialogbeforeopen', annoLink.beforeOpen);
-		//	inputs.dialog.bind('wpdialogclose', annoLink.onClose);
+			//	inputs.dialog.bind('wpdialogrefresh', annoLink.refresh);
+			//	inputs.dialog.bind('wpdialogbeforeopen', annoLink.beforeOpen);
+			//	inputs.dialog.bind('wpdialogclose', annoLink.onClose);
 		},
 
 
