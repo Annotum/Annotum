@@ -16,7 +16,7 @@
 				});
             });
 			ed.addButton('annoreferences', {
-				title :'annoReferences',
+				title :'Insert Reference',
 				//ed.getLang('advanced.references_desc'),
 				cmd : 'Anno_References'
 			});
