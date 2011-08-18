@@ -163,6 +163,20 @@ function anno_assets() {
 }
 add_action('wp', 'anno_assets');
 
+
+/**
+ * Enqueue our custom JS on the edit post page (currently used
+ * for TinyMCE trigger usage during article save)
+ *
+ * @return void
+ */
+function anno_edit_post_assets() {
+	wp_enqueue_script('anno-article-admin', get_template_directory_uri().'/js/article-admin.js');
+}
+add_action('load-post.php', 'anno_edit_post_assets');
+add_action('load-post-new.php', 'anno_edit_post_assets');
+
+
 /*
  * Outputs a few extra semantic tags in the <head> area.
  * Hook into 'wp_head' action.
