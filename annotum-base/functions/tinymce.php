@@ -511,12 +511,11 @@ function anno_tinymce_image_save() {
 			$attachment->post_excerpt = isset($_POST['caption']) ? $_POST['caption'] : '';
 			// Pass in as array to prevent double escaping
 			wp_update_post((array) $attachment);
-
 			$meta_fields = array(
 				'alt_text',
 				'display',
 				'label',
-				'copyright_statment',
+				'copyright_statement',
 				'copyright_holder',
 				'license',
 			);

@@ -46,9 +46,9 @@ jQuery(document).ready( function($) {
 			caption = $('#img-caption-' + attachment_id).val();
 			label = $('#img-label-' + attachment_id).val();
 			description = $('#img-description-' + attachment_id).val();
-			copyright_statement = $('#img-caption-' + attachment_id).val();
-			copyright_holder = $('#img-caption-' + attachment_id).val();
-			license = $('#img-caption-' + attachment_id).val();
+			copyright_statement = $('#img-copystatement-' + attachment_id).val();
+			copyright_holder = $('#img-copyholder-' + attachment_id).val();
+			license = $('#img-license-' + attachment_id).val();
 			//TODO Caption Title Support
 			xml = '<fig>'
 					+'<img src="' + url + '" />'

@@ -107,8 +107,8 @@ function anno_popup_images_row_edit($attachment) {
 		}
 
 		$label = get_post_meta($attachment->ID, '_anno_attachment_image_label', true);
-		$copyright_statment = get_post_meta($attachment->ID, '_anno_attachment_image_statement', true);
-		$copyright_holder = get_post_meta($attachment->ID, '_anno_attachment_image_holder', true);
+		$copyright_statement = get_post_meta($attachment->ID, '_anno_attachment_image_copyright_statement', true);
+		$copyright_holder = get_post_meta($attachment->ID, '_anno_attachment_image_copyright_holder', true);
 		$license = get_post_meta($attachment->ID, '_anno_attachment_image_license', true);
 		
 ?>
@@ -149,9 +149,9 @@ function anno_popup_images_row_edit($attachment) {
 						</fieldset>
 						<fieldset>
 							<legend><?php _ex('Permissions', 'legend', 'anno'); ?></legend>
-							<label for="<?php echo esc_attr('img-copystatment-'.$attachment->ID); ?>">
-								<span><?php _ex('Copyright Statment', 'input label', 'anno'); ?></span>
-								<input type="text" name="copyright_statment" id="<?php echo esc_attr('img-copystatment-'.$attachment->ID); ?>" value="<?php echo esc_attr($copyright_statment); ?>" />
+							<label for="<?php echo esc_attr('img-copystatement-'.$attachment->ID); ?>">
+								<span><?php _ex('Copyright Statement', 'input label', 'anno'); ?></span>
+								<input type="text" name="copyright_statement" id="<?php echo esc_attr('img-copystatement-'.$attachment->ID); ?>" value="<?php echo esc_attr($copyright_statement); ?>" />
 							</label>
 							<label for="<?php echo esc_attr('img-copyholder-'.$attachment->ID); ?>">
 								<span><?php _ex('Copyright Holder', 'input label', 'anno'); ?></span>
