@@ -265,12 +265,15 @@
 			
 			
 			ed.addButton('annoorderedlist', {
-				title : ed.getLang('advanced.link_desc'),
+				//removing for temp fix-- title : ed.getLang('advanced.link_desc'),
+				title : 'Insert Ordered List',
 				cmd : 'InsertOrderedList2'
 			});
 			
 			ed.addButton('annobulletlist', {
-				title : ed.getLang('advanced.link_desc'),
+				//removing for temp fix-- title : ed.getLang('advanced.link_desc'),
+				// TODO: Internationalize
+				title : 'Insert Bullet List',
 				cmd : 'InsertUnorderedList2'
 			});
 						

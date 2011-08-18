@@ -53,11 +53,13 @@
 				
 			// Register example button
 			ed.addButton('annolink', {
-				title : ed.getLang('advanced.link_desc'),
+				//removing for temp fix-- title : ed.getLang('advanced.link_desc'),
+				title : 'Insert Link',
 				cmd : 'Anno_Link'
 			});
 			ed.addButton('announlink', {
-				title : ed.getLang('advanced.link_desc'),
+				//removing for temp fix-- title : ed.getLang('advanced.link_desc'),
+				title : 'Remove Link',
 				cmd : 'annoUnlink'
 			});
 

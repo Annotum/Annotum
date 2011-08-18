@@ -28,7 +28,8 @@
 
 			// Register example button
 			ed.addButton('annoimages', {
-				title : ed.getLang('advanced.link_desc'),
+				//removing for temp fix-- title : ed.getLang('advanced.link_desc'),
+				title : 'Insert Image',
 				cmd : 'Anno_Images'
 			});
 			

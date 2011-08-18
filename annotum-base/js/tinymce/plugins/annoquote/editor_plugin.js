@@ -26,7 +26,8 @@
 
 			// Register example button
 			ed.addButton('annoquote', {
-				title : ed.getLang('advanced.link_desc'),
+				//removing for temp fix-- title : ed.getLang('advanced.link_desc'),
+				title : 'Insert Quote',
 				cmd : 'Anno_Quote'
 			});
 			
