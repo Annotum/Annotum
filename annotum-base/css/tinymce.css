@@ -15,23 +15,11 @@ body {
 }
 
 h1,h2,h3,h4,h5,h6,p,sec, caption, 
-fig, fig label, fig cap, fig long-desc, fig copyright-statement, fig copyright-holder, fig license-p,table-wrap{
+fig, fig label, fig cap, fig long-desc, fig copyright-statement, fig copyright-holder, fig license-p,table-wrap, disp-quote{
 	padding: 10px;
 	border: 1px solid #DFDFDF;
 	background: #FFFFFF;
 	margin-bottom: 10px;
-	display: block;
-}
-
-table-wrap {
-	display: inline-block;
-}
-
-table-wrap label, table-wrap cap {
-	padding: 5px;
-	border: 1px solid #DFDFDF;
-	background: #FFFFFF;
-	margin-bottom: 2px;
 	display: block;
 }
 
@@ -71,6 +59,7 @@ table.mceitemtable {
 table.mceitemtable td,
 table.mceitemtable th  {
 	min-width: 20px;
+	min-height: 20px;
 	border: 1px solid #000000;
 	border-spacing: 0px;
 	padding: 3px;
@@ -155,3 +144,33 @@ fig license-p {
 	font-size: 10px;
 }
 
+/** Tables **/
+table-wrap {
+	display: inline-block;
+}
+
+table-wrap label, table-wrap cap {
+	padding: 5px;
+	border: 1px solid #DFDFDF;
+	background: #FFFFFF;
+	margin-bottom: 2px;
+	display: block;
+}
+
+/** Quotes **/
+disp-quote {
+	font-style: italic;
+}
+
+disp-quote permissions {
+	font-style: normal;
+	display: none;
+}
+
+disp-quote attrib:before {
+	content: " - ";
+}
+
+disp-quote attrib {
+	font-style: normal;
+}

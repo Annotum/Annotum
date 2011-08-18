@@ -32,22 +32,7 @@ var annoQuote;
 			var ed = tinyMCEPopup.editor;
 			ed.selection.collapse(0);
 			//TODO Validation
-
-/*
-
-<disp-quote>
-	<p>&inlines; <xref ref-type="bibr" rid="B1">xref text</xref></p>  
-	<attrib>ATTRIBUTION</attrib>
-	<permissions>
-		<copyright-statement>&formats;</copyright-statement>
-		<copyright-holder>holder</copyright-holder>
-		<license license-type="creative-commons">
-			<license-p>&inlines; <xref ref-type="bibr" rid="B1">xref text</xref></license-p>
-		</license>
-	</permissions>
-</disp-quote>
-
-*/						
+								
 			form = $('#anno-popup-quote-form');
 			quote = $('input[name$="text"]', form).val();
 			attribution = $('input[name$="attribution"]', form).val();
@@ -55,13 +40,23 @@ var annoQuote;
 			holder = $('input[name$="holder"]', form).val();
 			license = $('input[name$="license"]', form).val();
 						
-			xml = '<disp-quote>' + quote +  '<attrib>' + attribution +  '</attrib><permissions><copyright-statement>' + statement +  '</copyright-statement><copyright-holder>' + holder +  '</copyright-holder><license license-type="creative-commons"><license-p>' + license +  '</license-p></license></permissions></disp-quote>'
-				
+			xml = '<disp-quote>' + quote 
+					+'<attrib>' + attribution +  '</attrib>'
+					+'<permissions>'
+						+'<copyright-statement>' + statement +  '</copyright-statement>'
+						+'<copyright-holder>' + holder +  '</copyright-holder>'
+						+'<license license-type="creative-commons">'
+							+'<license-p>' + license +  '</license-p>'
+						+'</license>'
+					+'</permissions>'
+				+'</disp-quote>';
+
 			tinyMCEPopup.execCommand('mceInsertContent', false, xml);
+			form[0].reset();
+			
 			
 			tinyMCEPopup.close();
 		},
-
 
 		keyup : function( event ) {
 			var key = $.ui.keyCode;

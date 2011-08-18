@@ -13,15 +13,16 @@ function anno_admin_print_footer_scripts() {
 		}
 		
 		$extendec_valid_elements = 
-'italic,underline,monospace,bold,ext-link[ext-link-type:uri|xlink::href|title],sec,xref[ref-type|rid],inline-graphic[xlink::href],alt-text,fig,label,title,media[xlink::href],long-desc,permissions,copyright-statement,copyright-holder,license[license-type:creative-commons],license-p,table-wrap,disp-quote,attrib,list[list-type],list-item,cap';
+'italic,underline,monospace,bold,ext-link[ext-link-type:uri|xlink::href|title],sec,xref[ref-type|rid],inline-graphic[xlink::href],alt-text,fig,label,title,media[xlink::href],long-desc,permissions,copyright-statement,copyright-holder,license[license-type:creative-commons],license-p,table-wrap,disp-quote,attrib,list[list-type],list-item,cap,disp-quote';
 		
-		$custom_elements =  '~bold~italic,~underline,~monospace,~ext-link,~xref,~inline-graphic,~alt-text,~label,~long-desc,~copyright-statement,~copyright-holder,~license,~license-p,~disp-quote,~attrib'.'sec,list,list-item,fig,title,media,permissions,table-wrap,cap';
+		$custom_elements =  '~bold~italic,~underline,~monospace,~ext-link,~xref,~inline-graphic,~alt-text,~label,~long-desc,~copyright-statement,~copyright-holder,~license,~license-p,~disp-quote,~attrib'.'sec,list,list-item,fig,title,media,permissions,table-wrap,cap,disp-quote';
 		
-		$valid_child_elements = 'p[table],list[list-item],list[title]'.
-		'fig[img|media|cap],cap[p|xref]';
-		
+		$valid_child_elements = 'p[table],list[list-item],list[title]'
+		.'fig[img|media|cap],cap[p|xref],'
+		.'disp-quote[attrib|permissions],'
+		.'permissions[copyright-statement|copyright-holder|license],'
+		.'license[license-p]';
 
-		
 		wp_tiny_mce(false, array(
 			'content_css' => trailingslashit(get_bloginfo('template_directory')).'css/tinymce.css',
 			'extended_valid_elements' => $extendec_valid_elements,
@@ -355,7 +356,7 @@ function anno_popup_quote() {
 			</form>
 		</div>
 		<div class="anno-mce-popup-footer">
-			<?php _anno_popup_submit_button('anno-quote-submit', _x('Save', 'button value', 'anno')); ?>
+			<?php _anno_popup_submit_button('anno-quote-submit', _x('Insert', 'button value', 'anno')); ?>
 		</div>
 	</form>
 </div>
@@ -370,6 +371,9 @@ function _anno_popup_submit_button($id, $value, $type = 'button') {
 <?php
 }
 
+/**
+ * Markup for the tinyMCE dialog popups
+ */ 
 
 function anno_preload_dialogs($init) {
 ?>
@@ -391,9 +395,7 @@ function anno_preload_dialogs($init) {
 	
 	<div style="display:none;">
 	<?php anno_popup_quote(); ?>
-	</div>
-	
-	
+	</div>	
 <?php 
 }
 add_action('after_wp_tiny_mce', 'anno_preload_dialogs', 10, 1 );
@@ -578,15 +580,13 @@ function anno_process_editor_content($content) {
 	return phpQuery::getDocument();
 }
 
-
-
 function anno_process_editor_content_save($content) {
 	// Replace inline img tags with <inline-graphic></inline-graphic>
 	// Replace xref text
 	
 	// Strip img tags, replace inline images so they're draggable.
 
-	$doc = phpQuery::newDocument(stripslashes($data['post_content']));
+	$doc = phpQuery::newDocument(stripslashes($content));
 	phpQuery::selectDocument($doc);
 
 	$imgs = pq('img');
@@ -602,15 +602,15 @@ function anno_process_editor_content_save($content) {
 	});
 	
 	// Strip all tags not defined by DTD
-	$tags = '<fig><sec><p><label><cap><media><permissions><alt-text><long-desc><copyright-statement><copyright-holder><license><license-p><xref><inline-graphic><alt-text>';
+	$tags = '<fig><sec><p><label><cap><media><permissions><alt-text><long-desc><copyright-statement><copyright-holder><license><license-p><xref><inline-graphic><alt-text><table-wrap><table><thead><tbody><tr><td><th><disp-quote><attrib>';
 	$content = strip_tags(phpQuery::getDocument(), $tags);
 
-	return $data;
+	return $content;
 }
 
 function anno_process_editor_body_save($data) {
 	if (isset($data['post_type']) && $data['post_type'] == 'article' && isset($data['post_content'])) {
-		$data['content'] = addslashes(anno_process_editor_content_save(stripslashes($data['post_content'])));
+		$data['post_content'] = addslashes(anno_process_editor_content_save(stripslashes($data['post_content'])));
 	}
 	return $data;
 	
