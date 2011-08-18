@@ -42,8 +42,8 @@ function anno_admin_print_footer_scripts() {
 			'valid_child_elements' => $valid_child_elements,
 //			'valid_elements' => '',
 			'verify_html' => false,
-			'force_p_newlines' => false,
-			'force_br_newlines' => true,
+			'force_p_newlines' => true,
+			'force_br_newlines' => false,
 		));
 ?>
 
@@ -109,7 +109,7 @@ class Anno_tinyMCE {
 		
 		$plugins['annoLists'] = trailingslashit(get_bloginfo('template_directory')).'js/tinymce/plugins/annolists/editor_plugin.js';
 		
-		$plugins['annoParagraphs'] = trailingslashit(get_bloginfo('template_directory')).'js/tinymce/plugins/annoparagraphs/editor_plugin.js';
+		//$plugins['annoParagraphs'] = trailingslashit(get_bloginfo('template_directory')).'js/tinymce/plugins/annoparagraphs/editor_plugin.js';
 
 		return $plugins;
 	}
