@@ -38,18 +38,18 @@ textarea.anno-meta {
 }
 
 #body .inside,
-#appendicies .inside {
+#appendices .inside {
 	margin: 0;
 	padding: 0;
 }
 
-#appendicies td.mceStatusbar {
+#appendices td.mceStatusbar {
 	color: #ff00ff;
 	border-bottom: 1px solid #000;
 }
 
 #body .wp_themeSkin .mceStatusbar a.mceResize,
-#appendicies .wp_themeSkin .mceStatusbar a.mceResize {
+#appendices .wp_themeSkin .mceStatusbar a.mceResize {
 	top: -2px;
 }
 

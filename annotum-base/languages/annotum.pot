@@ -419,7 +419,7 @@ msgstr ""
 
 #: ../annotum-base/functions/article-post-type.php:118
 msgctxt "Meta box title"
-msgid "Appendicies"
+msgid "Appendices"
 msgstr ""
 
 #: ../annotum-base/functions/article-post-type.php:119
