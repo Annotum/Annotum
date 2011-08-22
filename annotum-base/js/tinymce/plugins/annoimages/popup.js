@@ -1,5 +1,4 @@
 jQuery(document).ready( function($) {
-
 	$('.img-list-actions .show-img').live('click', function() {
 		var img_id = $(this).attr('id').replace('toggle-', '');
 		$(this).removeClass('show-img');

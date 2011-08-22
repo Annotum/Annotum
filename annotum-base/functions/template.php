@@ -292,7 +292,7 @@ class Anno_Template {
 	public function get_appendices($post_id = null) {
 		$out = '';
 		$post_id = $this->utils->post_id_for_sure($post_id);
-		$appendices = get_post_meta($post_id, '_anno_appendicies', true);
+		$appendices = get_post_meta($post_id, '_anno_appendices', true);
 		if (is_array($appendices) && count($appendices)) {
 			$title_text = _x('Appendix %s', 'Appendix title displayed in post, auto-incremented for each appendix.', 'anno');
 

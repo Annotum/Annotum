@@ -7,9 +7,9 @@ function anno_admin_print_footer_scripts() {
 	if (isset($post->post_type) && $post->post_type == 'article') {
 		// Remove the WP image edit plugin
 		add_filter('tiny_mce_before_init', 'anno_tiny_mce_before_init');
-		$appendicies = get_post_meta($post->ID, '_anno_appendicies', true);
-		if (empty($appendicies) || !is_array($appendicies)) {
-			$appendicies = array(0 => '0');
+		$appendices = get_post_meta($post->ID, '_anno_appendices', true);
+		if (empty($appendices) || !is_array($appendices)) {
+			$appendices = array(0 => '0');
 		}
 		
 		$extendec_valid_elements = 
@@ -50,7 +50,7 @@ function anno_admin_print_footer_scripts() {
 <script type="text/javascript">
 	tinyMCE.execCommand('mceAddControl', false, 'anno-body');
 <?php
-		foreach ($appendicies as $key => $value) {
+		foreach ($appendices as $key => $value) {
 ?>
 	tinyMCE.execCommand('mceAddControl', false, 'appendix-<?php echo $key; ?>');
 <?php
