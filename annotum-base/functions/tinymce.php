@@ -24,6 +24,7 @@ function anno_admin_print_footer_scripts() {
 		.'license[license-p]';
 
 		wp_tiny_mce(false, array(
+			'remove_linebreaks' => false,
 			'content_css' => trailingslashit(get_bloginfo('template_directory')).'css/tinymce.css',
 			'extended_valid_elements' => $extended_valid_elements,
 			'custom_elements' => $custom_elements,
@@ -33,7 +34,6 @@ function anno_admin_print_footer_scripts() {
 					italic : { \'inline\' : \'italic\'},
 					underline : { \'inline\' : \'underline\'},
 					sec : { \'block\' : \'sec\', \'wrapper\' : \'true\' },
-
 				}',
 			'theme_advanced_blockformats' => 'Paragraph=p,Heading=h2,Section=sec',
 			'forced_root_block' => '',
@@ -600,13 +600,14 @@ function anno_process_editor_content_save($content) {
 	});
 	
 	// Strip all tags not defined by DTD
-	$tags = '<fig><sec><p><label><cap><media><permissions><alt-text><long-desc><copyright-statement><copyright-holder><license><license-p><xref><inline-graphic><alt-text><table-wrap><table><thead><tbody><tr><td><th><disp-quote><attrib>';
+	$tags = '<fig><sec><p><label><cap><media><permissions><alt-text><long-desc><copyright-statement><copyright-holder><license><license-p><xref><inline-graphic><alt-text><table-wrap><table><thead><tbody><tr><td><th><disp-quote><attrib><h2>';
 	$content = strip_tags(phpQuery::getDocument(), $tags);
 
 	return $content;
 }
 
 function anno_process_editor_body_save($data) {
+	error_log(print_r($_POST,1));
 	if (isset($data['post_type']) && $data['post_type'] == 'article' && isset($data['post_content'])) {
 		$data['post_content'] = addslashes(anno_process_editor_content_save(stripslashes($data['post_content'])));
 	}
