@@ -607,6 +607,7 @@ function anno_tinymce_image_save() {
 }
 add_action('wp_ajax_anno-img-save', 'anno_tinymce_image_save');
 
+
 function anno_process_editor_content($content) {
 
 	$doc = phpQuery::newDocument($content);
@@ -641,27 +642,20 @@ function anno_process_editor_content($content) {
 	return phpQuery::getDocument();
 }
 
-function anno_process_editor_content_save($content) {
-	// Replace inline img tags with <inline-graphic></inline-graphic>
-	// Replace xref text
-	
-	// Strip img tags, replace inline images so they're draggable.
 
-	$doc = phpQuery::newDocument(stripslashes($content));
-	phpQuery::selectDocument($doc);
+/**
+ * Validates the XML to only allow tags defined in the DTD
+ *
+ * @param string $html_content 
+ * @return string - DTD valid XML
+ */
+function anno_validate_xml_content_on_save($html_content) {
+	// Strip all tags not defined by DTD
+	$content = strip_tags(anno_html_to_xml($html_content), implode('', array_unique(anno_get_dtd_valid_elements())));
+	return $content;
+}
 
-	$imgs = pq('img');
-	$imgs->each(function($img) {
-		$img = pq($img);
-	 	$img_class = pq($img)->attr('class');
-		if (!empty($img_class) && $img_class == '_inline_graphic') {
-			$img_src = $img->attr('src');
-			$img_alt = $img->attr('alt');
-			$xml = '<inline-graphic xlink:href="'.$img_src.'" ><alt-text>'.$img_alt.'</alt-text></inline-graphic>';
-			$img->replaceWith($xml);
-		}
-	});
-	
+function anno_get_dtd_valid_elements() {
 	// Build big list of valid XML elements (listed in DTD)
 	// @TODO remove reference to CF SVN
 	// @see https://svn.crowdfave.org/svn/crowdfavorite/active/solvitor/notes/Annotum%20DTD.xml
@@ -760,40 +754,176 @@ function anno_process_editor_content_save($content) {
 			'<sec>',
 			'<title>',
 	);
-	
-	// Strip all tags not defined by DTD
-	$content = strip_tags(phpQuery::getDocument(), implode('', array_unique($tags)));
-
-	return $content;
+	return apply_filters('anno_valid_dtd_elements', $tags);
 }
 
+/**
+ * Change the post content to XML prior to inserting into DB
+ *
+ * @param array $data 
+ * @return array - Post information prior to save
+ */
 function anno_process_editor_body_save($data) {
-	error_log(print_r($_POST,1));
 	if (isset($data['post_type']) && $data['post_type'] == 'article' && isset($data['post_content'])) {
-		$data['post_content'] = addslashes(anno_process_editor_content_save(stripslashes($data['post_content'])));
+		$data['post_content'] = addslashes(anno_validate_xml_content_on_save(stripslashes($data['post_content'])));
 	}
 	return $data;
-	
 }
 add_filter('wp_insert_post_data', 'anno_process_editor_body_save');
 
-function anno_convert_to_html($data) {
-	if (isset($data['post_type']) && $data['post_type'] == 'article' && isset($data['post_content'])) {
-		$content = addslashes(anno_xml_to_html(stripslashes($data['post_content'])));
 
+/**
+ * Take the XML in the post_content, and convert to HTML which
+ * is then stored as post_meta
+ *
+ * @param int $post_id
+ * @param obj $post - The actual $post object
+ */
+function anno_save_xml_as_html_post_meta($post_id, $post) {
+	if ($post->post_type == 'article' && isset($post->post_content)) {
+		// in goes the XML, out comes the HTML
+		update_post_meta($post_id, '_anno_article_html', anno_xml_to_html($post->post_content));
 	}
 	return $data;
 }
-// add_filter('wp_insert_post_data', 'anno_convert_to_html');
+add_action('save_post', 'anno_save_xml_as_html_post_meta', null, 2);
 
 
-function anno_xml_to_html($content) {
-	$doc = phpQuery::newDocument(stripslashes($content));
-	phpQuery::selectDocument($doc);
+/**
+ * Utility function to convert our HTML into XML
+ * By default, this doesn't do anything by itself, but it runs the 
+ * 'anno_html_to_xml' action to allow various actions to change 
+ * small specific portions of the HTML
+ *
+ * @see anno_xml_to_html_replace_bold() for simple example on usage
+ * 
+ * @param string $xml_content 
+ * @return void
+ */
+function anno_html_to_xml($html_content) {
+	// Load our phpQuery document up, so filters should be able to use the pq() function to access its elements
+	phpQuery::newDocument($html_content);
 	
+	// Let our various actions alter the document into XML
+	do_action('anno_html_to_xml', $html_content);
 	
-	
-	return phpQuery::getDocument();
+	// Return the newly formed HTML
+	return phpQuery::getDocument()->__toString();
 }
 
+function anno_html_to_xml_replace_bold($orig_html) {
+	$bold_nodes = pq('strong');
+	foreach ($bold_nodes as $node) {
+		$pq_node = pq($node); // Create a phpQuery object from the noe
+		$pq_node->replaceWith('<bold>'.$pq_node->html().'</bold>');
+	}
+}
+add_action('anno_html_to_xml', 'anno_html_to_xml_replace_bold');
+
+
+/**
+ * Change HTML <img> to XML <inline-graphic>
+ *
+ * @param string $orig_html 
+ * @return void
+ */
+function anno_html_to_xml_replace_img($orig_html) {
+	$imgs = pq('img');
+	$imgs->each(function($img) {
+		$img = pq($img);
+	 	$img_class = pq($img)->attr('class');
+		if (!empty($img_class) && $img_class == '_inline_graphic') {
+			$img_src = $img->attr('src');
+			$img_alt = $img->attr('alt');
+			$xml = '<inline-graphic xlink:href="'.$img_src.'" ><alt-text>'.$img_alt.'</alt-text></inline-graphic>';
+			$img->replaceWith($xml);
+		}
+	});
+}
+add_action('anno_html_to_xml', 'anno_html_to_xml_replace_img');
+
+
+/**
+ * Utility function to convert our XML into HTML
+ * By default, this doesn't do anything by itself, but it runs the 
+ * 'anno_xml_to_html' action to allow various actions to change 
+ * small specific portions of the XML
+ *
+ * @see anno_xml_to_html_replace_bold() for simple example on usage
+ * 
+ * @param string $xml_content 
+ * @return void
+ */
+function anno_xml_to_html($xml_content) {
+	// Load our phpQuery document up, so filters should be able to use the pq() function to access its elements
+	phpQuery::newDocument($xml_content);
+	
+	// Let our various actions alter the document into HTML
+	do_action('anno_xml_to_html', $xml_content);
+	
+	// Return the newly formed HTML
+	return phpQuery::getDocument()->__toString();
+}
+
+
+/**
+ * Loop over each <bold>...</bold> node and replace with <strong>....</strong>
+ *
+ * @param string $orig_xml 
+ * @return void
+ */
+function anno_xml_to_html_replace_bold($orig_xml) {
+	$bold_nodes = pq('bold');
+	foreach ($bold_nodes as $node) {
+		$pq_node = pq($node); // Create a phpQuery object from the noe
+		$pq_node->replaceWith('<strong>'.$pq_node->html().'</strong>');
+	}
+}
+add_action('anno_xml_to_html', 'anno_xml_to_html_replace_bold');
+
+
+/**
+ * Replace inline graphics in the XML document with HTML elements
+ *
+ * @param string $orig_xml - Original XML, prob. shouldn't need
+ * @return void
+ */
+function anno_xml_to_html_replace_inline_graphics($orig_xml) {
+	$inline_imges = pq('inline-graphic');
+	$inline_imges->each(function($img) {	
+		$img = pq($img);
+		$img_src = $img->attr('xlink:href');
+
+		if (!empty($img_src)) {
+			$img = pq($img);
+			$alt_text = $img->children('alt-text:first');
+			$html = '<img src="'.$img_src.'" class="_inline_graphic" alt="'.$alt_text.'" />';
+			$img->replaceWith($html);
+		}
+	});
+}
+// add_action('anno_xml_to_html', 'anno_xml_to_html_replace_inline_graphics');
+
+
+/**
+ * Replace <fig> nodes in the XML document with HTML elements
+ *
+ * @param string $orig_xml - Original XML, prob. shouldn't need
+ * @return void
+ */
+function anno_xml_to_html_replace_figures($orig_xml) {
+	// We need a clearfix for floated images.
+	$figs = pq('fig');
+	$figs->each(function($fig) {
+		$fig = pq($fig);
+		
+		// Add in img for display in editor
+		$img_src = $fig->find('media')->attr('xlink:href');
+		$fig->prepend('<img src="'.$img_src.'"');
+		
+		// _mce_bogus stripped by tinyMCE on save
+		$fig->append('<div _mce_bogus="1" class="clearfix"></div></fig>');
+	});
+}
+add_action('anno_xml_to_html', 'anno_xml_to_html_replace_figures');
 ?>
