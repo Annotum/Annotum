@@ -144,7 +144,7 @@ function annowf_registered_post_meta_items() {
 			'_anno_acknowledgements',
 			'_anno_funding',
 			'_anno_subtitle',
-			'_anno_appendicies',		
+			'_anno_appendices',		
 		);
 		
 		foreach ($workflow_meta_keys as $meta_key) {
@@ -163,7 +163,7 @@ function annowf_meta_revision_display($meta_value) {
 	$html = '';
 	if (is_array($meta_value)) {
 		foreach ($meta_value as $key => $value) {
-			// The only occurence of serilized meta here is appendicies
+			// The only occurence of serilized meta here is appendices
 			$key = _x('Appendix', 'revision heading', 'anno').anno_index_alpha($key);
 //TODO remove padding from h4 to prevent jerkiness of JS
 			$html = '<h4>'.$key.'</h4><div>'.htmlspecialchars($value).'</div>

@@ -93,7 +93,7 @@ function anno_article_meta_boxes() {
 	add_meta_box('abstract', _x('Abstract', 'Meta box title', 'anno'), 'anno_abstract_meta_box', 'article', 'normal', 'high');
 	add_meta_box('funding', _x('Funding Statement', 'Meta box title', 'anno'), 'anno_funding_meta_box', 'article', 'normal', 'high');
 	add_meta_box('acknowledgements', _x('Acknowledgements', 'Meta box title', 'anno'), 'anno_acknowledgements_meta_box', 'article', 'normal', 'high');
-	add_meta_box('appendicies', _x('Appendicies', 'Meta box title', 'anno'), 'anno_appendicies_meta_box', 'article', 'normal', 'high');
+	add_meta_box('appendices', _x('Appendices', 'Meta box title', 'anno'), 'anno_appendices_meta_box', 'article', 'normal', 'high');
 	add_meta_box('featured', _x('Featured', 'Meta box title', 'anno'), 'anno_featured_meta_box', 'article', 'side', 'default');
 	
 	if (current_user_can('administrator')) {
@@ -195,15 +195,15 @@ function anno_article_insert_post($post_id, $post) {
 			}
 		}
 		
-		$appendicies = array();
+		$appendices = array();
 		if (isset($_POST['anno_appendix']) && is_array($_POST['anno_appendix'])) {
 			foreach ($_POST['anno_appendix'] as $appendix) {
 				if (!empty($appendix)) {
-					$appendicies[] = $appendix;
+					$appendices[] = $appendix;
 				}
 			}
 		}
-		update_post_meta($post_id, '_anno_appendicies', $appendicies);		
+		update_post_meta($post_id, '_anno_appendices', $appendices);		
 	}
 }
 add_action('wp_insert_post', 'anno_article_insert_post', 10, 2);
