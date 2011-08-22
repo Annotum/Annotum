@@ -12,10 +12,10 @@ function anno_admin_print_footer_scripts() {
 			$appendicies = array(0 => '0');
 		}
 		
-		$extendec_valid_elements = 
+		$extended_valid_elements = 
 'italic,underline,monospace,bold,ext-link[ext-link-type:uri|xlink::href|title],sec,xref[ref-type|rid],inline-graphic[xlink::href],alt-text,fig,label,title,media[xlink::href],long-desc,permissions,copyright-statement,copyright-holder,license[license-type:creative-commons],license-p,table-wrap,disp-quote,attrib,list[list-type],list-item,cap,disp-quote';
 		
-		$custom_elements =  '~bold~italic,~underline,~monospace,~ext-link,~xref,~inline-graphic,~alt-text,~label,~long-desc,~copyright-statement,~copyright-holder,~license,~license-p,~disp-quote,~attrib'.'sec,list,list-item,fig,title,media,permissions,table-wrap,cap,disp-quote';
+		$custom_elements =  '~bold~italic,~underline,~monospace,~ext-link,~xref,~inline-graphic,~alt-text,~label,~long-desc,~copyright-statement,~copyright-holder,~license,~license-p,~disp-quote,~attrib,sec,list,list-item,fig,title,media,permissions,table-wrap,cap,disp-quote';
 		
 		$valid_child_elements = 'p[table],list[list-item],list[title]'
 		.'fig[img|media|cap],cap[p|xref],'
@@ -25,7 +25,7 @@ function anno_admin_print_footer_scripts() {
 
 		wp_tiny_mce(false, array(
 			'content_css' => trailingslashit(get_bloginfo('template_directory')).'css/tinymce.css',
-			'extended_valid_elements' => $extendec_valid_elements,
+			'extended_valid_elements' => $extended_valid_elements,
 			'custom_elements' => $custom_elements,
 			//  Defines wrapper, need to set this up as its own button.
 			'formats' => '{
