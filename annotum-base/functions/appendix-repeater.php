@@ -1,16 +1,16 @@
 <?php 
 
 /**
- * Meta box for Article Appendicies
+ * Meta box for Article Appendices
  */ 
-function anno_appendicies_meta_box($post) {
+function anno_appendices_meta_box($post) {
 	$html = '';
 	$html .= '
-	<div id="anno_appendicies">';
+	<div id="anno_appendices">';
 
-	$appendicies = get_post_meta($post->ID, '_anno_appendicies', true);
-	if (!empty($appendicies) && is_array($appendicies)) {
-		foreach ($appendicies as $index => $content) {
+	$appendices = get_post_meta($post->ID, '_anno_appendices', true);
+	if (!empty($appendices) && is_array($appendices)) {
+		foreach ($appendices as $index => $content) {
 			$html .= anno_appendix_box_content($index, $content);
 		}
 	}
@@ -27,8 +27,8 @@ function anno_appendicies_meta_box($post) {
 			   	return r;
 			}
 			function addAnotherAnnoAppendix() {
-				if (jQuery(\'#anno_appendicies\').children(\'fieldset\').length > 0) {
-					last_element_index = jQuery(\'#anno_appendicies fieldset:last\').attr(\'id\').match(/anno_appendix_([0-9]+)/);
+				if (jQuery(\'#anno_appendices\').children(\'fieldset\').length > 0) {
+					last_element_index = jQuery(\'#anno_appendices fieldset:last\').attr(\'id\').match(/anno_appendix_([0-9]+)/);
 					next_element_index = Number(last_element_index[1])+1;
 				} else {
 					next_element_index = 1;
@@ -36,7 +36,7 @@ function anno_appendicies_meta_box($post) {
 				insert_element = \''.str_replace(PHP_EOL,'',trim(anno_appendix_box_content())).'\';
 				insert_element = insert_element.replace(/'.'###INDEX###'.'/g, next_element_index);
 				insert_element = insert_element.replace(/'.'###INDEX_ALPHA###'.'/g, annoIndexAlpha(next_element_index));
-				jQuery(insert_element).appendTo(\'#'.'anno_appendicies'.'\');
+				jQuery(insert_element).appendTo(\'#'.'anno_appendices'.'\');
 				tinyMCE.execCommand(\'mceAddControl\', false, \'appendix-\' + next_element_index );
 			}
 			function deleteAnnoAppendix'.'(del_el) {
