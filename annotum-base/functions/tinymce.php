@@ -48,8 +48,10 @@ function anno_admin_print_footer_scripts() {
 ?>
 
 <script type="text/javascript">
+	// Initialize tinyMCE on the anno-body element
 	tinyMCE.execCommand('mceAddControl', false, 'anno-body');
 <?php
+		// Loop over each appendicy and initialize tinyMCE on each one as well
 		foreach ($appendicies as $key => $value) {
 ?>
 	tinyMCE.execCommand('mceAddControl', false, 'appendix-<?php echo $key; ?>');
@@ -599,9 +601,107 @@ function anno_process_editor_content_save($content) {
 		}
 	});
 	
+	// Build big list of valid XML elements (listed in DTD)
+	// @TODO remove reference to CF SVN
+	// @see https://svn.crowdfave.org/svn/crowdfavorite/active/solvitor/notes/Annotum%20DTD.xml
+	$tags = array(
+		// Formats
+		'<bold>',
+		'<italic>',
+		'<sup>',
+		'<sub>',
+		'<monospace>',
+		'<underline>',
+		
+		// Inlines
+		'<named-content>',
+		'<ext-link>',
+		'<inline-graphic>',
+			'<alt-text>',
+		
+		// Paragraph-level
+		'<media>',
+			'<alt-text>',
+			'<long-desc>',
+			'<permissions>',
+				'<copyright-statement>',
+				'<copyright-holder>',
+				'<license>',
+					'<license-p>',
+						'<xref>',
+		'<list>',
+			'<title>',
+			'<list-item>',
+				'<p>',
+					'<xref>',
+				'<list>', // allow nested lists
+		'<disp-formula>',
+			'<label>',
+			'<tex-math>',
+		'<disp-quote>',
+			'<p>',
+				'<xref>',
+			'<attrib>',
+			'<permissions>',
+				'<copyright-statement>',
+				'<copyright-holder>',
+				'<license>',
+					'<license-p>',
+						'<xref>',
+		'<fig>',
+			'<label>',
+			'<caption>',
+				'<title>',
+				'<p>',
+					'<xref>',
+			'<media>',
+				'<alt-text>',
+				'<long-desc>',
+				'<permissions>',
+					'<copyright-statement>',
+					'<copyright-holder>',
+					'<license>',
+						'<license-p>',
+							'<xref>',
+		'<table-wrap>',
+			'<label>',
+			'<caption>',
+				'<title>',
+				'<p>',
+					'<xref>',
+				'<media>',
+					'<alt-text>',
+					'<long-desc>',
+				'<table>',
+					'<thead>',
+						'<tr>',
+							'<td>',
+								'<xref>',
+					'<tbody>',
+						'<tr>',
+							'<td>',
+								'<xref>',
+				'<table-wrap-foot>',
+					'<p>',
+						'<xref>',
+				'<permissions>',
+					'<copyright-statement>',
+					'<copyright-holder>',
+					'<license>',
+						'<license-p>',
+							'<xref>',
+					
+		'<preformat>',
+		
+		// @TODO the <article> XML elements
+		'<article>',
+			'<p>',
+			'<sec>',
+			'<title>',
+	);
+	
 	// Strip all tags not defined by DTD
-	$tags = '<fig><sec><p><label><cap><media><permissions><alt-text><long-desc><copyright-statement><copyright-holder><license><license-p><xref><inline-graphic><alt-text><table-wrap><table><thead><tbody><tr><td><th><disp-quote><attrib><h2>';
-	$content = strip_tags(phpQuery::getDocument(), $tags);
+	$content = strip_tags(phpQuery::getDocument(), implode('', array_unique($tags)));
 
 	return $content;
 }
@@ -623,7 +723,7 @@ function anno_convert_to_html($data) {
 	}
 	return $data;
 }
-add_filter('wp_insert_post_data', 'anno_convert_to_html');
+// add_filter('wp_insert_post_data', 'anno_convert_to_html');
 
 
 function anno_xml_to_html($content) {
