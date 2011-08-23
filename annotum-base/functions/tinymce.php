@@ -902,13 +902,13 @@ function anno_html_to_xml_replace_bold($orig_html) {
 add_action('anno_html_to_xml', 'anno_html_to_xml_replace_bold');
 
 /**
- * Change HTML <img> to XML <inline-graphic>
+ * Change HTML inline <img> to XML <inline-graphic>
  *
  * @param string $orig_html 
  * @return void
  */
-function anno_html_to_xml_replace_img($orig_html) {
-	$imgs = pq('img');
+function anno_html_to_xml_replace_inline_graphics($orig_html) {
+	$imgs = pq('img[class="_inline_graphic"]');
 	$imgs->each(function($img) {
 		$img = pq($img);
 	 	$img_class = pq($img)->attr('class');
@@ -920,7 +920,7 @@ function anno_html_to_xml_replace_img($orig_html) {
 		}
 	});
 }
-add_action('anno_html_to_xml', 'anno_html_to_xml_replace_img');
+add_action('anno_html_to_xml', 'anno_html_to_xml_replace_inline_graphics');
 
 
 /**
@@ -1015,7 +1015,7 @@ function anno_xml_to_html_replace_inline_graphics($orig_xml) {
 		}
 	});
 }
-// add_action('anno_xml_to_html', 'anno_xml_to_html_replace_inline_graphics');
+add_action('anno_xml_to_html', 'anno_xml_to_html_replace_inline_graphics');
 
 
 /**
