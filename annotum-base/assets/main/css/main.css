@@ -47,6 +47,11 @@ dl.kv dd{margin-bottom:8px;}
 .tags{font-size:12px;line-height:20px;}
 .content .wp-caption{margin:10px 0;}
 .content p.wp-caption-text,.content .gallery-caption{margin:0;}
+.alignleft{float:left;margin-right:1em;margin-bottom:1em;}
+.alignright{float:right;margin-left:1em;margin-bottom:1em;}
+.aligncenter{display:block;margin-left:auto;margin-right:auto;}
+.wp-caption,.gallery-caption{margin:10px 0;}
+.wp-caption-text,.gallery-caption{margin:0;}
 .sticky{}
 .bypostauthor .header h3.title{font-weight:bold;}
 .act .in{zoom:1;margin-left:auto;margin-right:auto;position:relative;width:960px;}.act .in:before,.act .in:after{content:"";display:table;}
