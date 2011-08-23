@@ -884,20 +884,53 @@ function anno_xml_to_html($xml_content) {
 
 
 /**
- * Loop over each <bold>...</bold> node and replace with <strong>....</strong>
+ * Loop over each formatting tag and do the proper HTML replacement
  *
  * @param string $orig_xml 
  * @return void
  */
-function anno_xml_to_html_replace_bold($orig_xml) {
-	$bold_nodes = pq('bold');
-	foreach ($bold_nodes as $node) {
-		$pq_node = pq($node); // Create a phpQuery object from the noe
-		$pq_node->replaceWith('<strong>'.$pq_node->html().'</strong>');
+function anno_xml_to_html_replace_formatting($orig_xml) {
+	$mapping = array(
+		'bold' => array(
+			'tag' => 'strong',
+			'class' => '',
+		),
+		'italic' => array(
+			'tag' => 'em',
+			'class' => '',
+		),
+		'underline' => array(
+			'tag' => 'mark',
+			'class' => 'underline',
+		),
+		'monospace' => array(
+			'tag' => 'code',
+			'class' => '',
+		),
+		'sup' => array(
+			'tag' => 'sup',
+			'class' => '',
+		),
+		'sub' => array(
+			'tag' => 'sub',
+			'class' => '',
+		),
+	);
+	foreach ($mapping as $format => $html_info) {
+		$nodes = pq($format);
+		foreach ($nodes as $node) {
+			// Get our HTML information from the mapping array
+			extract($html_info);
+			
+			// Build our class string if we need to
+			$class = empty($class) ? '' : ' class="'.$class.'"';
+			
+			$pq_node = pq($node); // Create a phpQuery object from the node
+			$pq_node->replaceWith('<'.$tag.$class.'>'.$pq_node->html().'</'.$tag.'>');
+		}
 	}
 }
-add_action('anno_xml_to_html', 'anno_xml_to_html_replace_bold');
-
+add_action('anno_xml_to_html', 'anno_xml_to_html_replace_formatting');
 
 /**
  * Replace inline graphics in the XML document with HTML elements
@@ -943,4 +976,73 @@ function anno_xml_to_html_replace_figures($orig_xml) {
 	});
 }
 add_action('anno_xml_to_html', 'anno_xml_to_html_replace_figures');
+
+function anno_xml_to_html_replace_lists($orig_xml) {
+	/*
+	'<list>',
+		'<title>',
+		'<list-item>',
+			'<p>',
+				'<xref>',
+			'<list>', // allow nested lists
+			
+	<figure>
+		<figcaption>
+		<ul/ol>
+			<li>
+	
+	*/
+	$lists = pq('list');
+	foreach ($lists as $list) {
+		$pq_list = pq($list);
+		$pq_list->replaceWith(anno_xml_to_html_iterate_list($pq_list));
+	}
+}
+add_action('anno_xml_to_html', 'anno_xml_to_html_replace_lists');
+
+function anno_xml_to_html_iterate_list($list) {
+	// Get list type
+	$list_type = $list->attr('list-type');
+	$list_type = ($list_type == 'order') ? 'ol' : 'ul';
+
+	// Get list title if there is one
+	$figcaption = $list->find('title:first')->html();
+	
+	// Now that we have the title, get rid of the element
+	$list->find('title:first')->remove();
+
+	// Loop over our items
+	$items = $list->children('list-item');
+	if (count($items)) {
+		foreach ($items as $item) {
+			$pq_item = pq($item);
+			anno_xml_to_html_iterate_list_item($pq_item);
+		}
+	}
+	
+	// Replace our list with our built-out HTML
+	$html = '<figure>';
+	$html .= empty($figcaption) ? '' : '<figcaption>'.$figcaption.'</figcaption>';
+	$html .= '<'.$list_type.'>'.$list->html().'</'.$list_type.'>';
+	$list->replaceWith($html);
+}
+
+/**
+ * phpQuery set the 
+ *
+ * @param string $item 
+ * @return void
+ * @author Crowd Favorite
+ */
+function anno_xml_to_html_iterate_list_item($item) {
+	$child_list = $item->find('list');
+	if (!empty($child_list->elements)) {
+		foreach ($child_list->elements as $list) {
+			anno_xml_to_html_iterate_list(pq($list));
+		}
+	}
+	else {
+		$item->replaceWith('<li>'.$item->html().'</li>');
+	}
+}
 ?>
