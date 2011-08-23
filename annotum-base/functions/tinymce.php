@@ -669,10 +669,10 @@ function anno_process_editor_content($content) {
 		
 		// Add in img for display in editor
 		$img_src = $fig->find('media')->attr('xlink:href');
-		$fig->prepend('<img src="'.$img_src.'"');
+		$fig->prepend('<img src="'.$img_src.'" />');
 		
 		// _mce_bogus stripped by tinyMCE on save
-		$fig->append('<div _mce_bogus="1" class="clearfix"></div></fig>');
+		$fig->append('<div _mce_bogus="1" class="clearfix"></div>');
 	});
 	
 	return phpQuery::getDocument();
@@ -1031,10 +1031,10 @@ function anno_xml_to_html_replace_figures($orig_xml) {
 		
 		// Add in img for display in editor
 		$img_src = $fig->find('media')->attr('xlink:href');
-		$fig->prepend('<img src="'.$img_src.'"');
+		$fig->prepend('<img src="'.$img_src.'" />');
 		
 		// _mce_bogus stripped by tinyMCE on save
-		$fig->append('<div _mce_bogus="1" class="clearfix"></div></fig>');
+		$fig->append('<div _mce_bogus="1" class="clearfix"></div>');
 	});
 }
 add_action('anno_xml_to_html', 'anno_xml_to_html_replace_figures');
