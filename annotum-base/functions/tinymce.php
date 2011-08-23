@@ -644,23 +644,19 @@ function anno_tinymce_image_save() {
 add_action('wp_ajax_anno-img-save', 'anno_tinymce_image_save');
 
 
+/**
+ * Prior to outputting the value of the textarea, convert a couple 
+ * entities that wouldn't be able to be seen, into HTML.  This is 
+ * done on the fly, so that the XML stored in the DB is correct.
+ *
+ * @param string $content 
+ * @return void
+ */
 function anno_process_editor_content($content) {
-
-	$doc = phpQuery::newDocument($content);
-	phpQuery::selectDocument($doc); 
+	phpQuery::newDocument($content);
 	
-	$inline_imges = pq('inline-graphic');
-	$inline_imges->each(function($img) {	
-		$img = pq($img);
-		$img_src = $img->attr('xlink:href');
-
-		if (!empty($img_src)) {
-			$img = pq($img);
-			$alt_text = $img->children('alt-text:first')->html();
-			$html = '<img src="'.$img_src.'" class="_inline_graphic" alt="'.$alt_text.'" />';
-			$img->replaceWith($html);
-		}
-	});
+	// Convert inline-graphics to <img> tags so they display
+	anno_xml_to_html_replace_inline_graphics($content);
 	
 	// We need a clearfix for floated images.
 	$figs = pq('fig');
@@ -911,13 +907,10 @@ function anno_html_to_xml_replace_inline_graphics($orig_html) {
 	$imgs = pq('img[class="_inline_graphic"]');
 	$imgs->each(function($img) {
 		$img = pq($img);
-	 	$img_class = pq($img)->attr('class');
-		if (!empty($img_class) && $img_class == '_inline_graphic') {
-			$img_src = $img->attr('src');
-			$img_alt = $img->attr('alt');
-			$xml = '<inline-graphic xlink:href="'.$img_src.'" ><alt-text>'.$img_alt.'</alt-text></inline-graphic>';
-			$img->replaceWith($xml);
-		}
+		$img_src = $img->attr('src');
+		$img_alt = $img->attr('alt');
+		$xml = '<inline-graphic xlink:href="'.$img_src.'" ><alt-text>'.$img_alt.'</alt-text></inline-graphic>';
+		$img->replaceWith($xml);
 	});
 }
 add_action('anno_html_to_xml', 'anno_html_to_xml_replace_inline_graphics');
