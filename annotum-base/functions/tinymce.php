@@ -926,4 +926,73 @@ function anno_xml_to_html_replace_figures($orig_xml) {
 	});
 }
 add_action('anno_xml_to_html', 'anno_xml_to_html_replace_figures');
+
+function anno_xml_to_html_replace_lists($orig_xml) {
+	/*
+	'<list>',
+		'<title>',
+		'<list-item>',
+			'<p>',
+				'<xref>',
+			'<list>', // allow nested lists
+			
+	<figure>
+		<figcaption>
+		<ul/ol>
+			<li>
+	
+	*/
+	$lists = pq('list');
+	foreach ($lists as $list) {
+		$pq_list = pq($list);
+		$pq_list->replaceWith(anno_xml_to_html_iterate_list($pq_list));
+	}
+}
+add_action('anno_xml_to_html', 'anno_xml_to_html_replace_lists');
+
+function anno_xml_to_html_iterate_list($list) {
+	// Get list type
+	$list_type = $list->attr('list-type');
+	$list_type = ($list_type == 'order') ? 'ol' : 'ul';
+
+	// Get list title if there is one
+	$figcaption = $list->find('title:first')->html();
+	
+	// Now that we have the title, get rid of the element
+	$list->find('title:first')->remove();
+
+	// Loop over our items
+	$items = $list->children('list-item');
+	if (count($items)) {
+		foreach ($items as $item) {
+			$pq_item = pq($item);
+			anno_xml_to_html_iterate_list_item($pq_item);
+		}
+	}
+	
+	// Replace our list with our built-out HTML
+	$html = '<figure>';
+	$html .= empty($figcaption) ? '' : '<figcaption>'.$figcaption.'</figcaption>';
+	$html .= '<'.$list_type.'>'.$list->html().'</'.$list_type.'>';
+	$list->replaceWith($html);
+}
+
+/**
+ * phpQuery set the 
+ *
+ * @param string $item 
+ * @return void
+ * @author Crowd Favorite
+ */
+function anno_xml_to_html_iterate_list_item($item) {
+	$child_list = $item->find('list');
+	if (!empty($child_list->elements)) {
+		foreach ($child_list->elements as $list) {
+			anno_xml_to_html_iterate_list(pq($list));
+		}
+	}
+	else {
+		$item->replaceWith('<li>'.$item->html().'</li>');
+	}
+}
 ?>
