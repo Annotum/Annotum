@@ -1027,16 +1027,53 @@ function anno_xml_to_html_replace_inline_graphics($orig_xml) {
 function anno_xml_to_html_replace_figures($orig_xml) {
 	// We need a clearfix for floated images.
 	$figs = pq('fig');
-	$figs->each(function($fig) {
-		$fig = pq($fig);
+	
+	$count = 0;
+	if (count($figs)) {
+		foreach ($figs as $fig) {
+			// Get a phpQuery obj
+			$fig = pq($fig);
 		
-		// Add in img for display in editor
-		$img_src = $fig->find('media')->attr('xlink:href');
-		$fig->prepend('<img src="'.$img_src.'" />');
+			// Grab our media element in the fig
+			$media = pq($fig->children('media'));
 		
-		// _mce_bogus stripped by tinyMCE on save
-		$fig->append('<div _mce_bogus="1" class="clearfix"></div>');
-	});
+			// Get some img tag properties
+			$img_src = $media->attr('xlink:href');
+			$title = $media->children('long-desc')->html();
+			$alt = $media->children('alt-text')->html();
+		
+			// Build our img tag
+			$img_tag = '<img class="photo" src="'.esc_url($img_src).'" title="'.esc_attr($title).'" alt="'.esc_attr($alt).'">';
+		
+			// Build the hidden span
+			$span = '
+				<span class="fn" style="display:none;">'.esc_html($title).'</span>';
+		
+			// Build the license div // @TODO Make license text i18n compat somehow
+			$license_div = '
+				<div class="license">'.__('License', 'anno').': 
+					<a rel="license" href="#">'.__($media->find('permissions > license > license-p')->html(), 'anno').'</a>
+				</div><!-- /license -->';
+		
+			$figcaption = '
+				<figcaption>
+					<b class="label">'.sprintf(__('Fig. %d', 'anno'), ++$count).'</b>: '.esc_html($fig->children('cap')->html()).'
+				</figcaption>';
+		
+			$html = '
+				<figure class="figure">
+					<div class="hmedia">
+						'.$img_tag.'
+						'.$span.'
+						'.$license_div.'
+					</div><!-- /hmedia -->
+					'.$figcaption.'
+				</figure>';
+			
+			// Replace our figure with valid HTML
+			$fig->replaceWith($html);
+		}
+	}
 }
 add_action('anno_xml_to_html', 'anno_xml_to_html_replace_figures');
 
