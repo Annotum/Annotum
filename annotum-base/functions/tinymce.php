@@ -867,20 +867,41 @@ function anno_xml_to_html($xml_content) {
 
 
 /**
- * Loop over each <bold>...</bold> node and replace with <strong>....</strong>
+ * Loop over each formatting tag and do the proper HTML replacement
  *
  * @param string $orig_xml 
  * @return void
  */
-function anno_xml_to_html_replace_bold($orig_xml) {
-	$bold_nodes = pq('bold');
-	foreach ($bold_nodes as $node) {
-		$pq_node = pq($node); // Create a phpQuery object from the noe
-		$pq_node->replaceWith('<strong>'.$pq_node->html().'</strong>');
+function anno_xml_to_html_replace_formatting($orig_xml) {
+	$mapping = array(
+		'bold' => array(
+			'tag' => 'strong',
+			'class' => '',
+		),
+		'italic' => array(
+			'tag' => 'em',
+			'class' => '',
+		),
+		'underline' => array(
+			'tag' => 'mark',
+			'class' => 'underline',
+		),
+	);
+	foreach ($mapping as $format => $html_info) {
+		$nodes = pq($format);
+		foreach ($nodes as $node) {
+			// Get our HTML information from the mapping array
+			extract($html_info);
+			
+			// Build our class string if we need to
+			$class = empty($class) ? '' : ' class="'.$class.'"';
+			
+			$pq_node = pq($node); // Create a phpQuery object from the node
+			$pq_node->replaceWith('<'.$tag.$class.'>'.$pq_node->html().'</'.$tag.'>');
+		}
 	}
 }
-add_action('anno_xml_to_html', 'anno_xml_to_html_replace_bold');
-
+add_action('anno_xml_to_html', 'anno_xml_to_html_replace_formatting');
 
 /**
  * Replace inline graphics in the XML document with HTML elements
