@@ -138,7 +138,7 @@ border:0; margin:0; padding:0; white-space:nowrap; text-decoration:none; font-we
 	display: block;
 	width:14px;
 	height:20px;
-	background-image: url(img/down_arrow.gif);
+/*	background-image: url(../img/down_arrow.gif);*/
 	background-position: 2px 1px;
 	background-repeat: no-repeat;
 }
@@ -201,7 +201,7 @@ border:0; margin:0; padding:0; white-space:nowrap; text-decoration:none; font-we
 .wp_themeSkin .mceSplitButton a.mceOpen {
 	width:10px;
 	height:20px;
-	background-image: url(img/down_arrow.gif);
+/*	background-image: url(../img/down_arrow.gif);*/
 	background-position: 1px 2px;
 	background-repeat: no-repeat;
 	padding: 1px;
