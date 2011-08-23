@@ -37,6 +37,7 @@ function anno_admin_print_footer_scripts() {
 			'attrib',
 			'list[list-type]',
 			'list-item',
+			//TODO caption
 			'cap',
 			'disp-quote',
 		);
@@ -70,15 +71,21 @@ function anno_admin_print_footer_scripts() {
 			'disp-quote',
 		);
 				
-		$valid_child_elements = array(
-			'p[table]',
-			'list[list-item]',
-			'list[title]',
-			'fig[img|media|cap]',
-			'cap[p|xref]',
-			'disp-quote[attrib|permissions]',
+		$valid_child_elements = array(			
+			'media[alt-text|long-desc|permissions]',
 			'permissions[copyright-statement|copyright-holder|license]',
-			'license[license-p]',
+			'license[license-p|xref]',
+			'list[title|list-item]',
+			'list-item[p|xref|list]',
+			'disp-formula[label|tex-math]',
+			'disp-quote[p|attrib|permissions]',
+			'p[xref]',
+			'fig[label|caption|media]',
+			'caption[title|p]',
+			'table-wrap[label|caption|table|table-wrap-foot|permissions]',
+			'table-wrap-foor[p]',
+			'p[media|img|permissions|license|list|list-item|disp-formula|disp-quote|fig|caption|table-wrap|table-wrap-foot|h2]',
+			'sec[media|img|permissions|license|list|list-item|disp-formula|disp-quote|fig|caption|table-wrap|table-wrap-foot|p|h2]',
 		);
 
 		wp_tiny_mce(false, array(
@@ -87,7 +94,6 @@ function anno_admin_print_footer_scripts() {
 			'extended_valid_elements' => implode(',', $extended_valid_elements),
 			'custom_elements' => implode(',', $custom_elements),
 			'valid_child_elements' => implode(',', $valid_child_elements),
-			// 'valid_elements' => '',
 			//  Defines wrapper, need to set this up as its own button.
 			'formats' => '{
 					bold : {\'inline\' : \'bold\'},
@@ -132,7 +138,7 @@ add_action('admin_print_footer_scripts', 'anno_admin_print_footer_scripts', 99);
 
 class Anno_tinyMCE {
 	function Anno_tinyMCE() {	
-		add_filter("mce_external_plugins", array(&$this, "plugins"));
+		add_filter("mce_external_plugins", array(&$this, 'plugins'));
 		add_filter('mce_buttons', array(&$this, 'mce_buttons'));
 		add_filter('mce_buttons_2', array(&$this, 'mce_buttons_2'));
 	}
@@ -177,7 +183,9 @@ class Anno_tinyMCE {
 		return $plugins;
 	}
 }
- 
+/**
+ * Remove the wpeditimage plugin from tinyMCE plugins. This prevents edit image buttons popping up on hover
+ */
 function anno_tiny_mce_before_init($init_array) {
 	if (isset($init_array['plugins'])) {
 		$init_array['plugins'] = str_replace('wpeditimage,', '', $init_array['plugins']);
@@ -187,6 +195,9 @@ function anno_tiny_mce_before_init($init_array) {
 	return $init_array;
 }
 
+/**
+ * Load Annotum tinyMCE plugins
+ */
 function anno_load_tinymce_plugins(){
 	$load = new Anno_tinyMCE();
 }
@@ -194,6 +205,9 @@ if (is_admin()) {
 	add_action('init', 'anno_load_tinymce_plugins');
 }
 
+/**
+ * Popup Dialog for linking in the tinyMCE
+ */
 function anno_popup_link() {
 ?>
 <div id="anno-popup-link" class="anno-mce-popup">
@@ -221,6 +235,9 @@ function anno_popup_link() {
 <?php
 }
 
+/**
+ * Popup Dialog for table insertion in the tinyMCE
+ */
 function anno_popup_table() {
 ?>
 	<div id="anno-popup-table" class="anno-mce-popup">
@@ -257,7 +274,11 @@ function anno_popup_table() {
 <?php 
 }
 
-function anno_popup_references_row_top($reference_key, $reference) {
+
+/**
+ * Row brief markup for references display in the popup Dialog for tinyMCE.
+ */
+function anno_popup_references_row_display($reference_key, $reference) {
 ?>
 	<table>
 	<tr>
@@ -278,6 +299,9 @@ function anno_popup_references_row_top($reference_key, $reference) {
 <?php 
 }
 
+/**
+ * Row edit markup for references display in the popup Dialog for tinyMCE.
+ */
 function anno_popup_references_row_edit($reference_key, $reference, $post_id) {
 ?>
 	<table id="<?php echo esc_attr('reference-edit-'.$reference_key); ?>">
@@ -327,17 +351,24 @@ function anno_popup_references_row_edit($reference_key, $reference, $post_id) {
 <?php 
 }
 
+
+/**
+ * Row markup for references display in the popup Dialog for tinyMCE.
+ */
 function anno_popup_reference_row($reference_key, $reference, $post_id) {
 ?>
 	<tr id="<?php echo esc_attr('reference-'.$reference_key); ?>">
 		<td colspan="3">
-			<?php anno_popup_references_row_top($reference_key, $reference); ?>
+			<?php anno_popup_references_row_display($reference_key, $reference); ?>
 			<?php anno_popup_references_row_edit($reference_key, $reference, $post_id); ?>
 		</td>
 	</tr>
 <?php
 }
 
+/**
+ * Popup dialog for references in the tinyMCE
+ */
 function anno_popup_references() {
 	global $post;
 	$references = get_post_meta($post->ID, '_anno_references', true);
@@ -387,6 +418,9 @@ function anno_popup_references() {
 <?php
 }
 
+/**
+ * Popup dialog for quote insertion in the tinyMCE
+ */
 function anno_popup_quote() {
 ?>
 <div id="anno-popup-quote" class="anno-mce-popup">
@@ -427,6 +461,9 @@ function anno_popup_quote() {
 <?php
 }
 
+/**
+ * Markup for insertion/save buttons in popup dialogs for the tinyMCE
+ */
 function _anno_popup_submit_button($id, $value, $type = 'button') {
 ?>
 	<input id="<?php echo esc_attr($id); ?>" type="<?php echo esc_attr($type); ?>" class="button" value="<?php echo esc_attr($value); ?>" />
@@ -436,7 +473,6 @@ function _anno_popup_submit_button($id, $value, $type = 'button') {
 /**
  * Markup for the tinyMCE dialog popups
  */ 
-
 function anno_preload_dialogs($init) {
 ?>
 	<div style="display:none;">
