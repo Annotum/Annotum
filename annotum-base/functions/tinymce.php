@@ -1057,7 +1057,7 @@ function anno_xml_to_html_replace_lists($orig_xml) {
 	$lists = pq('list');
 	foreach ($lists as $list) {
 		$pq_list = pq($list);
-		$pq_list->replaceWith(anno_xml_to_html_iterate_list($pq_list));
+		anno_xml_to_html_iterate_list($pq_list);
 	}
 }
 add_action('anno_xml_to_html', 'anno_xml_to_html_replace_lists');
