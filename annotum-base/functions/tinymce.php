@@ -809,6 +809,33 @@ function anno_save_xml_as_html_post_meta($post_id, $post) {
 }
 //add_action('save_post', 'anno_save_xml_as_html_post_meta', null, 2);
 
+
+/**
+ * Save our appendices as HTML versions to be used on the front end when updating
+ */
+function anno_update_appendices_xml_as_html($meta_id, $post_id, $meta_key, $meta_value) {
+	anno_save_appendices_xml_as_html($post_id, $meta_key, $meta_value);
+}
+add_action('update_post_metadata', 'anno_update_appendices_xml_as_html', 10, 4);
+
+/**
+ * Save our appendices as HTML versions to be used on the front end when adding for the first time
+ * This function is also called when the appendices are updated, not just created
+ */
+function anno_save_appendices_xml_as_html($post_id, $meta_key, $meta_value) {
+	if ($meta_key === '_anno_appendices') {
+		if (is_array($meta_value)) {
+			$meta_html = array();
+			foreach ($meta_value as $appendix) {
+				$meta_html[] = anno_xml_to_html($appendix);
+			}
+			update_post_meta($post_id, '_anno_appendices_html', $meta_html);
+		}
+	}
+}
+add_action('add_post_meta', 'anno_save_appendices_xml_as_html', 10, 3);
+
+
 /**
  * Switcheroo! Raw XML content gets switched with HTML formatted content.
  * Save the raw XML to the post_content_formatted column
@@ -816,10 +843,12 @@ function anno_save_xml_as_html_post_meta($post_id, $post) {
  */
 function anno_insert_post_data($data, $postarr) {
 	if ($data['post_type'] == 'article') {
+		$content = stripslashes($data['post_content']);
+		
 		// Set XML as backup content. Filter markup and strip out tags not on whitelist.
-		$data['post_content_filtered'] = addslashes(anno_validate_xml_content_on_save(stripslashes($data['post_content'])));
+		$data['post_content_filtered'] = addslashes(anno_validate_xml_content_on_save($content));
 		// Set formatted HTML as the_content
-		$data['post_content'] = anno_xml_to_html($data['post_content']);
+		$data['post_content'] = addslashes(anno_xml_to_html($content));
 	}
 	return $data;
 }
@@ -873,7 +902,6 @@ function anno_html_to_xml_replace_bold($orig_html) {
 }
 add_action('anno_html_to_xml', 'anno_html_to_xml_replace_bold');
 
-
 /**
  * Change HTML <img> to XML <inline-graphic>
  *
@@ -894,7 +922,6 @@ function anno_html_to_xml_replace_img($orig_html) {
 	});
 }
 add_action('anno_html_to_xml', 'anno_html_to_xml_replace_img');
-
 
 /**
  * Utility function to convert our XML into HTML
@@ -976,10 +1003,9 @@ add_action('anno_xml_to_html', 'anno_xml_to_html_replace_formatting');
  */
 function anno_xml_to_html_replace_inline_graphics($orig_xml) {
 	$inline_imges = pq('inline-graphic');
-	$inline_imges->each(function($img) {	
+	$inline_imges->each(function($img) {
 		$img = pq($img);
 		$img_src = $img->attr('xlink:href');
-
 		if (!empty($img_src)) {
 			$img = pq($img);
 			$alt_text = $img->children('alt-text:first');
