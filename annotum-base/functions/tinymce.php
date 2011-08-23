@@ -1021,9 +1021,13 @@ function anno_xml_to_html_iterate_list($list) {
 	}
 	
 	// Replace our list with our built-out HTML
-	$html = '<figure>';
-	$html .= empty($figcaption) ? '' : '<figcaption>'.$figcaption.'</figcaption>';
+	$html = '';
+	
+	/* As of now, the figure will not be output.  The styles aren't set up for it */
+	// $html .= '<figure>';
+	// $html .= empty($figcaption) ? '' : '<figcaption>'.$figcaption.'</figcaption>';
 	$html .= '<'.$list_type.'>'.$list->html().'</'.$list_type.'>';
+	// $html .= '</figure>';
 	$list->replaceWith($html);
 }
 
