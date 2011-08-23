@@ -54,10 +54,31 @@
 .content blockquote,
 .content dl,
 .content address,
-.content table {
+.content table,
+.content table-wrap {
 	margin-bottom: 10px;
 }
 
+.content table-wrap label {
+	display: block;
+}
+.content table {
+	border-collapse: collapse;
+	border: #ddd solid 1px;
+}
+.content table th,
+.content table td {
+	padding-left: 4px;
+	padding-right: 4px;
+	text-align: left;
+}
+.content table th {
+	background: #f6f6f6;
+	border-bottom: #ddd solid 1px;
+}
+.content table td {
+	border: #ddd solid 1px;
+}
 .content blockquote {
 	font: italic normal 18px/1.2 Georgia Serif;
 	margin: 10px;
