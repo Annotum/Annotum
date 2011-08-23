@@ -1,8 +1,6 @@
 html,body,div,span,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,abbr,address,cite,code,del,dfn,em,img,ins,kbd,q,samp,small,strong,sub,sup,var,b,i,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td,article,aside,canvas,details,figcaption,figure,footer,header,hgroup,menu,nav,section,summary,time,mark,audio,video{margin:0;padding:0;border:0;font-size:100%;vertical-align:baseline;}
 ol,ul{list-style-type:none;}
 article,aside,details,figcaption,figure,footer,header,hgroup,menu,nav,section{display:block;}
-figure ol{list-style-type:decimal;}
-figure ul{list-style-type:disc;}
 blockquote,q{quotes:none;}
 blockquote:before,blockquote:after,q:before,q:after{content:"";content:none;}
 ins{background-color:#ff9;color:#000;text-decoration:none;}
@@ -45,8 +43,6 @@ dl.kv{overflow:hidden;margin-bottom:12px;zoom:1;}
 dl.kv dt{color:#454545;clear:left;float:left;font:bold italic 12px/20px Georgia,serif;margin-right:.25em;}
 dl.kv dd{margin-bottom:8px;}
 .tags{font-size:12px;line-height:20px;}
-.content .wp-caption{margin:10px 0;}
-.content p.wp-caption-text,.content .gallery-caption{margin:0;}
 .alignleft{float:left;margin-right:1em;margin-bottom:1em;}
 .alignright{float:right;margin-left:1em;margin-bottom:1em;}
 .aligncenter{display:block;margin-left:auto;margin-right:auto;}
@@ -227,7 +223,12 @@ html.ie8 #main-sidebar .widget_search #s{width:100px;}
 .content h1,.content h2{font-size:16px;}
 .content h3{font-size:14px;}
 .content h4,.content h5,.content h6{color:#777;font-size:11px;text-transform:uppercase;letter-spacing:0.09em;margin-bottom:3px;}
-.content p,.content ul,.content ol,.content pre,.content blockquote,.content dl,.content address,.content table{margin-bottom:10px;}
+.content p,.content ul,.content ol,.content pre,.content blockquote,.content dl,.content address,.content table,.content table-wrap{margin-bottom:10px;}
+.content table-wrap label{display:block;}
+.content table{border-collapse:collapse;border:#ddd solid 1px;}
+.content table th,.content table td{padding-left:4px;padding-right:4px;text-align:left;}
+.content table th{background:#f6f6f6;border-bottom:#ddd solid 1px;}
+.content table td{border:#ddd solid 1px;}
 .content blockquote{font:italic normal 18px/1.2 Georgia Serif;margin:10px;}
 .content blockquote cite{font-weight:bold;}
 .content dt{font-style:italic;font-weight:bold;}
