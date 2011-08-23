@@ -1040,6 +1040,13 @@ function anno_xml_to_html_replace_figures($orig_xml) {
 }
 add_action('anno_xml_to_html', 'anno_xml_to_html_replace_figures');
 
+
+/**
+ * Change the XML <list> elements to proper HTML
+ * 
+ * @param string $orig_xml
+ * @return void
+ */
 function anno_xml_to_html_replace_lists($orig_xml) {
 	/*
 	'<list>',
@@ -1063,6 +1070,13 @@ function anno_xml_to_html_replace_lists($orig_xml) {
 }
 add_action('anno_xml_to_html', 'anno_xml_to_html_replace_lists');
 
+
+/**
+ * Do stuff to the list elements
+ * 
+ * @param pq obj $list
+ * @return void
+ */
 function anno_xml_to_html_iterate_list($list) {
 	// Get list type
 	$list_type = $list->attr('list-type');
@@ -1092,12 +1106,12 @@ function anno_xml_to_html_iterate_list($list) {
 	$list->replaceWith($html);
 }
 
+
 /**
- * phpQuery set the 
+ * Set the list items' HTML wrapper
  *
- * @param string $item 
+ * @param pqObj $item 
  * @return void
- * @author Crowd Favorite
  */
 function anno_xml_to_html_iterate_list_item($item) {
 	$child_list = $item->find('list');
@@ -1111,6 +1125,13 @@ function anno_xml_to_html_iterate_list_item($item) {
 	}
 }
 
+
+/**
+ * Replace the XML tables with proper HTML
+ *
+ * @param string $orig_xml 
+ * @return void
+ */
 function anno_xml_to_html_replace_tables($orig_xml) {
 	/*
 	'<table-wrap>',
@@ -1163,6 +1184,13 @@ function anno_xml_to_html_replace_tables($orig_xml) {
 }
 add_action('anno_xml_to_html', 'anno_xml_to_html_replace_tables');
 
+
+/**
+ * Do stuff to the table-wrap elements
+ * 
+ * @param pq obj $table
+ * @return void
+ */
 function anno_xml_to_html_iterate_table($table) {
 	// Get table title & caption'
 	$figcaption = $table->children('label:first')->html();
@@ -1199,6 +1227,13 @@ function anno_xml_to_html_iterate_table($table) {
 	$table->replaceWith($html);
 }
 
+
+/**
+ * Do stuff to the thead elements
+ * 
+ * @param pq obj $thead
+ * @return void
+ */
 function anno_xml_to_html_iterate_table_head($thead) {
 	// Find our thead rows
 	$trs = $thead->children('tr');
@@ -1209,6 +1244,13 @@ function anno_xml_to_html_iterate_table_head($thead) {
 	}
 }
 
+
+/**
+ * Do stuff to the thead->tr elements
+ * 
+ * @param pq obj $trow
+ * @return void
+ */
 function anno_xml_to_html_iterate_table_head_row($trow) {
 	$ths = $trow->children('th');
 	if (count($ths)) {
@@ -1228,11 +1270,17 @@ function anno_xml_to_html_iterate_table_head_row($trow) {
  * @return void
  */
 function anno_xml_to_html_iterate_table_head_row_th($th) {
-	// Remove our 
 	$th->find('br[attr="data-mce-bogus"]')->remove();
 }
 
+/**
+ * Iterate of elements of the tbody.  Not doing anything right now, just 
+ * here for when we need it.
+ *
+ * @param pq obj $tbody 
+ * @return void
+ */
 function anno_xml_to_html_iterate_table_body($tbody) {
-	
+	// Nothing to do here right now...just a stub function 
 }
 ?>
