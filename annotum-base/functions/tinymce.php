@@ -756,7 +756,7 @@ function anno_get_dtd_valid_elements() {
 							'<xref>',
 		'<table-wrap>',
 			'<label>',
-			'<caption>',
+			'<cap>', // @TODO This should be <caption> but it's not working 
 				'<title>',
 				'<p>',
 					'<xref>',
@@ -765,7 +765,7 @@ function anno_get_dtd_valid_elements() {
 					'<long-desc>',
 				'<table>',
 					'<thead>',
-						'<tr>',
+						'<th>',
 							'<td>',
 								'<xref>',
 					'<tbody>',
@@ -921,6 +921,7 @@ function anno_html_to_xml_replace_img($orig_html) {
 	});
 }
 add_action('anno_html_to_xml', 'anno_html_to_xml_replace_img');
+
 
 /**
  * Utility function to convert our XML into HTML
@@ -1084,8 +1085,6 @@ function anno_xml_to_html_iterate_list($list) {
 	
 	// Replace our list with our built-out HTML
 	$html = '';
-	
-	/* As of now, the figure will not be output.  The styles aren't set up for it */
 	$html .= '<figure class="list">';
 	$html .= empty($figcaption) ? '' : '<figcaption>'.$figcaption.'</figcaption>';
 	$html .= '<'.$list_type.'>'.$list->html().'</'.$list_type.'>';
@@ -1110,5 +1109,130 @@ function anno_xml_to_html_iterate_list_item($item) {
 	else {
 		$item->replaceWith('<li>'.$item->html().'</li>');
 	}
+}
+
+function anno_xml_to_html_replace_tables($orig_xml) {
+	/*
+	'<table-wrap>',
+		'<label>',
+		'<caption>',
+			'<title>',
+			'<p>',
+				'<xref>',
+		'<media>',
+			'<alt-text>',
+			'<long-desc>',
+		'<table>',
+			'<thead>',
+				'<tr>',
+					'<td>',
+						'<xref>',
+			'<tbody>',
+				'<tr>',
+					'<td>',
+						'<xref>',
+		'<table-wrap-foot>',
+			'<p>',
+				'<xref>',
+		'<permissions>',
+			'<copyright-statement>',
+			'<copyright-holder>',
+			'<license>',
+				'<license-p>',
+					'<xref>',
+			
+	<figure class="table">
+		<figcaption>Lemurs vs Other Things</figcaption>
+		<table>
+			<caption>An overview of the situation.</caption>
+			<thead>
+				<tr>
+					<th>Animal</th>
+			<tbody>
+				<tr>
+					<th scope="row">Lemurs</th>
+		<div class="license">
+			License: <a rel="license" href="http://example.come">CC Share-alike.</a>
+		</div>
+	*/
+	$tables = pq('table-wrap');
+	foreach ($tables as $table) {
+		$pq_table = pq($table);
+		anno_xml_to_html_iterate_table($pq_table);
+	}
+}
+add_action('anno_xml_to_html', 'anno_xml_to_html_replace_tables');
+
+function anno_xml_to_html_iterate_table($table) {
+	// Get table title & caption'
+	$figcaption = $table->children('label:first')->html();
+	$table_caption = $table->children('cap:first')->html();
+	
+	// Now that we have the title and caption, get rid of the elements
+	$table->children('label:first')->remove();
+	$table->children('cap:first')->remove();
+	
+	// Loop over our table header
+	$theads = $table->children('thead');
+	if (count($theads)) {
+		foreach ($theads as $thead) {
+			anno_xml_to_html_iterate_table_head(pq($thead));
+		}
+	}
+	
+	// Loop over our table body
+	$tbodies = $table->children('tbody');
+	if (count($tbodies)) {
+		foreach ($tbodies as $tbody) {
+			anno_xml_to_html_iterate_table_body(pq($tbody));
+		}
+	}
+	
+	// Replace our table-wrap with our built-out HTML
+	$html = '<figure class="table">';
+	$html .= empty($figcaption) ? '' : '<figcaption>'.$figcaption.'</figcaption>';
+	$html .= '<table>';
+	$html .= empty($table_caption) ? '' : '<caption>'.$table_caption.'</caption>';
+	$html .= $table->children('table:first')->html();
+	$html .= '</table>';
+	$html .= '</figure><!-- /table -->';
+	$table->replaceWith($html);
+}
+
+function anno_xml_to_html_iterate_table_head($thead) {
+	// Find our thead rows
+	$trs = $thead->children('tr');
+	if (count($trs)) {
+		foreach ($trs as $tr) {
+			anno_xml_to_html_iterate_table_head_row(pq($tr));
+		}
+	}
+}
+
+function anno_xml_to_html_iterate_table_head_row($trow) {
+	$ths = $trow->children('th');
+	if (count($ths)) {
+		foreach ($ths as $th) {
+			anno_xml_to_html_iterate_table_head_row_th(pq($th));
+		}
+	}
+}
+
+/**
+ * Do stuff to the thead->tr->th elements
+ * 
+ * Currently just removing unnecessary tinyMCE bogus <br>s and leaving
+ * the rest of it's HTML the same
+ *
+ * @param pq obj $th 
+ * @return void
+ */
+function anno_xml_to_html_iterate_table_head_row_th($th) {
+	// Remove our 
+	$th->find('br[attr="data-mce-bogus"]')->remove();
+}
+
+function anno_xml_to_html_iterate_table_body($tbody) {
+	
 }
 ?>
