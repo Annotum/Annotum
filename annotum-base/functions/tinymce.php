@@ -758,21 +758,6 @@ function anno_get_dtd_valid_elements() {
 }
 
 /**
- * Change the post content to XML prior to inserting into DB
- *
- * @param array $data 
- * @return array - Post information prior to save
- */
-function anno_process_editor_body_save($data) {
-	if (isset($data['post_type']) && $data['post_type'] == 'article' && isset($data['post_content'])) {
-		$data['post_content'] = addslashes(anno_validate_xml_content_on_save(stripslashes($data['post_content'])));
-	}
-	return $data;
-}
-add_filter('wp_insert_post_data', 'anno_process_editor_body_save');
-
-
-/**
  * Take the XML in the post_content, and convert to HTML which
  * is then stored as post_meta
  *
@@ -786,8 +771,40 @@ function anno_save_xml_as_html_post_meta($post_id, $post) {
 	}
 	return $data;
 }
-add_action('save_post', 'anno_save_xml_as_html_post_meta', null, 2);
+//add_action('save_post', 'anno_save_xml_as_html_post_meta', null, 2);
 
+/**
+ * Switcheroo! Raw XML content gets switched with HTML formatted content.
+ * Save the raw XML to the post_content_formatted column
+ * Save the formatted HTML to the post_content column
+ */
+function anno_insert_post_data($data, $postarr) {
+	if ($data['post_type'] == 'article') {
+		// Set XML as backup content. Filter markup and strip out tags not on whitelist.
+		$data['post_content_filtered'] = addslashes(anno_validate_xml_content_on_save(stripslashes($data['post_content'])));
+		// Set formatted HTML as the_content
+		$data['post_content'] = anno_xml_to_html($data['post_content']);
+	}
+	return $data;
+}
+add_filter('wp_insert_post_data', 'anno_insert_post_data', null, 2);
+
+/**
+ * Swap real HTML post content with XML formatted post content for editing
+ */
+function anno_edit_post_content($content, $id) {
+	$post = get_post( $id );
+	if ( $post && $post->post_type == 'article' ) {
+		$content = $post->post_content_filtered;
+	}
+	return $content;
+}
+add_filter( 'edit_post_content', 'anno_edit_post_content', 10, 2 );
+
+function anno_edit_post_content_filtered( $content, $id ) {
+	return $content;
+}
+add_filter( 'edit_post_content_filtered', 'anno_edit_post_content_filtered', 10, 2 );
 
 /**
  * Utility function to convert our HTML into XML
