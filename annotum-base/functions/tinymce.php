@@ -886,6 +886,18 @@ function anno_xml_to_html_replace_formatting($orig_xml) {
 			'tag' => 'mark',
 			'class' => 'underline',
 		),
+		'monospace' => array(
+			'tag' => 'code',
+			'class' => '',
+		),
+		'sup' => array(
+			'tag' => 'sup',
+			'class' => '',
+		),
+		'sub' => array(
+			'tag' => 'sub',
+			'class' => '',
+		),
 	);
 	foreach ($mapping as $format => $html_info) {
 		$nodes = pq($format);
