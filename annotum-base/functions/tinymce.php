@@ -100,10 +100,11 @@ function anno_admin_print_footer_scripts() {
 					italic : { \'inline\' : \'italic\'},
 					underline : { \'inline\' : \'underline\'},
 					sec : { \'block\' : \'sec\', \'wrapper\' : \'true\' },
+					title : { \'block\' : \'title\' },
 				}',
-			'theme_advanced_blockformats' => 'Paragraph=p,Heading=h2,Section=sec',
+			'theme_advanced_blockformats' => 'Paragraph=p,Heading=title,Section=sec',
 			'forced_root_block' => '',
-			'editor_css' => trailingslashit(get_bloginfo('template_directory')).'/css/tinymce-ui.css?v=2',
+			'editor_css' => trailingslashit(get_template_directory_uri()).'css/tinymce-ui.css?v=4',
 			'debug' => 'true',
 			'verify_html' => false,
 			'force_p_newlines' => true,
@@ -969,6 +970,10 @@ function anno_xml_to_html_replace_formatting($orig_xml) {
 		),
 		'sub' => array(
 			'tag' => 'sub',
+			'class' => '',
+		),
+		'title' => array(
+			'tag' => 'h2',
 			'class' => '',
 		),
 	);
