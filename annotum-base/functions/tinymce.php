@@ -656,7 +656,7 @@ function anno_process_editor_content($content) {
 
 		if (!empty($img_src)) {
 			$img = pq($img);
-			$alt_text = $img->children('alt-text:first');
+			$alt_text = $img->children('alt-text:first')->html();
 			$html = '<img src="'.$img_src.'" class="_inline_graphic" alt="'.$alt_text.'" />';
 			$img->replaceWith($html);
 		}
@@ -835,7 +835,6 @@ function anno_save_appendices_xml_as_html($post_id, $meta_key, $meta_value) {
 }
 add_action('add_post_meta', 'anno_save_appendices_xml_as_html', 10, 3);
 
-
 /**
  * Switcheroo! Raw XML content gets switched with HTML formatted content.
  * Save the raw XML to the post_content_formatted column
@@ -1008,7 +1007,8 @@ function anno_xml_to_html_replace_inline_graphics($orig_xml) {
 		$img_src = $img->attr('xlink:href');
 		if (!empty($img_src)) {
 			$img = pq($img);
-			$alt_text = $img->children('alt-text:first');
+			$alt_text = $img->children('alt-text:first')->html();
+			
 			$html = '<img src="'.$img_src.'" class="_inline_graphic" alt="'.$alt_text.'" />';
 			$img->replaceWith($html);
 		}
