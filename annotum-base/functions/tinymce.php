@@ -1332,6 +1332,27 @@ function anno_xml_to_html_replace_references($orig_xml) {
 }
 add_action('anno_xml_to_html', 'anno_xml_to_html_replace_references');
 
+
+/**
+ * Replace external links with a hyperlink
+ *
+ * @param string $orig_xml - Original XML, prob. shouldn't need
+ * @return void
+ */
+function anno_xml_to_html_replace_external_links($orig_xml) {
+	$links = pq('ext-link');
+	$links->each(function($link) {
+		$link = pq($link);
+		if ($link->attr('ext-link-type') == 'uri') {
+			$url = $link->attr('xlink:href');
+			$title = $link->attr('title');
+			$link->replaceWith('<a href="'.esc_url($url).'" title="'.esc_attr($title).'">'.esc_html($link->text()).'</a>');
+		}
+	});
+}
+add_action('anno_xml_to_html', 'anno_xml_to_html_replace_external_links');
+
+
 /**
  * Replace disp-quotes with valid HTMl in <blockquote> style
  *
