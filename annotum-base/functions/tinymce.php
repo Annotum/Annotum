@@ -1396,10 +1396,14 @@ add_action('anno_xml_to_html', 'anno_xml_to_html_replace_dispquotes');
  * @param string $url - URL the string should point to
  * @return string - HTML div formatted for the license elements
  */
-function anno_build_license_div($i18n_text, $url = '#'){
+function anno_build_license_div($i18n_text, $url = null) {
+	$url = esc_url($url);
+	$i18n_text = esc_html($i18n_text);
+	
+	$lic = ($url ? '<a rel="license" href="'.$url.'">'.$i18n_text.'</a>' : $i18n_text);
 	return '
-	<div class="license">'.__('License', 'anno').': 
-		<a rel="license" href="'.esc_url($url).'">'.esc_html($i18n_text).'</a>
+	<div class="license"><span class="label">'.__('License', 'anno').':</span> 
+		'.$lic.'
 	</div><!-- /license -->';
 }
 ?>
