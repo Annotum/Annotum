@@ -10,7 +10,7 @@ Author URI: http://crowdfavorite.com
 
 
 // @TODO turn off the debug 
-add_filter('Anno_PDF_Download_debug', '__return_true');
+// add_filter('Anno_PDF_Download_debug', '__return_true');
 
 
 class Anno_PDF_Download {
@@ -84,6 +84,12 @@ class Anno_PDF_Download {
 						wp_die(__('Please visit <a href="'.get_the_permalink($id).'">the article</a> and click the download link.', $this->i18n));
 					}
 					
+					// If we're not debugging, turn off errors
+					if (!$this->debug) {
+						$display_errors = ini_get('display_errors');
+						ini_set('display_errors', 0);
+					}
+					
 					// Load whatever class will make the PDF
 					if (!$this->load_pdfmaker()) {
 						$this->log('Couldn\'t load the $pdfmaker');
@@ -120,6 +126,12 @@ class Anno_PDF_Download {
 						$this->log('Error Creating PDF: '.$e->getMessage());
 						$this->generic_die();
 					}
+					
+					// Set our error display back to what it was.
+					if (!$this->debug) {
+						ini_set('display_errors', $display_errors);
+					}
+					
 					exit;
 					break;
 				default:
@@ -174,12 +186,8 @@ class Anno_PDF_Download {
 	 * @return bool - whether there was HTML or not
 	 */
 	private function get_post_content($id) {
-		// @TODO This post_meta KEY is probably going to change...
-		global $anno_html_post_meta_key;
-		$anno_html_post_meta_key = '_anno_html';
-		$this->post_html = get_post_meta($id, $anno_html_post_meta_key, true);
-		
-		$this->post_html = 'TESTING TILL POST META GETS SAVED WITH HTML';
+		$post = get_post($id);
+		$this->post_html = empty($post) ? '' : $post->post_content;
 		return !empty($this->post_html);
 	}
 	
