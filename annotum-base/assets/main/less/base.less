@@ -198,7 +198,8 @@ Be aware that scaling large images can cause performance issues. */
 body,
 select,
 input,
-textarea {
+textarea,
+mark {
 	/* #444 looks better than black: twitter.com/H_FJ/statuses/11800719859 */
 	color: #444;
 	/* Set your base font here, to apply evenly */
@@ -213,4 +214,12 @@ h4,
 h5,
 h6 {
 	font-weight: bold;
+}
+
+/**
+* Mark underlines
+*/
+mark.underline{
+	background-color: #fff;
+	text-decoration: underline;
 }

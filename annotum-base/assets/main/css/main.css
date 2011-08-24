@@ -26,8 +26,9 @@ textarea{overflow:auto;vertical-align:text-top;}
 label,input[type="button"],input[type="submit"],input[type="image"],button{cursor:pointer;}
 input::-moz-focus-inner,button::-moz-focus-inner{border:0;padding:0;}
 .ie7 img{-ms-interpolation-mode:bicubic;}
-body,select,input,textarea{color:#444;}
+body,select,input,textarea,mark{color:#444;}
 h1,h2,h3,h4,h5,h6{font-weight:bold;}
+mark.underline{background-color:#fff;text-decoration:underline;}
 .imr{display:block;text-indent:-32000px;overflow:hidden;background-repeat:no-repeat;text-align:left;direction:ltr;}
 .hidden{display:none;visibility:hidden;}
 .visuallyhidden{border:0;clip:rect(0 0 0 0);height:1px;margin:-1px;overflow:hidden;padding:0;position:absolute;width:1px;}
