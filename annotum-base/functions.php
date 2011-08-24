@@ -381,10 +381,13 @@ add_action('sanitize_option_anno_ga_id', 'anno_sanitize_ga_id');
  * Hook @ 'pre_get_posts'.
  */
 function anno_modify_home_query($query) {
-	if ($query->is_home) {
-		$show_post_type = get_option('anno_home_post_type', 'article');
-		if ($show_post_type == 'article') {
-			$query->set('post_type', 'article');
+	if (!is_admin()) {
+		global $wp_the_query;
+		// Check if this is the main loop (so we don't interfere with nav menus, etc)
+		if ($query === $wp_the_query && $query->is_home) {
+			if ($show_post_type == 'article') {
+				$query->set('post_type', 'article');
+			}
 		}
 	}
 }

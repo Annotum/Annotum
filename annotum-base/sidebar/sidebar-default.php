@@ -16,7 +16,7 @@ $sidebar = 'default';
 if (is_page()) {
 	$sidebar = 'sidebar-page';
 }
-else if (get_post_type() == 'article') {
+else if (is_singular() && get_post_type() == 'article') {
 	$sidebar = 'sidebar-article';
 }
 dynamic_sidebar($sidebar); ?>
