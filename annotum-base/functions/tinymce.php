@@ -1318,4 +1318,21 @@ function anno_xml_to_html_iterate_table_head_row_th($th) {
 function anno_xml_to_html_iterate_table_body($tbody) {
 	// Nothing to do here right now...just a stub function 
 }
+
+/**
+ * Replace xref's that are references with a hyperlink
+ *
+ * @param string $orig_xml - Original XML, prob. shouldn't need
+ * @return void
+ */
+function anno_xml_to_html_replace_references($orig_xml) {
+	$references = pq('xref[ref-type="bibr"]');
+	$references->each(function($ref) {
+		$ref = pq($ref);
+		$ref_id = $ref->attr('rid');
+		$ref->replaceWith('<sup><a class="reflink" href="#ref'.esc_attr($ref_id).'">'.esc_html($ref_id).'</a></sup>');
+	});
+}
+add_action('anno_xml_to_html', 'anno_xml_to_html_replace_references');
+
 ?>
