@@ -1048,10 +1048,7 @@ function anno_xml_to_html_replace_figures($orig_xml) {
 				<span class="fn" style="display:none;">'.esc_html($title).'</span>';
 		
 			// Build the license div // @TODO Make license text i18n compat somehow
-			$license_div = '
-				<div class="license">'.__('License', 'anno').': 
-					<a rel="license" href="#">'.__($media->find('permissions > license > license-p')->html(), 'anno').'</a>
-				</div><!-- /license -->';
+			$license_div = anno_build_license_div($media->find('permissions > license > license-p')->html());
 		
 			$figcaption = '
 				<figcaption>
@@ -1335,4 +1332,53 @@ function anno_xml_to_html_replace_references($orig_xml) {
 }
 add_action('anno_xml_to_html', 'anno_xml_to_html_replace_references');
 
+/**
+ * Replace disp-quotes with valid HTMl in <blockquote> style
+ *
+ * @param string $orig_xml - Original XML, prob. shouldn't need
+ * @return void
+ */
+function anno_xml_to_html_replace_dispquotes($orig_xml) {
+	$quotes = pq('disp-quote');
+	$quotes->each(function($quote) {
+		$quote = pq($quote);
+		
+		// Get our attribution
+		$cite = $quote->children('attrib:first')->html();
+		$cite_attr = empty($cite) ? '' : ' cite="'.esc_attr($cite).'"';
+		
+		/* Clone our element, b/c we'll be removing all child elem's so 
+		we can just get the immediate text */
+		$clone = $quote->clone();
+		$clone->children()->remove();
+		$quote_text = $clone->text();
+		
+		// Do the actual HTML replacement
+		$quote->replaceWith('
+			<div class="quote">
+				<blockquote'.$cite_attr.'>
+					'.esc_html($quote_text).'
+				</blockquote>
+				<a href="#" class="attribution">'.esc_html($cite).'</a>
+				'.anno_build_license_div('Public Domain').'
+			</div><!-- /quote -->
+		');
+	});
+}
+add_action('anno_xml_to_html', 'anno_xml_to_html_replace_dispquotes');
+
+
+/**
+ * Output the license div
+ *
+ * @param string $i18n_text - Translated string
+ * @param string $url - URL the string should point to
+ * @return string - HTML div formatted for the license elements
+ */
+function anno_build_license_div($i18n_text, $url = '#'){
+	return '
+	<div class="license">'.__('License', 'anno').': 
+		<a rel="license" href="'.esc_url($url).'">'.esc_html($i18n_text).'</a>
+	</div><!-- /license -->';
+}
 ?>
