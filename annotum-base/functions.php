@@ -376,6 +376,21 @@ function anno_sanitize_ga_id($new_value) {
 add_action('sanitize_option_anno_ga_id', 'anno_sanitize_ga_id');
 
 /**
+ * Check to see if anno_home_post_type is set to article. If so, and we're on the
+ * home page, intercept the default query and change the post type to article.
+ * Hook @ 'pre_get_posts'.
+ */
+function anno_modify_home_query($query) {
+	if ($query->is_home) {
+		$show_post_type = get_option('anno_home_post_type', 'article');
+		if ($show_post_type == 'article') {
+			$query->set('post_type', 'article');
+		}
+	}
+}
+add_action('pre_get_posts', 'anno_modify_home_query');
+
+/**
  * Register default option values
  */ 
 function anno_defaults($defaults) {
