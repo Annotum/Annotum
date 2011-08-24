@@ -51,6 +51,11 @@ dl.kv dd{margin-bottom:8px;}
 .wp-caption-text,.gallery-caption{margin:0;}
 .sticky{}
 .bypostauthor .header h3.title{font-weight:bold;}
+.appendices,.figure,.list,.quote,.table{margin-bottom:10px;}
+.figure{border:#ddd solid 1px;display:inline-block;padding:10px;}
+html.ie7 .figure{zoom:1;display:inline;}
+.license{font-size:11px;}
+.table figcaption{display:block;font-weight:bold;margin-bottom:5px;}
 .act .in{zoom:1;margin-left:auto;margin-right:auto;position:relative;width:960px;}.act .in:before,.act .in:after{content:"";display:table;}
 .act .in:after{clear:both;}
 #header{background:#000;color:#fff;position:relative;z-index:2;zoom:1;}
@@ -228,7 +233,7 @@ html.ie8 #main-sidebar .widget_search #s{width:100px;}
 .content table-wrap label{display:block;}
 .content table caption{background:#f6f6f6;color:#787878;font-size:12px;line-height:22px;padding-left:8px;text-align:left;}
 .content table{border-collapse:collapse;border:#ddd solid 1px;}
-.content table th,.content table td{padding-left:4px;padding-right:4px;text-align:left;}
+.content table th,.content table td{padding-left:6px;padding-right:6px;text-align:left;}
 .content table th{background:#f6f6f6;border-bottom:#ddd solid 1px;}
 .content table td{border:#ddd solid 1px;}
 .content blockquote{font:italic normal 18px/1.2 Georgia Serif;margin:10px;}
