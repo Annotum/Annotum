@@ -28,7 +28,6 @@ input::-moz-focus-inner,button::-moz-focus-inner{border:0;padding:0;}
 .ie7 img{-ms-interpolation-mode:bicubic;}
 body,select,input,textarea,mark{color:#444;}
 h1,h2,h3,h4,h5,h6{font-weight:bold;}
-.underline{background-color:transparent;text-decoration:underline;}
 .imr{display:block;text-indent:-32000px;overflow:hidden;background-repeat:no-repeat;text-align:left;direction:ltr;}
 .hidden{display:none;visibility:hidden;}
 .visuallyhidden{border:0;clip:rect(0 0 0 0);height:1px;margin:-1px;overflow:hidden;padding:0;position:absolute;width:1px;}
@@ -44,6 +43,7 @@ dl.kv{overflow:hidden;margin-bottom:12px;zoom:1;}
 dl.kv dt{color:#454545;clear:left;float:left;font:bold italic 12px/20px Georgia,serif;margin-right:.25em;}
 dl.kv dd{margin-bottom:8px;}
 .tags{font-size:12px;line-height:20px;}
+.underline{background-color:transparent;text-decoration:underline;}
 .alignleft{float:left;margin-right:1em;margin-bottom:1em;}
 .alignright{float:right;margin-left:1em;margin-bottom:1em;}
 .aligncenter{display:block;margin-left:auto;margin-right:auto;}
@@ -266,6 +266,7 @@ html.ie7 .authors .extra{top:15px;}
 .js .widget-recent-posts .panel{display:none;}
 .js .widget-recent-posts .first-child,.js .widget-recent-posts .ui-tabs-panel{display:block;}
 .widget-recent-posts .recently-container{border-bottom:#c2c2c2 solid 1px;padding:0 0 20px;}
+.widget-recent-posts .panel ul,.widget-recent-posts .panel ol{list-style:none;}
 .ui-tabs-hide{display:none !important;}
 .sec{margin-bottom:25px;padding-left:15px;padding-right:15px;}
 .sec h1,.sec .title,.section-title{background:url(../img/border-background.png) 0 bottom repeat-x;color:#000;font:italic bold 16px/1.2 Georgia,Serif;margin-bottom:15px;}
