@@ -92,8 +92,13 @@ class Anno_PDF_Download {
 					
 					// @TODO - Determine which stylesheets get brought in 
 					// Our stylesheets don't get brought in till 'wp', not 'init, so we need to register them anyways
-					anno_assets();
-					current_assets();
+					if (function_exists('anno_assets')) {
+						anno_assets();
+					}
+					
+					if (function_exists('current_assets')) {
+						current_assets();
+					}
 					
 					// Get our HTML locally
 					if (!$this->get_html($id)) {
