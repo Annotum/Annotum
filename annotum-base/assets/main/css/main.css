@@ -55,6 +55,7 @@ dl.kv dd{margin-bottom:8px;}
 .figure{border:#ddd solid 1px;display:inline-block;padding:10px;}
 html.ie7 .figure{zoom:1;display:inline;}
 .license{font-size:11px;}
+.table figcaption{display:block;font-weight:bold;margin-bottom:5px;}
 .act .in{zoom:1;margin-left:auto;margin-right:auto;position:relative;width:960px;}.act .in:before,.act .in:after{content:"";display:table;}
 .act .in:after{clear:both;}
 #header{background:#000;color:#fff;position:relative;z-index:2;zoom:1;}
