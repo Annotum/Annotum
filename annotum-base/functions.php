@@ -89,7 +89,6 @@ function anno_setup() {
 	// Customize the Carrington Core Admin Settings Form Title
 	add_filter('cfct_admin_settings_menu', 'anno_admin_settings_menu_form_title');
 	add_filter('cfct_admin_settings_form_title', 'anno_admin_settings_menu_form_title');
-	add_action('wp_head', 'anno_css3_pie', 8);
 }
 add_action('after_setup_theme', 'anno_setup');
 
@@ -98,71 +97,17 @@ function anno_admin_settings_menu_form_title() {
 	return _x('Annotum Settings', 'menu and options heading', 'anno');
 }
 
-// Adding favicon, each theme has it's own which we get with stylesheet directory
-function anno_favicon() {
-	echo '<link rel="shortcut icon" href="'.get_bloginfo('stylesheet_directory').'/assets/main/img/favicon.ico" />';
-}
-add_action('wp_head', 'anno_favicon');
-
-/**
- * Enqueue and add CSS and JS assets.
- * Hook into 'wp' action when conditional checks like is_single() are available.
- */
-function anno_css3_pie() {
-	$assets_root = get_bloginfo('template_url') . '/assets/main/';
-	?>
-	<!--[if lte IE 8]>
-	<style type="text/css" media="screen">
-		.featured-posts .control-panel .previous,
-		.featured-posts .control-panel .next,
-		.widget-recent-posts .nav .ui-tabs-selected,
-		.widget-recent-posts .panel {
-			behavior: url(<?php echo $assets_root; ?>js/libs/css3pie/PIE.php);
-		}
-	</style>
-	<![endif]-->
-<?php
-}
-
 /**
  * Add theme CSS, JS here. Everything should run through the enqueue system so that
  * child themes/plugins have access to override whatever they need to.
- * Run at 'wp' hook so we have access to conditional functions,
- * like is_single(), etc.
+ * Run at 'wp' hook so we have access to conditional functions, like is_single(), etc.
  */
 function anno_assets() {
 	if (!is_admin()) {
-		$main =  trailingslashit(get_bloginfo('template_directory')) . 'assets/main/';
-		$v = ANNO_VER;
-		
-		// Styles
-		wp_enqueue_style('anno', $main.'css/main.css', array(), $v, 'screen, print');
-		
-		// Right-to-left languages
-		if (is_rtl()) {
-			// Override stylesheet
-			wp_enqueue_style('anno-rtl', $main.'css/rtl.css', array('anno'), $v, 'screen');
-		}
-		
-		// Scripts
-		wp_enqueue_script('modernizr', $main.'js/libs/modernizr-1.7.min.js', array(), $v);
-		wp_register_script('jquery-cf-placeholder', $main.'js/libs/jquery.placeholder.min.js', array('jquery'), $v);
-		wp_register_script('jquery-cycle-lite', $main.'js/libs/jquery.cycle.lite.1.1.min.js', array('jquery'), $v);
-		
-		wp_enqueue_script('anno-main', $main.'js/main.js', array('jquery-cf-placeholder', 'jquery-cycle-lite', 'jquery-ui-tabs'), $v);
-		wp_localize_script('anno-main', 'ANNO_DICTIONARY', array(
-			'previous' => __('Previous', 'anno'),
-			'next' => __('Next', 'anno'),
-			'xofy' => __('%1$s of %2$s')
-		));
-
-		if ( is_singular() ) {
-			wp_enqueue_script( 'comment-reply' );
-		}
+		cfct_template_file('assets', 'load');
 	}
 }
 add_action('wp', 'anno_assets');
-
 
 /**
  * Enqueue our custom JS on the edit post page (currently used
@@ -176,6 +121,21 @@ function anno_edit_post_assets() {
 add_action('load-post.php', 'anno_edit_post_assets');
 add_action('load-post-new.php', 'anno_edit_post_assets');
 
+/**
+ * Register custom widgets extended from WP_Widget
+ */
+function anno_widgets_init() {
+	include_once(CFCT_PATH . 'functions/Anno_Widget_Recently.php');
+	register_widget('Anno_Widget_Recently');
+	register_widget('WP_Widget_Solvitor_Ad');
+}
+add_action('widgets_init', 'anno_widgets_init');
+
+// Adding favicon, each theme has it's own which we get with stylesheet directory
+function anno_favicon() {
+	echo '<link rel="shortcut icon" href="'.get_bloginfo('stylesheet_directory').'/assets/main/img/favicon.ico" />';
+}
+add_action('wp_head', 'anno_favicon');
 
 /*
  * Outputs a few extra semantic tags in the <head> area.
@@ -190,16 +150,6 @@ function anno_head_extra() {
 	wp_get_archives($args);
 }
 add_action('wp_head', 'anno_head_extra');
-
-/**
- * Register custom widgets extended from WP_Widget
- */
-function anno_widgets_init() {
-	include_once(CFCT_PATH . 'functions/Anno_Widget_Recently.php');
-	register_widget('Anno_Widget_Recently');
-	register_widget('WP_Widget_Solvitor_Ad');
-}
-add_action('widgets_init', 'anno_widgets_init');
 
 /**
  * Filter the default menu arguments
