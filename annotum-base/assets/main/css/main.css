@@ -51,6 +51,8 @@ dl.kv dd{margin-bottom:8px;}
 .wp-caption-text,.gallery-caption{margin:0;}
 .sticky{}
 .bypostauthor .header h3.title{font-weight:bold;}
+figure{border:#ddd solid 1px;}
+.appendices,figure,.license,.quote{margin-bottom:10px;}
 .act .in{zoom:1;margin-left:auto;margin-right:auto;position:relative;width:960px;}.act .in:before,.act .in:after{content:"";display:table;}
 .act .in:after{clear:both;}
 #header{background:#000;color:#fff;position:relative;z-index:2;zoom:1;}
