@@ -385,6 +385,7 @@ function anno_modify_home_query($query) {
 		global $wp_the_query;
 		// Check if this is the main loop (so we don't interfere with nav menus, etc)
 		if ($query === $wp_the_query && $query->is_home) {
+			$show_post_type = get_option('anno_home_post_type', 'article');
 			if ($show_post_type == 'article') {
 				$query->set('post_type', 'article');
 			}
