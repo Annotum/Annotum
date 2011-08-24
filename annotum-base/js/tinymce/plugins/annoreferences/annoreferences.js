@@ -62,13 +62,14 @@ var annoReferences;
 		
 		update : function() {
 			var ed = tinyMCEPopup.editor
-			var xml, checkboxes, id, text;
+			var xml, checkboxes, id, text, validNodes;
 			xml = '';
-
+			validNodes = ['BODY', 'LABEL', 'CAPTION', 'LICENSE-P', 'P', 'TD', 'TH', 'CAP'];
+			
 			var node = ed.selection.getNode();
 			
 			// If we're in the middle of a link or something similar, we want to insert the references after the element
-			if (!ed.dom.isBlock(node)) {
+			if (!ed.dom.isBlock(node) && $.inArray(node.nodeName, validNodes) == -1 ){
 				ed.selection.select(node);
 			}
 			checkboxes = annoReferences.getCheckboxes();
@@ -81,6 +82,7 @@ var annoReferences;
 				xml += '<xref ref-type="bibr" rid="' + id + '">' + id + '</xref>';
 			});
 			ed.selection.collapse();
+			
 			ed.execCommand('mceinsertContent', null, xml);
 			
 			annoReferences.close();
