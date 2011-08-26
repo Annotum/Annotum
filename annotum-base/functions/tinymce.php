@@ -661,7 +661,7 @@ function anno_process_editor_content($content) {
 	
 	// We need a clearfix for floated images.
 	$figs = pq('fig');
-	$figs->each(function($fig) {
+	foreach ($figs as $fig) {
 		$fig = pq($fig);
 		
 		// Add in img for display in editor
@@ -670,7 +670,7 @@ function anno_process_editor_content($content) {
 		
 		// _mce_bogus stripped by tinyMCE on save
 		$fig->append('<div _mce_bogus="1" class="clearfix"></div>');
-	});
+	}
 	
 	return phpQuery::getDocument();
 }
@@ -906,13 +906,13 @@ add_action('anno_html_to_xml', 'anno_html_to_xml_replace_bold');
  */
 function anno_html_to_xml_replace_inline_graphics($orig_html) {
 	$imgs = pq('img[class="_inline_graphic"]');
-	$imgs->each(function($img) {
+	foreach ($imgs as $img) {
 		$img = pq($img);
 		$img_src = $img->attr('src');
 		$img_alt = $img->attr('alt');
 		$xml = '<inline-graphic xlink:href="'.$img_src.'" ><alt-text>'.$img_alt.'</alt-text></inline-graphic>';
 		$img->replaceWith($xml);
-	});
+	}
 }
 add_action('anno_html_to_xml', 'anno_html_to_xml_replace_inline_graphics');
 
@@ -1001,7 +1001,7 @@ add_action('anno_xml_to_html', 'anno_xml_to_html_replace_formatting');
  */
 function anno_xml_to_html_replace_inline_graphics($orig_xml) {
 	$inline_imges = pq('inline-graphic');
-	$inline_imges->each(function($img) {
+	foreach ($inline_imges as $img) {
 		$img = pq($img);
 		$img_src = $img->attr('xlink:href');
 		if (!empty($img_src)) {
@@ -1011,7 +1011,7 @@ function anno_xml_to_html_replace_inline_graphics($orig_xml) {
 			$html = '<img src="'.$img_src.'" class="_inline_graphic" alt="'.$alt_text.'" />';
 			$img->replaceWith($html);
 		}
-	});
+	}
 }
 add_action('anno_xml_to_html', 'anno_xml_to_html_replace_inline_graphics');
 
@@ -1324,11 +1324,11 @@ function anno_xml_to_html_iterate_table_body($tbody) {
  */
 function anno_xml_to_html_replace_references($orig_xml) {
 	$references = pq('xref[ref-type="bibr"]');
-	$references->each(function($ref) {
+	foreach ($references as $ref) {
 		$ref = pq($ref);
 		$ref_id = $ref->attr('rid');
 		$ref->replaceWith('<sup><a class="reflink" href="#ref'.esc_attr($ref_id).'">'.esc_html($ref_id).'</a></sup>');
-	});
+	}
 }
 add_action('anno_xml_to_html', 'anno_xml_to_html_replace_references');
 
@@ -1341,14 +1341,14 @@ add_action('anno_xml_to_html', 'anno_xml_to_html_replace_references');
  */
 function anno_xml_to_html_replace_external_links($orig_xml) {
 	$links = pq('ext-link');
-	$links->each(function($link) {
+	foreach ($links as $link) {
 		$link = pq($link);
 		if ($link->attr('ext-link-type') == 'uri') {
 			$url = $link->attr('xlink:href');
 			$title = $link->attr('title');
 			$link->replaceWith('<a href="'.esc_url($url).'" title="'.esc_attr($title).'">'.esc_html($link->text()).'</a>');
 		}
-	});
+	}
 }
 add_action('anno_xml_to_html', 'anno_xml_to_html_replace_external_links');
 
@@ -1361,7 +1361,7 @@ add_action('anno_xml_to_html', 'anno_xml_to_html_replace_external_links');
  */
 function anno_xml_to_html_replace_dispquotes($orig_xml) {
 	$quotes = pq('disp-quote');
-	$quotes->each(function($quote) {
+	foreach ($quotes as $quote) {
 		$quote = pq($quote);
 		
 		// Get our attribution
@@ -1384,7 +1384,7 @@ function anno_xml_to_html_replace_dispquotes($orig_xml) {
 				'.anno_build_license_div('Public Domain').'
 			</div><!-- /quote -->
 		');
-	});
+	}
 }
 add_action('anno_xml_to_html', 'anno_xml_to_html_replace_dispquotes');
 
