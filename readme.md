@@ -19,6 +19,8 @@ To check out the Annotum theme code to an existing WordPress installation:
 
 1. Navigate to the `wp-content/themes` directory in your WordPress installation
 2. On the command line type: `git clone git@github.com:Annotum/Annotum.git annotum` without backticks. 
+
+    > Note: for read-only access, use `git clone git://github.com/Annotum/Annotum.git annotum`. If you wish read-write access please let us know at info at annotum.org.
 3. Or, if you prefer to use subversion: `svn co https://username@svn.github.com/Annotum/Annotum.git annotum`
 4. That's it! Log in to your WordPress administrator dashboard, navigate to `Appearance > Themes` and Activate the theme
 
