@@ -301,7 +301,7 @@ function annowf_misc_action_approved_markup() {
 			<span id="timestamp">
 			<?php printf($stamp, $date); ?></span>
 			<a href="#edit_timestamp" class="edit-timestamp hide-if-no-js" tabindex='4'><?php _ex('Edit', 'Publishing box edit post date text', 'anno') ?></a>
-			<div id="timestampdiv" class="hide-if-js"><?php touch_time(($action == 'edit'),1,4); ?></div>
+			<div id="timestampdiv" class="hide-if-js"><?php touch_time(true, 1, 4); ?></div>
 		</div><?php // /misc-pub-section ?>
 		<?php endif; ?>
 
