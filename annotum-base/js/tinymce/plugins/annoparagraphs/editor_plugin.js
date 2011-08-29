@@ -9,7 +9,7 @@
 			t.dom = ed.dom;
 
 			ed.onKeyDown.addToTop(function(ed, e) {
-				if (!e.shiftKey && !e.ctrlKey &&  e.keyCode == 13) {
+				if (!e.shiftKey && e.keyCode == 13) {
 					e.preventDefault();
 					t.insertPara(e);
 					return false;
@@ -29,6 +29,32 @@
 			var rb, ra, dir, sn, so, en, eo, sb, eb, bn, bef, aft, sc, ec, n, vp = dom.getViewPort(ed.getWin()), y, ch, car;
 			var TRUE = true, FALSE = false;
 			ed.undoManager.beforeChange();
+
+			if (e.ctrlKey) {
+
+				var node = ed.selection.getNode();
+				if (/(DISP-FORMULA|LIST|TABLE-WRAP|FIG|DISP-QUOTE)/.test(node.nodeName)) {
+					var newElement = dom.create('p', null, '<br />');
+					dom.insertAfter(newElement, node);
+				}
+				else if (/(BODY|HTML|SEC)/.test(node.nodeName)) {
+					var newElement = dom.add(node, 'sec');
+					newElement = dom.add(newElement, 'title', null, '&nbsp');
+				}
+				else if (parentNode = dom.getParent(node, 'FIG')) {
+					//@TODO logic for section detection
+					var newElement = dom.create('p', null, '<br />');
+					dom.insertAfter(newElement, parentNode);
+				}
+				
+				// Move caret to the freshly created item
+				r = d.createRange();
+				r.selectNodeContents(newElement);
+				r.collapse(1);
+				ed.selection.setRng(r);
+				
+				return FALSE;
+			}
 
 			// If root blocks are forced then use Operas default behavior since it's really good
 // Removed due to bug: #1853816
