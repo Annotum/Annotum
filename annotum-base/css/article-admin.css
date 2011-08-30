@@ -100,190 +100,157 @@ body .wp-dialog .ui-dialog-titlebar-close {
 	min-height: 129px;
 	padding: 10px;
 }
-
 .anno-mce-popup label,
 .anno-mce-popup p {
 	display: block;
 	margin: 0;
 	padding: 5px 0px;
 }
-
 .anno-mce-popup label span {
 	width: 125px;
 	display: block;
 	float: left;
 }
-
 .anno-mce-popup textarea {
 	width: 455px;
 	max-width: 455px;
 	height: 75px;
 	margin: 0;
 }
-
 .anno-mce-popup input {
 	width: 330px;
 	margin: 0;
 }
-
-
-#anno-popup-images-inside.anno-mce-popup input[type="file"] {
-	width: 300px;
-}
-
 .anno-mce-popup input[type="button"],
 .anno-mce-popup input[type="submit"] {
 	width: auto;
 	min-width: 100px;
 }
-
 .anno-mce-popup input[type="checkbox"] {
 	width: auto;
 	margin-left: 5px;
 }
-
 .anno-mce-popup legend {
 	padding: 0px 5px;
 }
-
 .anno-mce-popup fieldset {
 	border: 1px solid #CCC;
 	margin: 10px 0;
 	padding: 10px 10px 20px 20px;
 }
-
 .anno-mce-popup fieldset label {
 	display: inline;
 	width: 200px;
 	margin: 0 30px 0 20px;
 }
-
 .anno-mce-popup fieldset label input.short-text {
 	width: 100px;
 }
-
 .anno-mce-popup fieldset label span {
 	margin-right: 10px;
 	width: auto;
 	display: inline;
 	float: none;
 }
+.anno-mce-popup table {
+	border-collapse: collapse;
+}
+.anno-mce-popup table td {
+	margin: 0px;
+	padding: 0px;
+	border-bottom: 1px solid #444444;
+}
 
+/** TinyMCE References Popup
+ -------------------------------------------------- */
 .references-link {
 	display: none;
 }
-
 .anno-reference-edit {
 	display: none;
 	background: #EEEEEE;
 	border-top: 1px solid #444444;
 	padding: 10px;
 }
-
 .reference-checkbox {
 	min-width: 40px;
 }
-
 .reference-actions {
 	min-width: 100px;
 	text-align: center;
 }
-
-table {
-	border-collapse: collapse;
-}
-
-
-table td {
-	margin: 0px;
-	padding: 0px;
-	border-bottom: 1px solid #444444;
-}
-
 table#anno-references td.anno-references-edit-td {
 	border: none;
 }
-
 .reference-text {
 	width: 340px;
 }
-
 table#anno-references tr label {
 
 }
-
 table#anno-references table td {
 	border: none;
 }
-
 table#anno-references table td table td {
 	margin: 0px;
 	padding: 0px;
 	border-bottom: 1px solid #444444;
 }
-/** Image Popup **/
 
+/** TinyMCE Images Popup
+ -------------------------------------------------- */
+#anno-popup-images-inside.anno-mce-popup input[type="file"] {
+	width: 300px;
+}
 #anno-popup-images-inside table {
 	border: 1px solid #444444;
 	border-bottom: none;
 }
-
 #anno-popup-images-inside table tr th {
 	height: 0px;
 }
-
-.img-list-img img{
+.img-list-img img {
 	width: 50px;
 	height: 50px;
 }
-
 .img-list-img {
 	width: 50px;
 }
-
 .img-list-title {
 	padding: 0 10px;
 	width: 340px;
 }
-
 .img-list-actions {
 	width: 100px;
 	text-align: center;
 }
-
 .anno-image-upload-box {
 	height: 40px;
 	text-align: center;
 	background: #EEEEEE;
 	border-top: none;
 }
-
 .img-list-actions a{
 	color: #21759B;
 }
-
 .anno-img-edit {
 	display: none;
 	border-bottom: 1px solid #444444;
 	padding: 10px;
 }
-
 .img-edit-td {
 	border-bottom: none;
 	border-top: none;
 }
-
 .img-edit-td .anno-mce-popup-footer {
 	width: auto;
 }
-
 .anno-img-edit img {
 	float: left;
 	height: 130px;
 	width: 130px;
 	margin: 10px 10px 0 0;
 }
-
 #anno-popup-quote fieldset label,
 #anno-popup-images-inside fieldset label {
 	display: block;
@@ -291,86 +258,70 @@ table#anno-references table td table td {
 	margin: 10px 0 0 0;
 	padding: 0;
 }
-
 #anno-popup-quote fieldset input,
 #anno-popup-images-inside fieldset input,
 #anno-popup-images-inside fieldset textarea {
 	width: 250px;
 }
-
 #anno-popup-quote fieldset label span,
 #anno-popup-images-inside fieldset label span {
 	width: 130px;
 	float: left;
 }
-
 #anno-popup-images-inside fieldset label.radio {
 	display: inline;
 }
-
 #anno-popup-images-inside fieldset label {
 	margin-bottom: 10px;
 }
-
 #anno-popup-images-inside fieldset input[type="radio"] {
 	width: auto;
 }
-
 #anno-popup-images-inside fieldset label.radio {
 	margin: 0 10px 0 45px;
 }
-
 #anno-popup-images-inside fieldset label.radio span {
 	width: 120px;
 	float: none;
 }
-
 .img-edit-details input,
 .img-edit-details textarea  {
 	width: 280px;
 	min-width: 280px;
 	max-width: 280px;
 }
-
 .img-insert {
 	padding: 10px;
 	height: 20px;
 	background: #EEEEEE;
 	text-align: center;
 }
-
 .anno-mce-popup-footer {
 	width: 460px;
 	padding: 10px;
 	background: #EEEEEE;
 	text-align: center;
 }
-
 #anno-popup-images-inside.anno-mce-popup {
 	padding: 0px;
 	margin: 0px;
 }
-
 #anno-popup-images-inside .media-item .original {
 	width: auto;
 	height: 50px;
 	display: table-cell;
 	vertical-align: middle;
 }
-
 #anno-popup-images-inside .progress {
 	height: 50px;
 	margin-bottom: -50px;
 }
-
 .tinymce-uploader {
 	text-align: center;
 }
-
 #anno-popup-images-inside {
 	padding-top: 10px;
 }
-
 #anno-popup-images-inside .anno-mce-popup-fields {
 	margin-top: 0px;
 }
