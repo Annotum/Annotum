@@ -74,7 +74,15 @@
 				}
 				else if (parentNode = dom.getParent(node, 'SEC')) {
 					newElement = insertNewBlock(parentNode);
-				}				
+				}
+				
+				
+				if (newElement.nodeName == 'SEC') {
+					var eleArray = dom.select(' > title', newElement);
+					if (eleArray.length > 0) {
+						newElement = eleArray[0];
+					}
+				}
 				
 				// Move caret to the freshly created item
 				r = d.createRange();
