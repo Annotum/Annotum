@@ -53,20 +53,52 @@ textarea.anno-meta {
 	top: -2px;
 }
 
-/****************** TinyMCE Popups ******************/
+/** TinyMCE Popups - override default styles
+ -------------------------------------------------- */
+body .wp-dialog {
+	-moz-border-radius: 0;
+	-webkit-border-radius: 0;
+	border-radius: 0;
+	border: 1px solid #555;
+	-moz-box-shadow: rgba(0,0,0,1) 0 4px 30px;
+    -webkit-box-shadow: rgba(0,0,0,1) 0 4px 30px;
+    -khtml-box-shadow: rgba(0,0,0,1) 0 4px 30px;
+    box-shadow: rgba(0,0,0,1) 0 4px 30px;
+}
+body .wp-dialog .ui-dialog-titlebar {
+	background-color: #222;
+	-moz-border-radius: 0;
+	-webkit-border-radius: 0;
+	border-radius: 0;
+	padding: 0 10px;
+}
+body .wp-dialog .ui-dialog-title {
+	color: #cfcfcf;
+	font-family: "Lucida Grande", Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	font-weight: normal;
+	line-height: 27px;
+	padding: 0;
+	text-align: left;
+}
+body .wp-dialog .ui-dialog-titlebar-close {
+	background: url(../img/tinymce/tb-close.png) 0 0 no-repeat;
+	height: 15px;
+	right: 10px;
+	top: 6px;
+	width: 15px;
+}
 
+
+/** TinyMCE Popups Content
+ -------------------------------------------------- */
 .anno-mce-popup {
-	margin-top: 5px;
-	padding: 10px 15px;
+	background-color: #f9f9f9;
 }
-
 .anno-mce-popup-fields {
-	margin: 10px;
+	background-color: #fff;
 	min-height: 129px;
-}
-
-#anno-popup-references .anno-mce-popup-fields {
-	margin: 0;
+	padding: 10px;
 }
 
 .anno-mce-popup label,
