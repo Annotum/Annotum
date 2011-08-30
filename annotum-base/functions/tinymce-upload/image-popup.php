@@ -84,7 +84,7 @@ function anno_popup_images() {
 	$url = add_query_arg($query_args, admin_url());
 ?>
 	<div id="anno-popup-images">
-		<iframe class="" src="<?php echo $url; ?>" width="480px" height="600px" style="padding-top: 10px;"></iframe>
+		<iframe class="" src="<?php echo $url; ?>" width="480px" height="600px"></iframe>
 	</div>
 <?php
 }

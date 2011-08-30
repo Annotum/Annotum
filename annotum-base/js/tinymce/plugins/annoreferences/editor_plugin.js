@@ -7,7 +7,7 @@
             ed.addCommand('Anno_References', function(){	
                	ed.windowManager.open({
 					id : 'anno-popup-references',
-					width : 480,
+					width : 500,
 					height : "auto",
 					wpDialog : true,
 					title : 'Insert References',

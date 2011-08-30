@@ -286,11 +286,11 @@ function anno_popup_references_row_display($reference_key, $reference) {
 	<table>
 	<tr>
 		<td class="reference-checkbox">
-			<?php echo $reference_key + 1; ?>.<input id="<?php echo esc_attr('reference-checkbox-'.$reference_key); ?>" type="checkbox" />
+			<input id="<?php echo esc_attr('reference-checkbox-'.$reference_key); ?>" type="checkbox" />
 		</td>
 		<td class="reference-text">
 			<label for="<?php echo esc_attr('reference-checkbox-'.$reference_key); ?>">
-				<?php echo esc_html($reference['text']); ?>
+				<?php echo $reference_key + 1; ?>. <?php echo esc_html($reference['text']); ?>
 			</label>
 		</td>
 		<td class="reference-actions">
