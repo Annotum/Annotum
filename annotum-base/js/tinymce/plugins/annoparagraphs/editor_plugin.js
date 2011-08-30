@@ -27,25 +27,46 @@
 
 			var t = this, ed = t.editor, dom = ed.dom, d = ed.getDoc(), se = ed.settings, s = ed.selection.getSel(), r = s.getRangeAt(0), b = d.body;
 			var rb, ra, dir, sn, so, en, eo, sb, eb, bn, bef, aft, sc, ec, n, vp = dom.getViewPort(ed.getWin()), y, ch, car;
-			var TRUE = true, FALSE = false;
+			var TRUE = true, FALSE = false, newElement, node = ed.selection.getNode();
 			ed.undoManager.beforeChange();
-
-			if (e.ctrlKey) {
-
-				var node = ed.selection.getNode();
-				if (/(DISP-FORMULA|LIST|TABLE-WRAP|FIG|DISP-QUOTE)/.test(node.nodeName)) {
-					var newElement = dom.create('p', null, '<br />');
-					dom.insertAfter(newElement, node);
+						
+			if (e.ctrlKey || /(BODY|HTML|TITLE)/.test(node.nodeName)) {
+				
+				function insertNewBlock(node) {
+					var newElement;
+					if (!(parentNode = dom.getParent(node, 'SEC')) || node.nodeName == 'SEC') {
+						newElement = newSec();
+					}
+					else {
+						newElement = dom.create('p', null, '<br />');
+					}
+					
+					return dom.insertAfter(newElement, node);
 				}
-				else if (/(BODY|HTML|SEC)/.test(node.nodeName)) {
-					var newElement = dom.add(node, 'sec');
-					newElement = dom.add(newElement, 'title', null, '&nbsp');
+				
+				// Create a new sec element with a title
+				function newSec() {
+					var sec = dom.create('sec', null);
+					dom.add(sec, 'title', null, '&nbsp');
+					dom.add(sec, 'p', null, '<br />');
+					return sec;
+				}
+						
+				var node = ed.selection.getNode();
+				if (/(DISP-FORMULA|LIST|TABLE-WRAP|FIG|DISP-QUOTE|TITLE)/.test(node.nodeName)) {
+					newElement = insertNewBlock(node);
+				}
+				else if (/(BODY|HTML)/.test(node.nodeName)) {
+					secElement = dom.add(node, 'sec');
+					newElement = dom.add(secElement, 'title', null, '&nbsp');
+					dom.add(secElement, 'p', null, '<br />');
 				}
 				else if (parentNode = dom.getParent(node, 'FIG')) {
-					//@TODO logic for section detection
-					var newElement = dom.create('p', null, '<br />');
-					dom.insertAfter(newElement, parentNode);
+					newElement = insertNewBlock(parentNode);
 				}
+				else if (parentNode = dom.getParent(node, 'SEC')) {
+					newElement = insertNewBlock(parentNode);
+				}				
 				
 				// Move caret to the freshly created item
 				r = d.createRange();
@@ -190,7 +211,7 @@
 			aft.removeAttribute('id');
 
 			// Is header and cursor is at the end, then force paragraph under
-			if (/^(H[1-6])$/.test(bn) && isAtEnd(r, sb))
+			if (/^(TITLE)$/.test(bn) && isAtEnd(r, sb))
 				aft = ed.dom.create(se.element);
 
 			// Find start chop node

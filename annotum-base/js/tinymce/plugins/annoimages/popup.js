@@ -1,3 +1,5 @@
+jQuery.noConflict();
+
 jQuery(document).ready( function($) {
 	$('.img-list-actions .show-img').live('click', function() {
 		var img_id = $(this).attr('id').replace('toggle-', '');
@@ -57,27 +59,39 @@ jQuery(document).ready( function($) {
 			
 			//TODO Caption Title Support
 			xml = '<fig>'
-					+'<img src="' + url + '" />'
-					+'<label>' + label + '</label>'
-					+'<cap>' + caption + '</cap>'
-					+'<media xlink:href="' + url + '">'
-						+'<alt-text>' + alt_text + '</alt-text>'
-						+'<long-desc>' + description + '</long-desc>'
-						+'<permissions>'
-							+'<copyright-statement>' + copyright_statement + '</copyright-statement>'
-							+'<copyright-holder>' + copyright_holder + '</copyright-holder>'
-							+'<license license-type="creative-commons">'
-								+'<license-p>'+ license +'</license-p>'
-							+'</license>'
-						+'</permissions>'
-					+'</media>'
-					+'<div _mce_bogus="1" class="clearfix"></div>'
-				+'</fig>';
-				
+						+'<img src="' + url + '" />'
+						+'<label>' + label + '</label>'
+						+'<cap>' + caption + '</cap>'
+						+'<media xlink:href="' + url + '">'
+							+'<alt-text>' + alt_text + '</alt-text>'
+							+'<long-desc>' + description + '</long-desc>'
+							+'<permissions>'
+								+'<copyright-statement>' + copyright_statement + '</copyright-statement>'
+								+'<copyright-holder>' + copyright_holder + '</copyright-holder>'
+								+'<license license-type="creative-commons">'
+									+'<license-p>'+ license +'</license-p>'
+								+'</license>'
+							+'</permissions>'
+						+'</media>'
+					+'</fig>'
+					+'<div _mce_bogus="1" class="clearfix"></div>';
 		}
+
 
 		var win = window.dialogArguments || opener || parent || top;
 		
+//@TODO better insertion logic
+/*		var ed = win.tinyMCE.activeEditor, d = ed.getDoc(), dom = ed.dom;
+		
+		node = ed.selection.getNode();
+		figElement = dom.create('fig', null, innerXML);
+// 		dom.add(figElement, node);		
+//		if (newElement = ed.dom.getParent(ed.selection.getNode(), ))
+//		r = d.createRange();
+//		r.selectNodeContents(ed.selection.getNode());
+//		r.collapse(1);
+		ed.selection.setRng(r);
+*/		
 		win.send_to_editor(xml);
 		win.tinyMCEPopup.close();
 		return false;
