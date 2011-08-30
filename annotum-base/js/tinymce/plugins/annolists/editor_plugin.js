@@ -90,12 +90,13 @@
 	}
 	
 	function canMerge(e1, e2, allowDifferentListStyles, mergeParagraphs) {
+		var dom = tinymce.activeEditor.dom;
 		if (!e1 || !e2) {
 			return false;
 		} else if (e1.tagName === 'LIST-ITEM' && e2.tagName === 'LIST-ITEM') {
 			return containsOnlyAList(e2);
 		} else if (isList(e1)) {
-			return (e1.tagName === e2.tagName);
+			return (dom.getAttrib(e2, 'list-type') === dom.getAttrib(e1, 'list-type'));
 		} else if (mergeParagraphs && e1.tagName === 'P' && e2.tagName === 'P') {
 			return true;
 		} else {
@@ -117,23 +118,21 @@
 		var lastOriginal = skipWhitespaceNodesBackwards(e1.lastChild), firstNew = skipWhitespaceNodesForwards(e2.firstChild);
 		var dom = tinymce.activeEditor.dom;
 		var firstTitle = dom.select('title', e1), secondTitle = dom.select('title', e2);
-
 		
+
 		if (e1.tagName === 'P') {
 			e1.appendChild(e1.ownerDocument.createElement('br'));
 		}
 		while (e2.firstChild) {
 			e1.appendChild(e2.firstChild);
-		}
+		}				
 		if (masterElement) {
 			//TODO
 			e1.style.listStyleType = masterElement.style.listStyleType;
 		}
+	
 		e2.parentNode.removeChild(e2);
-		
-		console.log(e1);
-		console.log(e2);
-		
+	
 		if ((e2 == 'LIST' || e2 == 'LIST-ITEM') && secondTitle) {
 			dom.remove(secondTitle, false);
 		}
@@ -345,10 +344,10 @@
 					element = li;
 				}
 				
-				var title = dom.create('TITLE');
+//				var title = dom.create('TITLE');
 				dom.insertAfter(list, element);
 				
-				list.appendChild(title);
+//				list.appendChild(title);
 				
 				list.appendChild(element);
 //				attemptMergeWithAdjacent(list, true);

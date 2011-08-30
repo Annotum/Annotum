@@ -76,7 +76,6 @@
 					newElement = insertNewBlock(parentNode);
 				}
 				
-				
 				if (newElement.nodeName == 'SEC') {
 					var eleArray = dom.select(' > title', newElement);
 					if (eleArray.length > 0) {
