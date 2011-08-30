@@ -167,31 +167,34 @@ body .ui-widget-overlay {
 
 /** TinyMCE References Popup
  -------------------------------------------------- */
+table#anno-references {
+	border: 1px solid #dfdfdf;
+	border-bottom: 0;
+	width: 100%;
+}
+table#anno-references td {
+	border-bottom: 1px solid #dfdfdf;
+}
 .references-link {
 	display: none;
 }
 .anno-reference-edit {
+	border-top: 1px solid #dfdfdf;
 	display: none;
-	background: #EEEEEE;
-	border-top: 1px solid #444444;
-	padding: 10px;
+	padding: 5px 10px;
 }
-.reference-checkbox {
-	min-width: 40px;
+table#anno-references td.reference-checkbox {
+	padding-left: 5px;
+	padding-right: 10px;
 }
 .reference-actions {
 	min-width: 100px;
 	text-align: center;
 }
-table#anno-references td.anno-references-edit-td {
-	border: none;
-}
 .reference-text {
 	width: 340px;
 }
-table#anno-references tr label {
-
-}
+/* nested table */
 table#anno-references table td {
 	border: none;
 }
@@ -315,8 +318,8 @@ table#anno-references table td table td {
 	text-align: center;
 }
 .anno-mce-popup-footer {
-	width: 460px;
-	padding: 10px;
+	width: 100%;
+	padding: 10px 0;
 	background: #EEEEEE;
 	text-align: center;
 }
