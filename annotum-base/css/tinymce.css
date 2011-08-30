@@ -133,6 +133,7 @@ table-wrap label, table-wrap cap {
 fig {
 	display: block;
 	padding: 5px;
+	min-height: 150px;
 }
 fig img {
 	float: left;
