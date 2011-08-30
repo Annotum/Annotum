@@ -33,7 +33,12 @@
 			if (e.ctrlKey || /(BODY|HTML|TITLE)/.test(node.nodeName)) {
 				
 				function insertNewBlock(node) {
-					var newElement;
+					var newElement, parentNode;
+
+					if (dom.getParent(node, 'P') !== null) {
+						node = dom.getParent(node, 'P');
+					}
+					
 					if (!(parentNode = dom.getParent(node, 'SEC')) || node.nodeName == 'SEC') {
 						newElement = newSec();
 					}
@@ -53,7 +58,7 @@
 				}
 						
 				var node = ed.selection.getNode();
-				if (/(DISP-FORMULA|LIST|TABLE-WRAP|FIG|DISP-QUOTE|TITLE)/.test(node.nodeName)) {
+				if (/(DISP-FORMULA|TABLE-WRAP|FIG|DISP-QUOTE|TITLE)/.test(node.nodeName)) {
 					newElement = insertNewBlock(node);
 				}
 				else if (/(BODY|HTML)/.test(node.nodeName)) {
@@ -62,6 +67,9 @@
 					dom.add(secElement, 'p', null, '<br />');
 				}
 				else if (parentNode = dom.getParent(node, 'FIG')) {
+					newElement = insertNewBlock(parentNode);
+				}
+				else if (parentNode = dom.getParent(node, 'TABLE-WRAP')) {					
 					newElement = insertNewBlock(parentNode);
 				}
 				else if (parentNode = dom.getParent(node, 'SEC')) {

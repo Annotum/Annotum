@@ -991,7 +991,7 @@ function anno_xml_to_html_replace_inline_graphics($orig_xml) {
 			$img = pq($img);
 			$alt_text = $img->children('alt-text:first')->html();
 			
-			$html = '<img src="'.$img_src.'" class="_inline_graphic" alt="'.$alt_text.'" />';
+			$html = '<img src="'.$img_src.'" alt="'.$alt_text.'" />';
 			$img->replaceWith($html);
 		}
 	}
@@ -1031,7 +1031,7 @@ function anno_xml_to_html_replace_figures($orig_xml) {
 		
 			// Build the hidden span
 			$span = '
-				<span class="fn" style="display:none;">'.esc_html($title).'</span>';
+				<span class="fn" style="display:none;">'.$title.'</span>';
 		
 			// Build the license div // @TODO Make license text i18n compat somehow
 			$license_div = anno_build_license_div($media->find('permissions > license > license-p')->html());
