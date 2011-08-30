@@ -77,6 +77,7 @@ ol list-item:before {
 }
 list-item {
 	display: block;
+	margin-left: 10px;
 }
 
 /** quotes

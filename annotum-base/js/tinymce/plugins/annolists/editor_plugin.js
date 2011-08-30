@@ -91,15 +91,20 @@
 	
 	function canMerge(e1, e2, allowDifferentListStyles, mergeParagraphs) {
 		var dom = tinymce.activeEditor.dom;
+		
 		if (!e1 || !e2) {
 			return false;
-		} else if (e1.tagName === 'LIST-ITEM' && e2.tagName === 'LIST-ITEM') {
+		} 
+		else if (e1.tagName === 'LIST-ITEM' && e2.tagName === 'LIST-ITEM') {
 			return containsOnlyAList(e2);
-		} else if (isList(e1)) {
+		} 
+		else if (isList(e1)) {
 			return (dom.getAttrib(e2, 'list-type') === dom.getAttrib(e1, 'list-type'));
-		} else if (mergeParagraphs && e1.tagName === 'P' && e2.tagName === 'P') {
+		} 
+		else if (mergeParagraphs && e1.tagName === 'P' && e2.tagName === 'P') {
 			return true;
-		} else {
+		} 
+		else {
 			return false;
 		}
 	}
@@ -119,7 +124,6 @@
 		var dom = tinymce.activeEditor.dom;
 		var firstTitle = dom.select('title', e1), secondTitle = dom.select('title', e2);
 		
-
 		if (e1.tagName === 'P') {
 			e1.appendChild(e1.ownerDocument.createElement('br'));
 		}
@@ -164,7 +168,7 @@
 			var enterDownInEmptyList = false;
 
 			function isTriggerKey(e) {
-				return e.keyCode === 9 && (ed.queryCommandState('InsertUnorderedList2') || ed.queryCommandState('InsertOrderedList2'));
+				return e.keyCode === 9 ;//&& (ed.queryCommandState('InsertUnorderedList2') || ed.queryCommandState('InsertOrderedList2'));
 			};
 
 			function isEnterInEmptyListItem(ed, e) {
@@ -254,7 +258,8 @@
 			}
 
 			this.ed = ed;
-			
+			ed.addCommand('Indent', this.indent, this);
+			ed.addCommand('Outdent', this.outdent, this);
 			ed.addCommand('InsertUnorderedList2', function() {
 				this.applyList('bullet', 'order');
 			}, this);
@@ -275,10 +280,14 @@
 				title : 'Insert Bullet List',
 				cmd : 'InsertUnorderedList2'
 			});
-						
-			ed.onKeyUp.add(function(ed, e) {
+			
+			ed.onKeyUp.addToTop(function(ed, e) {
 				var n, rng;
- 				if (enterDownInEmptyList && isEnterInEmptyListItem(ed, e)) {
+				if (isTriggerKey(e)) {
+					ed.execCommand(e.shiftKey ? 'Outdent' : 'Indent', true, null);
+					return Event.cancel(e);
+				}
+ 				else if (enterDownInEmptyList && isEnterInEmptyListItem(ed, e)) {
 					if (ed.queryCommandState('InsertOrderedList2')) {
 						ed.execCommand('InsertOrderedList2');
 					} else {
@@ -301,9 +310,9 @@
 					return Event.cancel(e);
 				}
 			});
-			ed.onKeyPress.add(cancelKeys);
-			ed.onKeyDown.add(cancelKeys);
-			ed.onKeyDown.add(imageJoiningListItem);
+			ed.onKeyPress.addToTop(cancelKeys);
+			ed.onKeyDown.addToTop(cancelKeys);
+			ed.onKeyDown.addToTop(imageJoiningListItem);
 		},
 		
 		applyList: function(targetListType, oppositeListType) {
@@ -535,6 +544,90 @@
 			this.process(actions);
 		},
 		
+		indent: function() {
+			var ed = this.ed, dom = ed.dom, indented = [];
+
+			function createWrapItem(element) {
+				var wrapItem = dom.create('list-item');
+				dom.insertAfter(wrapItem, element);
+				return wrapItem;
+			}
+
+			function createWrapList(element) {
+				var wrapItem = createWrapItem(element),
+					list = dom.getParent(element, 'list'),
+					listType = dom.getAttrib(list, 'list-type'),
+//					listStyle = dom.getStyle(list, 'list-style-type'),
+					attrs = {},
+					wrapList;
+//				if (listStyle !== '') {
+//					attrs.style = 'list-style-type: ' + listStyle + ';';
+//				}
+				attrs['list-type'] = listType;
+				wrapList = dom.create('list', attrs);
+				wrapItem.appendChild(wrapList);
+				return wrapList;
+			}
+
+			function indentLI(element) {
+				if (!hasParentInList(ed, element, indented)) {
+					element = splitNestedLists(element, dom);
+					var wrapList = createWrapList(element);
+					wrapList.appendChild(element);
+					attemptMergeWithAdjacent(wrapList.parentNode, false);
+					attemptMergeWithAdjacent(wrapList, false);
+					indented.push(element);
+				}
+			}
+
+			this.process({
+				'LIST-ITEM': indentLI,
+				defaultAction: this.adjustPaddingFunction(true)
+			});
+
+		},
+
+		outdent: function() {
+			var t = this, ed = t.ed, dom = ed.dom, outdented = [];
+
+			function outdentLI(element) {
+				var listElement, targetParent, align;
+				if (!hasParentInList(ed, element, outdented)) {
+					if (dom.getStyle(element, 'margin-left') !== '' || dom.getStyle(element, 'padding-left') !== '') {
+						return t.adjustPaddingFunction(false)(element);
+					}
+					align = dom.getStyle(element, 'text-align', true);
+					if (align === 'center' || align === 'right') {
+						dom.setStyle(element, 'text-align', 'left');
+						return;
+					}
+					element = splitNestedLists(element, dom);
+					listElement = element.parentNode;
+					targetParent = element.parentNode.parentNode;
+					if (targetParent.tagName === 'P') {
+						dom.split(targetParent, element.parentNode);
+					} else {
+						dom.split(listElement, element);
+						if (targetParent.tagName === 'LI') {
+							// Nested list, need to split the LI and go back out to the OL/UL element.
+							dom.split(targetParent, element);
+						} else if (!dom.is(targetParent, 'ol,ul')) {
+							dom.rename(element, 'p');
+						}
+					}
+					outdented.push(element);
+				}
+			}
+
+			this.process({
+				'LI': outdentLI,
+				defaultAction: this.adjustPaddingFunction(false)
+			});
+
+			each(outdented, attemptMergeWithAdjacent);
+		},
+		
+		
 		process: function(actions) {
 			var t = this, sel = t.ed.selection, dom = t.ed.dom, selectedBlocks, r;
 			function processElement(element) {
@@ -604,6 +697,26 @@
 				nodes = dom.select('._mce_act_on');
 			}
 		},
+		
+		//@TODO reevalute this
+		adjustPaddingFunction: function(isIndent) {
+			var indentAmount, indentUnits, ed = this.ed;
+			indentAmount = ed.settings.indentation;
+			indentUnits = /[a-z%]+/i.exec(indentAmount);
+			indentAmount = parseInt(indentAmount, 10);
+			return function(element) {
+				var currentIndent, newIndentAmount;
+				currentIndent = parseInt(ed.dom.getStyle(element, 'margin-left') || 0, 10) + parseInt(ed.dom.getStyle(element, 'padding-left') || 0, 10);
+				if (isIndent) {
+					newIndentAmount = currentIndent + indentAmount;
+				} else {
+					newIndentAmount = currentIndent - indentAmount;
+				}
+				ed.dom.setStyle(element, 'padding-left', '');
+				ed.dom.setStyle(element, 'margin-left', newIndentAmount > 0 ? newIndentAmount + indentUnits : '');
+			};
+		},
+		
 		
 		getInfo: function() {
 			return {

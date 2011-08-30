@@ -191,6 +191,8 @@ function anno_tiny_mce_before_init($init_array) {
 	if (isset($init_array['plugins'])) {
 		$init_array['plugins'] = str_replace('wpeditimage,', '', $init_array['plugins']);
 		$init_array['plugins'] = str_replace('wpeditimage', '', $init_array['plugins']);
+		$init_array['plugins'] = str_replace('paste,', '', $init_array['plugins']);
+
 	}
 	
 	return $init_array;
