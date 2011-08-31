@@ -992,7 +992,7 @@ function anno_xml_to_html_replace_inline_graphics($orig_xml) {
 			$img = pq($img);
 			$alt_text = $img->children('alt-text:first')->html();
 			
-			$html = '<img src="'.$img_src.'" alt="'.$alt_text.'" />';
+			$html = '<img src="'.$img_src.'" class="_inline_graphic" alt="'.$alt_text.'" />';
 			$img->replaceWith($html);
 		}
 	}

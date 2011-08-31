@@ -71,7 +71,7 @@ $html = '';
 	<h4>
 	'._x('Appendix', 'meta box title', 'anno').' '.esc_html($index_alpha).' - <a href="#" onclick="deleteAnnoAppendix(jQuery(this).parent()); return false;" class="delete">'._x('delete', 'Meta box delete repeater link', 'anno').'</a>
 	</h4>
-	<textarea id="'.esc_attr('appendix-'.$index).'" class="anno-meta" name="'.esc_attr('anno_appendix['.$index.']').'">'.esc_html($content).'</textarea>
+	<textarea id="'.esc_attr('appendix-'.$index).'" class="anno-meta" name="'.esc_attr('anno_appendix['.$index.']').'">'.esc_textarea(anno_process_editor_content($content)).'</textarea>
 </fieldset>';
 
 	return $html;

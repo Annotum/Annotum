@@ -199,7 +199,7 @@ function anno_article_insert_post($post_id, $post) {
 		if (isset($_POST['anno_appendix']) && is_array($_POST['anno_appendix'])) {
 			foreach ($_POST['anno_appendix'] as $appendix) {
 				if (!empty($appendix)) {
-					$appendices[] = $appendix;
+					$appendices[] = addslashes(anno_validate_xml_content_on_save(stripslashes($appendix)));
 				}
 			}
 		}

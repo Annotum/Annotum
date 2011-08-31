@@ -169,6 +169,26 @@ class Anno_XML_Download {
 			</title-group>';
 		
 		
+		$pub_name = cfct_get_option('publisher_name');
+		$pub_loc = cfct_get_option('publisher_location');
+		if (!empty($pub_name) || !empty($pub_loc)) {
+			$publisher_xml = '<publisher>';
+			if (!empty($pub_name)) {
+				$publisher_xml .= '
+				<publisher-name>'.esc_html($pub_name).'</publisher-name>';
+			}
+			
+			if (!empty($pub_loc)) {
+				$publisher_xml .= '
+				<publisher-loc>'.esc_html($pub_loc).'</publisher-loc>';
+			}
+			$publisher_xml .= '
+					</publisher>';
+		}
+		else {
+			$publisher_xml = '';
+		}
+		
 		$pub_date = $article->post_date;
 		if (!empty($pub_date)) {
 			$pub_date = strtotime($pub_date);
@@ -259,12 +279,8 @@ class Anno_XML_Download {
 		<journal-meta>
 			'.$journal_id_xml.'
 			'.$journal_title_xml.'
-			'.$pub_issn_xml
-//			<publisher>
-//				<publisher-name>Publisher Name</publisher-name>
-//				<publisher-loc>Publisher Location</publisher-loc>
-//			</publisher>
-.'
+			'.$pub_issn_xml.'
+			'.$publisher_xml.'
 		</journal-meta>
 		<article-meta>
 			'.$doi_xml.'
