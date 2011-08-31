@@ -43,7 +43,8 @@ class Anno_XML_Download {
 						$display_errors = ini_get('display_errors');
 						ini_set('display_errors', 0);
 					}
-					
+		
+					header("content-type:text/xml;charset=utf-8");
 					$this->generate_xml($article_id);
 					exit;
 					break;				
@@ -52,6 +53,12 @@ class Anno_XML_Download {
 			}
 		}
 	}
+	
+	private function get_filename($id) {
+		$post = get_post($id);
+		return $post->filename.'.xml';
+	}
+	
 	
 	private function generate_xml($id) {
 		echo $this->xml_front($id)."\n".$this->xml_body($id)."\n".$this->xml_back($id);
