@@ -156,7 +156,22 @@ class Anno_XML_Download {
 		}
 		else {
 			$title_xml = '';
-		}	
+		}
+		
+		
+		$pub_date = $article->post_date;
+		if (!empty($pub_date)) {
+			$pub_date = strtotime($pub_date);
+			$pub_date_xml = '
+				<date date-type="submitted">
+					<day>'.date('j', $pub_date).'</day>
+					<month>'.date('n', $pub_date).'</month>
+					<year>'.date('Y', $pub_date).'</year>
+				</date>';
+		}
+		else {
+			$pub_date_xml = '';
+		}
 		
 			return 
 '<?xml version="1.0" encoding="UTF-8"?>
@@ -190,24 +205,20 @@ class Anno_XML_Download {
 					<ext-link ext-link-type="uri" xlink:href="http://www.example.com">My Blog</ext-link>
 				</contrib>
 			</contrib-group>
-			<pub-date pub-type="ppub">
-				<day>12</day>
-				<month>12</month>
-				<year>2010</year>
-			</pub-date>
-			<history>
-				<date date-type="submitted">
-					<day>12</day>
-					<month>12</month>
-					<year>2010</year>
-				</date>
-				<date date-type="submitted">
-					<day>12</day>
-					<month>12</month>
-					<year>2010</year>
-				</date>
-			</history>
-			'.$abstract_xml.
+			'.$pub_date_xml.
+//			<history>
+//				<date date-type="submitted">
+//					<day>12</day>
+//					<month>12</month>
+//					<year>2010</year>
+//				</date>
+//				<date date-type="submitted">
+//					<day>12</day>
+//					<month>12</month>
+//					<year>2010</year>
+//				</date>
+//			</history>
+'			'.$abstract_xml.
 //			<kwd-group kwd-group-type="simple">
 //				<kwd><bold>Formatted Text</bold></kwd>
 //				<kwd><bold>Formatted Text</bold></kwd>
