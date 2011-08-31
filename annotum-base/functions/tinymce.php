@@ -101,7 +101,7 @@ function anno_admin_print_footer_scripts() {
 					sec : { \'block\' : \'sec\', \'wrapper\' : \'true\' },
 					title : { \'block\' : \'title\' },
 				}',
-			'theme_advanced_blockformats' => 'Paragraph=p,Heading=title,Section=sec',
+			'theme_advanced_blockformats' => 'Paragraph=p,Title=title,Section=sec',
 			'forced_root_block' => '',
 			'editor_css' => trailingslashit(get_template_directory_uri()).'css/tinymce-ui.css?v=4',
 			'debug' => 'true',
