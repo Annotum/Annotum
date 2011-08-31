@@ -1,39 +1,44 @@
+/**
+ * TinyMCE styles for XML editor
+ */
+
+/** base
+ -------------------------------------------------- */
 body {
 	background: #F4F4F4;
 }
 
-.clearfix:after {
-  content: ".";
-  display: block;
-  height: 0;
-  clear: both;
-  visibility: hidden;
-}
-
-.clearfix {
-	visibility: hidden;
-}
-
-h1,h2,h3,h4,h5,h6,p,sec, caption, 
-fig, fig label, fig cap, fig long-desc, fig copyright-statement, fig copyright-holder, fig license-p,table-wrap, disp-quote{
-	padding: 10px;
+/* visual wrapper for elements */
+h1,h2,h3,h4,h5,h6,p,title,sec,caption,cap,
+fig, fig label, fig long-desc, fig license-p, 
+fig copyright-statement, fig copyright-holder,
+table-wrap, table-wrap label, disp-quote {
 	border: 1px solid #DFDFDF;
-	background: #FFFFFF;
-	margin-bottom: 10px;
+	background-color: #fff;
 	display: block;
+	margin: 3px 0;
+	padding: 4px 8px;
 }
 
+/** basic XML element styles
+ -------------------------------------------------- */
 title {
 	font-size: 16px;
 	font-weight: bold;
-	display: block;
 }
-
+underline {
+	text-decoration: underline;
+}
+italic {
+	font-style: italic;
+}
+bold {
+	font-weight: bold;
+}
 ext-link {
 	text-decoration: underline;
 	color: #0000FF;
 }
-
 xref {
 	font-size: xx-small;
 	vertical-align:top;
@@ -41,108 +46,118 @@ xref {
 	padding-right: 1px;
 	background: #999;
 	display: inline;
-
 	width: 20px;
 }
-
 xref:before {
 
 }
 xref:after {
 
 }
-
-inline-graphic{
+inline-graphic {
 	display: none;
 }
 
-table.mceitemtable {
-	border: none;
-	border-spacing: 0px;
-	border-collapse:collapse
-}
-
-table.mceitemtable td,
-table.mceitemtable th  {
-	min-width: 20px;
-	min-height: 20px;
-	border: 1px solid #000000;
-	border-spacing: 0px;
-	padding: 3px;
-	margin: 0px;
-}
-
-table.mceitemtable th {
-	font-size: 14px;
-}
-
+/** lists
+ -------------------------------------------------- */
 list {
 	display: block;
 }
-
 list[list-type=bullet] list-item:before,
 ul list-item:before {
 	content: "\2022 ";
 }
-
 list[list-type=order] {
 	counter-reset: item;
 }
-
 list[list-type=order] list-item:before,
 ol list-item:before {
 	content: counter(item) ". "; 
 	counter-increment: item;
 }
-
-list-item{
+list-item {
 	display: block;
+	margin-left: 10px;
 }
 
-underline {
-	text-decoration: underline;
-}
-
-italic {
+/** quotes
+ -------------------------------------------------- */
+disp-quote {
 	font-style: italic;
 }
-
-bold {
-	font-weight: bold;
+disp-quote permissions {
+	font-style: normal;
+	display: none;
+}
+disp-quote attrib:before {
+	content: " - ";
+}
+disp-quote attrib {
+	font-style: normal;
 }
 
-/** Figures **/
+/** tables
+ -------------------------------------------------- */
+table.mceitemtable {
+	border: none;
+	border-spacing: 0px;
+	border-collapse: collapse;
+}
+table.mceitemtable td,
+table.mceitemtable th  {
+	min-width: 20px;
+	min-height: 20px;
+	border: 1px solid #999;
+	border-spacing: 0px;
+	padding: 3px 5px;
+	margin: 0px;
+}
+table.mceitemtable th {
+	font-size: 12px;
+}
+table-wrap {
+	display: inline-block;
+}
+table-wrap label {
+	font-weight: bold;
+}
+table-wrap label, table-wrap cap {
+	display: block;
+	border: 1px solid #dfdfdf;
+	margin: 4px 0;
+}
+
+/** Figures
+ -------------------------------------------------- */
 fig {
 	display: block;
 	padding: 5px;
+	min-height: 150px;
 }
-
 fig img {
 	float: left;
-	margin-right: 3px;
-	border: 1px solid #CCCCCC;
+	margin-right: 5px;
+	border: 1px solid #ccc;
 }
-
 fig media {
 	display: none;
 }
-
+fig alt-text {
+	display: none;
+}
+fig label {
+	font-weight: bold;
+}
 fig long-desc,
 fig copyright-statement,
 fig copyright-holder,
 fig license-p,
 fig cap,
 fig label {
-	margin: 1px 5px 1px 5px;
 	display: block;
-	margin-left: 5px;
+	margin: 0 0 4px;
 	overflow: hidden;
 }
-
-fig alt-text {
-	display: none;
-}
-
 fig long-desc,
 fig copyright-statement,
 fig copyright-holder,
@@ -150,33 +165,53 @@ fig license-p {
 	font-size: 10px;
 }
 
-/** Tables **/
+
+/** bg image labels
+ -------------------------------------------------- */
+p,
+title,
+sec,
+fig,
+table-wrap,
+fig label,
+table-wrap label,
+cap {
+	background-position: 2px 2px;
+	background-repeat: no-repeat;
+	padding-top: 9px;
+}
+p {
+	background-image: url(../img/tinymce/paragraph.gif);
+}
+title {
+	background-image: url(../img/tinymce/title.gif);
+}
+sec {
+	background-image: url(../img/tinymce/section.gif);
+}
+fig {
+	background-image: url(../img/tinymce/figure.gif);
+}
 table-wrap {
-	display: inline-block;
+	background-image: url(../img/tinymce/table.gif);	
+}
+table-wrap label,
+fig label {
+	background-image: url(../img/tinymce/label.gif);
+}
+cap {
+	background-image: url(../img/tinymce/caption.gif);
 }
 
-table-wrap label, table-wrap cap {
-	padding: 5px;
-	border: 1px solid #DFDFDF;
-	background: #FFFFFF;
-	margin-bottom: 2px;
-	display: block;
+/** utilities
+ -------------------------------------------------- */
+.clearfix:after {
+  content: ".";
+  display: block;
+  height: 0;
+  clear: both;
+  visibility: hidden;
 }
-
-/** Quotes **/
-disp-quote {
-	font-style: italic;
-}
-
-disp-quote permissions {
-	font-style: normal;
-	display: none;
-}
-
-disp-quote attrib:before {
-	content: " - ";
-}
-
-disp-quote attrib {
-	font-style: normal;
+.clearfix {
+	visibility: hidden;
 }

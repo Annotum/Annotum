@@ -79,12 +79,11 @@ function anno_admin_print_footer_scripts() {
 			'list-item[p|xref|list]',
 			'disp-formula[label|tex-math]',
 			'disp-quote[p|attrib|permissions]',
-			'p[xref]',
 			'fig[label|caption|media]',
 			'caption[title|p]',
 			'table-wrap[label|caption|table|table-wrap-foot|permissions]',
 			'table-wrap-foor[p]',
-			'p[media|img|permissions|license|list|list-item|disp-formula|disp-quote|fig|caption|table-wrap|table-wrap-foot|h2]',
+			'p[media|img|permissions|license|list|list-item|disp-formula|disp-quote|fig|caption|table-wrap|table-wrap-foot|h2|xref]',
 			'sec[media|img|permissions|license|list|list-item|disp-formula|disp-quote|fig|caption|table-wrap|table-wrap-foot|p|h2]',
 		);
 
@@ -107,7 +106,7 @@ function anno_admin_print_footer_scripts() {
 			'editor_css' => trailingslashit(get_template_directory_uri()).'css/tinymce-ui.css?v=4',
 			'debug' => 'true',
 			'verify_html' => false,
-			'force_p_newlines' => true,
+			'force_p_newlines' => false,
 			'force_br_newlines' => false,
 		));
 ?>
@@ -179,7 +178,8 @@ class Anno_tinyMCE {
 		
 		$plugins['annoLists'] = trailingslashit(get_bloginfo('template_directory')).'js/tinymce/plugins/annolists/editor_plugin.js';
 		
-		//$plugins['annoParagraphs'] = trailingslashit(get_bloginfo('template_directory')).'js/tinymce/plugins/annoparagraphs/editor_plugin.js';
+		$plugins['annoParagraphs'] = trailingslashit(get_bloginfo('template_directory')).'js/tinymce/plugins/annoparagraphs/editor_plugin.js';
+//		$plugins['annoSection'] = trailingslashit(get_bloginfo('template_directory')).'js/tinymce/plugins/annosection/editor_plugin.js';
 
 		return $plugins;
 	}
@@ -191,6 +191,8 @@ function anno_tiny_mce_before_init($init_array) {
 	if (isset($init_array['plugins'])) {
 		$init_array['plugins'] = str_replace('wpeditimage,', '', $init_array['plugins']);
 		$init_array['plugins'] = str_replace('wpeditimage', '', $init_array['plugins']);
+		$init_array['plugins'] = str_replace('paste,', '', $init_array['plugins']);
+
 	}
 	
 	return $init_array;
@@ -284,11 +286,11 @@ function anno_popup_references_row_display($reference_key, $reference) {
 	<table>
 	<tr>
 		<td class="reference-checkbox">
-			<?php echo $reference_key + 1; ?>.<input id="<?php echo esc_attr('reference-checkbox-'.$reference_key); ?>" type="checkbox" />
+			<input id="<?php echo esc_attr('reference-checkbox-'.$reference_key); ?>" type="checkbox" />
 		</td>
 		<td class="reference-text">
 			<label for="<?php echo esc_attr('reference-checkbox-'.$reference_key); ?>">
-				<?php echo esc_html($reference['text']); ?>
+				<?php echo $reference_key + 1; ?>. <?php echo esc_html($reference['text']); ?>
 			</label>
 		</td>
 		<td class="reference-actions">
@@ -791,23 +793,6 @@ function anno_get_dtd_valid_elements() {
 }
 
 /**
- * Take the XML in the post_content, and convert to HTML which
- * is then stored as post_meta
- *
- * @param int $post_id
- * @param obj $post - The actual $post object
- */
-function anno_save_xml_as_html_post_meta($post_id, $post) {
-	if ($post->post_type == 'article' && isset($post->post_content)) {
-		// in goes the XML, out comes the HTML
-		update_post_meta($post_id, '_anno_article_html', anno_xml_to_html($post->post_content));
-	}
-	return $data;
-}
-//add_action('save_post', 'anno_save_xml_as_html_post_meta', null, 2);
-
-
-/**
  * Save our appendices as HTML versions to be used on the front end when updating
  */
 function anno_update_appendices_xml_as_html($meta_id, $post_id, $meta_key, $meta_value) {
@@ -844,6 +829,7 @@ function anno_insert_post_data($data, $postarr) {
 		// Set XML as backup content. Filter markup and strip out tags not on whitelist.
 		$data['post_content_filtered'] = addslashes(anno_validate_xml_content_on_save($content));
 		// Set formatted HTML as the_content
+		error_log($content);
 		$data['post_content'] = addslashes(anno_xml_to_html($content));
 	}
 	return $data;
@@ -915,7 +901,6 @@ function anno_html_to_xml_replace_inline_graphics($orig_html) {
 	}
 }
 add_action('anno_html_to_xml', 'anno_html_to_xml_replace_inline_graphics');
-
 
 /**
  * Utility function to convert our XML into HTML
@@ -1008,7 +993,7 @@ function anno_xml_to_html_replace_inline_graphics($orig_xml) {
 			$img = pq($img);
 			$alt_text = $img->children('alt-text:first')->html();
 			
-			$html = '<img src="'.$img_src.'" class="_inline_graphic" alt="'.$alt_text.'" />';
+			$html = '<img src="'.$img_src.'" alt="'.$alt_text.'" />';
 			$img->replaceWith($html);
 		}
 	}
@@ -1024,19 +1009,22 @@ add_action('anno_xml_to_html', 'anno_xml_to_html_replace_inline_graphics');
  */
 function anno_xml_to_html_replace_figures($orig_xml) {
 	// We need a clearfix for floated images.
+	
 	$figs = pq('fig');
 	
 	$count = 0;
 	if (count($figs)) {
 		foreach ($figs as $fig) {
+		
 			// Get a phpQuery obj
 			$fig = pq($fig);
-		
+
 			// Grab our media element in the fig
 			$media = pq($fig->children('media'));
-		
+
 			// Get some img tag properties
 			$img_src = $media->attr('xlink:href');
+						
 			$title = $media->children('long-desc')->html();
 			$alt = $media->children('alt-text')->html();
 		
@@ -1045,7 +1033,7 @@ function anno_xml_to_html_replace_figures($orig_xml) {
 		
 			// Build the hidden span
 			$span = '
-				<span class="fn" style="display:none;">'.esc_html($title).'</span>';
+				<span class="fn" style="display:none;">'.$title.'</span>';
 		
 			// Build the license div // @TODO Make license text i18n compat somehow
 			$license_div = anno_build_license_div($media->find('permissions > license > license-p')->html());
