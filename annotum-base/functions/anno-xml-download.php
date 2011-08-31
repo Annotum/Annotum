@@ -149,41 +149,43 @@ class Anno_XML_Download {
 		}
 		
 		$subtitle =  get_post_meta($article->ID, '_anno_subtitle', true);
+		$title_xml = '<title-group>';
 		if (!empty($article->post_title) || !empty($subtitle)) {
 			$title_xml = '<title-group>';
 			if (!empty($article->post_title)) {
 				$title_xml .= '
 				<article-title><bold>'.esc_html($article_post).'</bold></article-title>';
 			}
+			else {
+				$title_xml .= '
+				<article-title />';
+			}
 			if (!empty($subtitle)) {
 				$title_xml .= '
 				<subtitle><bold>'.esc_html($subtitle).'</bold></subtitle>';
 			}
-			$title_xml .= '
-				</title-group>';
 		}
-		else {
-			$title_xml = '';
-		}
+		$title_xml .= '
+			</title-group>';
 		
 		
 		$pub_date = $article->post_date;
 		if (!empty($pub_date)) {
 			$pub_date = strtotime($pub_date);
 			$pub_date_xml = '
-				<date date-type="submitted">
+				<pub-date pub-type="ppub">
 					<day>'.date('j', $pub_date).'</day>
 					<month>'.date('n', $pub_date).'</month>
 					<year>'.date('Y', $pub_date).'</year>
-				</date>';
+				</pub-date>';
 		}
 		else {
-			$pub_date_xml = '';
+			$pub_date_xml = '<pub-date />';
 		}
 		
 		$authors = get_post_meta($article->ID, '_anno_author_snapshot', true);
+		$author_xml = '<contrib-group>';
 		if (!empty($authors) && is_array($authors)) {
-			$author_xml = '<contrib-group>';
 			foreach ($authors as $author) {
 				$author_xml .= '
 				<contrib>';
@@ -243,12 +245,10 @@ class Anno_XML_Download {
 				$author_xml .= '
 				</contrib>';
 			}
-			$author_xml .= '
-			</contrib-group>';
+		
 		}
-		else {
-			$author_xml = '';
-		}	
+		$author_xml .= '
+		</contrib-group>';
 		
 //@TODO abstract out journal meta, article meta to their own methods
 			return 
