@@ -173,6 +173,95 @@ class Anno_XML_Download {
 			$pub_date_xml = '';
 		}
 		
+		$authors = get_post_meta($article->ID, '_anno_author_snapshot', true);
+		if (!empty($authors) && is_array($authors)) {
+			$author_xml = '<contrib-group>';
+			foreach ($authors as $author) {
+				$author_xml .= '
+				<contrib>';
+				if (
+					(isset($author['surname']) && !empty($author['surname'])) ||
+					(isset($author['given_names']) && !empty($author['given_names'])) ||
+					(isset($author['prefix']) && !empty($author['prefix'])) ||
+					(isset($author['suffix']) && !empty($author['suffix']))
+					) {
+						$author_xml .= '
+					<name>';
+						if (isset($author['surname']) && !empty($author['surname'])) {
+							$author_xml .= '
+						<surname>'.esc_html($author['surname']).'</surname>';
+						}
+						if (isset($author['given_names']) && !empty($author['given_names'])) {
+							$author_xml .= '
+						<given_names>'.esc_html($author['given_names']).'</given_names>';
+						}
+						if (isset($author['prefix']) && !empty($author['prefix'])) {
+							$author_xml .= '
+						<prefix>'.esc_html($author['prefix']).'</prefix>';
+						}
+						if (isset($author['suffix']) && !empty($author['suffix'])) {
+							$author_xml .= '
+						<suffix>'.esc_html($author['suffix']).'</suffix>';
+						}
+						$author_xml .= '
+					</name>';
+					}
+					
+					if (isset($author['degrees']) && !empty($author['degrees'])) {
+						$author_xml .= '
+						<degrees>'.esc_html($author['degrees']).'</degrees>';
+					}
+					
+					if (isset($author['affiliation']) && !empty($author['affitliation'])) {
+						$author_xml .= '
+						<affiliation>'.esc_html($author['affiliation']).'</affiliation>';
+					}
+					
+					if (isset($author['bio']) && !empty($author['bio'])) {
+						$author_xml .= '
+						<bio>'.esc_html($author['bio']).'</bio>';
+					}
+					
+					if (isset($author['email']) && !empty($author['email'])) {
+						$author_xml .= '
+						<email>'.esc_html($author['email']).'</email>';
+					}
+					
+					if (isset($author['link']) && !empty($author['link'])) {
+						$author_xml .= '
+						<ext-link ext-link-type="uri" xlink:href="'.esc_url($author['link']).'">'.esc_html($author['link']).'</ext-link>';
+					}
+				
+				$author_xml .= '
+				</contrib>';
+			}
+			$author_xml .= '
+			</contrib-group>';
+		}
+		else {
+			$author_xml = '';
+		}
+		
+		/*
+		<contrib-group>
+			<contrib>
+				<name>
+					<surname>Jones</surname>
+					<given-names>Jim</given-names>
+					<prefix>Rev.</prefix>
+					<suffix>III</suffix>
+				</name>
+				<degrees>Ph D.</degrees>
+				<aff>Northwestern University</aff>
+				<bio>Lives down by the river</bio>
+				<email>jim@jones.com</email>
+				<ext-link ext-link-type="uri" xlink:href="http://www.example.com">My Blog</ext-link>
+			</contrib>
+		</contrib-group>
+		*/
+		
+		
+//@TODO abstract out journal meta, article meta to their own methods
 			return 
 '<?xml version="1.0" encoding="UTF-8"?>
 <article xmlns:xlink="http://www.w3.org/1999/xlink" article-type="test-article" xml:lang="en">
@@ -190,21 +279,7 @@ class Anno_XML_Download {
 			'.$doi_xml.'
 			'.$category_xml.'
 			'.$title_xml.'
-			<contrib-group>
-				<contrib>
-					<name>
-						<surname>Jones</surname>
-						<given-names>Jim</given-names>
-						<prefix>Rev.</prefix>
-						<suffix>III</suffix>
-					</name>
-					<degrees>Ph D.</degrees>
-					<aff>Northwestern University</aff>
-					<bio>Lives down by the river</bio>
-					<email>jim@jones.com</email>
-					<ext-link ext-link-type="uri" xlink:href="http://www.example.com">My Blog</ext-link>
-				</contrib>
-			</contrib-group>
+			'.$author_xml.'
 			'.$pub_date_xml.
 //			<history>
 //				<date date-type="submitted">
