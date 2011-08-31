@@ -1340,7 +1340,6 @@ function anno_xml_to_html_replace_external_links($orig_xml) {
 }
 add_action('anno_xml_to_html', 'anno_xml_to_html_replace_external_links');
 
-
 /**
  * Replace disp-quotes with valid HTMl in <blockquote> style
  *
@@ -1376,7 +1375,6 @@ function anno_xml_to_html_replace_dispquotes($orig_xml) {
 }
 add_action('anno_xml_to_html', 'anno_xml_to_html_replace_dispquotes');
 
-
 /**
  * Output the license div
  *
@@ -1394,4 +1392,5 @@ function anno_build_license_div($i18n_text, $url = null) {
 		'.$lic.'
 	</div><!-- /license -->';
 }
+
 ?>

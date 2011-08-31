@@ -9,7 +9,14 @@ if (function_exists('anno_pdf_download_url')) {
 }
 
 // Set a default XML Link
-$xml_link = '<a href="#">'.__('XML', 'anno').'</a>';
+$xml_link = '';
+if (function_exists('anno_xml_download_url')) {
+	$xml_url = anno_xml_download_url(get_the_ID());
+	if (!empty($xml_url)) {
+		$xml_link = '<a href="'.esc_url($xml_url).'">'.__('XML', 'anno').'</a>';
+	}
+}
+
 ?>
 <div class="tools-bar supplement clearfix">
 	<div class="cell print">
