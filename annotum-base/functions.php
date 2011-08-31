@@ -351,6 +351,26 @@ function anno_settings($settings) {
 				),
 			),
 		),
+		'anno_journal' => array(
+			'label' =>  _x('Journal Options', 'options heading', 'anno'),
+			'fields' => array(
+				'journal_name' => array(
+					'label' => _x('Journal Name', 'options label', 'anno'),
+					'name' => 'journal_name',
+					'type' => 'text',
+				),
+				'journal_id' => array(
+					'label' => _x('Journal ID', 'options label', 'anno'),
+					'name' => 'jounral_id',
+					'type' => 'text',
+				),
+				'publisher_issn' => array(
+					'label' => _x('Publisher ISSN', 'options label', 'anno'),
+					'name' => 'publisher_issn',
+					'type' => 'text',
+				),
+			),
+		),
 	);
 	
 	$settings = array_merge($settings, $anno_settings_bottom);
