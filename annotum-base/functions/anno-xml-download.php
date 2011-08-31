@@ -241,16 +241,17 @@ class Anno_XML_Download {
 					</name>';
 					}
 					
-					if (isset($author['degrees']) && !empty($author['degrees'])) {
-						$author_xml .= '
-						<degrees>'.esc_html($author['degrees']).'</degrees>';
-					}
+					
 // Can't display user's emails to the public!					
 /*					if (isset($author['email']) && !empty($author['email'])) {
 						$author_xml .= '
 						<email>'.esc_html($author['email']).'</email>';
 					}
 */
+					if (isset($author['degrees']) && !empty($author['degrees'])) {
+						$author_xml .= '
+						<degrees>'.esc_html($author['degrees']).'</degrees>';
+					}
 					
 					if (isset($author['affiliation']) && !empty($author['affitliation'])) {
 						$author_xml .= '
@@ -421,12 +422,9 @@ class Anno_XML_Download {
 '.$this->xml_acknoledgements($article).'
 '.$this->xml_appendices($article).'
 '.$this->xml_references($article).'
+	</back>
 '.$this->xml_responses($article).'
-	</back>'."\n".
-//	<response response-type="sample">
-//		[TBD]
-//	</response>
-'</article>';	
+</article>';	
 	}
 	
 	private function xml_responses($article) {
@@ -437,12 +435,14 @@ class Anno_XML_Download {
 				$comment_xml .= '
 	<response response-type="reply">
 		<front-stub>'
-			.$this->xml_pubdate($comment->comment_date).'
-			'.$this->xml_comment_author($comment).
-		'</front-stub>
-		<body>'
-			.esc_html($comment->comment_content).	
-		'</body>
+			.$this->xml_comment_author($comment)
+			.$this->xml_pubdate($comment->comment_date).'	
+		</front-stub>
+		<body>
+			<p>'
+				.esc_html($comment->comment_content).
+'			</p>
+		</body>
 	</response>';
 			}
 		}
@@ -481,32 +481,32 @@ class Anno_XML_Download {
 				$author_xml .= '
 						<suffix>'.esc_html($suffix).'</suffix>';
 			}
-			
+			$author_xml .= '
+					</name>';
+					
 			$degrees = get_user_meta($user->ID, '_anno_degrees', true);
 			if (!empty($degrees)) {
 				$author_xml .= '
-						<degrees>'.esc_html($degrees).'</degrees>';
+					<degrees>'.esc_html($degrees).'</degrees>';
 			}
-		
+
 			$affiliation = get_user_meta($user->ID, '_anno_affiliation', true);
 			if (!empty($affilitation)) {
 				$author_xml .= '
-						<aff>'.esc_html($user->last_name).'</aff>';
+					<aff>'.esc_html($user->last_name).'</aff>';
 			}
-			
+
 			$bio = $user->user_description;
 			if (!empty($bio)) {
 				$author_xml .= '
-						<bio>'.esc_html($bio).'</bio>';
+					<bio>'.esc_html($bio).'</bio>';
 			}
-				
+
 			$link = $user->user_url;
 			if (!empty($link)) {
 				$author_xml .= '
-						<ext-link ext-link-type="uri" xlink:href="'.esc_url($link).'">'.esc_html($link).'</ext-link>';
+					<ext-link ext-link-type="uri" xlink:href="'.esc_url($link).'">'.esc_html($link).'</ext-link>';
 			}
-			$author_xml .= '
-					</name>';
 		}
 		else {
 			if (!empty($comment->commment_author)) {
