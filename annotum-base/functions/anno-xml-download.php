@@ -151,73 +151,101 @@ class Anno_XML_Download {
 	</body>';
 	}
 	
+	private function xml_acknoledgements($article) {
+		$ack = get_post_meta($article->ID, '_anno_acknowledgements', true);
+		$xml = '';
+		if (!empty($ack)) {
+			$xml =
+'		<ack>
+			<title>'._x('Acknowledgments', 'xml acknowledgments title', 'anno').'</title>
+			<p>'.esc_html($ack).'</p>
+		</ack>';
+		}
+		
+		return $xml;
+	}
+
+	private function xml_appendices($article) {
+		$appendices = get_post_meta($article->ID, '_anno_appendices', true);
+		$xml = '';
+		if (!empty($appendices) && is_array($appendices)) {
+			$xml = 
+'			<app-group>';
+
+			foreach ($appendices as $appendix_key => $appendix) {
+				if (!empty($appendix)) {
+					$xml .=
+	'			<app id="app'.($appendix_key + 1).'">
+					<title>'.sprintf(_x('Appendix %s', 'xml appendix title', 'anno'), anno_index_alpha($appendix_key)).'</title>'
+					.$appendix.'
+				</app>';
+				}
+			}
+			
+			$xml .=
+'			</app-group>';
+		}
+			
+		return $xml;
+	}
+	
+	private function xml_references($article) {
+		$references = get_post_meta($article->ID, '_anno_references', true);
+		$xml = '';
+		if (!empty($references) && is_array($references)) {
+			$xml = 
+'			<ref-list>
+				<title>'._x('References', 'xml reference title', 'anno').'</title>';
+		
+			foreach ($references as $ref_key => $reference) {
+				if (isset($reference['doi']) && !empty($reference['doi'])) {
+					$doi = '
+						<pub-id pub-id-type="doi">'.esc_html($reference['doi']).'</pub-id>';
+				}
+				else {
+					$doi = '';
+				}
+				
+				if (isset($reference['pcmid']) && !empty($reference['pcmid'])) {
+					$pcmid = '
+						<pub-id pub-id-type="pmid">'.esc_html($reference['pcmid']).'</pub-id>';
+				}
+				else {
+					$pcmid = '';
+				}
+				
+				if (isset($reference['text']) && !empty($reference['text'])) {
+					$text = esc_html($reference['text']);
+				}
+				else {
+					$text = '';
+				}
+				
+				if (isset($reference['text']) && !empty($reference['text'])) {
+					$xml .=
+'				<ref id="R'.$ref_key.'">
+					<label>'.$ref_key.'</label>
+					<mixed-citation>'.$text.'
+						'.$doi.$pcmid.'
+					</mixed-citation>
+				</ref>';
+				}
+			}
+		
+			$xml .=
+'			</ref-list>';
+		}
+		
+		return $xml;
+		
+	}
+	
 	private function xml_back($article) {
 		return 
 '	<back>
-		<ack>
-			<title>Acknowledgments</title>
-			<p><inline-graphic xlink:href="charimage.gif" ><alt-text>alternative text</alt-text></inline-graphic> some text
-				<disp-quote>
-					<p><xref ref-type="bibr" rid="B1">xref text</xref></p>  
-					<attrib>ATTRIBUTION</attrib>
-					<permissions>
-						<copyright-statement>Copyright Statement</copyright-statement>
-						<copyright-holder>Copyright Holder</copyright-holder>
-						<license license-type="creative-commons">
-							<license-p>License <xref ref-type="bibr" rid="B1">xref text</xref></license-p>
-						</license>
-					</permissions>
-				</disp-quote>
-			</p>
-		</ack>
-		<app-group>
-			<app id="app1">
-				<title>Appendix A</title>
-				<p><inline-graphic xlink:href="charimage.gif" ><alt-text>alternative text</alt-text></inline-graphic> 
-        <xref ref-type="bibr" rid="B1">xref text</xref></p>
-				<sec>
-					<title><bold>Formatted Text</bold></title>
-					<p>SOME TEXT <inline-graphic xlink:href="charimage.gif" ><alt-text>alternative text</alt-text></inline-graphic>
-						<disp-quote>
-							<p><xref ref-type="bibr" rid="B1">xref text</xref></p>  
-							<attrib>ATTRIBUTION</attrib>
-							<permissions>
-								<copyright-statement>Copyright Statement</copyright-statement>
-								<copyright-holder>Copyright Holder</copyright-holder>
-								<license license-type="creative-commons">
-									<license-p>License <xref ref-type="bibr" rid="B1">xref text</xref></license-p>
-								</license>
-							</permissions>
-						</disp-quote>
-					</p>
-					<sec>
-						<title><bold>Formatted Text</bold></title>
-						<p>SOME TEXT <inline-graphic xlink:href="charimage.gif" ><alt-text>alternative text</alt-text></inline-graphic>
-							<disp-quote>
-								<p><xref ref-type="bibr" rid="B1">xref text</xref></p>  
-								<attrib>ATTRIBUTION</attrib>
-								<permissions>
-									<copyright-statement>Copyright Statement</copyright-statement>
-									<copyright-holder>Copyright Holder</copyright-holder>
-									<license license-type="creative-commons">
-										<license-p>License <xref ref-type="bibr" rid="B1">xref text</xref></license-p>
-									</license>
-								</permissions>
-							</disp-quote>
-						</p>
-					</sec>
-				</sec>
-			</app>
-		</app-group>
-		<ref-list>
-			<title>References</title>
-			<ref id="R1">
-				<label>1</label>
-				<mixed-citation>citation text
-        <pub-id pub-id-type="pmid">
-        12345678</pub-id></mixed-citation>
-			</ref>
-		</ref-list>
+'.$this->xml_acknoledgements($article).'
+'.$this->xml_appendices($article).'
+'.$this->xml_references($article).'
 	</back>'."\n".
 //	<response response-type="sample">
 //		[TBD]
