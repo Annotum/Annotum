@@ -361,7 +361,7 @@ function anno_settings($settings) {
 				),
 				'journal_id' => array(
 					'label' => _x('Journal ID', 'options label', 'anno'),
-					'name' => 'jounral_id',
+					'name' => 'journal_id',
 					'type' => 'text',
 				),
 				'publisher_issn' => array(

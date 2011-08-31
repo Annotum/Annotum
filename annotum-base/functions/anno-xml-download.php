@@ -67,31 +67,114 @@ class Anno_XML_Download {
 	}
 	
 	private function xml_front($article) {
+		$journal_title = cfct_get_option('journal_name');
+		if (!empty($journal_title)) {
+			$journal_title_xml = '<journal-title-group>
+					<journal-title>'.esc_html($journal_title).'</journal-title>
+				</journal-title-group>';
+		}
+		else {
+			$journal_title_xml = '';
+		}
+		
+		$journal_id = cfct_get_option('journal_id');
+		if (!empty($journal_id)) {
+			$journal_id_xml = '<journal-id journal-id-type="test">'.esc_html($journal_id).'</journal-id>';
+		}
+		else {
+			$journal_id_xml = '';
+		}
+		
+		$pub_issn = cfct_get_option('publisher_issn');
+		if (!empty($pub_issn)) {
+			$pub_issn_xml = '<issn pub-type="ppub">'.esc_html($pub_issn).'</issn>';
+		}
+		else {
+			$pub_issn_xml = '';
+		}
+		
+		$abstract = get_post_meta($article->ID, '_anno_abstract', true);
+		if (!empty($abstract)) {
+			$abstract_xml = '<abstract>
+					<title>'._x('Abstract', 'xml abstract title', 'anno').'</title>
+					<p>'.esc_html($abstract).'</p>
+				</abstract>';
+		}
+		else {
+			$abstract_xml = '';
+		}
+		
+		$funding = get_post_meta($article->ID, '_anno_funding', true);
+		if (!empty($funding)) {
+			$funding_xml = '<funding-group>
+					<funding-statement><bold>'.esc_html($funding).'</bold></funding-statement>
+				</funding-group>';
+		}
+		else {
+			$funding_xml = '';
+		}
+		
+		$doi = get_post_meta($article->ID, '_anno_doi', true);
+		if (!empty($doi)) {
+			$doi_xml = '<article-id pub-id-type="doi">'.esc_html($doi).'</article-id>';
+		}
+		else {
+			$doi_xml = '';
+		}
+
+		$cats = wp_get_object_terms($article->ID, 'article_category');
+		if (!empty($cats) && is_array($cats)) {
+			$category = get_category($cats[0]); 
+			if (!empty($category)) {
+				$category_xml = '<article-categories>
+					<subj-group>
+						<subject><bold>'.$category->name.'</bold></subject>
+					</subj-group>
+				</article-categories>';
+			}
+			else {
+				$category_xml = '';	
+			}
+		}
+		else {
+			$category_xml = '';
+		}
+		
+		$subtitle =  get_post_meta($article->ID, '_anno_subtitle', true);
+		if (!empty($article->post_title) || !empty($subtitle)) {
+			$title_xml = '<title-group>';
+			if (!empty($article->post_title)) {
+				$title_xml .= '
+				<article-title><bold>'.esc_html($article_post).'</bold></article-title>';
+			}
+			if (!empty($subtitle)) {
+				$title_xml .= '
+				<subtitle><bold>'.esc_html($subtitle).'</bold></subtitle>';
+			}
+			$title_xml .= '
+				</title-group>';
+		}
+		else {
+			$title_xml = '';
+		}	
+		
 			return 
-'<article xmlns:xlink="http://www.w3.org/1999/xlink" article-type="test-article" xml:lang="en">
+'<?xml version="1.0" encoding="UTF-8"?>
+<article xmlns:xlink="http://www.w3.org/1999/xlink" article-type="test-article" xml:lang="en">
 	<front>
 		<journal-meta>
-			<journal-id journal-id-type="test">Journal ID</journal-id>
-			<journal-title-group>
-				<journal-title>Journal Title</journal-title>
-			</journal-title-group>
-			<issn pub-type="ppub">1234-567X</issn>
-			<publisher>
-				<publisher-name>Publisher Name</publisher-name>
-				<publisher-loc>Publisher Location</publisher-loc>
-			</publisher>
-		</journal-meta>
+			'.$journal_id_xml.'
+			'.$journal_title_xml.'
+			'.$pub_issn_xml
+//			<publisher>
+//				<publisher-name>Publisher Name</publisher-name>
+//				<publisher-loc>Publisher Location</publisher-loc>
+//			</publisher>
+.'		</journal-meta>
 		<article-meta>
-			<article-id pub-id-type="doi">10.1999/party.like.its</article-id>
-			<article-categories>
-				<subj-group>
-					<subject><bold>Formatted Text</bold></subject>
-				</subj-group>
-			</article-categories>
-			<title-group>
-				<article-title><bold>Formatted Text</bold></article-title>
-				<subtitle><bold>Formatted Text</bold></subtitle>
-			</title-group>
+			'.$doi_xml.'
+			'.$category_xml.'
+			'.$title_xml.'
 			<contrib-group>
 				<contrib>
 					<name>
@@ -124,21 +207,17 @@ class Anno_XML_Download {
 					<year>2010</year>
 				</date>
 			</history>
-			<abstract>
-				<title>Abstract</title>
-				<p><inline-graphic xlink:href="charimage.gif" ><alt-text>alternative text</alt-text></inline-graphic></p>
-			</abstract>
-			<kwd-group kwd-group-type="simple">
-				<kwd><bold>Formatted Text</bold></kwd>
-				<kwd><bold>Formatted Text</bold></kwd>
-				<kwd><bold>Formatted Text</bold></kwd>
-				<kwd><bold>Formatted Text</bold></kwd>
-				<kwd><bold>Formatted Text</bold></kwd>
-				<kwd><bold>Formatted Text</bold></kwd>
-			</kwd-group>
-			<funding-group>
-				<funding-statement><bold>Formatted Text</bold></funding-statement>
-			</funding-group>
+			'.$abstract_xml.
+//			<kwd-group kwd-group-type="simple">
+//				<kwd><bold>Formatted Text</bold></kwd>
+//				<kwd><bold>Formatted Text</bold></kwd>
+///				<kwd><bold>Formatted Text</bold></kwd>
+//				<kwd><bold>Formatted Text</bold></kwd>
+//				<kwd><bold>Formatted Text</bold></kwd>
+//				<kwd><bold>Formatted Text</bold></kwd>
+//			</kwd-group>
+'
+			'.$funding_xml.'
 		</article-meta>
 	</front>';
 	}
