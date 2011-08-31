@@ -43,9 +43,16 @@ class Anno_XML_Download {
 						$display_errors = ini_get('display_errors');
 						ini_set('display_errors', 0);
 					}
+					
+					$article = get_post($article_id);
+					
+					if (!$article) {
+						wp_die(__('Required article first.', $this->i18n));
+					}
+					
 		
 					header("content-type:text/xml;charset=utf-8");
-					$this->generate_xml($article_id);
+					$this->generate_xml($article);
 					exit;
 					break;				
 				default:
@@ -54,17 +61,12 @@ class Anno_XML_Download {
 		}
 	}
 	
-	private function get_filename($id) {
-		$post = get_post($id);
-		return $post->filename.'.xml';
+	
+	private function generate_xml($article) {
+		echo $this->xml_front($article)."\n".$this->xml_body($article)."\n".$this->xml_back($article);
 	}
 	
-	
-	private function generate_xml($id) {
-		echo $this->xml_front($id)."\n".$this->xml_body($id)."\n".$this->xml_back($id);
-	}
-	
-	private function xml_front($id) {
+	private function xml_front($article) {
 			return 
 '<article xmlns:xlink="http://www.w3.org/1999/xlink" article-type="test-article" xml:lang="en">
 	<front>
@@ -141,85 +143,15 @@ class Anno_XML_Download {
 	</front>';
 	}
 	
-	private function xml_body($id) {
+	private function xml_body($article) {
+		$body = $article->post_content_filtered;		
 		return 
 '	<body>
-		<disp-quote>
-			<p><xref ref-type="bibr" rid="B1">xref text</xref></p>  
-			<attrib>ATTRIBUTION</attrib>
-			<permissions>
-				<copyright-statement>Copyright Statement</copyright-statement>
-				<copyright-holder>Copyright Holder</copyright-holder>
-				<license license-type="creative-commons">
-					<license-p>License <xref ref-type="bibr" rid="B1">xref text</xref></license-p>
-				</license>
-			</permissions>
-		</disp-quote> 
-		<p>SOME TEXT <inline-graphic xlink:href="charimage.gif" ><alt-text>alternative text</alt-text></inline-graphic>
-			<disp-quote>
-			<p><xref ref-type="bibr" rid="B1">xref text</xref></p>  
-			<attrib>ATTRIBUTION</attrib>
-			<permissions>
-				<copyright-statement>Copyright Statement</copyright-statement>
-				<copyright-holder>Copyright Holder</copyright-holder>
-				<license license-type="creative-commons">
-					<license-p>License <xref ref-type="bibr" rid="B1">xref text</xref></license-p>
-				</license>
-			</permissions>
-		</disp-quote>
-		</p>
-	 	<sec>
-			<title><bold>Formatted Text</bold></title>
-			<p>SOME TEXT <inline-graphic xlink:href="charimage.gif" ><alt-text>alternative text</alt-text></inline-graphic>
-				<disp-quote>
-					<p><xref ref-type="bibr" rid="B1">xref text</xref></p>  
-					<attrib>ATTRIBUTION</attrib>
-					<permissions>
-						<copyright-statement>Copyright Statement</copyright-statement>
-						<copyright-holder>Copyright Holder</copyright-holder>
-						<license license-type="creative-commons">
-							<license-p>License <xref ref-type="bibr" rid="B1">xref text</xref></license-p>
-						</license>
-					</permissions>
-				</disp-quote>
-			</p>
-		</sec>
-	 	<sec>
-			<title><bold>Formatted Text</bold></title>
-			<p>SOME TEXT <inline-graphic xlink:href="charimage.gif" ><alt-text>alternative text</alt-text></inline-graphic>
-				<disp-quote>
-					<p><xref ref-type="bibr" rid="B1">xref text</xref></p>  
-					<attrib>ATTRIBUTION</attrib>
-					<permissions>
-						<copyright-statement>Copyright Statement</copyright-statement>
-						<copyright-holder>Copyright Holder</copyright-holder>
-						<license license-type="creative-commons">
-							<license-p>License <xref ref-type="bibr" rid="B1">xref text</xref></license-p>
-						</license>
-					</permissions>
-				</disp-quote>
-			</p>
-			<sec>
-				<title><bold>Formatted Text</bold></title>
-				<p>SOME TEXT <inline-graphic xlink:href="charimage.gif" ><alt-text>alternative text</alt-text></inline-graphic>
-					<disp-quote>
-						<p><xref ref-type="bibr" rid="B1">xref text</xref></p>  
-						<attrib>ATTRIBUTION</attrib>
-						<permissions>
-							<copyright-statement>Copyright Statement</copyright-statement>
-							<copyright-holder>Copyright Holder</copyright-holder>
-							<license license-type="creative-commons">
-								<license-p>License <xref ref-type="bibr" rid="B1">xref text</xref></license-p>
-							</license>
-						</permissions>
-					</disp-quote>
-				</p>
-			</sec>
-		</sec>
+		'.$body.'	
 	</body>';
 	}
 	
-	private function xml_back($id) {
+	private function xml_back($article) {
 		return 
 '	<back>
 		<ack>
