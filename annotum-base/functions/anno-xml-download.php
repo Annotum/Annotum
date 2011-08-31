@@ -245,11 +245,12 @@ class Anno_XML_Download {
 						$author_xml .= '
 						<degrees>'.esc_html($author['degrees']).'</degrees>';
 					}
-					
-					if (isset($author['email']) && !empty($author['email'])) {
+// Can't display user's emails to the public!					
+/*					if (isset($author['email']) && !empty($author['email'])) {
 						$author_xml .= '
 						<email>'.esc_html($author['email']).'</email>';
 					}
+*/
 					
 					if (isset($author['affiliation']) && !empty($author['affitliation'])) {
 						$author_xml .= '
