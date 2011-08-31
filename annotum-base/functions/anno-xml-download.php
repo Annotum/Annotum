@@ -79,7 +79,15 @@ class Anno_XML_Download {
 		
 		$journal_id = cfct_get_option('journal_id');
 		if (!empty($journal_id)) {
-			$journal_id_xml = '<journal-id journal-id-type="test">'.esc_html($journal_id).'</journal-id>';
+			$journal_id_type = cfct_get_option('journal_id_type');
+			if (!empty($journal_id_type)) {
+				$journal_id_type_xml = ' journal-id-type="'.esc_attr($journal_id_type).'"';
+			}
+			else {
+				$journal_id_type_xml = '';
+			}
+			
+			$journal_id_xml = '<journal-id'.$journal_id_type_xml.'>'.esc_html($journal_id).'</journal-id>';
 		}
 		else {
 			$journal_id_xml = '';
@@ -127,10 +135,10 @@ class Anno_XML_Download {
 			$category = get_category($cats[0]); 
 			if (!empty($category)) {
 				$category_xml = '<article-categories>
-					<subj-group>
-						<subject><bold>'.$category->name.'</bold></subject>
-					</subj-group>
-				</article-categories>';
+				<subj-group>
+					<subject><bold>'.$category->name.'</bold></subject>
+				</subj-group>
+			</article-categories>';
 			}
 			else {
 				$category_xml = '';	
@@ -193,7 +201,7 @@ class Anno_XML_Download {
 						}
 						if (isset($author['given_names']) && !empty($author['given_names'])) {
 							$author_xml .= '
-						<given_names>'.esc_html($author['given_names']).'</given_names>';
+						<given-names>'.esc_html($author['given_names']).'</given-names>';
 						}
 						if (isset($author['prefix']) && !empty($author['prefix'])) {
 							$author_xml .= '
@@ -212,6 +220,11 @@ class Anno_XML_Download {
 						<degrees>'.esc_html($author['degrees']).'</degrees>';
 					}
 					
+					if (isset($author['email']) && !empty($author['email'])) {
+						$author_xml .= '
+						<email>'.esc_html($author['email']).'</email>';
+					}
+					
 					if (isset($author['affiliation']) && !empty($author['affitliation'])) {
 						$author_xml .= '
 						<affiliation>'.esc_html($author['affiliation']).'</affiliation>';
@@ -220,13 +233,8 @@ class Anno_XML_Download {
 					if (isset($author['bio']) && !empty($author['bio'])) {
 						$author_xml .= '
 						<bio>'.esc_html($author['bio']).'</bio>';
-					}
-					
-					if (isset($author['email']) && !empty($author['email'])) {
-						$author_xml .= '
-						<email>'.esc_html($author['email']).'</email>';
-					}
-					
+					}			
+						
 					if (isset($author['link']) && !empty($author['link'])) {
 						$author_xml .= '
 						<ext-link ext-link-type="uri" xlink:href="'.esc_url($author['link']).'">'.esc_html($author['link']).'</ext-link>';
@@ -240,31 +248,13 @@ class Anno_XML_Download {
 		}
 		else {
 			$author_xml = '';
-		}
-		
-		/*
-		<contrib-group>
-			<contrib>
-				<name>
-					<surname>Jones</surname>
-					<given-names>Jim</given-names>
-					<prefix>Rev.</prefix>
-					<suffix>III</suffix>
-				</name>
-				<degrees>Ph D.</degrees>
-				<aff>Northwestern University</aff>
-				<bio>Lives down by the river</bio>
-				<email>jim@jones.com</email>
-				<ext-link ext-link-type="uri" xlink:href="http://www.example.com">My Blog</ext-link>
-			</contrib>
-		</contrib-group>
-		*/
-		
+		}	
 		
 //@TODO abstract out journal meta, article meta to their own methods
 			return 
 '<?xml version="1.0" encoding="UTF-8"?>
-<article xmlns:xlink="http://www.w3.org/1999/xlink" article-type="test-article" xml:lang="en">
+<!DOCTYPE article SYSTEM "http://dtd.nlm.nih.gov/ncbi/kipling/kipling-jp3.dtd">
+<article xmlns:xlink="http://www.w3.org/1999/xlink" article-type="research-article" xml:lang="en">
 	<front>
 		<journal-meta>
 			'.$journal_id_xml.'
@@ -274,7 +264,8 @@ class Anno_XML_Download {
 //				<publisher-name>Publisher Name</publisher-name>
 //				<publisher-loc>Publisher Location</publisher-loc>
 //			</publisher>
-.'		</journal-meta>
+.'
+		</journal-meta>
 		<article-meta>
 			'.$doi_xml.'
 			'.$category_xml.'
@@ -339,16 +330,16 @@ class Anno_XML_Download {
 
 			foreach ($appendices as $appendix_key => $appendix) {
 				if (!empty($appendix)) {
-					$xml .=
-	'			<app id="app'.($appendix_key + 1).'">
+					$xml .='
+				<app id="app'.($appendix_key + 1).'">
 					<title>'.sprintf(_x('Appendix %s', 'xml appendix title', 'anno'), anno_index_alpha($appendix_key)).'</title>'
 					.$appendix.'
 				</app>';
 				}
 			}
 			
-			$xml .=
-'			</app-group>';
+			$xml .='
+			</app-group>';
 		}
 			
 		return $xml;
@@ -385,20 +376,26 @@ class Anno_XML_Download {
 				else {
 					$text = '';
 				}
-				
-				if (isset($reference['text']) && !empty($reference['text'])) {
-					$xml .=
-'				<ref id="R'.$ref_key.'">
-					<label>'.$ref_key.'</label>
-					<mixed-citation>'.$text.'
-						'.$doi.$pcmid.'
-					</mixed-citation>
-				</ref>';
+					
+				if (isset($reference['link']) && !empty($reference['link'])) {
+					$link = ' xlink:href="'.esc_url($reference['link']).'"';
 				}
+				else {
+					$link = '';
+				}
+				
+				$xml .='
+			<ref id="R'.$ref_key.'">
+				<label>'.$ref_key.'</label>
+				<mixed-citation'.$link.'>'.$text.'
+					'.$doi.$pcmid.'
+				</mixed-citation>
+			</ref>';
+
 			}
 		
-			$xml .=
-'			</ref-list>';
+			$xml .='
+		</ref-list>';
 		}
 		
 		return $xml;
