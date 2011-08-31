@@ -205,20 +205,8 @@ class Anno_XML_Download {
 			$publisher_xml = '';
 		}
 		
-		$pub_date = $article->post_date;
-		if (!empty($pub_date)) {
-			$pub_date = strtotime($pub_date);
-			$pub_date_xml = '
-				<pub-date pub-type="ppub">
-					<day>'.date('j', $pub_date).'</day>
-					<month>'.date('n', $pub_date).'</month>
-					<year>'.date('Y', $pub_date).'</year>
-				</pub-date>';
-		}
-		else {
-			$pub_date_xml = '<pub-date />';
-		}
-		
+		$pub_date_xml = $this->xml_pubdate($article->post_date);
+			
 		$authors = get_post_meta($article->ID, '_anno_author_snapshot', true);
 		$author_xml = '<contrib-group>';
 		if (!empty($authors) && is_array($authors)) {
@@ -432,11 +420,129 @@ class Anno_XML_Download {
 '.$this->xml_acknoledgements($article).'
 '.$this->xml_appendices($article).'
 '.$this->xml_references($article).'
+'.$this->xml_responses($article).'
 	</back>'."\n".
 //	<response response-type="sample">
 //		[TBD]
 //	</response>
 '</article>';	
+	}
+	
+	private function xml_responses($article) {
+		$comments = get_comments(array('post_id' => $article->ID));
+		$comment_xml = '';
+		if (!empty($comments) && is_array($comments)) {
+			foreach ($comments as $comment) {
+				$comment_xml .= '
+	<response response-type="reply">
+		<front-stub>'
+			.$this->xml_pubdate($comment->comment_date).'
+			'.$this->xml_comment_author($comment).
+		'</front-stub>
+		<body>'
+			.esc_html($comment->comment_content).	
+		'</body>
+	</response>';
+			}
+		}
+		return $comment_xml;
+	}
+	
+	private function xml_comment_author($comment) {
+		$author_xml = '<contrib-group>
+				<contrib>';
+		if (!empty($comment->user_id)) {
+			$user = get_userdata($comment->user_id);
+			$author_xml .= '
+					<name>';
+					
+			if (!empty($user->last_name)) {
+				$author_xml .= '
+						<surname>'.esc_html($user->last_name).'</surname>';
+			}
+			else {
+				$author_xml .= '
+						<surname>'.esc_html($user->display_name).'</surname>';
+			}
+			if (!empty($user->first_name)) {
+				$author_xml .= '
+						<given-names>'.esc_html($user->first_name).'</given-names>';
+			}
+			
+			$prefix = get_user_meta($user->ID, '_anno_prefix', true);
+			if (!empty($prefix)) {
+				$author_xml .= '
+						<prefix>'.esc_html($prefix).'</prefix>';
+			}
+			
+			$suffix = get_user_meta($user->ID, '_anno_suffix', true);
+			if (!empty($suffix)) {
+				$author_xml .= '
+						<suffix>'.esc_html($suffix).'</suffix>';
+			}
+			
+			$degrees = get_user_meta($user->ID, '_anno_degrees', true);
+			if (!empty($degrees)) {
+				$author_xml .= '
+						<degrees>'.esc_html($degrees).'</degrees>';
+			}
+		
+			$affiliation = get_user_meta($user->ID, '_anno_affiliation', true);
+			if (!empty($affilitation)) {
+				$author_xml .= '
+						<aff>'.esc_html($user->last_name).'</aff>';
+			}
+			
+			$bio = $user->user_description;
+			if (!empty($bio)) {
+				$author_xml .= '
+						<bio>'.esc_html($bio).'</bio>';
+			}
+				
+			$link = $user->user_url;
+			if (!empty($link)) {
+				$author_xml .= '
+						<ext-link ext-link-type="uri" xlink:href="'.esc_url($link).'">'.esc_html($link).'</ext-link>';
+			}
+			$author_xml .= '
+					</name>';
+		}
+		else {
+			if (!empty($comment->commment_author)) {
+				$author_xml .= '
+					<name>
+						<surname>'.esc_html($comment->comment_author).'</surname>';
+				$link = $comment->comment_author_url;
+				if (!empty($link)) {
+					$author_xml .= '
+						<ext-link ext-link-type="uri" xlink:href="'.esc_url($link).'">'.esc_html($link).'</ext-link>';
+				}
+				$author_xml .= '
+					</name>';
+			}
+		}
+		$author_xml .= '
+				</contrib>
+			</contrib-group>';
+		
+		return $author_xml;
+	}
+	
+	private function xml_pubdate($pub_date) {
+		if (!empty($pub_date)) {
+			$pub_date = strtotime($pub_date);
+			$pub_date_xml = '
+				<pub-date pub-type="ppub">
+					<day>'.date('j', $pub_date).'</day>
+					<month>'.date('n', $pub_date).'</month>
+					<year>'.date('Y', $pub_date).'</year>
+				</pub-date>';
+		}
+		else {
+			$pub_date_xml = '';
+		}
+		
+		return $pub_date_xml;
 	}
 	
 	/**
