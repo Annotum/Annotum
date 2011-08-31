@@ -54,7 +54,7 @@ class Anno_XML_Download {
 	}
 	
 	private function generate_xml($id) {
-		echo $this->xml_front($id).$this->xml_body($id).$this->xml_back($id);
+		echo $this->xml_front($id)."\n".$this->xml_body($id)."\n".$this->xml_back($id);
 	}
 	
 	private function xml_front($id) {
@@ -76,12 +76,12 @@ class Anno_XML_Download {
 			<article-id pub-id-type="doi">10.1999/party.like.its</article-id>
 			<article-categories>
 				<subj-group>
-					<subject>&formats;</subject>
+					<subject><bold>Formatted Text</bold></subject>
 				</subj-group>
 			</article-categories>
 			<title-group>
-				<article-title>&formats;</article-title>
-				<subtitle>&formats;</subtitle>
+				<article-title><bold>Formatted Text</bold></article-title>
+				<subtitle><bold>Formatted Text</bold></subtitle>
 			</title-group>
 			<contrib-group>
 				<contrib>
@@ -117,18 +117,18 @@ class Anno_XML_Download {
 			</history>
 			<abstract>
 				<title>Abstract</title>
-				<p>&inlines;</p>
+				<p><inline-graphic xlink:href="charimage.gif" ><alt-text>alternative text</alt-text></inline-graphic></p>
 			</abstract>
 			<kwd-group kwd-group-type="simple">
-				<kwd>&formats;</kwd>
-				<kwd>&formats;</kwd>
-				<kwd>&formats;</kwd>
-				<kwd>&formats;</kwd>
-				<kwd>&formats;</kwd>
-				<kwd>&formats;</kwd>
+				<kwd><bold>Formatted Text</bold></kwd>
+				<kwd><bold>Formatted Text</bold></kwd>
+				<kwd><bold>Formatted Text</bold></kwd>
+				<kwd><bold>Formatted Text</bold></kwd>
+				<kwd><bold>Formatted Text</bold></kwd>
+				<kwd><bold>Formatted Text</bold></kwd>
 			</kwd-group>
 			<funding-group>
-				<funding-statement>&formats;</funding-statement>
+				<funding-statement><bold>Formatted Text</bold></funding-statement>
 			</funding-group>
 		</article-meta>
 	</front>';
@@ -136,18 +136,77 @@ class Anno_XML_Download {
 	
 	private function xml_body($id) {
 		return 
-'	<body>&para-level; 
-	 		<p>SOME TEXT &inlines; &para-level;</p>
-	 		<sec>
-			<title>&formats;</title>
-			<p>SOME TEXT &inlines; &para-level;</p>
+'	<body>
+		<disp-quote>
+			<p><xref ref-type="bibr" rid="B1">xref text</xref></p>  
+			<attrib>ATTRIBUTION</attrib>
+			<permissions>
+				<copyright-statement>Copyright Statement</copyright-statement>
+				<copyright-holder>Copyright Holder</copyright-holder>
+				<license license-type="creative-commons">
+					<license-p>License <xref ref-type="bibr" rid="B1">xref text</xref></license-p>
+				</license>
+			</permissions>
+		</disp-quote> 
+		<p>SOME TEXT <inline-graphic xlink:href="charimage.gif" ><alt-text>alternative text</alt-text></inline-graphic>
+			<disp-quote>
+			<p><xref ref-type="bibr" rid="B1">xref text</xref></p>  
+			<attrib>ATTRIBUTION</attrib>
+			<permissions>
+				<copyright-statement>Copyright Statement</copyright-statement>
+				<copyright-holder>Copyright Holder</copyright-holder>
+				<license license-type="creative-commons">
+					<license-p>License <xref ref-type="bibr" rid="B1">xref text</xref></license-p>
+				</license>
+			</permissions>
+		</disp-quote>
+		</p>
+	 	<sec>
+			<title><bold>Formatted Text</bold></title>
+			<p>SOME TEXT <inline-graphic xlink:href="charimage.gif" ><alt-text>alternative text</alt-text></inline-graphic>
+				<disp-quote>
+					<p><xref ref-type="bibr" rid="B1">xref text</xref></p>  
+					<attrib>ATTRIBUTION</attrib>
+					<permissions>
+						<copyright-statement>Copyright Statement</copyright-statement>
+						<copyright-holder>Copyright Holder</copyright-holder>
+						<license license-type="creative-commons">
+							<license-p>License <xref ref-type="bibr" rid="B1">xref text</xref></license-p>
+						</license>
+					</permissions>
+				</disp-quote>
+			</p>
 		</sec>
-	 		<sec>
-			<title>&formats;</title>
-			<p>SOME TEXT &inlines; &para-level;</p>
+	 	<sec>
+			<title><bold>Formatted Text</bold></title>
+			<p>SOME TEXT <inline-graphic xlink:href="charimage.gif" ><alt-text>alternative text</alt-text></inline-graphic>
+				<disp-quote>
+					<p><xref ref-type="bibr" rid="B1">xref text</xref></p>  
+					<attrib>ATTRIBUTION</attrib>
+					<permissions>
+						<copyright-statement>Copyright Statement</copyright-statement>
+						<copyright-holder>Copyright Holder</copyright-holder>
+						<license license-type="creative-commons">
+							<license-p>License <xref ref-type="bibr" rid="B1">xref text</xref></license-p>
+						</license>
+					</permissions>
+				</disp-quote>
+			</p>
 			<sec>
-				<title>&formats;</title>
-				<p>SOME TEXT &inlines; &para-level;</p>
+				<title><bold>Formatted Text</bold></title>
+				<p>SOME TEXT <inline-graphic xlink:href="charimage.gif" ><alt-text>alternative text</alt-text></inline-graphic>
+					<disp-quote>
+						<p><xref ref-type="bibr" rid="B1">xref text</xref></p>  
+						<attrib>ATTRIBUTION</attrib>
+						<permissions>
+							<copyright-statement>Copyright Statement</copyright-statement>
+							<copyright-holder>Copyright Holder</copyright-holder>
+							<license license-type="creative-commons">
+								<license-p>License <xref ref-type="bibr" rid="B1">xref text</xref></license-p>
+							</license>
+						</permissions>
+					</disp-quote>
+				</p>
 			</sec>
 		</sec>
 	</body>';
@@ -158,19 +217,55 @@ class Anno_XML_Download {
 '	<back>
 		<ack>
 			<title>Acknowledgments</title>
-			<p>&inlines; some text &para-level;</p>
+			<p><inline-graphic xlink:href="charimage.gif" ><alt-text>alternative text</alt-text></inline-graphic> some text
+				<disp-quote>
+					<p><xref ref-type="bibr" rid="B1">xref text</xref></p>  
+					<attrib>ATTRIBUTION</attrib>
+					<permissions>
+						<copyright-statement>Copyright Statement</copyright-statement>
+						<copyright-holder>Copyright Holder</copyright-holder>
+						<license license-type="creative-commons">
+							<license-p>License <xref ref-type="bibr" rid="B1">xref text</xref></license-p>
+						</license>
+					</permissions>
+				</disp-quote>
+			</p>
 		</ack>
 		<app-group>
 			<app id="app1">
 				<title>Appendix A</title>
-				<p>&inlines; 
+				<p><inline-graphic xlink:href="charimage.gif" ><alt-text>alternative text</alt-text></inline-graphic> 
         <xref ref-type="bibr" rid="B1">xref text</xref></p>
 				<sec>
-					<title>&formats;</title>
-					<p>SOME TEXT &inlines; &para-level;</p>
+					<title><bold>Formatted Text</bold></title>
+					<p>SOME TEXT <inline-graphic xlink:href="charimage.gif" ><alt-text>alternative text</alt-text></inline-graphic>
+						<disp-quote>
+							<p><xref ref-type="bibr" rid="B1">xref text</xref></p>  
+							<attrib>ATTRIBUTION</attrib>
+							<permissions>
+								<copyright-statement>Copyright Statement</copyright-statement>
+								<copyright-holder>Copyright Holder</copyright-holder>
+								<license license-type="creative-commons">
+									<license-p>License <xref ref-type="bibr" rid="B1">xref text</xref></license-p>
+								</license>
+							</permissions>
+						</disp-quote>
+					</p>
 					<sec>
-						<title>&formats;</title>
-						<p>SOME TEXT &inlines; &para-level;</p>
+						<title><bold>Formatted Text</bold></title>
+						<p>SOME TEXT <inline-graphic xlink:href="charimage.gif" ><alt-text>alternative text</alt-text></inline-graphic>
+							<disp-quote>
+								<p><xref ref-type="bibr" rid="B1">xref text</xref></p>  
+								<attrib>ATTRIBUTION</attrib>
+								<permissions>
+									<copyright-statement>Copyright Statement</copyright-statement>
+									<copyright-holder>Copyright Holder</copyright-holder>
+									<license license-type="creative-commons">
+										<license-p>License <xref ref-type="bibr" rid="B1">xref text</xref></license-p>
+									</license>
+								</permissions>
+							</disp-quote>
+						</p>
 					</sec>
 				</sec>
 			</app>
@@ -184,11 +279,11 @@ class Anno_XML_Download {
         12345678</pub-id></mixed-citation>
 			</ref>
 		</ref-list>
-	</back>'
+	</back>'."\n".
 //	<response response-type="sample">
 //		[TBD]
 //	</response>
-.'</article>';	
+'</article>';	
 	}
 	
 	/**
