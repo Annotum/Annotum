@@ -323,6 +323,9 @@ table#anno-references table td table td {
 	background: #EEEEEE;
 	text-align: center;
 }
+table tr td.anno-mce-popup-footer {
+	padding: 5px 0;
+}
 #anno-popup-images-inside.anno-mce-popup {
 	padding: 0px;
 	margin: 0px;
@@ -338,7 +341,7 @@ table#anno-references table td table td {
 	margin-bottom: -50px;
 }
 .tinymce-uploader {
-	text-align: center;
+	margin: 1em 0;
 }
 #anno-popup-images-inside {
 	padding-top: 10px;
