@@ -148,6 +148,22 @@ class Anno_XML_Download {
 			$category_xml = '';
 		}
 		
+		$tags = wp_get_object_terms($article->ID, 'article_tag');
+		if (!empty($tags) && is_array($tags)) {
+			$tag_xml = '<kwd-group kwd-group-type="simple">';
+			foreach ($tags as $tag) {
+				$tag = get_term($tag, 'article_tag');
+				$tag_xml .= '<kwd><bold>'.$tag->name.'</bold></kwd>';
+			}
+			$tag_xml .= '
+			</kwd-group>';
+		}
+		else {
+			$tag_xml = '';
+		}
+		
+		//<kwd-group kwd-group-type="simple">
+		//				<kwd><bold>Formatted Text</bold></kwd>
 		$subtitle =  get_post_meta($article->ID, '_anno_subtitle', true);
 		$title_xml = '<title-group>';
 		if (!empty($article->post_title) || !empty($subtitle)) {
@@ -300,16 +316,8 @@ class Anno_XML_Download {
 //					<year>2010</year>
 //				</date>
 //			</history>
-'			'.$abstract_xml.
-//			<kwd-group kwd-group-type="simple">
-//				<kwd><bold>Formatted Text</bold></kwd>
-//				<kwd><bold>Formatted Text</bold></kwd>
-///				<kwd><bold>Formatted Text</bold></kwd>
-//				<kwd><bold>Formatted Text</bold></kwd>
-//				<kwd><bold>Formatted Text</bold></kwd>
-//				<kwd><bold>Formatted Text</bold></kwd>
-//			</kwd-group>
-'
+'			'.$abstract_xml.'
+			'.$tag_xml.'
 			'.$funding_xml.'
 		</article-meta>
 	</front>';
