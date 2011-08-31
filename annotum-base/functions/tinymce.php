@@ -317,7 +317,7 @@ function anno_popup_references_row_edit($reference_key, $reference, $post_id) {
 							<input type="text" name="doi" id="<?php echo esc_attr('doi-'.$reference_key); ?>" value="<?php echo esc_attr($reference['doi']) ?>" />
 							</label>
 						<label>
-							<span><?php _ex('PCMID', 'input label for defining tables', 'anno'); ?></span>
+							<span><?php _ex('PMCID', 'input label for defining tables', 'anno'); ?></span>
 							<input type="text" name="pcmid" id="<?php echo esc_attr('pcmid-'.$reference_key); ?>" value="<?php echo esc_attr($reference['pcmid']) ?>" />
 						</label>
 						<label>
