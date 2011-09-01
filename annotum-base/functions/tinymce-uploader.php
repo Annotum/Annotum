@@ -1,6 +1,6 @@
 <?php 
-// TODO perms :: if (!current_user_can('upload_files'))
-// TODO Enforce browser upload to images on backend
+//@TODO perms :: if (!current_user_can('upload_files'))
+//@TODO Enforce browser upload to images on backend
 function anno_tinymce_enqueue() {
 	if (isset($_GET['anno_action']) && $_GET['anno_action'] == 'image_popup') {
 		wp_enqueue_script('swfupload-all');
@@ -252,7 +252,7 @@ function anno_get_media_item($attachment_id, $args = null) {
 // Request handler for uploading
 // Then do our magic
 function anno_tinymce_request_handler() {
-	if (isset($_POST['tinymce_upload']) || (isset($_POST['fetch']) && isset($_POST['attachment_id']))) {
+	if ((isset($_POST['anno_action']) && $_POST['anno_action'] == 'anno_async_upload') && (isset($_POST['tinymce_upload']) || (isset($_POST['fetch']) && isset($_POST['attachment_id'])))) {
 		anno_async_upload();
 	}
 	
