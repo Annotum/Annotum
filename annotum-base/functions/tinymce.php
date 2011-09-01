@@ -1010,8 +1010,8 @@ add_action('anno_xml_to_html', 'anno_xml_to_html_replace_inline_graphics');
  * @return void
  */
 function anno_xml_to_html_replace_figures($orig_xml) {
-	// We need a clearfix for floated images.
-	
+	$tpl = new Anno_Template_Utils();
+
 	$figs = pq('fig');
 	
 	$count = 0;
@@ -1026,33 +1026,35 @@ function anno_xml_to_html_replace_figures($orig_xml) {
 
 			// Get some img tag properties
 			$img_src = $media->attr('xlink:href');
-						
-			$title = $media->children('long-desc')->html();
 			$alt = $media->children('alt-text')->html();
+			$title = $media->children('long-desc')->html();
 		
 			// Build our img tag
-			$img_tag = '<img class="photo" src="'.esc_url($img_src).'" title="'.esc_attr($title).'" alt="'.esc_attr($alt).'">';
-		
-			// Build the hidden span
-			$span = '
-				<span class="fn" style="display:none;">'.$title.'</span>';
-		
+			$img_tag = $tpl->to_tag('img', null, array(
+				'src' => $img_src,
+				'title' => $title,
+				'alt' => $alt,
+				'class' => 'photo'
+			));
+			
 			// Build the license div // @TODO Make license text i18n compat somehow
 			$license_div = anno_build_license_div($media->find('permissions > license > license-p')->html());
 		
-			$figcaption = '
-				<figcaption>
-					<b class="label">'.sprintf(__('Fig. %d', 'anno'), ++$count).'</b>: '.esc_html($fig->children('cap')->html()).'
-				</figcaption>';
+		
+			$label = $fig->children('label')->html();
+			$label = ($label ? sprintf(__('Fig. %d', 'anno'), ++$count).': '.strip_tags($label) : '');
+			$label_tag = $tpl->to_tag('h1', $label, array('class' => 'label'));
+			
+			$cap = $fig->children('cap')->html();
+			$cap_tag = $tpl->to_tag('div', $cap, array('class' => 'fn'));
+			
+			$figcaption = $tpl->to_tag('figcaption', $label_tag.$cap_tag);
 		
 			$html = '
-				<figure class="figure">
-					<div class="hmedia">
-						'.$img_tag.'
-						'.$span.'
-						'.$license_div.'
-					</div><!-- /hmedia -->
+				<figure class="figure hmedia clearfix">
+					'.$img_tag.'
 					'.$figcaption.'
+					'.$license_div.'
 				</figure>';
 			
 			// Replace our figure with valid HTML
@@ -1389,8 +1391,8 @@ function anno_xml_to_html_replace_dispquotes($orig_xml) {
 				<blockquote'.$cite_attr.'>
 					'.esc_html($quote_text).'
 				</blockquote>
-				<a href="#" class="attribution">'.esc_html($cite).'</a>
 				'.anno_build_license_div('Public Domain').'
+				<a href="#" class="attribution">'.esc_html($cite).'</a>
 			</div><!-- /quote -->
 		');
 	}
