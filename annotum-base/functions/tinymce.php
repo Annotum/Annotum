@@ -1048,13 +1048,12 @@ function anno_xml_to_html_replace_figures($orig_xml) {
 			$cap = $fig->children('cap')->html();
 			$cap_tag = $tpl->to_tag('div', $cap, array('class' => 'fn'));
 			
-			$figcaption = $tpl->to_tag('figcaption', $label_tag.$cap_tag);
+			$figcaption = $tpl->to_tag('figcaption', $label_tag.$cap_tag.$license_div);
 		
 			$html = '
 				<figure class="figure hmedia clearfix">
 					'.$img_tag.'
 					'.$figcaption.'
-					'.$license_div.'
 				</figure>';
 			
 			// Replace our figure with valid HTML

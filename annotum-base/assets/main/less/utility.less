@@ -162,18 +162,31 @@ dl.kv dd {
 }
 
 .figure {
-	border: #ddd solid 1px;
-	display: inline-block;
-	padding: 10px;
+	background: #f6f6f6;
+	border: 1px solid #ddd;
+	border-width: 1px 0;
+	padding: 12px;
 }
-html.ie7 .figure {
-	zoom: 1;
-	display: inline;
+.figure .photo {
+	float: left;
+	margin-right: 13px;
 }
-
+.figure figcaption {
+	font-size: 13px;
+	line-height: 1.384615385; /* 18px */
+	overflow: hidden;
+}
+.figure figcaption > .label {
+	font-size: 13px;
+	margin: 0 0 8px;
+}
+.figure figcaption .fn {
+	margin-bottom: 8px;
+}
 
 .license {
-	font-size: 11px;
+	color: #787878;
+	font-size: 12px;
 }
 
 /* figure headings */
@@ -182,4 +195,3 @@ html.ie7 .figure {
 	font-weight: bold;
 	margin-bottom: 5px;
 }
-
