@@ -1,6 +1,7 @@
 body{font-family:Helvetica,Arial,sans-serif;font-size:13px;line-height:18px;}
 a{color:#a2220f;}
 button,input,select,textarea{font-family:Helvetica,Arial,sans-serif;}
+.figure,.quote{background:#fff;border:1px solid #d7d1bf;}
 html{min-width:960px;}
 body{background:url(../img/body-background.png) center 0 repeat-y;}
 #header .header-body{background:#2a2822;height:75px;}
@@ -80,7 +81,7 @@ form.search .type-submit{background:url(../img/sprite-y.8bit.png) 0 -200px no-re
 .widget-recent-posts .nav .ui-tabs-selected{-moz-border-radius:4px 4px 0 0;-webkit-border-radius:4px 4px 0 0;-khtml-border-radius:4px 4px 0 0;border-radius:4px 4px 0 0;background-color:#f5f2e9;border:#e4d7b0 solid 1px;border-bottom-color:#f5f2e9;padding:0;position:relative;z-index:100;}
 .widget-recent-posts .nav .ui-tabs-selected a{color:#A2220F;}
 .widget-recent-posts .panel{-moz-border-radius:0 4px 4px 4px;-webkit-border-radius:0 4px 4px 4px;-khtml-border-radius:0 4px 4px 4px;border-radius:0 4px 4px 4px;background:#f5f2e9;border:#e4d7b0 solid 1px;padding:0 14px;zoom:1;}
-.widget-recent-posts .panel ul,.widget-recent-posts .panel ol{background:none;margin:0;padding:0;}
+.widget-recent-posts .panel ul,.widget-recent-posts .panel ol{background:none;list-style:none;margin:0;padding:0;}
 .widget-recent-posts .panel li{background-image:none;border-top:#e4d7b0 solid 1px;list-style:none;margin:10px 0;padding:10px 0 0;}
 .widget-recent-posts .panel li:first-child{border:0;margin:0;}
 .widget-recent-posts li.recentcomments a{display:inline;}
