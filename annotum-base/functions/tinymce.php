@@ -960,8 +960,8 @@ function anno_xml_to_html_replace_formatting($orig_xml) {
 			'class' => '',
 		),
 		'title' => array(
-			'tag' => 'h2',
-			'class' => '',
+			'tag' => 'h1',
+			'class' => 'title',
 		),
 	);
 	foreach ($mapping as $format => $html_info) {
@@ -1062,6 +1062,26 @@ function anno_xml_to_html_replace_figures($orig_xml) {
 }
 add_action('anno_xml_to_html', 'anno_xml_to_html_replace_figures');
 
+/**
+ * Change XML <sec> tags to HTML5 <section> tags
+ * Run at priority 9 so we change the titles before global title changes happen.
+ */
+function anno_xml_to_html_replace_sec($orig_xml) {
+	$sections = pq('sec');
+	
+	if (count($sections)) {
+		foreach ($sections as $sec) {
+			$sec = pq($sec);
+			// Replace Titles
+			$title = $sec->find('title');
+			$title->replaceWith('<h1 class="title"><span>'.$title->html().'</span></h1>');
+			
+			// Replace sections
+			$sec->replaceWith('<section class="sec">'.$sec->html().'</section>');
+		}
+	}
+}
+add_action('anno_xml_to_html', 'anno_xml_to_html_replace_sec', 9);
 
 /**
  * Change the XML <list> elements to proper HTML
@@ -1385,6 +1405,10 @@ add_action('anno_xml_to_html', 'anno_xml_to_html_replace_dispquotes');
  * @return string - HTML div formatted for the license elements
  */
 function anno_build_license_div($i18n_text, $url = null) {
+	if (!$i18n_text) {
+		return '';
+	}
+	
 	$url = esc_url($url);
 	$i18n_text = esc_html($i18n_text);
 	
