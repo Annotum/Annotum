@@ -165,7 +165,7 @@ dl.kv dd {
 	background: #f6f6f6;
 	border: 1px solid #ddd;
 	border-width: 1px 0;
-	padding: 12px;
+	padding: 12px 12px 4px;
 }
 .figure .photo {
 	float: left;
@@ -180,8 +180,12 @@ dl.kv dd {
 	font-size: 13px;
 	margin: 0 0 8px;
 }
-.figure figcaption .fn {
+.figure figcaption .fn,
+.figure .license {
 	margin-bottom: 8px;
+}
+.figure .license {
+	display: block;
 }
 
 .license {
@@ -193,11 +197,17 @@ dl.kv dd {
 	background: #f6f6f6;
 	border: 1px solid #ddd;
 	border-width: 1px 0;
-	padding: 12px;
+	padding: 12px 12px 2px;
 }
 .quote blockquote,
-.content .quote blockquote {
+.content .quote blockquote,
+.quote .attribution,
+.quote .license {
 	margin: 0 0 10px;
+}
+.quote .attribution,
+.quote .license {
+	display: block;
 }
 
 .table figcaption {
