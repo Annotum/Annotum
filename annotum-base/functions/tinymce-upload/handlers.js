@@ -22,7 +22,6 @@ function annoFileQueued(fileObj) {
 	jQuery('.progress', '#media-item-' + fileObj.id).show();
 
 	// Disable submit and enable cancel
-	jQuery('#insert-gallery').prop('disabled', true);
 	jQuery('#cancel-upload').prop('disabled', false);
 }
 
