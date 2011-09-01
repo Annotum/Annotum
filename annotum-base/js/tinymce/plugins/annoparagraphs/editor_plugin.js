@@ -16,6 +16,15 @@
 				}				
 				return true;
 			});
+			
+			// Disable tab for everything except lists.
+			ed.onKeyUp.addToTop(function(ed, e) {
+				if (e.keyCode == 9 && ed.dom.getParent(ed.selection.getNode(), 'LIST-ITEM') == null) {
+					e.preventDefault();
+					return false;
+				}
+			});
+			
 		},
 
 		getParentBlock : function(n) {
