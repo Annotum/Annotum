@@ -1037,10 +1037,6 @@ function anno_xml_to_html_replace_figures($orig_xml) {
 				'class' => 'photo'
 			));
 			
-			// Build the license div // @TODO Make license text i18n compat somehow
-			$license_div = anno_build_license_div($media->find('permissions > license > license-p')->html());
-		
-		
 			$label = $fig->children('label')->html();
 			$label = ($label ? sprintf(__('Fig. %d', 'anno'), ++$count).': '.strip_tags($label) : '');
 			$label_tag = $tpl->to_tag('h1', $label, array('class' => 'label'));
@@ -1048,7 +1044,11 @@ function anno_xml_to_html_replace_figures($orig_xml) {
 			$cap = $fig->children('cap')->html();
 			$cap_tag = $tpl->to_tag('div', $cap, array('class' => 'fn'));
 			
-			$figcaption = $tpl->to_tag('figcaption', $label_tag.$cap_tag.$license_div);
+			$permissions = $fig->find('permissions');
+			$permissions_tag = anno_convert_permissions_to_html($permissions);
+			$permissions->remove();
+			
+			$figcaption = $tpl->to_tag('figcaption', $label_tag.$cap_tag.$permissions_tag);
 		
 			$html = '
 				<figure class="figure hmedia clearfix">
@@ -1389,7 +1389,11 @@ function anno_xml_to_html_replace_dispquotes($orig_xml) {
 		$quote_text = $clone->text();
 		$blockquote_tag = $tpl->to_tag('blockquote', esc_html($quote_text));
 		
-		$quote_tag = $tpl->to_tag('div', $blockquote_tag.$attrib_tag, array('class' => 'quote'));
+		$permissions = $quote->find('permissions');
+		$permissions_tag = anno_convert_permissions_to_html($permissions);
+		$permissions->remove();
+		
+		$quote_tag = $tpl->to_tag('div', $blockquote_tag.$attrib_tag.$permissions_tag, array('class' => 'quote'));
 		
 		// Do the actual HTML replacement
 		$quote->replaceWith($quote_tag);
@@ -1397,28 +1401,27 @@ function anno_xml_to_html_replace_dispquotes($orig_xml) {
 }
 add_action('anno_xml_to_html', 'anno_xml_to_html_replace_dispquotes');
 
-/**
- * Output the license div
- *
- * @param string $i18n_text - Translated string
- * @param string $url - URL the string should point to
- * @return string - HTML div formatted for the license elements
- */
-function anno_build_license_div($i18n_text, $url = null) {
-	if (!$i18n_text) {
-		return '';
+function anno_convert_permissions_to_html($permissions_pq_obj) {
+	$permissions = pq($permissions_pq_obj);
+	$tpl = new Anno_Template_Utils();
+	$clauses = array();
+	
+	foreach ($permissions as $permission) {
+		$permission = pq($permission);
+		
+		$statement = $permission->find('copyright-statement')->text();
+		$holder = $permission->find('copyright-holder')->text();
+		$license = $permission->find('license > license-p')->text();
+		$license = ($license ? sprintf(__('License: %s', 'anno'), $license) : '');
+
+		$clauses[] = sprintf(__('%1$s %2$s. %3$s.', 'anno'), $statement, $holder, $license);
 	}
 	
-	$url = esc_url($url);
-	$i18n_text = esc_html($i18n_text);
+	$clauses = implode(' ', $clauses);
+	$clause_tag .= $tpl->to_tag('small', $clauses, array('class' => 'license'));
 	
-	$lic = ($url ? '<a rel="license" href="'.$url.'">'.$i18n_text.'</a>' : $i18n_text);
-	return '
-	<div class="license"><span class="label">'.__('License', 'anno').':</span> 
-		'.$lic.'
-	</div><!-- /license -->';
+	return $clause_tag;
 }
-
 
 //function anno_add_p_to_list_item
 
