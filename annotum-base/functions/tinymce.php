@@ -1405,6 +1405,10 @@ add_action('anno_xml_to_html', 'anno_xml_to_html_replace_dispquotes');
  * @return string - HTML div formatted for the license elements
  */
 function anno_build_license_div($i18n_text, $url = null) {
+	if (!$i18n_text) {
+		return '';
+	}
+	
 	$url = esc_url($url);
 	$i18n_text = esc_html($i18n_text);
 	
