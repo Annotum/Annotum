@@ -1371,29 +1371,28 @@ add_action('anno_xml_to_html', 'anno_xml_to_html_replace_external_links');
  */
 function anno_xml_to_html_replace_dispquotes($orig_xml) {
 	$quotes = pq('disp-quote');
+	$tpl = new Anno_Template_Utils();
+	
 	foreach ($quotes as $quote) {
 		$quote = pq($quote);
 		
 		// Get our attribution
-		$cite = $quote->children('attrib:first')->html();
-		$cite_attr = empty($cite) ? '' : ' cite="'.esc_attr($cite).'"';
-		
+		$attrib = $quote->children('attrib:first')->html();
+		$by = $tpl->to_tag('span', '&mdash;', array('class' => 'by'));
+		$attrib = $attrib ? $by."\n".$attrib : '';
+		$attrib_tag = $tpl->to_tag('span', $attrib, array('class' => 'attribution'));
+
 		/* Clone our element, b/c we'll be removing all child elem's so 
 		we can just get the immediate text */
 		$clone = $quote->clone();
 		$clone->children()->remove();
 		$quote_text = $clone->text();
+		$blockquote_tag = $tpl->to_tag('blockquote', esc_html($quote_text));
+		
+		$quote_tag = $tpl->to_tag('div', $blockquote_tag.$attrib_tag, array('class' => 'quote'));
 		
 		// Do the actual HTML replacement
-		$quote->replaceWith('
-			<div class="quote">
-				<blockquote'.$cite_attr.'>
-					'.esc_html($quote_text).'
-				</blockquote>
-				'.anno_build_license_div('Public Domain').'
-				<a href="#" class="attribution">'.esc_html($cite).'</a>
-			</div><!-- /quote -->
-		');
+		$quote->replaceWith($quote_tag);
 	}
 }
 add_action('anno_xml_to_html', 'anno_xml_to_html_replace_dispquotes');
