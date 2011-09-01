@@ -1,5 +1,16 @@
 <?php
 
+function anno_image_popup_head_js() {
+	if (isset($_GET['anno_action']) && $_GET['anno_action'] == 'image_popup') {
+?>
+	<script type="text/javascript">
+	var post_id = <?php echo esc_js(anno_get_post_id()); ?>
+	</script>
+<?php
+	}
+}
+add_action('admin_print_scripts', 'anno_image_popup_head_js');
+
 function anno_image_popup_request_handler() {
 	if (isset($_GET['anno_action']) && $_GET['anno_action'] == 'image_popup') {
 		anno_popup_images_iframe_html();

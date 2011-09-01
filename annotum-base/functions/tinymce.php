@@ -144,44 +144,50 @@ class Anno_tinyMCE {
 	}
 	
 	function mce_buttons($buttons) {
-		global $post;
-		if ($post->post_type == 'article') {
+		if ($this->is_article()) {
 			$buttons = array('bold', 'italic', 'underline', '|', 'annoorderedlist', 'annobulletlist', '|', 'annoquote', '|', 'sup', 'sub', '|', 'charmap', '|', 'annolink', 'announlink', '|', 'annoimages', 'equation', '|', 'reference', '|', 'undo', 'redo', '|', 'wp_adv', 'help', 'annotable', );
 		}
 		return $buttons;
 	}
 	
 	function mce_buttons_2($buttons) {
-		global $post;
-		if ($post->post_type == 'article') {
+		if ($this->is_article()) {
 			$buttons = array('formatselect', '|', 'table', 'row_before', 'row_after', 'delete_row', 'col_before', 'col_after', 'delete_col', 'split_cells', 'merge_cells', '|', 'pastetext', 'pasteword', 'annolist', '|', 'annoreferences', '|');
 		}
 		return $buttons;
 	}
 	
 	function plugins($plugins) {
-
-		$plugins['annoLink_base'] = trailingslashit(get_bloginfo('template_directory')).'js/tinymce/plugins/annolink/annolink.js';
-		$plugins['annoLink']  =  trailingslashit(get_bloginfo('template_directory')).'js/tinymce/plugins/annolink/editor_plugin.js';
+		if ($this->is_article()) {
+			$plugins['annoLink_base'] = trailingslashit(get_bloginfo('template_directory')).'js/tinymce/plugins/annolink/annolink.js';
+			$plugins['annoLink']  =  trailingslashit(get_bloginfo('template_directory')).'js/tinymce/plugins/annolink/editor_plugin.js';
 				
-		$plugins['annoReferences_base'] = trailingslashit(get_bloginfo('template_directory')).'js/tinymce/plugins/annoreferences/annoreferences.js';
-		$plugins['annoReferences']  =  trailingslashit(get_bloginfo('template_directory')).'js/tinymce/plugins/annoreferences/editor_plugin.js';
+			$plugins['annoReferences_base'] = trailingslashit(get_bloginfo('template_directory')).'js/tinymce/plugins/annoreferences/annoreferences.js';
+			$plugins['annoReferences']  =  trailingslashit(get_bloginfo('template_directory')).'js/tinymce/plugins/annoreferences/editor_plugin.js';
 
-		$plugins['annoImages_base'] = trailingslashit(get_bloginfo('template_directory')).'js/tinymce/plugins/annoimages/annoimages.js';
-		$plugins['annoImages']  =  trailingslashit(get_bloginfo('template_directory')).'js/tinymce/plugins/annoimages/editor_plugin.js';
+			$plugins['annoImages_base'] = trailingslashit(get_bloginfo('template_directory')).'js/tinymce/plugins/annoimages/annoimages.js';
+			$plugins['annoImages']  =  trailingslashit(get_bloginfo('template_directory')).'js/tinymce/plugins/annoimages/editor_plugin.js';
 		
-		$plugins['annoTable'] = trailingslashit(get_bloginfo('template_directory')).'js/tinymce/plugins/annotable/editor_plugin.js';
-		$plugins['annoTable_base'] = trailingslashit(get_bloginfo('template_directory')).'js/tinymce/plugins/annotable/annotable.js';
+			$plugins['annoTable'] = trailingslashit(get_bloginfo('template_directory')).'js/tinymce/plugins/annotable/editor_plugin.js';
+			$plugins['annoTable_base'] = trailingslashit(get_bloginfo('template_directory')).'js/tinymce/plugins/annotable/annotable.js';
 		
-		$plugins['annoQuote'] = trailingslashit(get_bloginfo('template_directory')).'js/tinymce/plugins/annoquote/editor_plugin.js';
-		$plugins['annoQuote_base'] = trailingslashit(get_bloginfo('template_directory')).'js/tinymce/plugins/annoquote/annoquote.js';
+			$plugins['annoQuote'] = trailingslashit(get_bloginfo('template_directory')).'js/tinymce/plugins/annoquote/editor_plugin.js';
+			$plugins['annoQuote_base'] = trailingslashit(get_bloginfo('template_directory')).'js/tinymce/plugins/annoquote/annoquote.js';
 		
-		$plugins['annoLists'] = trailingslashit(get_bloginfo('template_directory')).'js/tinymce/plugins/annolists/editor_plugin.js';
+			$plugins['annoLists'] = trailingslashit(get_bloginfo('template_directory')).'js/tinymce/plugins/annolists/editor_plugin.js';
 		
-		$plugins['annoParagraphs'] = trailingslashit(get_bloginfo('template_directory')).'js/tinymce/plugins/annoparagraphs/editor_plugin.js';
-//		$plugins['annoSection'] = trailingslashit(get_bloginfo('template_directory')).'js/tinymce/plugins/annosection/editor_plugin.js';
-
+			$plugins['annoParagraphs'] = trailingslashit(get_bloginfo('template_directory')).'js/tinymce/plugins/annoparagraphs/editor_plugin.js';
+	//		$plugins['annoSection'] = trailingslashit(get_bloginfo('template_directory')).'js/tinymce/plugins/annosection/editor_plugin.js';
+		}
 		return $plugins;
+	}
+	
+	/**
+	 * Returns whether or not the current post (post_type) is an article
+	 */ 
+	private function is_article() {
+		global $post_type;
+		return $post_type == 'article';
 	}
 }
 /**
@@ -191,17 +197,14 @@ function anno_tiny_mce_before_init($init_array) {
 	if (isset($init_array['plugins'])) {
 		$init_array['plugins'] = str_replace('wpeditimage,', '', $init_array['plugins']);
 		$init_array['plugins'] = str_replace('wpeditimage', '', $init_array['plugins']);
-		$init_array['plugins'] = str_replace('paste,', '', $init_array['plugins']);
-
 	}
-	
 	return $init_array;
 }
 
 /**
  * Load Annotum tinyMCE plugins
  */
-function anno_load_tinymce_plugins(){
+function anno_load_tinymce_plugins() {
 	$load = new Anno_tinyMCE();
 }
 if (is_admin()) {
@@ -957,8 +960,8 @@ function anno_xml_to_html_replace_formatting($orig_xml) {
 			'class' => '',
 		),
 		'title' => array(
-			'tag' => 'h2',
-			'class' => '',
+			'tag' => 'h1',
+			'class' => 'title',
 		),
 	);
 	foreach ($mapping as $format => $html_info) {
@@ -1059,6 +1062,26 @@ function anno_xml_to_html_replace_figures($orig_xml) {
 }
 add_action('anno_xml_to_html', 'anno_xml_to_html_replace_figures');
 
+/**
+ * Change XML <sec> tags to HTML5 <section> tags
+ * Run at priority 9 so we change the titles before global title changes happen.
+ */
+function anno_xml_to_html_replace_sec($orig_xml) {
+	$sections = pq('sec');
+	
+	if (count($sections)) {
+		foreach ($sections as $sec) {
+			$sec = pq($sec);
+			// Replace Titles
+			$title = $sec->find('title');
+			$title->replaceWith('<h1 class="title"><span>'.$title->html().'</span></h1>');
+			
+			// Replace sections
+			$sec->replaceWith('<section class="sec">'.$sec->html().'</section>');
+		}
+	}
+}
+add_action('anno_xml_to_html', 'anno_xml_to_html_replace_sec', 9);
 
 /**
  * Change the XML <list> elements to proper HTML
@@ -1382,6 +1405,10 @@ add_action('anno_xml_to_html', 'anno_xml_to_html_replace_dispquotes');
  * @return string - HTML div formatted for the license elements
  */
 function anno_build_license_div($i18n_text, $url = null) {
+	if (!$i18n_text) {
+		return '';
+	}
+	
 	$url = esc_url($url);
 	$i18n_text = esc_html($i18n_text);
 	
@@ -1390,6 +1417,29 @@ function anno_build_license_div($i18n_text, $url = null) {
 	<div class="license"><span class="label">'.__('License', 'anno').':</span> 
 		'.$lic.'
 	</div><!-- /license -->';
+}
+
+
+//function anno_add_p_to_list_item
+
+// Browsers strip <caption> tags when they are not embedded within a table tag. XML requires caption tags, not cap
+function anno_replace_cap_tag($orig_xml) {
+	$captions = pq('cap');
+	foreach ($captions as $caption) {
+		$caption = pq($caption);
+		$caption_html = $caption.html();
+		$caption->replaceWith('<caption>'.$caption_html.'</caption>');	
+	}
+}
+
+// Browsers strip <caption> tags when they are not embedded within a table tag
+function anno_convert_caption_tag($xml) {
+	$captions = pq('caption');
+	foreach ($captions as $caption) {
+		$caption = pq($caption);
+		$caption_html = $caption.html();
+		$caption->replaceWith('<cap>'.$caption_html.'</cap>');	
+	}
 }
 
 ?>
