@@ -61,11 +61,18 @@ $html = '';
 	if (empty($index) && $index !== 0) {
 		$index = '###INDEX###';
 		$index_alpha = '###INDEX_ALPHA###';
-		$content = '';
 	}
 	else {
 		$index_alpha = anno_index_alpha($index);
 	}
+	if (empty($content)) {
+		$content = '
+			<sec>
+				<title></title>
+				<p></p>
+			</sec>';
+	}
+	
 	$html .='
 <fieldset id="'.esc_attr('anno_appendix_'.$index).'" class="appendix-wrapper">
 	<h4>

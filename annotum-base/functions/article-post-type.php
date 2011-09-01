@@ -113,8 +113,18 @@ function anno_subtitle_meta_box($post) {
  * Body meta box markup (stored in content)
  */
 function anno_body_meta_box($post) {
+	if (empty($post->post_content)) {
+		$content = '
+		<sec>
+			<title></title>
+			<p></p>
+		</sec>';
+	}
+	else {
+		$content = $post->post_content;
+	}
 ?>
-	<textarea id="anno-body" name="content" class="anno-meta"><?php echo esc_textarea(anno_process_editor_content($post->post_content)); ?></textarea>
+	<textarea id="anno-body" name="content" class="anno-meta"><?php echo esc_textarea(anno_process_editor_content($content)); ?></textarea>
 <?php
 }
 

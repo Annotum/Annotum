@@ -17,6 +17,7 @@ table-wrap, table-wrap label, disp-quote {
 	background-color: #fff;
 	display: block;
 	margin: 3px 0;
+	min-height: 18px;
 	padding: 4px 8px;
 }
 
