@@ -144,23 +144,16 @@ class Anno_tinyMCE {
 	}
 	
 	function mce_buttons($buttons) {
-		global $post;
-		if ($post->post_type == 'article') {
-			$buttons = array('bold', 'italic', 'underline', '|', 'annoorderedlist', 'annobulletlist', '|', 'annoquote', '|', 'sup', 'sub', '|', 'charmap', '|', 'annolink', 'announlink', '|', 'annoimages', 'equation', '|', 'reference', '|', 'undo', 'redo', '|', 'wp_adv', 'help', 'annotable', );
-		}
+		$buttons = array('bold', 'italic', 'underline', '|', 'annoorderedlist', 'annobulletlist', '|', 'annoquote', '|', 'sup', 'sub', '|', 'charmap', '|', 'annolink', 'announlink', '|', 'annoimages', 'equation', '|', 'reference', '|', 'undo', 'redo', '|', 'wp_adv', 'help', 'annotable', );
 		return $buttons;
 	}
 	
 	function mce_buttons_2($buttons) {
-		global $post;
-		if ($post->post_type == 'article') {
-			$buttons = array('formatselect', '|', 'table', 'row_before', 'row_after', 'delete_row', 'col_before', 'col_after', 'delete_col', 'split_cells', 'merge_cells', '|', 'pastetext', 'pasteword', 'annolist', '|', 'annoreferences', '|');
-		}
+		$buttons = array('formatselect', '|', 'table', 'row_before', 'row_after', 'delete_row', 'col_before', 'col_after', 'delete_col', 'split_cells', 'merge_cells', '|', 'pastetext', 'pasteword', 'annolist', '|', 'annoreferences', '|');
 		return $buttons;
 	}
 	
 	function plugins($plugins) {
-
 		$plugins['annoLink_base'] = trailingslashit(get_bloginfo('template_directory')).'js/tinymce/plugins/annolink/annolink.js';
 		$plugins['annoLink']  =  trailingslashit(get_bloginfo('template_directory')).'js/tinymce/plugins/annolink/editor_plugin.js';
 				
@@ -191,18 +184,18 @@ function anno_tiny_mce_before_init($init_array) {
 	if (isset($init_array['plugins'])) {
 		$init_array['plugins'] = str_replace('wpeditimage,', '', $init_array['plugins']);
 		$init_array['plugins'] = str_replace('wpeditimage', '', $init_array['plugins']);
-		$init_array['plugins'] = str_replace('paste,', '', $init_array['plugins']);
-
 	}
-	
 	return $init_array;
 }
 
 /**
  * Load Annotum tinyMCE plugins
  */
-function anno_load_tinymce_plugins(){
-	$load = new Anno_tinyMCE();
+function anno_load_tinymce_plugins() {
+	global $post_type;
+	if ($post_type == 'article') {
+		$load = new Anno_tinyMCE();
+	}
 }
 if (is_admin()) {
 	add_action('init', 'anno_load_tinymce_plugins');
@@ -1390,6 +1383,29 @@ function anno_build_license_div($i18n_text, $url = null) {
 	<div class="license"><span class="label">'.__('License', 'anno').':</span> 
 		'.$lic.'
 	</div><!-- /license -->';
+}
+
+
+//function anno_add_p_to_list_item
+
+// Browsers strip <caption> tags when they are not embedded within a table tag. XML requires caption tags, not cap
+function anno_replace_cap_tag($orig_xml) {
+	$captions = pq('cap');
+	foreach ($captions as $caption) {
+		$caption = pq($caption);
+		$caption_html = $caption.html();
+		$caption->replaceWith('<caption>'.$caption_html.'</caption>');	
+	}
+}
+
+// Browsers strip <caption> tags when they are not embedded within a table tag
+function anno_convert_caption_tag($xml) {
+	$captions = pq('caption');
+	foreach ($captions as $caption) {
+		$caption = pq($caption);
+		$caption_html = $caption.html();
+		$caption->replaceWith('<cap>'.$caption_html.'</cap>');	
+	}
 }
 
 ?>
