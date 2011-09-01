@@ -313,11 +313,11 @@ function anno_popup_references_row_edit($reference_key, $reference, $post_id) {
 				<div id="<?php echo esc_attr('#popup-message-reference-'.$reference_key); ?>"></div>
 					<form id="<?php echo esc_attr('reference-form-'.$reference_key); ?>" class="anno-reference-edit">
 						<label>
-							<span><?php _ex('DOI', 'input label for defining tables', 'anno'); ?></span>
+							<span><?php _ex('CrossRef DOI', 'input label for defining tables', 'anno'); ?></span>
 							<input type="text" name="doi" id="<?php echo esc_attr('doi-'.$reference_key); ?>" value="<?php echo esc_attr($reference['doi']) ?>" />
 							</label>
 						<label>
-							<span><?php _ex('PMCID', 'input label for defining tables', 'anno'); ?></span>
+							<span><?php _ex('PubMed ID (PMID)', 'input label for defining tables', 'anno'); ?></span>
 							<input type="text" name="pcmid" id="<?php echo esc_attr('pcmid-'.$reference_key); ?>" value="<?php echo esc_attr($reference['pcmid']) ?>" />
 						</label>
 						<label>
