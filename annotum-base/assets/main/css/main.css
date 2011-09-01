@@ -238,8 +238,8 @@ html.ie8 #main-sidebar .widget_search #s{width:100px;}
 .content h4,.content h5,.content h6{color:#777;font-size:11px;text-transform:uppercase;letter-spacing:0.09em;margin-bottom:3px;}
 .content p,.content ul,.content ol,.content pre,.content blockquote,.content dl,.content address,.content table,.content table-wrap{margin-bottom:10px;}
 .content table-wrap label{display:block;}
-.content table caption{background:#f6f6f6;color:#787878;font-size:12px;line-height:22px;padding-left:8px;text-align:left;}
-.content table{border-collapse:collapse;border:#ddd solid 1px;}
+.content table caption{background:#f6f6f6;border:#ddd solid 1px;border-width:1px 1px 0;color:#787878;font-size:12px;line-height:22px;padding-left:8px;text-align:left;}
+.content table{background:#fff;border-collapse:collapse;border:#ddd solid 1px;}
 .content table th,.content table td{padding-left:6px;padding-right:6px;text-align:left;}
 .content table th{background:#f6f6f6;border-bottom:#ddd solid 1px;}
 .content table td{border:#ddd solid 1px;}
