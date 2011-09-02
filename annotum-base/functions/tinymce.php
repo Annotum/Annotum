@@ -1412,9 +1412,31 @@ function anno_convert_permissions_to_html($permissions_pq_obj) {
 		$statement = $permission->find('copyright-statement')->text();
 		$holder = $permission->find('copyright-holder')->text();
 		$license = $permission->find('license > license-p')->text();
-		$license = ($license ? sprintf(__('License: %s', 'anno'), $license) : '');
+		
+		$copyright = '';
+		if ($statement && $holder) {
+			$copyright = sprintf(
+				_x('%1$s, %2$s.', 'Copyright statement, plus holder. E.g. "Copyright, Me".', 'anno'),
+				$statement,
+				$holder
+			);
+		}
+		else if ($statement) {
+			$copyright = sprintf(
+				_x('%1$s.', 'Copyright statement sans holder. E.g. "Copyright"', 'anno'),
+				$statement
+			);
+		}
+		else if ($holder) {
+			$copyright = sprintf(
+				_x('Copyright, %1$s.', 'Copyright sans statement. We can assume copyright.', 'anno'),
+				$holder
+			);
+		}
 
-		$clauses[] = sprintf(__('%1$s %2$s. %3$s.', 'anno'), $statement, $holder, $license);
+		$license = ($license ? sprintf(_x('License: %s.', 'Format for license information. E.g. "License: Creative Commons Share-Alike."', 'anno'), $license) : '');
+
+		$clauses[] = sprintf('%1$s'."\n".'%2$s', $copyright, $license);
 	}
 	
 	$clauses = implode(' ', $clauses);
