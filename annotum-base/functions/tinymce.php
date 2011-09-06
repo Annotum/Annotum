@@ -1554,4 +1554,19 @@ function anno_remove_p_from_list_items($xml) {
 	}
 }
 
+/**
+ * Add p tags which wrap list item content for valid XML on post save
+ * 
+ * @param phpQueryObject $xml
+ * @return void
+ */
+function anno_to_xml_list_item_p($xml) {
+	$list_items = pq('list-item');
+	foreach ($list_items as $list_item) {
+		$list_item = pq($list_item);
+		$list_item->wrapInner('<p />');
+	}
+}
+add_action('anno_to_xml', 'anno_to_xml_list_item_p');
+
 ?>
