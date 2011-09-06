@@ -6,12 +6,14 @@
 			
 			var t = this;
 			t.editor = ed;
-			t.dom = ed.dom;
 
 			ed.onKeyDown.addToTop(function(ed, e) {
+				
+				// If we're not hitting the shift key, we are hitting the return key, and we're not in a list (retain new list item functionality)
 				if (!e.shiftKey && e.keyCode == 13) {
-					e.preventDefault();
-					t.insertPara(e);
+					if (!t.insertPara(e)) {
+						e.preventDefault();
+					}					
 					return false;
 				}				
 				return true;
@@ -23,8 +25,7 @@
 					e.preventDefault();
 					return false;
 				}
-			});
-			
+			});			
 		},
 
 		getParentBlock : function(n) {
@@ -39,8 +40,7 @@
 			var TRUE = true, FALSE = false, newElement, node = ed.selection.getNode();
 			ed.undoManager.beforeChange();
 						
-			if (e.ctrlKey || /(BODY|HTML|TITLE)/.test(node.nodeName)) {
-				
+			if (e.ctrlKey || /(BODY|HTML|HEADING)/.test(node.nodeName)) {
 				function insertNewBlock(node) {
 					var newElement, parentNode;
 
@@ -57,22 +57,22 @@
 					
 					return dom.insertAfter(newElement, node);
 				}
-				
+
 				// Create a new sec element with a title
 				function newSec() {
 					var sec = dom.create('sec', null);
-					dom.add(sec, 'title', null, '&nbsp');
+					dom.add(sec, 'heading', null, '&nbsp');
 					dom.add(sec, 'p', null, '<br />');
 					return sec;
 				}
 						
 				var node = ed.selection.getNode();
-				if (/(DISP-FORMULA|TABLE-WRAP|FIG|DISP-QUOTE|TITLE)/.test(node.nodeName)) {
+				if (/(DISP-FORMULA|TABLE-WRAP|FIG|DISP-QUOTE|HEADING)/.test(node.nodeName)) {
 					newElement = insertNewBlock(node);
 				}
 				else if (/(BODY|HTML)/.test(node.nodeName)) {
 					secElement = dom.add(node, 'sec');
-					newElement = dom.add(secElement, 'title', null, '&nbsp');
+					newElement = dom.add(secElement, 'heading', null, '&nbsp');
 					dom.add(secElement, 'p', null, '<br />');
 				}
 				else if (parentNode = dom.getParent(node, 'FIG')) {
@@ -86,7 +86,7 @@
 				}
 				
 				if (newElement.nodeName == 'SEC') {
-					var eleArray = dom.select(' > title', newElement);
+					var eleArray = dom.select(' > heading', newElement);
 					if (eleArray.length > 0) {
 						newElement = eleArray[0];
 					}
@@ -100,7 +100,7 @@
 				
 				return FALSE;
 			}
-
+			
 			// If root blocks are forced then use Operas default behavior since it's really good
 // Removed due to bug: #1853816
 //			if (se.forced_root_block && isOpera)
@@ -200,20 +200,36 @@
 			sb = t.getParentBlock(sn);
 			eb = t.getParentBlock(en);
 			bn = sb ? sb.nodeName : se.element; // Get block name to create
+			
+			// Return inside list use default browser behavior
+			if (n = dom.getParent(sb, 'list-item,pre')) {
+				if (n.nodeName == 'LIST-ITEM') {
+					return annoListBreak(ed.selection, dom, n);
+				}
+				return TRUE;
+			}
+			
+			// If the list item is empty, break out of it
+			function annoListBreak(selection, dom, li) {
+				var listBlock, block;
+				if (dom.isEmpty(li) || li.innerHTML == '<br>') {
+					listBlock = dom.getParent(li, 'list');
+					if (!dom.getParent(listBlock.parentNode, 'list')) {
+						dom.split(listBlock, li);
+//						block = dom.create('p', 0, '<br data-mce-bogus="1" />');
+//						dom.replace(block, li);
+//						selection.select(block, 1);
+					}
+					return FALSE;
+				}
+				return TRUE;
+			};
 
 		
 			if (!/^(P|BODY|HTML)$/.test(bn)) {
 				insertBr(ed);
 				return FALSE;
-			}
-			
-			// Return inside list use default browser behavior
-			if (n = dom.getParent(sb, 'li,pre')) {
-				if (n.nodeName == 'LI')
-					return splitList(ed.selection, t.dom, n);
-
-				return TRUE;
-			}
+			}	
 
 			// If caption or absolute layers then always generate new blocks within
 			if (sb && (sb.nodeName == 'CAP' || /absolute|relative|fixed/gi.test(dom.getStyle(sb, 'position', 1)))) {
@@ -235,7 +251,7 @@
 			aft.removeAttribute('id');
 
 			// Is header and cursor is at the end, then force paragraph under
-			if (/^(TITLE)$/.test(bn) && isAtEnd(r, sb))
+			if (/^(HEADING)$/.test(bn) && isAtEnd(r, sb))
 				aft = ed.dom.create(se.element);
 
 			// Find start chop node
@@ -309,7 +325,7 @@
 
 				e.innerHTML = '';
 
-				// Make clones of style elements
+				// Make clones of style elements 
 				if (se.keep_styles) {
 					n = en;
 					do {

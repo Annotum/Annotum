@@ -122,7 +122,7 @@
 	function merge(e1, e2, masterElement) {
 		var lastOriginal = skipWhitespaceNodesBackwards(e1.lastChild), firstNew = skipWhitespaceNodesForwards(e2.firstChild);
 		var dom = tinymce.activeEditor.dom;
-		var firstTitle = dom.select('title', e1), secondTitle = dom.select('title', e2);
+		var firstTitle = dom.select('heading', e1), secondTitle = dom.select('heading', e2);
 		
 		if (e1.tagName === 'P') {
 			e1.appendChild(e1.ownerDocument.createElement('br'));

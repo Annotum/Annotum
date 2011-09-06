@@ -116,7 +116,7 @@ function anno_body_meta_box($post) {
 	if (empty($post->post_content)) {
 		$content = '
 		<sec>
-			<title></title>
+			<heading></heading>
 			<p></p>
 		</sec>';
 	}

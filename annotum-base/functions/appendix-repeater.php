@@ -68,7 +68,7 @@ $html = '';
 	if (empty($content)) {
 		$content = '
 			<sec>
-				<title></title>
+				<heading></heading>
 				<p></p>
 			</sec>';
 	}

@@ -12,11 +12,17 @@ function anno_admin_print_footer_scripts() {
 			$appendices = array(0 => '0');
 		}
 		
-		$extended_valid_elements = array(
-			'italic',
-			'underline',
-			'monospace',
+		
+		$formats = array(
 			'bold',
+			'italic',
+			'sup',
+			'sub',
+			'monospace',
+			'underline',
+		);
+		
+		$extended_valid_elements = array_merge(array(
 			'ext-link[ext-link-type:uri|xlink::href|title]',
 			'sec',
 			'xref[ref-type|rid]',
@@ -24,7 +30,7 @@ function anno_admin_print_footer_scripts() {
 			'alt-text',
 			'fig',
 			'label',
-			'title',
+			'heading',
 			'media[xlink::href]',
 			'long-desc',
 			'permissions',
@@ -37,16 +43,17 @@ function anno_admin_print_footer_scripts() {
 			'attrib',
 			'list[list-type]',
 			'list-item',
-			//TODO caption
 			'cap',
 			'disp-quote',
-		);
+		), $formats);
 		
 		$custom_elements = array(
 			'~bold',
 			'~italic',
-			'~underline',
+			'~sup',
+			'~sub',
 			'~monospace',
+			'~underline',
 			'~ext-link',
 			'~xref',
 			'~inline-graphic',
@@ -70,8 +77,12 @@ function anno_admin_print_footer_scripts() {
 			'cap',
 			'disp-quote',
 		);
-				
-		$valid_child_elements = array(			
+		
+		$formats_as_children = implode('|', $formats);
+		$valid_children = array(
+			'copyright-statement['.$formats_as_children.']',
+			'license-p['.$formats_as_children.'|xref]',
+			'heading['.$formats_as_children.']',
 			'media[alt-text|long-desc|permissions]',
 			'permissions[copyright-statement|copyright-holder|license]',
 			'license[license-p|xref]',
@@ -84,7 +95,8 @@ function anno_admin_print_footer_scripts() {
 			'table-wrap[label|caption|table|table-wrap-foot|permissions]',
 			'table-wrap-foor[p]',
 			'p[media|img|permissions|license|list|list-item|disp-formula|disp-quote|fig|caption|table-wrap|table-wrap-foot|h2|xref]',
-			'sec[media|img|permissions|license|list|list-item|disp-formula|disp-quote|fig|caption|table-wrap|table-wrap-foot|p|h2]',
+			'sec[heading|media|img|permissions|license|list|list-item|disp-formula|disp-quote|fig|caption|table-wrap|table-wrap-foot|p|h2]',
+			'heading[]'
 		);
 
 		wp_tiny_mce(false, array(
@@ -92,7 +104,7 @@ function anno_admin_print_footer_scripts() {
 			'content_css' => trailingslashit(get_bloginfo('template_directory')).'css/tinymce.css',
 			'extended_valid_elements' => implode(',', $extended_valid_elements),
 			'custom_elements' => implode(',', $custom_elements),
-			'valid_child_elements' => implode(',', $valid_child_elements),
+			'valid_children' => implode(',', $valid_children),
 			//  Defines wrapper, need to set this up as its own button.
 			'formats' => '{
 					bold : {\'inline\' : \'bold\'},
@@ -105,9 +117,12 @@ function anno_admin_print_footer_scripts() {
 			'forced_root_block' => '',
 			'editor_css' => trailingslashit(get_template_directory_uri()).'css/tinymce-ui.css?v=4',
 			'debug' => 'true',
-			'verify_html' => false,
+			'verify_html' => true,
 			'force_p_newlines' => false,
 			'force_br_newlines' => false,
+// @TODO Define doctype
+//			'doctype' => '<!DOCTYPE article SYSTEM \"http://dtd.nlm.nih.gov/ncbi/kipling/kipling-jp3.dtd\">',
+//			'doctype' => '<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Transitional//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd\">',
 		));
 ?>
 
@@ -664,6 +679,15 @@ function anno_process_editor_content($content) {
 	// Convert inline-graphics to <img> tags so they display
 	anno_xml_to_html_replace_inline_graphics($content);
 	
+	// Convert caption to cap
+	$content = anno_replace_caption_tag($content);
+
+	// Convert title to heading
+	$content = anno_replace_title_tag($content);
+	
+	// Remove p tags wrapping list items
+	$content = anno_remove_p_from_list_items($content);
+	
 	// We need a clearfix for floated images.
 	$figs = pq('fig');
 	foreach ($figs as $fig) {
@@ -689,7 +713,8 @@ function anno_process_editor_content($content) {
  */
 function anno_validate_xml_content_on_save($html_content) {
 	// Strip all tags not defined by DTD
-	$content = strip_tags(anno_html_to_xml($html_content), implode('', array_unique(anno_get_dtd_valid_elements())));
+	$content = anno_to_xml($html_content);
+	$content = strip_tags($content, implode('', array_unique(anno_get_dtd_valid_elements())));
 	return $content;
 }
 
@@ -758,7 +783,7 @@ function anno_get_dtd_valid_elements() {
 							'<xref>',
 		'<table-wrap>',
 			'<label>',
-			'<cap>', // @TODO This should be <caption> but it's not working 
+			'<caption>',
 				'<title>',
 				'<p>',
 					'<xref>',
@@ -858,7 +883,7 @@ add_filter( 'edit_post_content_filtered', 'anno_edit_post_content_filtered', 10,
 /**
  * Utility function to convert our HTML into XML
  * By default, this doesn't do anything by itself, but it runs the 
- * 'anno_html_to_xml' action to allow various actions to change 
+ * 'anno_to_xml' action to allow various actions to change 
  * small specific portions of the HTML
  *
  * @see anno_xml_to_html_replace_bold() for simple example on usage
@@ -866,25 +891,25 @@ add_filter( 'edit_post_content_filtered', 'anno_edit_post_content_filtered', 10,
  * @param string $xml_content 
  * @return void
  */
-function anno_html_to_xml($html_content) {
+function anno_to_xml($html_content) {
 	// Load our phpQuery document up, so filters should be able to use the pq() function to access its elements
 	phpQuery::newDocument($html_content);
 	
 	// Let our various actions alter the document into XML
-	do_action('anno_html_to_xml', $html_content);
+	do_action('anno_to_xml', $html_content);
 	
 	// Return the newly formed HTML
 	return phpQuery::getDocument()->__toString();
 }
 
-function anno_html_to_xml_replace_bold($orig_html) {
+function anno_to_xml_replace_bold($orig_html) {
 	$bold_nodes = pq('strong');
 	foreach ($bold_nodes as $node) {
 		$pq_node = pq($node); // Create a phpQuery object from the noe
 		$pq_node->replaceWith('<bold>'.$pq_node->html().'</bold>');
 	}
 }
-add_action('anno_html_to_xml', 'anno_html_to_xml_replace_bold');
+add_action('anno_to_xml', 'anno_to_xml_replace_bold');
 
 /**
  * Change HTML inline <img> to XML <inline-graphic>
@@ -892,7 +917,7 @@ add_action('anno_html_to_xml', 'anno_html_to_xml_replace_bold');
  * @param string $orig_html 
  * @return void
  */
-function anno_html_to_xml_replace_inline_graphics($orig_html) {
+function anno_to_xml_replace_inline_graphics($orig_html) {
 	$imgs = pq('img[class="_inline_graphic"]');
 	foreach ($imgs as $img) {
 		$img = pq($img);
@@ -902,7 +927,7 @@ function anno_html_to_xml_replace_inline_graphics($orig_html) {
 		$img->replaceWith($xml);
 	}
 }
-add_action('anno_html_to_xml', 'anno_html_to_xml_replace_inline_graphics');
+add_action('anno_to_xml', 'anno_to_xml_replace_inline_graphics');
 
 /**
  * Utility function to convert our XML into HTML
@@ -1445,25 +1470,87 @@ function anno_convert_permissions_to_html($permissions_pq_obj) {
 	return $clause_tag;
 }
 
-//function anno_add_p_to_list_item
-
-// Browsers strip <caption> tags when they are not embedded within a table tag. XML requires caption tags, not cap
-function anno_replace_cap_tag($orig_xml) {
-	$captions = pq('cap');
-	foreach ($captions as $caption) {
-		$caption = pq($caption);
-		$caption_html = $caption.html();
-		$caption->replaceWith('<caption>'.$caption_html.'</caption>');	
+/**
+ * Convert all tags that have been loaded in the phpQuery Document to a new type
+ * Assumes a phpQuery object has been loaded. Modifies this object.
+ * 
+ * @param string $old_tag Old tag to convert from
+ * @param string $new_tag New tag to convert to 
+ * @return void.
+ */ 
+function anno_convert_tag($old_tag, $new_tag) {
+	$tags = pq($old_tag);
+	foreach ($tags as $tag) {
+		$tag = pq($tag);
+		$tag_html = $tag->html();
+		$tag->replaceWith('<'.$new_tag.'>'.$tag_html.'</'.$new_tag.'>');
 	}
 }
 
-// Browsers strip <caption> tags when they are not embedded within a table tag
-function anno_convert_caption_tag($xml) {
-	$captions = pq('caption');
-	foreach ($captions as $caption) {
-		$caption = pq($caption);
-		$caption_html = $caption.html();
-		$caption->replaceWith('<cap>'.$caption_html.'</cap>');	
+/**
+ * Convert caption tag to cap tag for display in editor
+ * Browsers strip caption tags not wrapped in <table> tags.
+ * 
+ * @param phpQueryObject $xml
+ * @return void
+ */
+function anno_replace_caption_tag($xml) {
+	anno_convert_tag('caption', 'cap');
+}
+
+/**
+ * Convert cap tags to caption to match the DTD when saving editor content.
+ * Browsers strip caption tags not wrapped in <table> tags.
+ * 
+ * @param phpQueryObject $xml
+ * @return void
+ */
+function anno_to_xml_cap_tag($orig_xml) {
+	anno_convert_tag('cap', 'caption');
+}
+add_action('anno_to_xml', 'anno_to_xml_cap_tag');
+
+/**
+ * Convert heading tags to title to match the DTD when saving editor content.
+ * Browsers convert title content to html entities.
+ * 
+ * @param phpQueryObject $xml
+ * @return void
+ */
+function anno_to_xml_heading_tag($orig_xml) {
+	anno_convert_tag('heading', 'title');
+}
+add_action('anno_to_xml', 'anno_to_xml_heading_tag');
+
+/**
+ * Convert title tag to heading tag for display in editor
+ * Browsers convert title content to html entities.
+ * 
+ * @param phpQueryObject $xml
+ * @return void
+ */
+function anno_replace_title_tag($xml) {
+	anno_convert_tag('title', 'heading');
+}
+
+/**
+ * Remove p tags which wrap list item content so the editor can handle the 
+ * unconventional xml structure as html.
+ * 
+ * @param phpQueryObject $xml
+ * @return void
+ */ 
+function anno_remove_p_from_list_items($xml) {
+	$list_items = pq('list-item');
+	foreach ($list_items as $list_item) {
+		$list_item = pq($list_item);
+		$p_tags = $list_item->children('p');
+		// Replace p tag with its content
+		foreach ($p_tags as $p_tag) {
+			$p_tag = pq($p_tag);
+			$p_inner = $p_tag->html();
+			$p_tag->replaceWith($p_inner);
+		}
 	}
 }
 
