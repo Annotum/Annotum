@@ -12,7 +12,6 @@ function anno_admin_print_footer_scripts() {
 			$appendices = array(0 => '0');
 		}
 		
-		
 		$formats = array(
 			'bold',
 			'italic',
@@ -111,7 +110,7 @@ function anno_admin_print_footer_scripts() {
 					italic : { \'inline\' : \'italic\'},
 					underline : { \'inline\' : \'underline\'},
 					sec : { \'block\' : \'sec\', \'wrapper\' : \'true\' },
-					title : { \'block\' : \'title\' },
+					title : { \'block\' : \'heading\' },
 				}',
 			'theme_advanced_blockformats' => 'Paragraph=p,Title=title,Section=sec',
 			'forced_root_block' => '',
