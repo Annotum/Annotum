@@ -137,15 +137,16 @@
 	
 		e2.parentNode.removeChild(e2);
 	
-		if ((e2 == 'LIST' || e2 == 'LIST-ITEM') && secondTitle) {
-			dom.remove(secondTitle, false);
-		}
-
-		if ((e1 == 'LIST' || e1 == 'LIST-ITEM') && firstTitle) {
-//			dom.remove(secondTitle, false);
-		} 
-	
+// 		if ((e2 == 'LIST' || e2 == 'LIST-ITEM') && secondTitle) {
+// 			dom.remove(secondTitle, false);
+// 		}
+// 
+// 		if ((e1 == 'LIST' || e1 == 'LIST-ITEM') && firstTitle) {
+// //			dom.remove(secondTitle, false);
+// 		} 
+// 	
 		attemptMerge(lastOriginal, firstNew, false);
+
 		return e1;
 	}
 	
@@ -329,7 +330,7 @@
 				var listAttr = {};
 				listAttr['list-type'] = targetListType;
 				var list = dom.create('list', listAttr), li;
-	
+
 				if (element.tagName === 'LIST-ITEM') {
 					// No change required.
 				} 
@@ -339,10 +340,12 @@
 						li = startSection.parentNode;
 						cleanupBr(br);
 					});
-					if (element.tagName === 'P' || selectedBlocks.length > 1) {
-						dom.split(li.parentNode.parentNode, li.parentNode);
-					}
+					//@Removes the wrapping of P
+				//	if (element.tagName === 'P' || selectedBlocks.length > 1) {
+				//		dom.split(li.parentNode.parentNode, li.parentNode);
+				//	}
 					attemptMergeWithAdjacent(li.parentNode, true);
+					
 					return;
 				} 
 				else {
@@ -355,7 +358,7 @@
 				
 //				var title = dom.create('TITLE');
 				dom.insertAfter(list, element);
-				
+						
 //				list.appendChild(title);
 				
 				list.appendChild(element);
@@ -482,9 +485,20 @@
 				while (dom.is(element.parentNode, 'list,list-item')) {
 					dom.split(element.parentNode, element);
 				}
+
+
 				// Push the original element we have from the selection, not the renamed one.
 				applied.push(element);
-				element = dom.rename(element, 'p');
+				
+				// If the list is already contained in a p tag, dont wrap in another.
+				if (dom.getParent(element, 'P') == null) {
+					element = dom.rename(element, 'p');
+				}
+				else {
+					dom.setOuterHTML(element, element.innerHTML);
+				}	
+				
+				
 				mergedElement = attemptMergeWithAdjacent(element, false, ed.settings.force_br_newlines);
 				if (mergedElement === element) {
 					// Now split out any block elements that can't be contained within a P.
@@ -557,12 +571,8 @@
 				var wrapItem = createWrapItem(element),
 					list = dom.getParent(element, 'list'),
 					listType = dom.getAttrib(list, 'list-type'),
-//					listStyle = dom.getStyle(list, 'list-style-type'),
 					attrs = {},
 					wrapList;
-//				if (listStyle !== '') {
-//					attrs.style = 'list-style-type: ' + listStyle + ';';
-//				}
 				attrs['list-type'] = listType;
 				wrapList = dom.create('list', attrs);
 				wrapItem.appendChild(wrapList);
@@ -627,7 +637,6 @@
 			each(outdented, attemptMergeWithAdjacent);
 		},
 		
-		
 		process: function(actions) {
 			var t = this, sel = t.ed.selection, dom = t.ed.dom, selectedBlocks, r;
 			function processElement(element) {
@@ -641,6 +650,7 @@
 					action = actions.defaultAction;
 				}
 				action(element);
+
 			}
 			function recurse(element) {
 				t.splitSafeEach(element.childNodes, processElement);
@@ -675,6 +685,7 @@
 		},
 		
 		splitSafeEach: function(elements, f) {
+			var t = this, ed = t.ed;
 			if (tinymce.isGecko && (/Firefox\/[12]\.[0-9]/.test(navigator.userAgent) ||
 					/Firefox\/3\.[0-4]/.test(navigator.userAgent))) {
 				this.classBasedEach(elements, f);
