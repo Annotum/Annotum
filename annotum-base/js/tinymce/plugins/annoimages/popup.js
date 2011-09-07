@@ -80,7 +80,7 @@ jQuery(document).ready( function($) {
 
 		var win = window.dialogArguments || opener || parent || top;
 		
-//@TODO better insertion logic
+// @TODO better insertion logic
 /*		var ed = win.tinyMCE.activeEditor, d = ed.getDoc(), dom = ed.dom;
 		
 		node = ed.selection.getNode();
