@@ -165,7 +165,7 @@ class Anno_tinyMCE {
 	
 	function mce_buttons_2($buttons) {
 		if ($this->is_article()) {
-			$buttons = array('formatselect', '|', 'table', 'row_before', 'row_after', 'delete_row', 'col_before', 'col_after', 'delete_col', 'split_cells', 'merge_cells', '|', 'pastetext', 'pasteword', 'annolist', '|', 'annoreferences', '|');
+			$buttons = array('formatselect', '|', 'table', 'row_before', 'row_after', 'delete_row', 'col_before', 'col_after', 'delete_col', 'split_cells', 'merge_cells', '|', 'pastetext', 'pasteword', 'annolist', '|', 'annoreferences', '|', 'annotips');
 		}
 		return $buttons;
 	}
@@ -191,6 +191,8 @@ class Anno_tinyMCE {
 		
 			$plugins['annoParagraphs'] = trailingslashit(get_bloginfo('template_directory')).'js/tinymce/plugins/annoparagraphs/editor_plugin.js';
 	//		$plugins['annoSection'] = trailingslashit(get_bloginfo('template_directory')).'js/tinymce/plugins/annosection/editor_plugin.js';
+	
+			$plugins['annoTips'] = trailingslashit(get_bloginfo('template_directory')).'js/tinymce/plugins/annotips/editor_plugin.js';
 		}
 		return $plugins;
 	}
@@ -497,6 +499,16 @@ function _anno_popup_submit_button($id, $value, $type = 'button') {
 <?php
 }
 
+function anno_popup_tips() {
+?>
+<div id="anno-popup-tips" class="anno-mce-popup">
+	- Tip 1<br />
+	- Tip 2
+</div>
+	
+<?php
+}
+
 /**
  * Markup for the tinyMCE dialog popups
  */ 
@@ -520,7 +532,11 @@ function anno_preload_dialogs($init) {
 	
 	<div style="display:none;">
 	<?php anno_popup_quote(); ?>
-	</div>	
+	</div>
+	
+	<div style="display:none;">
+	<?php anno_popup_tips(); ?>
+	</div>
 <?php 
 }
 add_action('after_wp_tiny_mce', 'anno_preload_dialogs', 10, 1 );
