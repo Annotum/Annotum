@@ -112,12 +112,16 @@ function anno_subtitle_meta_box($post) {
 /**
  * Body meta box markup (stored in content)
  */
-function anno_body_meta_box($post) {
+function anno_body_meta_box($post) {	
 	if (empty($post->post_content)) {
-		$content = '
-		<sec>
+		$p_content = '';
+		if (isset($_SERVER['HTTP_USER_AGENT']) && (strpos($_SERVER['HTTP_USER_AGENT'], 'MSIE') !== false)) {
+			$p_content = '&nbsp;';
+		}
+		
+		$content = '<sec>
 			<heading></heading>
-			<p></p>
+			<p>'.$p_content.'</p>
 		</sec>';
 	}
 	else {

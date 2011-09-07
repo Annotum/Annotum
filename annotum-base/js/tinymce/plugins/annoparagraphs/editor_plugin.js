@@ -52,7 +52,7 @@
 						newElement = newSec();
 					}
 					else {
-						newElement = dom.create('p', null, '<br />');
+						newElement = dom.create('P');
 					}
 					
 					return dom.insertAfter(newElement, node);
@@ -62,7 +62,7 @@
 				function newSec() {
 					var sec = dom.create('sec', null);
 					dom.add(sec, 'heading', null, '&nbsp');
-					dom.add(sec, 'p', null, '<br />');
+					dom.add(sec, 'p');
 					return sec;
 				}
 						
@@ -73,7 +73,7 @@
 				else if (/(BODY|HTML)/.test(node.nodeName)) {
 					secElement = dom.add(node, 'sec');
 					newElement = dom.add(secElement, 'heading', null, '&nbsp');
-					dom.add(secElement, 'p', null, '<br />');
+					dom.add(secElement, 'p');
 				}
 				else if (parentNode = dom.getParent(node, 'FIG')) {
 					newElement = insertNewBlock(parentNode);
@@ -347,7 +347,7 @@
 					nl[0].innerHTML = isOpera ? '\u00a0' : '<br />'; // Extra space for Opera so that the caret can move there
 					return nl[0]; // Move caret to most inner element
 				} else
-					e.innerHTML = '<br />';
+					e.innerHTML = '';
 //					e.innerHTML = isOpera ? '\u00a0' : '<br />'; // Extra space for Opera so that the caret can move there
 			};
 				

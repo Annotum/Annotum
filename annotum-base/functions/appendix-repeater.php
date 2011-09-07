@@ -66,11 +66,15 @@ $html = '';
 		$index_alpha = anno_index_alpha($index);
 	}
 	if (empty($content)) {
-		$content = '
-			<sec>
-				<heading></heading>
-				<p></p>
-			</sec>';
+		$p_content = '';
+		if (isset($_SERVER['HTTP_USER_AGENT']) && (strpos($_SERVER['HTTP_USER_AGENT'], 'MSIE') !== false)) {
+			$p_content = '&nbsp;';
+		}
+
+		$content = '<sec>
+			<heading></heading>
+			<p>'.$p_content.'</p>
+		</sec>';
 	}
 	
 	$html .='
