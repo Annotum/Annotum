@@ -94,8 +94,7 @@ function anno_admin_print_footer_scripts() {
 			'table-wrap[label|caption|table|table-wrap-foot|permissions]',
 			'table-wrap-foor[p]',
 			'p[media|img|permissions|license|list|list-item|disp-formula|disp-quote|fig|caption|table-wrap|table-wrap-foot|h2|xref]',
-			'sec[heading|media|img|permissions|license|list|list-item|disp-formula|disp-quote|fig|caption|table-wrap|table-wrap-foot|p|h2]',
-			'heading[]'
+			'sec[sec|heading|media|img|permissions|license|list|list-item|disp-formula|disp-quote|fig|caption|table-wrap|table-wrap-foot|p|h2]',
 		);
 
 		wp_tiny_mce(false, array(
@@ -109,7 +108,7 @@ function anno_admin_print_footer_scripts() {
 					bold : {\'inline\' : \'bold\'},
 					italic : { \'inline\' : \'italic\'},
 					underline : { \'inline\' : \'underline\'},
-					sec : { \'block\' : \'sec\', \'wrapper\' : \'true\' },
+					sec : { \'inline\' : \'sec\', \'wrapper\' : \'false\' },
 					title : { \'block\' : \'heading\' },
 				}',
 			'theme_advanced_blockformats' => 'Paragraph=p,Title=title,Section=sec',
@@ -329,16 +328,23 @@ function anno_popup_references_row_edit($reference_key, $reference, $post_id) {
 			<td class="anno-references-edit-td" colspan="3">
 				<div id="<?php echo esc_attr('#popup-message-reference-'.$reference_key); ?>"></div>
 					<form id="<?php echo esc_attr('reference-form-'.$reference_key); ?>" class="anno-reference-edit">
+						<div id="<?php echo esc_attr('lookup-error-'.$reference_key); ?>"></div>
 						<label>
-							<span><?php _ex('CrossRef DOI', 'input label for defining tables', 'anno'); ?></span>
-							<input type="text" name="doi" id="<?php echo esc_attr('doi-'.$reference_key); ?>" value="<?php echo esc_attr($reference['doi']) ?>" />
-							</label>
-						<label>
-							<span><?php _ex('PubMed ID (PMID)', 'input label for defining tables', 'anno'); ?></span>
-							<input type="text" name="pcmid" id="<?php echo esc_attr('pcmid-'.$reference_key); ?>" value="<?php echo esc_attr($reference['pcmid']) ?>" />
+							<span><?php _ex('CrossRef DOI', 'input label for DOI lookup', 'anno'); ?></span>
+							<input type="text" class="short" name="doi" id="<?php echo esc_attr('doi-'.$reference_key); ?>" value="<?php echo esc_attr($reference['doi']) ?>" />
+							<input type="button" name="import_doi" id="<?php echo esc_attr('doi-import-'.$reference_key); ?>" value="<?php _ex('Import', 'button label', 'anno'); ?>">
+							<img src="<?php echo esc_url( admin_url( 'images/wpspin_light.gif' ) ); ?>" class="ajax-loading" />
+							<?php wp_nonce_field('anno_import_doi', '_ajax_nonce-import-doi', false); ?>
 						</label>
 						<label>
-							<span><?php _ex('Figures', 'input label for defining tables', 'anno'); ?></span>
+							<span><?php _ex('PubMed ID (PMID)', 'input for PubMed ID lookup', 'anno'); ?></span>
+							<input type="text" class="short" name="pmcid" id="<?php echo esc_attr('pmcid-'.$reference_key); ?>" value="<?php echo esc_attr($reference['pmcid']) ?>" />
+							<input type="button" name="import_pubmed" id="<?php echo esc_attr('pmcid-import-'.$reference_key); ?>" value="<?php _ex('Import', 'button label', 'anno'); ?>">
+							<img src="<?php echo esc_url( admin_url( 'images/wpspin_light.gif' ) ); ?>" class="ajax-loading" />
+							<?php wp_nonce_field('anno_import_pubmed', '_ajax_nonce-import-pubmed', false); ?>
+						</label>
+						<label>
+							<span><?php _ex('Figures', 'input label for defining reference', 'anno'); ?></span>
 							<select name="figureselect" id="<?php echo esc_attr('reffigures-'.$reference_key); ?>">
 								<option value=""><?php _ex('Select Figure', 'select option', 'anno'); ?></option>
 							</select>
@@ -348,7 +354,7 @@ function anno_popup_references_row_edit($reference_key, $reference, $post_id) {
 						</p>
 						<label>
 							<span><?php _ex('Text', 'input label for defining tables', 'anno'); ?></span>
-							<textarea type="text" name="text" id="text"><?php echo esc_textarea($reference['text']) ?></textarea>
+							<textarea type="text" name="text" id="<?php echo esc_attr('text-'.$reference_key); ?>"><?php echo esc_textarea($reference['text']) ?></textarea>
 						</label>
 						<label>
 							<span><?php _ex('URL', 'input label for defining tables', 'anno'); ?></span>
@@ -356,6 +362,7 @@ function anno_popup_references_row_edit($reference_key, $reference, $post_id) {
 						</label>
 
 						<div class="reference-edit-actions clearfix">
+							<?php //TODO Nonce for save ?>
 							<a href="#" id="<?php echo esc_attr('reference-action-save-'.$reference_key); ?>" class="save left">Save</a>
 							<a href="#" id="<?php echo esc_attr('reference-action-cancel-'.$reference_key); ?>" class="cancel right">Cancel</a>
 						</div>
@@ -410,7 +417,7 @@ function anno_popup_references() {
 	if (!empty($references) && is_array($references)) {
 		foreach ($references as $reference_key => $reference) {
 			//prevent undefined index errors;
-			$reference_keys = array('text', 'doi', 'pcmid', 'url', 'figures');
+			$reference_keys = array('text', 'doi', 'pmcid', 'url', 'figures');
 			foreach ($reference_keys as $key_val) {
 				$reference[$key_val] = isset($reference[$key_val]) ? $reference[$key_val] : '';
 			}
@@ -421,7 +428,7 @@ function anno_popup_references() {
 ?>
 					<tr id="<?php echo esc_attr('reference-new'); ?>">
 						<td colspan="3">
-							<?php anno_popup_references_row_edit('new', array('text' => '', 'doi' => '', 'pcmid' => '', 'url' => '', 'figures' => ''), $post->ID); ?>
+							<?php anno_popup_references_row_edit('new', array('text' => '', 'doi' => '', 'pmcid' => '', 'url' => '', 'figures' => ''), $post->ID); ?>
 						</td>
 					<tr>
 						<td colspan="3" class="anno-mce-popup-footer">
@@ -583,7 +590,7 @@ function anno_insert_reference($ref_array) {
 		
 	$ref_args = array(
 		'doi' => $ref_array['doi'],
-		'pcmid' => $ref_array['pcmid'],
+		'pmcid' => $ref_array['pmcid'],
 		'text' => $ref_array['text'],
 		'figures' => $ref_array['figures'],
 		'url' => $ref_array['url'],

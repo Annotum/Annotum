@@ -361,7 +361,7 @@ function annowf_add_reviewer() {
 				$post = get_post($post_id);
 				annowf_send_notification('in_review', $post);
 			}
-			//TODO reload?
+			//TODO Save and reload?
 		}
 		
 		// If the reviewer is being re-added and has already left a review for this round

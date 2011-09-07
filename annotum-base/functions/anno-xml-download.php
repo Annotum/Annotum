@@ -376,12 +376,12 @@ class Anno_XML_Download {
 					$doi = '';
 				}
 				
-				if (isset($reference['pcmid']) && !empty($reference['pcmid'])) {
-					$pcmid = '
-						<pub-id pub-id-type="pmid">'.esc_html($reference['pcmid']).'</pub-id>';
+				if (isset($reference['pmcid']) && !empty($reference['pmcid'])) {
+					$pmcid = '
+						<pub-id pub-id-type="pmid">'.esc_html($reference['pmcid']).'</pub-id>';
 				}
 				else {
-					$pcmid = '';
+					$pmcid = '';
 				}
 				
 				if (isset($reference['text']) && !empty($reference['text'])) {
@@ -402,7 +402,7 @@ class Anno_XML_Download {
 			<ref id="R'.$ref_key.'">
 				<label>'.$ref_key.'</label>
 				<mixed-citation'.$link.'>'.$text.'
-					'.$doi.$pcmid.'
+					'.$doi.$pmcid.'
 				</mixed-citation>
 			</ref>';
 

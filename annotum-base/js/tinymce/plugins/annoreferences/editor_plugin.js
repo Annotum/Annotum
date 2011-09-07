@@ -98,4 +98,27 @@ jQuery(document).ready( function($) {
 		return false;
 	});
 	
+	$('input[name="import_pubmed"]').live('click', function(e) {
+		e.preventDefault();
+		var ref_id = $(this).attr('id').replace('pmcid-import-', '');
+		var id = $('#pmcid-' + ref_id).val();
+		var data = {action: 'anno-import-pubmed', pmcid: id};
+		data['_ajax_nonce-import-pubmed'] = $('#_ajax_nonce-import-pubmed').val();
+		var siblings = $(this).siblings('.ajax-loading');
+		siblings.css('visibility', 'visible');
+		console.log(siblings);
+		$.post(ajaxurl, data, function(d) {
+			siblings.css('visibility', 'hidden');
+			console.log(siblings);
+			if (d.message == 'success') {
+				$('#lookup-error-' + ref_id).html('');
+				$('#text-' + ref_id).val(d.text);
+			}
+			else {
+				$('#lookup-error-' + ref_id).html(d.text);
+			}
+		}, 'json');
+		
+	});
+	
 });
