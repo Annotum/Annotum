@@ -368,6 +368,7 @@ class Anno_XML_Download {
 				<title>'._x('References', 'xml reference title', 'anno').'</title>';
 		
 			foreach ($references as $ref_key => $reference) {
+				$ref_key_display = $ref_key + 1;
 				if (isset($reference['doi']) && !empty($reference['doi'])) {
 					$doi = '
 						<pub-id pub-id-type="doi">'.esc_html($reference['doi']).'</pub-id>';
@@ -399,8 +400,8 @@ class Anno_XML_Download {
 				}
 				
 				$xml .='
-			<ref id="R'.$ref_key.'">
-				<label>'.$ref_key.'</label>
+			<ref id="R'.$ref_key_display.'">
+				<label>'.$ref_key_display.'</label>
 				<mixed-citation'.$link.'>'.$text.'
 					'.$doi.$pmcid.'
 				</mixed-citation>

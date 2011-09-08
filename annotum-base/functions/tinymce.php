@@ -1451,6 +1451,7 @@ function anno_convert_permissions_to_html($permissions_pq_obj) {
 	$permissions = pq($permissions_pq_obj);
 	$tpl = new Anno_Template_Utils();
 	$clauses = array();
+	$clause_tag = '';
 	
 	foreach ($permissions as $permission) {
 		$permission = pq($permission);

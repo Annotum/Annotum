@@ -139,8 +139,9 @@ function anno_references_meta_box($post) {
 	$references = get_post_meta($post->ID, '_anno_references', true);
 	if (!empty($references) && is_array($references)) {
 		foreach ($references as $ref_key => $reference) {
+			$ref_key_display = $ref_key + 1;
 ?>
-	<div><?php echo esc_html($ref_key . '. '. $reference['text']); ?></div>
+	<div><?php echo esc_html($ref_key_display . '. '. $reference['text']); ?></div>
 <?php
 		}
 	}
