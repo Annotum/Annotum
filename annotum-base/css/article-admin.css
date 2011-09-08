@@ -120,7 +120,7 @@ body .ui-widget-overlay {
 	visibility: hidden;
 }
 .anno-mce-popup textarea {
-	width: 455px;
+	width: 330px;
 	max-width: 455px;
 	height: 75px;
 	margin: 0;
@@ -173,6 +173,11 @@ body .ui-widget-overlay {
 	padding: 0px;
 }
 
+
+/** Insert Custom Character
+ -------------------------------------------------- */
+
+
 /** TinyMCE References Popup
  -------------------------------------------------- */
 table#anno-references {
@@ -201,6 +206,9 @@ table#anno-references td.reference-checkbox {
 }
 .reference-text {
 	width: 340px;
+}
+textarea[name="figures"] {
+	margin-left: 125px;
 }
 /* nested table */
 table#anno-references table td {
