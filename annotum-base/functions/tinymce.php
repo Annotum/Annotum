@@ -79,6 +79,7 @@ function anno_admin_print_footer_scripts() {
 		
 		$formats_as_children = implode('|', $formats);
 		$valid_children = array(
+			'body[sec|p]',
 			'copyright-statement['.$formats_as_children.']',
 			'license-p['.$formats_as_children.'|xref]',
 			'heading['.$formats_as_children.']',
@@ -659,6 +660,7 @@ function anno_tinymce_image_save() {
 				'copyright_statement',
 				'copyright_holder',
 				'license',
+				'size',
 			);
 			foreach ($meta_fields as $meta_field) {
 				$meta_value = isset($_POST[$meta_field]) ? $_POST[$meta_field] : '';
