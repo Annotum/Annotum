@@ -34,12 +34,11 @@
 		},
 
 		insertPara : function(e) {
-
 			var t = this, ed = t.editor, dom = ed.dom, d = ed.getDoc(), se = ed.settings, s = ed.selection.getSel(), r = s.getRangeAt(0), b = d.body;
 			var rb, ra, dir, sn, so, en, eo, sb, eb, bn, bef, aft, sc, ec, n, vp = dom.getViewPort(ed.getWin()), y, ch, car;
 			var TRUE = true, FALSE = false, newElement, node = ed.selection.getNode();
 			ed.undoManager.beforeChange();
-						
+				
 			if (e.ctrlKey || /(BODY|HTML|HEADING)/.test(node.nodeName)) {
 				function insertNewBlock(node) {
 					var newElement, parentNode;
@@ -65,8 +64,7 @@
 					dom.add(sec, 'p');
 					return sec;
 				}
-						
-				var node = ed.selection.getNode();
+
 				if (/(DISP-FORMULA|TABLE-WRAP|FIG|DISP-QUOTE|HEADING)/.test(node.nodeName)) {
 					newElement = insertNewBlock(node);
 				}
@@ -100,7 +98,7 @@
 				
 				return FALSE;
 			}
-			
+
 			// If root blocks are forced then use Operas default behavior since it's really good
 // Removed due to bug: #1853816
 //			if (se.forced_root_block && isOpera)
@@ -126,13 +124,15 @@
 			so = dir ? s.anchorOffset : s.focusOffset;
 			en = dir ? s.focusNode : s.anchorNode;
 			eo = dir ? s.focusOffset : s.anchorOffset;
+			
 
 			// If selection is in empty table cell
 			if (sn === en && /^(TD|TH|CAP)$/.test(sn.nodeName)) {
-				if (sn.firstChild.nodeName == 'BR')
+				if (sn.firstChild && sn.firstChild.nodeName == 'BR')
 					dom.remove(sn.firstChild); // Remove BR
 
 				// Create two new block elements
+
 				if (sn.childNodes.length == 0) {
 					ed.dom.add(sn, se.element, null, '<br />');
 					aft = ed.dom.add(sn, se.element, null, '<br />');
@@ -238,7 +238,7 @@
 			}
 			
 			// Use P instead
-			if (/(TD|TABLE|TH|CAPTION|CAP)/.test(bn) || (sb && bn == "DIV" && /left|right/gi.test(dom.getStyle(sb, 'float', 1)))) {
+			if (/(TD|TABLE|TH|CAP)/.test(bn) || (sb && bn == "DIV" && /left|right/gi.test(dom.getStyle(sb, 'float', 1)))) {
 				bn = se.element;
 				sb = eb = null;
 			}
@@ -257,7 +257,7 @@
 			// Find start chop node
 			n = sc = sn;
 			do {
-				if (n == b || n.nodeType == 9 || dom.isBlock(n) || /(TD|TABLE|TH|CAPTION|CAP)/.test(n.nodeName))
+				if (n == b || n.nodeType == 9 || dom.isBlock(n) || /(TD|TABLE|TH|CAP)/.test(n.nodeName))
 					break;
 
 				sc = n;
@@ -266,7 +266,7 @@
 			// Find end chop node
 			n = ec = en;
 			do {
-				if (n == b || n.nodeType == 9 || dom.isBlock(n) || /(TD|TABLE|TH|CAPTION|CAP)/.test(n.nodeName))
+				if (n == b || n.nodeType == 9 || dom.isBlock(n) || /(TD|TABLE|TH|CAP)/.test(n.nodeName))
 					break;
 
 				ec = n;
