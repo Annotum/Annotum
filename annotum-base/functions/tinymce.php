@@ -90,7 +90,7 @@ function anno_admin_print_footer_scripts() {
 			'disp-formula[label|tex-math]',
 			'disp-quote[p|attrib|permissions]',
 			'fig[label|cap|media|img]',
-			'cap[title|p]',
+			'cap[title|p|xref]',
 			'table-wrap[label|cap|table|table-wrap-foot|permissions]',
 			'table-wrap-foor[p]',
 			'p[media|img|permissions|license|list|list-item|disp-formula|disp-quote|fig|cap|table-wrap|table-wrap-foot|h2|xref|img]',
@@ -111,7 +111,7 @@ function anno_admin_print_footer_scripts() {
 					sec : { \'inline\' : \'sec\', \'wrapper\' : \'false\' },
 					title : { \'block\' : \'heading\' },
 				}',
-			'theme_advanced_blockformats' => 'Paragraph=p,Title=title,Section=sec',
+			'theme_advanced_blockformats' => 'Paragraph=p,Title=heading,Section=sec',
 			'forced_root_block' => '',
 			'editor_css' => trailingslashit(get_template_directory_uri()).'css/tinymce-ui.css?v=4',
 			'debug' => 'true',
@@ -190,7 +190,6 @@ class Anno_tinyMCE {
 			$plugins['annoLists'] = trailingslashit(get_bloginfo('template_directory')).'js/tinymce/plugins/annolists/editor_plugin.js';
 		
 			$plugins['annoParagraphs'] = trailingslashit(get_bloginfo('template_directory')).'js/tinymce/plugins/annoparagraphs/editor_plugin.js';
-	//		$plugins['annoSection'] = trailingslashit(get_bloginfo('template_directory')).'js/tinymce/plugins/annosection/editor_plugin.js';
 	
 			$plugins['annoTips'] = trailingslashit(get_bloginfo('template_directory')).'js/tinymce/plugins/annotips/editor_plugin.js';
 		}
@@ -1058,7 +1057,7 @@ add_action('anno_xml_to_html', 'anno_xml_to_html_replace_inline_graphics');
  */
 function anno_xml_to_html_replace_figures($orig_xml) {
 	$tpl = new Anno_Template_Utils();
-
+	error_log(print_r($_POST,1));
 	$figs = pq('fig');
 	
 	$count = 0;
