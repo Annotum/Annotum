@@ -64,7 +64,7 @@ var annoReferences;
 			var ed = tinyMCEPopup.editor
 			var xml, checkboxes, id, text, validNodes;
 			xml = '';
-			validNodes = ['BODY', 'LABEL', 'CAPTION', 'LICENSE-P', 'P', 'TD', 'TH', 'CAP'];
+			validNodes = ['BODY', 'LABEL', 'CAP', 'LICENSE-P', 'P', 'TD', 'TH'];
 			
 			var node = ed.selection.getNode();
 			
