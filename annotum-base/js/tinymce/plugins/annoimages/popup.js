@@ -7,7 +7,7 @@ jQuery(document).ready( function($) {
 		$(this).addClass('hide-img');
 
 		$('#img-edit-' + img_id).slideDown();
-		//TODO translate
+		// @TODO translate
 		$(this).html('Hide');
 		return false;
 	});
@@ -18,7 +18,7 @@ jQuery(document).ready( function($) {
 		$(this).addClass('show-img');
 		
 		$('#img-edit-' + img_id).slideUp();
-		//TODO translate
+		// @TODO translate
 		$(this).html('Show');
 		return false;
 	});
@@ -26,7 +26,7 @@ jQuery(document).ready( function($) {
 	
 	$('#anno-popup-images-inside form.anno-img-edit').live('submit', function() {
 		$.post(ajaxurl, $(this).serialize(), function(data) {
-			//TODO Image saved!!
+			// @TODO Image saved!!
 		});
 		return false;
 	})
@@ -34,30 +34,31 @@ jQuery(document).ready( function($) {
 	$('.anno-image-insert').live('click', function() {
 		var attachment_id = $(this).attr('id').replace('anno-image-insert-', '');
 		var display_type, caption, label, copyright_statement, copyright_holder, license, url, xml;
+		var form = 'form#img-edit-' + attachment_id;
 
-		alt_text = $('#img-alttext-' + attachment_id).val();
-		url = $('#img-url-' + attachment_id).val();
-		display_type = $('#img-edit-' + attachment_id + ' input[name$="display"]:checked').val();
+		alt_text = $('#img-alttext-' + attachment_id, form).val();
+		url = $('input[name="size"]:checked', form).attr('data-url');
+		display_type = $('input[name="display"]:checked', form).val();
 		
-
 		if (display_type == 'inline') {
 			// Inserting for tinyMCE. is converted to XML on save.
 			xml = '<img src="'+ url + '" class="_inline_graphic" alt="'+ alt_text + '"/>';
 		}
 		else {
+			// @TODO Revisit <br /> insertion for IE8 compatability 
 			caption = $('#img-caption-' + attachment_id).val();
 			//caption = caption == '' ? '<br />' : caption;
 
 			label = $('#img-label-' + attachment_id).val();
 			//label = label == '' ? '<br />' : label;
 
-			description = $('#img-description-' + attachment_id).val();
+			description = $('#img-description-' + attachment_id, form).val();
 			description = description == '' ? '<br />' : description;
-			copyright_statement = $('#img-copystatement-' + attachment_id).val();
-			copyright_holder = $('#img-copyholder-' + attachment_id).val();
-			license = $('#img-license-' + attachment_id).val();
+			copyright_statement = $('#img-copystatement-' + attachment_id, form).val();
+			copyright_holder = $('#img-copyholder-' + attachment_id, form).val();
+			license = $('#img-license-' + attachment_id, form).val();
 						
-			//TODO Caption Title Support
+			// @TODO Caption Title Support
 			xml = '<fig>'
 						+'<img src="' + url + '" />'
 						+'<label>' + label + '</label>'

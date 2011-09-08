@@ -86,8 +86,7 @@ function anno_popup_images_iframe_html() {
 }
 
 /**
- * 
- * 
+ * Loads the iframe for tinyMCE popup
  */ 
 function anno_popup_images() {
 	global $post;
@@ -100,13 +99,9 @@ function anno_popup_images() {
 <?php
 }
 
-/**
- * 
- * 
- **/
 function anno_popup_images_row_edit($attachment) {
 		$img_url = wp_get_attachment_image_src($attachment->ID, 'anno_img_edit');
-		$img_url_full = wp_get_attachment_image_src($attachment->ID);
+
 		
 		$description = $attachment->post_content;
 		$caption = $attachment->post_excerpt;
@@ -122,6 +117,10 @@ function anno_popup_images_row_edit($attachment) {
 		$copyright_holder = get_post_meta($attachment->ID, '_anno_attachment_image_copyright_holder', true);
 		$license = get_post_meta($attachment->ID, '_anno_attachment_image_license', true);
 		
+		$img_size = get_post_meta($attachment->ID, '_anno_attachment_image_size', true);
+		if (!$img_size) {
+			$img_size = 'full';
+		}
 ?>
 			<tr>
 				<td class="img-edit-td" colspan="3">
@@ -173,6 +172,35 @@ function anno_popup_images_row_edit($attachment) {
 								<input type="text" name="license" id="<?php echo esc_attr('img-license-'.$attachment->ID); ?>" value="<?php echo esc_attr($license); ?>" />
 							</label>
 						</fieldset>
+						<fieldset class="img-sizes">
+							<legend><?php _ex('Size', 'legend for image size', 'anno'); ?></legend>
+							<?php
+								$sizes = array(
+									'thumbnail' => _x('Thumbnail', 'size label for images', 'anno'),
+									'medium' => _x('Medium', 'size label for images', 'anno'),
+									'large' => _x('Large', 'size label for images', 'anno'),
+									'full' => _x('Full', 'size label for images', 'anno'),
+								);
+							
+								foreach ($sizes as $size_key => $size_label) {
+									
+									$downsize = image_downsize($attachment->ID, $size_key);
+									$enabled = ( $downsize[3] || 'full' == $size_key );
+									if ($enabled) {
+										$img_size_url = wp_get_attachment_image_src($attachment->ID, $size_key);
+										$img_size_url = $img_size_url[0];
+									}
+									else {
+										$img_size_url = '';
+									}
+?>
+									<label>
+										<input type="radio" name="size" id="<?php echo esc_attr('img-size-'.$size_key.'-'.$attachment->ID); ?>" value="<?php echo esc_attr($size_key); ?>" data-url="<?php echo esc_attr($img_size_url); ?>"<?php checked($size_key, $img_size, true); ?><?php disabled( $enabled, false, true ); ?> /> <?php echo esc_html($size_label); ?>
+									</label>
+<?php
+								}
+							?>
+						</fieldset>
 						<div class="anno-mce-popup-footer">
 							<?php _anno_popup_submit_button('anno-image-save', _x('Save', 'button value', 'anno'), 'submit'); ?>
 							<input type="button" id="<?php echo esc_attr('anno-image-insert-'.$attachment->ID); ?>" class="anno-image-insert button" value="<?php _ex('Insert', 'button value', 'anno'); ?>" />
@@ -202,8 +230,5 @@ function anno_popup_images_row_display($attachment) {
 			</tr>
 <?php 
 }
- 
-
-
 
 ?>
