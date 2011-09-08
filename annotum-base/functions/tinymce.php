@@ -1007,7 +1007,7 @@ function anno_xml_to_html_replace_formatting($orig_xml) {
 			'class' => '',
 		),
 		'title' => array(
-			'tag' => 'h1',
+			'tag' => 'h2',
 			'class' => 'title',
 		),
 	);
@@ -1086,7 +1086,7 @@ function anno_xml_to_html_replace_figures($orig_xml) {
 			
 			$label = $fig->children('label')->html();
 			$label = ($label ? sprintf(__('Fig. %d', 'anno'), ++$count).': '.strip_tags($label) : '');
-			$label_tag = $tpl->to_tag('h1', $label, array('class' => 'label'));
+			$label_tag = $tpl->to_tag('h2', $label, array('class' => 'label'));
 			
 			$cap = $fig->children('cap')->html();
 			$cap_tag = $tpl->to_tag('div', $cap, array('class' => 'fn'));
@@ -1116,13 +1116,12 @@ add_action('anno_xml_to_html', 'anno_xml_to_html_replace_figures');
  */
 function anno_xml_to_html_replace_sec($orig_xml) {
 	$sections = pq('sec');
-	
 	if (count($sections)) {
 		foreach ($sections as $sec) {
 			$sec = pq($sec);
 			// Replace Titles
-			$title = $sec->find('title');
-			$title->replaceWith('<h1 class="title"><span>'.$title->html().'</span></h1>');
+			$title = $sec->find('title,heading');
+			$title->replaceWith('<h2 class="title"><span>'.$title->html().'</span></h2>');
 			
 			// Replace sections
 			$sec->replaceWith('<section class="sec">'.$sec->html().'</section>');
@@ -1481,7 +1480,7 @@ function anno_convert_permissions_to_html($permissions_pq_obj) {
 			);
 		}
 
-		$license = ($license ? sprintf(_x('License: %s.', 'Format for license information. E.g. "License: Creative Commons Share-Alike."', 'anno'), $license) : '');
+		$license = ($license ? $license : '');
 
 		$clauses[] = sprintf('%1$s'."\n".'%2$s', $copyright, $license);
 	}
