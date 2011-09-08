@@ -89,12 +89,12 @@ function anno_admin_print_footer_scripts() {
 			'list-item[p|xref|list]',
 			'disp-formula[label|tex-math]',
 			'disp-quote[p|attrib|permissions]',
-			'fig[label|caption|media]',
-			'caption[title|p]',
-			'table-wrap[label|caption|table|table-wrap-foot|permissions]',
+			'fig[label|cap|media|img]',
+			'cap[title|p]',
+			'table-wrap[label|cap|table|table-wrap-foot|permissions]',
 			'table-wrap-foor[p]',
-			'p[media|img|permissions|license|list|list-item|disp-formula|disp-quote|fig|caption|table-wrap|table-wrap-foot|h2|xref]',
-			'sec[sec|heading|media|img|permissions|license|list|list-item|disp-formula|disp-quote|fig|caption|table-wrap|table-wrap-foot|p|h2]',
+			'p[media|img|permissions|license|list|list-item|disp-formula|disp-quote|fig|cap|table-wrap|table-wrap-foot|h2|xref|img]',
+			'sec[sec|heading|media|img|permissions|license|list|list-item|disp-formula|disp-quote|fig|cap|table-wrap|table-wrap-foot|p|h2]',
 		);
 
 		wp_tiny_mce(false, array(
