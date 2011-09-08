@@ -399,7 +399,7 @@
 			return {
 				longname : 'Annotum Paragraphs',
 				author : 'Crowd Favorite',
-				authorurl : 'http://crowdfavorite.org',
+				authorurl : 'http://crowdfavorite.com',
 				infourl : '',
 				version : "1.0"
 			};

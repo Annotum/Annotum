@@ -25,7 +25,7 @@
         getInfo : function(){
             return {
                 longname: 'Annotum Tips',
-                author: '@crowdfavorite',
+                author: 'Crowd Favorite',
                 authorurl: 'http://crowdfavorite.com/',
                 infourl: 'http://annotum.wordpress.com/',
                 version: "0.1"

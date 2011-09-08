@@ -45,7 +45,7 @@
 			return {
 				longname : 'Annotum Quote Dialog',
 				author : 'Crowd Favorite',
-				authorurl : 'http://crowdfavorite.org',
+				authorurl : 'http://crowdfavorite.com',
 				infourl : '',
 				version : "1.0"
 			};
