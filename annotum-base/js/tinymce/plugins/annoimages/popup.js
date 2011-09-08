@@ -46,17 +46,17 @@ jQuery(document).ready( function($) {
 		}
 		else {
 			caption = $('#img-caption-' + attachment_id).val();
-			caption = caption == '' ? '<br />' : caption;
+			//caption = caption == '' ? '<br />' : caption;
 
 			label = $('#img-label-' + attachment_id).val();
-			label = label == '' ? '<br />' : label;
-		
+			//label = label == '' ? '<br />' : label;
+
 			description = $('#img-description-' + attachment_id).val();
 			description = description == '' ? '<br />' : description;
 			copyright_statement = $('#img-copystatement-' + attachment_id).val();
 			copyright_holder = $('#img-copyholder-' + attachment_id).val();
 			license = $('#img-license-' + attachment_id).val();
-			
+						
 			//TODO Caption Title Support
 			xml = '<fig>'
 						+'<img src="' + url + '" />'
