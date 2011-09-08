@@ -106,12 +106,12 @@ table.mceitemtable {
 }
 table.mceitemtable td,
 table.mceitemtable th  {
-	min-width: 20px;
-	min-height: 20px;
 	border: 1px solid #999;
 	border-spacing: 0px;
 	padding: 3px 5px;
 	margin: 0px;
+	min-height: 20px;
+	min-width: 20px;
 }
 table.mceitemtable th {
 	font-size: 12px;
@@ -126,6 +126,11 @@ table-wrap label, table-wrap cap {
 	display: block;
 	border: 1px solid #dfdfdf;
 	margin: 4px 0;
+}
+th,
+td {
+	min-width: 15px;
+	padding: 0 3px;
 }
 
 /** Figures
