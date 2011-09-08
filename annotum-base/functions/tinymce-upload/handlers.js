@@ -22,7 +22,6 @@ function annoFileQueued(fileObj) {
 	jQuery('.progress', '#media-item-' + fileObj.id).show();
 
 	// Disable submit and enable cancel
-	jQuery('#insert-gallery').prop('disabled', true);
 	jQuery('#cancel-upload').prop('disabled', false);
 }
 
@@ -64,7 +63,7 @@ function annoPrepareMediaItem(fileObj, serverData) {
 	// New style: server data is just the attachment ID, fetch the thumbnail and form html from the server
 	else {
 		//TODO post action
-		jQuery.post('async-upload.php', {attachment_id:serverData, fetch:f}, function(data){
+		jQuery.post('async-upload.php', {attachment_id:serverData, fetch:f, anno_action: 'anno_async_upload'}, function(data){
 			item.replaceWith(data);
 			prepareMediaItemInit(fileObj);
 			updateMediaForm();

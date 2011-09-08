@@ -9,7 +9,7 @@ body {
 }
 
 /* visual wrapper for elements */
-h1,h2,h3,h4,h5,h6,p,title,sec,caption,cap,
+h1,h2,h3,h4,h5,h6,p,heading,sec,caption,cap,
 fig, fig label, fig long-desc, fig license-p, 
 fig copyright-statement, fig copyright-holder,
 table-wrap, table-wrap label, disp-quote {
@@ -17,12 +17,13 @@ table-wrap, table-wrap label, disp-quote {
 	background-color: #fff;
 	display: block;
 	margin: 3px 0;
+	min-height: 18px;
 	padding: 4px 8px;
 }
 
 /** basic XML element styles
  -------------------------------------------------- */
-title {
+heading {
 	font-size: 16px;
 	font-weight: bold;
 }
@@ -169,7 +170,7 @@ fig license-p {
 /** bg image labels
  -------------------------------------------------- */
 p,
-title,
+heading,
 sec,
 fig,
 table-wrap,
@@ -183,7 +184,7 @@ cap {
 p {
 	background-image: url(../img/tinymce/paragraph.gif);
 }
-title {
+heading {
 	background-image: url(../img/tinymce/title.gif);
 }
 sec {

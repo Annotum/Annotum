@@ -116,6 +116,9 @@ body .ui-widget-overlay {
 	display: block;
 	float: left;
 }
+.anno-mce-popup .ajax-loading {
+	visibility: hidden;
+}
 .anno-mce-popup textarea {
 	width: 330px;
 	max-width: 455px;
@@ -126,9 +129,14 @@ body .ui-widget-overlay {
 	width: 330px;
 	margin: 0;
 }
+.anno-mce-popup input.short {
+	width: 200px;
+	margin: 0;
+}
 .anno-mce-popup input[type="button"],
 .anno-mce-popup input[type="submit"] {
 	width: auto;
+	cursor: pointer;
 	min-width: 100px;
 }
 .anno-mce-popup input[type="checkbox"] {

@@ -112,9 +112,23 @@ function anno_subtitle_meta_box($post) {
 /**
  * Body meta box markup (stored in content)
  */
-function anno_body_meta_box($post) {
+function anno_body_meta_box($post) {	
+	if (empty($post->post_content)) {
+		$p_content = '';
+		if (isset($_SERVER['HTTP_USER_AGENT']) && (strpos($_SERVER['HTTP_USER_AGENT'], 'MSIE') !== false)) {
+			$p_content = '&nbsp;';
+		}
+		
+		$content = '<sec>
+			<heading></heading>
+			<p>'.$p_content.'</p>
+		</sec>';
+	}
+	else {
+		$content = $post->post_content;
+	}
 ?>
-	<textarea id="anno-body" name="content" class="anno-meta"><?php echo esc_textarea(anno_process_editor_content($post->post_content)); ?></textarea>
+	<textarea id="anno-body" name="content" class="anno-meta"><?php echo esc_textarea(anno_process_editor_content($content)); ?></textarea>
 <?php
 }
 
@@ -199,7 +213,7 @@ function anno_article_insert_post($post_id, $post) {
 		if (isset($_POST['anno_appendix']) && is_array($_POST['anno_appendix'])) {
 			foreach ($_POST['anno_appendix'] as $appendix) {
 				if (!empty($appendix)) {
-					$appendices[] = $appendix;
+					$appendices[] = addslashes(anno_validate_xml_content_on_save(stripslashes($appendix)));
 				}
 			}
 		}

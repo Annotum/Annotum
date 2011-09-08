@@ -51,6 +51,10 @@ class Anno_Template_Utils {
 		$attrs = array();
 		$arr = array_merge($arr1, $arr2);
 		foreach ($arr as $key => $value) {
+			if (!$value) {
+				continue;
+			}
+			
 			$attrs[] = esc_attr($key).'="'.esc_attr($value).'"';
 		}
 		return implode(' ', $attrs);
@@ -58,7 +62,21 @@ class Anno_Template_Utils {
 	
 	public function to_tag($tag, $text, $attr1 = array(), $attr2 = array()) {
 		$tag = esc_attr($tag);
-		return '<'.$tag.' '.$this->to_attr($attr1, $attr2).'>'.$text.'</'.$tag.'>';
+		$html_attrs = $this->to_attr($attr1, $attr2);
+		$html_attrs = ($html_attrs ? ' '.$html_attrs : '');
+		
+		// If text deliberately unset, self-closing
+		if ($text === null) {
+			return '<'.$tag.$html_attrs.'/>';
+		}
+		
+		// If no text (unintentional) don't output text
+		if (!$text) {
+			return '';
+		}
+		
+		// Output standard wrapping tag
+		return '<'.$tag.$html_attrs.'>'.$text.'</'.$tag.'>';
 	}
 	
 	/**

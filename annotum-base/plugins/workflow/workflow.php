@@ -232,7 +232,7 @@ function anno_put_post_revision($rev_id) {
 	$current_user = wp_get_current_user();
 	$revision = get_post($rev_id);
 	$post = get_post($post_parent);
-	if ($post->post_type == 'article') {
+	if (!empty($post) && $post->post_type == 'article') {
 		annowf_save_audit_item($post->ID, $current_user->ID, 1, array($revision->ID));
 	}
 }
@@ -361,7 +361,7 @@ function annowf_add_reviewer() {
 				$post = get_post($post_id);
 				annowf_send_notification('in_review', $post);
 			}
-			//TODO reload?
+			//TODO Save and reload?
 		}
 		
 		// If the reviewer is being re-added and has already left a review for this round
