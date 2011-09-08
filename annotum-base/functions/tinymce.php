@@ -79,7 +79,7 @@ function anno_admin_print_footer_scripts() {
 		
 		$formats_as_children = implode('|', $formats);
 		$valid_children = array(
-			'body[sec|p]',
+			'body[sec|p|media|list|disp-formula|disp-quote|fig|table-wrap|preformat]',
 			'copyright-statement['.$formats_as_children.']',
 			'license-p['.$formats_as_children.'|xref]',
 			'heading['.$formats_as_children.']',
@@ -119,7 +119,7 @@ function anno_admin_print_footer_scripts() {
 			'verify_html' => true,
 			'force_p_newlines' => false,
 			'force_br_newlines' => false,
-// @TODO Define doctype
+// @TODO Define doctype (IE Compat?)
 //			'doctype' => '<!DOCTYPE article SYSTEM \"http://dtd.nlm.nih.gov/ncbi/kipling/kipling-jp3.dtd\">',
 			'doctype' => '<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Transitional//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd\">',
 		));
