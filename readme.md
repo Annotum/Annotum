@@ -83,3 +83,4 @@ Annotum has been developed to be easy to customize with [WordPress Child Themes]
 - Some of the expensive `template.php` tags use [transient caching](http://codex.wordpress.org/Transients_API) to make sure things are speedy. If you need to troubleshoot transient caching, you can set `Anno_Template::$use_caches` to `false`. Setting `CFCT_DEBUG` to `true` will also disable the transient caches.
 
 ---
+ 
