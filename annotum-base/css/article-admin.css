@@ -288,6 +288,14 @@ table#anno-references table td table td {
 	width: 130px;
 	margin: 10px 10px 0 0;
 }
+#anno-popup-images-inside fieldset.img-sizes {
+	text-align: center;
+}
+#anno-popup-images-inside fieldset.img-sizes label {
+	display: inline;
+	margin: 0 15px;
+}
+
 #anno-popup-quote fieldset label,
 #anno-popup-images-inside fieldset label {
 	display: block;

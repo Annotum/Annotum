@@ -45,6 +45,7 @@ add_action('after_setup_theme', 'anno_register_post_types');
  * Request handler for post types (article)
  */ 
 function anno_post_type_requst_handler() {
+	// Converts Article to Post post type
 	if (isset($_POST['anno_convert'])) {
 		if(!wp_verify_nonce($_POST['anno_convert_nonce'], 'anno_convert')) {
 			wp_die(_x('Unable to perform that ability', 'wp_die error message', 'anno'));

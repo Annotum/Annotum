@@ -101,7 +101,6 @@ function anno_popup_images() {
 
 function anno_popup_images_row_edit($attachment) {
 		$img_url = wp_get_attachment_image_src($attachment->ID, 'anno_img_edit');
-
 		
 		$description = $attachment->post_content;
 		$caption = $attachment->post_excerpt;
@@ -207,7 +206,6 @@ function anno_popup_images_row_edit($attachment) {
 						</div>
 						<input type="hidden" name="action" value="anno-img-save" />
 						<input type="hidden" name="attachment_id" value="<?php echo esc_attr($attachment->ID); ?>" />
-						<input type="hidden" id="<?php echo esc_attr('img-url-'.$attachment->ID); ?>" name="url" value="<?php echo esc_attr($img_url_full[0]); ?>" />
 					</form>
 				</td>
 			</tr>

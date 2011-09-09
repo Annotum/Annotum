@@ -134,9 +134,9 @@ function anno_admin_print_footer_scripts() {
 	<?php
 	// Loop over each appendix and initialize tinyMCE on each one as well
 	foreach ($appendices as $key => $value) {
-		?>
+	?>
 		tinyMCE.execCommand('mceAddControl', false, 'appendix-<?php echo $key; ?>');
-		<?php
+	<?php
 	}
 	?>
 	function annoActiveEditor(selector) {
@@ -561,6 +561,7 @@ function anno_tinymce_reference_save() {
 		$success = false;
 	}
 	
+	// @TODO re-evaluate
 	if (!isset($_POST['ref_id'])) {
 		$response['message'][] = _x('Could not evaluate Reference ID please try again.', 'error message', 'anno');
 		$success = false;
@@ -1059,7 +1060,6 @@ add_action('anno_xml_to_html', 'anno_xml_to_html_replace_inline_graphics');
  */
 function anno_xml_to_html_replace_figures($orig_xml) {
 	$tpl = new Anno_Template_Utils();
-	error_log(print_r($_POST,1));
 	$figs = pq('fig');
 	
 	$count = 0;
