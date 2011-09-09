@@ -107,19 +107,28 @@ function cfct_content() {
  *  
 **/
 function cfct_content_feed($content) {
-	if (is_feed() && !get_option('rss_use_excerpt')) {
+	if (is_feed()) {
 // find template
 		$file = cfct_choose_content_template_feed();
 		if ($file) {
 // load template
-			ob_start();
-			cfct_template_file('content', $file);
-			$content = ob_get_clean();
+			$content = cfct_template_content('content', $file);
 		}
 	}
+	$content = str_replace(']]>', ']]&gt;', $content);
 	return $content;
 }
-add_filter('the_content', 'cfct_content_feed');
+add_filter('the_content_feed', 'cfct_content_feed');
+
+/**
+ * Output feed content without infinite loop
+ *  
+**/
+function cfct_the_content_feed() {
+	remove_filter('the_content_feed', 'cfct_content_feed');
+	the_content_feed('rss2');
+	add_filter('the_content_feed', 'cfct_content_feed');
+}	
 
 /**
  * Includes the appropriate template file for the excerpt
@@ -135,19 +144,27 @@ function cfct_excerpt() {
  *  
 **/
 function cfct_excerpt_feed($content) {
-	if (is_feed() && get_option('rss_use_excerpt')) {
+	if (is_feed()) {
 // find template
 		$file = cfct_choose_content_template_feed('excerpt');
 		if ($file) {
 // load template
-			ob_start();
-			cfct_template_file('excerpt', $file);
-			$content = ob_get_clean();
+			$content = cfct_template_content('excerpt', $file);
 		}
 	}
 	return $content;
 }
 add_filter('the_excerpt_rss', 'cfct_excerpt_feed');
+
+/**
+ * Output feed content without infinite loop
+ *  
+**/
+function cfct_the_excerpt_feed() {
+	remove_filter('the_excerpt_rss', 'cfct_excerpt_feed');
+	the_excerpt_rss();
+	add_filter('the_excerpt_rss', 'cfct_excerpt_feed');
+}
 
 /**
  * Includes the appropriate template file for comments

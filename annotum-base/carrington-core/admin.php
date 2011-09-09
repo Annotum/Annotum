@@ -239,6 +239,9 @@ function cfct_options_input($args) {
 		case 'text':
 			$html .= '<input id="'.esc_attr($id).'" name="'.esc_attr($name).'" type="text" value="'.esc_attr($value).'"'.$class.' />';
 			break;
+		case 'password':
+			$html .= '<input id="'.esc_attr($id).'" name="'.esc_attr($name).'" type="password" value="'.esc_attr($value).'"'.$class.' />';
+			break;
 		case 'textarea':
 			empty($args['cols']) ? $cols = 60 : $cols = (int) $args['cols'];
 			empty($args['rows']) ? $rows = 5 : $rows = (int) $args['rows'];
