@@ -173,6 +173,20 @@ body .ui-widget-overlay {
 	padding: 0px;
 }
 
+div.popup-error {
+	background-color: #FFEBE8;
+	border-color: #C00;
+	margin: 10px 0 10px 8px;
+	border-width: 1px;
+	border-style: solid;
+	padding: 5px 12px;
+	-moz-border-radius: 3px;
+	-khtml-border-radius: 3px;
+	-webkit-border-radius: 3px;
+	border-radius: 3px;
+	display: none;
+	font-weight: bold;
+}
 
 /** Insert Custom Character
  -------------------------------------------------- */
@@ -219,6 +233,13 @@ table#anno-references table td table td {
 	padding: 0px;
 	border-bottom: 1px solid #444444;
 }
+#anno-references input[type="button"]:disabled,
+#anno-references input[type="button"]:disabled:hover {
+	background-color: #EEE;
+	border-color: #BBB;
+	color: #464646;
+}
+
 
 /** TinyMCE Images Popup
  -------------------------------------------------- */

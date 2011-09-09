@@ -41,12 +41,13 @@ jQuery(document).ready( function($) {
 	$('.reference-actions .delete').live('click', function() {
 		var ref_id = $(this).attr('id').replace('reference-action-delete-', '');
 		var post_data = {ref_id : ref_id, post_id : ANNO_POST_ID, action : 'anno-reference-delete'};
+		post_data['_ajax_nonce-delete-reference'] = $(this).siblings('#_ajax_nonce-delete-reference').val();
 		$.post(ajaxurl, post_data, function(data) {
 			if (data) {
 				$('#reference-' + ref_id).fadeOut('400', function(){
 					$(this).remove();
 				});
-				// Update all our reference keys
+				// @TODO Update all our reference keys
 			}
 		}, 'json');
 		return false;
@@ -77,23 +78,28 @@ jQuery(document).ready( function($) {
 	});
 	
 	$('#anno-popup-references form').submit(function() {
-		var form = $(this)
+		var form = $(this);
+		var ref_id = $('input[name="ref_id"]', this).val();
+		var error_div = $('#lookup-error-' + ref_id);
+		error_div.hide().html('');
 		$.post(ajaxurl, $(this).serialize(), function(data) {
-		//	var message_container = $('#popup-message-' + data.type + '-' + data.ref_id);
-			if (data.code == 'success') {
+			if (data.message == 'success') {
+				// Insert new reference.
 				if ($('#reference-' + data.ref_id).length == 0) {
-					$('#reference-edit-new').before(data.ref_markup);
+					$('#reference-edit-new').before(data.markup);
 					form.slideUp();
+					// Reset the new reference form
 					form[0].reset();
 				}
+				// Otherwise, just slide up, replace old text with new, saved text
 				else {
-					$('#reference-' + data.ref_id + ' .reference-text').html(data.text);
 					form.slideUp();
+					$('label[for="reference-checkbox-' + data.ref_id + '"]').html(data.ref_text);
 				}
 			}
 			else {
-				$(message_container).html('').removeClass('success').addclass('error').html(data.message);
-			}			
+				error_div.show().html(data.text);
+			}
 		}, 'json');
 		return false;
 	});
@@ -108,14 +114,14 @@ jQuery(document).ready( function($) {
 		var siblings = $(this).siblings('.ajax-loading');
 		
 		siblings.css('visibility', 'visible');
-		error_div.html('');
+		error_div.hide().html('');
 		$.post(ajaxurl, data, function(d) {
 			siblings.css('visibility', 'hidden');
 			if (d.message == 'success') {
 				$('#text-' + ref_id).val(d.text);
 			}
 			else {
-				error_div.html(d.text);
+				error_div.html(d.text).show();
 			}
 		}, 'json');
 	});
@@ -131,14 +137,14 @@ jQuery(document).ready( function($) {
 		var siblings = $(this).siblings('.ajax-loading');
 		siblings.css('visibility', 'visible');
 		
-		error_div.html('');
+		error_div.html('').hide();
 		$.post(ajaxurl, data, function(d) {
 			siblings.css('visibility', 'hidden');
 			if (d.message == 'success') {
 				$('#text-' + ref_id).val(d.text);
 			}
 			else {
-				error_div.html(d.text);
+				error_div.html(d.text).show();
 			}
 		}, 'json');
 	});

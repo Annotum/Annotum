@@ -312,8 +312,9 @@ function anno_popup_references_row_display($reference_key, $reference) {
 			</label>
 		</td>
 		<td class="reference-actions">
-			<a href="#" id="<?php echo esc_attr('reference-action-edit-'.$reference_key); ?>" class="edit">Edit</a>
-			<a href="#" id="<?php echo esc_attr('reference-action-delete-'.$reference_key); ?>" class="delete">Delete</a>
+			<a href="#" id="<?php echo esc_attr('reference-action-edit-'.$reference_key); ?>" class="edit"><?php _ex('Edit', 'reference action', 'anno'); ?></a>
+			<a href="#" id="<?php echo esc_attr('reference-action-delete-'.$reference_key); ?>" class="delete"><?php _ex('Delete', 'reference action', 'anno'); ?></a>
+			<?php  wp_nonce_field('anno_delete_reference', '_ajax_nonce-delete-reference'); ?>
 		</td>
 	</tr>
 	</table>
@@ -322,20 +323,30 @@ function anno_popup_references_row_display($reference_key, $reference) {
 
 /**
  * Row edit markup for references display in the popup Dialog for tinyMCE.
+ * 
+ * @param int $reference_key Key of the reference
+ * @param array $reference Array of reference data
+ * @param int $post_id ID of the post
+ * @param bool $doi_enabled Determines if the DOI lookup should be enabled. Passed as parameter to prevent lookup on every row display
+ * 
+ * @return void
  */
-function anno_popup_references_row_edit($reference_key, $reference, $post_id) {
+function anno_popup_references_row_edit($reference_key, $reference, $post_id, $doi_enabled = false) {
 ?>
 	<table id="<?php echo esc_attr('reference-edit-'.$reference_key); ?>">
 		<tr>
 			<td class="anno-references-edit-td" colspan="3">
 				<div id="<?php echo esc_attr('#popup-message-reference-'.$reference_key); ?>"></div>
 					<form id="<?php echo esc_attr('reference-form-'.$reference_key); ?>" class="anno-reference-edit">
-						<div id="<?php echo esc_attr('lookup-error-'.$reference_key); ?>"></div>
+						<div id="<?php echo esc_attr('lookup-error-'.$reference_key); ?>" class="popup-error"></div>
 						<label>
+						<?php
+							$doi_value = $doi_enabled ? esc_attr($reference['doi']) : _x('CrossRef Credentials Required', 'disabled DOI lookup message', 'anno');
+						?>
 							<span><?php _ex('CrossRef DOI', 'input label for DOI lookup', 'anno'); ?></span>
-							<input type="text" class="short" name="doi" id="<?php echo esc_attr('doi-'.$reference_key); ?>" value="<?php echo esc_attr($reference['doi']) ?>" />
-							<input type="button" name="import_doi" id="<?php echo esc_attr('doi-import-'.$reference_key); ?>" value="<?php _ex('Import', 'button label', 'anno'); ?>">
-							<img src="<?php echo esc_url( admin_url( 'images/wpspin_light.gif' ) ); ?>" class="ajax-loading" />
+							<input type="text" class="short" name="doi" id="<?php echo esc_attr('doi-'.$reference_key); ?>" value="<?php echo $doi_value; ?>"<?php disabled($doi_enabled, false, true); ?>/>
+							<input type="button" name="import_doi" id="<?php echo esc_attr('doi-import-'.$reference_key); ?>" value="<?php _ex('Import', 'button label', 'anno'); ?>"<?php disabled($doi_enabled, false, true); ?>>
+							<img src="<?php echo esc_url(admin_url('images/wpspin_light.gif' )); ?>" class="ajax-loading" />
 							<?php wp_nonce_field('anno_import_doi', '_ajax_nonce-import-doi', false); ?>
 						</label>
 						<label>
@@ -367,11 +378,12 @@ function anno_popup_references_row_edit($reference_key, $reference, $post_id) {
 							<?php //TODO Nonce for save ?>
 							<a href="#" id="<?php echo esc_attr('reference-action-save-'.$reference_key); ?>" class="save left">Save</a>
 							<a href="#" id="<?php echo esc_attr('reference-action-cancel-'.$reference_key); ?>" class="cancel right">Cancel</a>
+							<input type="hidden" name="ref_id" value="<?php echo esc_attr($reference_key); ?>" />
+							<input type="hidden" name="post_id" value="<?php echo esc_attr($post_id); ?>" />
+							<input type="hidden" name="action" value="anno-reference-save" />
+							<?php wp_nonce_field('anno_save_reference', '_ajax_nonce-save-reference'); ?>
 						</div>
 						<div class="clearfix"></div>
-						<input type="hidden" name="ref_id" value="<?php echo esc_attr($reference_key); ?>" />
-						<input type="hidden" name="post_id" value="<?php echo esc_attr($post_id); ?>" />
-						<input type="hidden" name="action" value="anno-reference-save" />
 					</form>
 				</div>
 			</td>
@@ -380,16 +392,22 @@ function anno_popup_references_row_edit($reference_key, $reference, $post_id) {
 <?php 
 }
 
-
 /**
  * Row markup for references display in the popup Dialog for tinyMCE.
+ *
+ * @param int $reference_key Key of the reference
+ * @param array $reference Array of reference data
+ * @param int $post_id ID of the post
+ * @param bool $doi_enabled Determines if the DOI lookup should be enabled. Passed as parameter to prevent lookup on every row display
+ * 
+ * @return void
  */
-function anno_popup_reference_row($reference_key, $reference, $post_id) {
+function anno_popup_reference_row($reference_key, $reference, $post_id, $doi_enabled = false) {
 ?>
 	<tr id="<?php echo esc_attr('reference-'.$reference_key); ?>">
 		<td colspan="3">
 			<?php anno_popup_references_row_display($reference_key, $reference); ?>
-			<?php anno_popup_references_row_edit($reference_key, $reference, $post_id); ?>
+			<?php anno_popup_references_row_edit($reference_key, $reference, $post_id, $doi_enabled); ?>
 		</td>
 	</tr>
 <?php
@@ -417,6 +435,7 @@ function anno_popup_references() {
 				<tbody>
 <?php
 	if (!empty($references) && is_array($references)) {
+		$doi_enabled = anno_doi_lookup_enabled();
 		foreach ($references as $reference_key => $reference) {
 			//prevent undefined index errors;
 			$reference_keys = array('text', 'doi', 'pmcid', 'url', 'figures');
@@ -424,13 +443,13 @@ function anno_popup_references() {
 				$reference[$key_val] = isset($reference[$key_val]) ? $reference[$key_val] : '';
 			}
 			
-			anno_popup_reference_row($reference_key, $reference, $post->ID);
+			anno_popup_reference_row($reference_key, $reference, $post->ID, $doi_enabled);
 		}
 	}
 ?>
 					<tr id="<?php echo esc_attr('reference-new'); ?>">
 						<td colspan="3">
-							<?php anno_popup_references_row_edit('new', array('text' => '', 'doi' => '', 'pmcid' => '', 'url' => '', 'figures' => ''), $post->ID); ?>
+							<?php anno_popup_references_row_edit('new', array('text' => '', 'doi' => '', 'pmcid' => '', 'url' => '', 'figures' => ''), $post->ID, $doi_enabled); ?>
 						</td>
 					<tr>
 						<td colspan="3" class="anno-mce-popup-footer">
@@ -546,48 +565,53 @@ add_action('after_wp_tiny_mce', 'anno_preload_dialogs', 10, 1 );
  * Ajax Handler for creating/updating references
  */ 
 function anno_tinymce_reference_save() {
+	check_ajax_referer('anno_save_reference', '_ajax_nonce-save-reference');
 
 	$success = true;
 	$response = array();
 	$messages = array();
 	
 	if (!isset($_POST['post_id'])) {
-		$messages[] = _x('Could not evaluate Article ID please try again.', 'error message', 'anno');
+		$message = _x('Could not evaluate Article ID please try again.', 'error message', 'anno');
 		$success = false;
 	}
-	
-	if (!isset($_POST['text'])) {
-		$messages[] = _x('Text cannot be blank.', 'error message', 'anno');
+	else if (empty($_POST['text'])) {
+		$message = _x('Text cannot be blank.', 'error message', 'anno');
 		$success = false;
 	}
-	
-	// @TODO re-evaluate
-	if (!isset($_POST['ref_id'])) {
-		$response['message'][] = _x('Could not evaluate Reference ID please try again.', 'error message', 'anno');
+	else if (!isset($_POST['ref_id'])) {
+		$message = _x('Could not evaluate Reference ID please try again.', 'error message', 'anno');
 		$success = false;
 	}
 	
 	if ($success) {
 		$reference = anno_insert_reference($_POST);
-		$response['ref_id'] = $reference['ref_id'];
-		ob_start();
-			anno_popup_reference_row($reference['ref_id'], $reference, $_POST['post_id']);
-			$response['ref_markup'] = ob_get_contents();
-		ob_end_clean();
-		$response['text'] = $reference['text'];
-		$messages[] =  _x('Reference Saved.', 'success message', 'anno');
+		if (!$reference) {
+			$success = false;
+			$message = _x('Could not save reference, please try again.', 'error message', 'anno');
+		}
+		else {
+			$response['ref_id'] = $reference['ref_id'];
+			ob_start();
+				$doi_enabled = anno_doi_lookup_enabled();
+				anno_popup_reference_row($reference['ref_id'], $reference, $_POST['post_id'], $doi_enabled);
+				$response['markup'] = ob_get_contents();
+			ob_end_clean();
+			$response['ref_text'] = ($response['ref_id'] + 1).'. '.$reference['text'];
+			$message =  _x('Reference Saved.', 'success message', 'anno');
+		}
 	}
 	
-	$response['code'] = $success ? 'success' : 'error';
-	$response['message'] = implode($messages, '<br />');
-
-	
+	$response['message'] = $success ? 'success' : 'error';
+	$response['text'] = $message;
+		
 	echo json_encode($response);
 	die();
 }
 add_action('wp_ajax_anno-reference-save', 'anno_tinymce_reference_save');
 
 function anno_tinymce_reference_delete() {
+	check_ajax_referer('anno_delete_reference', '_ajax_nonce-delete-reference');
 	echo json_encode(anno_delete_reference($_POST['post_id'], $_POST['ref_id']));
 	die();
 }
@@ -606,11 +630,11 @@ function anno_insert_reference($ref_array) {
 	}
 		
 	$ref_args = array(
-		'doi' => $ref_array['doi'],
-		'pmcid' => $ref_array['pmcid'],
-		'text' => $ref_array['text'],
-		'figures' => $ref_array['figures'],
-		'url' => $ref_array['url'],
+		'doi' => isset($ref_array['doi']) ? $ref_array['doi'] : '',
+		'pmcid' => isset($ref_array['pmcid']) ? $ref_array['pmcid'] : '',
+		'text' => isset($ref_array['text']) ? $ref_array['text'] : '',
+		'figures' => isset($ref_array['figures']) ? $ref_array['figures'] : '',
+		'url' => isset($ref_array['url']) ? $ref_array['url'] : '',
 	);
 	
 	$references = get_post_meta(absint($ref_array['post_id']), '_anno_references', true);
@@ -628,7 +652,7 @@ function anno_insert_reference($ref_array) {
 	else {
 		return false;
 	}
-	// TODO Reset our array keys in case any have become offset account for in post_content
+	// @TODO Reset our array keys in case any have become offset account for in post_content
 	update_post_meta(absint($ref_array['post_id']), '_anno_references', $references);
 	
 	return $ref_args;
@@ -638,7 +662,7 @@ function anno_delete_reference($post_id, $ref_id) {
 	$references = get_post_meta($post_id, '_anno_references', true);
 	if (array_key_exists($ref_id, $references)) {
 		unset($references[$ref_id]);
-		// TODO Reset our array keys in case any have become offset account for in post_content
+		// @TODO Reset our array keys in case any have become offset account for in post_content
 		update_post_meta($post_id, '_anno_references', $references);
 		return true;
 	} 
@@ -1591,5 +1615,16 @@ function anno_to_xml_list_item_p($xml) {
 	}
 }
 add_action('anno_to_xml', 'anno_to_xml_list_item_p');
+
+/**
+ * Determines whether or not a DOI lookup is feasible with the credentials given
+ * 
+ * @return bool
+ */ 
+function anno_doi_lookup_enabled() {
+	// A login (optional password) is required for DOI lookup.
+	$crossref_login = cfct_get_option('crossref_login');
+	return !empty($crossref_login);
+}
 
 ?>

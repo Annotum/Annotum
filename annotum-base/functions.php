@@ -201,7 +201,6 @@ function anno_post_class($classes, $class) {
 }
 add_filter('post_class', 'anno_post_class', 10, 2);
 
-
 function anno_post_category_list($separator) {
 	$html = '';
 	
@@ -383,6 +382,21 @@ function anno_settings($settings) {
 					'label' => _x('Publisher ISSN', 'options label', 'anno'),
 					'name' => 'publisher_issn',
 					'type' => 'text',
+				),
+			),
+		),
+		'anno_crossref' => array(
+			'label' =>  _x('CrossRef Credentials', 'options heading', 'anno'),
+			'fields' => array(
+				'crossref_login' => array(
+					'label' => _x('Login', 'options label', 'anno'),
+					'name' => 'crossref_login',
+					'type' => 'text',
+				),
+				'crossref_pass' => array(
+					'label' => _x('Password', 'options label', 'anno'),
+					'name' => 'crossref_pass',
+					'type' => 'password',
 				),
 			),
 		),
