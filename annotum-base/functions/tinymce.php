@@ -533,10 +533,8 @@ function anno_popup_tips() {
 ?>
 <div id="anno-popup-tips" class="anno-mce-popup">
 		<dl>
-			<dt>Tip Title</dt>
-			<dd>Description for tip...</dd>
-			<dt>Lorem Ipsum Dolor</dt>
-			<dd>Etiam scelerisque, nunc ac egestas consequat, odio nibh euismod nulla, eget auctor orci.</dd>
+			<dt>Use Ctrl+Enter</dt>
+			<dd>To insert new sections (when within a section) or add new paragraphs when inside elements like a table, or figure caption.</dd>
 		</dl>
 </div>
 	
