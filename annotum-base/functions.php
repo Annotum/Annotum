@@ -358,6 +358,11 @@ function anno_settings($settings) {
 					'name' => 'journal_name',
 					'type' => 'text',
 				),
+				'journal_abbr' => array(
+					'label' => _x('Journal Abbreviation', 'options label', 'anno'),
+					'name' => 'journal_abbr',
+					'type' => 'text',
+				),
 				'journal_id' => array(
 					'label' => _x('Journal ID', 'options label', 'anno'),
 					'name' => 'journal_id',
@@ -366,6 +371,11 @@ function anno_settings($settings) {
 				'journal_id_type' => array(
 					'label' => _x('Journal ID Type', 'options label', 'anno'),
 					'name' => 'journal_id_type',
+					'type' => 'text',
+				),
+				'journal_issn' => array(
+					'label' => _x('Journal ISSN', 'options label', 'anno'),
+					'name' => 'journal_issn',
 					'type' => 'text',
 				),
 				'publisher_name' => array(
@@ -397,6 +407,11 @@ function anno_settings($settings) {
 					'label' => _x('Password', 'options label', 'anno'),
 					'name' => 'crossref_pass',
 					'type' => 'password',
+				),
+				'registrant_code' => array(
+					'label' => _x('Registrant Code', 'options label', 'anno'),
+					'name' => 'registrant_code',
+					'type' => 'text',
 				),
 			),
 		),

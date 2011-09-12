@@ -434,8 +434,8 @@ function anno_popup_references() {
 				</thead>
 				<tbody>
 <?php
+	$doi_enabled = anno_doi_lookup_enabled();
 	if (!empty($references) && is_array($references)) {
-		$doi_enabled = anno_doi_lookup_enabled();
 		foreach ($references as $reference_key => $reference) {
 			//prevent undefined index errors;
 			$reference_keys = array('text', 'doi', 'pmcid', 'url', 'figures');
