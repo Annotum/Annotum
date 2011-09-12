@@ -188,6 +188,23 @@ div.popup-error {
 	font-weight: bold;
 }
 
+/** Tips
+ -------------------------------------------------- */
+#anno-popup-tips {
+	padding: 10px;
+}
+#anno-popup-tips dt {
+	margin: 10px 0 0 0;
+	font-weight: bold;
+}
+#anno-popup-tips dt:first-child {
+	margin-top: 0;
+}
+#anno-popup-tips dd {
+	padding-left: 10px;
+	padding-right: 10px;
+}
+
 /** Insert Custom Character
  -------------------------------------------------- */
 
