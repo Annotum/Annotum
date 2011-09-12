@@ -19,6 +19,7 @@ function anno_admin_print_footer_scripts() {
 			'sub',
 			'monospace',
 			'underline',
+			'preformat',
 		);
 		
 		$extended_valid_elements = array_merge(array(
@@ -44,6 +45,8 @@ function anno_admin_print_footer_scripts() {
 			'list-item',
 			'cap',
 			'disp-quote',
+			'monospace',
+			'preformat',
 		), $formats);
 		
 		$custom_elements = array(
@@ -52,6 +55,7 @@ function anno_admin_print_footer_scripts() {
 			'~sup',
 			'~sub',
 			'~monospace',
+			'preformat',
 			'~underline',
 			'~ext-link',
 			'~xref',
@@ -78,7 +82,9 @@ function anno_admin_print_footer_scripts() {
 		);
 		
 		$formats_as_children = implode('|', $formats);
+		
 		$valid_children = array(
+			'preformat[]',
 			'body[sec|p|media|list|disp-formula|disp-quote|fig|table-wrap|preformat]',
 			'copyright-statement['.$formats_as_children.']',
 			'license-p['.$formats_as_children.'|xref]',
@@ -94,7 +100,7 @@ function anno_admin_print_footer_scripts() {
 			'cap[title|p|xref]',
 			'table-wrap[label|cap|table|table-wrap-foot|permissions]',
 			'table-wrap-foor[p]',
-			'p[media|img|permissions|license|list|list-item|disp-formula|disp-quote|fig|cap|table-wrap|table-wrap-foot|h2|xref|img]',
+			'p['.$formats_as_children.'|media|img|permissions|license|list|list-item|disp-formula|disp-quote|fig|cap|table-wrap|table-wrap-foot|h2|xref|img]',
 			'sec[sec|heading|media|img|permissions|license|list|list-item|disp-formula|disp-quote|fig|cap|table-wrap|table-wrap-foot|p|h2]',
 		);
 
@@ -108,9 +114,11 @@ function anno_admin_print_footer_scripts() {
 			'formats' => '{
 					bold : {\'inline\' : \'bold\'},
 					italic : { \'inline\' : \'italic\'},
+					monospace : { \'inline\' : \'monospace\'},
 					underline : { \'inline\' : \'underline\'},
 					sec : { \'inline\' : \'sec\', \'wrapper\' : \'false\' },
 					title : { \'block\' : \'heading\' },
+					preformat : { \'inline\' : \'preformat\' },
 				}',
 			'theme_advanced_blockformats' => 'Paragraph=p,Title=heading,Section=sec',
 			'forced_root_block' => '',
@@ -166,7 +174,7 @@ class Anno_tinyMCE {
 	
 	function mce_buttons_2($buttons) {
 		if ($this->is_article()) {
-			$buttons = array('formatselect', '|', 'table', 'row_before', 'row_after', 'delete_row', 'col_before', 'col_after', 'delete_col', 'split_cells', 'merge_cells', '|', 'pastetext', 'pasteword', 'annolist', '|', 'annoreferences', '|', 'annotips');
+			$buttons = array('formatselect', '|', 'table', 'row_before', 'row_after', 'delete_row', 'col_before', 'col_after', 'delete_col', 'split_cells', 'merge_cells', '|', 'pastetext', 'pasteword', 'annolist', '|', 'annoreferences', '|', 'annotips', '|', 'annomonospace', '|', 'annopreformat');
 		}
 		return $buttons;
 	}
@@ -193,6 +201,9 @@ class Anno_tinyMCE {
 			$plugins['annoParagraphs'] = trailingslashit(get_bloginfo('template_directory')).'js/tinymce/plugins/annoparagraphs/editor_plugin.js';
 	
 			$plugins['annoTips'] = trailingslashit(get_bloginfo('template_directory')).'js/tinymce/plugins/annotips/editor_plugin.js';
+			
+			$plugins['annoFormats'] = trailingslashit(get_bloginfo('template_directory')).'js/tinymce/plugins/annoformats/editor_plugin.js';
+			
 		}
 		return $plugins;
 	}

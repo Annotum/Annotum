@@ -1,9 +1,7 @@
 (function(){ 
     tinymce.create('tinymce.plugins.annoTips', {
  
-        init : function(ed, url){
-			var disabled = true;	
-	
+        init : function(ed, url){	
             ed.addCommand('Anno_Tips', function(){	
                	ed.windowManager.open({
 					id : 'anno-popup-tips',
