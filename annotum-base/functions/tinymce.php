@@ -203,8 +203,6 @@ class Anno_tinyMCE {
 			$plugins['annoTips'] = trailingslashit(get_bloginfo('template_directory')).'js/tinymce/plugins/annotips/editor_plugin.js';
 			
 			$plugins['annoFormats'] = trailingslashit(get_bloginfo('template_directory')).'js/tinymce/plugins/annoformats/editor_plugin.js';
-			
-			$plugins['fullscreen'] = trailingslashit(get_bloginfo('template_directory')).'js/tinymce/plugins/fullscreen/editor_plugin.js';
 						
 		}
 		return $plugins;
