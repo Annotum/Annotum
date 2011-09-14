@@ -167,14 +167,14 @@ class Anno_tinyMCE {
 	
 	function mce_buttons($buttons) {
 		if ($this->is_article()) {
-			$buttons = array('bold', 'italic', 'underline', '|', 'annoorderedlist', 'annobulletlist', '|', 'annoquote', '|', 'sup', 'sub', '|', 'charmap', '|', 'annolink', 'announlink', '|', 'annoimages', 'equation', '|', 'reference', '|', 'undo', 'redo', '|', 'wp_adv', 'help', 'annotable', );
+			$buttons = array('bold', 'italic', 'underline', '|', 'annoorderedlist', 'annobulletlist', '|', 'annoquote', '|', 'sup', 'sub', '|', 'charmap', '|', 'annolink', 'announlink', '|', 'annoimages', 'equation', '|', 'reference', '|', 'undo', 'redo', '|', 'wp_adv', '|', 'help', 'annotips', 'annotable', );
 		}
 		return $buttons;
 	}
 	
 	function mce_buttons_2($buttons) {
 		if ($this->is_article()) {
-			$buttons = array('formatselect', '|', 'table', 'row_before', 'row_after', 'delete_row', 'col_before', 'col_after', 'delete_col', 'split_cells', 'merge_cells', '|', 'pastetext', 'pasteword', 'annolist', '|', 'annoreferences', '|', 'annotips', '|', 'annomonospace', '|', 'annopreformat');
+			$buttons = array('formatselect', '|', 'table', 'row_before', 'row_after', 'delete_row', 'col_before', 'col_after', 'delete_col', 'split_cells', 'merge_cells', '|', 'pastetext', 'pasteword', 'annolist', '|', 'annoreferences', '|', 'annomonospace', 'annopreformat', 'fullscreen', 'fullpage');
 		}
 		return $buttons;
 	}
@@ -203,7 +203,7 @@ class Anno_tinyMCE {
 			$plugins['annoTips'] = trailingslashit(get_bloginfo('template_directory')).'js/tinymce/plugins/annotips/editor_plugin.js';
 			
 			$plugins['annoFormats'] = trailingslashit(get_bloginfo('template_directory')).'js/tinymce/plugins/annoformats/editor_plugin.js';
-			
+						
 		}
 		return $plugins;
 	}
@@ -532,8 +532,10 @@ function _anno_popup_submit_button($id, $value, $type = 'button') {
 function anno_popup_tips() {
 ?>
 <div id="anno-popup-tips" class="anno-mce-popup">
-	- Tip 1<br />
-	- Tip 2
+		<dl>
+			<dt>Use Ctrl+Enter</dt>
+			<dd>To insert new sections (when within a section) or add new paragraphs when inside elements like a table, or figure caption.</dd>
+		</dl>
 </div>
 	
 <?php

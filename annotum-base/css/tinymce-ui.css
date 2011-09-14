@@ -267,6 +267,7 @@ border:0; margin:0; padding:0; white-space:nowrap; text-decoration:none; font-we
 .wp_themeSkin span.mce_annoorderedlist,
 .wp_themeSkin span.mce_annoquote,
 .wp_themeSkin span.mce_annoreferences,
+.wp_themeSkin span.mce_annotips,
 
 .wp_themeSkin .mce_forecolorpicker,
 .wp_themeSkin .mceSplitButton .mce_spellchecker span.mce_spellchecker,
@@ -374,6 +375,10 @@ border:0; margin:0; padding:0; white-space:nowrap; text-decoration:none; font-we
 .wp_themeSkin span.mce_annoreferences {background-position:-560px -20px}
 .wp_themeSkin .mceButtonEnabled:hover span.mce_annoreferences,
 .wp_themeSkin .mceButtonActive span.mce_annoreferences {background-position:-560px 0}
+
+.wp_themeSkin span.mce_annotips {background-position:-580px -20px}
+.wp_themeSkin .mceButtonEnabled:hover span.mce_annotips,
+.wp_themeSkin .mceButtonActive span.mce_annotips {background-position:-580px 0}
 
 .wp_themeSkin span.mce_charmap {background-position:-420px -20px}
 .wp_themeSkin .mceButtonEnabled:hover span.mce_charmap,
