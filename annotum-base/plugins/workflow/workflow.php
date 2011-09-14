@@ -253,7 +253,7 @@ function annowf_create_user_meta_markup($type) {
 		</label>
 	
 		<?php wp_nonce_field('anno_create_user', '_ajax_nonce-create-user', false); ?>
-		<input type="button" class="button" data-type="<?php echo esc_attr($type); ?>" value="<?php _ex('Create User', 'button label', 'anno'); ?>" />
+		<input type="button" class="button anno-create-user" data-type="<?php echo esc_attr($type); ?>" value="<?php _ex('Create User', 'button label', 'anno'); ?>" />
 		
 		<p>
 		 	<?php _ex('or <a href="#" class="'.esc_attr('anno-show-search-'.$type).'">search for an existing user</a>', 'search for user link', 'anno'); ?>
