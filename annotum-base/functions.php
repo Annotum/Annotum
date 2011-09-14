@@ -666,4 +666,83 @@ function anno_get_post_id() {
 	return intval($post_id);
 }
 
+/**
+ * Returns a user's display. First Name Last Name if either exist, otherwise just their login name.
+ *
+ * @param int|stdObj $user WP user object, or user ID
+ * @return string A string displaying a users name.
+ */
+function anno_user_display($user) {
+	if (is_numeric($user)) {
+		$user = get_userdata(intval($user));
+	}
+	
+	if (!empty($user->first_name) || !empty($user->last_name)) {
+		$display = $user->first_name.' '.$user->last_name;
+	}
+	else {
+		$display = $user->user_login;
+	}
+	return trim($display);
+}
+
+/**
+ * Returns a user's email given their user object.
+ *
+ * @param stdObj $user WP user object
+ * @return string The email of the given user
+ */
+function anno_user_email($user) {
+	if (is_numeric($user)) {
+		$user = get_userdata(intval($user));
+	}
+	return $user->user_email;
+}
+
+/**
+ * Creates a new user, and sends that user an email. Returns a WP Error if the user was unable to be created.
+ * 
+ * @param string $username Username to create
+ * @param string $email Email of user to create
+ * @return int|WP_Error ID of new user, or, WP_Error 
+ */ 
+function anno_invite_contributor($user_login, $user_email) {	
+	if (!current_user_can('create_users')) {
+		wp_die(__('Cheatin&#8217; uh?'));
+	}
+	
+	if (!anno_is_valid_email($email)) {
+		return new WP_Error('invalid_email', _x('Invalid Email', 'error for creating new user', 'anno'));
+	}
+		
+	// Create User
+	$user_pass = wp_generate_password();	
+	$user_login = esc_sql($user_login);
+	$user_email = esc_sql($user_email);
+	$role = 'contributor';
+	$userdata = compat('user_login', 'user_pass', 'user_email', 'role');
+	
+	$user_id = wp_insert_user($userdata);
+
+	$from_user = get_current_user();
+	$blogname = get_bloginfo('name');
+	
+	// Send notifiction with PW, Username.	
+	if (!is_wp_error($user_id)) {
+		$subject = sprintf(_x('You have been invited to join %s', 'email subject %s represents blogname', 'anno'), $blogname);
+		$message =  sprintf(_x(
+'%s has created a user with your email address for %s.
+Please us the following credentials to login and change your password:
+
+Username: %s
+Password: %s
+%s', 'User creation email body. %s mapping: User who created this new user, blogname, username, password, profile url.', 'anno'),
+		anno_user_display($from_user), $blogname, $user_login, $user_pass, esc_url(admin_url('profile.php')));
+		
+		@wp_mail($user_login, $subject, $message);
+	}
+
+	return $user_id;
+}
+
 ?>

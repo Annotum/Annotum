@@ -124,10 +124,10 @@
 			so = dir ? s.anchorOffset : s.focusOffset;
 			en = dir ? s.focusNode : s.anchorNode;
 			eo = dir ? s.focusOffset : s.anchorOffset;
-			
 
 			// If selection is in empty table cell
 			if (sn === en && /^(TD|TH|CAP)$/.test(sn.nodeName)) {
+										alert('test');
 				if (sn.firstChild && sn.firstChild.nodeName == 'BR')
 					dom.remove(sn.firstChild); // Remove BR
 

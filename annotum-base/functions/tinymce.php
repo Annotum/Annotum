@@ -99,8 +99,8 @@ function anno_admin_print_footer_scripts() {
 			'fig[label|cap|media|img]',
 			'cap[title|p|xref]',
 			'table-wrap[label|cap|table|table-wrap-foot|permissions]',
-			'table-wrap-foor[p]',
-			'p['.$formats_as_children.'|media|img|permissions|license|list|list-item|disp-formula|disp-quote|fig|cap|table-wrap|table-wrap-foot|h2|xref|img]',
+			'table-wrap-foot[p]',
+			'p['.$formats_as_children.'|media|img|permissions|license|list|list-item|disp-formula|disp-quote|fig|cap|table-wrap|table-wrap-foot|table|h2|xref|img]',
 			'sec[sec|heading|media|img|permissions|license|list|list-item|disp-formula|disp-quote|fig|cap|table-wrap|table-wrap-foot|p|h2]',
 		);
 

@@ -114,5 +114,38 @@ jQuery(document).ready( function($) {
 		return false;
 	});
 	
+	$('.anno-create-user').live('click', function() {
+		
+		// Type, reviewer or co-author
+		var type = $(this).attr('data-type').val();
+		var div_selector = 'div#anno-invite-' + type;
+		var user_login = $(div_selector + ' input[name="invite_user"]').val();
+		var user_email = $(div_selector + ' input[name="invite_email"]').val();
+		var data = {user_login : user_login, user_email : user_email};
+		post_data['_ajax_nonce-create-user-' + type] = $('div#_ajax_nonce-create-user').val();
+		
+		$.post(ajaxurl, post_data, function(d) {
+			if (d.code == 'success') {
+				//@TODO hide this div, show search div. Confirmation.
+			}
+			else {
+				//@TODO Error
+			}						
+		}, 'json');
+		return false; 	
+	});
+	
+	$('.anno-show-search-co_author').live('click', function() {
+		$('#user-input-co_author').show();
+		$('#anno-invite-co_author').hide();
+		return false;
+	});
+	
+	
+	$('.anno-show-create-co_author').live('click', function() {
+		$('#user-input-co_author').hide();
+		$('#anno-invite-co_author').show();
+		return false;
+	});
 });
 

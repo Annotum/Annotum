@@ -87,15 +87,15 @@ function annowf_notification_message($type, $post, $comment, $single_user = null
 	$footer = get_option('blogname').' '.home_url();
 	
 	$author = get_userdata($post->post_author);
-	$author = annowf_user_display($author);
+	$author = anno_user_display($author);
 	
 	if (!empty($single_user)) {
-		$single_user = annowf_user_display($single_user);
+		$single_user = anno_user_display($single_user);
 	}
 
 //TODO Ordering
 	$authors = anno_get_authors($post_id);
-	$author_names = array_map('annowf_user_display', $authors);
+	$author_names = array_map('anno_user_display', $authors);
 
 	$edit_link = get_edit_post_link($post->ID, null);
 	$title = $post->post_title;
@@ -237,7 +237,7 @@ Excerpt: %s
 			break;
 	}
 	if (!empty($comment)) {
-		$comment_author = annowf_user_display($comment->user_id);
+		$comment_author = anno_user_display($comment->user_id);
 		$comment_edit_link =  get_edit_post_link($comment->comment_post_ID, null).'#comment-'.$comment->comment_ID;
 		switch ($type) {
 			case 'general_comment':

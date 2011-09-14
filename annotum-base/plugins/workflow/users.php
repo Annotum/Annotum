@@ -371,43 +371,11 @@ function annowf_get_role_emails($role, $post = null) {
 	}
 
 	if (!empty($users) && is_array($users)) {
-		 return array_map('annowf_user_email', $users);
+		 return array_map('anno_user_email', $users);
 	}
 	
 	return array();
 }
 
-/**
- * Returns a user's email given their user object.
- *
- * @param stdObj $user WP user object
- * @return string The email of the given user
- */
-function annowf_user_email($user) {
-	if (is_numeric($user)) {
-		$user = get_userdata(intval($user));
-	}
-	return $user->user_email;
-}
-
-/**
- * Returns a user's display. First Name Last Name if either exist, otherwise just their login name.
- *
- * @param int|stdObj $user WP user object, or user ID
- * @return string A string displaying a users name.
- */
-function annowf_user_display($user) {
-	if (is_numeric($user)) {
-		$user = get_userdata(intval($user));
-	}
-	
-	if (!empty($user->first_name) || !empty($user->last_name)) {
-		$display = $user->first_name.' '.$user->last_name;
-	}
-	else {
-		$display = $user->user_login;
-	}
-	return trim($display);
-}
 
 ?>

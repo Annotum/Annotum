@@ -58,7 +58,7 @@ function anno_reference_import_pubmed() {
 			$author_arr = array();
 			foreach ($authors as $author) {
 				$author = pq($author);
-				$author_arr[] = $author->text();
+				$author_arr[] = str_replace($author->text());
 			}
 			if (!empty($author_arr)) {
 				$text .= implode(', ', $author_arr).'. ';
@@ -270,7 +270,6 @@ function anno_reference_import_doi() {
 		// Neither resolved nor unresolved, throw generic error
 		else {
 		 	anno_reference_error_response();
-		
 		}
 	}
 
@@ -305,22 +304,200 @@ function anno_reference_error_response($message = null) {
  */ 
 function anno_reference_doi_process_author($author) {
 	$text = '';
-	// @TODO implement prefixes
+	//Last, First, Suffix
 	$last_name = pq('surname', $author)->text();
 	$first_name = pq('given_name', $author)->text();
-
+	$suffix = pq('suffix', $author)->text();
+		
 	if (!empty($last_name)) {
 		$text .= $last_name;
-		if (!empty($first_name)) {
-			$text .= ' ';
+		if (!empty($first_name) || !empty($suffix)) {
+			$text .= ', ';
 		}
 	}
 
 	if (!empty($first_name)) {
 		$text .= $first_name;
+		if (!empty($suffix)) {
+			$text .= ', ';
+		}
 	}
-
+	
+	if (!empty($suffix)) {
+		$text .= $suffix;
+	}
+	
 	return $text;
+}
+
+
+
+function anno_reference_doi_article_deposit($article, $doi_suffix) {
+	
+	$journal_title = cfct_get_option('journal_name');
+	$jouranl_issn = cfct_get_option('journal_issn');
+	$registrant_code = cfct_get_option('registrant_code');
+	
+	// Journal Required Fields
+	if (empty($journal_title) || empty($journal_issn) || empty($registrant_code)) {
+		// @TODO Throw error
+	}
+	
+	$article_year = date('Y', strtotime($article->post_date));
+
+	// Article Required Fields	
+	if (empty($article->title) || empty($article_year) || empty($doi_suffix)) {
+		// @TODO Throw error
+	}
+	
+	// Journal Required Fields:
+	// full_title, ISSN
+	// (rec) abbrev_title, doi_data, coden
+	// 
+	// Article
+	// titles, publication_date (year), doi_data
+	// (rec) contributors, publication_date (day, month), pages (first_page, last_page), citation_list
+	// 
+	// 
+	
+	// Journal Title
+	$journal_title_xml = '<full_title>'.$journal_title.'</full_title>';
+	
+	// Journal ISSN 
+	$journal_issn_xml = '<issn media_type="online">'.$journal_issn.'</issn>';
+	
+	// Journal abbr
+	if ($journal_title_abbr = cfct_get_option('journal_abbr')) {
+		$journal_title_abbr_xml = '<abbrev_title>'.$journal_title_abbr.'</abbrev_title>';
+	}
+	else {
+		$journal_title_abbr_xml = '';
+	}
+	
+	$authors = get_post_meta($article->ID, '_anno_author_snapshot', true);
+	if (is_array($authors) && !empty($authors)) {
+		$i = 0;
+		$author_xml = '';
+		foreach ($authors as $author) {
+			// First author is always the primary.
+			if ($i == 0) {
+				$sequence = 'first';
+			}
+			else {
+				$sequence = 'additional';
+			}
+			
+			$author_xml .= '<person_name sequence="'.$sequence.'" contributor_role="author">';
+			if (!empty($author['given_names'])) {
+				$author_xml .= '<given_name>'.esc_html($author['given_name']).'</given_name>';
+			}
+			if (!empty($author['surname'])) {
+				$author_xml .= '<surname>'.esc_html($author['given_name']).'</surname>';
+			}
+			if (!empty($author['suffix'])) {
+				$author_xml .= '<suffix>'.esc_html($author['suffix']).'</suffix>';
+			}
+			if (!empty($author['affiliation'])) {
+				$author_xml .= '<affiliation>'.esc_html($author['affiliation']).'</affiliation>';
+			}
+			$author_xml .= '</person_name>';
+			$i++;
+		}
+	}
+	else {
+		// @TODO throw error
+	}
+	
+	// @TODO DOI
+	$doi = '10.'.$registrant_code.'/'.$doi_suffix;
+	
+	$citation_xml = '';
+	if ($citation_xml = get_post_meta($article->ID, '_anno_references', true)) {
+		if (!empty($citations) && is_array($citation_xml)) {
+			foreach ($citations as $citation_key => $citation) {
+				if (isset($citation['text']) && !empty($citation['text'])) {
+					$citation_xml .= '<citation key="'.$doi.'-'.esc_html($citation_key).'">
+							<unstructured_citation>'.esc_html($citation_xml).'</unstructured_citation>
+						</<citation>';
+				}
+			}
+			// @TODO check other Element xml creation in a similar manner.
+			if (!empty($citation_xml)) {
+				$citation_xml = '<citation_list>'.$citation_xml.'</citation_list>';
+			}
+		}
+	}
+	
+	// Use old parameter based links, in case permalink structure is changed in the future
+	$permalink = home_url('?p=' . $article->ID);
+	
+
+	$xml = '
+<doi_batch xmlns="http://www.crossref.org/schema/4.3.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="4.3.0" xsi:schemaLocation="http://www.crossref.org/schema/4.3.0 http://www.crossref.org/schema/deposit/crossref4.3.0.xsd">
+	<head>
+		<timestamp>'.time().'</timestamp>'
+/*		<depositor>
+			<name>'.$TODO.'</name>
+			<email_address>'.$TODO.'</email_address>
+		</depositor>
+*/
+	.'</head>
+	<body>
+		<journal>
+			<journal_metadata language="en">
+				'.$journal_title_xml.'
+				'.$journal_title_abbr_xml.'
+				'.$journal_issn_xml.'
+			</journal_metadata>
+			<journal_article publication_type="full_text">
+				<titles>
+					<title>
+						'.esc_html($article->title).'
+					</title>
+				</titles>
+				<contributors>
+					'.$author_xml.'
+				</contributors>
+				<publication_date media_type="online">
+					<year>'.$article_year.'</year>
+				</publication_date>
+				
+				<doi_data>
+					<doi>'.$doi.'</doi>
+					<timestamp>'.strtotime($article->post_date).'</timestamp>
+					<resource>'.$permalink.'</resource>
+				</doi_data>
+				'.$citation_list.
+/*				<component_list>
+					<component parent_relation="isPartOf">
+						<description>
+							<b>Figure 1:</b>
+							This is the caption of the first figure...
+						</description>
+						<format mime_type="image/jpeg">Web resolution image</format>
+						<doi_data>
+							<doi>10.9876/S0003695199019014/f1</doi>
+							<resource>http://ojps.aip.org:18000/link/?apl/74/1/76/f1</resource>
+							</doi_data>
+					</component>
+					<component parent_relation="isReferencedBy">
+						<description>
+							<b>Video 1:</b>
+							This is a description of the video...
+						</description>
+						<format mime_type="video/mpeg"/>
+						<doi_data>
+							<doi>10.9876/S0003695199019014/video1</doi>
+							<resource>http://ojps.aip.org:18000/link/?apl/74/1/76/video1</resource>
+						</doi_data>
+					</component>
+				</component_list>
+*/
+		'</journal_article>
+	</journal>';
+
+	//@ TODO Deposti
+
 }
 
 ?>

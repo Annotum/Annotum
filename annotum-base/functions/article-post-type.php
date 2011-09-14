@@ -99,6 +99,7 @@ function anno_article_meta_boxes() {
 	
 	if (current_user_can('administrator')) {
 		add_meta_box('convert', _x('Convert To Post', 'Meta box title', 'anno'), 'anno_convert_meta_box', 'article', 'side', 'low');
+		add_meta_box('doi-deposit', _x('DOI Deposit', 'Meta box title', 'anno'), 'anno_deposit_doi_meta_box', 'article', 'side', 'low');
 	}
 }
 add_action('add_meta_boxes_article', 'anno_article_meta_boxes');
@@ -332,6 +333,30 @@ function anno_convert_meta_box($post) {
 	</p>
 	
 <?php
+}
+
+/**
+ * Markup for depositing 
+ */ 
+function anno_deposit_doi_meta_box($post) {
+	$crossref_login = cfct_get_option('crossref_login');
+	$crossref_password = cfct_get_option('crossref_password');
+	$crossref_registrant = cfct_get_option('crossref_registrant');
+	
+	
+	if (empty($crossref_login) || empty($crossref_password) || empty($crossref_registrant)) {
+		$deposit_enabled = false;
+		$deposit_value = _x('CrossRef Credentials Required', 'disabled DOI lookup message', 'anno');
+	}
+	else {
+		$deposit_enabled = true;
+		$deposit_value = '';
+	}
+?>
+	<input type="text" name="doi-deposit" class="meta-doi-input" value="<?php echo $deposit_value; ?>"<?php disabled($deposit_enabled, false, true); ?> />
+	<input type="button" value="<?php _ex('Deposit', 'doi deposit button label', 'anno'); ?>"<?php disabled($deposit_enabled, false, true); ?> />
+<?php
+	
 }
 
 ?>

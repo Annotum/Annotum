@@ -218,7 +218,7 @@ function annowf_transistion_state($post_id, $post, $post_before) {
 			annowf_add_user_to_post('author', $post_before->post_author, $post->ID);
 			annowf_remove_user_from_post('author', $post->post_author, $post->ID);
 			if (anno_workflow_enabled('notifications')) {
-				annowf_send_notification('primary_author', $post, null, array(annowf_user_email($post->post_author)));
+				annowf_send_notification('primary_author', $post, null, array(anno_user_email($post->post_author)));
 			}
 		}
 	}
@@ -227,6 +227,7 @@ add_action('post_updated', 'annowf_transistion_state', 10, 3);
 
 /**
  * Store revisions in the audit log.
+ * @todo review
  */
 function anno_put_post_revision($rev_id) {
 	$current_user = wp_get_current_user();
@@ -237,28 +238,70 @@ function anno_put_post_revision($rev_id) {
 	}
 }
 add_action('_wp_put_post_revision', 'anno_put_post_revision');
+
+function annowf_create_user_meta_markup($type) {
+?>
+<div id="<?php echo esc_attr('anno-invite-'.$type); ?>" class="hidden">
+		<label>
+			<?php _ex('Username', 'input label', 'anno'); ?>
+			<input type="text" name="invite_email" />
+		</label>
+
+		<label>
+			<?php _ex('Email', 'input label', 'anno'); ?>
+			<input type="text" />
+		</label>
+	
+		<?php wp_nonce_field('anno_create_user', '_ajax_nonce-create-user', false); ?>
+		<input type="button" class="button" data-type="<?php echo esc_attr($type); ?>" value="<?php _ex('Create User', 'button label', 'anno'); ?>" />
+		
+		<p>
+		 	<?php _ex('or <a href="#" class="'.esc_attr('anno-show-search-'.$type).'">search for an existing user</a>', 'search for user link', 'anno'); ?>
+		</p>
+	
+</div>
+<?php
+
+}
+
+/**
+ * Display base markup for user management meta boxes if type param is equal to co_author or reviewer
+ * @param string $type The type of user management being displayed
+ * @return void
+ */ 
+function annowf_user_management_meta_box_markup_start($type, $post) {
+	if (!in_array($type, array('co_author', 'reviewer'))) {
+		return;
+	}
+	else {
+		$type_plural = $type.'s';
+	}
+?>
+	<div id="<?php echo esc_attr($type.'-meta-box'); ?>">
+		<div id="<?php echo esc_attr($type.'-add-error'); ?>" class="anno-error hidden"></div>
+		<?php annowf_create_user_meta_markup($type); ?>
+		<?php if (anno_user_can('manage_'.$type_plural, null, $post->ID)) { ?>
+			<div id="<?php echo esc_attr('user-input-'.$type); ?>" class="user-input-wrap">
+				<input type="text" id="<?php echo esc_attr($type.'-input'); ?>" class="user-input" name="<?php echo esc_attr($type.'_input'); ?>" /> 
+				<input id="<?php echo esc_attr($type.'-add'); ?>" class="user-add button" type="button" value="add" />
+				<?php wp_nonce_field('anno_manage_'.$type, '_ajax_nonce-manage-'.$type, false); ?>
+				<p>
+				 	<?php _ex('or <a href="#" class="'.esc_attr('anno-show-create-'.$type).'">invite a new user</a>', 'invite user link', 'anno'); ?>
+				</p>
+			</div>			
+		<?php } ?>
+<?php
+}
+
 /**
  * Meta box for reviewer management and display
- * @todo Abstract to pass type to meta box markup for co-authors or reviewers
  */
 function annowf_reviewers_meta_box($post) {
-?>
-	<div id="reviewers-meta-box">
-		<div id="reviewer-add-error" class="anno-error"></div>
-<?php
-	$reviewers = anno_get_reviewers($post->ID);
-	if (anno_user_can('manage_reviewers', null, $post->ID)) {
-?>
-		<div class="user-input-wrap">
-			<input type="text" id="reviewer-input" class="user-input" name="reviewer_input" /> 
-			<input id="reviewer-add" class="user-add button" type="button" value="add" />
-			<?php wp_nonce_field('anno_manage_reviewer', '_ajax_nonce-manage-reviewer', false); ?>
-		</div>
-<?php
-	}
+	annowf_user_management_meta_box_markup_start('reviewer', $post);
 ?>
 		<ul id="reviewer-list" data-type="reviewer">
 <?php
+	$reviewers = anno_get_reviewers($post->ID);
 	foreach ($reviewers as $user_id) {
 		$user = get_userdata($user_id);
 		if ($user) {
@@ -267,7 +310,7 @@ function annowf_reviewers_meta_box($post) {
 		}
 ?>
 		</ul>
-	</div>
+	</div><!-- reviewer-meta-box -->
 <?php
 }
 
@@ -275,23 +318,11 @@ function annowf_reviewers_meta_box($post) {
  * Meta box for author management and display
  */
 function annowf_co_authors_meta_box($post) {
-?>
-	<div id="co-authors-meta-box">
-		<div id="co-author-add-error" class="anno-error"></div>
-<?php
-	$co_authors = anno_get_authors($post->ID);
-	if (anno_user_can('manage_co_authors', null, $post->ID)) {
-?>
-		<div class="user-input-wrap">
-			<input type="text" id="co-author-input" class="user-input" name="co_author_input" /> 
-			<input id="co-author-add" class="user-add button" type="button" value="add" />
-			<?php wp_nonce_field('anno_manage_co_author', '_ajax_nonce-manage-co_author', false); ?>
-		</div>
-<?php 	
-	}
+	annowf_user_management_meta_box_markup_start('co_author', $post);
 ?>
 		<ul id="co-author-list" data-type="co_author">
 <?php
+	$co_authors = anno_get_authors($post->ID);
 	foreach ($co_authors as $user_id) {
 		// Prevent primary author from showing up in this list.
 		if ($user_id == $post->post_author) {
@@ -304,31 +335,29 @@ function annowf_co_authors_meta_box($post) {
 		}
 ?>
 		</ul>
-	</div>
+	</div><!-- co_author-meta-box -->
 <?php
 }
 
 /**
  * Markup for user display in meta boxes
  */
-function annowf_user_li_markup($user, $type = null) {		
+function annowf_user_li_markup($user, $type = null) {
+	$post_id = anno_get_post_id();
 	$extra = '&nbsp;';
-	global $post;
-	if (empty($post)) {
-		$post_id = $_POST['post_id'];
-	}
-	else {
-		$post_id = $post->ID;
-	}
 	
 	if ($type == 'reviewer' && anno_user_can('manage_'.$type.'s', null, $post_id)) {
+		// If the type is a user, show what review they left, if any. Loaded in $extra
 		global $anno_review_options;
 		$round = annowf_get_round($post_id);
+		// Review is stored in DB as an integer corresponding to a given review set in the $anno_review_options global for translation purposes.
 		$extra = $anno_review_options[intval(get_user_meta($user->ID, '_'.$post_id.'_review_'.$round, true))].'&nbsp;';
 	}
 	$remove = '&nbsp;';
+	
+	// If a user can manage this type of user, show the remove link.
 	if (anno_user_can('manage_'.$type.'s', null, $post_id)) {
-		$remove = '&nbsp;&nbsp;<a href="#" class="anno-user-remove">remove</a>';
+		$remove = '&nbsp;&nbsp;<a href="#" class="anno-user-remove">'._x('remove', 'remove user link for admin screens', 'anno').'</a>';
 	}
 ?>
 	<li id="<?php echo esc_attr('user-'.$user->ID); ?>">
@@ -361,7 +390,7 @@ function annowf_add_reviewer() {
 				$post = get_post($post_id);
 				annowf_send_notification('in_review', $post);
 			}
-			//TODO Save and reload?
+			//@TODO Save and reload?
 		}
 		
 		// If the reviewer is being re-added and has already left a review for this round
@@ -604,6 +633,18 @@ function annowf_user_search() {
 	$s = trim( $s );
 	if ( strlen( $s ) < 2 )
 		die; // require 2 chars for matching
+
+	// @TODO Search with get_users
+	// @TODO modify query, remove lookup on user_nicename
+	// @TODO Prevent other search lookup (email, url, ID), see WP_User_Query
+	
+/*	
+	$user = get_users(array(
+		'meta_key' => '',
+		'meta_value' => '',
+		'meta_compare' => 'LIKE',
+		));
+*/
 
 	$results = $wpdb->get_col($wpdb->prepare("
 		SELECT user_login
