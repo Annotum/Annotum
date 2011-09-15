@@ -150,8 +150,8 @@ function anno_reference_import_doi() {
 	$crossref_login = cfct_get_option('crossref_login');
 	$crossref_pass = cfct_get_option('crossref_pass');
 	
-	// Empty login, throw error,
-	if (empty($crossref_login)) {
+	// Empty login, or empty password and login is not an email.
+	if (empty($crossref_login) || (empty($crossref_pass) && !anno_is_valid_email($crossref_login))) {
 		anno_reference_error_response(_x('Invalid CrossRef Login', 'pmcid lookup error message', 'anno'));
 	}
 	// Empty pass, just try passing login
