@@ -93,16 +93,17 @@ jQuery(document).ready( function($) {
 	$('input[type="text"]#reviewer-input').keydown(function(e) {
 		if (e.keyCode && e.keyCode == 13) {
 			var user = $('input[type="text"]#reviewer-input').val();
-			anno_add_reviewer(user);
+			anno_manage_user.add_reviewer(user);
 			return false;
 		}
 	});
 	
 	$('input[type="button"]#reviewer-add').click(function() {
 		var user = $('input[type="text"]#reviewer-input').val();
-		anno_add_reviewer(user)
+		anno_manage_user.add_reviewer(user)
 	});	
 	
+	// Create form and submit to avoid embedding a form within a form in the markup
 	$('.anno-user-remove').live('click', function() {
 		var clicked = $(this);
 		var type = $(this).closest('ul').attr('data-type');
@@ -157,6 +158,10 @@ jQuery(document).ready( function($) {
 				if (fn in anno_manage_user) {
 				    anno_manage_user[fn](d.user);
 				}
+				// Hide invite interface, show search interface
+				$('#anno-invite-' + type).hide();
+				$('#anno-user-input-' + type).show();
+
 			}
 			else {
 				status_div.html(d.message).addClass('anno-error').show();
@@ -167,28 +172,27 @@ jQuery(document).ready( function($) {
 	});
 	
 	
-	
 	$('.anno-show-search-co_author').live('click', function() {
-		$('#user-input-co_author').show();
 		$('#anno-invite-co_author').hide();
+		$('#anno-user-input-co_author').show();
 		return false;
 	});
 	
 	
 	$('.anno-show-create-co_author').live('click', function() {
-		$('#user-input-co_author').hide();
+		$('#anno-user-input-co_author').hide();
 		$('#anno-invite-co_author').show();
 		return false;
 	});
 	
 	$('.anno-show-search-reviewer').live('click', function() {
-		$('#user-input-reviewer').show();
 		$('#anno-invite-reviewer').hide();
+		$('#anno-user-input-reviewer').show();
 		return false;
 	});
 	
 	$('.anno-show-create-reviewer').live('click', function() {
-		$('#user-input-reviewer').hide();
+		$('#anno-user-input-reviewer').hide();
 		$('#anno-invite-reviewer').show();
 		return false;
 	});

@@ -241,20 +241,20 @@ add_action('_wp_put_post_revision', 'anno_put_post_revision');
 
 function annowf_create_user_meta_markup($type) {
 ?>
-<div id="<?php echo esc_attr('anno-invite-'.$type); ?>" class="hidden">
+<div id="<?php echo esc_attr('anno-invite-'.$type); ?>" class="anno-user-add-wrap hidden">
 		<label>
-			<?php _ex('Username', 'input label', 'anno'); ?>
+			<span><?php _ex('Username', 'input label', 'anno'); ?></span>
 			<input type="text" name="invite_user" />
 		</label>
 
 		<label>
-			<?php _ex('Email', 'input label', 'anno'); ?>
+			<span><?php _ex('Email', 'input label', 'anno'); ?></span>
 			<input type="text" name="invite_email"/>
 		</label>
-	
-		<?php wp_nonce_field('anno_create_user', '_ajax_nonce-create-user', false); ?>
-		<input type="button" class="button anno-create-user" data-type="<?php echo esc_attr($type); ?>" value="<?php _ex('Create User', 'button label', 'anno'); ?>" />
-		
+		<p>
+			<?php wp_nonce_field('anno_create_user', '_ajax_nonce-create-user', false); ?>
+			<input type="button" class="button anno-create-user" data-type="<?php echo esc_attr($type); ?>" value="<?php _ex('Create User', 'button label', 'anno'); ?>" />
+		</p>
 		<p>
 		 	<?php _ex('or <a href="#" class="'.esc_attr('anno-show-search-'.$type).'">search for an existing user</a>', 'search for user link', 'anno'); ?>
 		</p>
@@ -276,10 +276,10 @@ function annowf_user_management_meta_box_markup_start($type, $post) {
 	}
 ?>
 	<div id="<?php echo esc_attr($type.'-meta-box'); ?>">
-		<div id="<?php echo esc_attr($type.'-add-status'); ?>" class="hidden"></div>
+		<div id="<?php echo esc_attr($type.'-add-status'); ?>" class="anno-error hidden"></div>
 		<?php annowf_create_user_meta_markup($type); ?>
 		<?php if (anno_user_can('manage_'.$type_plural, null, $post->ID)) { ?>
-			<div id="<?php echo esc_attr('user-input-'.$type); ?>" class="user-input-wrap">
+			<div id="<?php echo esc_attr('anno-user-input-'.$type); ?>" class="anno-user-add-wrap">
 				<input type="text" id="<?php echo esc_attr($type.'-input'); ?>" class="user-input" name="<?php echo esc_attr($type.'_input'); ?>" /> 
 				<input id="<?php echo esc_attr($type.'-add'); ?>" class="user-add button" type="button" value="add" />
 				<?php wp_nonce_field('anno_manage_'.$type, '_ajax_nonce-manage-'.$type, false); ?>

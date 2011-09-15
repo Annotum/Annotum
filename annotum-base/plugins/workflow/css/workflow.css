@@ -65,7 +65,18 @@ ul#co-author-list img {
 	margin-right: 10px;
 }
 
-.user-input-wrap {
+#anno-invite-reviewer label,
+#anno-invite-co_author label {
+	display: block;
+}
+
+#anno-invite-reviewer label span, 
+#anno-invite-co_author label span {
+	min-width: 75px;
+	display: inline-block;
+}
+
+.anno-user-add-wrap {
 	padding-bottom: 5px;
 	margin-bottom: 5px;
 	border-bottom: 1px solid #DFDFDF;
