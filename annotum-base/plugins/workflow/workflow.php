@@ -244,12 +244,12 @@ function annowf_create_user_meta_markup($type) {
 <div id="<?php echo esc_attr('anno-invite-'.$type); ?>" class="hidden">
 		<label>
 			<?php _ex('Username', 'input label', 'anno'); ?>
-			<input type="text" name="invite_email" />
+			<input type="text" name="invite_user" />
 		</label>
 
 		<label>
 			<?php _ex('Email', 'input label', 'anno'); ?>
-			<input type="text" />
+			<input type="text" name="invite_email"/>
 		</label>
 	
 		<?php wp_nonce_field('anno_create_user', '_ajax_nonce-create-user', false); ?>
@@ -258,10 +258,8 @@ function annowf_create_user_meta_markup($type) {
 		<p>
 		 	<?php _ex('or <a href="#" class="'.esc_attr('anno-show-search-'.$type).'">search for an existing user</a>', 'search for user link', 'anno'); ?>
 		</p>
-	
 </div>
 <?php
-
 }
 
 /**
@@ -346,7 +344,10 @@ function annowf_user_li_markup($user, $type = null) {
 	$post_id = anno_get_post_id();
 	$extra = '&nbsp;';
 	
-	if ($type == 'reviewer' && anno_user_can('manage_'.$type.'s', null, $post_id)) {
+	// expecting reviewer or co_author
+	$type_plural = $type.'s';
+	
+	if ($type == 'reviewer' && anno_user_can('manage_'.$type_plural, null, $post_id)) {
 		// If the type is a user, show what review they left, if any. Loaded in $extra
 		global $anno_review_options;
 		$round = annowf_get_round($post_id);
@@ -356,7 +357,7 @@ function annowf_user_li_markup($user, $type = null) {
 	$remove = '&nbsp;';
 	
 	// If a user can manage this type of user, show the remove link.
-	if (anno_user_can('manage_'.$type.'s', null, $post_id)) {
+	if (anno_user_can('manage_'.$type_plural, null, $post_id)) {
 		$remove = '&nbsp;&nbsp;<a href="#" class="anno-user-remove">'._x('remove', 'remove user link for admin screens', 'anno').'</a>';
 	}
 ?>
@@ -368,6 +369,41 @@ function annowf_user_li_markup($user, $type = null) {
 	</li>
 <?php
 }
+
+
+function annowf_invite_user() {
+	check_ajax_referer('anno_create_user', '_ajax_nonce-create-user');
+	
+	// Array for json response
+	$data_array = array(
+		'code' => '',
+		'message' => '',
+		'user' => '',
+	);
+	
+	$user_id = anno_invite_contributor($_POST['user_login'], $_POST['user_email']);
+
+	if (is_wp_error($user_id)) {
+		$data_array['code'] = 'error';
+		$data_array['message'] = $user_id->get_error_message();
+	}
+	else {
+		//Pass the username back so it can be added as whatever role (co_author, reviewer) via JS.
+		$data_array['code'] = 'success';
+		$data_array['message'] = _x('User has been created', 'status message for user creation', 'anno');
+		$users = get_users(array(
+			'include' => array($user_id),
+			'fields' => array('user_login'),
+		));
+		if (!empty($users) && is_array($users)) {
+			$data_array['user'] = $users[0]->user_login;
+		}
+	}
+	echo json_encode($data_array);
+	die();
+	
+}
+add_action('wp_ajax_anno-invite-user', 'annowf_invite_user');
 
 /**
  * Handles AJAX request for adding a reviewer to a post. As well as transitioning states.

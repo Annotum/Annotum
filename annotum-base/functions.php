@@ -635,35 +635,41 @@ function anno_sanitize_string($option) {
 }
 
 /**
- * Returns a post ID if it can be found in any of the common places
+ * Exhaustive search for a post ID.
  * 
  * @return int Post ID
  */ 
 function anno_get_post_id() {
 	global $post_id;
-
+	
+	$local_post_id = 0;
+	
 	if (empty($post_id)) {
 		global $post;
 		if (isset($post->ID)) {
-			$post_id = $post->ID;
+			$local_post_id = $post->ID;
 		}
+		// Used in ajax requests where global aren't populated, attachments, etc...
 		else if (isset($_POST['post'])) {
-			$post_id = $_POST['post'];
+			$local_post_id = $_POST['post'];
 		}
 		else if (isset($_POST['post_ID'])) {
-			$post_id = $_POST['post_ID'];
+			$local_post_id = $_POST['post_ID'];
+		}
+		else if (isset($_POST['post_id'])) {
+			$local_post_id = $_POST['post_id'];
 		}
 		else if (isset($_GET['post'])) {
-			$post_id = $_GET['post'];
+			$local_post_id = $_GET['post'];
 		}
 		else if (isset($_GET['post_id'])) {
-			$post_id = $_GET['post_id'];
-		}
-		else {
-			$post_id = 0;
+			$local_post_id = $_GET['post_id'];
 		}
 	}
-	return intval($post_id);
+	else {
+		$local_post_id = $post_id;
+	}
+	return intval($local_post_id);
 }
 
 /**
@@ -711,8 +717,9 @@ function anno_invite_contributor($user_login, $user_email) {
 		wp_die(__('Cheatin&#8217; uh?'));
 	}
 	
-	if (!anno_is_valid_email($email)) {
-		return new WP_Error('invalid_email', _x('Invalid Email', 'error for creating new user', 'anno'));
+	// wp_insert_user handles all other errors
+	if (!anno_is_valid_email($user_email)) {
+		return new WP_Error('invalid_email', _x('Invalid email address', 'error for creating new user', 'anno'));
 	}
 		
 	// Create User
@@ -720,11 +727,10 @@ function anno_invite_contributor($user_login, $user_email) {
 	$user_login = esc_sql($user_login);
 	$user_email = esc_sql($user_email);
 	$role = 'contributor';
-	$userdata = compat('user_login', 'user_pass', 'user_email', 'role');
+	$userdata = compact('user_login', 'user_pass', 'user_email', 'role');
 	
 	$user_id = wp_insert_user($userdata);
 
-	$from_user = get_current_user();
 	$blogname = get_bloginfo('name');
 	
 	// Send notifiction with PW, Username.	
@@ -737,9 +743,9 @@ Please us the following credentials to login and change your password:
 Username: %s
 Password: %s
 %s', 'User creation email body. %s mapping: User who created this new user, blogname, username, password, profile url.', 'anno'),
-		anno_user_display($from_user), $blogname, $user_login, $user_pass, esc_url(admin_url('profile.php')));
+		anno_user_display(get_current_user_id()), $blogname, $user_login, $user_pass, esc_url(admin_url('profile.php')));
 		
-		@wp_mail($user_login, $subject, $message);
+		wp_mail('evan@crowdfavorite.com', $subject, $message);
 	}
 
 	return $user_id;
