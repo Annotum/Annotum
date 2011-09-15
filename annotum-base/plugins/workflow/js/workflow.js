@@ -18,38 +18,41 @@ jQuery(document).ready( function($) {
 		if (user == '') {
 			return false;
 		}
-		var status_div = $('#co-author-status');
+		
+		var status_div = $('#co_author-add-status');
 		var data = {action: 'anno-add-co-author', user: user, post_id: ANNO_POST_ID};
 		data['_ajax_nonce-manage-co_author'] = $('#_ajax_nonce-manage-co_author').val();
 		
 		// Clear status div and hide.
-		status_div.html('').removeClass('anno-error').hide();
+		status_div.html('').hide();
 		
 		$.post(ajaxurl, data, function(d) {
+			console.log(d.message);
 			if (d.message == 'success') {
 				$('ul#co-author-list').prepend(d.html);
 				// Append co-author to author dropdown
 				$('#post_author_override').append(d.author);
 				//Clear input box
-				$('input[type="text"]#co-author-input').val('');
+				$('input[type="text"]#co_author-input').val('');
 			}
 			else {
-				status_div.html(d.html).addClass('anno-error').show();
+				status_div.html(d.html).removeClass('anno-success').addClass('anno-error').show();
 			}
 		}, 'json');
 	}
 	
-	$('input[type="text"]#co-author-input').keydown(function(e) {
+	$('input[type="text"]#co_author-input').keydown(function(e) {
 		if (e.keyCode && e.keyCode == 13) {
 			var user = $('input[type="text"]#co-author-input').val();
-			anno_add_co_author(user);
+			anno_manage_user.add_co_author(user);
 			return false;
 		}
 	});
 	
-	$('input[type="button"]#co-author-add').click(function() {
-		var user = $('input[type="text"]#co-author-input').val();
-		anno_add_co_author(user)
+	$('input[type="button"]#co_author-add').click(function() {
+		var user = $('input[type="text"]#co_author-input').val();
+		anno_manage_user.add_co_author(user);
+		return false;
 	});
 	
 	
@@ -63,7 +66,7 @@ jQuery(document).ready( function($) {
 		data['_ajax_nonce-manage-reviewer'] = $('#_ajax_nonce-manage-reviewer').val();
 
 		// Clear status div
-		status_div.html('').removeClass('anno-error').hide();
+		status_div.html('').hide();
 
 		$.post(ajaxurl, data, function(d) {
 			if (d.message == 'success') {
@@ -85,7 +88,7 @@ jQuery(document).ready( function($) {
 				}
 			}
 			else {
-				status_div.html(d.html).addClass('anno-error').show();
+				status_div.html(d.html).removeClass('anno-success').addClass('anno-error').show();
 			}
 		}, 'json');
 	}
@@ -100,7 +103,7 @@ jQuery(document).ready( function($) {
 	
 	$('input[type="button"]#reviewer-add').click(function() {
 		var user = $('input[type="text"]#reviewer-input').val();
-		anno_manage_user.add_reviewer(user)
+		anno_manage_user.add_reviewer(user);
 	});	
 	
 	// Create form and submit to avoid embedding a form within a form in the markup
@@ -143,12 +146,15 @@ jQuery(document).ready( function($) {
 		var div_selector = 'div#anno-invite-' + type;
 		var status_div = $('#' + type +  '-add-status');
 		
-		var user_login = $(div_selector + ' input[name="invite_user"]').val();
-		var user_email = $(div_selector + ' input[name="invite_email"]').val();
+		var user_login_div = $(div_selector + ' input[name="invite_user"]');
+		var user_login = user_login_div.val();
+		var user_email_div = $(div_selector + ' input[name="invite_email"]');
+		var user_email = user_email_div.val();
+		
 		var post_data = {user_login : user_login, user_email : user_email, action : 'anno-invite-user'};
 		post_data['_ajax_nonce-create-user'] = $('#_ajax_nonce-create-user').val();
 
-		status_div.html('').removeClass('anno-error').hide();
+		status_div.html('').hide();
 		
 		$.post(ajaxurl, post_data, function(d) {
 			if (d.code == 'success') {
@@ -161,10 +167,14 @@ jQuery(document).ready( function($) {
 				// Hide invite interface, show search interface
 				$('#anno-invite-' + type).hide();
 				$('#anno-user-input-' + type).show();
-
+				
+				status_div.html(d.message).removeClass('anno-error').addClass('anno-success').show();
+				// Reset the fields
+				user_login_div.val('');
+				user_email_div.val('');
 			}
 			else {
-				status_div.html(d.message).addClass('anno-error').show();
+				status_div.html(d.message).removeClass('anno-success').addClass('anno-error').show();
 			}			
 			
 		}, 'json');

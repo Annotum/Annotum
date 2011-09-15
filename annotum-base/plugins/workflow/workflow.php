@@ -391,7 +391,7 @@ function annowf_invite_user() {
 	else {
 		//Pass the username back so it can be added as whatever role (co_author, reviewer) via JS.
 		$data_array['code'] = 'success';
-		$data_array['message'] = _x('User has been created', 'status message for user creation', 'anno');
+		$data_array['message'] = _x('User has been created and added', 'status message for user creation', 'anno');
 		$users = get_users(array(
 			'include' => array($user_id),
 			'fields' => array('user_login'),
@@ -481,7 +481,6 @@ function annowf_add_co_author() {
 		annowf_save_audit_item($post_id, $current_user->ID, 6, array($response['user']->ID));
 		
 	}
-
 	unset($response['user']);
 	echo json_encode($response);
 	die();
@@ -495,7 +494,9 @@ add_action('wp_ajax_anno-add-co-author', 'annowf_add_co_author');
  * @return array Array of data pertaining to user added and JSON data.
  */
 function annowf_add_user($type) {
+
 	check_ajax_referer('anno_manage_'.$type, '_ajax_nonce-manage-'.$type);
+
 	$message = 'error';
 	$html = '';
 	
@@ -544,7 +545,6 @@ function annowf_add_user($type) {
 			$html = sprintf(_x('User \'%s\' not found', 'Adding user error message for article meta box', 'anno'), $user_login);
 		}
 	}
-	
 	return array('message' => $message, 'html' => $html, 'user' => $user);
 }
 
