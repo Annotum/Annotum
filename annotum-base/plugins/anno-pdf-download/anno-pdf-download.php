@@ -18,9 +18,6 @@ class Anno_PDF_Download {
 	static $instance;
 
 	private function __construct() {
-		/* Define what our "action" is that we'll 
-		listen for in our request handlers */
-		$this->action = 'anno_pdf_download_action';
 		$this->i18n = 'anno';
 	}
 
@@ -36,8 +33,14 @@ class Anno_PDF_Download {
 	}
 	
 	public function add_actions() {
+		// Allow plugins to change various properties of our plugin
 		add_action('init', array($this, 'setup_filterable_props'));
-		add_action('init', array($this, 'request_handler'));
+		
+		// Run late to make sure all custom post types are registered
+		add_action('init', array($this, 'setup_permalinks'), 20);
+		
+		// Handle various requests
+		add_action('wp', array($this, 'request_handler'));
 	}
 	
 	protected function set_pdfmaker_configs() {
@@ -67,75 +70,88 @@ class Anno_PDF_Download {
 		//define("DOMPDF_LOG_OUTPUT_FILE", DOMPDF_FONT_DIR."log.htm");	
 	}
 	
+	
+	/**
+	 * Let WP know how to handle "pretty" requests for PDFs
+	 *
+	 * @return void
+	 */
+	public function setup_permalinks() {
+		// Returns an array of post types named article
+		$article_post_types = get_post_types(array('name' => 'article'), 'object');
+		
+		// Ensure we have what we're looking for
+		if (!is_array($article_post_types) || empty($article_post_types)) {
+			return;
+		}
+		
+		// Get the first (and hopefully only) one
+		$article_post_type = array_shift($article_post_types);
+		
+		global $wp;
+		// Allows us to use get_query_var('pdf') later on
+		$wp->add_query_var('pdf');
+		
+		// Tells WP that a request like /articles/my-article-name/pdf/ is valid
+		add_rewrite_rule($article_post_type->rewrite['slug'].'/([^/]+)/pdf/?$', 'index.php?articles=$matches[1]&pdf=1', 'top');
+	}
+	
+	
+	/**
+	 * Takes action when various query_vars are present
+	 * (currently just 'PDF' query var)
+	 *
+	 * @return void
+	 */
 	public function request_handler() {
-		if (isset($_GET[$this->action])) {
-			switch ($_GET[$this->action]) {
-				case 'download_pdf':
-					// Make sure we have an article first
-					if (empty($_GET['article'])) {
-						wp_die(__('Required article first.', $this->i18n));
-					}
-					
-					// Sanitize our article ID
-					$id = intval($_GET['article']);
-					
-					// Validate our nonce
-					if (!wp_verify_nonce($_REQUEST['_wpnonce'], 'download_pdf')) {
-						wp_die(__('Please visit <a href="'.get_the_permalink($id).'">the article</a> and click the download link.', $this->i18n));
-					}
-					
-					// If we're not debugging, turn off errors
-					if (!$this->debug) {
-						$display_errors = ini_get('display_errors');
-						ini_set('display_errors', 0);
-					}
-					
-					// Load whatever class will make the PDF
-					if (!$this->load_pdfmaker()) {
-						$this->log('Couldn\'t load the $pdfmaker');
-						$this->generic_die();
-					}
-					
-					// @TODO - Determine which stylesheets get brought in 
-					// Our stylesheets don't get brought in till 'wp', not 'init, so we need to register them anyways
-					if (function_exists('anno_assets')) {
-						anno_assets();
-					}
-					
-					if (function_exists('current_assets')) {
-						current_assets();
-					}
-					
-					// Get our HTML locally
-					if (!$this->get_html($id)) {
-						$this->log('Could not find HTML post_meta for post ID: '.$id);
-						$this->generic_die();
-					}
-					
-					// Get the PDF title (currently just the Article title)
-					if (!$this->generate_pdf_title($id)) {
-						$this->log('Couldn\'t generate the PDF title for post ID: '.$id);
-						$this->generic_die();
-					}
-					
-					// Generate the PDF
-					try {
-						$this->generate_pdf();
-					}
-					catch (Exception $e) {
-						$this->log('Error Creating PDF: '.$e->getMessage());
-						$this->generic_die();
-					}
-					
-					// Set our error display back to what it was.
-					if (!$this->debug) {
-						ini_set('display_errors', $display_errors);
-					}
-					
-					exit;
-					break;
-				default:
-					break;
+		if (get_query_var('pdf')) {
+			// Sanitize our article ID
+			$id = get_the_ID();
+			
+			// If we don't have an Article, get out
+			if (empty($id)) {
+				wp_die(__('No article found.', $this->i18n));
+			}
+			
+			// If we're not debugging, turn off errors
+			if (!$this->debug) {
+				$display_errors = ini_get('display_errors');
+				ini_set('display_errors', 0);
+			}
+			
+			// Load whatever class will make the PDF
+			if (!$this->load_pdfmaker()) {
+				$this->log('Couldn\'t load the $pdfmaker');
+				$this->generic_die();
+			}
+			
+			// Enqueue the proper styles
+			$this->enqueue_pdf_styles();
+			
+			// Get our HTML locally
+			if (!$this->get_html($id)) {
+				$this->log('Could not find HTML post_meta for post ID: '.$id);
+				$this->generic_die();
+			}
+			
+			// Get the PDF title (currently just the Article title)
+			if (!$this->generate_pdf_title($id)) {
+				$this->log('Couldn\'t generate the PDF title for post ID: '.$id);
+				$this->generic_die();
+			}
+			
+			// Generate the PDF
+			try {
+				$this->generate_pdf();
+			}
+			catch (Exception $e) {
+				$this->log('Error Creating PDF: '.$e->getMessage());
+				$this->generic_die();
+			}
+			
+			// Set our error display back to what it was.
+			if (!$this->debug) {
+				ini_set('display_errors', $display_errors);
 			}
 		}
 	}
@@ -176,6 +192,16 @@ class Anno_PDF_Download {
 		include 'templates/default.php';
 		$this->html = ob_get_clean();
 		return !empty($this->html);
+	}
+	
+	
+	/**
+	 * Enqueues various styles that should be applied to PDFs
+	 *
+	 * @return void
+	 */
+	private function enqueue_pdf_styles() {
+		wp_enqueue_style('anno', trailingslashit(get_template_directory_uri()).'assets/main/css/main.css', array(), $v, 'screen, print');
 	}
 	
 	
@@ -237,13 +263,10 @@ class Anno_PDF_Download {
 			$id = $post->ID;
 		}
 		
-		// Build our URL args
-		$url_args = array(
-			$this->action 	=> 'download_pdf',
-			'article' 		=> intval($id),
-		);
-		
-		return wp_nonce_url(add_query_arg($url_args, home_url()), 'download_pdf');
+		// Get permalink to the article, then slap the 'pdf/' onto the end
+		$permalink = trailingslashit(get_permalink($id));
+		$pdf_link = $permalink.'pdf/';
+		return $pdf_link;
 	}
 	
 	
