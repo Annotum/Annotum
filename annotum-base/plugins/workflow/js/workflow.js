@@ -7,9 +7,14 @@ jQuery(document).ready( function($) {
 		$(this).siblings('.ajax-loading').css('visibility', 'visible');
 	});
 
+	
+    // Register our add functions so we can call them with a generated string.
+    var anno_manage_user = {};
+
+
 	//TODO possibly abstract this and anno_add_reviewer into a single function;
-	function anno_add_co_author() {
-		var user = $('input[type="text"]#co-author-input').val();
+ 	// @param string user (login or email expected) 
+	anno_manage_user.add_co_author = function anno_add_co_author(user) {
 		if (user == '') {
 			return false;
 		}
@@ -33,14 +38,20 @@ jQuery(document).ready( function($) {
 	
 	$('input[type="text"]#co-author-input').keydown(function(e) {
 		if (e.keyCode && e.keyCode == 13) {
-			anno_add_co_author();
+			var user = $('input[type="text"]#co-author-input').val();
+			anno_add_co_author(user);
 			return false;
 		}
 	});
-	$('input[type="button"]#co-author-add').click(anno_add_co_author);
 	
-	function anno_add_reviewer() {
-		var user = $('input[type="text"]#reviewer-input').val();
+	$('input[type="button"]#co-author-add').click(function() {
+		var user = $('input[type="text"]#co-author-input').val();
+		anno_add_co_author(user)
+	});
+	
+	
+	// @param string user (login or email expected) 
+	anno_manage_user.add_reviewer = function anno_add_reviewer(user) {
 		if (user == '') {
 			return false;
 		}
@@ -76,11 +87,16 @@ jQuery(document).ready( function($) {
 	
 	$('input[type="text"]#reviewer-input').keydown(function(e) {
 		if (e.keyCode && e.keyCode == 13) {
-			anno_add_reviewer();
+			var user = $('input[type="text"]#reviewer-input').val();
+			anno_add_reviewer(user);
 			return false;
 		}
 	});
-	$('input[type="button"]#reviewer-add').click(anno_add_reviewer);	
+	
+	$('input[type="button"]#reviewer-add').click(function() {
+		var user = $('input[type="text"]#reviewer-input').val();
+		anno_add_reviewer(user)
+	});	
 	
 	$('.anno-user-remove').live('click', function() {
 		var clicked = $(this);
@@ -114,22 +130,33 @@ jQuery(document).ready( function($) {
 		return false;
 	});
 	
+	// Create form and submit to avoid embedding a form within a form in the markup
 	$('.anno-create-user').live('click', function() {
 		// Type, reviewer or co-author
 		var type = $(this).attr('data-type');
 		var div_selector = 'div#anno-invite-' + type;
+		var status_div = $('#' + type +  '-add-error');
+		
 		var user_login = $(div_selector + ' input[name="invite_user"]').val();
 		var user_email = $(div_selector + ' input[name="invite_email"]').val();
-		var post_data = {user_login : user_login, user_email : user_email};
-		post_data['_ajax_nonce-create-user-' + type] = $('div#_ajax_nonce-create-user').val();
+		var post_data = {user_login : user_login, user_email : user_email, action : 'anno-invite-user'};
+		post_data['_ajax_nonce-create-user'] = $('#_ajax_nonce-create-user').val();
+
+		status_div.html('').hide();
 		
 		$.post(ajaxurl, post_data, function(d) {
 			if (d.code == 'success') {
-				//@TODO hide this div, show search div. Confirmation.
+				// Determine which function adds the user to the post
+				// co_author or reviewer.
+				var fn = 'add_' + type;
+				if (fn in anno_manage_user) {
+				    anno_manage_user[fn](d.user);
+				}
 			}
 			else {
-				//@TODO Error
-			}						
+				status_div.html(d.message).show();
+			}			
+			
 		}, 'json');
 		return false; 	
 	});
