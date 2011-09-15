@@ -34,7 +34,7 @@ function anno_profile() {
 ?>
 <div id="anno-profile-page" class="wrap">
 	<h2><?php _ex('Annotum Profile', 'header', 'anno'); ?></h2>
-	<?php if ($_GET['update']) { ?>
+	<?php if (isset($_GET['update']) && !empty($_GET['update'])) { ?>
 	<div id="message" class="updated below-h2"><p><?php _ex('Profile Updated', 'admin status banner', 'anno'); ?></p></div>
 	<?php } ?>
 	<form method="post" action="<?php echo admin_url(); ?>">
