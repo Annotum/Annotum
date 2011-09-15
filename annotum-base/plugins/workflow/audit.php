@@ -95,13 +95,13 @@ function annowf_audit_log($post) {
 				case 2:
 					if (!empty($item['data']) && is_array($item['data'])) {
 						global $annowf_states;
-						$event_html .= sprintf($event_array[$event], $annowf_states[$item['data'][0]], $annowf_states[$item['data'][1]]);
+						$event_html .= sprintf($event_array[$event], esc_html($annowf_states[$item['data'][0]]), $annowf_states[$item['data'][1]]);
 					}
 					break;
 				case 4:
 					if (!empty($item['data']) && is_array($item['data'])) {
 						global $anno_review_options;
-						$event_html .= sprintf($event_array[$event], $anno_review_options[$item['data'][0]]);
+						$event_html .= sprintf($event_array[$event], esc_html($anno_review_options[$item['data'][0]]));
 					}
 					break;
 				case 6:

@@ -18,20 +18,23 @@ jQuery(document).ready( function($) {
 		if (user == '') {
 			return false;
 		}
+		var status_div = $('#co-author-status');
 		var data = {action: 'anno-add-co-author', user: user, post_id: ANNO_POST_ID};
 		data['_ajax_nonce-manage-co_author'] = $('#_ajax_nonce-manage-co_author').val();
+		
+		// Clear status div and hide.
+		status_div.html('').removeClass('anno-error').hide();
+		
 		$.post(ajaxurl, data, function(d) {
 			if (d.message == 'success') {
 				$('ul#co-author-list').prepend(d.html);
 				// Append co-author to author dropdown
 				$('#post_author_override').append(d.author);
-				// Clear error box
-				$('#co-author-add-error').html('').hide();
 				//Clear input box
 				$('input[type="text"]#co-author-input').val('');
 			}
 			else {
-				$('#co-author-add-error').html(d.html).show();
+				status_div.html(d.html).addClass('anno-error').show();
 			}
 		}, 'json');
 	}
@@ -55,14 +58,16 @@ jQuery(document).ready( function($) {
 		if (user == '') {
 			return false;
 		}
-
+		var status_div = $('#reviewer-add-status');
 		var data = {action: 'anno-add-reviewer', user: user, post_id: ANNO_POST_ID};
 		data['_ajax_nonce-manage-reviewer'] = $('#_ajax_nonce-manage-reviewer').val();
+
+		// Clear status div
+		status_div.html('').removeClass('anno-error').hide();
 
 		$.post(ajaxurl, data, function(d) {
 			if (d.message == 'success') {
 				$('ul#reviewer-list').prepend(d.html);
-				$('#reviewer-add-error').html('').hide();
 				$('input[type="text"]#reviewer-input').val('');
 				
 				
@@ -80,7 +85,7 @@ jQuery(document).ready( function($) {
 				}
 			}
 			else {
-				$('#reviewer-add-error').html(d.html).show();
+				status_div.html(d.html).addClass('anno-error').show();
 			}
 		}, 'json');
 	}
@@ -135,14 +140,14 @@ jQuery(document).ready( function($) {
 		// Type, reviewer or co-author
 		var type = $(this).attr('data-type');
 		var div_selector = 'div#anno-invite-' + type;
-		var status_div = $('#' + type +  '-add-error');
+		var status_div = $('#' + type +  '-add-status');
 		
 		var user_login = $(div_selector + ' input[name="invite_user"]').val();
 		var user_email = $(div_selector + ' input[name="invite_email"]').val();
 		var post_data = {user_login : user_login, user_email : user_email, action : 'anno-invite-user'};
 		post_data['_ajax_nonce-create-user'] = $('#_ajax_nonce-create-user').val();
 
-		status_div.html('').hide();
+		status_div.html('').removeClass('anno-error').hide();
 		
 		$.post(ajaxurl, post_data, function(d) {
 			if (d.code == 'success') {
@@ -154,7 +159,7 @@ jQuery(document).ready( function($) {
 				}
 			}
 			else {
-				status_div.html(d.message).show();
+				status_div.html(d.message).addClass('anno-error').show();
 			}			
 			
 		}, 'json');

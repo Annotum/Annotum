@@ -54,7 +54,7 @@ function annowf_meta_boxes() {
 	
 	// Add the Annotum workflow publish box.
 	global $annowf_states;
-	add_meta_box('submitdiv', _x('Status:', 'Meta box title', 'anno').' '. $annowf_states[$post_state], 'annowf_status_meta_box', 'article', 'side', 'high');
+	add_meta_box('submitdiv', _x('Status:', 'Meta box title', 'anno').' '. esc_html($annowf_states[$post_state]), 'annowf_status_meta_box', 'article', 'side', 'high');
 
 	// Clone data meta box. Only display if something has been cloned from this post, or it is a clone itself.
 	$posts_cloned = get_post_meta($post->ID, '_anno_posts_cloned', true);
@@ -276,7 +276,7 @@ function annowf_user_management_meta_box_markup_start($type, $post) {
 	}
 ?>
 	<div id="<?php echo esc_attr($type.'-meta-box'); ?>">
-		<div id="<?php echo esc_attr($type.'-add-error'); ?>" class="anno-error hidden"></div>
+		<div id="<?php echo esc_attr($type.'-add-status'); ?>" class="hidden"></div>
 		<?php annowf_create_user_meta_markup($type); ?>
 		<?php if (anno_user_can('manage_'.$type_plural, null, $post->ID)) { ?>
 			<div id="<?php echo esc_attr('user-input-'.$type); ?>" class="user-input-wrap">
@@ -383,6 +383,7 @@ function annowf_invite_user() {
 	
 	$user_id = anno_invite_contributor($_POST['user_login'], $_POST['user_email']);
 
+	// Error creating user
 	if (is_wp_error($user_id)) {
 		$data_array['code'] = 'error';
 		$data_array['message'] = $user_id->get_error_message();
