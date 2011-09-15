@@ -174,7 +174,7 @@ class Anno_tinyMCE {
 	
 	function mce_buttons_2($buttons) {
 		if ($this->is_article()) {
-			$buttons = array('formatselect', '|', 'table', 'row_before', 'row_after', 'delete_row', 'col_before', 'col_after', 'delete_col', 'split_cells', 'merge_cells', '|', 'pastetext', 'pasteword', 'annolist', '|', 'annoreferences', '|', 'annomonospace', 'annopreformat', 'fullscreen', 'fullpage');
+			$buttons = array('formatselect', '|', 'table', 'row_before', 'row_after', 'delete_row', 'col_before', 'col_after', 'delete_col', 'split_cells', 'merge_cells', '|', 'pastetext', 'pasteword', 'annolist', '|', 'annoreferences', '|', 'annomonospace', 'annopreformat');
 		}
 		return $buttons;
 	}
