@@ -745,7 +745,7 @@ Password: %s
 %s', 'User creation email body. %s mapping: User who created this new user, blogname, username, password, profile url.', 'anno'),
 		anno_user_display(get_current_user_id()), $blogname, $user_login, $user_pass, esc_url(admin_url('profile.php')));
 		
-		wp_mail('evan@crowdfavorite.com', $subject, $message);
+		wp_mail($user_email, $subject, $message);
 	}
 
 	return $user_id;
