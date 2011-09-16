@@ -58,7 +58,7 @@ function anno_reference_import_pubmed() {
 			$author_arr = array();
 			foreach ($authors as $author) {
 				$author = pq($author);
-				$author_arr[] = str_replace($author->text());
+				$author_arr[] = $author->text();
 			}
 			if (!empty($author_arr)) {
 				$text .= implode(', ', $author_arr).'. ';
