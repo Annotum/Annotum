@@ -942,4 +942,23 @@ function annowf_get_sample_permalink_html($return, $id, $new_title, $new_slug) {
 }
 add_filter('get_sample_permalink_html', 'annowf_get_sample_permalink_html', 10, 4);
 
+/**
+ * If this article was imported, show a notice to the user, flag is removed on save.
+ * 
+ * 
+ */
+function annowf_imported_admin_notices($empty) {
+	global $pagenow;
+	if ($pagenow == 'post.php') {
+		global $post;
+		$imported = get_post_meta($post->ID, '_anno_imported', true);
+		if ($imported == '1') {
+			// Display notice
+
+		}
+		echo '<div id="anno-imported-notice" class="error">Test</div>';
+	}
+}
+//add_action('admin_notices', 'annowf_imported_admin_notices')
+
 ?>
