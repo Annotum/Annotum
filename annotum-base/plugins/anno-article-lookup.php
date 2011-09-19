@@ -22,7 +22,7 @@ function anno_reference_import_pubmed() {
 
 	// Only Allow nubmers for our ID, commas are also allowed, but only when looking up multiple articles.
 	$pubmed_id = trim($pubmed_id);
-	if (preg_match('/[^0-9]/', $pubmed_id)) {
+	if (preg_match('/[^0-9]/', $pubmed_id) || $pubmed_id > 4294967295) {
 		anno_reference_error_response(_x('Invalid PMCID', 'pmcid lookup error message', 'anno'));
 	}
 		
