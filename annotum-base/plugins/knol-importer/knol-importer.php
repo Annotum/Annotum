@@ -135,7 +135,6 @@ class Knol_Import extends WP_Importer {
 		$this->process_categories();
 		$this->process_tags();
 		$this->process_terms();
-		error_log(print_r($this->authors,1));
 		$this->process_posts();
 		wp_suspend_cache_invalidation( false );
 
@@ -154,7 +153,6 @@ class Knol_Import extends WP_Importer {
 		$create_users = $this->allow_create_users();
 		if ($create_users) {
 			$new_users = $this->new_user_credentials;
-			error_log(print_r($new_users,1));
 			foreach ($new_users as $i => $user_creds) {
 				$old_id = $user_creds['old_id'];			
 			
@@ -737,7 +735,6 @@ foreach ($this->authors as $author_key => $author_data) {
 	 * Note that new/updated terms, comments and meta are imported for the last of the above.
 	 */
 	function process_posts() {
-		error_log(print_r($this->authors,1));
 		foreach ( $this->posts as $post ) {
 			if ( ! post_type_exists( $post['post_type'] ) ) {
 				printf( __( 'Failed to import &#8220;%s&#8221;: Invalid post type %s', 'anno' ),
