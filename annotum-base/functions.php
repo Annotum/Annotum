@@ -483,11 +483,21 @@ add_filter('cfct_option_prefix', 'anno_option_prefix', 10, 2);
 /**
  * Determines whether or not an email address is valid
  * 
- * @param string email to check
+ * @param string $email email to check
  * @return bool true if it is a valid email, false otherwise
  */ 
 function anno_is_valid_email($email) {
 	return filter_var($email, FILTER_VALIDATE_EMAIL);
+}
+
+/**
+ * Determines whether or not a username is valid
+ * 
+ * @param string $username username to check
+ * @return bool true if it is a valid username, false otherwise
+ */ 
+function anno_is_valid_username($username) {
+	return strcasecmp($username, sanitize_user($username, true) == 0);
 }
 
 /**
@@ -712,7 +722,7 @@ function anno_user_email($user) {
  * @param string $email Email of user to create
  * @return int|WP_Error ID of new user, or, WP_Error 
  */ 
-function anno_invite_contributor($user_login, $user_email) {	
+function anno_invite_contributor($user_login, $user_email, $extra = array()) {	
 	if (!current_user_can('create_users')) {
 		wp_die(__('Cheatin&#8217; uh?'));
 	}
@@ -728,7 +738,9 @@ function anno_invite_contributor($user_login, $user_email) {
 	$user_email = esc_sql($user_email);
 	$role = 'contributor';
 	$userdata = compact('user_login', 'user_pass', 'user_email', 'role');
-	
+
+	array_merge($extra, $userdata);
+
 	$user_id = wp_insert_user($userdata);
 
 	$blogname = get_bloginfo('name');
@@ -743,7 +755,7 @@ Please us the following credentials to login and change your password:
 Username: %s
 Password: %s
 %s', 'User creation email body. %s mapping: User who created this new user, blogname, username, password, profile url.', 'anno'),
-		anno_user_display(get_current_user_id()), $blogname, $user_login, $user_pass, esc_url(admin_url('profile.php')));
+		'Someguy', $blogname, $user_login, $user_pass, esc_url(admin_url('profile.php')));
 		
 		wp_mail($user_email, $subject, $message);
 	}
