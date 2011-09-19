@@ -50,7 +50,10 @@
 
 ul#reviewer-list li,
 ul#co-author-list li {
-	margin-bottom: 8px;
+	border-bottom: 1px solid #dfdfdf;
+	margin: 6px 0;
+	padding-bottom: 6px;
+	min-height: 36px;
 }
 
 ul#reviewer-list li:hover .anno-user-remove,
@@ -62,7 +65,7 @@ ul#reviewer-list img,
 ul#co-author-list img {
 	vertical-align: top;
 	float: left;
-	margin-right: 10px;
+	margin-right: 8px;
 }
 
 #anno-invite-reviewer label,
@@ -77,10 +80,9 @@ ul#co-author-list img {
 }
 
 .anno-user-add-wrap {
-	padding-bottom: 5px;
-	margin-bottom: 5px;
 	border-bottom: 1px solid #DFDFDF;
-	
+	margin: 5px 0;	
+	padding: 5px 0;
 }
 
 .anno-user-info {
