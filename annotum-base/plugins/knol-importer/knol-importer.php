@@ -1229,7 +1229,7 @@ foreach ($this->authors as $author_key => $author_data) {
 	 * @return array Information gathered from the WXR file
 	 */
 	function parse( $file ) {
-		$parser = new WXR_Parser();
+		$parser = new Knol_WXR_Parser();
 		return $parser->parse( $file );
 	}
 
