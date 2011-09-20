@@ -19,6 +19,7 @@ class Anno_PDF_Download {
 
 	private function __construct() {
 		$this->i18n = 'anno';
+		$this->ver = defined('ANNO_VER') ? ANNO_VER : '1.0';
 	}
 
 	public function i() {
@@ -201,7 +202,7 @@ class Anno_PDF_Download {
 	 * @return void
 	 */
 	private function enqueue_pdf_styles() {
-		wp_enqueue_style('anno', trailingslashit(get_template_directory_uri()).'assets/main/css/main.css', array(), $v, 'screen, print');
+		wp_enqueue_style('anno', trailingslashit(get_template_directory_uri()).'assets/main/css/main.css', array(), $this->ver);
 	}
 	
 	
