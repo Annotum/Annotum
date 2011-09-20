@@ -362,8 +362,8 @@ function anno_popup_references_row_edit($reference_key, $reference, $post_id, $d
 						</label>
 						<label>
 							<span><?php _ex('PubMed ID (PMID)', 'input for PubMed ID lookup', 'anno'); ?></span>
-							<input type="text" class="short" name="pmcid" id="<?php echo esc_attr('pmcid-'.$reference_key); ?>" value="<?php echo esc_attr($reference['pmcid']) ?>" />
-							<input type="button" name="import_pubmed" id="<?php echo esc_attr('pmcid-import-'.$reference_key); ?>" value="<?php _ex('Import', 'button label', 'anno'); ?>">
+							<input type="text" class="short" name="pmid" id="<?php echo esc_attr('pmid-'.$reference_key); ?>" value="<?php echo esc_attr($reference['pmid']) ?>" />
+							<input type="button" name="import_pubmed" id="<?php echo esc_attr('pmid-import-'.$reference_key); ?>" value="<?php _ex('Import', 'button label', 'anno'); ?>">
 							<img src="<?php echo esc_url( admin_url( 'images/wpspin_light.gif' ) ); ?>" class="ajax-loading" />
 							<?php wp_nonce_field('anno_import_pubmed', '_ajax_nonce-import-pubmed', false); ?>
 						</label>
@@ -449,7 +449,7 @@ function anno_popup_references() {
 	if (!empty($references) && is_array($references)) {
 		foreach ($references as $reference_key => $reference) {
 			//prevent undefined index errors;
-			$reference_keys = array('text', 'doi', 'pmcid', 'url', 'figures');
+			$reference_keys = array('text', 'doi', 'pmid', 'url', 'figures');
 			foreach ($reference_keys as $key_val) {
 				$reference[$key_val] = isset($reference[$key_val]) ? $reference[$key_val] : '';
 			}
@@ -460,7 +460,7 @@ function anno_popup_references() {
 ?>
 					<tr id="<?php echo esc_attr('reference-new'); ?>">
 						<td colspan="3">
-							<?php anno_popup_references_row_edit('new', array('text' => '', 'doi' => '', 'pmcid' => '', 'url' => '', 'figures' => ''), $post->ID, $doi_enabled); ?>
+							<?php anno_popup_references_row_edit('new', array('text' => '', 'doi' => '', 'pmid' => '', 'url' => '', 'figures' => ''), $post->ID, $doi_enabled); ?>
 						</td>
 					<tr>
 						<td colspan="3" class="anno-mce-popup-footer">
@@ -644,7 +644,7 @@ function anno_insert_reference($ref_array) {
 		
 	$ref_args = array(
 		'doi' => isset($ref_array['doi']) ? $ref_array['doi'] : '',
-		'pmcid' => isset($ref_array['pmcid']) ? $ref_array['pmcid'] : '',
+		'pmid' => isset($ref_array['pmid']) ? $ref_array['pmid'] : '',
 		'text' => isset($ref_array['text']) ? $ref_array['text'] : '',
 		'figures' => isset($ref_array['figures']) ? $ref_array['figures'] : '',
 		'url' => isset($ref_array['url']) ? $ref_array['url'] : '',

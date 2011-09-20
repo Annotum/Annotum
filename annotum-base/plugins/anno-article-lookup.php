@@ -1,29 +1,29 @@
 <?php
 
 /**
- * AJAX handler that looks up an article based on PMCID and parses the data for a reference.
+ * AJAX handler that looks up an article based on PMID and parses the data for a reference.
  * Echos a json encoded array
  * 
  * @return void
  */ 
 function anno_reference_import_pubmed() {	
 	check_ajax_referer('anno_import_pubmed', '_ajax_nonce-import-pubmed');
-	if (!isset($_POST['pmcid'])) {
+	if (!isset($_POST['pmid'])) {
 		$lookup_response = anno_reference_error_response();
 	}
 	else {
-		$pubmed_id = $_POST['pmcid'];
+		$pubmed_id = $_POST['pmid'];
 	}
 
 	$lookup_response = array(
 		'message' => 'error',
-		'text' => _x('An error has occurred, please try again later', 'pmcid lookup error message', 'anno'),
+		'text' => _x('An error has occurred, please try again later', 'pmid lookup error message', 'anno'),
 	);
 
 	// Only Allow nubmers for our ID, commas are also allowed, but only when looking up multiple articles.
 	$pubmed_id = trim($pubmed_id);
 	if (preg_match('/[^0-9]/', $pubmed_id) || $pubmed_id > 4294967295) {
-		anno_reference_error_response(_x('Invalid PMCID', 'pmcid lookup error message', 'anno'));
+		anno_reference_error_response(_x('Invalid PMID', 'pmid lookup error message', 'anno'));
 	}
 		
 	// Generate the URL for lookup
@@ -121,7 +121,7 @@ add_action('wp_ajax_anno-import-pubmed', 'anno_reference_import_pubmed');
 
 
 /**
- * AJAX handler that looks up an article based on PMCID and parses the data for a reference.
+ * AJAX handler that looks up an article based on PMID and parses the data for a reference.
  * Echos a JSON encoded array
  * 
  * @return void
@@ -137,13 +137,13 @@ function anno_reference_import_doi() {
 	
 	$lookup_response = array(
 		'message' => 'error',
-		'text' => _x('An error has occurred, please try again later', 'pmcid lookup error message', 'anno'),
+		'text' => _x('An error has occurred, please try again later', 'pmid lookup error message', 'anno'),
 	);
 
 	// DOIs cannot contain any control characters. As defined here: http://www.doi.org/handbook_2000/appendix_1.html
 	$doi = trim($doi);
 	if (preg_match('/[\x00-\x1F\x7F]/', $doi)) {
-		anno_reference_error_response(_x('Invalid DOI', 'pmcid lookup error message', 'anno'));
+		anno_reference_error_response(_x('Invalid DOI', 'pmid lookup error message', 'anno'));
 	}
 
 	// Generate the URL for lookup
@@ -152,7 +152,7 @@ function anno_reference_import_doi() {
 	
 	// Empty login, or empty password and login is not an email.
 	if (empty($crossref_login) || (empty($crossref_pass) && !anno_is_valid_email($crossref_login))) {
-		anno_reference_error_response(_x('Invalid CrossRef Login', 'pmcid lookup error message', 'anno'));
+		anno_reference_error_response(_x('Invalid CrossRef Login', 'pmid lookup error message', 'anno'));
 	}
 	// Empty pass, just try passing login
 	else if (empty($croossref_pass)) {
@@ -185,7 +185,7 @@ function anno_reference_import_doi() {
 		if ($html->length > 0) {
 			// We should only hit an HTML page for malformed URLs or invalid logins
 			// @TODO error for invalid login.
-			anno_reference_error_response(_x('Invalid DOI', 'pmcid lookup error message', 'anno'));
+			anno_reference_error_response(_x('Invalid DOI', 'pmid lookup error message', 'anno'));
 		}
 
 		$query_status = pq('query')->attr('status');
@@ -286,7 +286,7 @@ add_action('wp_ajax_anno-import-doi', 'anno_reference_import_doi');
  */ 
 function anno_reference_error_response($message = null) {
 	if (empty($message)) {
-		$message = _x('An error has occurred, please try again later', 'pmcid lookup error message', 'anno');
+		$message = _x('An error has occurred, please try again later', 'pmid lookup error message', 'anno');
 	}
 	
 	echo json_encode(array(

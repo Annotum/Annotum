@@ -106,9 +106,9 @@ jQuery(document).ready( function($) {
 	
 	$('input[name="import_pubmed"]').live('click', function(e) {
 		e.preventDefault();
-		var ref_id = $(this).attr('id').replace('pmcid-import-', '');
-		var id = $('#pmcid-' + ref_id).val();
-		var data = {action: 'anno-import-pubmed', pmcid: id};
+		var ref_id = $(this).attr('id').replace('pmid-import-', '');
+		var id = $('#pmid-' + ref_id).val();
+		var data = {action: 'anno-import-pubmed', pmid: id};
 		var error_div = $('#lookup-error-' + ref_id);
 		data['_ajax_nonce-import-pubmed'] = $('#_ajax_nonce-import-pubmed').val();
 		var siblings = $(this).siblings('.ajax-loading');
