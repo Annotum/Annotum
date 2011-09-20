@@ -174,7 +174,7 @@ class Anno_tinyMCE {
 	
 	function mce_buttons_2($buttons) {
 		if ($this->is_article()) {
-			$buttons = array('formatselect', '|', 'table', 'row_before', 'row_after', 'delete_row', 'col_before', 'col_after', 'delete_col', 'split_cells', 'merge_cells', '|', 'pastetext', 'pasteword', 'annolist', '|', 'annoreferences', '|', 'annomonospace', 'annopreformat');
+			$buttons = array('formatselect', '|', 'table', 'row_before', 'row_after', 'delete_row', 'col_before', 'col_after', 'delete_col', 'split_cells', 'merge_cells', '|', 'pastetext', 'pasteword', 'annolist', '|', 'annoreferences', '|', 'annomonospace', 'annopreformat', '|', 'annoequations');
 		}
 		return $buttons;
 	}
@@ -203,6 +203,8 @@ class Anno_tinyMCE {
 			$plugins['annoTips'] = trailingslashit(get_bloginfo('template_directory')).'js/tinymce/plugins/annotips/editor_plugin.js';
 			
 			$plugins['annoFormats'] = trailingslashit(get_bloginfo('template_directory')).'js/tinymce/plugins/annoformats/editor_plugin.js';
+			
+			$plugins['annoEquations'] = trailingslashit(get_bloginfo('template_directory')).'js/tinymce/plugins/annoequations/editor_plugin.js';
 						
 		}
 		return $plugins;
@@ -521,6 +523,26 @@ function anno_popup_quote() {
 }
 
 /**
+ * Popup Dialog for equation editor in the tinyMCE
+ */
+function anno_popup_equations() {
+?>
+<div id="anno-popup-equations" class="anno-mce-popup">
+	<form id="anno-tinymce-equations-form" class="" tabindex="-1">
+		<?php //TODO NONCE ?>
+		<div class="anno-mce-popup-fields">
+			<strong>PLACEHOLDER Equation Editor</strong>
+			<textarea></textarea>		
+		</div>
+		<div class="anno-mce-popup-footer">
+			<?php _anno_popup_submit_button('anno-equations-insert', _x('Insert', 'button value', 'anno')) ?>
+		</div>
+	</form>
+</div>
+<?php
+}
+
+/**
  * Markup for insertion/save buttons in popup dialogs for the tinyMCE
  */
 function _anno_popup_submit_button($id, $value, $type = 'button') {
@@ -533,8 +555,8 @@ function anno_popup_tips() {
 ?>
 <div id="anno-popup-tips" class="anno-mce-popup">
 		<dl>
-			<dt>Use Ctrl+Enter</dt>
-			<dd>To insert new sections (when within a section) or add new paragraphs when inside elements like a table, or figure caption.</dd>
+			<dt><?php _ex('Use Ctrl+Enter', 'tinyMCE tip dt', 'anno'); ?></dt>
+			<dd><?php _ex('To insert new sections (when within a section) or add new paragraphs when inside elements like a table, or figure caption.', 'tinyMCE tip dd', 'anno'); ?></dd>
 		</dl>
 </div>
 	
@@ -564,6 +586,10 @@ function anno_preload_dialogs($init) {
 	
 	<div style="display:none;">
 	<?php anno_popup_quote(); ?>
+	</div>
+	
+	<div style="display:none;">
+	<?php anno_popup_equations(); ?>
 	</div>
 	
 	<div style="display:none;">
