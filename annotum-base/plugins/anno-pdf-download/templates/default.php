@@ -7,6 +7,19 @@
 		?>
 	</head>
 	<body>
-		<?php echo $this->post_html; ?>
+		<div id="main-body">
+		
+			<article class="article-full">
+				<div class="main">
+					<div class="content entry-content">
+						<?php echo $this->post_html; ?>
+					</div><!--/.content-->
+				</div><!--/.main-->
+			</article>
+		
+		</div><!-- /main-body -->
 	</body>
 </html>
+
+
+
