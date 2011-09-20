@@ -31,6 +31,7 @@ class Anno_PDF_Download {
 	
 	public function setup_filterable_props() {
 		$this->debug = apply_filters(__CLASS__.'_debug', false);
+		$this->memory_limit = apply_filters(__CLASS__.'_memory_limit', '100M'); // only gets set when downloading the PDF
 	}
 	
 	public function add_actions() {
@@ -106,6 +107,9 @@ class Anno_PDF_Download {
 	 */
 	public function request_handler() {
 		if (get_query_var('pdf')) {
+			// Increase our memory limit for this request
+			ini_set('memory_limit', $this->memory_limit);
+			
 			// Sanitize our article ID
 			$id = get_the_ID();
 			
