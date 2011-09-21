@@ -224,7 +224,7 @@ function anno_article_insert_post($post_id, $post) {
 	}
 }
 add_action('wp_insert_post', 'anno_article_insert_post', 10, 2);
-remove_filter ('the_content',  'wpautop');
+
 /**
  * Print styles for article post type.
  */ 

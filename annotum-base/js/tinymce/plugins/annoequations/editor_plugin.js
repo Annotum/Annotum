@@ -1,9 +1,13 @@
 (function(){ 
     tinymce.create('tinymce.plugins.annoEquations', {
  
-        init : function(ed, url){	
+        init : function(ed, url){
+	
+
             ed.addCommand('Anno_Equations', function() {
-				ed.windowManager.open({
+	
+			openEditor();
+			/*	ed.windowManager.open({
 					id : 'anno-popup-equations',
 					width : 480,
 					height : "auto",
@@ -11,7 +15,7 @@
 					title : "Insert Equation"
 				}, {
 					plugin_url : url // Plugin absolute URL
-				});
+				});*/
             });
 
 			ed.addButton('annoequations', {
@@ -34,3 +38,8 @@
 
     tinymce.PluginManager.add('annoEquations', tinymce.plugins.annoEquations);
 })();
+
+function openEditor() {
+  var ed = new goog.annotum.editor.EquationEditor();
+  ed.openEditor();
+}
