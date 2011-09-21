@@ -15,7 +15,7 @@
 						e.preventDefault();
 					}					
 					return false;
-				}				
+				}
 				return true;
 			});
 			
@@ -32,7 +32,7 @@
 			var t = this, ed = t.editor;
 			return ed.dom.getParent(n, ed.dom.isBlock);
 		},
-
+		
 		insertPara : function(e) {
 			var t = this, ed = t.editor, dom = ed.dom, d = ed.getDoc(), se = ed.settings, s = ed.selection.getSel(), r = s.getRangeAt(0), b = d.body;
 			var rb, ra, dir, sn, so, en, eo, sb, eb, bn, bef, aft, sc, ec, n, vp = dom.getViewPort(ed.getWin()), y, ch, car;
@@ -127,7 +127,6 @@
 
 			// If selection is in empty table cell
 			if (sn === en && /^(TD|TH|CAP)$/.test(sn.nodeName)) {
-										alert('test');
 				if (sn.firstChild && sn.firstChild.nodeName == 'BR')
 					dom.remove(sn.firstChild); // Remove BR
 
@@ -218,7 +217,7 @@
 						dom.split(listBlock, li);
 //						block = dom.create('p', 0, '<br data-mce-bogus="1" />');
 //						dom.replace(block, li);
-//						selection.select(block, 1);
+//						selection.select(block, 1);3
 					}
 					return FALSE;
 				}
