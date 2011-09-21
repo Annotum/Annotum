@@ -32,6 +32,7 @@ class Anno_PDF_Download {
 	public function setup_filterable_props() {
 		$this->debug = apply_filters(__CLASS__.'_debug', false);
 		$this->memory_limit = apply_filters(__CLASS__.'_memory_limit', '100M'); // only gets set when downloading the PDF
+		$this->template_path = apply_filters(__CLASS__.'_template_path', 'templates/default.php');
 	}
 	
 	public function add_actions() {
@@ -193,9 +194,19 @@ class Anno_PDF_Download {
 			return false;
 		}
 		
+		// Setup our global $post stuff
+		global $post;
+		$post = get_post($id);
+		setup_postdata($post);
+		
+		// Output the template
 		ob_start();
-		include 'templates/default.php';
+		include $this->template_path;
 		$this->html = ob_get_clean();
+		
+		// Reset our global $post
+		wp_reset_postdata();
+		
 		return !empty($this->html);
 	}
 	
