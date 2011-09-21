@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<!--
+Copyright 2010 The Closure Library Authors. All Rights Reserved.
+
+Use of this source code is governed by the Apache License, Version 2.0.
+See the COPYING file for details.
+-->
+<head>
+<title>Equation Editor Test</title>
+
+<script src="equation-editor-compiled.js"></script>
+
+<link rel="stylesheet" href="demo.css">
+<link rel="stylesheet" href="dialog.css" />
+<link rel="stylesheet" href="equationeditor.css" />
+</head>
+
+<body>
+
+<a href="#" onclick="openEditor()">Open Editor Dialog</a>
+&nbsp;&nbsp;
+Initial equation:
+<input type="text" value="" id="init">
+
+<script>
+
+function openEditor() {
+  var ed = new goog.annotum.editor.EquationEditor();
+  ed.openEditor(document.getElementById('init').value);
+}
+</script>
+</body>
+</html>

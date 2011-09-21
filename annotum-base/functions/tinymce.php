@@ -174,7 +174,7 @@ class Anno_tinyMCE {
 	
 	function mce_buttons_2($buttons) {
 		if ($this->is_article()) {
-			$buttons = array('formatselect', '|', 'table', 'row_before', 'row_after', 'delete_row', 'col_before', 'col_after', 'delete_col', 'split_cells', 'merge_cells', '|', 'pastetext', 'pasteword', 'annolist', '|', 'annoreferences', '|', 'annomonospace', 'annopreformat', '|', 'annoequations');
+			$buttons = array('formatselect', '|', 'table', 'row_before', 'row_after', 'delete_row', 'col_before', 'col_after', 'delete_col', 'split_cells', 'merge_cells', '|', 'pastetext', 'pasteword', 'annolist', '|', 'annoreferences', '|', 'annomonospace', 'annopreformat', '|', 'annoequations', '|', 'annopasteword');
 		}
 		return $buttons;
 	}
@@ -205,6 +205,8 @@ class Anno_tinyMCE {
 			$plugins['annoFormats'] = trailingslashit(get_bloginfo('template_directory')).'js/tinymce/plugins/annoformats/editor_plugin.js';
 			
 			$plugins['annoEquations'] = trailingslashit(get_bloginfo('template_directory')).'js/tinymce/plugins/annoequations/editor_plugin.js';
+			
+//			$plugins['annoPaste'] = trailingslashit(get_bloginfo('template_directory')).'js/tinymce/plugins/annopaste/editor_plugin.js';
 						
 		}
 		return $plugins;
@@ -237,6 +239,19 @@ function anno_load_tinymce_plugins() {
 }
 if (is_admin()) {
 	add_action('init', 'anno_load_tinymce_plugins');
+}
+
+function anno_popup_paste() {
+?>
+<div id="anno-popup-paste" class="anno-mce-popup">
+	<form id="anno-tinymce-paste-form" class="" tabindex="-1" name="source" onsubmit="return AnnoPasteWordDialog.insert();" action="#">
+		<div class="anno-mce-popup-fields">
+			<textarea id="annotest"></textarea>
+		</div>
+		<input type="submit" value="submit" />
+	</form>
+</div>
+<?php
 }
 
 /**
@@ -571,6 +586,10 @@ function anno_preload_dialogs($init) {
 	<div style="display:none;">
 	<?php anno_popup_link(); ?>
 	</div>
+	
+	<div style="display:none;">
+	<?php anno_popup_paste(); ?>
+	</div>
 
 	<div style="display:none;">
 	<?php anno_popup_references(); ?>
@@ -801,6 +820,7 @@ function anno_process_editor_content($content) {
 function anno_validate_xml_content_on_save($html_content) {
 	// Strip all tags not defined by DTD
 	$content = anno_to_xml($html_content);
+
 	$content = strip_tags($content, implode('', array_unique(anno_get_dtd_valid_elements())));
 	return $content;
 }
@@ -885,6 +905,7 @@ function anno_get_dtd_valid_elements() {
 					'<tbody>',
 						'<tr>',
 							'<td>',
+								'<break>',
 								'<xref>',
 				'<table-wrap-foot>',
 					'<p>',
@@ -940,9 +961,10 @@ add_action('add_post_meta', 'anno_save_appendices_xml_as_html', 10, 3);
 function anno_insert_post_data($data, $postarr) {
 	if ($data['post_type'] == 'article') {
 		$content = stripslashes($data['post_content']);
-		
+			
 		// Set XML as backup content. Filter markup and strip out tags not on whitelist.
 		$data['post_content_filtered'] = addslashes(anno_validate_xml_content_on_save($content));
+		
 		// Set formatted HTML as the_content
 		$data['post_content'] = addslashes(anno_xml_to_html($content));
 	}
@@ -1353,8 +1375,11 @@ function anno_xml_to_html_iterate_table($table) {
 	$table->children('label:first')->remove();
 	$table->children('cap:first')->remove();
 	
+	$inner_table = $table->children('table');
+	
 	// Loop over our table header
-	$theads = $table->children('thead');
+	$theads = $inner_table->children('thead');
+
 	if (count($theads)) {
 		foreach ($theads as $thead) {
 			anno_xml_to_html_iterate_table_head(pq($thead));
@@ -1362,7 +1387,7 @@ function anno_xml_to_html_iterate_table($table) {
 	}
 	
 	// Loop over our table body
-	$tbodies = $table->children('tbody');
+	$tbodies = $inner_table->children('tbody');
 	if (count($tbodies)) {
 		foreach ($tbodies as $tbody) {
 			anno_xml_to_html_iterate_table_body(pq($tbody));
@@ -1416,15 +1441,16 @@ function anno_xml_to_html_iterate_table_head_row($trow) {
 /**
  * Do stuff to the thead->tr->th elements
  * 
- * Currently just removing unnecessary tinyMCE bogus <br>s and leaving
+ * Replace <br>s with <break>
  * the rest of it's HTML the same
  *
  * @param pq obj $th 
  * @return void
  */
 function anno_xml_to_html_iterate_table_head_row_th($th) {
-	$th->find('br[attr="data-mce-bogus"]')->remove();
+	// Nothing to do here right now...just a stub function 
 }
+
 
 /**
  * Iterate of elements of the tbody.  Not doing anything right now, just 
@@ -1665,5 +1691,19 @@ function anno_doi_lookup_enabled() {
 	$crossref_login = cfct_get_option('crossref_login');
 	return !empty($crossref_login);
 }
+
+function anno_tinymce_css() {
+	$main = trailingslashit(get_bloginfo('template_directory'));
+	wp_enqueue_style('dialog', $main.'js/tinymce/plugins/annoequations/dialog.css');
+	wp_enqueue_style('eqeditor', $main.'js/tinymce/plugins/annoequations/equationeditor.css');
+}
+add_action('admin_print_styles', 'anno_tinymce_css');
+
+function anno_tinymce_js() {
+	$main = trailingslashit(get_bloginfo('template_directory'));
+	wp_enqueue_script('closure-goog', $main.'js/tinymce/plugins/annoequations/equation-editor-compiled.js');
+}
+add_action('admin_print_scripts', 'anno_tinymce_js');
+
 
 ?>
