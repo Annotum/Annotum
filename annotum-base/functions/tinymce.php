@@ -780,7 +780,11 @@ add_action('wp_ajax_anno-img-save', 'anno_tinymce_image_save');
  * @return void
  */
 function anno_process_editor_content($content) {
-	phpQuery::newDocument($content);
+	phpQuery::newDocument($content)->xpath->registerNamespace('xlink', 'annotum.org');
+
+	// Utilize a namespace which tricks old versions of libxml2 in thinking that there is one
+	// Bug libxml2 2.6.28 and previous with regards to selecting attributes with colons in their name
+//	phpQuery::newDocument()
 	
 	// Convert inline-graphics to <img> tags so they display
 	anno_xml_to_html_replace_inline_graphics($content);
@@ -798,9 +802,17 @@ function anno_process_editor_content($content) {
 	$figs = pq('fig');
 	foreach ($figs as $fig) {
 		$fig = pq($fig);
+
+		$img_src = '';
+
+		// Check if we're using bugged version of libxml
+		if (version_compare(LIBXML_DOTTED_VERSION, '2.6.29', '<')) {
+				$img_src = anno_get_attribute_value_regex($fig, 'media', 'xlink:href');
+			}
+		else {
+			$img_src = $fig->find('media')->attr('xlink:href');
+		}
 		
-		// Add in img for display in editor
-		$img_src = $fig->find('media')->attr('xlink:href');
 		$fig->prepend('<img src="'.$img_src.'" />');
 		
 		// _mce_bogus stripped by tinyMCE on save
@@ -1124,9 +1136,14 @@ function anno_xml_to_html_replace_inline_graphics($orig_xml) {
 	$inline_imges = pq('inline-graphic');
 	foreach ($inline_imges as $img) {
 		$img = pq($img);
-		$img_src = $img->attr('xlink:href');
+		if (version_compare(LIBXML_DOTTED_VERSION, '2.6.29', '<')) {
+			$img_src = anno_get_attribute_value_regex($img, 'inline-graphic', 'xlink:href');
+		}
+		else {
+			$img_src = $img->attr('xlink:href');
+		}
+		
 		if (!empty($img_src)) {
-			$img = pq($img);
 			$alt_text = $img->children('alt-text:first')->html();
 			
 			$html = '<img src="'.$img_src.'" class="_inline_graphic" alt="'.$alt_text.'" />';
@@ -1158,7 +1175,13 @@ function anno_xml_to_html_replace_figures($orig_xml) {
 			$media = pq($fig->children('media'));
 
 			// Get some img tag properties
-			$img_src = $media->attr('xlink:href');
+			
+			if (version_compare(LIBXML_DOTTED_VERSION, '2.6.29', '<')) {
+				$img_src = anno_get_attribute_value_regex($media, 'media', 'xlink:href');
+			}
+			else {
+				$img_src = $media->attr('xlink:href');
+			}
 			$alt = $media->children('alt-text')->html();
 			$title = $media->children('long-desc')->html();
 		
@@ -1491,7 +1514,12 @@ function anno_xml_to_html_replace_external_links($orig_xml) {
 	foreach ($links as $link) {
 		$link = pq($link);
 		if ($link->attr('ext-link-type') == 'uri') {
-			$url = $link->attr('xlink:href');
+			if (version_compare(LIBXML_DOTTED_VERSION, '2.6.29', '<')) {
+				$url = anno_get_attribute_value_regex($link, 'ext-link', 'xlink:href');
+			}
+			else {
+				$url = $link->attr('xlink:href');
+			}
 			$title = $link->attr('title');
 			$link->replaceWith('<a href="'.esc_url($url).'" title="'.esc_attr($title).'">'.esc_html($link->text()).'</a>');
 		}
@@ -1600,6 +1628,34 @@ function anno_convert_tag($old_tag, $new_tag) {
 }
 
 /**
+ * Utilize RegEx to find the values of attributes given a specific element.
+ * Bug libxml2 2.6.28 and previous with regards to selecting attributes with colons in their name
+ * 
+ * @param phpQueryObject $element Element to preform the search on
+ * @param string $element_name Name of the element to search for
+ * @param string $attribute_name Name of the attribute to search for
+ * @return string Value of the attribute for a given element, empty string otherwise
+ * 
+ */ 
+function anno_get_attribute_value_regex($element, $element_name, $attribute_name) {
+	$outer_html = $element->markupOuter();
+
+	// We only want to match everything in the media tag. Non greedy RegEx.
+	if (preg_match('/<'.$element_name.' .*?>/', $outer_html, $element_match)) {
+		// $media_match[0] should now just contain the opening media tag and its attributes
+
+		// Match on attribute name where wrapping quates can be any combination of ' or ", or lack there of 
+		if (preg_match('/ '.$attribute_name.'=["\']?((?:.(?!["\']?\s+(?:\S+)=|[>"\']))+.)["\']?/', $element_match[0], $attribute_match)) {
+			// $matches[1] should match data contained in parenthesis above
+			if (isset($attribute_match[1])) {
+				return $attribute_match[1];
+			}
+		}
+	}	
+	return '';
+}
+
+/**
  * Convert caption tag to cap tag for display in editor
  * Browsers strip caption tags not wrapped in <table> tags.
  * 
@@ -1704,6 +1760,5 @@ function anno_tinymce_js() {
 	wp_enqueue_script('closure-goog', $main.'js/tinymce/plugins/annoequations/equation-editor-compiled.js');
 }
 add_action('admin_print_scripts', 'anno_tinymce_js');
-
 
 ?>
