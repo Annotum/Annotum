@@ -62,7 +62,7 @@ jQuery(document).ready( function($) {
 			xml = '<fig>'
 						+'<img src="' + url + '" />'
 						+'<label>' + label + '</label>'
-						+'<cap>' + caption + '</cap>'
+						+'<cap><p>' + caption + '</p></cap>'
 						+'<media xlink:href="' + url + '">'
 							+'<alt-text>' + alt_text + '</alt-text>'
 							+'<long-desc>' + description + '</long-desc>'
