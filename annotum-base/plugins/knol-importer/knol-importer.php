@@ -1234,7 +1234,7 @@ foreach ($this->authors as $author_key => $author_data) {
 	function header() {
 		echo '<div class="wrap">';
 		screen_icon();
-		echo '<h2>' . __( 'Google Knolw WXR Import', 'anno' ) . '</h2>';
+		echo '<h2>' . __( 'Google Knol WXR Import', 'anno' ) . '</h2>';
 
 		$updates = get_plugin_updates();
 		$basename = plugin_basename(__FILE__);
