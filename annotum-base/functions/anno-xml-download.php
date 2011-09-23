@@ -312,7 +312,7 @@ class Anno_XML_Download {
 		</article-meta>
 	</front>';
 	}
-	
+
 	private function xml_body($article) {
 		$body = $article->post_content_filtered;		
 		return 
