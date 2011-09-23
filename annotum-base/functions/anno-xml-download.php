@@ -260,7 +260,7 @@ class Anno_XML_Download {
 					
 					if (isset($author['bio']) && !empty($author['bio'])) {
 						$author_xml .= '
-						<bio>'.esc_html($author['bio']).'</bio>';
+						<bio><p>'.esc_html($author['bio']).'</p></bio>';
 					}			
 						
 					if (isset($author['link']) && !empty($author['link'])) {
@@ -500,7 +500,7 @@ class Anno_XML_Download {
 			$bio = $user->user_description;
 			if (!empty($bio)) {
 				$author_xml .= '
-					<bio>'.esc_html($bio).'</bio>';
+					<bio>'.wpautop(esc_html($bio)).'</bio>';
 			}
 
 			$link = $user->user_url;
