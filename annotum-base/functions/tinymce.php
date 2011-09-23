@@ -780,8 +780,8 @@ add_action('wp_ajax_anno-img-save', 'anno_tinymce_image_save');
  * @return void
  */
 function anno_process_editor_content($content) {
-	phpQuery::newDocument($content);
-	
+	phpQuery::newDocument($content)->xpath->registerNamespace('xlink', 'annotum.org');
+
 	// Convert inline-graphics to <img> tags so they display
 	anno_xml_to_html_replace_inline_graphics($content);
 	
@@ -794,13 +794,24 @@ function anno_process_editor_content($content) {
 	// Remove p tags wrapping list items
 	$content = anno_remove_p_from_list_items($content);
 	
+	// Remove p tags from disp-quotes
+	$content = anno_remove_p_from_disp_quote_items($content);
+	
 	// We need a clearfix for floated images.
 	$figs = pq('fig');
 	foreach ($figs as $fig) {
 		$fig = pq($fig);
+
+		$img_src = '';
+
+		// Check if we're using bugged version of libxml
+		if (version_compare(LIBXML_DOTTED_VERSION, '2.6.29', '<')) {
+				$img_src = anno_get_attribute_value_regex($fig, 'media', 'xlink:href');
+			}
+		else {
+			$img_src = $fig->find('media')->attr('xlink:href');
+		}
 		
-		// Add in img for display in editor
-		$img_src = $fig->find('media')->attr('xlink:href');
 		$fig->prepend('<img src="'.$img_src.'" />');
 		
 		// _mce_bogus stripped by tinyMCE on save
@@ -918,12 +929,6 @@ function anno_get_dtd_valid_elements() {
 							'<xref>',
 					
 		'<preformat>',
-		
-		// @TODO the <article> XML elements
-		'<article>',
-			'<p>',
-			'<sec>',
-			'<title>',
 	);
 	return apply_filters('anno_valid_dtd_elements', $tags);
 }
@@ -1124,9 +1129,14 @@ function anno_xml_to_html_replace_inline_graphics($orig_xml) {
 	$inline_imges = pq('inline-graphic');
 	foreach ($inline_imges as $img) {
 		$img = pq($img);
-		$img_src = $img->attr('xlink:href');
+		if (version_compare(LIBXML_DOTTED_VERSION, '2.6.29', '<')) {
+			$img_src = anno_get_attribute_value_regex($img, 'inline-graphic', 'xlink:href');
+		}
+		else {
+			$img_src = $img->attr('xlink:href');
+		}
+		
 		if (!empty($img_src)) {
-			$img = pq($img);
 			$alt_text = $img->children('alt-text:first')->html();
 			
 			$html = '<img src="'.$img_src.'" class="_inline_graphic" alt="'.$alt_text.'" />';
@@ -1157,8 +1167,13 @@ function anno_xml_to_html_replace_figures($orig_xml) {
 			// Grab our media element in the fig
 			$media = pq($fig->children('media'));
 
-			// Get some img tag properties
-			$img_src = $media->attr('xlink:href');
+			// Get some img tag properties. Check for lower versions of libxml which do not support : in attributes
+			if (version_compare(LIBXML_DOTTED_VERSION, '2.6.29', '<')) {
+				$img_src = anno_get_attribute_value_regex($media, 'media', 'xlink:href');
+			}
+			else {
+				$img_src = $media->attr('xlink:href');
+			}
 			$alt = $media->children('alt-text')->html();
 			$title = $media->children('long-desc')->html();
 		
@@ -1491,7 +1506,12 @@ function anno_xml_to_html_replace_external_links($orig_xml) {
 	foreach ($links as $link) {
 		$link = pq($link);
 		if ($link->attr('ext-link-type') == 'uri') {
-			$url = $link->attr('xlink:href');
+			if (version_compare(LIBXML_DOTTED_VERSION, '2.6.29', '<')) {
+				$url = anno_get_attribute_value_regex($link, 'ext-link', 'xlink:href');
+			}
+			else {
+				$url = $link->attr('xlink:href');
+			}
 			$title = $link->attr('title');
 			$link->replaceWith('<a href="'.esc_url($url).'" title="'.esc_attr($title).'">'.esc_html($link->text()).'</a>');
 		}
@@ -1600,6 +1620,33 @@ function anno_convert_tag($old_tag, $new_tag) {
 }
 
 /**
+ * Utilize RegEx to find the values of attributes given a specific element.
+ * Bug libxml2 2.6.28 and previous with regards to selecting attributes with colons in their name
+ * 
+ * @param phpQueryObject $element Element to preform the search on
+ * @param string $element_name Name of the element to search for
+ * @param string $attribute_name Name of the attribute to search for
+ * @return string Value of the attribute for a given element, empty string otherwise
+ * 
+ */ 
+function anno_get_attribute_value_regex($element, $element_name, $attribute_name) {
+	$outer_html = $element->markupOuter();
+
+	// We only want to match everything in the media tag. Non greedy RegEx.
+	if (preg_match('/<'.$element_name.' .*?>/', $outer_html, $element_match)) {
+		// $media_match[0] should now just contain the opening media tag and its attribute
+		// Match on attribute name where wrapping quotes can be any combination of ', ", or lack there of 
+		if (preg_match('/ '.$attribute_name.'=["\']?((?:.(?!["\']?\s+(?:\S+)=|[>"\']))+.)["\']?/', $element_match[0], $attribute_match)) {
+			// $matches[1] should match data contained in parenthesis above
+			if (isset($attribute_match[1])) {
+				return $attribute_match[1];
+			}
+		}
+	}	
+	return '';
+}
+
+/**
  * Convert caption tag to cap tag for display in editor
  * Browsers strip caption tags not wrapped in <table> tags.
  * 
@@ -1611,14 +1658,23 @@ function anno_replace_caption_tag($xml) {
 }
 
 /**
- * Convert cap tags to caption to match the DTD when saving editor content.
- * Browsers strip caption tags not wrapped in <table> tags.
+ * Format caption content and converts cap tags to caption to 
+ * match the DTD when saving editor content.
+ * Browsers strip caption tags not wrapped in <table> tags. 
  * 
- * @param phpQueryObject $xml
+ * @param phpQueryObject $xml (unused, required by add_action)
  * @return void
  */
-function anno_to_xml_cap_tag($orig_xml) {
-	anno_convert_tag('cap', 'caption');
+function anno_to_xml_cap_tag($xml) {
+	$cap_tags = pq('cap');
+	foreach ($cap_tags as $cap_tag) {
+		// wpautop the Caption tags so there is no straggling text not wrapped in p
+		$cap_tag = pq($cap_tag);
+		
+		$tag_html = wpautop($cap_tag->html());
+		// Also need to convert cap to caption tags
+		$cap_tag->replaceWith('<caption>'.$tag_html.'</caption>');
+	}
 }
 add_action('anno_to_xml', 'anno_to_xml_cap_tag');
 
@@ -1629,7 +1685,7 @@ add_action('anno_to_xml', 'anno_to_xml_cap_tag');
  * @param phpQueryObject $xml
  * @return void
  */
-function anno_to_xml_heading_tag($orig_xml) {
+function anno_to_xml_heading_tag($xml) {
 	anno_convert_tag('heading', 'title');
 }
 add_action('anno_to_xml', 'anno_to_xml_heading_tag');
@@ -1653,10 +1709,31 @@ function anno_replace_title_tag($xml) {
  * @return void
  */ 
 function anno_remove_p_from_list_items($xml) {
-	$list_items = pq('list-item');
-	foreach ($list_items as $list_item) {
-		$list_item = pq($list_item);
-		$p_tags = $list_item->children('p');
+	anno_remove_p_from_items('list-item');
+}
+
+/**
+ * Remove p tags which wrap disp-quote item content so the editor can handle the 
+ * unconventional xml structure as html.
+ * 
+ * @param phpQueryObject $xml
+ * @return void
+ */
+function anno_remove_p_from_disp_quote_items($xml) {
+	anno_remove_p_from_items('disp-quote');
+}
+
+/**
+ * Remove p tags from items stored in the phpQuery document based on name.
+ * 
+ * @param string $tag_name Tag name to remove the p tags from
+ * @return void 
+ */ 
+function anno_remove_p_from_items($tag_name) {
+	$tags = pq($tag_name);
+	foreach ($tags as $tag) {
+		$tag = pq($tag);
+		$p_tags = $tag->children('p');
 		// Replace p tag with its content
 		foreach ($p_tags as $p_tag) {
 			$p_tag = pq($p_tag);
@@ -1681,6 +1758,39 @@ function anno_to_xml_list_item_p($xml) {
 }
 add_action('anno_to_xml', 'anno_to_xml_list_item_p');
 
+
+/**
+ * Add p tags to disp-quote content
+ * 
+ * @param phpQueryObject $xml not used
+ * @return void
+ */
+function anno_to_xml_disp_quote_p($xml) {
+	$quotes = pq('disp-quote');
+	foreach ($quotes as $quote) {
+		$quote = pq($quote);
+		
+		$attribution = $quote->find('attrib');
+		$permissions = $quote->find('permissions');
+		
+		$attribution_markup = $attribution->htmlOuter();
+		$permissions_markup = $permissions->htmlOuter();
+		
+		// Remove attribution and permissions so they don't get included in wpautop
+		$attribution->remove();
+		$permissions->remove();
+				
+		// wpautop the content
+		$quote_content = wpautop($quote->html());
+		$quote->html($quote_content);
+		
+		// "We can rebuild him, we have the technology"
+		$quote->append($attribution_markup);
+		$quote->append($permissions_markup);				
+	}
+}
+add_action('anno_to_xml', 'anno_to_xml_disp_quote_p');
+
 /**
  * Determines whether or not a DOI lookup is feasible with the credentials given
  * 
@@ -1692,6 +1802,7 @@ function anno_doi_lookup_enabled() {
 	return !empty($crossref_login);
 }
 
+//@todo single file, better enqueuing placement. 
 function anno_tinymce_css() {
 	$main = trailingslashit(get_bloginfo('template_directory'));
 	wp_enqueue_style('dialog', $main.'js/tinymce/plugins/annoequations/dialog.css');
@@ -1699,11 +1810,11 @@ function anno_tinymce_css() {
 }
 add_action('admin_print_styles', 'anno_tinymce_css');
 
+//@todo better enqueuing placement.
 function anno_tinymce_js() {
 	$main = trailingslashit(get_bloginfo('template_directory'));
 	wp_enqueue_script('closure-goog', $main.'js/tinymce/plugins/annoequations/equation-editor-compiled.js');
 }
 add_action('admin_print_scripts', 'anno_tinymce_js');
-
 
 ?>

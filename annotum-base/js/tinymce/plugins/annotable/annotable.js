@@ -68,7 +68,7 @@ var annoTable;
 			caption = $('textarea[name$="caption"]', formObj).val();
 			
 			//TODO add <title> tags
-			html += '<table-wrap><label>' + label + '</label><cap>' + caption + '</cap><table>';
+			html += '<table-wrap><label>' + label + '</label><cap><p>' + caption + '</p></cap><table>';
 			
 			html += '<thead>';
 			html += '<tr>';

@@ -170,7 +170,7 @@ class Anno_XML_Download {
 			$title_xml = '<title-group>';
 			if (!empty($article->post_title)) {
 				$title_xml .= '
-				<article-title><bold>'.esc_html($article_post).'</bold></article-title>';
+				<article-title><bold>'.esc_html($article->post_title).'</bold></article-title>';
 			}
 			else {
 				$title_xml .= '
@@ -260,7 +260,7 @@ class Anno_XML_Download {
 					
 					if (isset($author['bio']) && !empty($author['bio'])) {
 						$author_xml .= '
-						<bio>'.esc_html($author['bio']).'</bio>';
+						<bio><p>'.esc_html($author['bio']).'</p></bio>';
 					}			
 						
 					if (isset($author['link']) && !empty($author['link'])) {
@@ -312,7 +312,7 @@ class Anno_XML_Download {
 		</article-meta>
 	</front>';
 	}
-	
+
 	private function xml_body($article) {
 		$body = $article->post_content_filtered;		
 		return 
@@ -500,7 +500,7 @@ class Anno_XML_Download {
 			$bio = $user->user_description;
 			if (!empty($bio)) {
 				$author_xml .= '
-					<bio>'.esc_html($bio).'</bio>';
+					<bio>'.wpautop(esc_html($bio)).'</bio>';
 			}
 
 			$link = $user->user_url;
