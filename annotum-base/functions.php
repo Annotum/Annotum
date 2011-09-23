@@ -772,8 +772,6 @@ function anno_activity_information() {
 		'pending' => __('pending review', 'anno'),
 		'draft' => __('drafted', 'anno'),
 	);
-	// Structure will also be closed like this after action is complete. Ensure appropriate open tags exist.
-	echo "\n\t</table>";
 	
 	$num_posts = wp_count_posts( $article_post_type, 'readable' );
 	
