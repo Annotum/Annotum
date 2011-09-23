@@ -782,10 +782,6 @@ add_action('wp_ajax_anno-img-save', 'anno_tinymce_image_save');
 function anno_process_editor_content($content) {
 	phpQuery::newDocument($content)->xpath->registerNamespace('xlink', 'annotum.org');
 
-	// Utilize a namespace which tricks old versions of libxml2 in thinking that there is one
-	// Bug libxml2 2.6.28 and previous with regards to selecting attributes with colons in their name
-//	phpQuery::newDocument()
-	
 	// Convert inline-graphics to <img> tags so they display
 	anno_xml_to_html_replace_inline_graphics($content);
 	
@@ -930,12 +926,6 @@ function anno_get_dtd_valid_elements() {
 							'<xref>',
 					
 		'<preformat>',
-		
-		// @TODO the <article> XML elements
-		'<article>',
-			'<p>',
-			'<sec>',
-			'<title>',
 	);
 	return apply_filters('anno_valid_dtd_elements', $tags);
 }
@@ -1174,8 +1164,7 @@ function anno_xml_to_html_replace_figures($orig_xml) {
 			// Grab our media element in the fig
 			$media = pq($fig->children('media'));
 
-			// Get some img tag properties
-			
+			// Get some img tag properties. Check for lower versions of libxml which do not support : in attributes
 			if (version_compare(LIBXML_DOTTED_VERSION, '2.6.29', '<')) {
 				$img_src = anno_get_attribute_value_regex($media, 'media', 'xlink:href');
 			}
@@ -1642,9 +1631,8 @@ function anno_get_attribute_value_regex($element, $element_name, $attribute_name
 
 	// We only want to match everything in the media tag. Non greedy RegEx.
 	if (preg_match('/<'.$element_name.' .*?>/', $outer_html, $element_match)) {
-		// $media_match[0] should now just contain the opening media tag and its attributes
-
-		// Match on attribute name where wrapping quates can be any combination of ' or ", or lack there of 
+		// $media_match[0] should now just contain the opening media tag and its attribute
+		// Match on attribute name where wrapping quotes can be any combination of ', ", or lack there of 
 		if (preg_match('/ '.$attribute_name.'=["\']?((?:.(?!["\']?\s+(?:\S+)=|[>"\']))+.)["\']?/', $element_match[0], $attribute_match)) {
 			// $matches[1] should match data contained in parenthesis above
 			if (isset($attribute_match[1])) {
@@ -1667,14 +1655,24 @@ function anno_replace_caption_tag($xml) {
 }
 
 /**
- * Convert cap tags to caption to match the DTD when saving editor content.
- * Browsers strip caption tags not wrapped in <table> tags.
+ * Format caption content and converts cap tags to caption to 
+ * match the DTD when saving editor content.
+ * Browsers strip caption tags not wrapped in <table> tags. 
  * 
- * @param phpQueryObject $xml
+ * @param phpQueryObject $orig_xml (unused, required by add_action)
  * @return void
  */
 function anno_to_xml_cap_tag($orig_xml) {
-	anno_convert_tag('cap', 'caption');
+	$cap_tags = pq('cap');
+	foreach ($cap_tags as $cap_tag) {
+		// wpautop the Caption tags so there is no straggling text not wrapped in p
+		$cap_tag = pq($cap_tag);
+		
+		$tag_html = wpautop($cap_tag->html());
+		// Also need to convert cap to caption tags
+		$cap_tag->replaceWith('<caption>'.$tag_html.'</caption>');
+		
+	}
 }
 add_action('anno_to_xml', 'anno_to_xml_cap_tag');
 
