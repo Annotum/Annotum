@@ -8,7 +8,6 @@ Author: Crowd Favorite
 Author URI: http://crowdfavorite.com
 */
 
-
 // @TODO turn off the debug 
 // add_filter('Anno_PDF_Download_debug', '__return_true');
 
@@ -140,6 +139,11 @@ class Anno_PDF_Download {
 				$this->generic_die();
 			}
 			
+			// If we force it to the screen @TODO remove once styling's OK in PDF
+			if (isset($_GET['screen'])) {
+				die($this->html);
+			}
+			
 			// Get the PDF title (currently just the Article title)
 			if (!$this->generate_pdf_title($id)) {
 				$this->log('Couldn\'t generate the PDF title for post ID: '.$id);
@@ -207,7 +211,53 @@ class Anno_PDF_Download {
 		// Reset our global $post
 		wp_reset_postdata();
 		
+		// Replace the HTML5 tags with HTML4
+		$this->html = $this->html4ify($this->html);
+		
 		return !empty($this->html);
+	}
+	
+	
+	/**
+	 * Replaces the HTML5 elements defined in the $replacements array
+	 * with an HTML4 element.
+	 *
+	 * @param string $html 
+	 * @return string - replaced HTML
+	 */
+	private function html4ify($html) {
+		$replacements = array(
+			'<article' 		=> '<div',
+			'</article'		=> '</div',
+
+			'<header' 		=> '<div',
+			'</header' 		=> '</div',
+
+			'<footer' 		=> '<div',
+			'</footer' 		=> '</div',
+
+			'<sup'			=> '<span class="sup"',
+			'</sup'			=> '</span',
+
+			'<sub'			=> '<span class="sub"',
+			'</sub'			=> '</span',
+
+			'<figure'		=> '<div',
+			'</figure' 		=> '</div',
+
+			'<figcaption' 	=> '<div class="figcaption"',
+			'</figcaption' 	=> '</div',
+
+			'<section'		=> '<div',
+			'</section'		=> '</div',
+			
+			'<mark'			=> '<span',
+			'</mark'		=> '</span',
+			
+			'<time'			=> '<span',
+			'</time'		=> '</span',
+		);
+		return str_replace(array_keys($replacements), array_values($replacements), $html);
 	}
 	
 	
