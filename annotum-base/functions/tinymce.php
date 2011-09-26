@@ -1677,7 +1677,6 @@ function anno_replace_p_tag($xml) {
 	anno_convert_tag('p', 'para');
 }
 
-
 /**
  * Swap para tags with p tag. P tag has issues with embedded block level elements 
  * 

@@ -783,7 +783,7 @@ function anno_activity_information() {
 		$total_records += $val;
 	}
 	
-	// Only build detailed string if user's an editor or administrator
+	// Only build detailed string if user is an editor or administrator
 	if (current_user_can('editor') || current_user_can('administrator')) {
 		foreach ( get_post_stati(array('show_in_admin_status_list' => true), 'objects') as $status ) {
 			$class = '';
@@ -824,6 +824,7 @@ function anno_activity_information() {
 	}
 }
 add_action('activity_box_end', 'anno_activity_information');
+
 
 
 ?>
