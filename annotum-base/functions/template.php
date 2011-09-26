@@ -328,6 +328,35 @@ class Anno_Template {
 		return $out;
 	}
 	
+	public function get_references($post_id = null) {		
+		$out = '';
+		$post_id = $this->utils->post_id_for_sure($post_id);
+		$references = get_post_meta($post_id, '_anno_references', true);
+		if (is_array($references) && !empty($references)) {
+			
+			$out .= '<div class="references">
+						<section class="sec">
+							<h1><span>'._x('References', 'Reference title displayed in post.', 'anno').'</h1></span>
+							<ol>';
+			foreach ($references as $ref_key => $reference) {
+				if (!empty($reference['url'])) {
+					$url_markup = '<br /><a href="'.esc_url($reference['url']).'">'._x('Reference Link', 'Link text for reference list display', 'anno').'</a>';
+				}
+				else {
+					$url_markup = '';
+				}
+				
+				$out .= '<li id="'.esc_attr('ref'.($ref_key + 1)).'">'.esc_html($reference['text']).$url_markup.'</li>';
+				
+			}
+			$out .= '		</ol>
+						</section>
+					</div>';
+		}
+		return $out;
+	}
+	
+	
 	public function get_twitter_button($text = null, $attr = array()) {
 		if (!$text) {
 			$text = _x('Tweet', 'Text for Twitter button', 'anno');
@@ -582,6 +611,11 @@ function anno_the_funding_statement() {
 function anno_the_appendices() {
 	$template = Anno_Keeper::retrieve('template');
 	echo $template->get_appendices();
+}
+
+function anno_the_references() {
+	$template = Anno_Keeper::retrieve('template');
+	echo $template->get_references();
 }
 
 function anno_twitter_button($text = null, $attr = array()) {

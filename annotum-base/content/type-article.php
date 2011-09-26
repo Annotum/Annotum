@@ -59,6 +59,7 @@ if (CFCT_DEBUG) { cfct_banner(__FILE__); }
 				</section>
 			<?php endif; ?>
 			<?php anno_the_appendices(); ?>
+			<?php anno_the_references(); ?>
 		</div><!--/.content-->
 	</div><!--/.main-->
 	<footer class="footer">

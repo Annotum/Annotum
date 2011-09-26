@@ -3,7 +3,7 @@ var annoTable;
 (function($){
 	var inputs = {}, ed;
 
-	annoTable = {	
+	annoTable = {
 		keySensitivity: 100,
 		textarea: function() { return edCanvas; },
 
@@ -67,9 +67,7 @@ var annoTable;
 			label = $('input[name$="label"]', formObj).val();
 			caption = $('textarea[name$="caption"]', formObj).val();
 			
-			//TODO add <title> tags
-			html += '<table-wrap><label>' + label + '</label><cap><p>' + caption + '</p></cap><table>';
-			
+			html += '<table-wrap><label>' + label + '</label><cap><para>' + caption + '</para></cap><table>';
 			html += '<thead>';
 			html += '<tr>';
 			for (var x=0; x<cols; x++) {

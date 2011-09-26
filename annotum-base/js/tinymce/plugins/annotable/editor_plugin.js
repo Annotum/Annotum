@@ -10,7 +10,6 @@
 
 (function(tinymce) {
 	var each = tinymce.each;
-
 	// Checks if the selection/caret is at the start of the specified block element
 	function isAtStart(rng, par) {
 		var doc = par.ownerDocument, rng2 = doc.createRange(), elm;
@@ -1027,7 +1026,7 @@
 						for (last = ed.getBody().lastChild; last && last.nodeType == 3 && !last.nodeValue.length; last = last.previousSibling) ;
 
 						if (last && last.nodeName == 'TABLE')
-							ed.dom.add(ed.getBody(), 'p', null, '<br mce_bogus="1" />');
+							ed.dom.add(ed.getBody(), 'para', null, '<br mce_bogus="1" />');
 					};
 
 					// Fixes an bug where it's impossible to place the caret before a table in Gecko

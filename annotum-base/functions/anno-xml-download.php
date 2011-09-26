@@ -27,6 +27,9 @@ class Anno_XML_Download {
 		add_action('init', array($this, 'request_handler'));
 	}
 	
+	/**
+	 * Request handler for XML.
+	 */
 	public function request_handler() {
 		if (isset($_GET[$this->action])) {
 			switch ($_GET[$this->action]) {
@@ -50,7 +53,7 @@ class Anno_XML_Download {
 						wp_die(__('Required article first.', $this->i18n));
 					}
 					
-		
+					// @TODO make this an automatically downloading file, not Browser rendered
 					header("content-type:text/xml;charset=utf-8");
 					$this->generate_xml($article);
 					exit;
@@ -66,7 +69,15 @@ class Anno_XML_Download {
 		echo $this->xml_front($article)."\n".$this->xml_body($article)."\n".$this->xml_back($article);
 	}
 	
+	/**
+	 * Generate the Front portion of an article XML
+	 * 
+	 * @param postObject $article Article to generate the XML for. 
+	 * @return string XML generated
+	 */
 	private function xml_front($article) {
+		
+		// Journal Title
 		$journal_title = cfct_get_option('journal_name');
 		if (!empty($journal_title)) {
 			$journal_title_xml = '<journal-title-group>
@@ -77,6 +88,7 @@ class Anno_XML_Download {
 			$journal_title_xml = '';
 		}
 		
+		// Journal ID
 		$journal_id = cfct_get_option('journal_id');
 		if (!empty($journal_id)) {
 			$journal_id_type = cfct_get_option('journal_id_type');
@@ -93,6 +105,7 @@ class Anno_XML_Download {
 			$journal_id_xml = '';
 		}
 		
+		// Publisher ISSN
 		$pub_issn = cfct_get_option('publisher_issn');
 		if (!empty($pub_issn)) {
 			$pub_issn_xml = '<issn pub-type="ppub">'.esc_html($pub_issn).'</issn>';
@@ -101,6 +114,7 @@ class Anno_XML_Download {
 			$pub_issn_xml = '';
 		}
 		
+		// Abstract
 		$abstract = get_post_meta($article->ID, '_anno_abstract', true);
 		if (!empty($abstract)) {
 			$abstract_xml = '<abstract>
@@ -112,6 +126,7 @@ class Anno_XML_Download {
 			$abstract_xml = '';
 		}
 		
+		// Funding Statement
 		$funding = get_post_meta($article->ID, '_anno_funding', true);
 		if (!empty($funding)) {
 			$funding_xml = '<funding-group>
@@ -122,6 +137,9 @@ class Anno_XML_Download {
 			$funding_xml = '';
 		}
 		
+		//@TODO PMID?
+		
+		// DOI
 		$doi = get_post_meta($article->ID, '_anno_doi', true);
 		if (!empty($doi)) {
 			$doi_xml = '<article-id pub-id-type="doi">'.esc_html($doi).'</article-id>';
@@ -130,6 +148,7 @@ class Anno_XML_Download {
 			$doi_xml = '';
 		}
 
+		// Article category. Theoretically there can only be one!
 		$cats = wp_get_object_terms($article->ID, 'article_category');
 		if (!empty($cats) && is_array($cats)) {
 			$category = get_category($cats[0]); 
@@ -148,6 +167,7 @@ class Anno_XML_Download {
 			$category_xml = '';
 		}
 		
+		// Article Tags
 		$tags = wp_get_object_terms($article->ID, 'article_tag');
 		if (!empty($tags) && is_array($tags)) {
 			$tag_xml = '<kwd-group kwd-group-type="simple">';
@@ -162,8 +182,7 @@ class Anno_XML_Download {
 			$tag_xml = '';
 		}
 		
-		//<kwd-group kwd-group-type="simple">
-		//				<kwd><bold>Formatted Text</bold></kwd>
+		// Article title/subtitle
 		$subtitle =  get_post_meta($article->ID, '_anno_subtitle', true);
 		$title_xml = '<title-group>';
 		if (!empty($article->post_title) || !empty($subtitle)) {
@@ -184,7 +203,7 @@ class Anno_XML_Download {
 		$title_xml .= '
 			</title-group>';
 		
-		
+		// Publisher info
 		$pub_name = cfct_get_option('publisher_name');
 		$pub_loc = cfct_get_option('publisher_location');
 		if (!empty($pub_name) || !empty($pub_loc)) {
@@ -206,7 +225,8 @@ class Anno_XML_Download {
 		}
 		
 		$pub_date_xml = $this->xml_pubdate($article->post_date);
-			
+		
+		// Authors	
 		$authors = get_post_meta($article->ID, '_anno_author_snapshot', true);
 		$author_xml = '<contrib-group>';
 		if (!empty($authors) && is_array($authors)) {
@@ -242,8 +262,9 @@ class Anno_XML_Download {
 					}
 					
 					
-// Can't display user's emails to the public!					
-/*					if (isset($author['email']) && !empty($author['email'])) {
+// Can't display user's emails to the public!				
+/*					
+					if (isset($author['email']) && !empty($author['email'])) {
 						$author_xml .= '
 						<email>'.esc_html($author['email']).'</email>';
 					}
@@ -276,7 +297,7 @@ class Anno_XML_Download {
 		$author_xml .= '
 		</contrib-group>';
 		
-//@TODO abstract out journal meta, article meta to their own methods
+//@TODO potentially abstract out journal meta, article meta to their own methods
 			return 
 '<?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE article SYSTEM "http://dtd.nlm.nih.gov/ncbi/kipling/kipling-jp3.dtd">
@@ -400,7 +421,7 @@ class Anno_XML_Download {
 				}
 				
 				$xml .='
-			<ref id="R'.$ref_key_display.'">
+			<ref id="'.$ref_key_display.'">
 				<label>'.$ref_key_display.'</label>
 				<mixed-citation'.$link.'>'.$text.'
 					'.$doi.$pmid.'

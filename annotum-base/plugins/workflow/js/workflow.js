@@ -27,7 +27,6 @@ jQuery(document).ready( function($) {
 		status_div.html('').hide();
 		
 		$.post(ajaxurl, data, function(d) {
-			console.log(d.message);
 			if (d.message == 'success') {
 				$('ul#co-author-list').prepend(d.html);
 				// Append co-author to author dropdown
