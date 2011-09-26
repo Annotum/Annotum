@@ -775,17 +775,20 @@ function anno_activity_information() {
 	
 	$num_posts = wp_count_posts( $article_post_type, 'readable' );
 	
-	$total_records = 0;
-	$status_rows = array();
-	$detail_string = '';
-	
-	foreach ($num_posts as $key=>$val) {
-		$total_records += $val;
+	// Get the absolute total of $num_posts
+	$total_records = array_sum( (array) $num_posts );
+
+	// Subtract post types that are not included in the admin all list.
+	foreach (get_post_stati(array('show_in_admin_all_list' => false)) as $state) {
+		$total_records -= $num_posts->$state;
 	}
+	
+	// Default detail string
+	$detail_string = '';
 	
 	// Only build detailed string if user is an editor or administrator
 	if (current_user_can('editor') || current_user_can('administrator')) {
-		foreach ( get_post_stati(array('show_in_admin_status_list' => true), 'objects') as $status ) {
+		foreach (get_post_stati(array('show_in_admin_status_list' => true), 'objects') as $status) {
 			$class = '';
 
 			$status_name = $status->name;
