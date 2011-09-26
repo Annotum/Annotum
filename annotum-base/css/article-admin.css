@@ -134,11 +134,34 @@ body .ui-widget-overlay {
 	margin: 0;
 }
 .anno-mce-popup input[type="button"],
-.anno-mce-popup input[type="submit"] {
+.anno-mce-popup input[type="submit"] {	
 	width: auto;
 	cursor: pointer;
 	min-width: 100px;
 }
+.anno-mce-popup input[type="button"].blue,
+.anno-mce-popup input[type="submit"].blue {
+	text-decoration: none;
+	font-size: 12px!important;
+	line-height: 13px;
+	cursor: pointer;
+	border-width: 1px;
+	border-style: solid;
+	-moz-border-radius: 11px;
+	-khtml-border-radius: 11px;
+	-webkit-border-radius: 11px;
+	border-radius: 11px;
+	-moz-box-sizing: content-box;
+	-webkit-box-sizing: content-box;
+	-khtml-box-sizing: content-box;
+	box-sizing: content-box;
+	border-color: #298CBA;
+	font-weight: bold;
+	color: white;
+	background: #21759B url(../img/button-grad.png) repeat-x scroll left top;
+	text-shadow: rgba(0, 0, 0, 0.3) 0 -1px 0;
+}
+
 .anno-mce-popup input[type="checkbox"] {
 	width: auto;
 	margin-left: 5px;
@@ -252,12 +275,12 @@ table#anno-references table td table td {
 }
 #anno-references input[type="button"]:disabled,
 #anno-references input[type="button"]:disabled:hover {
-	background-color: #EEE;
+	font-weight: normal;
+	background: #EEE;
 	border-color: #BBB;
 	color: #464646;
+	text-shadow: none;
 }
-
-
 /** TinyMCE Images Popup
  -------------------------------------------------- */
 #anno-popup-images-inside.anno-mce-popup input[type="file"] {
