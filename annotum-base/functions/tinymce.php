@@ -375,14 +375,14 @@ function anno_popup_references_row_edit($reference_key, $reference, $post_id, $d
 						?>
 							<span><?php _ex('CrossRef DOI', 'input label for DOI lookup', 'anno'); ?></span>
 							<input type="text" class="short" name="doi" id="<?php echo esc_attr('doi-'.$reference_key); ?>" value="<?php echo $doi_value; ?>"<?php disabled($doi_enabled, false, true); ?>/>
-							<input type="button" name="import_doi" id="<?php echo esc_attr('doi-import-'.$reference_key); ?>" value="<?php _ex('Import', 'button label', 'anno'); ?>"<?php disabled($doi_enabled, false, true); ?>>
+							<input type="button" class="blue" name="import_doi" id="<?php echo esc_attr('doi-import-'.$reference_key); ?>" value="<?php _ex('Import', 'button label', 'anno'); ?>"<?php disabled($doi_enabled, false, true); ?>>
 							<img src="<?php echo esc_url(admin_url('images/wpspin_light.gif' )); ?>" class="ajax-loading" />
 							<?php wp_nonce_field('anno_import_doi', '_ajax_nonce-import-doi', false); ?>
 						</label>
 						<label>
 							<span><?php _ex('PubMed ID (PMID)', 'input for PubMed ID lookup', 'anno'); ?></span>
 							<input type="text" class="short" name="pmid" id="<?php echo esc_attr('pmid-'.$reference_key); ?>" value="<?php echo esc_attr($reference['pmid']) ?>" />
-							<input type="button" name="import_pubmed" id="<?php echo esc_attr('pmid-import-'.$reference_key); ?>" value="<?php _ex('Import', 'button label', 'anno'); ?>">
+							<input type="button" class="blue" name="import_pubmed" id="<?php echo esc_attr('pmid-import-'.$reference_key); ?>" value="<?php _ex('Import', 'button label', 'anno'); ?>">
 							<img src="<?php echo esc_url( admin_url( 'images/wpspin_light.gif' ) ); ?>" class="ajax-loading" />
 							<?php wp_nonce_field('anno_import_pubmed', '_ajax_nonce-import-pubmed', false); ?>
 						</label>
