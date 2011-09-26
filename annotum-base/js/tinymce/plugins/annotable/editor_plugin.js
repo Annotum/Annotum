@@ -750,7 +750,7 @@
 	};
 
 	tinymce.create('tinymce.plugins.annoTable', {
-		init : function(ed, url) {			
+		init : function(ed, url) {
 			var winMan, clipboardRows, hasCellSelection = true; // Might be selected cells on reload
 
 			function createTableGrid(node) {
