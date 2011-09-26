@@ -763,4 +763,67 @@ Password: %s
 	return $user_id;
 }
 
+function anno_activity_information() {
+	global $current_site, $avail_post_stati;
+	$article_post_type = 'article';
+	$status_text = array(
+		'trash' => __('trashed', 'anno'),
+		'publish' => __('published', 'anno'),
+		'pending' => __('pending review', 'anno'),
+		'draft' => __('drafted', 'anno'),
+	);
+	
+	$num_posts = wp_count_posts( $article_post_type, 'readable' );
+	
+	$total_records = 0;
+	$status_rows = array();
+	$detail_string = '';
+	
+	foreach ($num_posts as $key=>$val) {
+		$total_records += $val;
+	}
+	
+	// Only build detailed string if user's an editor or administrator
+	if (current_user_can('editor') || current_user_can('administrator')) {
+		foreach ( get_post_stati(array('show_in_admin_status_list' => true), 'objects') as $status ) {
+			$class = '';
+
+			$status_name = $status->name;
+
+			if (!in_array($status_name, array_keys($status_text)))
+				continue;
+
+			if ( empty( $num_posts->$status_name ) )
+				continue;
+
+			if ( isset($_REQUEST['post_status']) && $status_name == $_REQUEST['post_status'] )
+				$class = ' class="current"';
+
+			$detail_string .= sprintf(
+				'%d %s <a href="%s">%s</a>. ',
+					$num_posts->$status_name,
+					($num_posts->$status_name != 1) ? 'are' : 'is',
+					"edit.php?post_type={$article_post_type}&post_status={$status_name}",
+					$status_text[$status_name]
+			);
+		}
+	}
+	
+	if ($total_records > 0) {
+		$output_string = sprintf(__('<a href="%s">%s</a> has %d <a href="%s">Articles</a>. %s', 'anno'),
+			get_bloginfo('url'),
+			get_bloginfo('name'),
+			$total_records,
+			"edit.php?post_type=$article_post_type",
+			$detail_string
+		);
+	}
+	
+	if ($output_string) {
+		echo '<p>'.$output_string.'</p>';
+	}
+}
+add_action('activity_box_end', 'anno_activity_information');
+
+
 ?>
