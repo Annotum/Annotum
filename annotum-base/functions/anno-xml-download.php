@@ -421,7 +421,7 @@ class Anno_XML_Download {
 				}
 				
 				$xml .='
-			<ref id="R'.$ref_key_display.'">
+			<ref id="'.$ref_key_display.'">
 				<label>'.$ref_key_display.'</label>
 				<mixed-citation'.$link.'>'.$text.'
 					'.$doi.$pmid.'

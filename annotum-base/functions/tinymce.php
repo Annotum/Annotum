@@ -89,7 +89,7 @@ function anno_admin_print_footer_scripts() {
 			'preformat[]',
 			'body[sec|para|media|list|disp-formula|disp-quote|fig|table-wrap|preformat|table]',
 			'copyright-statement['.$formats_as_children.']',
-			'license-p['.$formats_as_children.'|xref]',
+			'license-p['.$formats_as_children.'|xref|ext-link]',
 			'heading['.$formats_as_children.']',
 			'media[alt-text|long-desc|permissions]',
 			'permissions[copyright-statement|copyright-holder|license]',
@@ -102,7 +102,7 @@ function anno_admin_print_footer_scripts() {
 			'cap[title|para|xref]',
 			'table-wrap[label|cap|table|table-wrap-foot|permissions]',
 			'table-wrap-foot[para]',
-			'para['.$formats_as_children.'|media|img|permissions|license|list|list-item|disp-formula|disp-quote|fig|cap|table-wrap|table-wrap-foot|table|h2|xref|img|table]',
+			'para['.$formats_as_children.'|media|img|permissions|license|list|list-item|disp-formula|disp-quote|fig|cap|table-wrap|table-wrap-foot|table|h2|xref|img|table|ext-link]',
 			'sec[sec|heading|media|img|permissions|license|list|list-item|disp-formula|disp-quote|fig|cap|table-wrap|table-wrap-foot|para|h2|table]',
 		);
 
@@ -1817,7 +1817,7 @@ function anno_to_xml_disp_quote_p($xml) {
 		
 		// "We can rebuild him, we have the technology"
 		$quote->append($attribution_markup);
-		$quote->append($permissions_markup);				
+		$quote->append($permissions_markup);
 	}
 }
 add_action('anno_to_xml', 'anno_to_xml_disp_quote_p');
