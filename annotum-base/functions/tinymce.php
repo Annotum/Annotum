@@ -47,6 +47,7 @@ function anno_admin_print_footer_scripts() {
 			'disp-quote',
 			'monospace',
 			'preformat',
+			'para',
 		), $formats);
 		
 		$custom_elements = array(
@@ -79,13 +80,14 @@ function anno_admin_print_footer_scripts() {
 			'table-wrap',
 			'cap',
 			'disp-quote',
+			'para',
 		);
 		
 		$formats_as_children = implode('|', $formats);
 		
 		$valid_children = array(
 			'preformat[]',
-			'body[sec|p|media|list|disp-formula|disp-quote|fig|table-wrap|preformat]',
+			'body[sec|para|media|list|disp-formula|disp-quote|fig|table-wrap|preformat|table]',
 			'copyright-statement['.$formats_as_children.']',
 			'license-p['.$formats_as_children.'|xref]',
 			'heading['.$formats_as_children.']',
@@ -93,15 +95,15 @@ function anno_admin_print_footer_scripts() {
 			'permissions[copyright-statement|copyright-holder|license]',
 			'license[license-p|xref]',
 			'list[title|list-item]',
-			'list-item[p|xref|list]',
+			'list-item[para|xref|list]',
 			'disp-formula[label|tex-math]',
-			'disp-quote[p|attrib|permissions]',
+			'disp-quote[para|attrib|permissions]',
 			'fig[label|cap|media|img]',
-			'cap[title|p|xref]',
+			'cap[title|para|xref]',
 			'table-wrap[label|cap|table|table-wrap-foot|permissions]',
-			'table-wrap-foot[p]',
-			'p['.$formats_as_children.'|media|img|permissions|license|list|list-item|disp-formula|disp-quote|fig|cap|table-wrap|table-wrap-foot|table|h2|xref|img]',
-			'sec[sec|heading|media|img|permissions|license|list|list-item|disp-formula|disp-quote|fig|cap|table-wrap|table-wrap-foot|p|h2]',
+			'table-wrap-foot[para]',
+			'para['.$formats_as_children.'|media|img|permissions|license|list|list-item|disp-formula|disp-quote|fig|cap|table-wrap|table-wrap-foot|table|h2|xref|img|table]',
+			'sec[sec|heading|media|img|permissions|license|list|list-item|disp-formula|disp-quote|fig|cap|table-wrap|table-wrap-foot|para|h2|table]',
 		);
 
 		wp_tiny_mce(false, array(
@@ -120,7 +122,7 @@ function anno_admin_print_footer_scripts() {
 					title : { \'block\' : \'heading\' },
 					preformat : { \'inline\' : \'preformat\' },
 				}',
-			'theme_advanced_blockformats' => 'Paragraph=p,Title=heading,Section=sec',
+			'theme_advanced_blockformats' => 'Paragraph=para,Title=heading,Section=sec',
 			'forced_root_block' => '',
 			'editor_css' => trailingslashit(get_template_directory_uri()).'css/tinymce-ui.css?v=4',
 			'debug' => 'true',
@@ -710,6 +712,7 @@ function anno_insert_reference($ref_array) {
 	else {
 		return false;
 	}
+	
 	// @TODO Reset our array keys in case any have become offset account for in post_content
 	update_post_meta(absint($ref_array['post_id']), '_anno_references', $references);
 	
@@ -780,7 +783,7 @@ add_action('wp_ajax_anno-img-save', 'anno_tinymce_image_save');
  * @return void
  */
 function anno_process_editor_content($content) {
-	phpQuery::newDocument($content)->xpath->registerNamespace('xlink', 'annotum.org');
+	phpQuery::newDocument($content);
 
 	// Convert inline-graphics to <img> tags so they display
 	anno_xml_to_html_replace_inline_graphics($content);
@@ -788,6 +791,8 @@ function anno_process_editor_content($content) {
 	// Convert caption to cap
 	$content = anno_replace_caption_tag($content);
 
+	$content = anno_replace_p_tag($content);
+	
 	// Convert title to heading
 	$content = anno_replace_title_tag($content);
 	
@@ -929,6 +934,9 @@ function anno_get_dtd_valid_elements() {
 							'<xref>',
 					
 		'<preformat>',
+		'<article>',
+			'<sec>',
+			'<para>',
 	);
 	return apply_filters('anno_valid_dtd_elements', $tags);
 }
@@ -966,12 +974,13 @@ add_action('add_post_meta', 'anno_save_appendices_xml_as_html', 10, 3);
 function anno_insert_post_data($data, $postarr) {
 	if ($data['post_type'] == 'article') {
 		$content = stripslashes($data['post_content']);
-			
+		
 		// Set XML as backup content. Filter markup and strip out tags not on whitelist.
-		$data['post_content_filtered'] = addslashes(anno_validate_xml_content_on_save($content));
+		$xml = anno_validate_xml_content_on_save($content);
+		$data['post_content_filtered'] = addslashes($xml);
 		
 		// Set formatted HTML as the_content
-		$data['post_content'] = addslashes(anno_xml_to_html($content));
+		$data['post_content'] = addslashes(anno_xml_to_html($xml));
 	}
 	return $data;
 }
@@ -1189,7 +1198,7 @@ function anno_xml_to_html_replace_figures($orig_xml) {
 			$label = ($label ? sprintf(__('Fig. %d', 'anno'), ++$count).': '.strip_tags($label) : '');
 			$label_tag = $tpl->to_tag('h2', $label, array('class' => 'label'));
 			
-			$cap = $fig->children('cap')->html();
+			$cap = $fig->children('caption')->html();
 			$cap_tag = $tpl->to_tag('div', $cap, array('class' => 'fn'));
 			
 			$permissions = $fig->find('permissions');
@@ -1221,7 +1230,7 @@ function anno_xml_to_html_replace_sec($orig_xml) {
 		foreach ($sections as $sec) {
 			$sec = pq($sec);
 			// Replace Titles
-			$title = $sec->find('title,heading');
+			$title = $sec->find('title');
 			$title->replaceWith('<h2 class="title"><span>'.$title->html().'</span></h2>');
 			
 			// Replace sections
@@ -1384,11 +1393,11 @@ add_action('anno_xml_to_html', 'anno_xml_to_html_replace_tables');
 function anno_xml_to_html_iterate_table($table) {
 	// Get table title & caption'
 	$figcaption = $table->children('label:first')->html();
-	$table_caption = $table->children('cap:first')->html();
+	$table_caption = $table->children('caption:first')->html();
 	
 	// Now that we have the title and caption, get rid of the elements
 	$table->children('label:first')->remove();
-	$table->children('cap:first')->remove();
+	$table->children('caption:first')->remove();
 	
 	$inner_table = $table->children('table');
 	
@@ -1656,6 +1665,29 @@ function anno_get_attribute_value_regex($element, $element_name, $attribute_name
 function anno_replace_caption_tag($xml) {
 	anno_convert_tag('caption', 'cap');
 }
+
+/**
+ * Convert p tag to para tag for display in editor
+ * Browsers auto close <p> tag when it encounters another block level element.
+ * 
+ * @param phpQueryObject $xml
+ * @return void
+ */
+function anno_replace_p_tag($xml) {
+	anno_convert_tag('p', 'para');
+}
+
+
+/**
+ * Swap para tags with p tag. P tag has issues with embedded block level elements 
+ * 
+ * @param phpQueryObject $xml (unused, required by add_action)
+ * @return void
+ */
+function anno_to_xml_para_tag($xml) {
+	anno_convert_tag('para', 'p');
+}
+add_action('anno_to_xml', 'anno_to_xml_para_tag');
 
 /**
  * Format caption content and converts cap tags to caption to 

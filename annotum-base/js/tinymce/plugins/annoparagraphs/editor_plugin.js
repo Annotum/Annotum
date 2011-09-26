@@ -38,20 +38,23 @@
 			var rb, ra, dir, sn, so, en, eo, sb, eb, bn, bef, aft, sc, ec, n, vp = dom.getViewPort(ed.getWin()), y, ch, car;
 			var TRUE = true, FALSE = false, newElement, node = ed.selection.getNode();
 			ed.undoManager.beforeChange();
+			
+			// Override default tinyMCE element.
+			se.element = 'para';
 				
-			if (e.ctrlKey || /(BODY|HTML|HEADING)/.test(node.nodeName)) {
+			if (e.ctrlKey || /(BODY|HTML|HEADING|PARA)/.test(node.nodeName)) {
 				function insertNewBlock(node) {
 					var newElement, parentNode;
 
-					if (dom.getParent(node, 'P') !== null) {
-						node = dom.getParent(node, 'P');
+					if (dom.getParent(node, 'PARA') !== null) {
+						node = dom.getParent(node, 'PARA');
 					}
 					
 					if (!(parentNode = dom.getParent(node, 'SEC')) || node.nodeName == 'SEC') {
 						newElement = newSec();
 					}
 					else {
-						newElement = dom.create('P');
+						newElement = dom.create('PARA');
 					}
 					
 					return dom.insertAfter(newElement, node);
@@ -61,17 +64,19 @@
 				function newSec() {
 					var sec = dom.create('sec', null);
 					dom.add(sec, 'heading', null, '&nbsp');
-					dom.add(sec, 'p');
+					dom.add(sec, 'para');
 					return sec;
 				}
 
-				if (/(DISP-FORMULA|TABLE-WRAP|FIG|DISP-QUOTE|HEADING)/.test(node.nodeName)) {
+				// Just insert a new paragraph if the ctrl key isn't held and the cara is in a para tag
+				// Or, various tags should create paragraphs, not enter a br (when the ctrl key is held).
+				if ((!e.ctrlKey && /(PARA)/.test(node.nodeName)) || /(DISP-FORMULA|TABLE-WRAP|FIG|DISP-QUOTE|HEADING)/.test(node.nodeName)) {
 					newElement = insertNewBlock(node);
 				}
 				else if (/(BODY|HTML)/.test(node.nodeName)) {
 					secElement = dom.add(node, 'sec');
 					newElement = dom.add(secElement, 'heading', null, '&nbsp');
-					dom.add(secElement, 'p');
+					dom.add(secElement, 'para');
 				}
 				else if (parentNode = dom.getParent(node, 'FIG')) {
 					newElement = insertNewBlock(parentNode);
@@ -131,6 +136,8 @@
 					dom.remove(sn.firstChild); // Remove BR
 
 				// Create two new block elements
+				console.log(sn);
+				console.log(se);
 
 				if (sn.childNodes.length == 0) {
 					ed.dom.add(sn, se.element, null, '<br />');
@@ -215,7 +222,7 @@
 					listBlock = dom.getParent(li, 'list');
 					if (!dom.getParent(listBlock.parentNode, 'list')) {
 						dom.split(listBlock, li);
-//						block = dom.create('p', 0, '<br data-mce-bogus="1" />');
+//						block = dom.create('para', 0, '<br data-mce-bogus="1" />');
 //						dom.replace(block, li);
 //						selection.select(block, 1);3
 					}
@@ -250,9 +257,9 @@
 			aft.removeAttribute('id');
 
 			// Is header and cursor is at the end, then force paragraph under
-			if (/^(HEADING)$/.test(bn) && isAtEnd(r, sb))
+			if (/^(HEADING)$/.test(bn) && isAtEnd(r, sb)) 
 				aft = ed.dom.create(se.element);
-
+			
 			// Find start chop node
 			n = sc = sn;
 			do {

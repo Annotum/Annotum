@@ -101,7 +101,7 @@
 		else if (isList(e1)) {
 			return (dom.getAttrib(e2, 'list-type') === dom.getAttrib(e1, 'list-type'));
 		} 
-		else if (mergeParagraphs && e1.tagName === 'P' && e2.tagName === 'P') {
+		else if (mergeParagraphs && e1.tagName === 'PARA' && e2.tagName === 'PARA') {
 			return true;
 		} 
 		else {
@@ -124,7 +124,7 @@
 		var dom = tinymce.activeEditor.dom;
 		var firstTitle = dom.select('heading', e1), secondTitle = dom.select('heading', e2);
 		
-		if (e1.tagName === 'P') {
+		if (e1.tagName === 'PARA') {
 			e1.appendChild(e1.ownerDocument.createElement('br'));
 		}
 		while (e2.firstChild) {
@@ -246,7 +246,7 @@
 
 				// copy the image an its text to the list item
 				var clone = n.parentNode.cloneNode(true);
-				if (clone.tagName === 'P' || clone.tagName === 'DIV')
+				if (clone.tagName === 'PARA' || clone.tagName === 'DIV')
 					addChildren(clone, li);
 				else
 					li.appendChild(clone);
@@ -298,7 +298,7 @@
 					if (n && n.tagName === 'LIST-ITEM') {
 						// Fix the caret position on IE since it jumps back up to the previous list item.
 						n = ed.dom.getParent(n, 'list').nextSibling;
-						if (n && n.tagName === 'P') {
+						if (n && n.tagName === 'PARA') {
 							if (!n.firstChild) {
 								n.appendChild(ed.getDoc().createTextNode(''));
 							}
@@ -334,14 +334,14 @@
 				if (element.tagName === 'LIST-ITEM') {
 					// No change required.
 				} 
-				else if (element.tagName === 'P' || element.tagName === 'DIV' || element.tagName === 'BODY') {
+				else if (element.tagName === 'PARA' || element.tagName === 'DIV' || element.tagName === 'BODY') {
 					processBrs(element, function(startSection, br, previousBR) {
 						doWrapList(startSection, br, element.tagName === 'BODY' ? null : startSection.parentNode);
 						li = startSection.parentNode;
 						cleanupBr(br);
 					});
 					//@Removes the wrapping of P
-				//	if (element.tagName === 'P' || selectedBlocks.length > 1) {
+				//	if (element.tagName === 'PARA' || selectedBlocks.length > 1) {
 				//		dom.split(li.parentNode.parentNode, li.parentNode);
 				//	}
 					attemptMergeWithAdjacent(li.parentNode, true);
@@ -491,8 +491,8 @@
 				applied.push(element);
 				
 				// If the list is already contained in a p tag, dont wrap in another.
-				if (dom.getParent(element, 'P') == null) {
-					element = dom.rename(element, 'p');
+				if (dom.getParent(element, 'PARA') == null) {
+					element = dom.rename(element, 'para');
 				}
 				else {
 					dom.setOuterHTML(element, element.innerHTML);
@@ -545,7 +545,7 @@
 					'H4': makeList,
 					'H5': makeList,
 					'H6': makeList,
-					'P': makeList,
+					'PARA': makeList,
 					'BODY': makeList,
 					'DIV': selectedBlocks.length > 1 ? makeList : wrapList,
 					defaultAction: wrapList
@@ -614,7 +614,7 @@
 					element = splitNestedLists(element, dom);
 					listElement = element.parentNode;
 					targetParent = element.parentNode.parentNode;
-					if (targetParent.tagName === 'P') {
+					if (targetParent.tagName === 'PARA') {
 						dom.split(targetParent, element.parentNode);
 					} else {
 						dom.split(listElement, element);
@@ -622,7 +622,7 @@
 							// Nested list, need to split the LI and go back out to the OL/UL element.
 							dom.split(targetParent, element);
 						} else if (!dom.is(targetParent, 'ol,ul')) {
-							dom.rename(element, 'p');
+							dom.rename(element, 'para');
 						}
 					}
 					outdented.push(element);
