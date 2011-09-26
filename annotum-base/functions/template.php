@@ -337,7 +337,7 @@ class Anno_Template {
 			$out .= '<div class="references">
 						<section class="sec">
 							<h1><span>'._x('References', 'Reference title displayed in post.', 'anno').'</h1></span>
-							<ol>';
+							<ul>';
 			foreach ($references as $ref_key => $reference) {
 				if (!empty($reference['url'])) {
 					$url_markup = '<br /><a href="'.esc_url($reference['url']).'">'._x('Reference Link', 'Link text for reference list display', 'anno').'</a>';
@@ -346,10 +346,10 @@ class Anno_Template {
 					$url_markup = '';
 				}
 				
-				$out .= '<li id="'.esc_attr('ref'.($ref_key + 1)).'">'.esc_html($reference['text']).$url_markup.'</li>';
+				$out .= '<li data-refid="'.esc_attr($ref_key+1).'" id="'.esc_attr('ref'.($ref_key + 1)).'">'.esc_html($reference['text']).$url_markup.'</li>';
 				
 			}
-			$out .= '		</ol>
+			$out .= '		</ul>
 						</section>
 					</div>';
 		}
