@@ -136,9 +136,6 @@
 					dom.remove(sn.firstChild); // Remove BR
 
 				// Create two new block elements
-				console.log(sn);
-				console.log(se);
-
 				if (sn.childNodes.length == 0) {
 					ed.dom.add(sn, se.element, null, '<br />');
 					aft = ed.dom.add(sn, se.element, null, '<br />');
