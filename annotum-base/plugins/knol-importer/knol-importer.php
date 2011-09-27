@@ -907,21 +907,19 @@ foreach ($this->authors as $author_key => $author_data) {
 				foreach ( $post['postmeta'] as $meta ) {
 					$key = apply_filters( 'import_post_meta_key', $meta['key'] );
 					$value = false;
-					
-					$mapped_author_id = intval($authors->processed_authors[$knol_author_id]);
-					
+										
 					// Store both the Knol ID and WP ID, for potential future users/associations.
 					if (strpos('_anno_knol_author_', $key) !== false) {
 						$knol_author_id = str_replace('_anno_knol_author_', '', $key);
 						if (isset($authors->processed_authors[$knol_author_id])) {
-							add_post_meta($post_id, '_anno_author_'.$mapped_author_id, $mapped_author_id, true);
+							add_post_meta($post_id, '_anno_author_'.$author, $author, true);
 						}
 					}
 					
 					if (strpos('_anno_knol_reviewer_', $key) !== false) {
 						$knol_author_id = str_replace('_anno_knol_reviewer_', '', $key);
 						if (isset($authors->processed_authors[$knol_author_id])) {
-							add_post_meta($post_id, '_anno_reviewer_'.$mapped_author_id, $mapped_author_id, true);
+							add_post_meta($post_id, '_anno_reviewer_'.$author, $author, true);
 						}
 					}
 					
