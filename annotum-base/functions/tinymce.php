@@ -1,4 +1,54 @@
 <?php
+
+/**
+ * Set acceptable custom tags for wp_kses
+ */ 
+$allowedposttags = array_merge($allowedposttags, array(
+	'alt-text' => array(),
+	'attrib' => array(),
+	'bold' => array(),
+	'cap' => array(),
+	'copyright-statement' => array(),
+	'copyright-holder' => array(),
+	'disp-quote' => array(),	
+	'ext-link' => array(
+		'type' => array(),
+		'xlink:href' => array(),
+		'title' => array(),
+	),
+	'fig' => array(),
+	'inline-graphic' => array(
+		'xlink:href' => array(),
+	),
+	'heading' => array(),
+	'italic' => array(),
+	'label' => array(),
+	'license' => array(
+		'license-type' => array(),
+	),
+	'license-p' => array(),
+	'list' => array(
+		array('list-type'),
+	),
+	'list-item' => array(),
+	'long-desc' => array(),
+	'media' => array(
+		'xlink:href' => array(),
+	),
+	'monospace' => array(),
+	'para' => array(),
+	'preformat' => array(),
+	'permissions' => array(),
+	'sec' => array(),
+	'title' => array(),
+	'table-wrap' => array(),
+	'underline' => array(),
+	'xref' => array(
+		'ref-type' => array(),
+		'rid' => array(),
+	),
+));
+	
 /**
  * Load TinyMCE for the body and appendices.
  */
@@ -15,39 +65,38 @@ function anno_admin_print_footer_scripts() {
 		$formats = array(
 			'bold',
 			'italic',
+			'monospace',
+			'preformat',
 			'sup',
 			'sub',
-			'monospace',
 			'underline',
-			'preformat',
 		);
 		
 		$extended_valid_elements = array_merge(array(
-			'ext-link[ext-link-type:uri|xlink::href|title]',
-			'sec',
-			'xref[ref-type|rid]',
-			'inline-graphic[xlink::href]',
 			'alt-text',
-			'fig',
-			'label',
-			'heading',
-			'media[xlink::href]',
-			'long-desc',
-			'permissions',
+			'attrib',
+			'cap',
 			'copyright-statement',
 			'copyright-holder',
+			'disp-quote',
+			'ext-link[ext-link-type:uri|xlink::href|title]',
+			'fig',
+			'heading',
+			'inline-graphic[xlink::href]',
+			'label',
 			'license[license-type:creative-commons]',
 			'license-p',
-			'table-wrap',
-			'disp-quote',
-			'attrib',
 			'list[list-type]',
 			'list-item',
-			'cap',
-			'disp-quote',
+			'long-desc',
+			'media[xlink::href]',
 			'monospace',
-			'preformat',
+			'permissions',
 			'para',
+			'preformat',
+			'sec',
+			'table-wrap',
+			'xref[ref-type|rid]',
 		), $formats);
 		
 		$custom_elements = array(
@@ -194,7 +243,7 @@ class Anno_tinyMCE {
 		
 			$plugins['annoTable'] = trailingslashit(get_bloginfo('template_directory')).'js/tinymce/plugins/annotable/editor_plugin.js';
 			$plugins['annoTable_base'] = trailingslashit(get_bloginfo('template_directory')).'js/tinymce/plugins/annotable/annotable.js';
-		
+			
 			$plugins['annoQuote'] = trailingslashit(get_bloginfo('template_directory')).'js/tinymce/plugins/annoquote/editor_plugin.js';
 			$plugins['annoQuote_base'] = trailingslashit(get_bloginfo('template_directory')).'js/tinymce/plugins/annoquote/annoquote.js';
 		
@@ -208,8 +257,7 @@ class Anno_tinyMCE {
 			
 			$plugins['annoEquations'] = trailingslashit(get_bloginfo('template_directory')).'js/tinymce/plugins/annoequations/editor_plugin.js';
 			
-//			$plugins['annoPaste'] = trailingslashit(get_bloginfo('template_directory')).'js/tinymce/plugins/annopaste/editor_plugin.js';
-						
+		//	$plugins['annoPaste'] = trailingslashit(get_bloginfo('template_directory')).'js/tinymce/plugins/annopaste/editor_plugin.js';		
 		}
 		return $plugins;
 	}
@@ -973,6 +1021,7 @@ add_action('add_post_meta', 'anno_save_appendices_xml_as_html', 10, 3);
  */
 function anno_insert_post_data($data, $postarr) {
 	if ($data['post_type'] == 'article') {
+		
 		$content = stripslashes($data['post_content']);
 		
 		// Set XML as backup content. Filter markup and strip out tags not on whitelist.
