@@ -261,14 +261,12 @@ class Anno_XML_Download {
 					</name>';
 					}
 					
-					
-// Can't display user's emails to the public!				
-/*					
+					// @TODO TDB whether or not to include email							
 					if (isset($author['email']) && !empty($author['email'])) {
 						$author_xml .= '
 						<email>'.esc_html($author['email']).'</email>';
 					}
-*/
+
 					if (isset($author['degrees']) && !empty($author['degrees'])) {
 						$author_xml .= '
 						<degrees>'.esc_html($author['degrees']).'</degrees>';
@@ -505,7 +503,13 @@ class Anno_XML_Download {
 			}
 			$author_xml .= '
 					</name>';
-					
+			
+			// @TODO TDB whether or not to include email							
+			if (!empty($user->user_email)) {
+				$author_xml .= '
+				<email>'.esc_html($user->user_email).'</email>';
+			}
+			
 			$degrees = get_user_meta($user->ID, '_anno_degrees', true);
 			if (!empty($degrees)) {
 				$author_xml .= '
