@@ -5,7 +5,7 @@
 	
 	<title><?php wp_title( '-', true, 'right' ); echo esc_html( get_bloginfo('name') ); ?></title>
 
-	<link rel='stylesheet' id='anno-css'  href='http://annotum.local/wp-content/themes/Annotum/annotum-base/assets/main/css/main.css?ver=1.1' type='text/css' media='all'>
+	<link rel="stylesheet" id="anno-css"  href="<?php echo esc_url(trailingslashit(get_template_directory_uri()).'assets/main/css/main.css?ver=1.1'); ?>" type="text/css" media="all">
 	
 	<?php cfct_misc('custom-colors'); ?>
 	
