@@ -97,6 +97,7 @@ function anno_admin_print_footer_scripts() {
 			'sec',
 			'table-wrap',
 			'xref[ref-type|rid]',
+			'paste',
 		), $formats);
 		
 		$custom_elements = array(
@@ -130,10 +131,12 @@ function anno_admin_print_footer_scripts() {
 			'cap',
 			'disp-quote',
 			'para',
+			'paste',
 		);
 		
 		$formats_as_children = implode('|', $formats);
-		
+
+		// Note the divs, this is because some pasted content comes wrapped in divs, depending on the content
 		$valid_children = array(
 			'preformat[]',
 			'body[sec|para|media|list|disp-formula|disp-quote|fig|table-wrap|preformat|table]',
@@ -151,13 +154,14 @@ function anno_admin_print_footer_scripts() {
 			'cap[title|para|xref]',
 			'table-wrap[label|cap|table|table-wrap-foot|permissions]',
 			'table-wrap-foot[para]',
-			'para['.$formats_as_children.'|media|img|permissions|license|list|list-item|disp-formula|disp-quote|fig|cap|table-wrap|table-wrap-foot|table|h2|xref|img|table|ext-link]',
-			'sec[sec|heading|media|img|permissions|license|list|list-item|disp-formula|disp-quote|fig|cap|table-wrap|table-wrap-foot|para|h2|table]',
+			'para['.$formats_as_children.'|media|img|permissions|license|list|list-item|disp-formula|disp-quote|fig|cap|table-wrap|table-wrap-foot|table|h2|xref|img|table|ext-link|paste|div|span]',
+			'sec[sec|heading|media|img|permissions|license|list|list-item|disp-formula|disp-quote|fig|cap|table-wrap|table-wrap-foot|para|h2|div]',
 		);
 
 		wp_tiny_mce(false, array(
 			'remove_linebreaks' => false,
 			'content_css' => trailingslashit(get_bloginfo('template_directory')).'css/tinymce.css',
+//			'valid_elements' => '',
 			'extended_valid_elements' => implode(',', $extended_valid_elements),
 			'custom_elements' => implode(',', $custom_elements),
 			'valid_children' => implode(',', $valid_children),
@@ -225,7 +229,7 @@ class Anno_tinyMCE {
 	
 	function mce_buttons_2($buttons) {
 		if ($this->is_article()) {
-			$buttons = array('formatselect', '|', 'table', 'row_before', 'row_after', 'delete_row', 'col_before', 'col_after', 'delete_col', 'split_cells', 'merge_cells', '|', 'pastetext', 'pasteword', 'annolist', '|', 'annoreferences', '|', 'annomonospace', 'annopreformat', '|', 'annoequations', '|', 'annopasteword');
+			$buttons = array('formatselect', '|', 'table', 'row_before', 'row_after', 'delete_row', 'col_before', 'col_after', 'delete_col', 'split_cells', 'merge_cells', '|', 'pastetext', 'annopasteword', 'annolist', '|', 'annoreferences', '|', 'annomonospace', 'annopreformat', '|', 'annoequations');
 		}
 		return $buttons;
 	}
@@ -257,7 +261,7 @@ class Anno_tinyMCE {
 			
 			$plugins['annoEquations'] = trailingslashit(get_bloginfo('template_directory')).'js/tinymce/plugins/annoequations/editor_plugin.js';
 			
-		//	$plugins['annoPaste'] = trailingslashit(get_bloginfo('template_directory')).'js/tinymce/plugins/annopaste/editor_plugin.js';		
+			$plugins['annoPaste'] = trailingslashit(get_bloginfo('template_directory')).'js/tinymce/plugins/annopaste/editor_plugin.js';		
 		}
 		return $plugins;
 	}
