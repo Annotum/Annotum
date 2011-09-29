@@ -322,11 +322,11 @@
 
 		getInfo : function() {
 			return {
-				longname : 'Paste text/word',
-				author : 'Moxiecode Systems AB',
-				authorurl : 'http://tinymce.moxiecode.com',
-				infourl : 'http://wiki.moxiecode.com/index.php/TinyMCE:Plugins/paste',
-				version : tinymce.majorVersion + "." + tinymce.minorVersion
+				longname : 'Annotum Paste text/word',
+				author : 'Crowd Favorite',
+				authorurl : 'http://crowdfavorite.com',
+				infourl : '',
+				version : "1.0"
 			};
 		},
 
@@ -548,6 +548,11 @@
 				[/<strong>/gi, "<bold>"],
 				[/<\/strong>/gi, "</bold>"]
 			]);
+			
+			process([
+				[/<pre>/gi, "<preformat>"],
+				[/<\/pre>/gi, "</preformat>"]
+			]);
 
 			process([
 				[/<i>/gi, "<italic>"],
@@ -687,7 +692,8 @@
 			each(dom.select('*', o.node), removeAttributes);
 			
 		},
-
+		
+		// Tables are expected to be wrapped with specific elements according to the DTD.
 		_wrapTables : function(pl, o) {
 			var dom = pl.editor.dom, listElm, li, lastMargin = -1, margin, levels = [], lastType, html;
 			function hasTableWrap(el) {
