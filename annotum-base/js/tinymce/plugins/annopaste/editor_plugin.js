@@ -809,8 +809,6 @@
 			ed.execCommand('mceInsertContent', false, h, {skip_undo : skip_undo});
 			
 			// Sometimes, pasted content will come wrapped in a div - in tinyMCE core. 
-			var bm = ed.selection.getBookmark();
-//			ed.selection.moveToBookmark(bm);
 			var rng = ed.selection.getRng();
 			ed.dom.remove(ed.dom.select('div'), true);
 		
