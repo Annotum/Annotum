@@ -22,51 +22,88 @@ class Anno_XML_Download {
 		$this->debug = apply_filters(__CLASS__.'_debug', false);
 	}
 	
+	/**
+	 * Let WP know how to handle "pretty" requests for PDFs
+	 *
+	 * @return void
+	 */
+	public function setup_permalinks() {
+		// Returns an array of post types named article
+		$article_post_types = get_post_types(array('name' => 'article'), 'object');
+		
+		// Ensure we have what we're looking for
+		if (!is_array($article_post_types) || empty($article_post_types)) {
+			return;
+		}
+		
+		// Get the first (and hopefully only) one
+		$article_post_type = array_shift($article_post_types);
+		
+		global $wp;
+		// Allows us to use get_query_var('xml') later on
+		$wp->add_query_var('xml');
+		
+		// Tells WP that a request like /articles/my-article-name/xml/ is valid
+		add_rewrite_rule($article_post_type->rewrite['slug'].'/([^/]+)/xml/?$', 'index.php?articles=$matches[1]&xml=1', 'top');
+	}
+	
 	public function add_actions() {
 		add_action('init', array($this, 'setup_filterable_props'));
-		add_action('init', array($this, 'request_handler'));
+		
+		// Run late to make sure all custom post types are registered
+		add_action('init', array($this, 'setup_permalinks'), 20);
+		
+		add_action('wp', array($this, 'request_handler'));
 	}
 	
 	/**
 	 * Request handler for XML.
 	 */
 	public function request_handler() {
-		if (isset($_GET[$this->action])) {
-			switch ($_GET[$this->action]) {
-				case 'download_xml':
-					if (empty($_GET['article'])) {
-						wp_die(__('Required article first.', $this->i18n));
-					}
-					else {
-						$article_id = $_GET['article'];
-					}
-					
-					// If we're not debugging, turn off errors
-					if (!$this->debug) {
-						$display_errors = ini_get('display_errors');
-						ini_set('display_errors', 0);
-					}
-					
-					$article = get_post($article_id);
-					
-					if (!$article) {
-						wp_die(__('Required article first.', $this->i18n));
-					}
-					
-					// @TODO make this an automatically downloading file, not Browser rendered
-					header("content-type:text/xml;charset=utf-8");
-					$this->generate_xml($article);
-					exit;
-					break;				
-				default:
-					break;
+		if (get_query_var('xml')) {
+			// Sanitize our article ID
+			$id = get_the_ID();
+			
+			// If we don't have an Article, get out
+			if (empty($id)) {
+				wp_die(__('No article found.', $this->i18n));
 			}
+			
+			// If we're not debugging, turn off errors
+			if (!$this->debug) {
+				$display_errors = ini_get('display_errors');
+				ini_set('display_errors', 0);
+			}
+			
+			$article = get_post($id);
+			
+			if (!$article) {
+				wp_die(__('Required article first.', $this->i18n));
+			}
+			
+			// Get our XML ready and stored
+			$this->generate_xml($article);
+			
+			// Send our headers
+			$this->set_headers($article);
+			
+			// Send the file
+			echo $this->xml;
+			exit;
 		}
 	}
 	
+	private function set_headers($article) {
+		// Get the post title, so we can set it as the filename
+		$filename = sanitize_title(get_the_title($article->ID));
+	    header('Cache-Control: private');
+		header('Content-Type:text/xml; charset=utf-8');
+		header('Content-Length:' . mb_strlen($this->xml, '8bit'));
+		header('Content-Disposition: attachment; filename="'.$filename.'.xml"');
+	}
 	
 	private function generate_xml($article) {
-		echo $this->xml_front($article)."\n".$this->xml_body($article)."\n".$this->xml_back($article);
+		$this->xml = $this->xml_front($article)."\n".$this->xml_body($article)."\n".$this->xml_back($article);
 	}
 	
 	/**
@@ -590,12 +627,8 @@ class Anno_XML_Download {
 		}
 		
 		// Build our URL args
-		$url_args = array(
-			$this->action 	=> 'download_xml',
-			'article' 		=> intval($id),
-		);
-		
-		return add_query_arg($url_args, home_url());
+		$permalink = get_permalink($id);
+		return trailingslashit($permalink).'xml/';
 	}
 	
 	/**
