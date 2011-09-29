@@ -598,11 +598,6 @@
 				h = h.replace(/<\/?span[^>]*>/gi, "");
 			}
 			
-			process([
-				[/<p>/gi, "<para>"],
-				[/<\/p>/gi, "</para>"]
-			]);
-
 			o.content = h;
 		},
 
@@ -644,6 +639,11 @@
 					t._convertLists(pl, o);
 				}
 			}
+			
+			// Replace p tags with para tags. 
+			each(dom.select('p', o.node), function(el) {
+				dom.rename(el, 'para');
+			});
 			
 			each(dom.select('a', o.node), function(a) {
 				if (!a.href || a.href.indexOf('#_Toc') != -1)
@@ -736,12 +736,12 @@
 
 				// Detect unordered lists look for bullets
 				if (/^(__MCE_ITEM__)+[\u2022\u00b7\u00a7\u00d8o\u25CF]\s*\u00a0*/.test(val))
-					type = 'unordered';
+					type = 'bullet';
 
 				// Detect ordered lists 1., a. or ixv.
 				if (/^__MCE_ITEM__\s*\w+\.\s*\u00a0+/.test(val))
-					type = 'ordered';
-
+					type = 'order';
+					
 				// Check if node value matches the list pattern: o&nbsp;&nbsp;
 				if (type) {
 					margin = parseFloat(p.style.marginLeft || 0);
@@ -772,7 +772,7 @@
 						var html = span.innerHTML.replace(/<\/?\w+[^>]*>/gi, '');
 
 						// Remove span with the middot or the number
-						if (type == 'unordered' && /^__MCE_ITEM__[\u2022\u00b7\u00a7\u00d8o\u25CF]/.test(html))
+						if (type == 'bullet' && /^__MCE_ITEM__[\u2022\u00b7\u00a7\u00d8o\u25CF]/.test(html))
 							dom.remove(span);
 						else if (/^__MCE_ITEM__[\s\S]*\w+\.(&nbsp;|\u00a0)*\s*/.test(html))
 							dom.remove(span);
@@ -781,7 +781,7 @@
 					html = p.innerHTML;
 
 					// Remove middot/list items
-					if (type == 'unordered')
+					if (type == 'bullet')
 						html = p.innerHTML.replace(/__MCE_ITEM__/g, '').replace(/^[\u2022\u00b7\u00a7\u00d8o\u25CF]\s*(&nbsp;|\u00a0)+\s*/, '');
 					else
 						html = p.innerHTML.replace(/__MCE_ITEM__/g, '').replace(/^\s*\w+\.(&nbsp;|\u00a0)+\s*/, '');
@@ -795,7 +795,7 @@
 				} else
 					listElm = lastMargin = 0; // End list element
 			});
-
+		
 			// Remove any left over makers
 			html = o.node.innerHTML;
 			if (html.indexOf('__MCE_ITEM__') != -1)
