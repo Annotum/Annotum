@@ -679,11 +679,9 @@
 							dom.remove(el, true);
 				});
 			}
-			console.log(o);
 
 			t._wrapTables(pl, o);
 
-			console.log(o);
 			// Remove unwanted attributes. Colspan, list-type are the only one we care about.
 			// @todo Allow paste from other articles
 			each(dom.select('*', o.node), removeAttributes);
