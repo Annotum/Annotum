@@ -83,7 +83,8 @@ class Anno_XML_Download {
 				ini_set('display_errors', 0);
 			}
 			
-			$article = get_post($id);
+			// Get our preview if necessary, otherwise fall back to post
+			$article = is_preview() ? wp_get_post_autosave($id) : get_post($id);
 			
 			if (!$article) {
 				wp_die(__('Required article first.', $this->i18n));
