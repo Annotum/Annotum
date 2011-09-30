@@ -19,7 +19,6 @@
 			paste_remove_styles : false,
 			paste_remove_styles_if_webkit : true,
 			paste_convert_middot_lists : true,
-			paste_convert_headers_to_strong : false,
 			paste_text_use_dialog : false,
 			paste_text_sticky : false,
 			paste_text_sticky_default : false,
@@ -374,10 +373,6 @@
 					/(&nbsp;|<br[^>]*>)+\s*$/gi		// &nbsp; entities at the end of contents
 				]);
 
-				if (getParam(ed, "paste_convert_headers_to_strong")) {
-					h = h.replace(/<p [^>]*class="?MsoHeading"?[^>]*>(.*?)<\/p>/gi, "<p><strong>$1</strong></p>");
-				}
-
 				if (getParam(ed, "paste_convert_middot_lists")) {
 					process([
 						[/<!--\[if !supportLists\]-->/gi, '$&__MCE_ITEM__'],					// Convert supportLists to a list item marker
@@ -544,10 +539,10 @@
 			
 			// Replace formatting with formatting tags defined by the DTD.
 			process([
-				[/<strong>/gi, "<bold>"],
-				[/<\/strong>/gi, "</bold>"]
+				[/<(b|strong)>/gi, "<bold>"],
+				[/<(\/strong|\/b)>/gi, "</bold>"]
 			]);
-			
+
 			process([
 				[/<pre>/gi, "<preformat>"],
 				[/<\/pre>/gi, "</preformat>"]
@@ -598,6 +593,8 @@
 			}
 			
 			o.content = h;
+			
+			console.log(o);
 		},
 
 		/**
