@@ -97,6 +97,7 @@ function anno_admin_print_footer_scripts() {
 			'sec',
 			'table-wrap',
 			'xref[ref-type|rid]',
+			'paste',
 		), $formats);
 		
 		$custom_elements = array(
@@ -130,29 +131,31 @@ function anno_admin_print_footer_scripts() {
 			'cap',
 			'disp-quote',
 			'para',
+			'paste',
 		);
 		
 		$formats_as_children = implode('|', $formats);
-		
+
+		// Note the divs, this is because some pasted content comes wrapped in divs, depending on the content
 		$valid_children = array(
 			'preformat[]',
-			'body[sec|para|media|list|disp-formula|disp-quote|fig|table-wrap|preformat|table]',
+			'body[sec|para|media|list|disp-formula|disp-quote|fig|table-wrap|preformat|div|span]',
 			'copyright-statement['.$formats_as_children.']',
 			'license-p['.$formats_as_children.'|xref|ext-link]',
-			'heading['.$formats_as_children.']',
-			'media[alt-text|long-desc|permissions]',
-			'permissions[copyright-statement|copyright-holder|license]',
-			'license[license-p|xref]',
-			'list[title|list-item]',
-			'list-item[para|xref|list]',
-			'disp-formula[label|tex-math]',
-			'disp-quote[para|attrib|permissions]',
-			'fig[label|cap|media|img]',
-			'cap[title|para|xref]',
-			'table-wrap[label|cap|table|table-wrap-foot|permissions]',
-			'table-wrap-foot[para]',
-			'para['.$formats_as_children.'|media|img|permissions|license|list|list-item|disp-formula|disp-quote|fig|cap|table-wrap|table-wrap-foot|table|h2|xref|img|table|ext-link]',
-			'sec[sec|heading|media|img|permissions|license|list|list-item|disp-formula|disp-quote|fig|cap|table-wrap|table-wrap-foot|para|h2|table]',
+			'heading['.$formats_as_children.'|div|span]',
+			'media[alt-text|long-desc|permissions|div|span]',
+			'permissions[copyright-statement|copyright-holder|license|div|span]',
+			'license[license-p|xref|div|span]',
+			'list[title|list-item|div|span]',
+			'list-item[para|xref|list|div|span]',
+			'disp-formula[label|tex-math|div|span]',
+			'disp-quote[para|attrib|permissions|div|span]',
+			'fig[label|cap|media|img|div|span]',
+			'cap[title|para|xref|div|span]',
+			'table-wrap[label|cap|table|table-wrap-foot|permissions|div|span]',
+			'table-wrap-foot[para|div|span]',
+			'para['.$formats_as_children.'|media|img|permissions|license|list|list-item|disp-formula|disp-quote|fig|cap|table-wrap|table-wrap-foot|table|h2|xref|img|table|ext-link|paste|div|span|div|span]',
+			'sec[sec|heading|media|img|permissions|license|list|list-item|disp-formula|disp-quote|fig|cap|table-wrap|table-wrap-foot|para|h2|div|span]',
 		);
 
 		wp_tiny_mce(false, array(
@@ -218,14 +221,14 @@ class Anno_tinyMCE {
 	
 	function mce_buttons($buttons) {
 		if ($this->is_article()) {
-			$buttons = array('bold', 'italic', 'underline', '|', 'annoorderedlist', 'annobulletlist', '|', 'annoquote', '|', 'sup', 'sub', '|', 'charmap', '|', 'annolink', 'announlink', '|', 'annoimages', 'equation', '|', 'reference', '|', 'undo', 'redo', '|', 'wp_adv', '|', 'help', 'annotips', 'annotable', );
+			$buttons = array('bold', 'italic', 'underline', '|', 'annoorderedlist', 'annobulletlist', '|', 'annoquote', '|', 'sup', 'sub', '|', 'charmap', '|', 'annolink', 'announlink', '|', 'annoimages', 'equation', '|', 'reference', '|', 'undo', 'redo', '|', 'wp_adv', '|', 'help', 'annotips', 'annotable', '|', 'fullscreen' );
 		}
 		return $buttons;
 	}
 	
 	function mce_buttons_2($buttons) {
 		if ($this->is_article()) {
-			$buttons = array('formatselect', '|', 'table', 'row_before', 'row_after', 'delete_row', 'col_before', 'col_after', 'delete_col', 'split_cells', 'merge_cells', '|', 'pastetext', 'pasteword', 'annolist', '|', 'annoreferences', '|', 'annomonospace', 'annopreformat', '|', 'annoequations', '|', 'annopasteword');
+			$buttons = array('formatselect', '|', 'table', 'row_before', 'row_after', 'delete_row', 'col_before', 'col_after', 'delete_col', 'split_cells', 'merge_cells', '|', 'annopastetext', 'annopasteword', 'annolist', '|', 'annoreferences', '|', 'annomonospace', 'annopreformat', '|', 'annoequations');
 		}
 		return $buttons;
 	}
@@ -260,6 +263,8 @@ class Anno_tinyMCE {
 			$plugins['fullscreen'] = trailingslashit(get_bloginfo('template_directory')).'js/tinymce/plugins/fullscreen/editor_plugin.js';
 
 			//	$plugins['annoPaste'] = trailingslashit(get_bloginfo('template_directory')).'js/tinymce/plugins/annopaste/editor_plugin.js';		
+
+			$plugins['annoPaste'] = trailingslashit(get_bloginfo('template_directory')).'js/tinymce/plugins/annopaste/editor_plugin.js';		
 		}
 		return $plugins;
 	}
