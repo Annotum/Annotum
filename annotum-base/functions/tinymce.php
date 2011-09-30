@@ -161,7 +161,6 @@ function anno_admin_print_footer_scripts() {
 		wp_tiny_mce(false, array(
 			'remove_linebreaks' => false,
 			'content_css' => trailingslashit(get_bloginfo('template_directory')).'css/tinymce.css',
-//			'valid_elements' => '',
 			'extended_valid_elements' => implode(',', $extended_valid_elements),
 			'custom_elements' => implode(',', $custom_elements),
 			'valid_children' => implode(',', $valid_children),
@@ -229,7 +228,7 @@ class Anno_tinyMCE {
 	
 	function mce_buttons_2($buttons) {
 		if ($this->is_article()) {
-			$buttons = array('formatselect', '|', 'table', 'row_before', 'row_after', 'delete_row', 'col_before', 'col_after', 'delete_col', 'split_cells', 'merge_cells', '|', 'pastetext', 'annopasteword', 'annolist', '|', 'annoreferences', '|', 'annomonospace', 'annopreformat', '|', 'annoequations');
+			$buttons = array('formatselect', '|', 'table', 'row_before', 'row_after', 'delete_row', 'col_before', 'col_after', 'delete_col', 'split_cells', 'merge_cells', '|', 'annopastetext', 'annopasteword', 'annolist', '|', 'annoreferences', '|', 'annomonospace', 'annopreformat', '|', 'annoequations');
 		}
 		return $buttons;
 	}

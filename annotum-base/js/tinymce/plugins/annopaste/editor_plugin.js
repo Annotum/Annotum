@@ -7,7 +7,6 @@
  * License: http://tinymce.moxiecode.com/license
  * Contributing: http://tinymce.moxiecode.com/contributing
  */
-
 (function() {
 	var each = tinymce.each,
 		defs = {
@@ -1001,15 +1000,16 @@
 				ed.addCommand("AnnomcePasteText", function() {
 					ed.windowManager.open({
 						file : t.url + "/pastetext.htm",
-						width: parseInt(getParam(ed, "paste_dialog_width")),
-						height: parseInt(getParam(ed, "paste_dialog_height")),
-						inline : 1
+						width: 483,
+						height: 450,
+						inline: 1,
 					});
 				});
 			}
 
 			// Register button for backwards compatibility
 			ed.addButton("annopasteword", {title : "paste.paste_word_desc", cmd : "AnnomcePasteWord"});
+			ed.addButton("annopastetext", {title : "paste.paste_text_desc", cmd : "AnnomcePasteText"});
 		}
 	});
 
