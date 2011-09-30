@@ -60,8 +60,10 @@ class Knol_Import extends WP_Importer {
 	var $fetch_attachments = false;
 	var $url_remap = array();
 	var $featured_images = array();
+	
+	var $import_slug = 'google_knol_wxr';
 
-	function Knol_Import() { /* nothing */ }
+	function Knol_Import() {/* Nothing */ }
 
 	/**
 	 * Registered callback function for the WordPress Importer
@@ -308,7 +310,7 @@ class Knol_Import extends WP_Importer {
 	function import_options() {
 		$j = 0;
 ?>
-<form action="<?php echo admin_url( 'admin.php?import=google_knol_wxr&amp;step=1' ); ?>" method="post">
+<form action="<?php echo admin_url( 'admin.php?import='.$this->import_slug.'&amp;step=1' ); ?>" method="post">
 	<?php wp_nonce_field( 'import-wordpress' ); ?>
 	<input type="hidden" name="import_id" value="<?php echo $this->id; ?>" />
 
@@ -1256,7 +1258,7 @@ foreach ($this->authors as $author_key => $author_data) {
 		echo '<div class="narrow">';
 		echo '<p>'.__( 'Howdy! Upload your Google Knol eXtended RSS (WXR) file and we&#8217;ll import the posts, pages, comments, custom fields, categories, and tags into this site.', 'anno' ).'</p>';
 		echo '<p>'.__( 'Choose a Google Knol WXR (.xml) file to upload, then click Upload file and import.', 'anno' ).'</p>';
-		wp_import_upload_form( 'admin.php?import=google_knol_wxr&amp;step=1' );
+		wp_import_upload_form( 'admin.php?import='.$this->import_slug.'&amp;step=1' );
 		echo '</div>';
 	}
 
