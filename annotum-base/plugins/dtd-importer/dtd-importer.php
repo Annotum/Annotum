@@ -74,16 +74,7 @@ if (!class_exists('DTD_Impoter')) {
 	function header() {
 		echo '<div class="wrap">';
 		screen_icon();
-		echo '<h2>' . __( 'Google Knol WXR Import', 'anno' ) . '</h2>';
-
-		$updates = get_plugin_updates();
-		$basename = plugin_basename(__FILE__);
-		if ( isset( $updates[$basename] ) ) {
-			$update = $updates[$basename];
-			echo '<div class="error"><p><strong>';
-			printf( __( 'A new version of this importer is available. Please update to version %s to ensure compatibility with newer export files.', 'anno' ), $update->update->new_version );
-			echo '</strong></p></div>';
-		}
+		echo '<h2>' . __( 'Kipling DTD XML Import', 'anno' ) . '</h2>';
 	}
 
 	// Close div.wrap
@@ -96,9 +87,9 @@ if (!class_exists('DTD_Impoter')) {
 	 */
 	function greet() {
 		echo '<div class="narrow">';
-		echo '<p>'.__( 'Howdy! Upload your Google Knol eXtended RSS (WXR) file and we&#8217;ll import the posts, pages, comments, custom fields, categories, and tags into this site.', 'anno' ).'</p>';
-		echo '<p>'.__( 'Choose a Google Knol WXR (.xml) file to upload, then click Upload file and import.', 'anno' ).'</p>';
-		wp_import_upload_form( 'admin.php?import=google_knol_wxr&amp;step=1' );
+		echo '<p>'.__( 'Howdy! Upload your Kipling DTD XML file and we&#8217;ll import the articles, keywords, subjects, and users into this site.', 'anno' ).'</p>';
+		echo '<p>'.__( 'Choose a Kipling DTD XML (.xml) file to upload, then click Upload file and import.', 'anno' ).'</p>';
+		wp_import_upload_form( 'admin.php?import=kipling_dtd_xml&amp;step=1' );
 		echo '</div>';
 	}		
 }
@@ -109,7 +100,7 @@ function anno_dtd_importer_init() {
 	 * @global DTD_Import $dtd_import
 	 */
 	$GLOBALS['dtd_import'] = new DTD_Import();
-	register_importer( 'google_knol_wxr', 'Google Knol WXR', __('Import <strong>posts, pages, comments, custom fields, categories, and tags</strong> from a Google Knol WXR export file.', 'anno'), array( $GLOBALS['knol_import'], 'dispatch' ) );
+	register_importer( 'kipling_dtd_xml', 'Kipling DTD XML', __('Import <strong>articles, keywords, subjects and users</strong> from a Google Knol WXR export file.', 'anno'), array( $GLOBALS['knol_import'], 'dispatch' ) );
 }
 add_action( 'admin_init', 'anno_knol_importer_init' );
 

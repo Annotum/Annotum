@@ -156,7 +156,7 @@ class Knol_Import extends WP_Importer {
 		if ($create_users) {
 			$new_users = $this->new_user_credentials;
 			foreach ($new_users as $i => $user_creds) {
-				$old_id = $user_creds['old_id'];			
+				$old_id = $user_creds['old_id'];		
 			
 				$extra = array(
 					'display_name' => $this->authors[$old_id]['author_display_name'],
@@ -176,7 +176,7 @@ class Knol_Import extends WP_Importer {
 				if ($old_id) {
 					$this->processed_authors[$old_id] = $user_id;
 				}
-				$this->author_mapping[$santized_old_login] = $user_id;
+				$this->author_mapping[$old_id] = $user_id;
 			}
 		}
 	}
@@ -375,10 +375,21 @@ foreach ($this->authors as $author_key => $author_data) {
 	 * @param array $author Author information, e.g. login, display name, email
 	 */
 	function author_select( $n, $author ) {	
+		
+		if (!empty($author['author_id'])) {
+			$extra = ' ('.esc_html($author['author_id']).')';
+		}
+		else {
+			$extra = '';
+		}
+		
+		
 		_e( 'Import ', 'anno' );
 		echo ' <strong>' . esc_html( $author['author_display_name'] );
-		if ( $this->version != '1.0' ) echo ' (' . esc_html( $author['author_login'] ) . ')';
-		echo '</strong> as the current user.<br />';
+		if ( $this->version != '1.0' ) {
+			echo $extra;
+		}
+		echo '</strong> '._x('as the current user.', 'user import display text', 'anno').'<br />';
 
 		if ( $this->version != '1.0' )
 			echo '<div style="margin-left:18px">';
@@ -533,7 +544,7 @@ foreach ($this->authors as $author_key => $author_data) {
 					}
 				}
 			}
-			// We can create users, and both lookups fields
+			// We can create users, and both lookups fields are not present.
 			else if ( 
 				$create_users && 
 				(empty($_POST['lookup_email'][$i]) && empty($_POST['lookup_username'][$i])) && 
@@ -568,7 +579,7 @@ foreach ($this->authors as $author_key => $author_data) {
 				}
 
 				// Only continue if we have no errors.
-				if (!count($this->author_errors[$i])) {
+				if (!$this->have_author_errors($i)) {
 					if (!anno_is_valid_email($user_new_email)) {
 						$this->author_errors[$i][] = _x('Please enter a valid email when creating a new user.', 'importer error message', 'anno');
 					}
@@ -577,7 +588,7 @@ foreach ($this->authors as $author_key => $author_data) {
 						$this->author_errors[$i][] = _x('Please enter a valid username when creating a new user.', 'importer error message', 'anno');
 					}
 
-					if (!count($this->author_errors[$i])) {
+					if (!$this->have_author_errors($i)) {
 						$this->new_user_credentials[$i]['old_id'] = $old_id;
 						$this->new_user_credentials[$i]['user_login'] = $user_new_login;
 						$this->new_user_credentials[$i]['user_email'] = $user_new_email;
@@ -602,6 +613,10 @@ foreach ($this->authors as $author_key => $author_data) {
 		}
 	}
 
+	private function have_author_errors($i) {
+		return !isset($this->author_errors[$i]) || !count($this->author_errors[$i]);
+	}
+	
 	/**
 	 * Create new categories based on import information
 	 *
