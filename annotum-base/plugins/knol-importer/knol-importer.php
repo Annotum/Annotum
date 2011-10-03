@@ -21,10 +21,7 @@ if ( ! class_exists( 'WP_Importer' ) ) {
 require dirname( __FILE__ ) . '/parsers.php';
 
 /**
- * WordPress Importer class for managing the import process of a WXR file
- *
- * @package WordPress
- * @subpackage Importer
+ * Knol importer class for handling Knol WXR import files
  */
 if ( !class_exists( 'Knol_Import' ) ) {
 class Knol_Import extends WP_Importer {
@@ -79,7 +76,6 @@ class Knol_Import extends WP_Importer {
 				$this->greet();
 				break;
 			case 1:
-
 				if (!empty($_POST['import-wordpress'])) {
 					check_admin_referer('import-wordpress');
 					
@@ -487,7 +483,7 @@ foreach ($this->authors as $author_key => $author_data) {
 						
 			$old_id = trim($old_id);
 
-			
+
 			if (!empty($_POST['user_map'][$i])) {
 				$user = get_userdata( intval($_POST['user_map'][$i]) );
 				if (isset( $user->ID)) {
@@ -613,6 +609,12 @@ foreach ($this->authors as $author_key => $author_data) {
 		}
 	}
 
+	/**
+	 * Helper function to determine if a given user mapping has any errors associated with it
+	 *
+	 * @param int $i Index of a given author. 
+	 * @return bool True if errors have been found, false otherwise
+	 */ 
 	private function have_author_errors($i) {
 		return !isset($this->author_errors[$i]) || !count($this->author_errors[$i]);
 	}
@@ -807,6 +809,9 @@ foreach ($this->authors as $author_key => $author_data) {
 					'guid' => $post['guid'], 'post_parent' => $post_parent, 'menu_order' => $post['menu_order'],
 					'post_type' => $post['post_type'], 'post_password' => $post['post_password'], 'post_content_filtered' => $post['post_content_filtered'],
 				);
+				
+				// Get rid of wrapping <body> tag in XML
+				$postdata['post_content_filtered'] = preg_replace('#</?body(\s[^>]*)?>#i', '', $postdata['post_content_filtered']); 
 
 				if ( 'attachment' == $postdata['post_type'] ) {
 					$remote_url = ! empty($post['attachment_url']) ? $post['attachment_url'] : $post['guid'];
@@ -826,6 +831,9 @@ foreach ($this->authors as $author_key => $author_data) {
 
 					$comment_post_ID = $post_id = $this->process_attachment( $postdata, $remote_url );
 				} else {
+					remove_filter('wp_insert_post_data', 'anno_insert_post_data', null, 2);
+					remove_filter('edit_post_content', 'anno_edit_post_content', 10, 2 );
+					remove_filter('edit_post_content_filtered', 'anno_edit_post_content_filtered', 10, 2 );
 					$comment_post_ID = $post_id = wp_insert_post( $postdata, true );
 				}
 

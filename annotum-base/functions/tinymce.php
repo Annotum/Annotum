@@ -136,7 +136,8 @@ function anno_admin_print_footer_scripts() {
 		
 		$formats_as_children = implode('|', $formats);
 
-		// Note the divs, this is because some pasted content comes wrapped in divs, depending on the content
+		// Note the various html elements not defined by the DTD
+		// This takes into account imported content and pasted content which gets inserted natively in divs and spans
 		$valid_children = array(
 			'preformat[]',
 			'body[sec|para|media|list|disp-formula|disp-quote|fig|table-wrap|preformat|div|span]',
@@ -154,7 +155,7 @@ function anno_admin_print_footer_scripts() {
 			'cap[title|para|xref|div|span]',
 			'table-wrap[label|cap|table|table-wrap-foot|permissions|div|span]',
 			'table-wrap-foot[para|div|span]',
-			'para['.$formats_as_children.'|media|img|permissions|license|list|list-item|disp-formula|disp-quote|fig|cap|table-wrap|table-wrap-foot|table|h2|xref|img|table|ext-link|paste|div|span|div|span]',
+			'para['.$formats_as_children.'|media|img|permissions|license|list|list-item|disp-formula|disp-quote|fig|cap|table-wrap|table-wrap-foot|table|h2|xref|img|table|ext-link|paste|div|span|div|span|a]',
 			'sec[sec|heading|media|img|permissions|license|list|list-item|disp-formula|disp-quote|fig|cap|table-wrap|table-wrap-foot|para|h2|div|span]',
 		);
 
@@ -1054,6 +1055,15 @@ function anno_insert_post_data($data, $postarr) {
 }
 add_filter('wp_insert_post_data', 'anno_insert_post_data', null, 2);
 
+function anno_wp_insert_post_update_import($post_id) {
+	// If we've saved an imported post (Knol), we've likely changed the structure so we don't need to run
+	// the post import filters on it next save
+	$imported = get_post_meta($post_id ,'_anno_knol_import', true);
+	if ($imported) {
+		update_post_meta($post_id ,'_anno_knol_import', 0);
+	}
+}
+add_action('wp_insert_post', 'anno_wp_insert_post_update_import', 10, 1);
 /**
  * Swap real HTML post content with XML formatted post content for editing
  */
@@ -1083,32 +1093,92 @@ add_filter( 'edit_post_content_filtered', 'anno_edit_post_content_filtered', 10,
  * @return void
  */
 function anno_to_xml($html_content) {
+	$post_id = anno_get_post_id();
+	
 	// Load our phpQuery document up, so filters should be able to use the pq() function to access its elements
 	phpQuery::newDocument($html_content);
 	
 	// Let our various actions alter the document into XML
 	do_action('anno_to_xml', $html_content);
 	
+	$imported = get_post_meta($post_id, '_anno_knol_import', true);
+	if ($imported) {
+		do_action('anno_to_xml_imported', $html_content);
+	}
+	
 	// Return the newly formed HTML
 	return phpQuery::getDocument()->__toString();
 }
 
-function anno_to_xml_replace_bold($orig_html) {
-	$bold_nodes = pq('strong');
-	foreach ($bold_nodes as $node) {
-		$pq_node = pq($node); // Create a phpQuery object from the noe
-		$pq_node->replaceWith('<bold>'.$pq_node->html().'</bold>');
-	}
+/**
+ * Change HTML formatting to XML defined by the DTD. 
+ * Knol imported content comes with b, em etc... tags
+ * 
+ * @param string $orig_html 
+ * @return void
+ */
+function anno_to_xml_replace_formatting($orig_markup) {
+	$formats = array(
+		'b' => 'bold',
+		'strong' => 'bold',
+		'em' => 'italic',
+		'i' => 'italic',
+		'u' => 'underline',
+	);
+	
+	foreach ($formats as $html => $kipling_xml) {
+		anno_convert_tag($html, $kipling_xml);
+	}	
 }
-add_action('anno_to_xml', 'anno_to_xml_replace_bold');
+add_action('anno_to_xml', 'anno_to_xml_replace_formatting');
 
 /**
  * Change HTML inline <img> to XML <inline-graphic>
  *
- * @param string $orig_html 
+ * @param string $orig_markup
  * @return void
  */
-function anno_to_xml_replace_inline_graphics($orig_html) {
+function anno_to_xml_import_replace_images($orig_markup) {
+	$imgs = pq('img');
+	foreach ($imgs as $img) {
+		$img = pq($img);
+		$img_src = $img->attr('src');
+		$img_alt = $img->attr('alt');
+		if (!empty($img_alt)) {
+			$img_alt == '<alt-text>'.$img_alt.'</alt-text>';
+		}
+		$xml = '<inline-graphic xlink:href="'.$img_src.'" >'.$img_alt.'</inline-graphic>';
+		$img->replaceWith($xml);
+	}
+}
+add_action('anno_to_xml_imported', 'anno_to_xml_import_replace_images');
+
+/**
+ * Change HTML inline <a> to XML <ext-link>
+ *
+ * @param string $orig_markup
+ * @return void
+ */
+function anno_to_xml_import_replace_links($orig_markup) {
+	$a_tags = pq('a');
+	foreach ($a_tags as $a_tag) {
+		$a_tag = pq($a_tag);
+		$link_content = $a_tag->html();
+		$link_url = $a_tag->attr('href');
+			
+		$xml = '<ext-link ext-link-type="uri" xlink:href="'.$link_url.'" >'.$link_content.'</ext-link>';
+		$a_tag->replaceWith($xml);
+	}
+}
+add_action('anno_to_xml_imported', 'anno_to_xml_import_replace_links');
+
+/**
+ * Change HTML inline <img> to XML <inline-graphic>
+ *
+ * @param string $orig_markup
+ * @return void
+ */
+function anno_to_xml_replace_inline_graphics($orig_markup) {
 	$imgs = pq('img[class="_inline_graphic"]');
 	foreach ($imgs as $img) {
 		$img = pq($img);
