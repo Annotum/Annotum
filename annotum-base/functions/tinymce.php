@@ -1027,8 +1027,20 @@ add_action('add_post_meta', 'anno_save_appendices_xml_as_html', 10, 3);
  * Save the formatted HTML to the post_content column
  */
 function anno_insert_post_data($data, $postarr) {
-	if ($data['post_type'] == 'article') {
-		
+	$is_article_type = false;
+	
+	if ($postarr['post_type'] == 'article') {
+		$is_article_type = true;
+	}
+	// If we're a revision, we need to do one more check to ensure our parent is an article
+	if ($postarr['post_type'] == 'revision') {
+		$parent_id = wp_get_post_parent_id($postarr['ID']);
+		if (!empty($parent_id) && get_post_type($parent_id) == 'article') {
+			$is_article_type = true;
+		}
+	}
+
+	if ($is_article_type) {
 		$content = stripslashes($data['post_content']);
 		
 		// Set XML as backup content. Filter markup and strip out tags not on whitelist.

@@ -144,7 +144,11 @@ function annowf_registered_post_meta_items() {
 			'_anno_acknowledgements',
 			'_anno_funding',
 			'_anno_subtitle',
-			'_anno_appendices',		
+			'_anno_appendices',
+			'_anno_doi',
+			'_anno_author_snapshot', // @TODO determine if this really needs "versioned"
+			'_anno_references',
+			'_anno_abstract',
 		);
 		
 		foreach ($workflow_meta_keys as $meta_key) {

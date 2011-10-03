@@ -45,6 +45,11 @@ class Anno_XML_Download {
 		
 		// Tells WP that a request like /articles/my-article-name/xml/ is valid
 		add_rewrite_rule($article_post_type->rewrite['slug'].'/([^/]+)/xml/?$', 'index.php?articles=$matches[1]&xml=1', 'top');
+		
+		// Enable preview URLs
+		$wp->add_query_var('preview');
+		add_rewrite_rule($article_post_type->rewrite['slug'].'/([^/]+)/xml/preview/?$', 'index.php?articles=$matches[1]&xml=1&preview=1', 'top');
+		// http://annotum.local/?post_type=article&p=269&xml=1&preview=1
 	}
 	
 	public function add_actions() {
@@ -54,6 +59,8 @@ class Anno_XML_Download {
 		add_action('init', array($this, 'setup_permalinks'), 20);
 		
 		add_action('wp', array($this, 'request_handler'));
+		
+		// add_filter('the_preview', array($this, 'set_preview_data'));
 	}
 	
 	/**
@@ -61,6 +68,7 @@ class Anno_XML_Download {
 	 */
 	public function request_handler() {
 		if (get_query_var('xml')) {
+			
 			// Sanitize our article ID
 			$id = get_the_ID();
 			
@@ -75,7 +83,8 @@ class Anno_XML_Download {
 				ini_set('display_errors', 0);
 			}
 			
-			$article = get_post($id);
+			// Get our preview if necessary, otherwise fall back to post
+			$article = is_preview() ? wp_get_post_autosave($id) : get_post($id);
 			
 			if (!$article) {
 				wp_die(__('Required article first.', $this->i18n));
@@ -626,9 +635,29 @@ class Anno_XML_Download {
 			$id = $post->ID;
 		}
 		
-		// Build our URL args
+		// Build our download link
 		$permalink = get_permalink($id);
-		return trailingslashit($permalink).'xml/';
+		
+		/* Handle pretty and ugly permalinks. Need at least this stripos 
+		function, b/c initial drafts don't get a pretty permalink till 
+		published, so even if the setting is pretty permalinks the draft's 
+		permalink is going to be ugly. */
+		if (stripos($permalink, 'post_type=article') || get_option('permalink_structure') == '') {
+			// Ugly permalinks
+			$link = add_query_arg(array('xml' => '1'), $permalink);
+			if (is_preview()) {
+				$link = add_query_arg(array('preview' => '1'), $link);
+			}
+		}
+		else {
+			// Pretty permalinks
+			$link = trailingslashit($permalink).'xml/';
+			if (is_preview()) {
+				$link = trailingslashit($link).'preview/';
+			}
+		}
+		
+		return $link;
 	}
 	
 	/**

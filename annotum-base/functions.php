@@ -122,6 +122,18 @@ add_action('load-post.php', 'anno_edit_post_assets');
 add_action('load-post-new.php', 'anno_edit_post_assets');
 
 /**
+ * Bring in our main.css on the dashboard page.  Should be cached
+ * already so it shouldn't be a big thing, even though we only need
+ * one definition from it.
+ *
+ * @return void
+ */
+function anno_dashboard_assets() {
+	wp_enqueue_style('anno', trailingslashit(get_bloginfo('template_directory')) .'assets/main/css/main.css', array(), ANNO_VER);
+}
+add_action('load-index.php', 'anno_dashboard_assets');
+
+/**
  * Register custom widgets extended from WP_Widget
  */
 function anno_widgets_init() {
@@ -767,14 +779,32 @@ Password: %s
 	return $user_id;
 }
 
+
+/**
+ * Output general stats in dashboard widget
+ *
+ * @return void
+ */
 function anno_activity_information() {
 	global $current_site, $avail_post_stati;
 	$article_post_type = 'article';
 	$status_text = array(
-		'trash' => __('trashed', 'anno'),
-		'publish' => __('published', 'anno'),
-		'pending' => __('pending review', 'anno'),
-		'draft' => __('drafted', 'anno'),
+		'publish' => array(
+			'i18n' 	=> __('Published', 'anno'),
+			'class' => 'approved',
+		),
+		'pending' => array(
+			'i18n' 	=> __('Pending', 'anno'),
+			'class' => 'waiting',
+		),
+		'draft' => array(
+			'i18n' 	=> __('Draft', 'anno'),
+			'class' => 'waiting',
+		),
+		'trash' => array(
+			'i18n' 	=> __('Trash', 'anno'),
+			'class' => 'spam',
+		),
 	);
 	
 	$num_posts = wp_count_posts( $article_post_type, 'readable' );
@@ -787,51 +817,55 @@ function anno_activity_information() {
 		$total_records -= $num_posts->$state;
 	}
 	
-	// Default detail string
-	$detail_string = '';
+	// Default
+	$detailed_counts = array();
+	
+	$base_edit_link = add_query_arg(array('post_type' => $article_post_type), admin_url('edit.php'));
 	
 	// Only build detailed string if user is an editor or administrator
 	if (current_user_can('editor') || current_user_can('administrator')) {
 		foreach (get_post_stati(array('show_in_admin_status_list' => true), 'objects') as $status) {
-			$class = '';
-
-			$status_name = $status->name;
-
-			if (!in_array($status_name, array_keys($status_text)))
+			$status_slug = $status->name;
+			
+			// If this status is in our $status_text array
+			if (!in_array($status_slug, array_keys($status_text)))
 				continue;
-
-			if ( empty( $num_posts->$status_name ) )
+			
+			// If we don't have any, don't output...this is debatable
+			if ( empty( $num_posts->$status_slug ) )
 				continue;
-
-			if ( isset($_REQUEST['post_status']) && $status_name == $_REQUEST['post_status'] )
-				$class = ' class="current"';
-
-			$detail_string .= sprintf(
-				'%d %s <a href="%s">%s</a>. ',
-					$num_posts->$status_name,
-					($num_posts->$status_name != 1) ? 'are' : 'is',
-					"edit.php?post_type={$article_post_type}&post_status={$status_name}",
-					$status_text[$status_name]
+			
+			$detailed_counts[] = array(
+				'status_slug' 	=> $status->name,
+				'i18n' 			=> $status_text[$status_slug]['i18n'],
+				'count' 		=> $num_posts->$status_slug,
+				'url' 			=> add_query_arg(array('post_status' => $status_slug), $base_edit_link),
+				'class' 		=> $status_text[$status_slug]['class'],
 			);
 		}
 	}
+	?>
+	</table> <!-- /close up the other table -->
 	
-	if ($total_records > 0) {
-		$output_string = sprintf(__('<a href="%s">%s</a> has %d <a href="%s">Articles</a>. %s', 'anno'),
-			get_bloginfo('url'),
-			get_bloginfo('name'),
-			$total_records,
-			"edit.php?post_type=$article_post_type",
-			$detail_string
-		);
-	}
+	<p id="article-dashboard-summary" class="sub"><?php _e('Article Summary', 'anno'); ?></p>
 	
-	if ($output_string) {
-		echo '<p>'.$output_string.'</p>';
-	}
+	<table>
+		<tr>
+			<td class="first b"><a href="<?php echo esc_url($base_edit_link); ?>"><?php echo number_format_i18n($total_records); ?></a></td>
+			<td class="t"><a href="<?php echo esc_url($base_edit_link); ?>"><?php _e('Articles', 'anno'); ?></a></td>
+		</tr>
+		<?php
+		foreach ($detailed_counts as $details) {
+			?>
+			<tr>
+				<td class="first b"><a href="<?php echo esc_url($details['url']); ?>"><?php echo esc_html(number_format_i18n($details['count'])); ?></a></td>
+				<td class="t"><a class="<?php echo esc_attr($details['class']); ?>" href="<?php echo esc_url($details['url']); ?>"><?php echo esc_html($details['i18n']); // already i18n'd ?></a></td>
+			</tr>
+			<?php
+		}
+		?>
+	<?php 
 }
-add_action('activity_box_end', 'anno_activity_information');
-
-
+add_action('right_now_content_table_end', 'anno_activity_information');
 
 ?>

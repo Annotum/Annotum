@@ -95,6 +95,7 @@ dl.kv dd{margin-bottom:8px;}
 #footer label,#footer .nav{float:left;}
 #footer .nav li{background:url(../img/sprite-y.8bit.png) 0 -293px no-repeat;margin-left:6px;padding-left:8px;}
 #footer .nav li:first-child{background:none;margin:0;padding:0;}
+#dashboard_right_now #article-dashboard-summary{position:static;top:auto;left:auto;margin:15px 5px 0;padding:0 0 5px 0;border-bottom:#ECECEC 1px solid;}
 form.search input.type-text{color:#666;font-size:13px;padding:1px 19px 1px 6px;width:169px;}
 form.search{position:relative;}
 form.search .type-submit{background:url(../img/sprite-y.8bit.png) 0 -100px no-repeat;border:0;height:13px;overflow:hidden;position:absolute;right:6px;top:5px;width:14px;}
