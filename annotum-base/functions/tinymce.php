@@ -1029,18 +1029,19 @@ add_action('add_post_meta', 'anno_save_appendices_xml_as_html', 10, 3);
 function anno_insert_post_data($data, $postarr) {
 	$is_article_type = false;
 	
+	// Both published and drafts (before article ever saved) get caught here
 	if ($postarr['post_type'] == 'article') {
 		$is_article_type = true;
 	}
 	// If we're a revision, we need to do one more check to ensure our parent is an article
 	if ($postarr['post_type'] == 'revision') {
-		$parent_id = wp_get_post_parent_id($postarr['ID']);
-		if (!empty($parent_id) && get_post_type($parent_id) == 'article') {
+		if (!empty($data['post_parent']) && get_post_type($data['post_parent']) == 'article') {
 			$is_article_type = true;
 		}
 	}
-
+	
 	if ($is_article_type) {
+		// Get our XML content for the revision
 		$content = stripslashes($data['post_content']);
 		
 		// Set XML as backup content. Filter markup and strip out tags not on whitelist.
@@ -1050,6 +1051,7 @@ function anno_insert_post_data($data, $postarr) {
 		// Set formatted HTML as the_content
 		$data['post_content'] = addslashes(anno_xml_to_html($xml));
 	}
+	
 	return $data;
 }
 add_filter('wp_insert_post_data', 'anno_insert_post_data', null, 2);
