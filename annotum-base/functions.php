@@ -722,10 +722,14 @@ function anno_user_email($user) {
  * @param string $email Email of user to create
  * @return int|WP_Error ID of new user, or, WP_Error 
  */ 
-function anno_invite_contributor($user_login, $user_email, $extra = array()) {	
+function anno_invite_contributor($user_login, $user_email, $extra = array()) {
+
+	
 	if (!current_user_can('create_users')) {
 		wp_die(__('Cheatin&#8217; uh?'));
 	}
+
+	$current_user = wp_get_current_user();
 	
 	// wp_insert_user handles all other errors
 	if (!anno_is_valid_email($user_email)) {
@@ -755,7 +759,7 @@ Please us the following credentials to login and change your password:
 Username: %s
 Password: %s
 %s', 'User creation email body. %s mapping: User who created this new user, blogname, username, password, profile url.', 'anno'),
-		'Someguy', $blogname, $user_login, $user_pass, esc_url(admin_url('profile.php')));
+		$current_user->display_name, $blogname, $user_login, $user_pass, esc_url(admin_url('profile.php')));
 		
 		wp_mail($user_email, $subject, $message);
 	}

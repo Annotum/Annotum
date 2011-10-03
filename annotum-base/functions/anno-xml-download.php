@@ -161,7 +161,7 @@ class Anno_XML_Download {
 		}
 		
 		// Abstract
-		$abstract = get_post_meta($article->ID, '_anno_abstract', true);
+		$abstract = $article->post_excerpt;
 		if (!empty($abstract)) {
 			$abstract_xml = '<abstract>
 					<title>'._x('Abstract', 'xml abstract title', 'anno').'</title>

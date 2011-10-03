@@ -227,12 +227,12 @@ add_action('post_updated', 'annowf_transistion_state', 10, 3);
 
 /**
  * Store revisions in the audit log.
- * @todo review
  */
 function anno_put_post_revision($rev_id) {
 	$current_user = wp_get_current_user();
 	$revision = get_post($rev_id);
-	$post = get_post($post_parent);
+	$post = get_post($rev_id);
+
 	if (!empty($post) && $post->post_type == 'article') {
 		annowf_save_audit_item($post->ID, $current_user->ID, 1, array($revision->ID));
 	}
@@ -823,7 +823,7 @@ function annowf_admin_request_handler() {
 		die();
 	}
 	
-	// Enforce Capabilities on the backend.
+	// Enforce Capabilities on the backend. Determine the action, and its relevant annotum capability
 	if (isset($_POST['action'])) {
 		$wp_action = $_POST['action'];
 	}
@@ -843,6 +843,7 @@ function annowf_admin_request_handler() {
 		$post = get_post(absint($_GET['post']));
 		$post_type = $post->post_type;
 	}
+	
 	if (!empty($wp_action) && !empty($post_type) && $post_type == 'article') {
 		switch ($wp_action) {
 			case 'postajaxpost':
@@ -872,7 +873,7 @@ function annowf_admin_request_handler() {
 			default:
 				break;
 		}
-	
+
 		if (!empty($anno_cap) && !anno_user_can($anno_cap)) {
 			add_filter('user_has_cap', 'annowf_user_has_cap_filter');
 		}

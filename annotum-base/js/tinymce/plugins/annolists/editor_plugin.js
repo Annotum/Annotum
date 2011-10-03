@@ -169,7 +169,7 @@
 			var enterDownInEmptyList = false;
 
 			function isTriggerKey(e) {
-				return e.keyCode === 9 ;//&& (ed.queryCommandState('InsertUnorderedList2') || ed.queryCommandState('InsertOrderedList2'));
+				return e.keyCode === 9 ;//&& (ed.queryCommandState('AnnoInsertUnorderedList') || ed.queryCommandState('AnnoInsertOrderedList'));
 			};
 
 			function isEnterInEmptyListItem(ed, e) {
@@ -261,10 +261,10 @@
 			this.ed = ed;
 			ed.addCommand('Indent', this.indent, this);
 			ed.addCommand('Outdent', this.outdent, this);
-			ed.addCommand('InsertUnorderedList2', function() {
+			ed.addCommand('AnnoInsertUnorderedList', function() {
 				this.applyList('bullet', 'order');
 			}, this);
-			ed.addCommand('InsertOrderedList2', function() {
+			ed.addCommand('AnnoInsertOrderedList', function() {
 				this.applyList('order', 'bullet');
 			}, this);
 			
@@ -272,14 +272,14 @@
 			ed.addButton('annoorderedlist', {
 				//removing for temp fix-- title : ed.getLang('advanced.link_desc'),
 				title : 'Insert Ordered List',
-				cmd : 'InsertOrderedList2'
+				cmd : 'AnnoInsertOrderedList'
 			});
 			
 			ed.addButton('annobulletlist', {
 				//removing for temp fix-- title : ed.getLang('advanced.link_desc'),
 				// TODO: Internationalize
 				title : 'Insert Bullet List',
-				cmd : 'InsertUnorderedList2'
+				cmd : 'AnnoInsertUnorderedList'
 			});
 			
 			ed.onKeyUp.addToTop(function(ed, e) {
@@ -289,10 +289,10 @@
 					return Event.cancel(e);
 				}
  				else if (enterDownInEmptyList && isEnterInEmptyListItem(ed, e)) {
-					if (ed.queryCommandState('InsertOrderedList2')) {
-						ed.execCommand('InsertOrderedList2');
+					if (ed.queryCommandState('AnnoInsertOrderedList')) {
+						ed.execCommand('AnnoInsertOrderedList');
 					} else {
-						ed.execCommand('InsertUnorderedList2');
+						ed.execCommand('AnnoInsertUnorderedList');
 					}
 					n = ed.selection.getStart();
 					if (n && n.tagName === 'LIST-ITEM') {
