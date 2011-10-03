@@ -825,6 +825,8 @@ function anno_activity_information() {
 	// Only build detailed string if user is an editor or administrator
 	if (current_user_can('editor') || current_user_can('administrator')) {
 		foreach (get_post_stati(array('show_in_admin_status_list' => true), 'objects') as $status) {
+			$status_slug = $status->name;
+			
 			// If this status is in our $status_text array
 			if (!in_array($status_slug, array_keys($status_text)))
 				continue;
@@ -833,7 +835,6 @@ function anno_activity_information() {
 			if ( empty( $num_posts->$status_slug ) )
 				continue;
 			
-			$status_slug = $status->name;
 			$detailed_counts[] = array(
 				'status_slug' 	=> $status->name,
 				'i18n' 			=> $status_text[$status_slug]['i18n'],
