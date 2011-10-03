@@ -83,10 +83,31 @@ class Anno_XML_Download {
 				ini_set('display_errors', 0);
 			}
 			
-			// Get our preview if necessary, otherwise fall back to post
-			$article = is_preview() ? wp_get_post_autosave($id) : get_post($id);
+			// Default Article
+			$article = null;
 			
-			if (!$article) {
+			// If we're published, grab the published article
+			if (!is_preview()) {
+				$article = get_post($id);
+			}
+			// If it is a preview, and current user has permissions to this article
+			else if (is_preview() && current_user_can('edit_post', $id)) {
+				$article = get_post($id);
+				
+				// If it's a draft, we're golden. Otherwise we need to try to find the latest revision
+				if (!empty($article) && $article->post_status != 'draft') {
+					// Reset our $article b/c it needs to be a revision if there is one.
+					$article = null;
+					
+					$revisions = wp_get_post_revisions($id);
+					if (!empty($revisions)) {
+						$article = array_shift($revisions);
+					}
+				}
+			}
+			
+			// Ensure we have an article
+			if (empty($article)) {
 				wp_die(__('Required article first.', $this->i18n));
 			}
 			
