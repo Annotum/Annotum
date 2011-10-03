@@ -12,7 +12,7 @@ function anno_register_post_types() {
 	}
 	
 	$labels = array(
-		'name' => _x('Article', 'post type name', 'anno'),
+		'name' => _x('Articles', 'post type name', 'anno'),
 		'singular_name' => _x('Article', 'post type singular name', 'anno'),
 		'add_new_item' => _x('Add New Article', 'post type plural name', 'anno'),
 		'edit_item' => _x('Edit Article', 'post type label', 'anno'),

@@ -766,7 +766,7 @@ function anno_invite_contributor($user_login, $user_email, $extra = array()) {
 		$subject = sprintf(_x('You have been invited to join %s', 'email subject %s represents blogname', 'anno'), $blogname);
 		$message =  sprintf(_x(
 '%s has created a user with your email address for %s.
-Please us the following credentials to login and change your password:
+Please use the following credentials to login and change your password:
 
 Username: %s
 Password: %s
