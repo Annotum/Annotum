@@ -68,10 +68,10 @@ if (!class_exists('DTD_Impoter')) {
 
 		$this->import_start( $file );
 
-	/*	wp_suspend_cache_invalidation( true );
-		$this->process_categories();
-		$this->process_tags();
-		$this->process_terms();
+		wp_suspend_cache_invalidation( true );
+	//	$this->process_categories();
+	//	$this->process_tags();
+	//	$this->process_terms();
 		$this->process_posts();
 		wp_suspend_cache_invalidation( false );
 
@@ -80,7 +80,7 @@ if (!class_exists('DTD_Impoter')) {
 		$this->backfill_attachment_urls();
 		$this->remap_featured_images();
 
-		$this->import_end(); */
+		$this->import_end(); 
 	}
 
 	/**
@@ -98,7 +98,7 @@ if (!class_exists('DTD_Impoter')) {
 
 		$import_data = $this->parse( $file );
 		error_log(print_r($import_data,1));
-/*		if ( is_wp_error( $import_data ) ) {
+		if ( is_wp_error( $import_data ) ) {
 			echo '<p><strong>' . __( 'Sorry, there has been an error.', 'anno' ) . '</strong><br />';
 			echo esc_html( $import_data->get_error_message() ) . '</p>';
 			$this->footer();
@@ -116,7 +116,7 @@ if (!class_exists('DTD_Impoter')) {
 		wp_defer_term_counting( true );
 		wp_defer_comment_counting( true );
 
-		do_action( 'import_start' ); */
+		do_action( 'import_start' ); 
 	}
 
 	/**

@@ -937,14 +937,14 @@ foreach ($this->authors as $author_key => $author_data) {
 					if (strpos('_anno_knol_author_', $key) !== false) {
 						$knol_author_id = str_replace('_anno_knol_author_', '', $key);
 						if (isset($authors->processed_authors[$knol_author_id])) {
-							add_post_meta($post_id, '_anno_author_'.$author, $author, true);
+							update_post_meta($post_id, '_anno_author_'.$author, $author, true);
 						}
 					}
 					
 					if (strpos('_anno_knol_reviewer_', $key) !== false) {
 						$knol_author_id = str_replace('_anno_knol_reviewer_', '', $key);
 						if (isset($authors->processed_authors[$knol_author_id])) {
-							add_post_meta($post_id, '_anno_reviewer_'.$author, $author, true);
+							update_post_meta($post_id, '_anno_reviewer_'.$author, $author, true);
 						}
 					}
 					
@@ -961,7 +961,7 @@ foreach ($this->authors as $author_key => $author_data) {
 						if ( ! $value )
 							$value = maybe_unserialize( $meta['value'] );
 
-						add_post_meta( $post_id, $key, $value );
+						update_post_meta( $post_id, $key, $value );
 						do_action( 'import_post_meta', $post_id, $key, $value );
 
 						// if the post has a featured image, take note of this in case of remap
