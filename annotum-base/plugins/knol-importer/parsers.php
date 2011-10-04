@@ -657,7 +657,7 @@ class Knol_WXR_Parser_Regex {
 class Kipling_DTD_Parser {	
 		
 	// @TODO parse attachements when applicable	
-	function parse() {
+	function parse($file) {
 		$authors = $posts = $post = $authors_meta = array();
 
 		if (!class_exists('phpQueryObject')) {
@@ -687,7 +687,7 @@ class Kipling_DTD_Parser {
 
 			$abstract = pq('abstract', $article);
 			// We don't want the title of the abstract
-			pq('title', $abstract)->remove;
+			pq('title', $abstract)->remove();
 
 			// Just the text, wpautop is run on it later (excerpt)
 			$post['post_excerpt'] = $abstract->text();
@@ -704,7 +704,7 @@ class Kipling_DTD_Parser {
 			$pub_date = $this->parse_date($pub_date);
 				// @TODO Determing where to store date pulled from 
 				$post['post_date'] = (string) $pub_date;
-				$post['post_date_gmt'] = (string) $wp->post_date_gmt;	
+				$post['post_date_gmt'] = '';//(string) $->post_date_gmt;	
 				
 			// @TODO. Is there ever a chance that this post will not be imported in published state?
 			$post['status'] = 'publish';
@@ -757,7 +757,7 @@ class Kipling_DTD_Parser {
 			foreach (pq('contrib', $article) as $contributor) {
 				$contributor = pq($contributor);
 			
-				$author_arr = parse_author($contributor);
+				$author_arr = $this->parse_author($contributor);
 			
 				$author = $author_arr['author'];
 				$author_meta = $author_arr['author_meta'];
@@ -849,14 +849,14 @@ class Kipling_DTD_Parser {
 			foreach ($comments as $comment) {
 				$comment = pq($comment);
 				$comment_content = pq('body', $comment)->html();
-				$comment_date = parse_date(pq('pub-date', $comment));
-				$comment_author_arr = parse_author('contrib', $comment);
-				$comment_author = $comment_author['author'];
+				$comment_date = $this->parse_date(pq('pub-date', $comment));
+				$comment_author_arr = $this->parse_author(pq('contrib', $comment));
+				$comment_author = $comment_author_arr['author'];
 			
 				$post['comments'][] = array(
 					'comment_id' => '',
 					'comment_author' => (string) $comment_author['author_display_name'],
-					'comment_author_email' => (string) $comment_author['email'],
+					'comment_author_email' => (string) $comment_author['author_email'],
 					'comment_author_IP' => '',
 					'comment_author_url' => (string) $comment_author['author_url'],
 					//@TODO determine where to put date
@@ -868,7 +868,7 @@ class Kipling_DTD_Parser {
 					'comment_type' => '',
 					'comment_parent' => '',
 					// @TODO If user is one of the authors defined in the file
-					'comment_user_id' => (int) $comment->comment_user_id,
+					'comment_user_id' => 0,//(int) $comment->comment_user_id,
 					'commentmeta' => array(),
 				);
 			}
@@ -881,8 +881,8 @@ class Kipling_DTD_Parser {
 			'categories' => array(),
 			'tags' => array(),
 			'terms' => array(),
-			'base_url' => $base_url,
-			'version' => $wxr_version
+			'base_url' => '',//$base_url,
+			'version' => 1.1, //$wxr_version
 		);
 	}
 	
@@ -907,23 +907,23 @@ class Kipling_DTD_Parser {
 		);
 		$author_meta = array();
 								
-		$contrib_type = $contributor->attr('contrib-type');
+		$contributor_type = $contributor->attr('contrib-type');
 		
 		// Currently, just assume contrib-type="author" and non-existant contrib-types are authors. Note - empty contrib-types (contrib-type="") will not be processed as an author.			
 		if (strcasecmp($contributor_type, 'author') === 0 || $contributor_type === null) {
 
 			// Grab supplimentary data first. So we can determine which to use over <collab>
 			// Only direct children, we don't want to grab from <collab>
-			$email = pq('> email', $contrib)->text();
+			$email = pq('> email', $contributor)->text();
 			
-			$author_meta['affiliation'] = $affiliation = pq('> aff', $contrib)->text();
-			$author_meta['bio'] = pq('> bio', $contrib)->text();
-			$author_meta['ext-link'] = pq('> ext-link', $contrib)->attr('xlink::href');								
-			$author_meta['uri'] = pq('> uri', $contrib)->text();
-			$author_meta['xref'] = pq('> xref', $contrib)->text();				
+			$author_meta['affiliation'] = $affiliation = pq('> aff', $contributor)->text();
+			$author_meta['bio'] = pq('> bio', $contributor)->text();
+			$author_meta['ext-link'] = pq('> ext-link', $contributor)->attr('xlink::href');								
+			$author_meta['uri'] = pq('> uri', $contributor)->text();
+			$author_meta['xref'] = pq('> xref', $contributor)->text();				
 			
 			// Get address information, there may be an email lurking in there
-			$address_array = parse_address(pq('> address', $contrib));
+			$address_array = $this->parse_address(pq('> address', $contributor));
 			if (empty($email) && !empty($address_array['email'])) {
 				$email = $address_array['email'];
 				unset($address_array['email']);
