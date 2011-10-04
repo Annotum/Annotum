@@ -10,5 +10,5 @@ include_once(ANNO_PLUGIN_PATH.'cf-revisions-manager/cf-revision-manager.php');
 include_once(ANNO_PLUGIN_PATH.'anno-colors/anno-colors.php');
 include_once(ANNO_PLUGIN_PATH.'anno-pdf-download/anno-pdf-download.php');
 include_once(ANNO_PLUGIN_PATH.'knol-importer/knol-importer.php');
-
+include_once(ANNO_PLUGIN_PATH.'dtd-importer/dtd-importer.php');
 ?>

@@ -1,15 +1,15 @@
 <?php
 
-if ( ! defined( 'WP_LOAD_IMPORTERS' ) )
+if (!defined('WP_LOAD_IMPORTERS'))
 	return;
-
+	
 /** Display verbose errors */
 if (!defined('IMPORT_DEBUG')) {
 	define( 'IMPORT_DEBUG', false );
 }
 
 // Load Importer API
-require_once ABSPATH . 'wp-admin/includes/import.php';
+require_once ABSPATH.'wp-admin/includes/import.php';
 
 if ( ! class_exists( 'WP_Importer' ) ) {
 	$class_wp_importer = ABSPATH . 'wp-admin/includes/class-wp-importer.php';
@@ -23,7 +23,7 @@ require dirname( __FILE__ ) . '/parsers.php';
 /**
  * Knol importer class for handling Knol WXR import files
  */
-if ( !class_exists( 'Knol_Import' ) ) {
+if (!class_exists('Knol_Import')) {
 class Knol_Import extends WP_Importer {
 	var $max_wxr_version = 1.1; // max. supported WXR version
 
@@ -1346,13 +1346,14 @@ foreach ($this->authors as $author_key => $author_data) {
 
 } // class_exists( 'WP_Importer' )
 
-function anno_knol_importer_init() {
-
-	/**
-	 * Knol Importer object for registering the import callback
-	 * @global Knol_Import $knol_import
-	 */
-	$GLOBALS['knol_import'] = new Knol_Import();
-	register_importer( 'google_knol_wxr', 'Google Knol WXR', __('Import <strong>posts, pages, comments, custom fields, categories, and tags</strong> from a Google Knol WXR export file.', 'anno'), array( $GLOBALS['knol_import'], 'dispatch' ) );
+if (!function_exists('anno_knol_importer_init')) {
+	function anno_knol_importer_init() {
+		/**
+		 * Knol Importer object for registering the import callback
+		 * @global Knol_Import $knol_import
+		 */
+		$GLOBALS['knol_import'] = new Knol_Import();
+		register_importer( 'google_knol_wxr', 'Google Knol WXR', __('Import <strong>posts, pages, comments, custom fields, categories, and tags</strong> from a Google Knol WXR export file.', 'anno'), array( $GLOBALS['knol_import'], 'dispatch' ) );
+	}
+	add_action( 'admin_init', 'anno_knol_importer_init' );
 }
-add_action( 'admin_init', 'anno_knol_importer_init' );
