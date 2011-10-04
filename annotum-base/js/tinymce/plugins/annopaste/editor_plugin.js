@@ -373,6 +373,10 @@
 					/(&nbsp;|<br[^>]*>)+\s*$/gi		// &nbsp; entities at the end of contents
 				]);
 
+//				if (getParam(ed, "paste_convert_headers_to_strong")) {
+					h = h.replace(/<p [^>]*class="?MsoHeading"?[^>]*>(.*?)<\/p>/gi, "<heading>$1</heading>");
+//				}
+
 				if (getParam(ed, "paste_convert_middot_lists")) {
 					process([
 						[/<!--\[if !supportLists\]-->/gi, '$&__MCE_ITEM__'],					// Convert supportLists to a list item marker
@@ -526,6 +530,11 @@
 				[/<ul>|<ul .*>/gi, "<list list-type=\"bullet\">"],
 				[/<\/ul>|<\/ul .*>/gi, "</list>"]
 			]);
+			
+			process([
+				[/<h[1-9]>|<h[1-9] .*>/gi, "<heading>"],
+				[/<\/h[1-9]>|<\/h[1-9] .*>/gi, "</heading>"]
+			]);
 		
 			process([
 				[/<ol>|<ol .*>/gi, "<list list-type=\"order\">"],
@@ -593,8 +602,6 @@
 			}
 			
 			o.content = h;
-			
-			console.log(o);
 		},
 
 		/**
