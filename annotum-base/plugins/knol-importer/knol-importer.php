@@ -78,8 +78,6 @@ class Knol_Import extends WP_Importer {
 			case 1:
 				if (!empty($_POST['import-wordpress'])) {
 					check_admin_referer('import-wordpress');
-					
-
 					$this->load_data_from_post();
 					// Load mapping, and errors if they exist.
 					$this->get_author_mapping();
@@ -95,7 +93,7 @@ class Knol_Import extends WP_Importer {
 						$this->id = (int) $_POST['import_id'];
 						$file = get_attached_file( $this->id );
 						set_time_limit(0);
-						$this->import( $file );
+						$this->import($file);
 					}		
 				}
 				else {
@@ -343,7 +341,7 @@ class Knol_Import extends WP_Importer {
 
 // Populate authors, so we can repopulate $this->authors on chance an error occurs and we're redirected to 'step 1' again.
 foreach ($this->authors as $author_key => $author_data) {
-	if (!empty($author_key) || $author_key === '0') {
+	if (!empty($author_key) || $author_key === 0) {
 ?>
 	<input type="hidden" name="authors[<?php echo esc_attr($author_key) ?>][author_id]" value="<?php echo esc_attr($author_data['author_id']) ?>" />
 	<input type="hidden" name="authors[<?php echo esc_attr($author_key) ?>][author_login]" value="<?php echo esc_attr($author_data['author_login']) ?>" />
@@ -574,7 +572,6 @@ foreach ($this->authors as $author_key => $author_data) {
 					$this->author_errors[$i][] = _x('This username is already registered.', 'importer error message', 'anno');
 				}
 
-				// Only continue if we have no errors.
 				if (!$this->have_author_errors($i)) {
 					if (!anno_is_valid_email($user_new_email)) {
 						$this->author_errors[$i][] = _x('Please enter a valid email when creating a new user.', 'importer error message', 'anno');
@@ -616,7 +613,7 @@ foreach ($this->authors as $author_key => $author_data) {
 	 * @return bool True if errors have been found, false otherwise
 	 */ 
 	private function have_author_errors($i) {
-		return !isset($this->author_errors[$i]) || !count($this->author_errors[$i]);
+		return isset($this->author_errors[$i]) && count($this->author_errors[$i]);
 	}
 	
 	/**
@@ -799,7 +796,7 @@ foreach ($this->authors as $author_key => $author_data) {
 					$author = $this->author_mapping[$author];
 				else
 					$author = (int) get_current_user_id();
-
+				
 				$postdata = array(
 					'import_id' => $post['post_id'], 'post_author' => $author, 'post_date' => $post['post_date'],
 					'post_date_gmt' => $post['post_date_gmt'], 'post_content' => $post['post_content'],

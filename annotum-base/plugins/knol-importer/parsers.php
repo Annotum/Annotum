@@ -785,7 +785,7 @@ class Kipling_DTD_Parser {
 				$first_author = false;
 				$default_author_id++;
 			}
-		
+
 			// Acknowledgements 
 			// @TODO support multiple tags
 			$ack = trim(pq('ack p', $article_back)->text());
@@ -868,7 +868,7 @@ class Kipling_DTD_Parser {
 					'comment_date' => (string) $comment_date,
 					'comment_date_gmt' => '',
 					// We only export approved comments
-					'comment_content' => 1,
+					'comment_content' => $comment_content,
 					'comment_approved' => 1,
 					'comment_type' => '',
 					'comment_parent' => '',
@@ -952,7 +952,7 @@ class Kipling_DTD_Parser {
 			// Grab supplimentary data first. So we can determine which to use over <collab>
 			// Only direct children, we don't want to grab from <collab>
 			$email = pq('> email', $contributor)->text();
-			
+
 			$author_meta['affiliation'] = $affiliation = pq('> aff', $contributor)->text();
 			$author_meta['bio'] = pq('> bio', $contributor)->text();
 			$author_meta['ext-link'] = pq('> ext-link', $contributor)->attr('xlink::href');								
@@ -1035,6 +1035,8 @@ class Kipling_DTD_Parser {
 				$author['author_display_name'] = 'anonymous';
 			}
 
+			$author['email'] = $email;
+
 			
 			// Determine author_url, store other data in author meta.
 			if (!empty($author_meta['uri'])) {
@@ -1047,7 +1049,7 @@ class Kipling_DTD_Parser {
 				$author['author_url'] = $author_meta['xref'];
 			}
 		}
-		
+				
 		return array(
 			'author' => $author,
 			'author_meta' => $author_meta,
