@@ -128,8 +128,8 @@ function anno_users_snapshot($post_id, $post) {
 			$author = get_userdata($author);
 			$author_meta[$author->ID] = array(
 				'id' => $author->ID,
-				'surname' => $author->first_name,
-				'given_names' => $author->last_name,
+				'surname' => $author->last_name,
+				'given_names' => $author->first_name,
 				'prefix' => get_user_meta($author->ID, '_anno_prefix', true),
 				'suffix' => get_user_meta($author->ID, '_anno_suffix', true),
 				'degrees' => get_user_meta($author->ID, '_anno_degrees', true),
