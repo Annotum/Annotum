@@ -771,7 +771,7 @@ class Kipling_DTD_Parser {
 				}
 			
 				// Save in authors
-				$authors[] = $author;
+				$authors[$author['author_id']] = $author;
 			
 				// Save in authors_meta, consistant with author_id to match on import of user
 				$authors_meta[$author['author_id']] = $author_meta;

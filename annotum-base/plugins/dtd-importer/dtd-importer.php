@@ -14,109 +14,52 @@ if (!class_exists('DTD_Impoter')) {
 	class DTD_Import extends Knol_Import {
 
 	var $import_slug = 'kipling_dtd_xml';
-
+	
+	// Author meta data is stored here. We don't get this data from Knols
+	var $authors_meta = array();
+		
 	function DTD_Import() { /* Nothing */ }
-
+	
 	/**
-	 * If fetching attachments is enabled then attempt to create a new attachment
+	 * Retrieve authors and author meta from parse XML file. Process meta data.
 	 *
-	 * @param array $post Attachment post details from WXR
-	 * @param string $url URL to fetch attachment from
-	 * @return int|WP_Error Post ID on success, WP_Error otherwise
+	 * @param array $import_data Data returned by the parser
 	 */
-	function process_attachment( $post, $url ) {
-		if (!$this->fetch_attachments)
-			return new WP_Error('attachment_processing_error',
-				__('Fetching attachments is not enabled', 'anno'));
-
-		// if the URL is absolute, but does not contain address, then upload it assuming base_site_url
-		if (preg_match( '|^/[\w\W]+$|', $url))
-			$url = rtrim( $this->base_url, '/' ) . $url;
-
-		$upload = $this->fetch_remote_file( $url, $post );
-		if ( is_wp_error( $upload ) )
-			return $upload;
-
-		if ( $info = wp_check_filetype( $upload['file'] ) )
-			$post['post_mime_type'] = $info['type'];
-		else
-			return new WP_Error( 'attachment_processing_error', __('Invalid file type', 'anno') );
-
-		$post['guid'] = $upload['url'];
-
-		// as per wp-admin/includes/upload.php
-		$post_id = wp_insert_attachment( $post, $upload['file'] );
-		wp_update_attachment_metadata( $post_id, wp_generate_attachment_metadata( $post_id, $upload['file'] ) );
-
-		// remap resized image URLs, works by stripping the extension and remapping the URL stub.
-		if ( preg_match( '!^image/!', $info['type'] ) ) {
-			$parts = pathinfo( $url );
-			$name = basename( $parts['basename'], ".{$parts['extension']}" ); // PATHINFO_FILENAME in PHP 5.2
-
-			$parts_new = pathinfo( $upload['url'] );
-			$name_new = basename( $parts_new['basename'], ".{$parts_new['extension']}" );
-
-			$this->url_remap[$parts['dirname'] . '/' . $name] = $parts_new['dirname'] . '/' . $name_new;
+	function get_authors_from_import($import_data) {
+		// No fallback options available
+		if (!empty($import_data['authors'])) {
+			$this->authors = $import_data['authors'];
 		}
 
-		return $post_id;
-	}
-
-	function import( $file ) {
-		add_filter( 'import_post_meta_key', array( $this, 'is_valid_meta_key' ) );
-		add_filter( 'http_request_timeout', array( &$this, 'bump_request_timeout' ) );
-
-		$this->import_start( $file );
-
-		wp_suspend_cache_invalidation( true );
-	//	$this->process_categories();
-	//	$this->process_tags();
-	//	$this->process_terms();
-		$this->process_posts();
-		wp_suspend_cache_invalidation( false );
-
-		// update incorrect/missing information in the DB
-		$this->backfill_parents();
-		$this->backfill_attachment_urls();
-		$this->remap_featured_images();
-
-		$this->import_end(); 
+		if (!empty($import_data['authors_meta'])) {
+			$this->authors_meta = $import_data['authors_meta'];
+			$this->process_user_meta();
+		}	
 	}
 
 	/**
-	 * Parses the WXR file and prepares us for the task of processing parsed data
-	 *
-	 * @param string $file Path to the WXR file for importing
-	 */
-	function import_start( $file ) {
-		if ( ! is_file($file) ) {
-			echo '<p><strong>' . __( 'Sorry, there has been an error.', 'anno' ) . '</strong><br />';
-			echo __( 'The file does not exist, please try again.', 'anno' ) . '</p>';
-			$this->footer();
-			die();
+	 * Process post meta for created users
+	 * 
+	 */ 
+	function process_user_meta() {
+		// Only perform on newly created users
+		foreach ($this->created_users as $old_id => $wp_id) {
+			if (!empty($this->authors_meta[$old_id]) && is_array($this->authors_meta[$old_id])) {
+				foreach ($this->authors_meta[$old_id] as $key => $value) {
+					$value = trim($value);
+					if (!empty($value)) {
+						if ($key == 'bio') {
+							$key == 'descriptions';
+						}
+						else {
+							$key = '_anno_'.$key;
+						}
+						// We only have single rows per key
+						update_user_meta($wp_id, $key, $value);
+					}
+				}
+			}
 		}
-
-		$import_data = $this->parse( $file );
-		error_log(print_r($import_data,1));
-		if ( is_wp_error( $import_data ) ) {
-			echo '<p><strong>' . __( 'Sorry, there has been an error.', 'anno' ) . '</strong><br />';
-			echo esc_html( $import_data->get_error_message() ) . '</p>';
-			$this->footer();
-			die();
-		}
-
-		$this->version = $import_data['version'];
-		$this->get_authors_from_import( $import_data );
-		$this->posts = $import_data['posts'];
-		$this->terms = $import_data['terms'];
-		$this->categories = $import_data['categories'];
-		$this->tags = $import_data['tags'];
-		$this->base_url = esc_url( $import_data['base_url'] );
-
-		wp_defer_term_counting( true );
-		wp_defer_comment_counting( true );
-
-		do_action( 'import_start' ); 
 	}
 
 	/**
@@ -161,7 +104,7 @@ function anno_dtd_importer_init() {
 	 * @global DTD_Import $dtd_import
 	 */
 	$GLOBALS['dtd_import'] = new DTD_Import();
-	register_importer('kipling_dtd_xml', 'Kipling DTD XML', __('Import <strong>articles, keywords, subjects and users</strong> from a Google Knol WXR export file.', 'anno'), array( $GLOBALS['dtd_import'], 'dispatch') );
+	register_importer('kipling_dtd_xml', 'Kipling DTD XML', __('Import <strong>articles, keywords, subjects and users</strong> from a Kipling DTD XML file.', 'anno'), array( $GLOBALS['dtd_import'], 'dispatch') );
 }
 add_action('admin_init', 'anno_dtd_importer_init');
 

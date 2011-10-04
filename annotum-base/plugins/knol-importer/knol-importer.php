@@ -53,7 +53,8 @@ class Knol_Import extends WP_Importer {
 	
 	// Creating new users
 	var $new_user_credentials = array();
-
+	var $created_users = array();
+	
 	var $fetch_attachments = false;
 	var $url_remap = array();
 	var $featured_images = array();
@@ -145,19 +146,18 @@ class Knol_Import extends WP_Importer {
 	/**
 	 * Creates users, whose credentials were created in get_author_mapping. Maps newly created users.
 	 */
-	function create_users() {
+	function create_users() {		
 		$create_users = $this->allow_create_users();
 		if ($create_users) {
 			$new_users = $this->new_user_credentials;
+
 			foreach ($new_users as $i => $user_creds) {
 				$old_id = $user_creds['old_id'];		
-			
 				$extra = array(
 					'display_name' => $this->authors[$old_id]['author_display_name'],
 					'first_name' => $this->authors[$old_id]['author_first_name'],
 					'last_name' => $this->authors[$old_id]['author_last_name'],
-				);	            
-				
+				);	           
 
 				// Create the user, send them an email.
 				$user_id = anno_invite_contributor($user_creds['user_login'], $user_creds['user_email'], $extra);
@@ -167,9 +167,13 @@ class Knol_Import extends WP_Importer {
 				if (is_wp_error($user_id) || empty($user_id)) {
 					$user_id = get_current_user_id();
 				}
-				if ($old_id) {
-					$this->processed_authors[$old_id] = $user_id;
-				}
+				else {
+					// Keep track of the created users so we can 
+					// import their meta information on import					
+					$this->created_users[$old_id] = $user_id;
+				}				
+
+				$this->processed_authors[$old_id] = $user_id;
 				$this->author_mapping[$old_id] = $user_id;
 			}
 		}
@@ -481,7 +485,6 @@ foreach ($this->authors as $author_key => $author_data) {
 						
 			$old_id = trim($old_id);
 
-
 			if (!empty($_POST['user_map'][$i])) {
 				$user = get_userdata( intval($_POST['user_map'][$i]) );
 				if (isset( $user->ID)) {
@@ -772,7 +775,7 @@ foreach ($this->authors as $author_key => $author_data) {
 
 			$post_type_object = get_post_type_object( $post['post_type'] );
 
-			$post_exists = post_exists( $post['post_title'], '', $post['post_date'] );
+			$post_exists = post_exists( $post['post_title'], '', $post['post_date'], array('article') );
 			if ( $post_exists ) {
 				printf( __('%s &#8220;%s&#8221; already exists.', 'anno'), $post_type_object->labels->singular_name, esc_html($post['post_title']) );
 				echo '<br />';
@@ -1350,7 +1353,7 @@ if (!function_exists('anno_knol_importer_init')) {
 		 * @global Knol_Import $knol_import
 		 */
 		$GLOBALS['knol_import'] = new Knol_Import();
-		register_importer( 'google_knol_wxr', 'Google Knol WXR', __('Import <strong>posts, pages, comments, custom fields, categories, and tags</strong> from a Google Knol WXR export file.', 'anno'), array( $GLOBALS['knol_import'], 'dispatch' ) );
+		register_importer( 'google_knol_wxr', 'Google Knol WXR', __('Import <strong>articles, comments, custom fields, categories, and tags</strong> from a Google Knol WXR export file.', 'anno'), array( $GLOBALS['knol_import'], 'dispatch' ) );
 	}
 	add_action( 'admin_init', 'anno_knol_importer_init' );
 }
