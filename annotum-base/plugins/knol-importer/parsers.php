@@ -708,12 +708,11 @@ class Kipling_DTD_Parser {
 				$post['post_date'] = (string) $pub_date;
 				$post['post_date_gmt'] = '';//(string) $->post_date_gmt;	
 				
-			// @TODO. Is there ever a chance that this post will not be imported in published state?
-			$post['status'] = 'publish';
+			$post['status'] = 'draft';
 			// Reflect in post_state meta as well.
 			$post['postmeta'][] = array(
 				'key' => '_post_state', 
-				'value' => 'published',
+				'value' => 'draft',
 			);
 
 			// Not used in Kipling DTD, but set for data structure integrity required by the importer
