@@ -658,7 +658,7 @@ class Kipling_DTD_Parser {
 		
 	// @TODO parse attachements when applicable	
 	function parse($file) {
-		$authors = $posts = $post = $author_snapshots = $authors_meta = array();
+		$authors = $posts = $attachments = $post = $author_snapshots = $authors_meta = array();
 
 		if (!class_exists('phpQueryObject')) {
 			require(trailingslashit(TEMPLATEPATH).'functions/phpQuery/phpQuery.php');
@@ -670,7 +670,7 @@ class Kipling_DTD_Parser {
 	
 		phpQuery::newDocument($file_content);
 	
-		// Made up post IDs just for sanities sake
+		// Made up post IDs just for sanities sake, and parent relationship
 		$post_id = 1;
 	
 		// Process articles, this contains all catergory, tag, author, term etc... processing.
@@ -679,10 +679,56 @@ class Kipling_DTD_Parser {
 			$article_meta = pq('article-meta', $article);
 			
 			$article_back = pq('back', $article);
-			
+						
 			$post['post_type'] = 'article';
 			$post['post_content_filtered'] = trim(pq('> body', $article)->html());
 			$post['post_title'] = trim(pq('title-group', $article_meta)->text());
+		
+			$inline_images = pq('> body inline-graphic');
+			foreach ($inline_images as $img) {
+				$img = pq($img);
+				
+				// @TODO Regex for libxml2 < 2.6.29
+				$img_url = $img->attr('xlink:href');
+				$alt_text = pq('alt-text', $img)->text();
+				
+				// Dont save chart api images (most likely formulas)
+				if (!empty($img_url) && strpos('google.com/chart', $img_url) === false) {
+					$attachments[$img_url] = array(
+						'url' => $img_url,
+						'alt_text' => $alt_text,
+						'post_parent' => $post_id,
+						'title' => $alt_text,
+					);
+				}
+			}
+			
+			// Find media and save as attachment
+			$media_images = pq('> body media');
+			foreach ($media_images as $media_image) {
+				$media_image = pq($media_image);
+				$media_array = $this->process_media($media);
+				if (is_array($media_array) && !empty($media_array['url'])) {
+					$media_array['post_parent'] = $post_id;
+					$attachments[$media_array['url']] = $media_array;
+				}
+			}
+			
+			// This will also catch media images, but overrides based on attachment key
+			$figures = pq('> body fig');
+			foreach ($figures as $figure) {
+				$figure = pq($figure);
+				$media = pq('media', $figure);
+				$media_array = $this->process_media($media);
+				
+				if (is_array($media_array) && !empty($media_array['url'])) {
+					// Save caption and label data from fig tag.
+					$media_array['caption'] = pq('caption', $figure)->html();
+					$media_array['label'] = pq('lablel', $figure)->html();
+					$media_array['post_parent'] = $post_id;
+					$attachments[$media_array['url']] = $media_array;
+				}	
+			}
 		
 			// @TODO
 	 		$post['guid'] = '';
@@ -755,7 +801,6 @@ class Kipling_DTD_Parser {
 			$first_author = true;
 			$default_author_id = 1;
 			// Grab the author(s). 
-
 			foreach (pq('contrib', $article_meta) as $contributor) {
 				$contributor = pq($contributor);
 			
@@ -822,7 +867,7 @@ class Kipling_DTD_Parser {
 					'value' => serialize($appendix_array),
 				);
 			}
-		
+						
 			// References
 			$references = pq('ref', $article_back);
 			$ref_array = array();
@@ -833,6 +878,7 @@ class Kipling_DTD_Parser {
 				'figures' => '',
 				'url' => '',
 			);
+			
 			foreach ($references as $reference) {
 				$reference = pq($reference);
 				// For now, just support mixed-citations as text.
@@ -846,7 +892,6 @@ class Kipling_DTD_Parser {
 				else {
 					$ref_array[$ref_id] = $ref_data;
 				}
-			
 			}
 
 			$comments = pq('response');
@@ -878,7 +923,7 @@ class Kipling_DTD_Parser {
 			}
 			
 			// Save our author snapshots
-			// @TODO convert IDs on user association
+			// @TODO convert IDs on user association? Potential multiple key conflict
 			$post['postmeta'][] = array(
 				'key' => '_anno_author_snapshot',
 				'value' => serialize($author_snapshots),
@@ -921,7 +966,7 @@ class Kipling_DTD_Parser {
 			'link' => $author['author_url'],
 		);
 	}
-	
+		
 	/**
 	 * Parse contributor data from a <contrib> tag, maintaining as much data as possible
 	 * @TODO better handling of contrib-type, potentially do logic on <role> within <contrib>
@@ -1095,6 +1140,34 @@ class Kipling_DTD_Parser {
 		
 		// Note, DTD does not detail time
 		return $year.'-'.$month.'-'.$day.' 00:00:00';
+	}
+	
+	/**
+	 * Parse media data from a media tag
+	 * @param phpQueryObj $media Media object to parse
+	 * 
+	 * @return false|array Array of data if a relevanturl can be found, false otherwise.
+	 */
+	function parse_media($media) {
+			$img_url = $media->attr('xlink:href');
+			$alt_text = pq('alt-text', $media)->text();
+			$long_desc = pq('long-desc', $media)->text();
+			$copyright = array(
+				'statement' => pq('copyright-statement', $fig_image)->html(),
+				'holder' => pq('copyright-holder', $fig_image)->text(),
+				'license' => pq('license-p', $fig_image)->html(),
+			);
+			
+			if (!empty($img_url) && strpos('google.com/chart', $img_url) === false) {
+				return array(
+					'url' => $img_url,
+					'alt_text' => $alt_text,
+					'desc' => $long_desc,
+					'title' => $alt_text,
+					'copyright' => $copyright,
+				);
+			}
+		return false;
 	}
 }
 
