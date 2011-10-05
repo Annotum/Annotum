@@ -683,53 +683,7 @@ class Kipling_DTD_Parser {
 			$post['post_type'] = 'article';
 			$post['post_content_filtered'] = trim(pq('> body', $article)->html());
 			$post['post_title'] = trim(pq('title-group', $article_meta)->text());
-		
-			$inline_images = pq('> body inline-graphic');
-			foreach ($inline_images as $img) {
-				$img = pq($img);
-				
-				// @TODO Regex for libxml2 < 2.6.29
-				$img_url = $img->attr('xlink:href');
-				$alt_text = pq('alt-text', $img)->text();
-				
-				// Dont save chart api images (most likely formulas)
-				if (!empty($img_url) && strpos('google.com/chart', $img_url) === false) {
-					$attachments[$img_url] = array(
-						'url' => $img_url,
-						'alt_text' => $alt_text,
-						'post_parent' => $post_id,
-						'title' => $alt_text,
-					);
-				}
-			}
-			
-			// Find media and save as attachment
-			$media_images = pq('> body media');
-			foreach ($media_images as $media_image) {
-				$media_image = pq($media_image);
-				$media_array = $this->process_media($media);
-				if (is_array($media_array) && !empty($media_array['url'])) {
-					$media_array['post_parent'] = $post_id;
-					$attachments[$media_array['url']] = $media_array;
-				}
-			}
-			
-			// This will also catch media images, but overrides based on attachment key
-			$figures = pq('> body fig');
-			foreach ($figures as $figure) {
-				$figure = pq($figure);
-				$media = pq('media', $figure);
-				$media_array = $this->process_media($media);
-				
-				if (is_array($media_array) && !empty($media_array['url'])) {
-					// Save caption and label data from fig tag.
-					$media_array['caption'] = pq('caption', $figure)->html();
-					$media_array['label'] = pq('lablel', $figure)->html();
-					$media_array['post_parent'] = $post_id;
-					$attachments[$media_array['url']] = $media_array;
-				}	
-			}
-		
+
 			// @TODO
 	 		$post['guid'] = '';
 
@@ -752,7 +706,7 @@ class Kipling_DTD_Parser {
 			$pub_date = $this->parse_date($pub_date);
 				// @TODO Determing where to store date pulled from 
 				$post['post_date'] = (string) $pub_date;
-				$post['post_date_gmt'] = '';//(string) $->post_date_gmt;	
+				$post['post_date_gmt'] = '';
 				
 			$post['status'] = 'draft';
 			// Reflect in post_state meta as well.
@@ -798,8 +752,9 @@ class Kipling_DTD_Parser {
 			}
 
 			// First author is the primary author, possible @todo - look for primary-author contrib type
-			$first_author = true;
-			$default_author_id = 1;
+			$first_author_check = true;
+			$default_author_id = $first_author_id = 1;
+			
 			// Grab the author(s). 
 			foreach (pq('contrib', $article_meta) as $contributor) {
 				$contributor = pq($contributor);
@@ -820,13 +775,17 @@ class Kipling_DTD_Parser {
 				// Save in authors_meta, consistant with author_id to match on import of user
 				$authors_meta[$author['author_id']] = $author_meta;
 			
-				if ($first_author) {
+				if ($first_author_check) {
 					$post['post_author'] = $author['author_id'];
 				}
 			
 				$author_snapshots[] = $this->author_snapshot($author, $author_meta);
-			
-				$first_author = false;
+				if ($first_author_check) {
+					// Used in attachment assignment
+					$first_author_id = $author['author_id'];
+				}
+				
+				$first_author_check = false;
 				$default_author_id++;
 			}
 
@@ -894,6 +853,111 @@ class Kipling_DTD_Parser {
 				}
 			}
 
+			// Attachments
+			
+			// Modification for post_id
+			$attachment_id_mod = 0;			
+
+			// $pub_date is the date gathered from the post data.
+			$attachment_template = array(
+				'upload_date' => (string) $pub_date,
+				'post_date' => (string) $pub_date,
+				'post_author' => $first_author_id,
+				'post_type' => 'attachment',
+				'post_parent' => $post_id,
+				'post_id' => '',
+				'post_content' => '',
+				'post_content_filtered' => '',
+				'postmeta' => '',
+				'guid' => '',
+				'attachment_url' => '',
+				'status' => 'inherit',
+				'post_title' => '',
+				'post_date_gmt' => '',
+				'ping_status' => '',
+				'menu_order' => '',
+				'post_password' => '',
+				'terms' => '',
+				'comment_status' => '',
+				'is_sticky' => '',
+				'post_excerpt' => '',
+				'post_name' => '',
+			);
+			
+			$inline_images = pq('> body inline-graphic', $article);
+			foreach ($inline_images as $img) {
+				$img = pq($img);
+							
+				// @TODO Regex for libxml2 < 2.6.29
+				$img_url = $img->attr('xlink:href');
+				
+				// Dont save chart api images (most likely formulas)
+				if (!empty($img_url) && strpos('google.com/chart', $img_url) === false) {
+					$post_meta = array();
+					
+					$alt_text = pq('alt-text', $img)->html();
+					if (!empty($alt_text)) {
+						$post_meta[] = array(
+							'key' => '_wp_attachment_image_alt',
+							'value' => $alt_text,
+						);
+					}
+					$attachments[] = array_merge($attachment_template, array(
+						'post_id' => $post_id.'.'.$attachment_id_mod,
+						'guid' => $img_url,
+						'attachment_url' => $img_url,
+						'post_parent' => $post_id,
+						'title' => trim($alt_text),
+						'postmeta' => $post_meta,
+						'post_title' => $img_url,
+					));
+					
+					$attachment_id_mod++;
+				}
+			}
+			
+			// Find media and save as attachment
+			$media_images = pq('> body media', $article);
+			foreach ($media_images as $media_image) {
+				$media_image = pq($media_image);
+				
+				// Parse Media will return an array with:
+					// attachment_url
+					// guid
+					// post_title
+					// post_content
+					// postmeta
+				$media_array = $this->parse_media($media_image);
+				
+				if (is_array($media_array) && !empty($media_array['attachment_url'])) {
+					// Check if this is a figure image
+					$figure = $media_image->parent('fig');
+					$figure_html = trim($figure->html());
+					$caption = '';
+					if (!empty($figure_html)) {
+						$label = pq('label', $figure)->html();
+						$caption = pq('caption', $figure)->html();
+						
+						$post_meta[] = array(
+							'key' => '_anno_attachment_image_label',
+							'value' => $label,
+						);
+					}
+					
+					$attachment = array_merge($media_array, array(
+						'post_id' => $post_id.'.'.$attachment_id_mod,
+						'post_parent' => $post_id,
+						'title' => trim($alt_text),
+						// Concat
+						'postmeta' => array_merge($post_meta, $media_array['postmeta']),
+					));
+					
+					$attachments[] = array_merge($attachment_template, $attachment);
+										
+					$attachment_id_mod++;
+				}
+			}
+
 			$comments = pq('response');
 			foreach ($comments as $comment) {
 				$comment = pq($comment);
@@ -930,6 +994,8 @@ class Kipling_DTD_Parser {
 			);
 						
 			$posts[] = $post;
+			// Concat, both indexed
+			$posts = array_merge($posts, $attachments);
 		}
 
 				
@@ -1146,27 +1212,45 @@ class Kipling_DTD_Parser {
 	 * Parse media data from a media tag
 	 * @param phpQueryObj $media Media object to parse
 	 * 
-	 * @return false|array Array of data if a relevanturl can be found, false otherwise.
+	 * @return false|array Array of data if a relevant url can be found, false otherwise.
 	 */
-	function parse_media($media) {
-			$img_url = $media->attr('xlink:href');
+	function parse_media($media) {		
+		$img_url = $media->attr('xlink:href');
+		
+		if (!empty($img_url) && strpos('google.com/chart', $img_url) === false) {
+			$post_meta = array();
+			
 			$alt_text = pq('alt-text', $media)->text();
 			$long_desc = pq('long-desc', $media)->text();
-			$copyright = array(
-				'statement' => pq('copyright-statement', $fig_image)->html(),
-				'holder' => pq('copyright-holder', $fig_image)->text(),
-				'license' => pq('license-p', $fig_image)->html(),
+
+			$post_meta[] = array(
+				'key' => '_anno_attachment_image_copyright_statement',
+				'value' => pq('copyright-statement', $media)->html(),
 			);
-			
-			if (!empty($img_url) && strpos('google.com/chart', $img_url) === false) {
-				return array(
-					'url' => $img_url,
-					'alt_text' => $alt_text,
-					'desc' => $long_desc,
-					'title' => $alt_text,
-					'copyright' => $copyright,
-				);
-			}
+
+			$post_meta[] = array(
+				'key' => '_anno_attachment_image_copyright_holder',
+				'value' => pq('copyright-holder', $media)->text(),
+			);
+
+			$post_meta[] = array(
+				'key' => '_anno_attachment_image_license',
+				'value' => pq('license-p', $media)->html(),
+			);
+
+			$post_meta[] = array(
+				'key' => '_wp_attachment_image_alt',
+				'value' => $alt_text,
+			);
+
+			return array(
+				'attachment_url' => $img_url,
+				'guid' => $img_url,
+				'post_title' => $img_url,
+				'post_content' => trim(pq('long-desc', $media)->html()),
+				'postmeta' => $post_meta,
+			);
+		}
 		return false;
 	}
 }
