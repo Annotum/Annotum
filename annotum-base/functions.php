@@ -89,6 +89,7 @@ function anno_setup() {
 	// Customize the Carrington Core Admin Settings Form Title
 	add_filter('cfct_admin_settings_menu', 'anno_admin_settings_menu_form_title');
 	add_filter('cfct_admin_settings_form_title', 'anno_admin_settings_menu_form_title');
+	add_filter('cfct_admin_settings_title', 'anno_admin_settings_menu_form_title');
 }
 add_action('after_setup_theme', 'anno_setup');
 
