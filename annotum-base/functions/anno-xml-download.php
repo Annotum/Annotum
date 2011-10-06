@@ -93,13 +93,16 @@ class Anno_XML_Download {
 			else if (is_preview() && current_user_can('edit_post', $id)) {
 				$article = get_post($id);
 				
-				// If we're not a draft, then go after revisions
-				if ($article->post_status != 'draft') {
 					
 					// add_filter('the_preview', '_set_preview'); // set title, content, excerpt
 					// add_filter('the_preview', array($this, '_set_preview')); // set post_content filtered
 					
 					// $article = get_post($id);
+				/* Drafts and sometimes pending statuses append a preview_id on the 
+				end of the preview URL.  While we're building the XML download link
+				we do a check for that, and set this query arg if the preview_id is
+				present. */
+				if (isset($_GET['autosave'])) {
 					$article = wp_get_post_autosave($id);
 						// 					
 						// 					
@@ -724,9 +727,12 @@ class Anno_XML_Download {
 		permalink is going to be ugly. */
 		if (stripos($permalink, 'post_type=article') || get_option('permalink_structure') == '') {
 			// Ugly permalinks
-			$link = add_query_arg(array('xml' => '1'), $permalink);
+			$link = add_query_arg(array('xml' => 'true'), $permalink);
 			if (is_preview()) {
-				$link = add_query_arg(array('preview' => '1'), $link);
+				$link = add_query_arg(array('preview' => 'true'), $link);
+				if (isset($_GET['preview_id'])) {
+					$link = add_query_arg(array('autosave' => 'true'), $link);
+				}
 			}
 		}
 		else {
@@ -734,6 +740,9 @@ class Anno_XML_Download {
 			$link = trailingslashit($permalink).'xml/';
 			if (is_preview()) {
 				$link = trailingslashit($link).'preview/';
+				if (isset($_GET['preview_id'])) {
+					$link = add_query_arg(array('autosave' => 'true'), $link);
+				}
 			}
 		}
 		
