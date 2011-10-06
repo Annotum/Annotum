@@ -144,7 +144,7 @@ class Knol_WXR_Parser_SimpleXML {
 			
 				$post['post_content'] = (string) $content->encoded;
 				$post['post_excerpt'] = (string) $excerpt->encoded;
-				$post['post_content_filtered'] = (string) $content_filtered->encoded;
+				$post['post_content_filtered'] = (string) $content_filtered->encoded;			
 			
 				$wp = $item->children( $namespaces['wp'] );
 				$post['post_id'] = (int) $wp->post_id;
@@ -207,6 +207,35 @@ class Knol_WXR_Parser_SimpleXML {
 						'commentmeta' => $meta,
 					);
 				}
+				
+				
+				$attachment_template = array(
+					'upload_date' => $post['post_date'],
+					'post_date' => $post['post_date'],
+					'post_author' => $post['post_author'],
+					'post_type' => 'attachment',
+					'post_parent' => $post['post_id'],
+					'post_id' => '',
+					'post_content' => '',
+					'post_content_filtered' => '',
+					'postmeta' => '',
+					'guid' => '',
+					'attachment_url' => '',
+					'status' => 'inherit',
+					'post_title' => '',
+					'post_date_gmt' => '',
+					'ping_status' => '',
+					'menu_order' => '',
+					'post_password' => '',
+					'terms' => '',
+					'comment_status' => '',
+					'is_sticky' => '',
+					'post_excerpt' => '',
+					'post_name' => '',
+				);
+				
+				$post_attachments = $this->parse_images($content_filtered->encoded, $item->title, $attachment_template);
+				
 
 				$posts[] = $post;
 			}
@@ -221,6 +250,62 @@ class Knol_WXR_Parser_SimpleXML {
 			'base_url' => $base_url,
 			'version' => $wxr_version
 		);
+	}
+	
+	/**
+	 * Parse images from the post content
+	 * 
+	 * @param string $content The content to parse from
+	 * @param string $post_title Title of the post to process
+	 * @param array $attachment_template Base for attachment
+	 * 
+	 * @return array Array of attachments created
+	 */ 
+	function parse_images($content, $post_title, $attachment_template) {
+		$attachments = array();
+		
+		// Lets make sure we have a wrapper
+		$content = '<div>'.$content.'</div>';
+		
+		$xml = simplexml_load_string($content);
+		if (!$xml) {
+			// We've encountered ill formed markup (no closing tag on a div for example)
+			// Make note, move along, no need to break the entire import process
+			if (defined('IMPORT_DEBUG') && IMPORT_DEBUG) {
+				error_log(sprintf(_x('There was an error processesing %s\'s content for attachments.', 'importer error message', 'anno'), $post_title));
+			}			
+		}
+		else {		
+			// img tags, Knols do not export images with anything but img.
+			$images = $xml->xpath('//img');
+			foreach ($images as $image) {
+				$attachment = $attachment_template;
+				
+				$attrs = $image->attributes();
+				if (!empty($attrs['src']) && $attrs['src'] !== false) {
+					$attachement['attachment_url'] = trim($attrs['src']);
+					$attachement['guid'] = trim($attrs['src']);
+				}
+				
+				if (!empty($attrs['alt'])) {
+					$attachement['post_title'] = $attrs['title'];
+					$attachments['_wp_attachment_image_alt'] = array(
+						'key' => '_wp_attachment_image_alt',
+						'value' => $attrs['alt'],
+					);
+				}
+				
+				if (!empty($attrs['title'])) {
+					$attachement['post_title'] = $attrs['title'];
+				}
+				
+				if (!empty($attachement['attachment_url'])) {
+					$attachments[] = $attachment;
+				}		
+			}		
+		}
+		
+		return $attachments;
 	}
 }
 
