@@ -828,7 +828,7 @@ foreach ($this->authors as $author_key => $author_data) {
 							}
 						}
 					}
-
+					
 					$comment_post_ID = $post_id = $this->process_attachment( $postdata, $remote_url );
 				} else {
 					remove_filter('wp_insert_post_data', 'anno_insert_post_data', null, 2);
@@ -851,7 +851,7 @@ foreach ($this->authors as $author_key => $author_data) {
 			}
 
 			// map pre-import ID to local ID
-			$this->processed_posts[intval($post['post_id'])] = (int) $post_id;
+			$this->processed_posts[$post['post_id']] = (int) $post_id;
 
 			// add categories, tags and other terms
 			if ( ! empty( $post['terms'] ) ) {
@@ -1025,8 +1025,8 @@ foreach ($this->authors as $author_key => $author_data) {
 
 		if ( 'taxonomy' == $_menu_item_type && isset( $this->processed_terms[intval($_menu_item_object_id)] ) ) {
 			$_menu_item_object_id = $this->processed_terms[intval($_menu_item_object_id)];
-		} else if ( 'post_type' == $_menu_item_type && isset( $this->processed_posts[intval($_menu_item_object_id)] ) ) {
-			$_menu_item_object_id = $this->processed_posts[intval($_menu_item_object_id)];
+		} else if ( 'post_type' == $_menu_item_type && isset( $this->processed_posts[$_menu_item_object_id] ) ) {
+			$_menu_item_object_id = $this->processed_posts[($_menu_item_object_id)];
 		} else if ( 'custom' != $_menu_item_type ) {
 			// associated object is missing or not imported yet, we'll retry later
 			$this->missing_menu_items[] = $item;
@@ -1077,26 +1077,21 @@ foreach ($this->authors as $author_key => $author_data) {
 		if ( ! $this->fetch_attachments )
 			return new WP_Error( 'attachment_processing_error',
 				__( 'Fetching attachments is not enabled', 'anno' ) );
-
 		// if the URL is absolute, but does not contain address, then upload it assuming base_site_url
 		if ( preg_match( '|^/[\w\W]+$|', $url ) )
 			$url = rtrim( $this->base_url, '/' ) . $url;
-
 		$upload = $this->fetch_remote_file( $url, $post );
 		if ( is_wp_error( $upload ) )
 			return $upload;
-
 		if ( $info = wp_check_filetype( $upload['file'] ) )
 			$post['post_mime_type'] = $info['type'];
 		else
 			return new WP_Error( 'attachment_processing_error', __('Invalid file type', 'anno') );
 
 		$post['guid'] = $upload['url'];
-
 		// as per wp-admin/includes/upload.php
 		$post_id = wp_insert_attachment( $post, $upload['file'] );
 		wp_update_attachment_metadata( $post_id, wp_generate_attachment_metadata( $post_id, $upload['file'] ) );
-
 		// remap resized image URLs, works by stripping the extension and remapping the URL stub.
 		if ( preg_match( '!^image/!', $info['type'] ) ) {
 			$parts = pathinfo( $url );
@@ -1107,7 +1102,6 @@ foreach ($this->authors as $author_key => $author_data) {
 
 			$this->url_remap[$parts['dirname'] . '/' . $name] = $parts_new['dirname'] . '/' . $name_new;
 		}
-
 		return $post_id;
 	}
 
@@ -1179,7 +1173,6 @@ foreach ($this->authors as $author_key => $author_data) {
 	 */
 	function backfill_parents() {
 		global $wpdb;
-
 		// find parents for post orphans
 		foreach ( $this->post_orphans as $child_id => $parent_id ) {
 			$local_child_id = $local_parent_id = false;
@@ -1206,7 +1199,7 @@ foreach ($this->authors as $author_key => $author_data) {
 				$local_parent_id = $this->processed_menu_items[$parent_id];
 
 			if ( $local_child_id && $local_parent_id )
-				update_post_meta( $local_child_id, '_menu_item_menu_item_parent', (int) $local_parent_id );
+				update_post_meta( $local_child_id, '_menu_item_menu_item_parent', $local_parent_id );
 		}
 	}
 
@@ -1219,11 +1212,11 @@ foreach ($this->authors as $author_key => $author_data) {
 		uksort( $this->url_remap, array(&$this, 'cmpr_strlen') );
 
 		foreach ( $this->url_remap as $from_url => $to_url ) {
-			// remap urls in post_content
-			$wpdb->query( $wpdb->prepare("UPDATE {$wpdb->posts} SET post_content = REPLACE(post_content, %s, %s), post_content_filtered = REPLACE(post_content, %s, %s)", $from_url, $to_url) );
+			// remap urls in post_content and post_content_filtered		
+			$wpdb->query( $wpdb->prepare("UPDATE {$wpdb->posts} SET post_content = REPLACE(post_content, %s, %s), post_content_filtered = REPLACE(post_content_filtered, %s, %s)", $from_url, $to_url, $from_url, $to_url) );
 
 			// remap enclosure urls
-			$result = $wpdb->query( $wpdb->prepare("UPDATE {$wpdb->postmeta} SET meta_value = REPLACE(meta_value, %s, %s) WHERE meta_key='enclosure'", $from_url, $to_url) );
+			$result = $wpdb->query( $wpdb->prepare("UPDATE {$wpdb->postmeta} SET meta_value = REPLACE(meta_value, %s, %s) WHERE meta_key='enclosure'", $from_url, $to_url));
 		}
 	}
 

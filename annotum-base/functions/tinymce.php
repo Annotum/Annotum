@@ -1680,18 +1680,15 @@ function anno_xml_to_html_replace_dispquotes($orig_xml) {
 	
 	foreach ($quotes as $quote) {
 		$quote = pq($quote);
-		
+
 		// Get our attribution
 		$attrib = $quote->children('attrib:first')->html();
 		$by = $tpl->to_tag('span', '&mdash;', array('class' => 'by'));
-		$attrib = $attrib ? $by."\n".$attrib : '';
+		$attrib = $attrib ? $by.' '.$attrib : '';
 		$attrib_tag = $tpl->to_tag('span', $attrib, array('class' => 'attribution'));
 
-		/* Clone our element, b/c we'll be removing all child elem's so 
-		we can just get the immediate text */
-		$clone = $quote->clone();
-		$clone->children()->remove();
-		$quote_text = $clone->text();
+		$quote_text = pq('p', $quote)->text();
+
 		$blockquote_tag = $tpl->to_tag('blockquote', esc_html($quote_text));
 		
 		$permissions = $quote->find('permissions');
