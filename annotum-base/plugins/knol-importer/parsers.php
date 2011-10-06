@@ -74,6 +74,8 @@ class Knol_WXR_Parser_SimpleXML {
 			$namespaces['wp'] = 'http://wordpress.org/export/1.1/';
 		if ( ! isset( $namespaces['excerpt'] ) )
 			$namespaces['excerpt'] = 'http://wordpress.org/export/1.1/excerpt/';
+		if ( ! isset( $namespaces['content_filtered'] ) )
+			$namespaces['content_filtered'] = 'http://wordpress.org/export/1.1/content-filtered/';
 
 		foreach ($xml->xpath('/rss/channel') as $channel) {
 			// grab authors
@@ -137,6 +139,7 @@ class Knol_WXR_Parser_SimpleXML {
 
 				$content = $item->children( 'http://purl.org/rss/1.0/modules/content/' );
 				$excerpt = $item->children( $namespaces['excerpt'] );
+			
 				$content_filtered = $item->children( $namespaces['content_filtered'] );
 			
 				$post['post_content'] = (string) $content->encoded;
