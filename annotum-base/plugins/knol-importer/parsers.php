@@ -682,8 +682,13 @@ class Kipling_DTD_Parser {
 						
 			$post['post_type'] = 'article';
 			$post['post_content_filtered'] = trim(pq('> body', $article)->html());
-			$post['post_title'] = trim(pq('title-group', $article_meta)->text());
-
+			$post['post_title'] = trim(pq('article-title', $article_meta)->text());
+			
+			$post['postmeta'][] = array(
+				'key' => '_anno_subtitle',
+				'value' => trim(pq('subtitle', $article_meta)->text()),
+			);
+			
 			// @TODO
 	 		$post['guid'] = '';
 
@@ -714,6 +719,7 @@ class Kipling_DTD_Parser {
 				'key' => '_post_state', 
 				'value' => 'draft',
 			);
+			
 
 			// Not used in Kipling DTD, but set for data structure integrity required by the importer
 			$post['post_parent'] = 0;
@@ -947,7 +953,6 @@ class Kipling_DTD_Parser {
 					$attachment = array_merge($media_array, array(
 						'post_id' => $post_id.'.'.$attachment_id_mod,
 						'post_parent' => $post_id,
-						'title' => trim($alt_text),
 						// Concat
 						'postmeta' => array_merge($post_meta, $media_array['postmeta']),
 					));
