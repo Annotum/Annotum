@@ -90,22 +90,58 @@ class Anno_XML_Download {
 			if (!is_preview()) {
 				$article = get_post($id);
 			}
-			// If it is a preview, and current user has permissions to this article
 			else if (is_preview() && current_user_can('edit_post', $id)) {
 				$article = get_post($id);
 				
-				// If it's a draft, we're golden. Otherwise we need to try to find the latest revision
-				if (!empty($article) && $article->post_status != 'draft') {
-					// Reset our $article b/c it needs to be a revision if there is one.
-					$article = null;
+				// If we're not a draft, then go after revisions
+				if ($article->post_status != 'draft') {
 					
-					$revisions = wp_get_post_revisions($id);
-					if (!empty($revisions)) {
-						$article = array_shift($revisions);
-					}
+					// add_filter('the_preview', '_set_preview'); // set title, content, excerpt
+					// add_filter('the_preview', array($this, '_set_preview')); // set post_content filtered
+					
+					// $article = get_post($id);
+					$article = wp_get_post_autosave($id);
+						// 					
+						// 					
+						// 					
+						// // Reset our $article b/c it needs to be a revision if there is one.
+						// $article = null;
+						// $revisions = wp_get_post_revisions($id);
+						// if (!empty($revisions)) {
+						// 	$article = array_shift($revisions);
+						// }
 				}
+			// 	echo '<pre>';
+			// 	print_r('Not a preview, getting saved/published article');
+			// 	echo '</pre>';
+			// }
+			// // If it is a preview, and current user has permissions to this article
+			// else if (is_preview() && current_user_can('edit_post', $id)) {
+			// 	$article = get_post($id);
+				
+				
+				// echo '<pre>';
+				// print_r('Is a preview');
+				// echo '</pre>';
+				// 
+				// // If it's a draft, we're golden. Otherwise we need to try to find the latest revision
+				// if (empty($article) || !in_array($article->post_status, array('draft'))) {
+				// 	echo '<pre>';
+				// 	print_r('Looking for latest revision now...');
+				// 	echo '</pre>';
+				// 	// Reset our $article b/c it needs to be a revision if there is one.
+				// 	$article = null;
+				// 	$revisions = wp_get_post_revisions($id);
+				// 	if (!empty($revisions)) {
+				// 		$article = array_shift($revisions);
+				// 	}
+				// }
 			}
 			
+			echo '<pre>';
+			print_r($article);
+			echo '</pre>';
+
 			// Ensure we have an article
 			if (empty($article)) {
 				wp_die(__('Required article first.', $this->i18n));
@@ -115,12 +151,35 @@ class Anno_XML_Download {
 			$this->generate_xml($article);
 			
 			// Send our headers
-			$this->set_headers($article);
+			if (!$_GET['screen']) {
+				$this->set_headers($article);
+			}
+			
 			
 			// Send the file
 			echo $this->xml;
 			exit;
 		}
+	}
+	
+	public function _set_preview($post) {
+		if ( ! is_object($post) )
+			return $post;
+
+		$preview = wp_get_post_autosave($post->ID);
+
+		if ( ! is_object($preview) )
+			return $post;
+
+		$preview = sanitize_post($preview);
+
+		// $post->post_content = $preview->post_content;
+		// $post->post_title = $preview->post_title;
+		// $post->post_excerpt = $preview->post_excerpt;
+		// 
+		// $post->post_content_filtered = $preview->post_content_filtered; // custom
+		return $preview;
+		
 	}
 	
 	private function set_headers($article) {
