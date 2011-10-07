@@ -272,7 +272,7 @@ class Knol_WXR_Parser_SimpleXML {
 			// We've encountered ill formed markup (no closing tag on a div for example)
 			// Make note, move along, no need to break the entire import process
 			if (defined('IMPORT_DEBUG') && IMPORT_DEBUG) {
-				error_log(sprintf(_x('There was an error processesing %s\'s content for attachments.', 'importer error message', 'anno'), $post_title));
+				error_log(sprintf(_x('There was an error processing %s\'s content for attachments.', 'importer error message', 'anno'), $post_title));
 			}			
 		}
 		else {		
@@ -451,7 +451,11 @@ class Knol_WXR_Parser_XML {
 			case 'wp:wxr_version':
 				$this->wxr_version = $this->cdata;
 				break;
-
+			case 'content_filtered:encoded':
+				$filtered_content = $this->cdata;
+				$this->parse_images($filtered_content);
+				
+				break;
 			default:
 				if ( $this->in_sub_tag ) {
 					$this->sub_data[$this->in_sub_tag] = ! empty( $this->cdata ) ? $this->cdata : '';
@@ -463,6 +467,96 @@ class Knol_WXR_Parser_XML {
 		}
 
 		$this->cdata = false;
+	}
+	
+	function img_open($parser, $tag, $attributes) {
+		// Make sure we have an image tag
+ 		if (strcasecmp($tag, 'img') === 0) {
+			$date_now = date('Y-m-d G:i:s');
+			
+			$attachment = array(
+				'upload_date' => $date_now,
+				'post_date' => $date_now,
+				'post_author' => '',
+				'post_type' => 'attachment',
+				'post_parent' => 0,
+				'post_id' => '',
+				'post_content' => '',
+				'post_content_filtered' => '',
+				'postmeta' => '',
+				'guid' => '',
+				'attachment_url' => '',
+				'status' => 'inherit',
+				'post_title' => '',
+				'post_date_gmt' => '',
+				'ping_status' => '',
+				'menu_order' => '',
+				'post_password' => '',
+				'terms' => '',
+				'comment_status' => '',
+				'is_sticky' => '',
+				'post_excerpt' => '',
+				'post_name' => '',
+			);
+	
+	
+			// We have a post parent, this will only occur when the post_id tag is before the content_filtered in the WXR
+			if (!empty($this->data['post_id'])) {
+				$attachment['post_parent'] = $this->data['post_id'];
+			}
+			
+			if (!empty($this->data['post_date'])) {
+				$attachment['post_date'] = $attachment['upload_date'] = $this->data['post_date'];
+			}
+			
+			if (!empty($this->data['post_author'])) {
+				$attachment['post_author'] = $this->data['post_author'];
+			}
+			
+			if (!empty($attributes['src'])) {
+				$attachment['attachment_url'] = $attachment['guid'] = $attachment['post_title'] = trim($attributes['src']);
+			}
+			
+			if (!empty($attributes['alt'])) {
+				$attachment['post_title'] = trim($attributes['alt']);
+				$attachment['postmeta'][] = array(
+					'key' => '_wp_attachment_image_alt',
+					'value' => trim($attributes['alt']),
+				);
+			}
+			
+			if (!empty($attributes['title'])) {
+				$attachment['post_title'] = trim($attributes['title']);
+			}
+			
+			// If we have a url, then save the attachment in the posts array.
+			if (!empty($attachment['attachment_url'])) {
+				$this->posts[] = $attachment;
+			}
+		}
+	}
+	
+	function img_close() {
+		// Do nothing.
+	}
+	
+	function parse_images($content) {
+		$xml = xml_parser_create( 'UTF-8' );
+		xml_parser_set_option( $xml, XML_OPTION_SKIP_WHITE, 1 );
+		xml_parser_set_option( $xml, XML_OPTION_CASE_FOLDING, 0 );
+		xml_set_object( $xml, $this );
+		xml_set_character_data_handler( $xml, 'cdata' );
+		xml_set_element_handler( $xml, 'tag_open', 'tag_close' );
+
+		if ( ! xml_parse( $xml, $content, true ) ) {
+			$current_line = xml_get_current_line_number( $xml );
+			$current_column = xml_get_current_column_number( $xml );
+			$error_code = xml_get_error_code( $xml );
+			if (defined('IMPORT_DEBUG') && IMPORT_DEBUG) {
+				error_log(sprintf(_x('XML Parser: There was an error processing the content for attachments. Line %s. Column %s. Code %s.', 'importer error message', 'anno'), $current_line, $current_column, $error_code));
+			}
+		}
+		xml_parser_free( $xml );
 	}
 }
 
