@@ -283,8 +283,17 @@ class Knol_WXR_Parser_SimpleXML {
 				
 				$attrs = $image->attributes();
 				if (!empty($attrs['src']) && $attrs['src'] !== false) {
-					$attachement['attachment_url'] = trim($attrs['src']);
-					$attachement['guid'] = trim($attrs['src']);
+					
+					// We want to import relative urls and knol images
+					if (strpos($attrs['src'], 'http://') === false && strpos($attrs['src'], 'https://') === false ) {
+						$attrs['src'] = 'http://knol.google.com'.$attrs['src'];
+					}
+					// We don't care about protocoll just that its a knol image
+					if (strpos($attrs['src'], '://knol.google.com' !== false)) {
+						$attachement['post_title'] = trim($attrs['src']);
+						$attachement['attachment_url'] = trim($attrs['src']);
+						$attachement['guid'] = trim($attrs['src']);
+					}
 				}
 				
 				if (!empty($attrs['alt'])) {
@@ -514,19 +523,26 @@ class Knol_WXR_Parser_XML {
 			}
 			
 			if (!empty($attributes['src'])) {
-				$attachment['attachment_url'] = $attachment['guid'] = $attachment['post_title'] = trim($attributes['src']);
-			}
-			
-			if (!empty($attributes['alt'])) {
-				$attachment['post_title'] = trim($attributes['alt']);
-				$attachment['postmeta'][] = array(
-					'key' => '_wp_attachment_image_alt',
-					'value' => trim($attributes['alt']),
-				);
-			}
-			
-			if (!empty($attributes['title'])) {
-				$attachment['post_title'] = trim($attributes['title']);
+					// We want to import relative urls and knol images
+					if (strpos($attributes['src'], 'http://') === false && strpos($attributes['src'], 'https://') === false ) {
+						$attributes['src'] = 'http://knol.google.com'.$attributes['src'];
+					}
+					// We don't care about protocoll just that its a knol image
+					if (strpos($attributes['src'], '://knol.google.com' !== false)) {
+						$attachment['attachment_url'] = $attachment['guid'] = $attachment['post_title'] = trim($attributes['src']);
+					}
+					
+					if (!empty($attributes['alt'])) {
+						$attachment['post_title'] = trim($attributes['alt']);
+						$attachment['postmeta'][] = array(
+							'key' => '_wp_attachment_image_alt',
+							'value' => trim($attributes['alt']),
+						);
+					}
+
+					if (!empty($attributes['title'])) {
+						$attachment['post_title'] = trim($attributes['title']);
+					}
 			}
 			
 			// If we have a url, then save the attachment in the posts array.
@@ -712,21 +728,33 @@ class Knol_WXR_Parser_Regex {
 		foreach ($matches[0] as $img_key => $tag_string) {
 			$attachment = $attachment_template;
 			
-			$attachment['gui'] = $attachment['attachment_url'] = $attachment['post_title'] = $matches[2][$img_key];
-
-			if (!empty($matches[3][$img_key])) {
-				$attachment['post_title'] = $matches[3][$img_key];
-				$attachment['postmeta'][] = array(
-					'key' => '_wp_attachment_image_alt',
-					'value' => $matches[3][$img_key],
-				);
-			}
 			
-			//Title
-			if (!empty($matches[4][$img_key])) {
-				$attachment['post_title'] = $matches[4][$img_key];
+			if (!empty($matches[2][$img_key])) {
+				$img_url = $matches[2][$img_key];
+				if (strpos($img_url, 'http://') === false && strpos($img_url, 'https://') === false ) {
+					$img_url = 'http://knol.google.com'.$img_url;
+				}
+				// We don't care about protocoll just that its a knol image
+				if (strpos($img_url, '://knol.google.com' !== false)) {
+					$attachement['post_title'] = trim($img_url);
+					$attachement['attachment_url'] = trim($img_url);
+					$attachement['guid'] = trim($img_url);
+				}
+				
+				if (!empty($matches[3][$img_key])) {
+					$attachment['post_title'] = $matches[3][$img_key];
+					$attachment['postmeta'][] = array(
+						'key' => '_wp_attachment_image_alt',
+						'value' => $matches[3][$img_key],
+					);
+				}
+				
+				//Title
+				if (!empty($matches[4][$img_key])) {
+					$attachment['post_title'] = $matches[4][$img_key];
+				}
 			}
-		
+
 			// Only process this image if we have a URL
 			if (!empty($attachement['attachment_url'])) {
 				$this->posts[] = $attachment;
