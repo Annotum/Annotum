@@ -40,16 +40,14 @@ class Anno_XML_Download {
 		$article_post_type = array_shift($article_post_types);
 		
 		global $wp;
-		// Allows us to use get_query_var('xml') later on
-		$wp->add_query_var('xml');
+		$wp->add_query_var('xml'); // Allows us to use get_query_var('xml') later on
 		
 		// Tells WP that a request like /articles/my-article-name/xml/ is valid
-		add_rewrite_rule($article_post_type->rewrite['slug'].'/([^/]+)/xml/?$', 'index.php?articles=$matches[1]&xml=1', 'top');
+		add_rewrite_rule($article_post_type->rewrite['slug'].'/([^/]+)/xml/?$', 'index.php?articles=$matches[1]&xml=true', 'top');
 		
 		// Enable preview URLs
 		$wp->add_query_var('preview');
-		add_rewrite_rule($article_post_type->rewrite['slug'].'/([^/]+)/xml/preview/?$', 'index.php?articles=$matches[1]&xml=1&preview=1', 'top');
-		// http://annotum.local/?post_type=article&p=269&xml=1&preview=1
+		add_rewrite_rule($article_post_type->rewrite['slug'].'/([^/]+)/xml/preview/?$', 'index.php?articles=$matches[1]&xml=true&preview=true', 'top');
 	}
 	
 	public function add_actions() {
@@ -58,9 +56,8 @@ class Anno_XML_Download {
 		// Run late to make sure all custom post types are registered
 		add_action('init', array($this, 'setup_permalinks'), 20);
 		
+		// Run at 'wp' so we can use the cool get_query_var functions
 		add_action('wp', array($this, 'request_handler'));
-		
-		// add_filter('the_preview', array($this, 'set_preview_data'));
 	}
 	
 	/**
@@ -90,19 +87,15 @@ class Anno_XML_Download {
 			if (!is_preview()) {
 				$article = get_post($id);
 			}
-			// If it is a preview, and current user has permissions to this article
 			else if (is_preview() && current_user_can('edit_post', $id)) {
 				$article = get_post($id);
 				
-				// If it's a draft, we're golden. Otherwise we need to try to find the latest revision
-				if (!empty($article) && $article->post_status != 'draft') {
-					// Reset our $article b/c it needs to be a revision if there is one.
-					$article = null;
-					
-					$revisions = wp_get_post_revisions($id);
-					if (!empty($revisions)) {
-						$article = array_shift($revisions);
-					}
+				/* Drafts and sometimes pending statuses append a preview_id on the 
+				end of the preview URL.  While we're building the XML download link
+				we do a check for that, and set this query arg if the preview_id is
+				present. */
+				if (isset($_GET['autosave'])) {
+					$article = wp_get_post_autosave($id);
 				}
 			}
 			
@@ -115,7 +108,9 @@ class Anno_XML_Download {
 			$this->generate_xml($article);
 			
 			// Send our headers
-			$this->set_headers($article);
+			if (!$_GET['screen']) {
+				$this->set_headers($article);
+			}
 			
 			// Send the file
 			echo $this->xml;
@@ -123,6 +118,13 @@ class Anno_XML_Download {
 		}
 	}
 	
+	
+	/**
+	 * Sets the download headers for what will be delivered
+	 *
+	 * @param obj $article 
+	 * @return void
+	 */
 	private function set_headers($article) {
 		// Get the post title, so we can set it as the filename
 		$filename = sanitize_title(get_the_title($article->ID));
@@ -132,9 +134,17 @@ class Anno_XML_Download {
 		header('Content-Disposition: attachment; filename="'.$filename.'.xml"');
 	}
 	
+	
+	/**
+	 * Builds the entire XML document 
+	 *
+	 * @param obj $article - WP Post type object
+	 * @return void
+	 */
 	private function generate_xml($article) {
 		$this->xml = $this->xml_front($article)."\n".$this->xml_body($article)."\n".$this->xml_back($article);
 	}
+	
 	
 	/**
 	 * Generate the Front portion of an article XML
@@ -665,9 +675,12 @@ class Anno_XML_Download {
 		permalink is going to be ugly. */
 		if (stripos($permalink, 'post_type=article') || get_option('permalink_structure') == '') {
 			// Ugly permalinks
-			$link = add_query_arg(array('xml' => '1'), $permalink);
+			$link = add_query_arg(array('xml' => 'true'), $permalink);
 			if (is_preview()) {
-				$link = add_query_arg(array('preview' => '1'), $link);
+				$link = add_query_arg(array('preview' => 'true'), $link);
+				if (isset($_GET['preview_id'])) {
+					$link = add_query_arg(array('autosave' => 'true'), $link);
+				}
 			}
 		}
 		else {
@@ -675,9 +688,11 @@ class Anno_XML_Download {
 			$link = trailingslashit($permalink).'xml/';
 			if (is_preview()) {
 				$link = trailingslashit($link).'preview/';
+				if (isset($_GET['preview_id'])) {
+					$link = add_query_arg(array('autosave' => 'true'), $link);
+				}
 			}
 		}
-		
 		return $link;
 	}
 	
