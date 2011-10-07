@@ -1,4 +1,12 @@
 <?php
+function add_xml_import_link_to_admin_menu() {
+	/**
+	 * Add an entry to the Article admin menu to import XML (Kipling) files
+	 */
+	add_submenu_page( 'edit.php?post_type=article', _x('XML Import', 'Admin menu title', 'anno'), _x('XML Import', 'Admin menu title', 'anno'), 'edit_posts', 'admin.php?import=kipling_dtd_xml');
+	}
+
+add_action('admin_menu', 'add_xml_import_link_to_admin_menu');
 
 if (!defined('WP_LOAD_IMPORTERS'))
 	return;
