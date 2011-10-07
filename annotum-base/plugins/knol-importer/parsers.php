@@ -702,6 +702,38 @@ class Knol_WXR_Parser_Regex {
 		);
 	}
 
+	function process_images($content, $attachment_template) {
+		preg_match_all('/<img\b(?:(?=(\s+(?:src=[\'\"]([^"\']*)[\'\"]|alt=[\'\"]([^"\']*)[\'\"]|title=[\'\"]([^"\']*)[\'\"])|[^\s>]+|\s+))\1)*?>/', $content, $matches);
+		
+		// $matches[0] = img tag match
+		// $matches[2] = src
+		// $matches[3] = alt
+		// $matches[4] = title
+		foreach ($matches[0] as $img_key => $tag_string) {
+			$attachment = $attachment_template;
+			
+			$attachment['gui'] = $attachment['attachment_url'] = $attachment['post_title'] = $matches[2][$img_key];
+
+			if (!empty($matches[3][$img_key])) {
+				$attachment['post_title'] = $matches[3][$img_key];
+				$attachment['postmeta'][] = array(
+					'key' => '_wp_attachment_image_alt',
+					'value' => $matches[3][$img_key],
+				);
+			}
+			
+			//Title
+			if (!empty($matches[4][$img_key])) {
+				$attachment['post_title'] = $matches[4][$img_key];
+			}
+		
+			// Only process this image if we have a URL
+			if (!empty($attachement['attachment_url'])) {
+				$this->posts[] = $attachment;
+			}
+		}
+	}
+
 	function process_post( $post ) {
 		$post_id        = $this->get_tag( $post, 'wp:post_id' );
 		$post_title     = $this->get_tag( $post, 'title' );
@@ -733,6 +765,34 @@ class Knol_WXR_Parser_Regex {
 		$post_content_filtered = preg_replace_callback( '|<(/?[A-Z]+)|', array( &$this, '_normalize_tag' ), $post_content_filtered );
 		$post_content_filtered = str_replace( '<br>', '<br />', $post_content_filtered );
 		$post_content_filtered = str_replace( '<hr>', '<hr />', $post_content_filtered );
+		
+		
+		$attachment_template = array(
+			'upload_date' => (string) $post_date,
+			'post_date' => (string) $post_date,
+			'post_author' => $post_author,
+			'post_type' => 'attachment',
+			'post_parent' => $post_id,
+			'post_id' => '',
+			'post_content' => '',
+			'post_content_filtered' => '',
+			'postmeta' => '',
+			'guid' => '',
+			'attachment_url' => '',
+			'status' => 'inherit',
+			'post_title' => '',
+			'post_date_gmt' => '',
+			'ping_status' => '',
+			'menu_order' => '',
+			'post_password' => '',
+			'terms' => '',
+			'comment_status' => '',
+			'is_sticky' => '',
+			'post_excerpt' => '',
+			'post_name' => '',
+		);
+
+		$this->process_images($post_content_filtered, $attachment_template);
 
 		$postdata = compact( 'post_id', 'post_author', 'post_date', 'post_date_gmt', 'post_content', 'post_excerpt',
 			'post_title', 'status', 'post_name', 'comment_status', 'ping_status', 'guid', 'post_parent',

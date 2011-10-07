@@ -1,5 +1,7 @@
 <?php
 
+
+
 if (!defined('WP_LOAD_IMPORTERS'))
 	return;
 
@@ -10,14 +12,14 @@ if ( !class_exists('Knol_Import')) {
 	}
 }
 
-if (!class_exists('DTD_Impoter')) {
+if (!class_exists('DTD_Importer')) {
 	class DTD_Import extends Knol_Import {
 
 	var $import_slug = 'kipling_dtd_xml';
 	
 	// Author meta data is stored here. We don't get this data from Knols
 	var $authors_meta = array();
-		
+			
 	function DTD_Import() { /* Nothing */ }
 	
 	/**
@@ -107,5 +109,9 @@ function anno_dtd_importer_init() {
 	register_importer('kipling_dtd_xml', 'Kipling DTD XML', __('Import <strong>articles, keywords, subjects and users</strong> from a Kipling DTD XML file.', 'anno'), array( $GLOBALS['dtd_import'], 'dispatch') );
 }
 add_action('admin_init', 'anno_dtd_importer_init');
+add_action('admin_menu', 'add_xml_import_link_to_admin_menu');
 
+function add_xml_import_link_to_admin_menu() {
+    add_submenu_page( 'edit.php?post_type=article', 'XML Import', 'XML Import', 'edit_posts', 'admin.php?import=kipling_dtd_xml');
+}
 ?>
