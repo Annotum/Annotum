@@ -99,7 +99,7 @@ if (!class_exists('DTD_Importer')) {
 			
 				$the_imported_post = get_post( $the_imported_article, ARRAY_A );
 				
-				echo '<li>Imported article &quot;'. esc_html($the_imported_post['post_title']) . '&quot;. ';
+				echo '<li>'. __('Imported article &quot;','anno') . esc_html($the_imported_post['post_title']) . '&quot;. ';
 				
 				echo '<a href="' . admin_url() . 'post.php?post=' . $the_imported_article . '&action=edit">' . __( 'Edit','anno') . '</a>'. __(' or ','anno');
 				
