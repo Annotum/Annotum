@@ -90,7 +90,28 @@ if (!class_exists('DTD_Importer')) {
 
 	// Close div.wrap
 	function footer() {
+	
+		if (!empty($this->processed_posts)) {
+		
+			echo '<ul>';
+			
+			foreach($this->processed_posts as $the_imported_article) {
+			
+				$the_imported_post = get_post( $the_imported_article, ARRAY_A );
+				
+				echo '<li>Imported article &quot;'. esc_html($the_imported_post['post_title']) . '&quot;. ';
+				
+				echo '<a href="' . admin_url() . 'post.php?post=' . $the_imported_article . '&action=edit">' . __( 'Edit','anno') . '</a>'. __(' or ','anno');
+				
+				echo '<a href="' . home_url() . '?post_type=article&p=' . $the_imported_article . '&preview=true">' . __( 'preview','anno') . '</a>'. __(' the article','anno') .  '.</li>';
+	
+			}
+			
+			echo '</ul>';
+		}
+		
 		echo '</div>';
+		
 	}
 
 	/**
