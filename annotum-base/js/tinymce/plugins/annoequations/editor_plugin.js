@@ -33,7 +33,7 @@
                 infourl: 'http://annotum.wordpress.com/',
                 version: "0.1"
 			};
-        }
+        },
     });
 
     tinymce.PluginManager.add('annoEquations', tinymce.plugins.annoEquations);

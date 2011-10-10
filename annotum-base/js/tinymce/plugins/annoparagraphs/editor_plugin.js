@@ -1,8 +1,10 @@
 (function() {
 	tinymce.create('tinymce.plugins.annoParagraphs', {		
 		init : function(ed, url) {
+			// Define Cap, Label, and PARA as block level elements
 			tinymce.html.Schema.blockElementsMap['CAP'] = {};
 			tinymce.html.Schema.blockElementsMap['LABEL'] = {};
+			tinymce.html.Schema.blockElementsMap['PARA'] = {};
 			
 			var t = this;
 			t.editor = ed;
@@ -219,9 +221,6 @@
 					listBlock = dom.getParent(li, 'list');
 					if (!dom.getParent(listBlock.parentNode, 'list')) {
 						dom.split(listBlock, li);
-//						block = dom.create('para', 0, '<br data-mce-bogus="1" />');
-//						dom.replace(block, li);
-//						selection.select(block, 1);3
 					}
 					return FALSE;
 				}
@@ -386,11 +385,6 @@
 			// Is element within viewport
 			if (y < vp.y || y + 25 > vp.y + vp.h) {
 				ed.getWin().scrollTo(0, y < vp.y ? y : y - vp.h + 25); // Needs to be hardcoded to roughly one line of text if a huge text block is broken into two blocks
-
-				/*console.debug(
-					'Element: y=' + y + ', h=' + ch + ', ' +
-					'Viewport: y=' + vp.y + ", h=" + vp.h + ', bottom=' + (vp.y + vp.h)
-				);*/
 			}
 
 			ed.undoManager.add();

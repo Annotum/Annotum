@@ -15,13 +15,6 @@
 					snp = ed.getParent(sn, 'EXT-LINK');
 				var en = se.getEnd(),
 					enp = ed.getParent(en, 'EXT-LINK');
-				
-				
-			//	removeLink(sn);
-			//	removeLink(snp);
-			//	removeLink(en);
-				//removeLink(enp);
-				
 								
 				if (n.nodeName != 'EXT-LINK') {
 					n = ed.dom.getParent(n, 'EXT-LINK');

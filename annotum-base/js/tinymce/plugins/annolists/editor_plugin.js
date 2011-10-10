@@ -122,7 +122,6 @@
 	function merge(e1, e2, masterElement) {
 		var lastOriginal = skipWhitespaceNodesBackwards(e1.lastChild), firstNew = skipWhitespaceNodesForwards(e2.firstChild);
 		var dom = tinymce.activeEditor.dom;
-		var firstTitle = dom.select('heading', e1), secondTitle = dom.select('heading', e2);
 		
 		if (e1.tagName === 'PARA') {
 			e1.appendChild(e1.ownerDocument.createElement('br'));
@@ -136,15 +135,7 @@
 		}
 	
 		e2.parentNode.removeChild(e2);
-	
-// 		if ((e2 == 'LIST' || e2 == 'LIST-ITEM') && secondTitle) {
-// 			dom.remove(secondTitle, false);
-// 		}
-// 
-// 		if ((e1 == 'LIST' || e1 == 'LIST-ITEM') && firstTitle) {
-// //			dom.remove(secondTitle, false);
-// 		} 
-// 	
+
 		attemptMerge(lastOriginal, firstNew, false);
 
 		return e1;
@@ -169,7 +160,7 @@
 			var enterDownInEmptyList = false;
 
 			function isTriggerKey(e) {
-				return e.keyCode === 9 ;//&& (ed.queryCommandState('AnnoInsertUnorderedList') || ed.queryCommandState('AnnoInsertOrderedList'));
+				return e.keyCode === 9 ;
 			};
 
 			function isEnterInEmptyListItem(ed, e) {
@@ -193,7 +184,6 @@
 				}
 			};
 
-//TODO
 			function imageJoiningListItem(ed, e) {
 				if (!tinymce.isGecko)
 					return;
@@ -340,10 +330,7 @@
 						li = startSection.parentNode;
 						cleanupBr(br);
 					});
-					//@Removes the wrapping of P
-				//	if (element.tagName === 'PARA' || selectedBlocks.length > 1) {
-				//		dom.split(li.parentNode.parentNode, li.parentNode);
-				//	}
+					
 					attemptMergeWithAdjacent(li.parentNode, true);
 					
 					return;
@@ -356,13 +343,8 @@
 					element = li;
 				}
 				
-//				var title = dom.create('TITLE');
 				dom.insertAfter(list, element);
-						
-//				list.appendChild(title);
-				
 				list.appendChild(element);
-//				attemptMergeWithAdjacent(list, true);
 				applied.push(element);
 			}
 			
@@ -398,7 +380,7 @@
 			function processBrs(element, callback) {
 				var startSection, previousBR, END_TO_START = 3, START_TO_END = 1,
 				//TODO
-					breakElements = 'br,list,p,div,h1,h2,h3,h4,h5,h6,table,blockquote,address,pre,form,center,dl';
+					breakElements = 'br,list,para,p,div,h1,h2,h3,h4,h5,h6,table,blockquote,address,pre,form,center,dl';
 				function isAnyPartSelected(start, end) {
 					var r = dom.createRng(), sel;
 					bookmark.keep = true;
@@ -470,8 +452,6 @@
 				if (dom.getAttrib(element.parentNode, 'list-type') === oppositeListType) {
 					dom.split(element.parentNode, element);
 					makeList(element);
-//TODO
-//					attemptMergeWithNext(element.parentNode, false);
 				}
 				applied.push(element);
 			}
@@ -537,7 +517,6 @@
 
 			if (hasNonList || hasOppositeType || selectedBlocks.length === 0) {
 				actions = {
-					//TODO
 					'LIST-ITEM': changeList,
 					'H1': makeList,
 					'H2': makeList,
@@ -639,6 +618,7 @@
 		
 		process: function(actions) {
 			var t = this, sel = t.ed.selection, dom = t.ed.dom, selectedBlocks, r;
+
 			function processElement(element) {
 				dom.removeClass(element, '_mce_act_on');
 				if (!element || element.nodeType !== 1) {
@@ -709,7 +689,7 @@
 			}
 		},
 		
-		//@TODO reevalute this
+		//@TODO reevalute
 		adjustPaddingFunction: function(isIndent) {
 			var indentAmount, indentUnits, ed = this.ed;
 			indentAmount = ed.settings.indentation;
@@ -731,11 +711,11 @@
 		
 		getInfo: function() {
 			return {
-				longname : 'Anno Lists',
-				author : 'Moxiecode Systems AB',
-				authorurl : 'http://tinymce.moxiecode.com',
-				infourl : 'http://wiki.moxiecode.com/index.php/TinyMCE:Plugins/lists',
-				version : tinymce.majorVersion + "." + tinymce.minorVersion
+				longname : 'Annotum Lists',
+				author : 'Crowd Favorite',
+				authorurl : 'http://crowdfavorite.com',
+				infourl : '',
+				version : "1.0"
 			};
 		}
 	});
