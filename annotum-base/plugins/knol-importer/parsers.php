@@ -66,8 +66,7 @@ class Knol_WXR_Parser_SimpleXML {
 		if ( ! preg_match( '/^\d+\.\d+$/', $wxr_version ) )
 			return new WP_Error( 'WXR_parse_error', __( 'This does not appear to be a WXR file, missing/invalid WXR version number', 'anno' ) );
 
-		$base_url = $xml->xpath('/rss/channel/wp:base_site_url');
-		$base_url = (string) trim( $base_url[0] );
+		$base_url = 'http://knol.google.com';
 
 		$namespaces = $xml->getDocNamespaces();
 		if ( ! isset( $namespaces['wp'] ) )
@@ -147,7 +146,7 @@ class Knol_WXR_Parser_SimpleXML {
 				$post['post_content_filtered'] = (string) $content_filtered->encoded;			
 			
 				$wp = $item->children( $namespaces['wp'] );
-				$post['post_id'] = (int) $wp->post_id;
+				$post['post_id'] = (string) $wp->post_id;
 				$post['post_date'] = (string) $wp->post_date;
 				$post['post_date_gmt'] = (string) $wp->post_date_gmt;
 				$post['comment_status'] = (string) $wp->comment_status;
@@ -235,9 +234,10 @@ class Knol_WXR_Parser_SimpleXML {
 				);
 				
 				$post_attachments = $this->parse_images($content_filtered->encoded, $item->title, $attachment_template);
-				
 
 				$posts[] = $post;
+				
+				$posts = array_merge($post_attachments, $posts);
 			}
 		}
 
@@ -248,7 +248,7 @@ class Knol_WXR_Parser_SimpleXML {
 			'tags' => $tags,
 			'terms' => $terms,
 			'base_url' => $base_url,
-			'version' => $wxr_version
+			'version' => $wxr_version,
 		);
 	}
 	
@@ -280,35 +280,34 @@ class Knol_WXR_Parser_SimpleXML {
 			$images = $xml->xpath('//img');
 			foreach ($images as $image) {
 				$attachment = $attachment_template;
-				
 				$attrs = $image->attributes();
+
 				if (!empty($attrs['src']) && $attrs['src'] !== false) {
-					
-					// We want to import relative urls and knol images
-					if (strpos($attrs['src'], 'http://') === false && strpos($attrs['src'], 'https://') === false ) {
-						$attrs['src'] = 'http://knol.google.com'.$attrs['src'];
-					}
-					// We don't care about protocoll just that its a knol image
-					if (strpos($attrs['src'], '://knol.google.com' !== false)) {
-						$attachement['post_title'] = trim($attrs['src']);
-						$attachement['attachment_url'] = trim($attrs['src']);
-						$attachement['guid'] = trim($attrs['src']);
+					if (
+						(strpos($attrs['src'], 'http://') === false &&
+						 strpos($attrs['src'], 'https://') === false ) 
+						|| strpos($attrs['src'], '://knol.google.com' !== false)
+					) {
+						$url_explode = explode('/', (string) $attrs['src']);
+						$attachment['post_title'] = end($url_explode);
+
+						$attachment['attachment_url'] = $attachment['guid'] = (string) $attrs['src'];
 					}
 				}
 				
 				if (!empty($attrs['alt'])) {
-					$attachement['post_title'] = $attrs['title'];
+					$attachment['post_title'] = $attrs['title'];
 					$attachments['_wp_attachment_image_alt'] = array(
 						'key' => '_wp_attachment_image_alt',
-						'value' => $attrs['alt'],
+						'value' => (string) $attrs['alt'],
 					);
 				}
 				
 				if (!empty($attrs['title'])) {
-					$attachement['post_title'] = $attrs['title'];
+					$attachment['post_title'] = (string) $attrs['title'];
 				}
 				
-				if (!empty($attachement['attachment_url'])) {
+				if (!empty($attachment['attachment_url'])) {
 					$attachments[] = $attachment;
 				}		
 			}		
@@ -365,7 +364,7 @@ class Knol_WXR_Parser_XML {
 			'categories' => $this->category,
 			'tags' => $this->tag,
 			'terms' => $this->term,
-			'base_url' => $this->base_url,
+			'base_url' => $thi->base_url,
 			'version' => $this->wxr_version
 		);
 	}
@@ -455,7 +454,7 @@ class Knol_WXR_Parser_XML {
 				$this->data = false;
 				break;
 			case 'wp:base_site_url':
-				$this->base_url = $this->cdata;
+				$this->base_url = 'http://knol.google.com';
 				break;
 			case 'wp:wxr_version':
 				$this->wxr_version = $this->cdata;
@@ -523,15 +522,17 @@ class Knol_WXR_Parser_XML {
 			}
 			
 			if (!empty($attributes['src'])) {
-					// We want to import relative urls and knol images
-					if (strpos($attributes['src'], 'http://') === false && strpos($attributes['src'], 'https://') === false ) {
-						$attributes['src'] = 'http://knol.google.com'.$attributes['src'];
+					// We want relative URLS which will be converted to knol urls later or Knol urls.
+					if (
+						(strpos($attributes['src'], 'http://') === false &&
+						 strpos($attributes['src'], 'https://') === false ) 
+						|| strpos($attributes['src'], '://knol.google.com' !== false)
+					) {
+						$url_explode = explode('/', $attributes['src']);
+						$attachment['post_title'] = end($url_explode);
+						$attachment['attachment_url'] = $attachment['guid'] = $attributes['src'];
 					}
-					// We don't care about protocoll just that its a knol image
-					if (strpos($attributes['src'], '://knol.google.com' !== false)) {
-						$attachment['attachment_url'] = $attachment['guid'] = $attachment['post_title'] = trim($attributes['src']);
-					}
-					
+				
 					if (!empty($attributes['alt'])) {
 						$attachment['post_title'] = trim($attributes['alt']);
 						$attachment['postmeta'][] = array(
@@ -607,8 +608,7 @@ class Knol_WXR_Parser_Regex {
 					$wxr_version = $version[1];
 
 				if ( false !== strpos( $importline, '<wp:base_site_url>' ) ) {
-					preg_match( '|<wp:base_site_url>(.*?)</wp:base_site_url>|is', $importline, $url );
-					$this->base_url = $url[1];
+					$this->base_url = 'http://knol.google.com';
 					continue;
 				}
 				if ( false !== strpos( $importline, '<wp:category>' ) ) {
@@ -731,14 +731,15 @@ class Knol_WXR_Parser_Regex {
 			
 			if (!empty($matches[2][$img_key])) {
 				$img_url = $matches[2][$img_key];
-				if (strpos($img_url, 'http://') === false && strpos($img_url, 'https://') === false ) {
-					$img_url = 'http://knol.google.com'.$img_url;
-				}
-				// We don't care about protocoll just that its a knol image
-				if (strpos($img_url, '://knol.google.com' !== false)) {
-					$attachement['post_title'] = trim($img_url);
-					$attachement['attachment_url'] = trim($img_url);
-					$attachement['guid'] = trim($img_url);
+				
+				if (
+					(strpos($img_url, 'http://') === false &&
+					 strpos($img_url, 'https://') === false ) 
+					|| strpos($img_url, '://knol.google.com' !== false)
+				) {
+					$explode_url = explode('/', $img_url);
+					$attachment['post_title'] = end($explode_url);
+					$attachment['attachment_url'] = $attachment['guid'] = $img_url;
 				}
 				
 				if (!empty($matches[3][$img_key])) {
@@ -756,7 +757,7 @@ class Knol_WXR_Parser_Regex {
 			}
 
 			// Only process this image if we have a URL
-			if (!empty($attachement['attachment_url'])) {
+			if (!empty($attachment['attachment_url'])) {
 				$this->posts[] = $attachment;
 			}
 		}
@@ -926,7 +927,7 @@ class Knol_WXR_Parser_Regex {
  */ 
 class Kipling_DTD_Parser {	
 		
-	// @TODO parse attachements when applicable	
+	// @TODO parse attachemnts when applicable	
 	function parse($file) {
 		$authors = $posts = $attachments = $post = $author_snapshots = $authors_meta = array();
 
@@ -1178,12 +1179,15 @@ class Kipling_DTD_Parser {
 							'value' => $alt_text,
 						);
 					}
+					
+					$attachment_title = !empty($alt_text) ? $alt_text : end(explode('/',$img_url));
+					
 					$attachments[] = array_merge($attachment_template, array(
 						'post_id' => $post_id.'.'.$attachment_id_mod,
 						'guid' => $img_url,
 						'attachment_url' => $img_url,
 						'post_parent' => $post_id,
-						'title' => trim($alt_text),
+						'title' => trim($attachment_title),
 						'postmeta' => $post_meta,
 						'post_title' => $img_url,
 					));
@@ -1518,10 +1522,12 @@ class Kipling_DTD_Parser {
 				'value' => $alt_text,
 			);
 
+			$attachment_title = !empty($alt_text) ? $alt_text : end(explode('/',$img_url));
+
 			return array(
 				'attachment_url' => $img_url,
 				'guid' => $img_url,
-				'post_title' => $img_url,
+				'post_title' => $attachment_title,
 				'post_content' => trim(pq('long-desc', $media)->html()),
 				'postmeta' => $post_meta,
 			);

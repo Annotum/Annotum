@@ -424,7 +424,7 @@ foreach ($this->authors as $author_key => $author_data) {
 */
 		// Preselect if we're returning to this page.
 		if (!empty($_POST['user_map'][$n])) {
-			$dropdown_args['selected'] = (int) $_POST['user_map'][$n];
+			$dropdown_args['selected'] = $_POST['user_map'][$n];
 		}
 		wp_dropdown_users($dropdown_args);
 		
@@ -634,7 +634,7 @@ foreach ($this->authors as $author_key => $author_data) {
 			if ( $term_id ) {
 				if ( is_array($term_id) ) $term_id = $term_id['term_id'];
 				if ( isset($cat['term_id']) )
-					$this->processed_terms[intval($cat['term_id'])] = (int) $term_id;
+					$this->processed_terms[$cat['term_id']] = (int) $term_id;
 				continue;
 			}
 
@@ -650,7 +650,7 @@ foreach ($this->authors as $author_key => $author_data) {
 			$id = wp_insert_category( $catarr );
 			if ( ! is_wp_error( $id ) ) {
 				if ( isset($cat['term_id']) )
-					$this->processed_terms[intval($cat['term_id'])] = $id;
+					$this->processed_terms[$cat['term_id']] = $id;
 			} else {
 				printf( __( 'Failed to import category %s', 'anno' ), esc_html($cat['category_nicename']) );
 				if ( defined('IMPORT_DEBUG') && IMPORT_DEBUG )
@@ -678,7 +678,7 @@ foreach ($this->authors as $author_key => $author_data) {
 			if ( $term_id ) {
 				if ( is_array($term_id) ) $term_id = $term_id['term_id'];
 				if ( isset($tag['term_id']) )
-					$this->processed_terms[intval($tag['term_id'])] = (int) $term_id;
+					$this->processed_terms[$tag['term_id']] = (int) $term_id;
 				continue;
 			}
 
@@ -688,7 +688,7 @@ foreach ($this->authors as $author_key => $author_data) {
 			$id = wp_insert_term( $tag['tag_name'], 'post_tag', $tagarr );
 			if ( ! is_wp_error( $id ) ) {
 				if ( isset($tag['term_id']) )
-					$this->processed_terms[intval($tag['term_id'])] = $id['term_id'];
+					$this->processed_terms[$tag['term_id']] = $id['term_id'];
 			} else {
 				printf( __( 'Failed to import post tag %s', 'anno' ), esc_html($tag['tag_name']) );
 				if ( defined('IMPORT_DEBUG') && IMPORT_DEBUG )
@@ -716,7 +716,7 @@ foreach ($this->authors as $author_key => $author_data) {
 			if ( $term_id ) {
 				if ( is_array($term_id) ) $term_id = $term_id['term_id'];
 				if ( isset($term['term_id']) )
-					$this->processed_terms[intval($term['term_id'])] = (int) $term_id;
+					$this->processed_terms[$term['term_id']] = (int) $term_id;
 				continue;
 			}
 
@@ -727,12 +727,12 @@ foreach ($this->authors as $author_key => $author_data) {
 				if ( is_array( $parent ) ) $parent = $parent['term_id'];
 			}
 			$description = isset( $term['term_description'] ) ? $term['term_description'] : '';
-			$termarr = array( 'slug' => $term['slug'], 'description' => $description, 'parent' => intval($parent) );
+			$termarr = array( 'slug' => $term['slug'], 'description' => $description, 'parent' => $parent );
 
 			$id = wp_insert_term( $term['term_name'], $term['term_taxonomy'], $termarr );
 			if ( ! is_wp_error( $id ) ) {
 				if ( isset($term['term_id']) )
-					$this->processed_terms[intval($term['term_id'])] = $id['term_id'];
+					$this->processed_terms[$term['term_id']] = $id['term_id'];
 			} else {
 				printf( __( 'Failed to import %s %s', 'anno' ), esc_html($term['term_taxonomy']), esc_html($term['term_name']) );
 				if ( defined('IMPORT_DEBUG') && IMPORT_DEBUG )
@@ -781,14 +781,14 @@ foreach ($this->authors as $author_key => $author_data) {
 				echo '<br />';
 				$comment_post_ID = $post_id = $post_exists;
 			} else {
-				$post_parent = (int) $post['post_parent'];
+				$post_parent = $post['post_parent'];
 				if ( $post_parent ) {
 					// if we already know the parent, map it to the new local ID
 					if ( isset( $this->processed_posts[$post_parent] ) ) {
 						$post_parent = $this->processed_posts[$post_parent];
 					// otherwise record the parent for later
 					} else {
-						$this->post_orphans[intval($post['post_id'])] = $post_parent;
+						$this->post_orphans[$post['post_id']] = $post_parent;
 						$post_parent = 0;
 					}
 				}
@@ -819,7 +819,7 @@ foreach ($this->authors as $author_key => $author_data) {
 					// try to use _wp_attached file for upload folder placement to ensure the same location as the export site
 					// e.g. location is 2003/05/image.jpg but the attachment post_date is 2010/09, see media_handle_upload()
 					$postdata['upload_date'] = $post['post_date'];
-					if ( isset( $post['postmeta'] ) ) {
+					if ( isset( $post['postmeta']) && is_array($post['postmeta']) ) {
 						foreach( $post['postmeta'] as $meta ) {
 							if ( $meta['key'] == '_wp_attached_file' ) {
 								if ( preg_match( '%^[0-9]{4}/[0-9]{2}%', $meta['value'], $matches ) )
@@ -851,7 +851,7 @@ foreach ($this->authors as $author_key => $author_data) {
 			}
 
 			// map pre-import ID to local ID
-			$this->processed_posts[$post['post_id']] = (int) $post_id;
+			$this->processed_posts[$post['post_id']] = $post_id;
 
 			// add categories, tags and other terms
 			if ( ! empty( $post['terms'] ) ) {
@@ -873,7 +873,7 @@ foreach ($this->authors as $author_key => $author_data) {
 							continue;
 						}
 					}
-					$terms_to_set[$taxonomy][] = intval( $term_id );
+					$terms_to_set[$taxonomy][] = $term_id;
 				}
 
 				foreach ( $terms_to_set as $tax => $ids ) {
@@ -928,7 +928,7 @@ foreach ($this->authors as $author_key => $author_data) {
 			}
 
 			// add/update post meta
-			if ( isset( $post['postmeta'] ) ) {
+			if ( isset( $post['postmeta'] ) && is_array($post['postmeta']) ) {
 				foreach ( $post['postmeta'] as $meta ) {
 					$key = apply_filters( 'import_post_meta_key', $meta['key'] );
 					$value = false;
@@ -950,8 +950,8 @@ foreach ($this->authors as $author_key => $author_data) {
 					
 
 					if ( '_edit_last' == $key ) {
-						if ( isset( $this->processed_authors[intval($meta['value'])] ) )
-							$value = $this->processed_authors[intval($meta['value'])];
+						if ( isset( $this->processed_authors[$meta['value']] ) )
+							$value = $this->processed_authors[$meta['value']];
 						else
 							$key = false;
 					}
@@ -966,7 +966,7 @@ foreach ($this->authors as $author_key => $author_data) {
 
 						// if the post has a featured image, take note of this in case of remap
 						if ( '_thumbnail_id' == $key )
-							$this->featured_images[$post_id] = (int) $value;
+							$this->featured_images[$post_id] = $value;
 					}
 				}
 			}
@@ -1036,7 +1036,7 @@ foreach ($this->authors as $author_key => $author_data) {
 		if ( isset( $this->processed_menu_items[intval($_menu_item_menu_item_parent)] ) ) {
 			$_menu_item_menu_item_parent = $this->processed_menu_items[intval($_menu_item_menu_item_parent)];
 		} else if ( $_menu_item_menu_item_parent ) {
-			$this->menu_item_orphans[intval($item['post_id'])] = (int) $_menu_item_menu_item_parent;
+			$this->menu_item_orphans[$item['post_id']] = (int) $_menu_item_menu_item_parent;
 			$_menu_item_menu_item_parent = 0;
 		}
 
@@ -1063,7 +1063,7 @@ foreach ($this->authors as $author_key => $author_data) {
 
 		$id = wp_update_nav_menu_item( $menu_id, 0, $args );
 		if ( $id && ! is_wp_error( $id ) )
-			$this->processed_menu_items[intval($item['post_id'])] = (int) $id;
+			$this->processed_menu_items[$item['post_id']] = (int) $id;
 	}
 
 	/**
@@ -1157,10 +1157,10 @@ foreach ($this->authors as $author_key => $author_data) {
 		// keep track of the old and new urls so we can substitute them later
 		$this->url_remap[$url] = $upload['url'];
 		$this->url_remap[$post['guid']] = $upload['url']; // r13735, really needed?
+
 		// keep track of the destination if the remote url is redirected somewhere else
 		if ( isset($headers['x-final-location']) && $headers['x-final-location'] != $url )
 			$this->url_remap[$headers['x-final-location']] = $upload['url'];
-
 		return $upload;
 	}
 
