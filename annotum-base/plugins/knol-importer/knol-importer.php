@@ -390,7 +390,7 @@ foreach ($this->authors as $author_key => $author_data) {
 		echo '</strong> '._x('as the current user.', 'user import display text', 'anno').'<br />';
 
 		if ( $this->version != '1.0' )
-			echo '<div style="margin-left:18px">';
+			echo '<div style="margin: 0 0 1em 1em">';
 		
 // @TODO reactivate some time in the future, or remove.
 // Show information about a matching user with a given Knol ID
@@ -407,9 +407,9 @@ foreach ($this->authors as $author_key => $author_data) {
 		$create_users = $this->allow_create_users();
 		
 		if ( ! $create_users && $this->version == '1.0' )
-			_e( '- OR -<br /> assign posts to an existing user: ', 'anno' );
+			_e( '<p>or assign posts to an existing user: ', 'anno' );
 		else
-			_e( '- OR -<br /> assign posts to an existing user: ', 'anno' );
+			_e( '<p>or assign posts to an existing user: ', 'anno' );
 		$dropdown_args = array( 
 			'name' => "user_map[$n]", 
 			'multi' => true, 
@@ -427,21 +427,23 @@ foreach ($this->authors as $author_key => $author_data) {
 			$dropdown_args['selected'] = $_POST['user_map'][$n];
 		}
 		wp_dropdown_users($dropdown_args);
+		_e( '</p>', 'anno');
 		
 		$lookup_email = !empty($_POST['lookup_email'][$n]) ? $_POST['lookup_email'][$n] : '';
 
-		echo '<br />'.__('- OR -', 'anno').'<br /><label for="'.esc_attr('lookup-email-'.$n).'">'.__('if you know an existing user&#8217;s <strong>email address</strong>, you can assign posts to that user:', 'anno').'</label> <input id="'.esc_attr('lookup-email-'.$n).'" type="text" name="'.esc_attr('lookup_email['.$n.']').'"  value="'.esc_attr($lookup_email).'"/>';
+		echo '<p><label for="'.esc_attr('lookup-email-'.$n).'">'.__('or if you know an existing user&#8217;s <strong>email address</strong>, you can assign posts to that user: ', 'anno').'</label> <input id="'.esc_attr('lookup-email-'.$n).'" type="text" name="'.esc_attr('lookup_email['.$n.']').'"  value="'.esc_attr($lookup_email).'"/></p>';
 		
 		$lookup_username = !empty($_POST['lookup_username'][$n]) ? $_POST['lookup_username'][$n] : '';
 		
-		echo '<br />'.__('- OR -', 'anno').'<br /><label for="'.esc_attr('lookup-username-'.$n).'">'.__('if you know an existing user&#8217;s <strong>username</strong>, you can assign posts to that user:', 'anno').'</label> <input id="'.esc_attr('lookup-username-'.$n).'" type="text" name="'.esc_attr('lookup_username['.$n.']').'" value="'.esc_attr($lookup_username).'" />';
+		echo '<p><label for="'.esc_attr('lookup-username-'.$n).'">'.__('or if you know an existing user&#8217;s <strong>username</strong>, you can assign posts to that user: ', 'anno').'</label> <input id="'.esc_attr('lookup-username-'.$n).'" type="text" name="'.esc_attr('lookup_username['.$n.']').'" value="'.esc_attr($lookup_username).'" /></p>';
 		
 		if ( $create_users ) {
+			_e( '<p>', 'anno');
 			if ( $this->version != '1.0' ) {
-				_e( '<br />- OR -<br /> you can create new user:', 'anno' );
+				_e( 'or you can create new user:', 'anno' );
 				$value = '';
 			} else {
-				_e( '<br />as a new user:', 'anno' );
+				_e( 'as a new user:', 'anno' );
 				$value = esc_attr( sanitize_user( $author['author_login'], true ) );
 			}
 			
@@ -459,6 +461,8 @@ foreach ($this->authors as $author_key => $author_data) {
 
 		
 		echo '<input type="hidden" name="imported_authors['.$n.']" value="'.esc_attr($import_author_value).'" />';
+		
+		_e( '</p>', 'anno');
 		
 		if ( $this->version != '1.0' )
 			echo '</div>';
