@@ -4,8 +4,8 @@ if (!defined('WP_LOAD_IMPORTERS'))
 	return;
 	
 /** Display verbose errors */
-if (!defined('IMPORT_DEBUG')) {
-	define( 'IMPORT_DEBUG', false );
+if (!defined('ANNO_IMPORT_DEBUG')) {
+	define( 'ANNO_IMPORT_DEBUG', false );
 }
 
 // Load Importer API
@@ -127,7 +127,11 @@ class Knol_Import extends WP_Importer {
 		add_filter( 'http_request_timeout', array( &$this, 'bump_request_timeout' ) );
 
 		$this->import_start( $file );
-
+		if (defined('ANNO_IMPORT_DEBUG') && ANNO_IMPORT_DEBUG) {
+			if (isset($_POST['anno_knol_parser'])) {
+				echo sprintf('<p>'.__('ANNO_IMPORT_DEBUG: You are using %s to parse data.', 'anno').'</p>', esc_html($_POST['anno_knol_parser']));
+			}
+		}
 		wp_suspend_cache_invalidation( true );
 		$this->process_categories();
 		$this->process_tags();
@@ -309,6 +313,14 @@ class Knol_Import extends WP_Importer {
 		$j = 0;
 ?>
 <form action="<?php echo admin_url( 'admin.php?import='.$this->import_slug.'&amp;step=1' ); ?>" method="post">
+	<?php
+		if (defined('ANNO_IMPORT_DEBUG') && ANNO_IMPORT_DEBUG) {
+			if (isset($_POST['anno_knol_parser'])) {
+				echo sprintf(__('ANNO_IMPORT_DEBUG: You are using %s to parse data.', 'anno'), esc_html($_POST['anno_knol_parser']));
+				echo '<input type="hidden" name="anno_knol_parser" value="'.esc_attr($_POST['anno_knol_parser']).'" />';
+			}
+		}
+	?>
 	<?php wp_nonce_field( 'import-wordpress' ); ?>
 	<input type="hidden" name="import_id" value="<?php echo $this->id; ?>" />
 
@@ -657,7 +669,7 @@ foreach ($this->authors as $author_key => $author_data) {
 					$this->processed_terms[$cat['term_id']] = $id;
 			} else {
 				printf( __( 'Failed to import category %s', 'anno' ), esc_html($cat['category_nicename']) );
-				if ( defined('IMPORT_DEBUG') && IMPORT_DEBUG )
+				if ( defined('ANNO_IMPORT_DEBUG') && ANNO_IMPORT_DEBUG )
 					echo ': ' . $id->get_error_message();
 				echo '<br />';
 				continue;
@@ -695,7 +707,7 @@ foreach ($this->authors as $author_key => $author_data) {
 					$this->processed_terms[$tag['term_id']] = $id['term_id'];
 			} else {
 				printf( __( 'Failed to import post tag %s', 'anno' ), esc_html($tag['tag_name']) );
-				if ( defined('IMPORT_DEBUG') && IMPORT_DEBUG )
+				if ( defined('ANNO_IMPORT_DEBUG') && ANNO_IMPORT_DEBUG )
 					echo ': ' . $id->get_error_message();
 				echo '<br />';
 				continue;
@@ -739,7 +751,7 @@ foreach ($this->authors as $author_key => $author_data) {
 					$this->processed_terms[$term['term_id']] = $id['term_id'];
 			} else {
 				printf( __( 'Failed to import %s %s', 'anno' ), esc_html($term['term_taxonomy']), esc_html($term['term_name']) );
-				if ( defined('IMPORT_DEBUG') && IMPORT_DEBUG )
+				if ( defined('ANNO_IMPORT_DEBUG') && ANNO_IMPORT_DEBUG )
 					echo ': ' . $id->get_error_message();
 				echo '<br />';
 				continue;
@@ -844,7 +856,7 @@ foreach ($this->authors as $author_key => $author_data) {
 				if ( is_wp_error( $post_id ) ) {
 					printf( __( 'Failed to import %s &#8220;%s&#8221;', 'anno' ),
 						$post_type_object->labels->singular_name, esc_html($post['post_title']) );
-					if ( defined('IMPORT_DEBUG') && IMPORT_DEBUG )
+					if ( defined('ANNO_IMPORT_DEBUG') && ANNO_IMPORT_DEBUG )
 						echo ': ' . $post_id->get_error_message();
 					echo '<br />';
 					continue;
@@ -871,7 +883,7 @@ foreach ($this->authors as $author_key => $author_data) {
 							$term_id = $t['term_id'];
 						} else {
 							printf( __( 'Failed to import %s %s', 'anno' ), esc_html($taxonomy), esc_html($term['name']) );
-							if ( defined('IMPORT_DEBUG') && IMPORT_DEBUG )
+							if ( defined('ANNO_IMPORT_DEBUG') && ANNO_IMPORT_DEBUG )
 								echo ': ' . $t->get_error_message();
 							echo '<br />';
 							continue;
@@ -1278,8 +1290,40 @@ foreach ($this->authors as $author_key => $author_data) {
 		echo '<div class="narrow">';
 		echo '<p>'.__( 'Howdy! Upload your Google Knol eXtended RSS (WXR) file and we&#8217;ll import the posts, pages, comments, custom fields, categories, and tags into this site.', 'anno' ).'</p>';
 		echo '<p>'.__( 'Choose a Google Knol WXR (.xml) file to upload, then click Upload file and import.', 'anno' ).'</p>';
-		wp_import_upload_form( 'admin.php?import='.$this->import_slug.'&amp;step=1' );
+		$this->import_upload_form( 'admin.php?import='.$this->import_slug.'&amp;step=1' );
 		echo '</div>';
+	}
+
+	function import_upload_form( $action ) {
+		$bytes = apply_filters( 'import_upload_size_limit', wp_max_upload_size() );
+		$size = wp_convert_bytes_to_hr( $bytes );
+		$upload_dir = wp_upload_dir();
+		if ( ! empty( $upload_dir['error'] ) ) :
+			?><div class="error"><p><?php _e('Before you can upload your import file, you will need to fix the following error:'); ?></p>
+			<p><strong><?php echo $upload_dir['error']; ?></strong></p></div><?php
+		else :
+	?>
+	<form enctype="multipart/form-data" id="import-upload-form" method="post" action="<?php echo esc_attr(wp_nonce_url($action, 'import-upload')); ?>">
+	<?php
+		if (defined('ANNO_IMPORT_DEBUG') && ANNO_IMPORT_DEBUG) {
+			echo '<p>'.__('ANNO_IMPORT_DEBUG: Select a parser:', 'anno').' <select name="anno_knol_parser">
+						<option value="simplexml">SimpleXML</option>
+						<option valie="xml">XML</option>
+						<option value="regex">RegEx</option>
+					</select>
+				</p>';
+		}
+	?>
+	<p>
+	<label for="upload"><?php _e( 'Choose a file from your computer:' ); ?></label> (<?php printf( __('Maximum size: %s' ), $size ); ?>)
+	<input type="file" id="upload" name="import" size="25" />
+	<input type="hidden" name="action" value="save" />
+	<input type="hidden" name="max_file_size" value="<?php echo $bytes; ?>" />
+	</p>
+	<?php submit_button( __('Upload file and import'), 'button' ); ?>
+	</form>
+	<?php
+		endif;
 	}
 
 	/**

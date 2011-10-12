@@ -5,6 +5,37 @@
  */
 class Knol_WXR_Parser {
 	function parse( $file ) {
+		
+		if (defined('ANNO_IMPORT_DEBUG') && ANNO_IMPORT_DEBUG && isset($_POST['anno_knol_parser'])) {
+			switch ($_POST['anno_knol_parser']) {
+				case 'simplexml':
+					$parser = new Knol_WXR_Parser_SimpleXML;
+					$result = $parser->parse( $file );
+
+					// If SimpleXML succeeds or this is an invalid WXR file then return the results
+					if ( ! is_wp_error( $result ) || 'SimpleXML_parse_error' != $result->get_error_code() )
+						return $result;
+					break;
+				case 'xml':
+					$parser = new Knol_WXR_Parser_XML;
+					$result = $parser->parse( $file );
+
+					// If XMLParser succeeds or this is an invalid WXR file then return the results
+					if ( ! is_wp_error( $result ) || 'XML_parse_error' != $result->get_error_code() )
+						return $result;
+					break;
+				case 'regex':
+					$parser = new Knol_WXR_Parser_Regex;
+					return $parser->parse( $file );
+					break;
+				default:
+					break;
+			}
+			sprintf(__('ANNO_IMPORT_DEBUG: Could not find parser %s.', 'anno'), esc_html($_POST['anno_knol_parser']));
+			return;
+		}
+		
+		
 		// Attempt to use proper XML parsers first
 		if ( extension_loaded( 'simplexml' ) ) {
 			$parser = new Knol_WXR_Parser_SimpleXML;
@@ -23,7 +54,7 @@ class Knol_WXR_Parser {
 		}
 
 		// We have a malformed XML file, so display the error and fallthrough to regex
-		if ( isset($result) && defined('IMPORT_DEBUG') && IMPORT_DEBUG ) {
+		if ( isset($result) && defined('ANNO_IMPORT_DEBUG') && ANNO_IMPORT_DEBUG ) {
 			echo '<pre>';
 			if ( 'SimpleXML_parse_error' == $result->get_error_code() ) {
 				foreach  ( $result->get_error_data() as $error )
@@ -271,7 +302,7 @@ class Knol_WXR_Parser_SimpleXML {
 		if (!$xml) {
 			// We've encountered ill formed markup (no closing tag on a div for example)
 			// Make note, move along, no need to break the entire import process
-			if (defined('IMPORT_DEBUG') && IMPORT_DEBUG) {
+			if (defined('ANNO_IMPORT_DEBUG') && ANNO_IMPORT_DEBUG) {
 				error_log(sprintf(_x('There was an error processing %s\'s content for attachments.', 'importer error message', 'anno'), $post_title));
 			}			
 		}
@@ -569,7 +600,7 @@ class Knol_WXR_Parser_XML {
 			$current_line = xml_get_current_line_number( $xml );
 			$current_column = xml_get_current_column_number( $xml );
 			$error_code = xml_get_error_code( $xml );
-			if (defined('IMPORT_DEBUG') && IMPORT_DEBUG) {
+			if (defined('ANNO_IMPORT_DEBUG') && ANNO_IMPORT_DEBUG) {
 				error_log(sprintf(_x('XML Parser: There was an error processing the content for attachments. Line %s. Column %s. Code %s.', 'importer error message', 'anno'), $current_line, $current_column, $error_code));
 			}
 		}
