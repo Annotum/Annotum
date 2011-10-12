@@ -388,28 +388,33 @@ function cfct_header_image_form() {
 	return '<p>'.sprintf(__('Header Image &mdash; <a href="%s">Upload Images</a>', 'carrington-core'), $upload_url).'</p><div class="cfct_header_image_carousel">'.$output.'</div>';
 }
 
-if (is_admin()) {
-	wp_enqueue_script('jquery-colorpicker', get_bloginfo('template_directory').'/carrington-core/js/colorpicker.js', array('jquery'), '1.0');
-// removing until we drop 2.5 compatibility
-//	wp_enqueue_style('jquery-colorpicker', get_bloginfo('template_directory').'/carrington-core/css/colorpicker.css');
-}
-
 /**
- * Load in styles and javascript
- * 
-**/
-// move to enqueue_style
-function cfct_admin_head() {
-// see enqueued style above, we'll activate that in the future
+ * Add assets to the admin side for our control panel
+ */
+function cfct_admin_enqueue() {
 	if (!empty($_GET['page']) && $_GET['page'] == 'carrington-settings') {
-		echo '
-<link rel="stylesheet" type="text/css" media="screen" href="'.get_bloginfo('template_directory').'/carrington-core/css/colorpicker.css" />
-		';
-		cfct_admin_css();
+		$core_url = get_bloginfo('template_directory').'/carrington-core/';
+		
+		wp_enqueue_script(
+			'jquery-colorpicker',
+			$core_url.'js/colorpicker.js',
+			array('jquery'),
+			'1.0'
+		);
+		
+		wp_enqueue_style(
+			'jquery-colorpicker',
+			$core_url.'css/colorpicker.css',
+			array(),
+			'1.0',
+			'screen'
+		);
+		
+		add_action('admin_head', 'cfct_admin_css', 7);
+		//add_action('admin_head', 'cfct_admin_js', 8);
 	}
-//	cfct_admin_js();
 }
-add_action('admin_head', 'cfct_admin_head');
+add_action('admin_enqueue_scripts', 'cfct_admin_enqueue');
 
 /**
  * Admin CSS

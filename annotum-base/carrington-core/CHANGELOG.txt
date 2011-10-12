@@ -6,6 +6,7 @@
 - Refactor options display
 - Add utility function to return template instead of echoing
 - Converted Carrington Settings pages to utilize the WordPress Settings API
+- Remove compatibility functions, no longer supporting versions of WordPress that old
 
 ## 3.1
 
