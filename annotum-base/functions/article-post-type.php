@@ -47,7 +47,8 @@ add_action('after_setup_theme', 'anno_register_post_types');
 function anno_post_type_requst_handler() {
 	// Converts Article to Post post type
 	if (isset($_POST['anno_convert'])) {
-		if(!wp_verify_nonce($_POST['anno_convert_nonce'], 'anno_convert')) {
+		wp_verify_nonce($_POST['anno_convert_nonce'], 'anno_convert');
+		if(!current_user_can('editor') && !current_user_can('admin')) {
 			wp_die(_x('Unable to perform that ability', 'wp_die error message', 'anno'));
 		}
 		$post_id = absint($_POST['post_ID']);
@@ -97,7 +98,7 @@ function anno_article_meta_boxes() {
 	add_meta_box('appendices', _x('Appendices', 'Meta box title', 'anno'), 'anno_appendices_meta_box', 'article', 'normal', 'high');
 	add_meta_box('featured', _x('Featured', 'Meta box title', 'anno'), 'anno_featured_meta_box', 'article', 'side', 'default');
 
-	if (current_user_can('administrator')) {
+	if (current_user_can('editor') || current_user_can('administrator')) {
 		add_meta_box('convert', _x('Convert To Post', 'Meta box title', 'anno'), 'anno_convert_meta_box', 'article', 'side', 'low');
 		add_meta_box('doi-deposit', _x('DOI Deposit', 'Meta box title', 'anno'), 'anno_deposit_doi_meta_box', 'article', 'side', 'low');
 	}
@@ -130,7 +131,7 @@ function anno_body_meta_box($post) {
 		$content = $post->post_content;
 	}
 ?>
-	<textarea id="anno-body" name="content" class="anno-meta"><?php echo esc_textarea(anno_process_editor_content($content)); ?></textarea>
+<textarea id="anno-body" name="content" class="anno-meta"><?php echo esc_textarea(anno_process_editor_content($content)); ?></textarea>
 <?php
 }
 
@@ -182,9 +183,9 @@ function anno_acknowledgements_meta_box($post) {
  * Meta box markup for featuring an article in the featured carousel
  */ 
 function anno_featured_meta_box($post) {
-	$checked = get_post_meta($post->ID, '_featured', true);
+	$checked = get_post_meta($post->ID, 'anno_featured', true);
 ?>
-	<input id="anno-featured" type="checkbox" value="yes" name="featured"<?php checked($checked, 'yes', true); ?> />
+	<input id="anno-featured" type="checkbox" value="on" name="anno_featured"<?php checked($checked, 'on', true); ?> />
 	<label for="anno-featured"><?php _ex('Feature this article to appear in the home page carousel', 'Featured post meta box label', 'anno'); ?></label>
 <?php	
 }
@@ -192,24 +193,37 @@ function anno_featured_meta_box($post) {
 /**
  * Save post meta related to an article 
  */ 
-function anno_article_insert_post($post_id, $post) {
+function anno_article_save_post($post_id, $post) {
 	if ($post->post_type == 'article') {
-//TODO nonce?
-//		check_admin_referer('update-article_'.$post_id);
-		
 		$anno_meta = array(
 			'anno_subtitle',
 			'anno_funding',
 			'anno_acknowledgements',
-			'featured'
+			'anno_featured'
 		);
 		foreach ($anno_meta as $key) {
-			if (isset($_POST[$key])) {
-				update_post_meta($post_id, '_'.$key, $_POST[$key]);
+			switch ($key) {			
+				case 'anno_featured':
+					if (isset($_POST['anno_featured']) && $_POST['anno_featured'] == 'on') {
+						$value = 'on';
+					}
+					else {
+						$value = 'off';
+					}
+					break;
+				case 'anno_subtitle':
+				case 'anno_funding':
+				case 'anno_acknowledgements':
+				default:	
+					if (isset($_POST[$key])) {
+						$value = balance_tags($_POST[$key]);
+					}
+					else {
+						$value = '';
+					}		
+					break;
 			}
-			else {
-				update_post_meta($post_id, '_'.$key, '');
-			}
+			update_post_meta($post_id, '_'.$key, $value);
 		}
 		
 		$appendices = array();
@@ -223,7 +237,7 @@ function anno_article_insert_post($post_id, $post) {
 		update_post_meta($post_id, '_anno_appendices', $appendices);		
 	}
 }
-add_action('wp_insert_post', 'anno_article_insert_post', 10, 2);
+add_action('wp_insert_post', 'anno_article_save_post', 10, 2);
 
 /**
  * Print styles for article post type.
@@ -256,7 +270,6 @@ function anno_article_to_post($post_id) {
 	foreach ($taxonomy_conversion as $from_tax => $to_tax) {
 		anno_convert_taxonomies($post['ID'], $from_tax, $to_tax);
 	}
-
 
 	$post['post_type'] = 'post';
 	$post['post_category'] = wp_get_post_categories($post['ID']);
@@ -340,22 +353,23 @@ function anno_convert_meta_box($post) {
  */ 
 function anno_deposit_doi_meta_box($post) {
 	$crossref_login = cfct_get_option('crossref_login');
-	$crossref_password = cfct_get_option('crossref_password');
-	$crossref_registrant = cfct_get_option('crossref_registrant');
-	
+	$crossref_password = cfct_get_option('crossref_pass');
+	$crossref_registrant = cfct_get_option('registrant_code');
 	
 	if (empty($crossref_login) || empty($crossref_password) || empty($crossref_registrant)) {
 		$deposit_enabled = false;
 		$deposit_value = _x('CrossRef Credentials Required', 'disabled DOI lookup message', 'anno');
+		$depost_id = 'doi-deposit-disabled';
 	}
 	else {
 		$deposit_enabled = true;
-		$deposit_value = '';
+		$deposit_value = anno_generate_doi();
+		$deposit_id = 'doi-deposit-submit';
 	}
 ?>
-	<input type="text" name="doi-deposit" class="meta-doi-input" value="<?php echo $deposit_value; ?>"<?php disabled($deposit_enabled, false, true); ?> />
-	<input type="button" value="<?php _ex('Deposit', 'doi deposit button label', 'anno'); ?>"<?php disabled($deposit_enabled, false, true); ?> />
+	<?php wp_nonce_field('anno_doi_desposit', '_ajax_nonce-doi-deposit', false); ?>
+	<input id="doi" type="text" name="doi-deposit" class="meta-doi-input" value="<?php echo $deposit_value; ?>"<?php disabled(true, true, true); ?> />
+	<input id="<?php echo $deposit_id; ?>" type="button" value="<?php _ex('Deposit', 'doi deposit button label', 'anno'); ?>"<?php disabled($deposit_enabled, false, true); ?> />
 <?php
-	
 }
 ?>

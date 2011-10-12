@@ -104,11 +104,9 @@ function anno_admin_settings_menu_form_title() {
  * Run at 'wp' hook so we have access to conditional functions, like is_single(), etc.
  */
 function anno_assets() {
-	if (!is_admin()) {
-		cfct_template_file('assets', 'load');
-	}
+	cfct_template_file('assets', 'load');
 }
-add_action('wp', 'anno_assets');
+add_action('wp_enqueue_scripts', 'anno_assets');
 
 /**
  * Enqueue our custom JS on the edit post page (currently used
@@ -706,13 +704,7 @@ function anno_user_display($user) {
 		$user = get_userdata(intval($user));
 	}
 	
-	if (!empty($user->first_name) || !empty($user->last_name)) {
-		$display = $user->first_name.' '.$user->last_name;
-	}
-	else {
-		$display = $user->user_login;
-	}
-	return trim($display);
+	return !empty($user->display_name) ? $user->display_name : '';
 }
 
 /**

@@ -56,8 +56,8 @@ function anno_profile() {
 		$meta_val = get_user_meta($current_user->ID, $key, true);
 ?>
 				<tr>
-					<th><label for="<?php echo $key; ?>"><?php echo $label; ?></label></th>
-					<td><input type="text" name="<?php echo $key; ?>" class="regular-text" id="<?php echo $key; ?>" value="<?php echo esc_attr($meta_val); ?>" />
+					<th><label for="<?php echo esc_attr($key); ?>"><?php echo esc_html($label); ?></label></th>
+					<td><input type="text" name="<?php echo esc_attr($key); ?>" class="regular-text" id="<?php echo esc_attr($key); ?>" value="<?php echo esc_attr($meta_val); ?>" />
 				</tr>
 <?php
 	}
@@ -83,9 +83,7 @@ function anno_profile_request_handler() {
 		switch ($_POST['anno_action']) {
 			case 'update_profile':
 				if (isset($_POST['user_id'])) {
-					if (!check_admin_referer('anno_profile', 'anno_profile_nonce')) {
-						die();
-					}
+					check_admin_referer('anno_profile', 'anno_profile_nonce');
 					global $anno_user_meta;
 					foreach ($anno_user_meta as $meta_key => $label) {
 						if (isset($_POST[$meta_key])) {

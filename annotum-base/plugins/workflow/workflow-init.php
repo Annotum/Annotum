@@ -51,7 +51,6 @@ function annowf_setup() {
 	include_once(ANNO_PLUGIN_PATH.'/workflow/internal-comments/internal-comments.php');
 	include_once(ANNO_PLUGIN_PATH.'/workflow/publishing-meta-box.php');
 	include_once(ANNO_PLUGIN_PATH.'/workflow/notification.php');
-
 	}
 }
 add_action('after_setup_theme', 'annowf_setup');

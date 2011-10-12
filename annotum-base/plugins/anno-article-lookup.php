@@ -332,22 +332,45 @@ function anno_reference_doi_process_author($author) {
 
 
 
-function anno_reference_doi_article_deposit($article, $doi_suffix) {
+function anno_doi_article_deposit($article_id, $doi, $user_id) {
+	// @TODO capability check, admin and editor
+	$article = get_post($article_id);
 	
 	$journal_title = cfct_get_option('journal_name');
 	$jouranl_issn = cfct_get_option('journal_issn');
 	$registrant_code = cfct_get_option('registrant_code');
+	$crossref_id = cfct_get_option('crossref_login');
+	$crossref_pass = cfct_get_option('crossref_pass');
+	
+	// User required credentials
+	if (empty($crossref_id) || empty($crossref_pass)) {
+		return array(
+			'message' => 'error',
+			'code' => '0',
+			'markup' => '',
+		);
+	}
 	
 	// Journal Required Fields
 	if (empty($journal_title) || empty($journal_issn) || empty($registrant_code)) {
 		// @TODO Throw error
+		return array(
+			'message' => 'error',
+			'code' => '1',
+			'markup' => '',
+		);
 	}
 	
 	$article_year = date('Y', strtotime($article->post_date));
 
 	// Article Required Fields	
-	if (empty($article->title) || empty($article_year) || empty($doi_suffix)) {
+	if (empty($article->title) || empty($article_year) || empty($doi)) {
 		// @TODO Throw error
+		return array(
+			'message' => 'error',
+			'code' => '2',
+			'markup' => '',
+		);
 	}
 	
 	// Journal Required Fields:
@@ -356,9 +379,7 @@ function anno_reference_doi_article_deposit($article, $doi_suffix) {
 	// 
 	// Article
 	// titles, publication_date (year), doi_data
-	// (rec) contributors, publication_date (day, month), pages (first_page, last_page), citation_list
-	// 
-	// 
+	// (rec) contributors, publication_date (day, month), pages (first_page, last_page), citation_list	
 	
 	// Journal Title
 	$journal_title_xml = '<full_title>'.$journal_title.'</full_title>';
@@ -406,11 +427,17 @@ function anno_reference_doi_article_deposit($article, $doi_suffix) {
 	}
 	else {
 		// @TODO throw error
+		return array(
+			'message' => 'error',
+			'code' => '0',
+			'markup' => '',
+		);
 	}
 	
-	// @TODO DOI
-	$doi = '10.'.$registrant_code.'/'.$doi_suffix;
-	
+	if (strpos('10.'.$registrant_code.'/', $doi) === false) {
+		$doi = '10.'.$registrant_code.'/'.$doi;
+	}
+		
 	$citation_xml = '';
 	if ($citation_xml = get_post_meta($article->ID, '_anno_references', true)) {
 		if (!empty($citations) && is_array($citation_xml)) {
@@ -431,16 +458,22 @@ function anno_reference_doi_article_deposit($article, $doi_suffix) {
 	// Use old parameter based links, in case permalink structure is changed in the future
 	$permalink = home_url('?p=' . $article->ID);
 	
+	$current_user = wp_get_current_user();
+	
+	$depositor_xml = '
+		<depositor>
+			<name>'.$current_user->display_name.'</name>
+			<email_address>'.$current_user->user_email.'</email_address>
+		</depositor>
+	';
+	
 
 	$xml = '
+<?xml version="1.0" encoding="UTF-8"?> 
 <doi_batch xmlns="http://www.crossref.org/schema/4.3.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="4.3.0" xsi:schemaLocation="http://www.crossref.org/schema/4.3.0 http://www.crossref.org/schema/deposit/crossref4.3.0.xsd">
 	<head>
-		<timestamp>'.time().'</timestamp>'
-/*		<depositor>
-			<name>'.$TODO.'</name>
-			<email_address>'.$TODO.'</email_address>
-		</depositor>
-*/
+		<timestamp>'.time().'</timestamp>'.
+		$depositor_xml
 	.'</head>
 	<body>
 		<journal>
@@ -495,9 +528,45 @@ function anno_reference_doi_article_deposit($article, $doi_suffix) {
 */
 		'</journal_article>
 	</journal>';
+		
+	// @TODO Verify (Attempt to deposit in test DB)
+	$test_url = 'http://doi.crossref.org/servlet/deposit';
+	$test_args = array(
+		'encType' => 'multipart/form-data',
+		'login_id' => '',
+		'login_passwd' => '',
+		'area' => 'test',
+		'fname' => $xml,
+		'operation' => 'doMDUpload', 	
+	);
+	
+	wp_remote_post($test_url, $args);
 
-	//@ TODO Deposti
 
+
+	// @TODO Deposit
+	// $url = 'http://www.crossref.org/openurl/?pid='.$crossref_login.'&id=doi:'.$doi.'&noredirect=true';
+	
+	// @TODO Submit meta
+}
+
+function anno_doi_deposit_ajax() {
+	check_ajax_referer('anno_doi_deposit', '_ajax_nonce-doi-deposit');
+	$article_id = (int) $_POST['article_id'];
+	$doi = $_POST['doi'];
+	$user_id = (int) $_POST['user_id'];
+//	error_log(print_r(get_current_user(),1));
+//	$response = anno_doi_article_deposit($article_id, $doi, $user);
+//	echo json_encode($response);
+	die();
+}
+add_action('wp_ajax_doi-deposit', 'anno_doi_deposit_ajax');
+
+
+function anno_generate_doi() {
+	$registrant_code = cfct_get_option('registrant_code');
+	
+	return '10.'.$registrant_code.'/'.uniqid('', false);
 }
 
 ?>

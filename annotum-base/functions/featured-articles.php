@@ -35,8 +35,8 @@ class Anno_Featured_Articles extends Anno_Cacheer {
 	public function cached() {
 		$q = new WP_Query(array(
 			'meta_query' => array(array(
-					'key' => '_featured',
-					'value' => 'yes'
+					'key' => 'anno_featured',
+					'value' => 'on'
 			)),
 			'post_type' => 'article',
 			'posts_per_page' => 5

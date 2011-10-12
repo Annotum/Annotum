@@ -179,8 +179,7 @@ jQuery(document).ready( function($) {
 		}, 'json');
 		return false; 	
 	});
-	
-	
+		
 	$('.anno-show-search-co_author').live('click', function() {
 		$('#anno-invite-co_author').hide();
 		$('#anno-user-input-co_author').show();

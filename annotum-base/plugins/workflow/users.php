@@ -34,10 +34,17 @@ function anno_user_can($cap, $user_id = null, $post_id = null, $comment_id = nul
 	$editor = 'editor';
 	
 	switch ($cap) {
+		case 'administrator':
 		case 'admin': 
 			if ($user_role == $admin) {
-				return $true;
+				return true;
 			}
+		break;
+		case 'editor':
+			if (in_array($user_role, array($admin, $editor))) {
+				return true;
+			}
+		break;
 		case 'trash_post':
 			// Draft state, author or editor+
 			if (in_array($user_role, array($admin, $editor)) && in_array($post_state, array('draft', 'rejected'))) {
