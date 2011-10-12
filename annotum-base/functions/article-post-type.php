@@ -216,7 +216,7 @@ function anno_article_save_post($post_id, $post) {
 				case 'anno_acknowledgements':
 				default:	
 					if (isset($_POST[$key])) {
-						$value = balance_tags($_POST[$key]);
+						$value = force_balance_tags($_POST[$key]);
 					}
 					else {
 						$value = '';
