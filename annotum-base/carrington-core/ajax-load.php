@@ -83,8 +83,11 @@ function cfct_ajax_load() {
 					$post_id = url_to_postid($_GET['url']);
 				}
 				if ($post_id) {
-					call_user_func('cfct_ajax_'.$_GET['cfct_action'], $post_id);
-					die();
+					$action = 'cfct_ajax_'.sanitize_key($_GET['cfct_action']);
+					if (function_exists($action)) {
+						call_user_func($action, $post_id);
+						die();
+					}
 				}
 		}
 	}

@@ -674,6 +674,7 @@ function anno_preload_dialogs($init) {
 	</div>
 <?php 
 }
+// TODO better placement, so we're not loading these on non-edit pages
 add_action('after_wp_tiny_mce', 'anno_preload_dialogs', 10, 1 );
 
 
