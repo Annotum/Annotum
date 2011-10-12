@@ -234,6 +234,36 @@ class Knol_Import extends WP_Importer {
 		wp_defer_term_counting( false );
 		wp_defer_comment_counting( false );
 
+		// This block lists the imported items (including ones that already exist(ed)) 
+		// and provides edit and preview links.
+		if (!empty($this->processed_posts) && is_array($this->processed_posts)) {
+			echo '<p>';
+			foreach($this->processed_posts as $the_imported_article) {
+			
+				$the_imported_post = get_post($the_imported_article);
+				
+				printf( __('%s &#8220;%s&#8221; processed. ', 'anno'), ucfirst(esc_html($the_imported_post->post_type)), esc_html($the_imported_post->post_title));
+
+				if ($the_imported_post->post_type == 'attachment') {
+					$preview_url = get_permalink($the_imported_post->ID);
+				}
+				else {
+					$preview_url = get_permalink($the_imported_post->ID);
+					if (is_ssl()) {
+						$preview_url = str_replace('http://', 'https://', $preview_link);
+					}
+					$preview_url = add_query_arg('preview', 'true', $preview_url);
+				}
+
+				printf( __('[ %sEdit%s | %sPreview%s ]', 'anno'),
+					'<a href="'.esc_url(get_edit_post_link($the_imported_post->ID)).'">','</a>',
+					'<a href="'.esc_url($preview_url).'">','</a>.');
+	
+				echo '<br />';				
+			}
+			echo '</p>';
+		}
+
 		echo '<p>' . __( 'All done.', 'anno' ) . ' <a href="' . admin_url() . '">' . __( 'Have fun!', 'anno' ) . '</a>' . '</p>';
 		echo '<p>' . __( 'Remember to update the passwords and roles of imported users.', 'anno' ) . '</p>';
 

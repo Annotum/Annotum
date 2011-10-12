@@ -89,27 +89,7 @@ if (!class_exists('DTD_Importer')) {
 	}
 
 	// Close div.wrap
-	function footer() {
-	
-		// @TODO: move this elsewhere?
-		// This block lists the imported items (including ones that already exist(ed)) 
-		// and provides edit and preview links.
-		if (!empty($this->processed_posts)) {
-		
-			foreach($this->processed_posts as $the_imported_article) {
-			
-				$the_imported_post = get_post( $the_imported_article, ARRAY_A );
-				
-				printf( __('Article &#8220;%s&#8221; imported. ', 'anno'), esc_html($the_imported_post['post_title']) );
-			
-				printf( __('[ %sEdit%s | %sPreview%s ]', 'anno'),
-					'<a href="' . admin_url() . 'post.php?post=' . $the_imported_article . '&action=edit">','</a>',
-					'<a href="' . home_url() . '?post_type=article&p=' . $the_imported_article . '&preview=true">','</a>.');
-	
-				echo '<br />';				
-			}
-		}
-		
+	function footer() {	
 		echo '</div>';
 		
 	}
