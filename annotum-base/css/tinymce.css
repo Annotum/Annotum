@@ -182,6 +182,7 @@ fig license-p {
 /** bg image labels
  -------------------------------------------------- */
 cap,
+disp-quote,
 fig,
 fig label,
 heading,
@@ -197,6 +198,9 @@ table-wrap label {
 
 cap {
 	background-image: url(../img/tinymce/caption.gif);
+}
+disp-quote {
+	background-image: url(../img/tinymce/quote.gif);
 }
 fig {
 	background-image: url(../img/tinymce/figure.gif);
@@ -217,7 +221,7 @@ sec {
 	background-image: url(../img/tinymce/section.gif);
 }
 table-wrap {
-	background-image: url(../img/tinymce/table.gif);	
+	background-image: url(../img/tinymce/table.gif);
 }
 table-wrap label {
 	background-image: url(../img/tinymce/label.gif);
