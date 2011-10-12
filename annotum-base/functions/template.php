@@ -185,15 +185,15 @@ class Anno_Template {
 			$last_name = esc_attr($author->user_lastname);
 
 			if ($first_name && $last_name) {
-				$fn = '<a href="'.$posts_url.'" class="url name"><span class="given-name">'.$first_name.'</span> <span class="family-name">'.$last_name.'</span></a>';
+				$fn = '<a href="'.esc_url($posts_url).'" class="url name"><span class="given-name">'.esc_html($first_name).'</span> <span class="family-name">'.esc_html($last_name).'</span></a>';
 			}
 			else {
-				$fn = '<a href="'.$posts_url.'" class="fn url">' . esc_attr($author->display_name) . '</a>';
+				$fn = '<a href="'.esc_url($posts_url).'" class="fn url">' . esc_html($author->display_name) . '</a>';
 			}
 
 			// Website
 			$trimmed_url = substr($author->user_url, 0, 20);
-			$trimmed_url = ($trimmed_url != $author->user_url ? $trimmed_url . '&hellip;' : $author->user_url);
+			$trimmed_url = $trimmed_url != $author->user_url ? esc_html($trimmed_url) . '&hellip;' : esc_html($author->user_url);
 
 			$website = $author->user_url ? '<span class="group">' . __('Website:', 'anno') . ' <a class="url" href="' . esc_url($author->user_url) . '">' . $trimmed_url . '</a></span>' : '';
 

@@ -225,14 +225,14 @@ class Anno_XML_Download {
 			$doi_xml = '';
 		}
 
-		// Article category. Theoretically there can only be one!
+		// Article category. Theoretically, there can only be one!
 		$cats = wp_get_object_terms($article->ID, 'article_category');
 		if (!empty($cats) && is_array($cats)) {
 			$category = get_category($cats[0]); 
 			if (!empty($category)) {
 				$category_xml = '<article-categories>
 				<subj-group>
-					<subject><bold>'.$category->name.'</bold></subject>
+					<subject><bold>'.esc_html($category->name).'</bold></subject>
 				</subj-group>
 			</article-categories>';
 			}
@@ -250,7 +250,7 @@ class Anno_XML_Download {
 			$tag_xml = '<kwd-group kwd-group-type="simple">';
 			foreach ($tags as $tag) {
 				$tag = get_term($tag, 'article_tag');
-				$tag_xml .= '<kwd><bold>'.$tag->name.'</bold></kwd>';
+				$tag_xml .= '<kwd><bold>'.esc_html($tag->name).'</bold></kwd>';
 			}
 			$tag_xml .= '
 			</kwd-group>';

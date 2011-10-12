@@ -18,11 +18,19 @@ if (CFCT_DEBUG) { cfct_banner(__FILE__); }
 	<footer id="footer" class="act clearfix">
 		<div class="in">
 			<?php
-			$args = array(
-				'theme_location' => 'footer',
-				'container' => false,
-			);
-			wp_nav_menu($args);
+			$footer_menu_markup = get_transient('anno_footer_menu');
+			if ($footer_menu_markup === false) {
+				$args = array(
+					'theme_location' => 'footer',
+					'container' => false,
+				);
+				ob_start();
+					wp_nav_menu($args);
+					$footer_menu_markup = ob_get_contents();
+				ob_end_clean();
+				set_transient('anno_footer_menu', $footer_menu_markup, (60 * 60 * 24));
+			}
+			echo $footer_menu_markup;
 			?>
 		</div>
 	</footer>

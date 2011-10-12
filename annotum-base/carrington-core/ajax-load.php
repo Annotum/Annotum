@@ -35,7 +35,8 @@ function cfct_ajax_post_content($post_id) {
 	// If the post is private, make sure the user is allowed to see it before we show it.
 	if ($post->post_status == 'private') {
 		$user = wp_get_current_user();
-		if (!$user->ID || $user->ID != $post->post_author) {
+	
+		if (!$user->ID || !($user->ID == $post->post_author || current_user_can('editor') || current_user_can('admin'))) {
 			die();
 		}
 	}

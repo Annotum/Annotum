@@ -217,7 +217,7 @@ function anno_post_category_list($separator) {
 	
 	$cat_list = get_the_category_list( $separator);
 	if(!empty($cat_list)) {
-		$html.=' &middot ' . $cat_list;
+		$html.=' &middot; ' . $cat_list;
 	}
 	return $html;
 	
@@ -860,5 +860,21 @@ function anno_activity_information() {
 	<?php 
 }
 add_action('right_now_content_table_end', 'anno_activity_information');
+
+
+/**
+ * Clear footer transient when we update it on the backend
+ */ 
+function anno_update_nav_menu($menu_id) {
+ 	// Accounts for orphans where menu_id = 0
+	if (!empty($menu_id)) {
+		$locations = get_theme_mod('nav_menu_locations');
+		if (isset($locations['footer']) && $menu_id == $locations['footer']) {
+			// Clear our transient
+			delete_transient('anno_footer_menu');
+		}
+	}
+}
+add_action('wp_update_nav_menu', 'anno_update_nav_menu');
 
 ?>
