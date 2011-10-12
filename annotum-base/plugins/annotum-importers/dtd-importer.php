@@ -29,6 +29,42 @@ if (!class_exists('DTD_Importer')) {
 	function DTD_Import() { /* Nothing */ }
 	
 	/**
+	 * Parses the XML file and prepares us for the task of processing parsed data
+	 *
+	 * @param string $file Path to the WXR file for importing
+	 */
+	function import_start( $file ) {
+		if ( ! is_file($file) ) {
+			echo '<p><strong>' . __( 'Sorry, there has been an error.', 'anno' ) . '</strong><br />';
+			echo __( 'The file does not exist, please try again.', 'anno' ) . '</p>';
+			$this->footer();
+			die();
+		}
+
+		$import_data = $this->parse( $file );
+
+		if ( is_wp_error( $import_data ) ) {
+			echo '<p><strong>' . __( 'Sorry, there has been an error.', 'anno' ) . '</strong><br />';
+			echo esc_html( $import_data->get_error_message() ) . '</p>';
+			$this->footer();
+			die();
+		}
+
+		$this->version = $import_data['version'];
+		$this->get_authors_from_import( $import_data );
+		$this->posts = $import_data['posts'];
+		$this->terms = $import_data['terms'];
+		$this->categories = $import_data['categories'];
+		$this->tags = $import_data['tags'];
+		$this->base_url = esc_url( $import_data['base_url'] );
+
+		wp_defer_term_counting( true );
+		wp_defer_comment_counting( true );
+
+		do_action( 'import_start' );
+	}
+	
+	/**
 	 * Retrieve authors and author meta from parse XML file. Process meta data.
 	 *
 	 * @param array $import_data Data returned by the parser

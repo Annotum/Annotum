@@ -382,7 +382,7 @@ class Knol_WXR_Parser_XML {
 			$current_column = xml_get_current_column_number( $xml );
 			$error_code = xml_get_error_code( $xml );
 			$error_string = xml_error_string( $error_code );
-			return new WP_Error( 'XML_parse_error', 'There was an error when reading this WXR file', array( $current_line, $current_column, $error_string ) );
+			return new WP_Error( 'XML_parse_error', __('There was an error when reading this WXR file', 'anno'), array( $current_line, $current_column, $error_string ) );
 		}
 		xml_parser_free( $xml );
 
@@ -957,8 +957,6 @@ class Knol_WXR_Parser_Regex {
  * 
  */ 
 class Kipling_DTD_Parser {	
-		
-	// @TODO parse attachemnts when applicable	
 	function parse($file) {
 		$authors = $posts = $attachments = $post = $author_snapshots = $authors_meta = array();
 
@@ -967,16 +965,24 @@ class Kipling_DTD_Parser {
 		}
 		$file_content = file_get_contents($file);
 		if (!$file_content) {
-			return new WP_Error('xml_parse_error', __( 'There was an error when reading this Kipling DTD File file', 'anno'));
+			return new WP_Error('xml_parse_error', __( 'There was an error when reading this Kipling DTD file', 'anno'));
 		}
 	
-		phpQuery::newDocument($file_content);
+		phpQuery::newDocumentXML($file_content);
 	
 		// Made up post IDs just for sanities sake, and parent relationship
 		$post_id = 1;
 	
+		$articles = pq('article');
+
+		// Lets make sure we have article tags
+		$num_articles = $articles->length();
+		if (empty($num_articles)) {
+			return new WP_Error('xml_parse_article_error', __( 'This does not appear to be a Kipling DTD file, no articles could be found', 'anno'));
+		}
+		
 		// Process articles, this contains all catergory, tag, author, term etc... processing.
-		foreach (pq('article') as $article) {
+		foreach ($articles as $article) {
 			$article = pq('article');
 			$article_meta = pq('article-meta', $article);
 			
