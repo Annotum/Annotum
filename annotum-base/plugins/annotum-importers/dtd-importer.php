@@ -12,7 +12,7 @@ if (!defined('WP_LOAD_IMPORTERS'))
 	return;
 
 if ( !class_exists('Knol_Import')) {
-	$class_knol_importer = 	trailingslashit(TEMPLATEPATH).'plugins/knol-importer/knol-importer.php';
+	$class_knol_importer = 	trailingslashit(TEMPLATEPATH).'plugins/annotum-importers/knol-importer.php';
 	if (file_exists($class_knol_importer)) {
 		require $class_knol_importer;
 	}
