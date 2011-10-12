@@ -183,7 +183,7 @@ function anno_acknowledgements_meta_box($post) {
  * Meta box markup for featuring an article in the featured carousel
  */ 
 function anno_featured_meta_box($post) {
-	$checked = get_post_meta($post->ID, 'anno_featured', true);
+	$checked = get_post_meta($post->ID, '_anno_featured', true);
 ?>
 	<input id="anno-featured" type="checkbox" value="on" name="anno_featured"<?php checked($checked, 'on', true); ?> />
 	<label for="anno-featured"><?php _ex('Feature this article to appear in the home page carousel', 'Featured post meta box label', 'anno'); ?></label>
