@@ -19,7 +19,6 @@ class Knol_WXR_Parser {
 				case 'xml':
 					$parser = new Knol_WXR_Parser_XML;
 					$result = $parser->parse( $file );
-
 					// If XMLParser succeeds or this is an invalid WXR file then return the results
 					if ( ! is_wp_error( $result ) || 'XML_parse_error' != $result->get_error_code() )
 						return $result;
@@ -31,7 +30,7 @@ class Knol_WXR_Parser {
 				default:
 					break;
 			}
-			sprintf(__('ANNO_IMPORT_DEBUG: Could not find parser %s.', 'anno'), esc_html($_POST['anno_knol_parser']));
+			printf(__('ANNO_IMPORT_DEBUG: Could not find parser %s.', 'anno'), esc_html($_POST['anno_knol_parser']));
 			return;
 		}
 		
@@ -209,7 +208,7 @@ class Knol_WXR_Parser_SimpleXML {
 						'value' => (string) $meta->meta_value
 					);
 				}
-
+				
 				foreach ( $wp->comment as $comment ) {
 					$meta = array();
 					if ( isset( $comment->commentmeta ) ) {
@@ -395,7 +394,7 @@ class Knol_WXR_Parser_XML {
 			'categories' => $this->category,
 			'tags' => $this->tag,
 			'terms' => $this->term,
-			'base_url' => $thi->base_url,
+			'base_url' => $this->base_url,
 			'version' => $this->wxr_version
 		);
 	}
@@ -443,8 +442,24 @@ class Knol_WXR_Parser_XML {
 		switch ( $tag ) {
 			case 'wp:comment':
 				unset( $this->sub_data['key'], $this->sub_data['value'] ); // remove meta sub_data
-				if ( ! empty( $this->sub_data ) )
-					$this->data['comments'][] = $this->sub_data;
+				if ( ! empty( $this->sub_data ) ) {
+					$comment_template = array(
+						'comment_id' => '',
+						'comment_post_ID' => '',
+						'comment_author' => '',
+						'comment_author_email' => '',
+						'comment_author_IP' => '',
+						'comment_author_url' => '',
+						'comment_date' => '',
+						'comment_date_gmt' => '',
+						'comment_content' => '',
+						'comment_approved' => '',
+						'comment_type' => '',
+						'comment_parent' => '',
+					);
+					$this->data['comments'][] = array_merge($comment_template, $this->sub_data);
+				}
+					
 				$this->sub_data = false;
 				break;
 			case 'wp:commentmeta':
@@ -466,7 +481,30 @@ class Knol_WXR_Parser_XML {
 				$this->sub_data = false;
 				break;
 			case 'item':
-				$this->posts[] = $this->data;
+				$post_template = array(
+					'post_date' => '',
+					'post_author' => '',
+					'post_type' => '',
+					'post_parent' => 0,
+					'post_id' => '',
+					'post_content' => '',
+					'post_content_filtered' => '',
+					'postmeta' => '',
+					'guid' => '',
+					'attachment_url' => '',
+					'status' => '',
+					'post_title' => '',
+					'post_date_gmt' => '',
+					'ping_status' => '',
+					'menu_order' => '',
+					'post_password' => '',
+					'terms' => '',
+					'comment_status' => '',
+					'is_sticky' => '',
+					'post_excerpt' => '',
+					'post_name' => '',
+				);
+				$this->posts[] = array_merge($post_template, $this->data);
 				$this->data = false;
 				break;
 			case 'wp:category':
@@ -658,7 +696,19 @@ class Knol_WXR_Parser_Regex {
 					continue;
 				}
 				if ( false !== strpos( $importline, '<wp:author>' ) ) {
-					preg_match( '|<wp:author>(.*?)</wp:author>|is', $importline, $author );
+					if ( false !== strpos( $importline, '</wp:author>' ) ) {
+						$buffer = $importline;
+					}
+					else {
+						$buffer = $next_importline =  $importline;
+						
+						while(!$this->feof($fp) && (false === strpos( $next_importline, '</wp:author>'))) {
+							$next_importline = rtrim( $this->fgets( $fp ) );
+							$buffer .= $next_importline;
+						}
+					}
+	
+					preg_match( '|<wp:author>(.*?)</wp:author>|is', $buffer, $author );
 					$a = $this->process_author( $author[1] );
 					// Knol WXR has Creator stored by  'Knol ID' (author_id) not author_login. author_login is empty in the WXR.
 					$this->authors[$a['author_id']] = $a;
@@ -1206,7 +1256,7 @@ class Kipling_DTD_Parser {
 				$img_url = $img->attr('xlink:href');
 				
 				// Dont save chart api images (most likely formulas)
-				if (!empty($img_url) && strpos('google.com/chart', $img_url) === false) {
+				if (!empty($img_url) && strpos($img_url, 'google.com/chart') === false) {
 					$post_meta = array();
 					
 					$alt_text = pq('alt-text', $img)->html();
@@ -1533,7 +1583,7 @@ class Kipling_DTD_Parser {
 	function parse_media($media) {		
 		$img_url = $media->attr('xlink:href');
 		
-		if (!empty($img_url) && strpos('google.com/chart', $img_url) === false) {
+		if (!empty($img_url) && strpos($img_url, 'google.com/chart') === false) {
 			$post_meta = array();
 			
 			$alt_text = pq('alt-text', $media)->text();

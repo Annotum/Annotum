@@ -242,7 +242,7 @@ class Knol_Import extends WP_Importer {
 			
 				$the_imported_post = get_post($the_imported_article);
 				
-				printf( __('%s &#8220;%s&#8221; processed. ', 'anno'), ucfirst(esc_html($the_imported_post->post_type)), esc_html($the_imported_post->post_title));
+				printf( __('%s &#8220;<strong>%s</strong>&#8221; imported. ', 'anno'), ucfirst(esc_html($the_imported_post->post_type)), esc_html($the_imported_post->post_title));
 
 				if ($the_imported_post->post_type == 'attachment') {
 					$preview_url = get_permalink($the_imported_post->ID);
@@ -318,19 +318,21 @@ class Knol_Import extends WP_Importer {
 			$this->authors = $import_data['authors'];
 		// no author information, grab it from the posts
 		} else {
-			foreach ( $import_data['posts'] as $post ) {
-				$login = sanitize_user( $post['post_author'], true );
-				if ( empty( $login ) ) {
-					printf( __( 'Failed to import author %s. Their posts will be attributed to the current user.', 'anno' ), esc_html( $post['post_author'] ) );
-					echo '<br />';
-					continue;
-				}
+			if (!empty($import_data['posts']) && !is_array($import_data['posts'])) {
+				foreach ( $import_data['posts'] as $post ) {
+					$login = sanitize_user( $post['post_author'], true );
+					if ( empty( $login ) ) {
+						printf( __( 'Failed to import author %s. Their posts will be attributed to the current user.', 'anno' ), esc_html( $post['post_author'] ) );
+						echo '<br />';
+						continue;
+					}
 
-				if ( ! isset($this->authors[$login]) )
-					$this->authors[$login] = array(
-						'author_login' => $login,
-						'author_display_name' => $post['post_author']
-					);
+					if ( ! isset($this->authors[$login]) )
+						$this->authors[$login] = array(
+							'author_login' => $login,
+							'author_display_name' => $post['post_author']
+						);
+				}
 			}
 		}
 	}
@@ -894,131 +896,130 @@ foreach ($this->authors as $author_key => $author_data) {
 
 				if ( $post['is_sticky'] == 1 )
 					stick_post( $post_id );
-			}
 
-			// map pre-import ID to local ID
-			$this->processed_posts[$post['post_id']] = $post_id;
+				// map pre-import ID to local ID
+				$this->processed_posts[$post['post_id']] = $post_id;
 
-			// add categories, tags and other terms
-			if ( ! empty( $post['terms'] ) ) {
-				$terms_to_set = array();
-				foreach ( $post['terms'] as $term ) {
-					// back compat with WXR 1.0 map 'tag' to 'post_tag'
-					$taxonomy = ( 'tag' == $term['domain'] ) ? 'post_tag' : $term['domain'];
-					$term_exists = term_exists( $term['slug'], $taxonomy );
-					$term_id = is_array( $term_exists ) ? $term_exists['term_id'] : $term_exists;
-					if ( ! $term_id ) {
-						$t = wp_insert_term( $term['name'], $taxonomy, array( 'slug' => $term['slug'] ) );
-						if ( ! is_wp_error( $t ) ) {
-							$term_id = $t['term_id'];
-						} else {
-							printf( __( 'Failed to import %s %s', 'anno' ), esc_html($taxonomy), esc_html($term['name']) );
-							if ( defined('ANNO_IMPORT_DEBUG') && ANNO_IMPORT_DEBUG )
-								echo ': ' . $t->get_error_message();
-							echo '<br />';
-							continue;
+				// add categories, tags and other terms
+				if ( ! empty( $post['terms'] ) ) {
+					$terms_to_set = array();
+					foreach ( $post['terms'] as $term ) {
+						// back compat with WXR 1.0 map 'tag' to 'post_tag'
+						$taxonomy = ( 'tag' == $term['domain'] ) ? 'post_tag' : $term['domain'];
+						$term_exists = term_exists( $term['slug'], $taxonomy );
+						$term_id = is_array( $term_exists ) ? $term_exists['term_id'] : $term_exists;
+						if ( ! $term_id ) {
+							$t = wp_insert_term( $term['name'], $taxonomy, array( 'slug' => $term['slug'] ) );
+							if ( ! is_wp_error( $t ) ) {
+								$term_id = $t['term_id'];
+							} else {
+								printf( __( 'Failed to import %s %s', 'anno' ), esc_html($taxonomy), esc_html($term['name']) );
+								if ( defined('ANNO_IMPORT_DEBUG') && ANNO_IMPORT_DEBUG )
+									echo ': ' . $t->get_error_message();
+								echo '<br />';
+								continue;
+							}
+						}
+						$terms_to_set[$taxonomy][] = $term_id;
+					}
+
+					foreach ( $terms_to_set as $tax => $ids ) {
+						$tt_ids = wp_set_post_terms( $post_id, $ids, $tax );
+					}
+					unset( $post['terms'], $terms_to_set );
+				}
+
+				// add/update comments
+				if ( ! empty( $post['comments'] ) ) {
+					$num_comments = 0;
+					$inserted_comments = array();
+					foreach ( $post['comments'] as $comment ) {
+						$comment_id	= $comment['comment_id'];
+						$newcomments[$comment_id]['comment_post_ID']      = $comment_post_ID;
+						$newcomments[$comment_id]['comment_author']       = $comment['comment_author'];
+						$newcomments[$comment_id]['comment_author_email'] = $comment['comment_author_email'];
+						$newcomments[$comment_id]['comment_author_IP']    = $comment['comment_author_IP'];
+						$newcomments[$comment_id]['comment_author_url']   = $comment['comment_author_url'];
+						$newcomments[$comment_id]['comment_date']         = $comment['comment_date'];
+						$newcomments[$comment_id]['comment_date_gmt']     = $comment['comment_date_gmt'];
+						$newcomments[$comment_id]['comment_content']      = $comment['comment_content'];
+						$newcomments[$comment_id]['comment_approved']     = $comment['comment_approved'];
+						$newcomments[$comment_id]['comment_type']         = $comment['comment_type'];
+						$newcomments[$comment_id]['comment_parent'] 	  = $comment['comment_parent'];
+						$newcomments[$comment_id]['commentmeta']          = isset( $comment['commentmeta'] ) ? $comment['commentmeta'] : array();
+						// This will be empty in the Knol WXR
+						/*
+						if ( isset( $this->processed_authors[$comment['comment_user_id']] ) )
+							$newcomments[$comment_id]['user_id'] = $this->processed_authors[$comment['comment_user_id']];
+						*/
+					}
+					ksort( $newcomments );
+
+					foreach ( $newcomments as $key => $comment ) {
+						// if this is a new post we can skip the comment_exists() check
+						if ( ! $post_exists || ! comment_exists( $comment['comment_author'], $comment['comment_date'] ) ) {
+							if ( isset( $inserted_comments[$comment['comment_parent']] ) )
+								$comment['comment_parent'] = $inserted_comments[$comment['comment_parent']];
+							$comment = wp_filter_comment( $comment );
+							$inserted_comments[$key] = wp_insert_comment( $comment );
+
+							foreach( $comment['commentmeta'] as $meta ) {
+								$value = maybe_unserialize( $meta['value'] );
+								add_comment_meta( $inserted_comments[$key], $meta['key'], $value );
+							}
+
+							$num_comments++;
 						}
 					}
-					$terms_to_set[$taxonomy][] = $term_id;
+					unset( $newcomments, $inserted_comments, $post['comments'] );
 				}
 
-				foreach ( $terms_to_set as $tax => $ids ) {
-					$tt_ids = wp_set_post_terms( $post_id, $ids, $tax );
-				}
-				unset( $post['terms'], $terms_to_set );
-			}
-
-			// add/update comments
-			if ( ! empty( $post['comments'] ) ) {
-				$num_comments = 0;
-				$inserted_comments = array();
-				foreach ( $post['comments'] as $comment ) {
-					$comment_id	= $comment['comment_id'];
-					$newcomments[$comment_id]['comment_post_ID']      = $comment_post_ID;
-					$newcomments[$comment_id]['comment_author']       = $comment['comment_author'];
-					$newcomments[$comment_id]['comment_author_email'] = $comment['comment_author_email'];
-					$newcomments[$comment_id]['comment_author_IP']    = $comment['comment_author_IP'];
-					$newcomments[$comment_id]['comment_author_url']   = $comment['comment_author_url'];
-					$newcomments[$comment_id]['comment_date']         = $comment['comment_date'];
-					$newcomments[$comment_id]['comment_date_gmt']     = $comment['comment_date_gmt'];
-					$newcomments[$comment_id]['comment_content']      = $comment['comment_content'];
-					$newcomments[$comment_id]['comment_approved']     = $comment['comment_approved'];
-					$newcomments[$comment_id]['comment_type']         = $comment['comment_type'];
-					$newcomments[$comment_id]['comment_parent'] 	  = $comment['comment_parent'];
-					$newcomments[$comment_id]['commentmeta']          = isset( $comment['commentmeta'] ) ? $comment['commentmeta'] : array();
-					// This will be empty in the Knol WXR
-					/*
-					if ( isset( $this->processed_authors[$comment['comment_user_id']] ) )
-						$newcomments[$comment_id]['user_id'] = $this->processed_authors[$comment['comment_user_id']];
-					*/
-				}
-				ksort( $newcomments );
-
-				foreach ( $newcomments as $key => $comment ) {
-					// if this is a new post we can skip the comment_exists() check
-					if ( ! $post_exists || ! comment_exists( $comment['comment_author'], $comment['comment_date'] ) ) {
-						if ( isset( $inserted_comments[$comment['comment_parent']] ) )
-							$comment['comment_parent'] = $inserted_comments[$comment['comment_parent']];
-						$comment = wp_filter_comment( $comment );
-						$inserted_comments[$key] = wp_insert_comment( $comment );
-
-						foreach( $comment['commentmeta'] as $meta ) {
-							$value = maybe_unserialize( $meta['value'] );
-							add_comment_meta( $inserted_comments[$key], $meta['key'], $value );
+				// add/update post meta
+				if ( isset( $post['postmeta'] ) && is_array($post['postmeta']) ) {
+					foreach ( $post['postmeta'] as $meta ) {
+						$key = apply_filters( 'import_post_meta_key', $meta['key'] );
+						$value = false;
+						// Store both the Knol ID and WP ID, for potential future users/associations.
+						if (strpos($key, '_anno_knol_author_') !== false) {
+							$knol_author_id = str_replace('_anno_knol_author_', '', $key);
+							if (isset($this->author_mapping[$knol_author_id])) {
+								update_post_meta($post_id, '_anno_author_'.$this->author_mapping[$knol_author_id], $this->author_mapping[$knol_author_id], true);
+							}
 						}
-
-						$num_comments++;
-					}
-				}
-				unset( $newcomments, $inserted_comments, $post['comments'] );
-			}
-
-			// add/update post meta
-			if ( isset( $post['postmeta'] ) && is_array($post['postmeta']) ) {
-				foreach ( $post['postmeta'] as $meta ) {
-					$key = apply_filters( 'import_post_meta_key', $meta['key'] );
-					$value = false;
-										
-					// Store both the Knol ID and WP ID, for potential future users/associations.
-					if (strpos('_anno_knol_author_', $key) !== false) {
-						$knol_author_id = str_replace('_anno_knol_author_', '', $key);
-						if (isset($authors->processed_authors[$knol_author_id])) {
-							update_post_meta($post_id, '_anno_author_'.$author, $author, true);
-						}
-					}
 					
-					if (strpos('_anno_knol_reviewer_', $key) !== false) {
-						$knol_author_id = str_replace('_anno_knol_reviewer_', '', $key);
-						if (isset($authors->processed_authors[$knol_author_id])) {
-							update_post_meta($post_id, '_anno_reviewer_'.$author, $author, true);
+						if (strpos($key, '_anno_knol_reviewer_') !== false) {
+							$knol_author_id = str_replace('_anno_knol_reviewer_', '', $key);
+							if (isset($this->author_mapping[$knol_author_id])) {
+								update_post_meta($post_id, '_anno_reviewer_'.$this->author_mapping[$knol_author_id], $this->author_mapping[$knol_author_id], true);
+							}
 						}
-					}
 					
 
-					if ( '_edit_last' == $key ) {
-						if ( isset( $this->processed_authors[$meta['value']] ) )
-							$value = $this->processed_authors[$meta['value']];
-						else
-							$key = false;
-					}
+						if ( '_edit_last' == $key ) {
+							if ( isset( $this->processed_authors[$meta['value']] ) )
+								$value = $this->processed_authors[$meta['value']];
+							else
+								$key = false;
+						}
 
-					if ( $key ) {
-						// export gets meta straight from the DB so could have a serialized string
-						if ( ! $value )
-							$value = maybe_unserialize( $meta['value'] );
+						if ( $key ) {
+							// export gets meta straight from the DB so could have a serialized string
+							if ( ! $value )
+								$value = maybe_unserialize( $meta['value'] );
 
-						update_post_meta( $post_id, $key, $value );
-						do_action( 'import_post_meta', $post_id, $key, $value );
+							update_post_meta( $post_id, $key, $value );
+							do_action( 'import_post_meta', $post_id, $key, $value );
 
-						// if the post has a featured image, take note of this in case of remap
-						if ( '_thumbnail_id' == $key )
-							$this->featured_images[$post_id] = $value;
+							// if the post has a featured image, take note of this in case of remap
+							if ( '_thumbnail_id' == $key )
+								$this->featured_images[$post_id] = $value;
+						}
 					}
 				}
-			}
 			
-			// Add a key to the post. Posts with this key are alerted that the XML structure may change on save. Meta is deleted on save.x2
-			add_post_meta($post_id, '_anno_knol_import', 1);
+				// Add a key to the post. Posts with this key are alerted that the XML structure may change on save. Meta is deleted on save.x2
+				add_post_meta($post_id, '_anno_knol_import', 1);
+			}
 		}
 
 		unset( $this->posts );
@@ -1338,7 +1339,7 @@ foreach ($this->authors as $author_key => $author_data) {
 		if (defined('ANNO_IMPORT_DEBUG') && ANNO_IMPORT_DEBUG) {
 			echo '<p>'.__('ANNO_IMPORT_DEBUG: Select a parser:', 'anno').' <select name="anno_knol_parser">
 						<option value="simplexml">SimpleXML</option>
-						<option valie="xml">XML</option>
+						<option value="xml">XML</option>
 						<option value="regex">RegEx</option>
 					</select>
 				</p>';
