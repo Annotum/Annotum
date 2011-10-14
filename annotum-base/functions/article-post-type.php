@@ -131,7 +131,7 @@ function anno_body_meta_box($post) {
 		$content = $post->post_content;
 	}
 	if (function_exists('wp_editor')) {
-		anno_load_editor($content, 'anno-body');
+		anno_load_editor($content, 'anno-body', array('textarea_name' => 'content'));
 	}
 	else {
 		echo '<p style="padding:0 10px;">'.sprintf(_x('The Annotum editor requires at least WordPress 3.3. It appears you are using WordPress %s. ', 'WordPress version error message', 'anno'), get_bloginfo('version')).'</p>';
