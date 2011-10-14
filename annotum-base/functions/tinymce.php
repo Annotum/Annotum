@@ -151,7 +151,6 @@ function anno_load_editor($content, $editor_id, $settings = array()) {
 		'sec[sec|heading|media|img|permissions|license|list|list-item|disp-formula|disp-quote|fig|cap|table-wrap|table-wrap-foot|para|h2|div|span]',
 	);
 	
-	
 	$default_settings = array(
 		'remove_linebreaks' => false,
 		'content_css' => trailingslashit(get_bloginfo('template_directory')).'css/tinymce.css',
@@ -170,7 +169,6 @@ function anno_load_editor($content, $editor_id, $settings = array()) {
 			}',
 		'theme_advanced_blockformats' => 'Paragraph=para,Title=heading,Section=sec',
 		'forced_root_block' => '',
-		'editor_css' => trailingslashit(get_template_directory_uri()).'css/tinymce-ui.css?v=4',
 		'debug' => 'true',
 		'verify_html' => true,
 		'force_p_newlines' => false,
@@ -185,169 +183,6 @@ function anno_load_editor($content, $editor_id, $settings = array()) {
 	remove_filter('tiny_mce_before_init', 'anno_tiny_mce_before_init');
 }
 
-/**
- * Load TinyMCE for the body and appendices.
- */
-function anno_admin_print_footer_scripts() {
-	global $post;
-	if (isset($post->post_type) && $post->post_type == 'article') {
-		// Remove the WP image edit plugin
-		add_filter('tiny_mce_before_init', 'anno_tiny_mce_before_init');
-		$appendices = get_post_meta($post->ID, '_anno_appendices', true);
-		if (empty($appendices) || !is_array($appendices)) {
-			$appendices = array(0 => '0');
-		}
-		
-		$formats = array(
-			'bold',
-			'italic',
-			'monospace',
-			'preformat',
-			'sup',
-			'sub',
-			'underline',
-		);
-		
-		$extended_valid_elements = array_merge(array(
-			'alt-text',
-			'attrib',
-			'cap',
-			'copyright-statement',
-			'copyright-holder',
-			'disp-quote',
-			'ext-link[ext-link-type:uri|xlink::href|title]',
-			'fig',
-			'heading',
-			'inline-graphic[xlink::href]',
-			'label',
-			'license[license-type:creative-commons]',
-			'license-p',
-			'list[list-type]',
-			'list-item',
-			'long-desc',
-			'media[xlink::href]',
-			'monospace',
-			'permissions',
-			'para',
-			'preformat',
-			'sec',
-			'table-wrap',
-			'xref[ref-type|rid]',
-			'paste',
-		), $formats);
-		
-		$custom_elements = array(
-			'~bold',
-			'~italic',
-			'~sup',
-			'~sub',
-			'~monospace',
-			'preformat',
-			'~underline',
-			'~ext-link',
-			'~xref',
-			'~inline-graphic',
-			'~alt-text',
-			'~label',
-			'~long-desc',
-			'~copyright-statement',
-			'~copyright-holder',
-			'~license',
-			'~license-p',
-			'~disp-quote',
-			'~attrib',
-			'sec',
-			'list',
-			'list-item',
-			'fig',
-			'title',
-			'media',
-			'permissions',
-			'table-wrap',
-			'cap',
-			'disp-quote',
-			'para',
-			'paste',
-		);
-		
-		$formats_as_children = implode('|', $formats);
-
-		// Note the various html elements not defined by the DTD
-		// This takes into account imported content and pasted content which gets inserted natively in divs and spans
-		$valid_children = array(
-			'preformat[]',
-			'body[sec|para|media|list|disp-formula|disp-quote|fig|table-wrap|preformat|div|span]',
-			'copyright-statement['.$formats_as_children.']',
-			'license-p['.$formats_as_children.'|xref|ext-link]',
-			'heading['.$formats_as_children.'|div|span]',
-			'media[alt-text|long-desc|permissions|div|span]',
-			'permissions[copyright-statement|copyright-holder|license|div|span]',
-			'license[license-p|xref|div|span]',
-			'list[title|list-item|div|span]',
-			'list-item[para|xref|list|div|span]',
-			'disp-formula[label|tex-math|div|span]',
-			'disp-quote[para|attrib|permissions|div|span]',
-			'fig[label|cap|media|img|div|span]',
-			'cap[title|para|xref|div|span]',
-			'table-wrap[label|cap|table|table-wrap-foot|permissions|div|span]',
-			'table-wrap-foot[para|div|span]',
-			'para['.$formats_as_children.'|media|img|permissions|license|list|list-item|disp-formula|disp-quote|fig|cap|table-wrap|table-wrap-foot|table|h2|xref|img|table|ext-link|paste|div|span|div|span|a]',
-			'sec[sec|heading|media|img|permissions|license|list|list-item|disp-formula|disp-quote|fig|cap|table-wrap|table-wrap-foot|para|h2|div|span]',
-		);
-
-		wp_tiny_mce(false, array(
-			'remove_linebreaks' => false,
-			'content_css' => trailingslashit(get_bloginfo('template_directory')).'css/tinymce.css',
-			'extended_valid_elements' => implode(',', $extended_valid_elements),
-			'custom_elements' => implode(',', $custom_elements),
-			'valid_children' => implode(',', $valid_children),
-			//  Defines wrapper, need to set this up as its own button.
-			'formats' => '{
-					bold : {\'inline\' : \'bold\'},
-					italic : { \'inline\' : \'italic\'},
-					monospace : { \'inline\' : \'monospace\'},
-					underline : { \'inline\' : \'underline\'},
-					sec : { \'inline\' : \'sec\', \'wrapper\' : \'false\' },
-					title : { \'block\' : \'heading\' },
-					preformat : { \'inline\' : \'preformat\' },
-				}',
-			'theme_advanced_blockformats' => 'Paragraph=para,Title=heading,Section=sec',
-			'forced_root_block' => '',
-			'editor_css' => trailingslashit(get_template_directory_uri()).'css/tinymce-ui.css?v=4',
-			'debug' => 'true',
-			'verify_html' => true,
-			'force_p_newlines' => false,
-			'force_br_newlines' => false,
-// @TODO Define doctype (IE Compat?)
-//			'doctype' => '<!DOCTYPE article SYSTEM \"http://dtd.nlm.nih.gov/ncbi/kipling/kipling-jp3.dtd\">',
-			'doctype' => '<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Transitional//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd\">',
-		));
-?>
-
-<script type="text/javascript">
-	<?php 
-	// Initialize tinyMCE on the anno-body element
-	?>
-	tinyMCE.execCommand('mceAddControl', false, 'anno-body');
-	
-	<?php
-	// Loop over each appendix and initialize tinyMCE on each one as well
-	foreach ($appendices as $key => $value) {
-	?>
-		tinyMCE.execCommand('mceAddControl', false, 'appendix-<?php echo $key; ?>');
-	<?php
-	}
-	?>
-	function annoActiveEditor(selector) {
-		tinyMCE.execInstanceCommand(jQuery(selector).next().find('textarea').attr('id'), 'mceFocus');
-		alert(tinyMCE.activeEditor.editorId);
-	}
-</script>
-<?php
-		remove_filter('tiny_mce_before_init', 'anno_tiny_mce_before_init');
-	}
-}
-//add_action('admin_print_footer_scripts', 'anno_admin_print_footer_scripts', 99);
 
 class Anno_tinyMCE {
 	function Anno_tinyMCE() {	

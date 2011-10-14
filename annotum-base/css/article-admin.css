@@ -52,7 +52,7 @@ textarea.anno-meta {
 
 #appendices td.mceStatusbar {
 	color: #ff00ff;
-	border-bottom: 1px solid #000;
+	border-bottom: 1px solid #DFDFDF;
 }
 
 #body .wp_themeSkin .mceStatusbar a.mceResize,
