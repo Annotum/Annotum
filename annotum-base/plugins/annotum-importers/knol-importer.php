@@ -802,6 +802,18 @@ foreach ($this->authors as $author_key => $author_data) {
 	 * Note that new/updated terms, comments and meta are imported for the last of the above.
 	 */
 	function process_posts() {
+		$snapshot_template = array(
+			'id' => '',
+			'surname' => '',
+			'given_names' => '',
+			'prefix' => '',
+			'suffix' => '',
+			'degrees' => '',
+			'affiliation' => '',
+	    	'bio' => '',
+	        'email' => '',
+	        'link' => '',
+		);
 		foreach ( $this->posts as $post ) {
 			if ( ! post_type_exists( $post['post_type'] ) ) {
 				printf( __( 'Failed to import &#8220;%s&#8221;: Invalid post type %s', 'anno' ),
@@ -975,26 +987,41 @@ foreach ($this->authors as $author_key => $author_data) {
 				}
 
 				// add/update post meta
+				$author_snapshot = array();
 				if ( isset( $post['postmeta'] ) && is_array($post['postmeta']) ) {
 					foreach ( $post['postmeta'] as $meta ) {
 						$key = apply_filters( 'import_post_meta_key', $meta['key'] );
 						$value = false;
+						
 						// Store both the Knol ID and WP ID, for potential future users/associations.
 						if (strpos($key, '_anno_knol_author_') !== false) {
 							$knol_author_id = str_replace('_anno_knol_author_', '', $key);
 							if (isset($this->author_mapping[$knol_author_id])) {
-								update_post_meta($post_id, '_anno_author_'.$this->author_mapping[$knol_author_id], $this->author_mapping[$knol_author_id], true);
+								$wp_author_id = $this->author_mapping[$knol_author_id];
+								$this->add_user_to_post('author', $wp_author_id, $post_id);
+							}
+							// Generate our author snapshot based on post meta that comes in.
+							// We don't need to do this for _anno_author_, those will only exist in DTD imports, which will be in draft
+							// Snapshots get taken on publish status transition
+							$snapshot = $snapshot_template;
+							if (isset($this->authors[$knol_author_id])) {						
+								$snapshot = $snapshot_template;
+								$snapshot['id'] = $this->authors[$knol_author_id]['author_id'];
+								$snapshot['email'] = $this->authors[$knol_author_id]['author_email'];
+								$snapshot['surname'] = $this->authors[$knol_author_id]['author_first_name'];
+								$snapshot['given_names'] = $this->authors[$knol_author_id]['author_last_name'];
+								$author_snapshot[] = $snapshot;
 							}
 						}
-					
+						
 						if (strpos($key, '_anno_knol_reviewer_') !== false) {
 							$knol_author_id = str_replace('_anno_knol_reviewer_', '', $key);
 							if (isset($this->author_mapping[$knol_author_id])) {
-								update_post_meta($post_id, '_anno_reviewer_'.$this->author_mapping[$knol_author_id], $this->author_mapping[$knol_author_id], true);
+								$wp_reviewer_id = $this->author_mapping[$knol_author_id];
+								$this->add_user_to_post('reviewer', $wp_reviewer_id, $post_id);
 							}
 						}
-					
-
+						
 						if ( '_edit_last' == $key ) {
 							if ( isset( $this->processed_authors[$meta['value']] ) )
 								$value = $this->processed_authors[$meta['value']];
@@ -1007,13 +1034,38 @@ foreach ($this->authors as $author_key => $author_data) {
 							if ( ! $value )
 								$value = maybe_unserialize( $meta['value'] );
 
-							update_post_meta( $post_id, $key, $value );
+							// Update co-author data to be the wp user not the local file user.
+							if (strpos($key, '_anno_author_') !== false) {
+								$local_author_id = str_replace('_anno_author_', '', $key);
+								// Set the key and value to be our WP user ID, not the local
+								if (isset($this->author_mapping[$local_author_id])) {
+									$wp_author_id = $this->author_mapping[$local_author_id];
+									$this->add_user_to_post('author', $wp_author_id, $post_id);
+								}
+							}
+							else if (strpos($key, '_anno_reviewer_') !== false) {
+								$local_author_id = str_replace('_anno_reviewer_', '', $key);
+								// Set the key and value to be our WP user ID, not the local
+								if (isset($this->author_mapping[$local_author_id])) {
+									$wp_author_id = $this->author_mapping[$local_author_id];
+									$this->add_user_to_post('reviewer', $wp_author_id, $post_id);
+								}
+							}
+							else {
+								update_post_meta( $post_id, $key, $value );								
+							}
+
 							do_action( 'import_post_meta', $post_id, $key, $value );
 
 							// if the post has a featured image, take note of this in case of remap
 							if ( '_thumbnail_id' == $key )
 								$this->featured_images[$post_id] = $value;
 						}
+					}
+					
+					// Save our snapshot
+					if (!empty($author_snapshot)) {
+						update_post_meta($post_id, '_anno_author_snapshot', $author_snapshot);
 					}
 				}
 			
@@ -1413,6 +1465,44 @@ foreach ($this->authors as $author_key => $author_data) {
 	// return the difference in length between two strings
 	function cmpr_strlen( $a, $b ) {
 		return strlen($b) - strlen($a);
+	}
+	
+	/**
+	 * Adds a user to a given post with a given role
+	 * 
+	 * Copied from workflow code that does the same thing, need it here in case the workflow is disabled.
+	 * 
+	 * @param string $type Type of user to add. Can be the meta_key.
+	 * @param int $user_id ID of the user being added to the post
+	 * @param int $post_id ID of the post to add the user to. Loads from global if nothing is passed.
+	 * @return bool True if successfully added or already a user associated with the post, false otherwise
+	 */ 
+	function add_user_to_post($type, $user_id, $post_id) {
+		$type = str_replace('-', '_', $type);
+		if ($type == 'co_author') {
+			$type = 'author';
+		}
+
+		if ($type == 'reviewer' || $type == 'author') {
+			$order = '_anno_'.$type.'_order';
+			$type = '_anno_'.$type.'_'.$user_id;
+		}
+		else {
+			return false;
+		}
+
+		$users = get_post_meta($post_id, $order, true);
+		if (!is_array($users)) {
+			update_post_meta($post_id, $order, array($user_id));
+			return add_post_meta($post_id, $type, $user_id, true);
+		}
+		else if (!in_array($user_id, $users)) {
+			$users[] = $user_id;
+			update_post_meta($post_id, $order, array_unique($users));
+			return add_post_meta($post_id, $type, $user_id, true);
+		}
+
+		return true;
 	}
 }
 

@@ -1149,12 +1149,18 @@ class Kipling_DTD_Parser {
 					$first_author_id = $author['author_id'];
 				}
 				
+				// We'll convert this in the import process
+				$post['postmeta'][] = array(
+					'key' => '_anno_author_'.$author['author_id'],
+					'value' => $author['author_id'],
+				);
+				
 				$first_author_check = false;
 				$default_author_id++;
 			}
 
 			// Acknowledgements 
-			// @TODO support multiple tags
+			// @TODO support multiple tags defined by DTD
 			$ack = trim(pq('ack p', $article_back)->text());
 			if (!empty($ack)) {	
 		 		$post['postmeta'][] = array(
@@ -1164,7 +1170,7 @@ class Kipling_DTD_Parser {
 			}
 
 			// Funding
-			// @TODO support multiple tags
+			// @TODO support multiple tags defined by DTD
 			$funding = trim(pq('funding-statement', $article_meta)->text());
 			if (!empty($funding)) {	
 		 		$post['postmeta'][] = array(
@@ -1353,7 +1359,6 @@ class Kipling_DTD_Parser {
 			}
 			
 			// Save our author snapshots
-			// @TODO convert IDs on user association? Potential multiple key conflict
 			$post['postmeta'][] = array(
 				'key' => '_anno_author_snapshot',
 				'value' => serialize($author_snapshots),
