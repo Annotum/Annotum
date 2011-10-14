@@ -53,6 +53,7 @@ function anno_appendices_meta_box($post) {
 			     'class="add_another button-secondary">'._x('Add Another Appendix', 'Meta box repeater link', 'anno').'</a></p>'.
 			'</div><!-- close anno_appendix wrapper -->';
 		echo $html;
+	}
 	else {
 		echo sprintf(_x('The Annotum editor requires at least WordPress 3.3. It appears you are using WordPress %s. ', 'WordPress version error message', 'anno'), get_bloginfo('version'));
 	}
