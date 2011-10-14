@@ -4,54 +4,58 @@
  * Meta box for Article Appendices
  */ 
 function anno_appendices_meta_box($post) {
-	$html = '';
-	$html .= '
-	<div id="anno_appendices">';
+	if (function_exists('wp_editor')) {
+		$html = '';
+		$html .= '
+		<div id="anno_appendices">';
 
-	$appendices = get_post_meta($post->ID, '_anno_appendices', true);
-	if (!empty($appendices) && is_array($appendices)) {
-		foreach ($appendices as $index => $content) {
-			$html .= anno_appendix_box_content($index, $content);
+		$appendices = get_post_meta($post->ID, '_anno_appendices', true);
+		if (!empty($appendices) && is_array($appendices)) {
+			foreach ($appendices as $index => $content) {
+				$html .= anno_appendix_box_content($index, $content);
+			}
 		}
-	}
-	else {
-		$html .= anno_appendix_box_content(0);
-	}
+		else {
+			$html .= anno_appendix_box_content(0);
+		}
 	
-	$html .= '
-		<script type="text/javascript" charset="utf-8">
-			function annoIndexAlpha(index) {
-				for(var r = \'\'; index >= 0; index = Number(index) / 26 - 1) {
-			       	r = String.fromCharCode(Number(index) % 26 + 65) + r;
+		$html .= '
+			<script type="text/javascript" charset="utf-8">
+				function annoIndexAlpha(index) {
+					for(var r = \'\'; index >= 0; index = Number(index) / 26 - 1) {
+				       	r = String.fromCharCode(Number(index) % 26 + 65) + r;
+					}
+				   	return r;
 				}
-			   	return r;
-			}
-			function addAnotherAnnoAppendix() {
-				if (jQuery(\'#anno_appendices\').children(\'fieldset\').length > 0) {
-					last_element_index = jQuery(\'#anno_appendices fieldset:last\').attr(\'id\').match(/anno_appendix_([0-9]+)/);
-					next_element_index = Number(last_element_index[1])+1;
-				} else {
-					next_element_index = 1;
+				function addAnotherAnnoAppendix() {
+					if (jQuery(\'#anno_appendices\').children(\'fieldset\').length > 0) {
+						last_element_index = jQuery(\'#anno_appendices fieldset:last\').attr(\'id\').match(/anno_appendix_([0-9]+)/);
+						next_element_index = Number(last_element_index[1])+1;
+					} else {
+						next_element_index = 1;
+					}
+					insert_element = \''.str_replace(PHP_EOL,'',trim(anno_appendix_box_content())).'\';
+					insert_element = insert_element.replace(/'.'###INDEX###'.'/g, next_element_index);
+					insert_element = insert_element.replace(/'.'###INDEX_ALPHA###'.'/g, annoIndexAlpha(next_element_index));
+					jQuery(insert_element).appendTo(\'#'.'anno_appendices'.'\');
+					tinyMCE.execCommand(\'mceAddControl\', false, \'appendix-\' + next_element_index );
+					jQuery(\'.wp-editor-tools\').remove();
 				}
-				insert_element = \''.str_replace(PHP_EOL,'',trim(anno_appendix_box_content())).'\';
-				insert_element = insert_element.replace(/'.'###INDEX###'.'/g, next_element_index);
-				insert_element = insert_element.replace(/'.'###INDEX_ALPHA###'.'/g, annoIndexAlpha(next_element_index));
-				jQuery(insert_element).appendTo(\'#'.'anno_appendices'.'\');
-				tinyMCE.execCommand(\'mceAddControl\', false, \'appendix-\' + next_element_index );
-				jQuery(\'.wp-editor-tools\').remove();
-			}
-			function deleteAnnoAppendix'.'(del_el) {
-				if(confirm(\''._x('Are you sure you want to delete this?', 'JS popup confirmation', 'anno').'\')) {
-					jQuery(del_el).parent().remove();
+				function deleteAnnoAppendix'.'(del_el) {
+					if(confirm(\''._x('Are you sure you want to delete this?', 'JS popup confirmation', 'anno').'\')) {
+						jQuery(del_el).parent().remove();
+					}
 				}
-			}
-		</script>';
-	$html .= '</div><div>';
-	$html .= '
-			<p class="cf_meta_actions"><a href="#" onclick="addAnotherAnnoAppendix(); return false;" '.
-		     'class="add_another button-secondary">'._x('Add Another Appendix', 'Meta box repeater link', 'anno').'</a></p>'.
-		'</div><!-- close anno_appendix wrapper -->';
-	echo $html;
+			</script>';
+		$html .= '</div><div>';
+		$html .= '
+				<p class="cf_meta_actions"><a href="#" onclick="addAnotherAnnoAppendix(); return false;" '.
+			     'class="add_another button-secondary">'._x('Add Another Appendix', 'Meta box repeater link', 'anno').'</a></p>'.
+			'</div><!-- close anno_appendix wrapper -->';
+		echo $html;
+	else {
+		echo sprintf(_x('The Annotum editor requires at least WordPress 3.3. It appears you are using WordPress %s. ', 'WordPress version error message', 'anno'), get_bloginfo('version'));
+	}
 }
 
 /**
