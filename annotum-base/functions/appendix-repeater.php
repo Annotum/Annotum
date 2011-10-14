@@ -38,6 +38,7 @@ function anno_appendices_meta_box($post) {
 				insert_element = insert_element.replace(/'.'###INDEX_ALPHA###'.'/g, annoIndexAlpha(next_element_index));
 				jQuery(insert_element).appendTo(\'#'.'anno_appendices'.'\');
 				tinyMCE.execCommand(\'mceAddControl\', false, \'appendix-\' + next_element_index );
+				jQuery(\'.wp-editor-tools\').remove();
 			}
 			function deleteAnnoAppendix'.'(del_el) {
 				if(confirm(\''._x('Are you sure you want to delete this?', 'JS popup confirmation', 'anno').'\')) {
@@ -77,12 +78,17 @@ $html = '';
 		</sec>';
 	}
 	
+	ob_start();
+	anno_load_editor(anno_process_editor_content($content), esc_attr('appendix-').$index, array('textarea_name' => esc_attr('anno_appendix['.$index.']')));
+	$editor_markup = ob_get_contents();
+	ob_end_clean();
+		
 	$html .='
 <fieldset id="'.esc_attr('anno_appendix_'.$index).'" class="appendix-wrapper">
 	<h4>
 	'._x('Appendix', 'meta box title', 'anno').' '.esc_html($index_alpha).' - <a href="#" onclick="deleteAnnoAppendix(jQuery(this).parent()); return false;" class="delete">'._x('delete', 'Meta box delete repeater link', 'anno').'</a>
 	</h4>
-	<textarea id="'.esc_attr('appendix-'.$index).'" class="anno-meta" name="'.esc_attr('anno_appendix['.$index.']').'">'.esc_textarea(anno_process_editor_content($content)).'</textarea>
+	'.$editor_markup.'
 </fieldset>';
 
 	return $html;

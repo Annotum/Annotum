@@ -18,4 +18,25 @@ jQuery(document).ready(function($){
 			o.data = o.unfiltered;
 		});
 	}
+	
+	/**
+	 * Deposit data 
+	 */
+	// $('#doi-deposit-submit').click(function() {
+	// 			alert('test');
+	// 	var doi = $('#doi').val();
+	// 	var data = {doi: doi, action: 'anno-doi-deposit', article_id: ANNO_POST_ID};
+	// 
+	// 	// Nonce
+	// 	data['_ajax_nonce-doi-deposit'] = $('#_ajax_nonce-doi-deposit').val();
+	// 	$.post(ajaxurl, data, function(d) {
+	// 		alert(d);
+	// 	});
+	// 	return false;
+	// }); 
+	
+	// We alreay hide with JS, lets remove the html/visual switch buttons
+	$('.wp-switch-editor').remove();
+	$('.wp-editor-tools').remove();
+	
 });

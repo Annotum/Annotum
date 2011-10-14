@@ -48,7 +48,7 @@ function anno_post_type_requst_handler() {
 	// Converts Article to Post post type
 	if (isset($_POST['anno_convert'])) {
 		wp_verify_nonce($_POST['anno_convert_nonce'], 'anno_convert');
-		if(!current_user_can('editor') && !current_user_can('admin')) {
+		if(!current_user_can('editor') && !current_user_can('administrator')) {
 			wp_die(_x('Unable to perform that ability', 'wp_die error message', 'anno'));
 		}
 		$post_id = absint($_POST['post_ID']);
@@ -130,8 +130,10 @@ function anno_body_meta_box($post) {
 	else {
 		$content = $post->post_content;
 	}
+	
+	anno_load_editor($content, 'anno-body');
 ?>
-<textarea id="anno-body" name="content" class="anno-meta"><?php echo esc_textarea(anno_process_editor_content($content)); ?></textarea>
+
 <?php
 }
 
@@ -367,7 +369,7 @@ function anno_deposit_doi_meta_box($post) {
 		$deposit_id = 'doi-deposit-submit';
 	}
 ?>
-	<?php wp_nonce_field('anno_doi_desposit', '_ajax_nonce-doi-deposit', false); ?>
+	<?php wp_nonce_field('anno_doi_deposit', '_ajax_nonce-doi-deposit', false); ?>
 	<input id="doi" type="text" name="doi-deposit" class="meta-doi-input" value="<?php echo $deposit_value; ?>"<?php disabled(true, true, true); ?> />
 	<input id="<?php echo $deposit_id; ?>" type="button" value="<?php _ex('Deposit', 'doi deposit button label', 'anno'); ?>"<?php disabled($deposit_enabled, false, true); ?> />
 <?php
