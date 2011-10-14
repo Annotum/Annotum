@@ -134,7 +134,7 @@ function anno_body_meta_box($post) {
 		anno_load_editor($content, 'anno-body');
 	}
 	else {
-		echo sprintf(_x('The Annotum editor requires at least WordPress 3.3. It appears you are using WordPress %s. ', 'WordPress version error message', 'anno'), get_bloginfo('version'));
+		echo '<p style="padding:0 10px;">'.sprintf(_x('The Annotum editor requires at least WordPress 3.3. It appears you are using WordPress %s. ', 'WordPress version error message', 'anno'), get_bloginfo('version')).'</p>';
 	}
 ?>
 
@@ -154,6 +154,13 @@ function anno_references_meta_box($post) {
 <?php
 		}
 	}
+<<<<<<< HEAD
+=======
+	else {
+		echo '<p>'.sprintf(_x('The Annotum editor requires at least WordPress 3.3. It appears you are using WordPress %s. ', 'WordPress version error message', 'anno'), get_bloginfo('version')).'</p>';
+	}
+	
+>>>>>>> 1532bde4b5e3f06d1aa2117a228e97eaaa5c2b7e
 }
 
 /**

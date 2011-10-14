@@ -333,60 +333,67 @@ function anno_reference_doi_process_author($author) {
 
 
 function anno_doi_article_deposit($article_id, $doi, $user_id) {
-	// @TODO capability check, admin and editor
+	if (!(current_user_can('administrator') || current_user_can('editor'))) {
+		return array(
+			'message' => 'error',
+			'code' => '0',
+			'markup' => _x('You do not have the correct permissions to perform this action', 'DOI deposit error message', 'anno'),
+		);
+	}
+	
 	$article = get_post($article_id);
 	
 	$journal_title = cfct_get_option('journal_name');
-	$jouranl_issn = cfct_get_option('journal_issn');
+	$journal_issn = cfct_get_option('journal_issn');
 	$registrant_code = cfct_get_option('registrant_code');
 	$crossref_id = cfct_get_option('crossref_login');
 	$crossref_pass = cfct_get_option('crossref_pass');
 	
+	$error_markup = null;
+	
 	// User required credentials
-	if (empty($crossref_id) || empty($crossref_pass)) {
-		return array(
-			'message' => 'error',
-			'code' => '0',
-			'markup' => '',
-		);
+	if (empty($crossref_id) || empty($crossref_pass) || empty($registrant_code)) {
+		$error_markup = _x('Invalid or Empty CrossRef Credentials', 'DOI deposit error message', 'anno');
 	}
 	
 	// Journal Required Fields
-	if (empty($journal_title) || empty($journal_issn) || empty($registrant_code)) {
-		// @TODO Throw error
-		return array(
-			'message' => 'error',
-			'code' => '1',
-			'markup' => '',
-		);
+	if (empty($journal_title) || empty($journal_issn)) {
+		$error_markup = _x('Invalid or Empty Journal Data', 'DOI deposit error message', 'anno');
+	}
+
+	// Make sure we're only submitting Published articles
+	if ($article->post_status !== 'publish') {
+		$error_markup = _x('Article must be published to submit a DOI request', 'DOI deposit error message', 'anon');
 	}
 	
 	$article_year = date('Y', strtotime($article->post_date));
 
 	// Article Required Fields	
-	if (empty($article->title) || empty($article_year) || empty($doi)) {
-		// @TODO Throw error
+	if (empty($article->post_title) || empty($article_year) || empty($doi)) {
+		$error_markup = _x('Invalid or Empty Article Data', 'DOI deposit error message', 'anon');
+	}
+	
+	if (!empty($error_markup)) {
 		return array(
 			'message' => 'error',
-			'code' => '2',
-			'markup' => '',
+			'markup' => $error_markup,
 		);
 	}
 	
 	// Journal Required Fields:
 	// full_title, ISSN
-	// (rec) abbrev_title, doi_data, coden
+	// (rec) abbrev_title
 	// 
 	// Article
 	// titles, publication_date (year), doi_data
-	// (rec) contributors, publication_date (day, month), pages (first_page, last_page), citation_list	
-	
+	// (rec) contributors, publication_date (day, month), pages (first_page, last_page), citation_list
+
 	// Journal Title
 	$journal_title_xml = '<full_title>'.$journal_title.'</full_title>';
-	
+
 	// Journal ISSN 
 	$journal_issn_xml = '<issn media_type="online">'.$journal_issn.'</issn>';
-	
+
 	// Journal abbr
 	if ($journal_title_abbr = cfct_get_option('journal_abbr')) {
 		$journal_title_abbr_xml = '<abbrev_title>'.$journal_title_abbr.'</abbrev_title>';
@@ -394,7 +401,7 @@ function anno_doi_article_deposit($article_id, $doi, $user_id) {
 	else {
 		$journal_title_abbr_xml = '';
 	}
-	
+
 	$authors = get_post_meta($article->ID, '_anno_author_snapshot', true);
 	if (is_array($authors) && !empty($authors)) {
 		$i = 0;
@@ -552,15 +559,18 @@ function anno_doi_article_deposit($article_id, $doi, $user_id) {
 
 function anno_doi_deposit_ajax() {
 	check_ajax_referer('anno_doi_deposit', '_ajax_nonce-doi-deposit');
+	// Make sure we have an article ID and user ID
+	if (empty($_POST['article_id']) || empty($_POST['doi'])) {
+		die();
+	}
+	
 	$article_id = (int) $_POST['article_id'];
 	$doi = $_POST['doi'];
-	$user_id = (int) $_POST['user_id'];
-//	error_log(print_r(get_current_user(),1));
-//	$response = anno_doi_article_deposit($article_id, $doi, $user);
-//	echo json_encode($response);
+	$response = anno_doi_article_deposit($article_id, $doi, get_current_user_id());
+	echo json_encode($response);
 	die();
 }
-add_action('wp_ajax_doi-deposit', 'anno_doi_deposit_ajax');
+add_action('wp_ajax_anno-doi-deposit', 'anno_doi_deposit_ajax');
 
 
 function anno_generate_doi() {

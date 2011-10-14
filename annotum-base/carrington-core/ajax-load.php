@@ -36,7 +36,7 @@ function cfct_ajax_post_content($post_id) {
 	if ($post->post_status == 'private') {
 		$user = wp_get_current_user();
 	
-		if (!$user->ID || !($user->ID == $post->post_author || current_user_can('editor') || current_user_can('admin'))) {
+		if (!$user->ID || !($user->ID == $post->post_author || current_user_can('editor') || current_user_can('administrator'))) {
 			die();
 		}
 	}
