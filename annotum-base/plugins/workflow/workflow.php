@@ -502,7 +502,7 @@ function annowf_add_user($type) {
 	
 	if (isset($_POST['post_id']) && isset($_POST['user'])) {
 		$user_login = trim($_POST['user']);
-		$user = get_userdatabylogin($user_login);
+		$user = get_user_by('login', $user_login);
 
 		// Check if the user already exists if we're adding via email
 		if (empty($user) && anno_is_valid_email($user_login)) {
