@@ -130,8 +130,12 @@ function anno_body_meta_box($post) {
 	else {
 		$content = $post->post_content;
 	}
-	
-	anno_load_editor($content, 'anno-body');
+	if (function_exists('wp_editor')) {
+		anno_load_editor($content, 'anno-body');
+	}
+	else {
+		echo sprintf(_x('The Annotum editor requires at least WordPress 3.3. It appears you are using WordPress %s. ', 'WordPress version error message', 'anno'), get_bloginfo('version'));
+	}
 ?>
 
 <?php
@@ -141,15 +145,21 @@ function anno_body_meta_box($post) {
  * References meta box markup
  */
 function anno_references_meta_box($post) {
-	$references = get_post_meta($post->ID, '_anno_references', true);
-	if (!empty($references) && is_array($references)) {
-		foreach ($references as $ref_key => $reference) {
-			$ref_key_display = $ref_key + 1;
+	if (function_exists('wp_editor')) {
+		$references = get_post_meta($post->ID, '_anno_references', true);
+		if (!empty($references) && is_array($references)) {
+			foreach ($references as $ref_key => $reference) {
+				$ref_key_display = $ref_key + 1;
 ?>
 	<div><?php echo esc_html($ref_key_display . '. '. $reference['text']); ?></div>
 <?php
+			}
 		}
 	}
+	else {
+		echo sprintf(_x('The Annotum editor requires at least WordPress 3.3. It appears you are using WordPress %s. ', 'WordPress version error message', 'anno'), get_bloginfo('version'));
+	}
+	
 }
 
 /**
