@@ -609,6 +609,8 @@ function anno_popup_tips() {
  * Markup for the tinyMCE dialog popups
  */ 
 function anno_preload_dialogs($init) {
+	global $pagenow, $post_type;
+	if (($pagenow == 'post-new.php' || $pagenow == 'post.php') && $post_type == 'article') {
 ?>
 	<div style="display:none;">
 	<?php anno_popup_link(); ?>
@@ -641,7 +643,8 @@ function anno_preload_dialogs($init) {
 	<div style="display:none;">
 	<?php anno_popup_tips(); ?>
 	</div>
-<?php 
+<?php
+	}
 }
 // TODO better placement, so we're not loading these on non-edit pages
 add_action('after_wp_tiny_mce', 'anno_preload_dialogs', 10, 1 );
@@ -869,8 +872,6 @@ function anno_validate_xml_content_on_save($html_content) {
 
 function anno_get_dtd_valid_elements() {
 	// Build big list of valid XML elements (listed in DTD)
-	// @TODO remove reference to CF SVN
-	// @see https://svn.crowdfave.org/svn/crowdfavorite/active/solvitor/notes/Annotum%20DTD.xml
 	$tags = array(
 		// Formats
 		'<bold>',
