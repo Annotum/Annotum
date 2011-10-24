@@ -152,37 +152,42 @@ function anno_load_editor($content, $editor_id, $settings = array()) {
 	);
 	
 	$default_settings = array(
-		'remove_linebreaks' => false,
-		'content_css' => trailingslashit(get_bloginfo('template_directory')).'css/tinymce.css',
-		'extended_valid_elements' => implode(',', $extended_valid_elements),
-		'custom_elements' => implode(',', $custom_elements),
-		'valid_children' => implode(',', $valid_children),
-		//  Defines wrapper, need to set this up as its own button.
-		'formats' => '{
-				bold : {\'inline\' : \'bold\'},
-				italic : { \'inline\' : \'italic\'},
-				monospace : { \'inline\' : \'monospace\'},
-				underline : { \'inline\' : \'underline\'},
-				sec : { \'inline\' : \'sec\', \'wrapper\' : \'false\' },
-				title : { \'block\' : \'heading\' },
-				preformat : { \'inline\' : \'preformat\' },
-			}',
-		'theme_advanced_blockformats' => 'Paragraph=para,Title=heading,Section=sec',
-		'forced_root_block' => '',
-		'debug' => 'true',
-		'verify_html' => true,
-		'force_p_newlines' => false,
-		'force_br_newlines' => false,
-// 		@TODO Define doctype (IE Compat?)
-//		'doctype' => '<!DOCTYPE article SYSTEM \"http://dtd.nlm.nih.gov/ncbi/kipling/kipling-jp3.dtd\">',
-		'doctype' => '<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Transitional//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd\">',
+		'wpautop' => false,
 		'media_buttons' => false,
+		'tinymce' => array(
+			'remove_linebreaks' => false,
+			'content_css' => trailingslashit(get_bloginfo('template_directory')).'css/tinymce.css',
+			'extended_valid_elements' => implode(',', $extended_valid_elements),
+			'custom_elements' => implode(',', $custom_elements),
+			'valid_children' => implode(',', $valid_children),
+			//  Defines wrapper, need to set this up as its own button.
+			'formats' => '{
+					bold : {\'inline\' : \'bold\'},
+					italic : { \'inline\' : \'italic\'},
+					monospace : { \'inline\' : \'monospace\'},
+					underline : { \'inline\' : \'underline\'},
+					sec : { \'inline\' : \'sec\', \'wrapper\' : \'false\' },
+					title : { \'block\' : \'heading\' },
+					preformat : { \'inline\' : \'preformat\' },
+				}',
+			'theme_advanced_blockformats' => 'Paragraph=para,Title=heading,Section=sec',
+			'forced_root_block' => '',
+			'debug' => 'true',
+			'verify_html' => true,
+			'force_p_newlines' => false,
+			'force_br_newlines' => false,
+			'content_css' => trailingslashit(get_bloginfo('template_directory')).'css/tinymce.css',
+	// 		@TODO Define doctype (IE Compat?)
+	//		'doctype' => '<!DOCTYPE article SYSTEM \"http://dtd.nlm.nih.gov/ncbi/kipling/kipling-jp3.dtd\">',
+			'doctype' => '<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Transitional//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd\">',
+		),
 	);
+	// Remove WP specific tinyMCE edit image plugin.
 	add_filter('tiny_mce_before_init', 'anno_tiny_mce_before_init');
+	// Load the editor
 	wp_editor($content, $editor_id, array_merge($default_settings, $settings));
 	remove_filter('tiny_mce_before_init', 'anno_tiny_mce_before_init');
 }
-
 
 class Anno_tinyMCE {
 	function Anno_tinyMCE() {	
@@ -1897,7 +1902,6 @@ function anno_to_xml_list_item_p($xml) {
 }
 add_action('anno_to_xml', 'anno_to_xml_list_item_p');
 
-
 /**
  * Add p tags to disp-quote content
  * 
@@ -1941,19 +1945,26 @@ function anno_doi_lookup_enabled() {
 	return !empty($crossref_login);
 }
 
-//@todo single file, better enqueuing placement. 
-function anno_tinymce_css() {
-	$main = trailingslashit(get_bloginfo('template_directory'));
-	wp_enqueue_style('dialog', $main.'js/tinymce/plugins/annoequations/dialog.css');
-	wp_enqueue_style('eqeditor', $main.'js/tinymce/plugins/annoequations/equationeditor.css');
+//@todo single file
+function anno_tinymce_css($hook) {
+	global $post_type;
+	if ($post_type == 'article') {
+		$main = trailingslashit(get_bloginfo('template_directory'));
+		wp_enqueue_style('dialog', $main.'js/tinymce/plugins/annoequations/dialog.css');
+		wp_enqueue_style('eqeditor', $main.'js/tinymce/plugins/annoequations/equationeditor.css');
+	}
 }
-add_action('admin_print_styles', 'anno_tinymce_css');
+add_action('admin_print_styles-post.php', 'anno_tinymce_css');
+add_action('admin_print_styles-post-new.php', 'anno_tinymce_css');
 
-//@todo better enqueuing placement.
 function anno_tinymce_js() {
-	$main = trailingslashit(get_bloginfo('template_directory'));
-	wp_enqueue_script('closure-goog', $main.'js/tinymce/plugins/annoequations/equation-editor-compiled.js');
+	global $post_type;
+	if ($post_type == 'article') {
+		$main = trailingslashit(get_bloginfo('template_directory'));
+		wp_enqueue_script('closure-goog', $main.'js/tinymce/plugins/annoequations/equation-editor-compiled.js');
+	}
 }
-add_action('admin_print_scripts', 'anno_tinymce_js');
+add_action('admin_print_scripts-post.php', 'anno_tinymce_css');
+add_action('admin_print_scripts-post-new.php', 'anno_tinymce_css');
 
 ?>

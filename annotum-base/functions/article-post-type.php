@@ -115,23 +115,20 @@ function anno_subtitle_meta_box($post) {
 /**
  * Body meta box markup (stored in content)
  */
-function anno_body_meta_box($post) {	
-	if (empty($post->post_content)) {
-		$p_content = '';
-		if (isset($_SERVER['HTTP_USER_AGENT']) && (strpos($_SERVER['HTTP_USER_AGENT'], 'MSIE') !== false)) {
-			$p_content = '&nbsp;';
-		}
-		
+function anno_body_meta_box($post) {
+	global $hook_suffix;
+	if (empty($post->post_content) || $hook_suffix == 'post-new.php') {		
 		$content = '<sec>
 			<heading></heading>
-			<p>'.$p_content.'</p>
+			<para>&nbsp;</para>
 		</sec>';
 	}
 	else {
-		$content = $post->post_content;
+		// Note this is actually post_content_filtered in the db, see 'edit_post_content' filter
+		$content = anno_process_editor_content($post->post_content);
 	}
 	if (function_exists('wp_editor')) {
-		anno_load_editor($content, 'anno-body', array('textarea_name' => 'content'));
+		anno_load_editor(anno_process_editor_content($content), 'anno-body', array('textarea_name' => 'content'));
 	}
 	else {
 		echo '<p style="padding:0 10px;">'.sprintf(_x('The Annotum editor requires at least WordPress 3.3. It appears you are using WordPress %s. ', 'WordPress version error message', 'anno'), get_bloginfo('version')).'</p>';

@@ -72,14 +72,9 @@ $html = '';
 		$index_alpha = anno_index_alpha($index);
 	}
 	if (empty($content)) {
-		$p_content = '';
-		if (isset($_SERVER['HTTP_USER_AGENT']) && (strpos($_SERVER['HTTP_USER_AGENT'], 'MSIE') !== false)) {
-			$p_content = '&nbsp;';
-		}
-
 		$content = '<sec>
 			<heading></heading>
-			<p>'.$p_content.'</p>
+			<para>&nbsp;</para>
 		</sec>';
 	}
 	
