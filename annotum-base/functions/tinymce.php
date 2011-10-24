@@ -189,16 +189,34 @@ function anno_load_editor($content, $editor_id, $settings = array()) {
 	remove_filter('tiny_mce_before_init', 'anno_tiny_mce_before_init');
 }
 
+/**
+ * Remove filters on editor content 
+ * 
+ */
 function anno_remove_editor_content_filters($editor_markup) {
 	global $post_type;
 	if ($post_type == 'article') {
 		remove_filter('the_editor_content', 'wp_richedit_pre');
+		// Shouldnt be needed as richedit is enforced, but just in case
 		remove_filter('the_editor_content', 'wp_htmledit_pre');
 	}
 	return $editor_markup;
 }
 // This is the only place we can hook into to remove 'the_editor_content' filters
 add_filter('the_editor', 'anno_remove_editor_content_filters');
+
+/**
+ * Force rich editor for article post type. 
+ * This overrides user settings and preferences based on other post types
+ */ 
+function anno_force_richedit($editor_type) {
+	global $post_type;
+	if ($post_type == 'article') {
+		$editor_type = 'tinymce';
+	}
+	return $editor_type;
+}
+add_filter('wp_default_editor', 'anno_force_richedit');
 
 class Anno_tinyMCE {
 	function Anno_tinyMCE() {	
