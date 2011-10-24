@@ -189,6 +189,17 @@ function anno_load_editor($content, $editor_id, $settings = array()) {
 	remove_filter('tiny_mce_before_init', 'anno_tiny_mce_before_init');
 }
 
+function anno_editor_the($editor_markup) {
+	global $post_type;
+	if ($post_type == 'article') {
+		remove_filter('the_editor_content', 'wp_richedit_pre');
+		remove_filter('the_editor_content', 'wp_htmledit_pre');
+	}
+	return $editor_markup;
+}
+// This is the only place we can hook into to remove 'the_editor_content' filters
+add_filter('the_editor', 'anno_editor_the');
+
 class Anno_tinyMCE {
 	function Anno_tinyMCE() {	
 		add_filter("mce_external_plugins", array(&$this, 'plugins'));
