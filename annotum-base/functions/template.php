@@ -175,43 +175,107 @@ class Anno_Template {
 	public function get_contributors_list($post_id = null) {
 		$out = '';
 		$post_id = $this->utils->post_id_for_sure($post_id);
-		$authors = $this->get_author_ids($post_id);
-		
-		foreach ($authors as $id) {
-			$author = get_userdata($id);
-			$posts_url = get_author_posts_url($id);
-			// Name
-			$first_name = esc_attr($author->user_firstname);
-			$last_name = esc_attr($author->user_lastname);
 
-			if ($first_name && $last_name) {
-				$fn = '<a href="'.esc_url($posts_url).'" class="url name"><span class="given-name">'.esc_html($first_name).'</span> <span class="family-name">'.esc_html($last_name).'</span></a>';
+		$authors = get_post_meta($post_id, '_anno_author_snapshot', true);
+		$author_is_id = false;
+		if (empty($authors) || !is_array($authors)) {
+			$authors = $this->get_author_ids($post_id);
+			$author_is_id = true;
+		}
+		
+		foreach ($authors as $author) {
+			$author_data = array(
+				'first_name' => '',
+				'last_name' => '',
+				'prefix' => '',
+				'suffix' => '',
+				'degrees' => '',
+				'affiliation' => '',
+			 	'bio' => '',
+				// Stored in snapshot but not used here			
+				// 'email' => '',
+			);
+			
+			if ($author_is_id) {
+				$author_id = $author;
+				$author_wp_data = get_userdata($author_id);
+								
+				$author_data['first_name'] = $author_wp_data->user_firstname;
+				$author_data['last_name'] = $author_wp_data->user_lastname;
+				$author_data['link'] = $author_wp_data->user_url;
+				$author_data['display_name'] = $author_wp_data->display_name;
+				$author_data['link'] = $author_wp_data->user_url;
+				$author_data['bio'] = $author_wp_data->user_description;
+				// @TODO probably worth while to store all this data in a single meta entry
+				$author_data['prefix'] = get_user_meta($author_id, '_anno_prefix', true);
+				$author_data['suffix'] = get_user_meta($author_id, '_anno_suffix', true);
+				$author_data['degrees'] = get_user_meta($author_id, '_anno_degrees', true);
+				$author_data['affiliation'] = get_user_meta($author_id, '_anno_affiliation', true);
+				// Lookup user meta here
 			}
 			else {
-				$fn = '<a href="'.esc_url($posts_url).'" class="fn url">' . esc_html($author->display_name) . '</a>';
+				// @TODO Need a check on deleted/non existant users, ie: imported users
+				$author_id = $author['id'];
+				$author_wp_data = get_userdata($author_id);
+				
+				$author_data['first_name'] = $author['given_names'];
+				$author_data['last_name'] = $author['surname'];
+				$author_data['prefix'] = $author['prefix'];
+				$author_data['suffix'] = $author['suffix'];
+				$author_data['degrees'] = $author['degrees'];
+				$author_data['affiliation'] = $author['affiliation'];
+				$author_data['bio'] = $author['bio'];
+				$author_data['link'] = $author['link'];
+				// $author_data['email'] = $author['email'];
+				// We may have an imported user here, in which case, they don't necessarily have a WP user ID and author_wp_data == false
+				$author_data['display_name'] = empty($author_wp_data) ? '' : $author_wp_data->display_name;
+			}
+			
+			// We use a user's website if there isn't a user with associated id (imported user snapshots)
+			$posts_url = get_author_posts_url($author_id);
+			$posts_url = empty($posts_url) ? $author_data['link'] : $posts_url;
+
+			$prefix_markup = empty($author_data['prefix']) ? '' : '<span class="name-prefix">'.esc_html($author_data['prefix']).'</span> ';
+			$suffix_markup = empty($author_data['suffix']) ? '' : ' <span class="name-suffix">'.esc_html($author_data['suffix']).'</span>';
+			$degree_markup = empty($author_data['degrees']) ? '' : ' <span class="name-degress">'.esc_html($author_data['degrees']).'</span>';			
+			
+			if ($author_data['first_name'] && $author_data['last_name']) {
+				$fn = empty($posts_url) ? '<span class="name">' : '<a href="'.esc_url($posts_url).'" class="url name">';				
+
+				$fn .= $prefix_markup.'<span class="given-name">'.esc_html($author_data['first_name']).'</span> <span class="family-name">'.esc_html($author_data['last_name']).'</span>'.$suffix_markup.$degree_markup;
+
+				$fn .= empty($posts_url) ? '</span>' : '</a>';
+			}
+			else {
+				$fn = $posts_url ? '<a href="'.esc_url($posts_url).'" class="url fn">' : '<span class="fn">';
+
+				$fn .= $prefix_markup.esc_html($author_data['display_name']).$suffix_markup.$degree_markup;
+
+				$fn .= $posts_url ? '</a>' : '</span>';
 			}
 
 			// Website
-			$trimmed_url = substr($author->user_url, 0, 20);
-			$trimmed_url = $trimmed_url != $author->user_url ? esc_html($trimmed_url) . '&hellip;' : esc_html($author->user_url);
+			$trimmed_url = substr($author_data['link'], 0, 20);
+			$trimmed_url = $trimmed_url != $author_data['link'] ? esc_html($trimmed_url) . '&hellip;' : esc_html($author_data['link']);
 
-			$website = $author->user_url ? '<span class="group">' . __('Website:', 'anno') . ' <a class="url" href="' . esc_url($author->user_url) . '">' . $trimmed_url . '</a></span>' : '';
+			$website = $author_data['link'] ? '<span class="group">'.__('Website:', 'anno').' <a class="url" href="'.esc_url($author_data['link']).'">'.$trimmed_url.'</a></span>' : '';
 
 			// Note
-			$note = $author->user_description ? '<span class="group note">' . esc_attr($author->user_description) . '</span>' : '';
-
-			// @TODO Honoraries (PHD, etc)
-			// @TODO organization (MIT, etc)
+			$note = $author_data['bio'] ? '<span class="group note">' . esc_html($author_data['bio']) . '</span>' : '';
+			
+			// Affiliation
+			$affiliation = $author_data['affiliation'] ? '<span class="group affiliation">'.__('Affiliation:', 'anno').' '. esc_html($author_data['affiliation']).'</span>' : '';
 
 			$card = '
 	<li>
 		<div class="author vcard">
 			'.$fn;
 
-		if ($website || $note) {
+		if ($website || $note || $affiliation) {
 			$card .= '
 			<span class="extra">
 				<span class="extra-in">
+					'.$affiliation.'
 					'.$website.'
 					'.$note.'
 				</span>
