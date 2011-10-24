@@ -115,7 +115,10 @@ add_action('wp_enqueue_scripts', 'anno_assets');
  * @return void
  */
 function anno_edit_post_assets() {
-	wp_enqueue_script('anno-article-admin', get_template_directory_uri().'/js/article-admin.js');
+	global $post_type;
+	if ($post_type == 'article') {
+		wp_enqueue_script('anno-article-admin', get_template_directory_uri().'/js/article-admin.js');
+	}
 }
 add_action('load-post.php', 'anno_edit_post_assets');
 add_action('load-post-new.php', 'anno_edit_post_assets');
