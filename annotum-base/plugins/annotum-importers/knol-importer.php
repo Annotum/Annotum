@@ -490,11 +490,7 @@ foreach ($this->authors as $author_key => $author_data) {
 				_e( 'as a new user:', 'anno' );
 				$value = esc_attr( sanitize_user( $author['author_login'], true ) );
 			}
-			
-		//	$new_user_login = !empty($_POST['user_new'][$n]['user_login']) ? $_POST['user_new'][$n]['user_login'] : '';
 
-		//	echo '<br /><label for="'.esc_attr($n.'-login-new').'">'._x('Login: ', 'input label for importer', 'anno').'</label> <input id="'.esc_attr($n.'-login-new').'" type="text" name="user_new['.$n.'][user_login]" value="'.esc_attr($new_user_login).'" /><br />';
-			
 			$new_user_email = !empty($_POST['user_new'][$n]['user_email']) ? $_POST['user_new'][$n]['user_email'] : '';
 			
 			echo ' <label for="'.esc_attr($n.'-email-new').'">'._x('Email: ', 'input label for importer', 'anno').'</label> <input id="'.esc_attr($n.'-email-new').'" type="text" name="user_new['.$n.'][user_email]" value="'.esc_attr($new_user_email).'" /><br />';
@@ -593,11 +589,12 @@ foreach ($this->authors as $author_key => $author_data) {
 			else if ( 
 				$create_users && 
 				(empty($_POST['lookup_email'][$i]) && empty($_POST['lookup_username'][$i])) && 
-				(!empty($_POST['user_new'][$i]['user_email']) || !empty($_POST['user_new'][$i]['user_login']))
+				(!empty($_POST['user_new'][$i]['user_email']))
 				) {
 
 				if (!empty($_POST['user_new'][$i]['user_email'])) {
-					$user_new_email = $_POST['user_new'][$i]['user_email'];
+					// Username is email.
+					$user_new_email = $user_new_login = $_POST['user_new'][$i]['user_email'];
 				}
 				// From the else if above, conclude that user_login is not empty
 				else {
@@ -605,32 +602,14 @@ foreach ($this->authors as $author_key => $author_data) {
 					$user_new_email = null;
 				}
 
-				// Allows for checking agains username, now we only require an email and set this as the username
-				// if (!empty($_POST['user_new'][$i]['user_login'])) {
-				// 					$user_new_login = $_POST['user_new'][$i]['user_login'];
-				// 				}
-				// 				// From the else if above, conclude that user_email is not empty
-				// 				else {
-				// 					$this->author_errors[$i][] = _x('Username cannot be empty when creating a new user.', 'importer error message', 'anno');
-				// 					$user_new_login = null;
-				// 				}
-
 				// email_exists($user_email) username_exists( $user_login )
-				if (email_exists($user_new_email)) {
+				if (email_exists($user_new_email) || username_exists($user_new_login)) {
 					$this->author_errors[$i][] = _x('This email address is already registered.', 'importer error message', 'anno');
 				}
-
-				if (username_exists($user_new_login)) {
-					$this->author_errors[$i][] = _x('This username is already registered.', 'importer error message', 'anno');
-				}
-
+				
 				if (!$this->have_author_errors($i)) {
-					if (!anno_is_valid_email($user_new_email)) {
+					if (!anno_is_valid_email($user_new_email) || !anno_is_valid_username($user_new_login)) {
 						$this->author_errors[$i][] = _x('Please enter a valid email when creating a new user.', 'importer error message', 'anno');
-					}
-
-					if (!anno_is_valid_username($user_new_login)) {
-						$this->author_errors[$i][] = _x('Please enter a valid username when creating a new user.', 'importer error message', 'anno');
 					}
 
 					if (!$this->have_author_errors($i)) {
