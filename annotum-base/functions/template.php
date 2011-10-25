@@ -214,7 +214,6 @@ class Anno_Template {
 				// Lookup user meta here
 			}
 			else {
-				// @TODO Need a check on deleted/non existant users, ie: imported users
 				$author_id = $author['id'];
 				$author_wp_data = get_userdata($author_id);
 				
@@ -233,7 +232,7 @@ class Anno_Template {
 			
 			// We use a user's website if there isn't a user with associated id (imported user snapshots)
 			$posts_url = get_author_posts_url($author_id);
-			$posts_url = empty($posts_url) ? $author_data['link'] : $posts_url;
+			$posts_url = $posts_url == home_url('/author/') ? $author_data['link'] : $posts_url;
 
 			$prefix_markup = empty($author_data['prefix']) ? '' : '<span class="name-prefix">'.esc_html($author_data['prefix']).'</span> ';
 			$suffix_markup = empty($author_data['suffix']) ? '' : ' <span class="name-suffix">'.esc_html($author_data['suffix']).'</span>';

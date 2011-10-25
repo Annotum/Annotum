@@ -491,9 +491,9 @@ foreach ($this->authors as $author_key => $author_data) {
 				$value = esc_attr( sanitize_user( $author['author_login'], true ) );
 			}
 			
-			$new_user_login = !empty($_POST['user_new'][$n]['user_login']) ? $_POST['user_new'][$n]['user_login'] : '';
+		//	$new_user_login = !empty($_POST['user_new'][$n]['user_login']) ? $_POST['user_new'][$n]['user_login'] : '';
 
-			echo '<br /><label for="'.esc_attr($n.'-login-new').'">'._x('Login: ', 'input label for importer', 'anno').'</label> <input id="'.esc_attr($n.'-login-new').'" type="text" name="user_new['.$n.'][user_login]" value="'.esc_attr($new_user_login).'" /><br />';
+		//	echo '<br /><label for="'.esc_attr($n.'-login-new').'">'._x('Login: ', 'input label for importer', 'anno').'</label> <input id="'.esc_attr($n.'-login-new').'" type="text" name="user_new['.$n.'][user_login]" value="'.esc_attr($new_user_login).'" /><br />';
 			
 			$new_user_email = !empty($_POST['user_new'][$n]['user_email']) ? $_POST['user_new'][$n]['user_email'] : '';
 			
@@ -605,14 +605,15 @@ foreach ($this->authors as $author_key => $author_data) {
 					$user_new_email = null;
 				}
 
-				if (!empty($_POST['user_new'][$i]['user_login'])) {
-					$user_new_login = $_POST['user_new'][$i]['user_login'];
-				}
-				// From the else if above, conclude that user_email is not empty
-				else {
-					$this->author_errors[$i][] = _x('Username cannot be empty when creating a new user.', 'importer error message', 'anno');
-					$user_new_login = null;
-				}
+				// Allows for checking agains username, now we only require an email and set this as the username
+				// if (!empty($_POST['user_new'][$i]['user_login'])) {
+				// 					$user_new_login = $_POST['user_new'][$i]['user_login'];
+				// 				}
+				// 				// From the else if above, conclude that user_email is not empty
+				// 				else {
+				// 					$this->author_errors[$i][] = _x('Username cannot be empty when creating a new user.', 'importer error message', 'anno');
+				// 					$user_new_login = null;
+				// 				}
 
 				// email_exists($user_email) username_exists( $user_login )
 				if (email_exists($user_new_email)) {
@@ -835,6 +836,11 @@ foreach ($this->authors as $author_key => $author_data) {
 
 			$post_type_object = get_post_type_object( $post['post_type'] );
 
+			// Just to be safe, knols come with post_date_gmt.
+			if (empty($post['post_date'])) {
+				$post['post_date'] = $post['post_date_gmt'];
+			}
+
 			$post_exists = post_exists( $post['post_title'], '', $post['post_date'], array('article') );
 			if ( $post_exists ) {
 				printf( __('%s &#8220;%s&#8221; already exists.', 'anno'), $post_type_object->labels->singular_name, esc_html($post['post_title']) );
@@ -988,6 +994,14 @@ foreach ($this->authors as $author_key => $author_data) {
 
 				// add/update post meta
 				$author_snapshot = array();
+				// Save the primary author in the author snapshot first
+				$snapshot = $snapshot_template;
+				$snapshot['id'] = $this->authors[$post['post_author']]['author_id'];
+				$snapshot['email'] = $this->authors[$post['post_author']]['author_email'];
+				$snapshot['surname'] = $this->authors[$post['post_author']]['author_first_name'];
+				$snapshot['given_names'] = $this->authors[$post['post_author']]['author_last_name'];
+				$author_snapshot[$post['post_author']] = $snapshot;
+				
 				if ( isset( $post['postmeta'] ) && is_array($post['postmeta']) ) {
 					foreach ( $post['postmeta'] as $meta ) {
 						$key = apply_filters( 'import_post_meta_key', $meta['key'] );
@@ -1004,13 +1018,13 @@ foreach ($this->authors as $author_key => $author_data) {
 							// We don't need to do this for _anno_author_, those will only exist in DTD imports, which will be in draft
 							// Snapshots get taken on publish status transition
 							$snapshot = $snapshot_template;
-							if (isset($this->authors[$knol_author_id])) {						
+							if (isset($this->authors[$knol_author_id]) && !isset($author_snapshot[$this->authors[$knol_author_id]['author_id']])) {						
 								$snapshot = $snapshot_template;
 								$snapshot['id'] = $this->authors[$knol_author_id]['author_id'];
 								$snapshot['email'] = $this->authors[$knol_author_id]['author_email'];
 								$snapshot['surname'] = $this->authors[$knol_author_id]['author_first_name'];
 								$snapshot['given_names'] = $this->authors[$knol_author_id]['author_last_name'];
-								$author_snapshot[] = $snapshot;
+								$author_snapshot[$snapshot['id']] = $snapshot;
 							}
 						}
 						
@@ -1062,7 +1076,6 @@ foreach ($this->authors as $author_key => $author_data) {
 								$this->featured_images[$post_id] = $value;
 						}
 					}
-					
 					// Save our snapshot
 					if (!empty($author_snapshot)) {
 						update_post_meta($post_id, '_anno_author_snapshot', $author_snapshot);

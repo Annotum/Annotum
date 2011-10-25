@@ -108,6 +108,7 @@ class Knol_WXR_Parser_SimpleXML {
 
 		foreach ($xml->xpath('/rss/channel') as $channel) {
 			// grab authors
+
 			foreach ( $channel->xpath('wp:author') as $author_arr ) {
 				$a = $author_arr->children( $namespaces['wp'] );
 				// Knol WXR has Creator stored by 'Knol ID' (author_id) not author_login. author_login is empty in the WXR.
@@ -239,8 +240,9 @@ class Knol_WXR_Parser_SimpleXML {
 				
 				
 				$attachment_template = array(
-					'upload_date' => $post['post_date'],
-					'post_date' => $post['post_date'],
+					'upload_date' => $post['post_date_gmt'],
+					'post_date' => $post['post_date_gmt'],
+					'post_date_gmt' => $post['post_date_gmt'],
 					'post_author' => $post['post_author'],
 					'post_type' => 'attachment',
 					'post_parent' => $post['post_id'],
@@ -252,7 +254,6 @@ class Knol_WXR_Parser_SimpleXML {
 					'attachment_url' => '',
 					'status' => 'inherit',
 					'post_title' => '',
-					'post_date_gmt' => '',
 					'ping_status' => '',
 					'menu_order' => '',
 					'post_password' => '',
@@ -554,6 +555,7 @@ class Knol_WXR_Parser_XML {
 			$attachment = array(
 				'upload_date' => $date_now,
 				'post_date' => $date_now,
+				'post_date_gmt' => $date_now,
 				'post_author' => '',
 				'post_type' => 'attachment',
 				'post_parent' => 0,
@@ -565,7 +567,6 @@ class Knol_WXR_Parser_XML {
 				'attachment_url' => '',
 				'status' => 'inherit',
 				'post_title' => '',
-				'post_date_gmt' => '',
 				'ping_status' => '',
 				'menu_order' => '',
 				'post_password' => '',
@@ -582,8 +583,8 @@ class Knol_WXR_Parser_XML {
 				$attachment['post_parent'] = $this->data['post_id'];
 			}
 			
-			if (!empty($this->data['post_date'])) {
-				$attachment['post_date'] = $attachment['upload_date'] = $this->data['post_date'];
+			if (!empty($this->data['post_date_gmt'])) {
+				$attachment['post_date'] = $attachment['post_date_gmt'] = $attachment['upload_date'] = $this->data['post_date_gmt'];
 			}
 			
 			if (!empty($this->data['post_author'])) {
@@ -878,8 +879,9 @@ class Knol_WXR_Parser_Regex {
 		
 		
 		$attachment_template = array(
-			'upload_date' => (string) $post_date,
-			'post_date' => (string) $post_date,
+			'upload_date' => (string) $post_date_gmt,
+			'post_date' => (string) $post_date_gmt,
+			'post_date_gmt' => (string) $post_date_gmt,
 			'post_author' => $post_author,
 			'post_type' => 'attachment',
 			'post_parent' => $post_id,
@@ -891,7 +893,6 @@ class Knol_WXR_Parser_Regex {
 			'attachment_url' => '',
 			'status' => 'inherit',
 			'post_title' => '',
-			'post_date_gmt' => '',
 			'ping_status' => '',
 			'menu_order' => '',
 			'post_password' => '',
@@ -1067,9 +1068,8 @@ class Kipling_DTD_Parser {
 
 			$pub_date = pq('pub-date', $article_meta);
 			$pub_date = $this->parse_date($pub_date);
-				// @TODO Determing where to store date pulled from 
 				$post['post_date'] = (string) $pub_date;
-				$post['post_date_gmt'] = '';
+				$post['post_date_gmt'] = (string) $pub_date;
 				
 			$post['status'] = 'draft';
 			// Reflect in post_state meta as well.
@@ -1232,6 +1232,7 @@ class Kipling_DTD_Parser {
 			$attachment_template = array(
 				'upload_date' => (string) $pub_date,
 				'post_date' => (string) $pub_date,
+				'post_date_gmt' => (string) $pub_date,
 				'post_author' => $first_author_id,
 				'post_type' => 'attachment',
 				'post_parent' => $post_id,
@@ -1243,7 +1244,6 @@ class Kipling_DTD_Parser {
 				'attachment_url' => '',
 				'status' => 'inherit',
 				'post_title' => '',
-				'post_date_gmt' => '',
 				'ping_status' => '',
 				'menu_order' => '',
 				'post_password' => '',
