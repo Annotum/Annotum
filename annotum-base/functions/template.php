@@ -215,7 +215,7 @@ class Anno_Template {
 			}
 			else {
 				$author_id = $author['id'];
-				if ($author_id == (int) $author_id) {
+				if ($author_id == (string) intval($author_id)) {
 					$author_wp_data = get_userdata($author_id);
 				}
 				else {
@@ -237,14 +237,13 @@ class Anno_Template {
 			
 			// We use a user's website if there isn't a user with associated id (imported user snapshots)
 			// We also check to see if this is a string ID or int val id, knol_id vs wp_id
-			if ($author_id == (int) $author_id) {
+			if ($author_id == (string) intval($author_id)) {
 				$posts_url = get_author_posts_url($author_id);
 				$posts_url = $posts_url == home_url('/author/') ? $author_data['link'] : $posts_url;
 			}
 			else {
 				$posts_url = '';
 			}
-
 			$prefix_markup = empty($author_data['prefix']) ? '' : '<span class="name-prefix">'.esc_html($author_data['prefix']).'</span> ';
 			$suffix_markup = empty($author_data['suffix']) ? '' : ' <span class="name-suffix">'.esc_html($author_data['suffix']).'</span>';
 			$degree_markup = empty($author_data['degrees']) ? '' : ' <span class="name-degress">'.esc_html($author_data['degrees']).'</span>';			
