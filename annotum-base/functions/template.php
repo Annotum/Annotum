@@ -219,7 +219,7 @@ class Anno_Template {
 					$author_wp_data = get_userdata($author_id);
 				}
 				else {
-					$author_wp_data == false;
+					$author_wp_data = false;
 				}
 				
 				$author_data['first_name'] = $author['given_names'];
