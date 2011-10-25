@@ -270,6 +270,9 @@ border:0; margin:0; padding:0; white-space:nowrap; text-decoration:none; font-we
 .wp_themeSkin span.mce_annotips,
 .wp_themeSkin span.mce_annomonospace,
 .wp_themeSkin span.mce_annopreformat,
+.wp_themeSkin span.mce_annopastetext,
+.wp_themeSkin span.mce_annopasteword,
+.wp_themeSkin span.mce_annoequations,
 
 .wp_themeSkin .mce_forecolorpicker,
 .wp_themeSkin .mceSplitButton .mce_spellchecker span.mce_spellchecker,
@@ -389,6 +392,18 @@ border:0; margin:0; padding:0; white-space:nowrap; text-decoration:none; font-we
 .wp_themeSkin span.mce_annopreformat {background-position:-620px -20px}
 .wp_themeSkin .mceButtonEnabled:hover span.mce_annopreformat,
 .wp_themeSkin .mceButtonActive span.mce_annopreformat {background-position:-620px 0}
+
+.wp_themeSkin span.mce_annopastetext {background-position:-340px -20px}
+.wp_themeSkin .mceButtonEnabled:hover span.mce_annopastetext,
+.wp_themeSkin .mceButtonActive span.mce_annopastetext {background-position:-340px 0}
+
+.wp_themeSkin span.mce_annopasteword {background-position:-360px -20px}
+.wp_themeSkin .mceButtonEnabled:hover span.mce_annopasteword,
+.wp_themeSkin .mceButtonActive span.mce_annopasteword {background-position:-360px 0}
+
+.wp_themeSkin span.mce_annoequations {background-position:-640px -20px}
+.wp_themeSkin .mceButtonEnabled:hover span.mce_annoequations,
+.wp_themeSkin .mceButtonActive span.mce_annoequations {background-position:-640px 0}
 
 .wp_themeSkin span.mce_charmap {background-position:-420px -20px}
 .wp_themeSkin .mceButtonEnabled:hover span.mce_charmap,
