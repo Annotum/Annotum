@@ -231,7 +231,10 @@ add_action('post_updated', 'annowf_transistion_state', 10, 3);
 function anno_put_post_revision($rev_id) {
 	$current_user = wp_get_current_user();
 	$revision = get_post($rev_id);
-	$post = get_post($rev_id);
+	
+	if (!empty($revision)) {
+		$post = get_post($revision->post_parent);
+	}
 
 	if (!empty($post) && $post->post_type == 'article') {
 		annowf_save_audit_item($post->ID, $current_user->ID, 1, array($revision->ID));
