@@ -88,7 +88,7 @@ function annowf_js() {
 	
 	// Remove Auto-Save feature if a user cannot edit a post. *Note this prevents previewing inputted markup
 	if (!anno_user_can('edit_post')) {
-		wp_deregister_script('autosave');
+		wp_dequeue_script('autosave');
 	}
 }
 add_action('admin_print_scripts-post-new.php', 'annowf_js');
