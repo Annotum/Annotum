@@ -101,7 +101,7 @@ function anno_profile_request_handler() {
 				break;
 			default:
 				break;
-		}		
+		}
 	}
 }
 add_action('init', 'anno_profile_request_handler', 0);
@@ -119,23 +119,28 @@ function anno_users_snapshot($post_id, $post) {
 			$author_meta = array();
 		}
 		
-		foreach ($authors as $author) {
-			if (array_key_exists($author, $author_meta)) {
+		foreach ($authors as $author_id) {
+			if (array_key_exists($author_id, $author_meta)) {
 				continue;
 			}
-			$author = get_userdata($author);
-			$author_meta[$author->ID] = array(
-				'id' => $author->ID,
-				'surname' => $author->last_name,
-				'given_names' => $author->first_name,
-				'prefix' => get_user_meta($author->ID, '_anno_prefix', true),
-				'suffix' => get_user_meta($author->ID, '_anno_suffix', true),
-				'degrees' => get_user_meta($author->ID, '_anno_degrees', true),
-				'affiliation' => get_user_meta($author->ID, '_anno_affiliation', true),
-				'bio' => $author->user_description,
-				'email' => $author->user_email,
-				'link' => $author->user_url,
-			);
+			$author = get_userdata($author_id);
+			if ($author) {
+				$author_meta[$author->ID] = array(
+					'id' => $author->ID,
+					'surname' => $author->last_name,
+					'given_names' => $author->first_name,
+					'prefix' => get_user_meta($author->ID, '_anno_prefix', true),
+					'suffix' => get_user_meta($author->ID, '_anno_suffix', true),
+					'degrees' => get_user_meta($author->ID, '_anno_degrees', true),
+					'affiliation' => get_user_meta($author->ID, '_anno_affiliation', true),
+					'bio' => $author->user_description,
+					'email' => $author->user_email,
+					'link' => $author->user_url,
+				);
+			}
+			else {
+				delete_post_meta($post->ID, '_anno_author_'.$author_id);
+			}
 		}
 		update_post_meta($post_id, '_anno_author_snapshot', $author_meta);
 	}

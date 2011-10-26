@@ -731,7 +731,7 @@ function anno_user_email($user) {
  * @return int|WP_Error ID of new user, or, WP_Error 
  */ 
 function anno_invite_contributor($user_login, $user_email, $extra = array()) {
-	
+	//@TODO, needs to be author as well here, not just the default WP 
 	if (!current_user_can('create_users')) {
 		wp_die(__('Cheatin&#8217; uh?'));
 	}
@@ -778,7 +778,6 @@ Password: %s
 
 	return $user_id;
 }
-
 
 /**
  * Output general stats in dashboard widget

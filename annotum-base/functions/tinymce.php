@@ -865,6 +865,9 @@ function anno_process_editor_content($content) {
 	// Remove p tags from disp-quotes
 	$content = anno_remove_p_from_disp_quote_items($content);
 	
+	// Preformatted text needs to be double encoded
+	$content = anno_preformat_double_encode($content);
+	
 	// We need a clearfix for floated images.
 	$figs = pq('fig');
 	foreach ($figs as $fig) {
@@ -1708,6 +1711,17 @@ function anno_xml_to_html_replace_dispquotes($orig_xml) {
 }
 add_action('anno_xml_to_html', 'anno_xml_to_html_replace_dispquotes');
 
+/**
+ * Swap preformat tags with pre tag.
+ * 
+ * @param phpQueryObject $xml (unused, required by add_action)
+ * @return void
+ */
+function anno_xml_to_html_preformat_tag($xml) {
+	anno_convert_tag('preformat', 'pre');
+}
+add_action('anno_xml_to_html', 'anno_xml_to_html_preformat_tag');
+
 function anno_convert_permissions_to_html($permissions_pq_obj) {
 	$permissions = pq($permissions_pq_obj);
 	$tpl = new Anno_Template_Utils();
@@ -1872,6 +1886,15 @@ add_action('anno_to_xml', 'anno_to_xml_heading_tag');
  */
 function anno_replace_title_tag($xml) {
 	anno_convert_tag('title', 'heading');
+}
+
+function anno_preformat_double_encode($xml) {
+	$preformat_tags = pq('preformat');
+	foreach ($preformat_tags as $tag) {
+		$tag = pq($tag);
+		$tag_html = esc_textarea($tag->html());
+		$tag->html($tag_html);
+	}
 }
 
 /**
