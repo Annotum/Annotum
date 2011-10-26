@@ -121,7 +121,9 @@ if (!class_exists('cf_revisions')) {
 			$html = '<ul style="white-space: normal; margin-left: 1.5em; list-style: disc outside;">';
 			foreach ($this->postmeta_keys as $postmeta_type) {
 				$postmeta_key = $postmeta_type['postmeta_key'];
-				$postmeta = maybe_unserialize(get_metadata('post', intval($_GET['revision']), $postmeta_key, true));
+				if (isset($_GET['revision'])) {
+					$postmeta = maybe_unserialize(get_metadata('post', intval($_GET['revision']), $postmeta_key, true));
+				}
 
 				if (!empty($postmeta)) {
 					if (!empty($postmeta_type['display_func']) && function_exists($postmeta_type['display_func'])) {

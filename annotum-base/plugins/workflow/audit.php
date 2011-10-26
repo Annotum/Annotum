@@ -154,13 +154,11 @@ function annowf_registered_post_meta_items() {
 			'_anno_doi',
 			'_anno_author_snapshot', // @TODO determine if this really needs "versioned"
 			'_anno_references',
-			'_anno_abstract',
 		);
 		
 		foreach ($workflow_meta_keys as $meta_key) {
 			cfr_register_metadata($meta_key, 'annowf_meta_revision_display');
 		}
-
 	}
 }
 add_action('init', 'annowf_registered_post_meta_items');
@@ -175,7 +173,7 @@ function annowf_meta_revision_display($meta_value) {
 		foreach ($meta_value as $key => $value) {
 			// The only occurence of serilized meta here is appendices
 			$key = _x('Appendix', 'revision heading', 'anno').anno_index_alpha($key);
-//TODO remove padding from h4 to prevent jerkiness of JS
+//@TODO remove padding from h4 to prevent jerkiness of JS
 			$html = '<h4>'.$key.'</h4><div>'.htmlspecialchars($value).'</div>
 ';
 		}
