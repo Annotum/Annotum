@@ -145,12 +145,10 @@ jQuery(document).ready( function($) {
 		var div_selector = 'div#anno-invite-' + type;
 		var status_div = $('#' + type +  '-add-status');
 		
-		var user_login_div = $(div_selector + ' input[name="invite_user"]');
-		var user_login = user_login_div.val();
 		var user_email_div = $(div_selector + ' input[name="invite_email"]');
 		var user_email = user_email_div.val();
 		
-		var post_data = {user_login : user_login, user_email : user_email, action : 'anno-invite-user'};
+		var post_data = {user_email : user_email, action : 'anno-invite-user'};
 		post_data['_ajax_nonce-create-user'] = $('#_ajax_nonce-create-user').val();
 
 		status_div.html('').hide();
@@ -163,14 +161,15 @@ jQuery(document).ready( function($) {
 				if (fn in anno_manage_user) {
 				    anno_manage_user[fn](d.user);
 				}
+
+				// Reset the fields
+				user_email_div.val('');
+
 				// Hide invite interface, show search interface
 				$('#anno-invite-' + type).hide();
 				$('#anno-user-input-' + type).show();
 				
 				status_div.html(d.message).removeClass('anno-error').addClass('anno-success').show();
-				// Reset the fields
-				user_login_div.val('');
-				user_email_div.val('');
 			}
 			else {
 				status_div.html(d.message).removeClass('anno-success').addClass('anno-error').show();

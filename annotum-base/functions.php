@@ -511,7 +511,7 @@ function anno_is_valid_email($email) {
  * @return bool true if it is a valid username, false otherwise
  */ 
 function anno_is_valid_username($username) {
-	return strcasecmp($username, sanitize_user($username, true) == 0);
+	return (strcasecmp($username, sanitize_user($username, true)) == 0);
 }
 
 /**
@@ -731,7 +731,6 @@ function anno_user_email($user) {
  * @return int|WP_Error ID of new user, or, WP_Error 
  */ 
 function anno_invite_contributor($user_login, $user_email, $extra = array()) {
-
 	
 	if (!current_user_can('create_users')) {
 		wp_die(__('Cheatin&#8217; uh?'));
@@ -742,6 +741,11 @@ function anno_invite_contributor($user_login, $user_email, $extra = array()) {
 	// wp_insert_user handles all other errors
 	if (!anno_is_valid_email($user_email)) {
 		return new WP_Error('invalid_email', _x('Invalid email address', 'error for creating new user', 'anno'));
+	}
+	
+	// We don't want wp_insert_user to just sanitize the username stripping characters, the user should be alerted if the user input is wrong
+	if (!anno_is_valid_username($user_login)) {
+		return new WP_Error('invalid_username', _x('Invalid username', 'error for creating new user', 'anno'));
 	}
 		
 	// Create User

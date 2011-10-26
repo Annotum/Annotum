@@ -110,8 +110,14 @@ function annowf_audit_log($post) {
 				case 9:
 					if (!empty($item['data']) && is_array($item['data'])) {
 						$user = get_userdata(absint($item['data'][0]));
-						$edit_url = anno_edit_user_url($user->ID);
-						$user_markup = '<a href="'.$edit_url.'">'.$user->user_login.'</a>';
+						if (!empty($user)) {
+							$edit_url = anno_edit_user_url($user->ID);
+							$user_markup = '<a href="'.$edit_url.'">'.$user->user_login.'</a>';
+
+						}
+						else {
+							$user_markup = __('<strong>Deleted User</strong>', 'anno');
+						}
 						$event_html .= sprintf($event_array[$event], $user_markup);
 					}
 					break;

@@ -243,12 +243,7 @@ function annowf_create_user_meta_markup($type) {
 ?>
 <div id="<?php echo esc_attr('anno-invite-'.$type); ?>" class="anno-user-add-wrap hidden">
 		<label>
-			<span><?php _ex('Username', 'input label', 'anno'); ?></span>
-			<input type="text" name="invite_user" />
-		</label>
-
-		<label>
-			<span><?php _ex('Email', 'input label', 'anno'); ?></span>
+			<span><?php _ex('Email / Username', 'input label', 'anno'); ?></span>
 			<input type="text" name="invite_email"/>
 		</label>
 		<p>
@@ -304,8 +299,13 @@ function annowf_reviewers_meta_box($post) {
 		$user = get_userdata($user_id);
 		if ($user) {
 				annowf_user_li_markup($user, 'reviewer');
-			}
 		}
+		// This user was deleted or no longer exists, remove from post meta
+		else if ($user_id !== false) {
+			delete_post_meta($post->ID, '_anno_reviewer_'.$user_id);
+		}
+	}
+		
 ?>
 		</ul>
 	</div><!-- reviewer-meta-box -->
@@ -329,8 +329,13 @@ function annowf_co_authors_meta_box($post) {
 		$user = get_userdata($user_id);
 		if ($user) {
 				annowf_user_li_markup($user, 'co_author');
-			}
 		}
+		// This user was deleted or no longer exists, remove from post meta
+		else if ($user_id !== false) {
+			delete_post_meta($post->ID, '_anno_author_'.$user_id);
+		}
+	}
+
 ?>
 		</ul>
 	</div><!-- co_author-meta-box -->
@@ -370,7 +375,10 @@ function annowf_user_li_markup($user, $type = null) {
 <?php
 }
 
-
+/**
+ * Invite a user as a contributor via POST vars.
+ * AJAX handler for adding users.
+ */ 
 function annowf_invite_user() {
 	check_ajax_referer('anno_create_user', '_ajax_nonce-create-user');
 	
@@ -381,7 +389,8 @@ function annowf_invite_user() {
 		'user' => '',
 	);
 	
-	$user_id = anno_invite_contributor($_POST['user_login'], $_POST['user_email']);
+	// Only allow entering of email addresses, so a user can't create 'bobisdumb' as the username
+	$user_id = anno_invite_contributor($_POST['user_email'], $_POST['user_email']);
 
 	// Error creating user
 	if (is_wp_error($user_id)) {
@@ -903,43 +912,6 @@ function annowf_get_sample_permalink_html($return, $id, $new_title, $new_slug) {
 		}
 	}
 	return $return;
-// TODO possibly re-implement
-/*
-	if ( 'publish' == $post->post_status ) {
-			$ptype = get_post_type_object($post->post_type);
-			$view_post = $ptype->labels->view_item;
-			$title = __('Click to edit this part of the permalink');
-		} else {
-			$title = __('Temporary permalink. Click to edit this part.');
-		}
-
-	list($permalink, $post_name) = get_sample_permalink($post->ID, $new_title, $new_slug);
-
-	if ( function_exists('mb_strlen') ) {
-		if ( mb_strlen($post_name) > 30 ) {
-			$post_name_abridged = mb_substr($post_name, 0, 14). '&hellip;' . mb_substr($post_name, -14);
-		} else {
-			$post_name_abridged = $post_name;
-		}
-	} else {
-		if ( strlen($post_name) > 30 ) {
-			$post_name_abridged = substr($post_name, 0, 14). '&hellip;' . substr($post_name, -14);
-		} else {
-			$post_name_abridged = $post_name;
-		}
-	}
-	
-	$post_name_html = $post_name_abridged;
-	$display_link = str_replace(array('%pagename%','%postname%'), $post_name_html, $permalink);
-	$view_link = str_replace(array('%pagename%','%postname%'), $post_name, $permalink);
-	$return =  '<strong>' . __('Permalink:') . "</strong>\n";
-	$return .= '<span id="sample-permalink">' . $display_link . "</span>\n";
-	$return .= '&lrm;'; // Fix bi-directional text display defect in RTL languages.
-	if ( isset($view_post) )
-		$return .= "<span id='view-post-btn'><a href='$view_link' class='button' target='_blank'>$view_post</a></span>\n";
-
-	return $return;
-*/
 }
 add_filter('get_sample_permalink_html', 'annowf_get_sample_permalink_html', 10, 4);
 
@@ -955,9 +927,9 @@ function annowf_imported_admin_notices($empty) {
 		$imported = get_post_meta($post->ID, '_anno_imported', true);
 		if ($imported == '1') {
 			// Display notice
-
+			echo '<div id="anno-imported-notice" class="error">'.__('You are editing an imported article. Updating this article will likely change its XML and HTML output.').'</div>';
 		}
-		echo '<div id="anno-imported-notice" class="error">Test</div>';
+
 	}
 }
 //add_action('admin_notices', 'annowf_imported_admin_notices')
