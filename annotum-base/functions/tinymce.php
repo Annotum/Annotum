@@ -185,6 +185,7 @@ function anno_load_editor($content, $editor_id, $settings = array()) {
 	// Remove WP specific tinyMCE edit image plugin.
 	add_filter('tiny_mce_before_init', 'anno_tiny_mce_before_init');
 	// Load the editor
+	$content = esc_textarea($content);
 	wp_editor($content, $editor_id, array_merge($default_settings, $settings));
 	remove_filter('tiny_mce_before_init', 'anno_tiny_mce_before_init');
 }
@@ -864,10 +865,7 @@ function anno_process_editor_content($content) {
 	
 	// Remove p tags from disp-quotes
 	$content = anno_remove_p_from_disp_quote_items($content);
-	
-	// Preformatted text needs to be double encoded
-	$content = anno_preformat_double_encode($content);
-	
+		
 	// We need a clearfix for floated images.
 	$figs = pq('fig');
 	foreach ($figs as $fig) {
@@ -1886,15 +1884,6 @@ add_action('anno_to_xml', 'anno_to_xml_heading_tag');
  */
 function anno_replace_title_tag($xml) {
 	anno_convert_tag('title', 'heading');
-}
-
-function anno_preformat_double_encode($xml) {
-	$preformat_tags = pq('preformat');
-	foreach ($preformat_tags as $tag) {
-		$tag = pq($tag);
-		$tag_html = esc_textarea($tag->html());
-		$tag->html($tag_html);
-	}
 }
 
 /**
