@@ -34,10 +34,6 @@
 			});
 			
 			ed.addShortcut('alt+shift+a', ed.getLang('advanced.link_desc'), 'Anno_Images');
-
-		/*	ed.onNodeChange.add(function(ed, cm, n, co) {
-				disabled = co && n.nodeName != 'A';
-			});*/
 		},
 		/**
 		 * Returns information about the plugin as a name/value array.

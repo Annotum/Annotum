@@ -2028,7 +2028,6 @@ function anno_tinymce_css($hook) {
 	global $post_type;
 	if ($post_type == 'article') {
 		$main = trailingslashit(get_bloginfo('template_directory'));
-		wp_enqueue_style('dialog', $main.'js/tinymce/plugins/annoequations/dialog.css');
 		wp_enqueue_style('eqeditor', $main.'js/tinymce/plugins/annoequations/equationeditor.css');
 	}
 }
