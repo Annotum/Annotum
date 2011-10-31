@@ -443,4 +443,7 @@ table tr td.anno-mce-popup-footer {
 #anno-popup-equations input[type="radio"]{
 	width: auto;
 }
-
+#anno-popup-equations .equation-edit-details input[type="text"],
+#anno-popup-equations textarea {
+	width: 100%;
+}

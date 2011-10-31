@@ -60,6 +60,7 @@
   left: 0;
   outline: none;
   position: absolute;
+  top: 22px !important;
 }
 
 .ee-palette-table {
@@ -93,6 +94,7 @@
 .ee-menu-palette {
   outline: none;
   padding-top: 2px;
+  padding-bottom: 5px;
 }
 
 .ee-menu-palette-cell {

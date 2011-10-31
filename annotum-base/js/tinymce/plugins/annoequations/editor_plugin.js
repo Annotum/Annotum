@@ -41,6 +41,7 @@ jQuery(document).ready( function($) {
 	$('#anno-equations-insert').live('click', function() {
 		var caption, label, url, xml;
 		var form = 'form#anno-tinymce-equations-form';
+		var win = window.dialogArguments || opener || parent || top;
 
 		alt_text = $('#equation-alttext', form).val();
 		url = $('.ee-preview-container img', form).attr('src');
@@ -74,11 +75,7 @@ jQuery(document).ready( function($) {
 							+'</media>'
 						+'</fig>'
 						+'<div _mce_bogus="1" class="clearfix"></div>';
-			}
-
-
-			var win = window.dialogArguments || opener || parent || top;
-	
+			}	
 		// @TODO better insertion logic
 /*				var ed = win.tinyMCE.activeEditor, d = ed.getDoc(), dom = ed.dom;
 	
@@ -92,8 +89,13 @@ jQuery(document).ready( function($) {
 			ed.selection.setRng(r);
 */		
 			win.send_to_editor(xml);
-			win.tinyMCEPopup.close();
 		}
+		
+		win.tinyMCEPopup.close();
+		$(form)[0].reset();
+		// Reset the preview container
+		$('.ee-preview-container').html('');
+		
 		return false;
 	});
 });

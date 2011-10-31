@@ -607,7 +607,7 @@ function anno_popup_equations() {
 <div id="anno-popup-equations" class="anno-mce-popup">
 	<form id="anno-tinymce-equations-form" class="" tabindex="-1">
 		<div class="anno-mce-popup-fields">			
-				<div class="img-edit-details">
+			<div class="equation-edit-details">
 				<label for="equation-alttext">
 					<div><?php _ex('Alt Text', 'input label', 'anno'); ?></div>
 					<input name="alt_text" type="text" id="equation-alttext" />
