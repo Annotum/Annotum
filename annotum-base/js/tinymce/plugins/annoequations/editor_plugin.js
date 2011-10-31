@@ -1,13 +1,9 @@
 (function(){ 
     tinymce.create('tinymce.plugins.annoEquations', {
  
-        init : function(ed, url){
-	
-
+        init : function(ed, url) {
             ed.addCommand('Anno_Equations', function() {
-	
-			openEditor();
-			/*	ed.windowManager.open({
+				ed.windowManager.open({
 					id : 'anno-popup-equations',
 					width : 480,
 					height : "auto",
@@ -15,7 +11,7 @@
 					title : "Insert Equation"
 				}, {
 					plugin_url : url // Plugin absolute URL
-				});*/
+				});
             });
 
 			ed.addButton('annoequations', {
@@ -39,7 +35,65 @@
     tinymce.PluginManager.add('annoEquations', tinymce.plugins.annoEquations);
 })();
 
-function openEditor() {
-  var ed = new goog.annotum.editor.EquationEditor();
-  ed.openEditor();
-}
+jQuery.noConflict();
+
+jQuery(document).ready( function($) {
+	$('#anno-equations-insert').live('click', function() {
+		var caption, label, url, xml;
+		var form = 'form#anno-tinymce-equations-form';
+
+		alt_text = $('#equation-alttext', form).val();
+		url = $('.ee-preview-container img', form).attr('src');
+		display_type = $('input[name="display"]:checked', form).val();
+		
+		// We only want to insert if we have a valid URL
+		if (url) {
+			if (display_type == 'inline') {
+				// Inserting for tinyMCE. is converted to XML on save.
+				xml = '<img src="'+ url + '" class="_inline_graphic" alt="'+ alt_text + '"/>';
+			}
+			else {
+				// @TODO Revisit <br /> insertion for IE8 compatability 
+				caption = $('#equation-caption').val();
+				//caption = caption == '' ? '<br />' : caption;
+
+				label = $('#equation-label').val();
+				//label = label == '' ? '<br />' : label;
+
+				description = $('#equation-description', form).val();
+				description = description == '' ? '<br />' : description;
+					
+				// @TODO Caption Title Support
+				xml = '<fig>'
+							+'<img src="' + url + '" />'
+							+'<label>' + label + '</label>'
+							+'<cap><para>' + caption + '</para></cap>'
+							+'<media xlink:href="' + url + '">'
+								+'<alt-text>' + alt_text + '</alt-text>'
+								+'<long-desc>' + description + '</long-desc>'
+							+'</media>'
+						+'</fig>'
+						+'<div _mce_bogus="1" class="clearfix"></div>';
+			}
+
+
+			var win = window.dialogArguments || opener || parent || top;
+	
+		// @TODO better insertion logic
+/*				var ed = win.tinyMCE.activeEditor, d = ed.getDoc(), dom = ed.dom;
+	
+			node = ed.selection.getNode();
+			figElement = dom.create('fig', null, innerXML);
+		// 		dom.add(figElement, node);		
+		//		if (newElement = ed.dom.getParent(ed.selection.getNode(), ))
+		//		r = d.createRange();
+		//		r.selectNodeContents(ed.selection.getNode());
+		//		r.collapse(1);
+			ed.selection.setRng(r);
+*/		
+			win.send_to_editor(xml);
+			win.tinyMCEPopup.close();
+		}
+		return false;
+	});
+});

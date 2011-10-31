@@ -101,7 +101,7 @@ body .ui-widget-overlay {
 }
 
 
-/** TinyMCE Popups Content
+/** TinyMCE Popup Content
  -------------------------------------------------- */
 .anno-mce-popup {
 	background-color: #f9f9f9;
@@ -362,7 +362,6 @@ table#anno-references table td table td {
 	display: inline;
 	margin: 0 15px;
 }
-
 #anno-popup-quote fieldset label,
 #anno-popup-images-inside fieldset label {
 	display: block;
@@ -370,7 +369,6 @@ table#anno-references table td table td {
 	margin: 10px 0 0 0;
 	padding: 0;
 }
-#anno-popup-quote fieldset input,
 #anno-popup-images-inside fieldset input,
 #anno-popup-images-inside fieldset textarea {
 	width: 250px;
@@ -440,3 +438,9 @@ table tr td.anno-mce-popup-footer {
 #anno-popup-images-inside .anno-mce-popup-fields {
 	margin-top: 0px;
 }
+/** TinyMCE Equations Popup
+ -------------------------------------------------- */
+#anno-popup-equations input[type="radio"]{
+	width: auto;
+}
+

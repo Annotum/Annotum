@@ -606,10 +606,38 @@ function anno_popup_equations() {
 ?>
 <div id="anno-popup-equations" class="anno-mce-popup">
 	<form id="anno-tinymce-equations-form" class="" tabindex="-1">
-		<?php //TODO NONCE ?>
-		<div class="anno-mce-popup-fields">
-			<strong>PLACEHOLDER Equation Editor</strong>
-			<textarea></textarea>		
+		<div class="anno-mce-popup-fields">			
+				<div class="img-edit-details">
+				<label for="equation-alttext">
+					<div><?php _ex('Alt Text', 'input label', 'anno'); ?></div>
+					<input name="alt_text" type="text" id="equation-alttext" />
+				</label>
+				<label for="equation-description">
+					<div><?php _ex('Description', 'input label', 'anno'); ?></div>
+					<textarea name="description" id="equation-description"></textarea>
+				</label>
+			</div>
+			<fieldset class="equation-display">
+				<legend><?php _ex('Display', 'legend', 'anno'); ?></legend>
+				<label for="equation-display-figure" class="radio">
+					<input type="radio" value="figure" name="display" class="equation-display-selection equation-display-figure" id="equation-display-figure"<?php checked(true, true, true); ?> />
+					<span><?php _ex('Display as Figure', 'input label', 'anno'); ?></span>
+				</label>
+				<label for="equation-display-inline" class="radio">
+					<input type="radio" value="inline" name="display" class="equation-display-selection equation-display-inline" id="equation-display-inline" />
+					<span><?php _ex('Display Inline', 'input label', 'anno'); ?></span>
+				</label>
+				<div id="equation-figure-details">
+					<label for="equation-label">
+						<span><?php _ex('Label', 'input label', 'anno'); ?></span>
+						<input type="text" name="label" id="equation-label" />
+					</label>
+					<label for="equation-caption">
+						<span><?php _ex('Caption', 'input label', 'anno'); ?></span>
+						<textarea id="equation-caption" name="caption"></textarea>
+					</label>
+				</div>
+			</fieldset>
 		</div>
 		<div class="anno-mce-popup-footer">
 			<?php _anno_popup_submit_button('anno-equations-insert', _x('Insert', 'button value', 'anno')) ?>
@@ -637,6 +665,14 @@ function anno_popup_tips() {
 		</dl>
 </div>
 	
+<?php
+}
+
+function anno_equation_editor() {
+?>
+<div id="anno-equation-editor">
+
+</div>
 <?php
 }
 
@@ -678,6 +714,7 @@ function anno_preload_dialogs($init) {
 	<div style="display:none;">
 	<?php anno_popup_tips(); ?>
 	</div>
+	
 <?php
 	}
 }
@@ -2002,10 +2039,11 @@ function anno_tinymce_js() {
 	global $post_type;
 	if ($post_type == 'article') {
 		$main = trailingslashit(get_bloginfo('template_directory'));
+		
 		wp_enqueue_script('closure-goog', $main.'js/tinymce/plugins/annoequations/equation-editor-compiled.js');
 	}
 }
-add_action('admin_print_scripts-post.php', 'anno_tinymce_css');
-add_action('admin_print_scripts-post-new.php', 'anno_tinymce_css');
+add_action('admin_print_scripts-post.php', 'anno_tinymce_js');
+add_action('admin_print_scripts-post-new.php', 'anno_tinymce_js');
 
 ?>
