@@ -28,7 +28,6 @@ goog.ui.annotum.equation.TexPane.prototype.render = function() {
 	goog.dom.classes.add(this.texEditor.element_, 'annotum-eq-wrapper');
 };
 
-
 (function($) {
 	$(document).ready(function() {
 		var eqPane = new goog.ui.annotum.equation.TexPane();

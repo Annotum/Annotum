@@ -127,7 +127,7 @@ body .ui-widget-overlay {
 }
 .anno-mce-popup textarea {
 	width: 330px;
-	max-width: 455px;
+	max-width: 460px;
 	height: 75px;
 	margin: 0;
 }
@@ -178,7 +178,7 @@ body .ui-widget-overlay {
 .anno-mce-popup fieldset {
 	border: 1px solid #CCC;
 	margin: 10px 0;
-	padding: 10px 10px 20px 20px;
+	padding: 10px 30px;
 }
 .anno-mce-popup fieldset label {
 	display: inline;
@@ -362,6 +362,7 @@ table#anno-references table td table td {
 	display: inline;
 	margin: 0 15px;
 }
+#anno-popup-equations fieldset label,
 #anno-popup-quote fieldset label,
 #anno-popup-images-inside fieldset label {
 	display: block;
@@ -369,27 +370,32 @@ table#anno-references table td table td {
 	margin: 10px 0 0 0;
 	padding: 0;
 }
+#anno-popup-equations fieldset textarea,
+#anno-popup-equations fieldset input,
 #anno-popup-images-inside fieldset input,
 #anno-popup-images-inside fieldset textarea {
 	width: 250px;
 }
+#anno-popup-equations fieldset label span,
 #anno-popup-quote fieldset label span,
 #anno-popup-images-inside fieldset label span {
 	width: 130px;
 	float: left;
 }
+#anno-popup-equations fieldset label.radio,
 #anno-popup-images-inside fieldset label.radio {
 	display: inline;
+	margin: 0 10px 0 45px;
 }
+#anno-popup-equations fieldset label,
 #anno-popup-images-inside fieldset label {
 	margin-bottom: 10px;
 }
+#anno-popup-equations fieldset label input[type="radio"],
 #anno-popup-images-inside fieldset input[type="radio"] {
 	width: auto;
 }
-#anno-popup-images-inside fieldset label.radio {
-	margin: 0 10px 0 45px;
-}
+#anno-popup-equations fieldset label.radio span,
 #anno-popup-images-inside fieldset label.radio span {
 	width: 120px;
 	float: none;
@@ -438,12 +444,10 @@ table tr td.anno-mce-popup-footer {
 #anno-popup-images-inside .anno-mce-popup-fields {
 	margin-top: 0px;
 }
-/** TinyMCE Equations Popup
+/** TinyMCE Equations Popup, Most definitions made in images section
  -------------------------------------------------- */
-#anno-popup-equations input[type="radio"]{
-	width: auto;
-}
-#anno-popup-equations .equation-edit-details input[type="text"],
+#anno-popup-equations input[name="alt_text"],
 #anno-popup-equations textarea {
 	width: 100%;
+	max-width: 100%;
 }
