@@ -114,14 +114,16 @@ add_action('wp_enqueue_scripts', 'anno_assets');
  *
  * @return void
  */
-function anno_edit_post_assets() {
-	global $post_type;
-	if ($post_type == 'article') {
-		wp_enqueue_script('anno-article-admin', get_template_directory_uri().'/js/article-admin.js');
+function anno_edit_post_assets($hook_suffix) {
+	if ($hook_suffix == 'post.php' || $hook_suffix == 'post-new.php') {
+		global $post_type;
+		if ($post_type == 'article') {
+			wp_enqueue_script('anno-article-admin', get_template_directory_uri().'/js/article-admin.js');
+		}
 	}
 }
-add_action('load-post.php', 'anno_edit_post_assets');
-add_action('load-post-new.php', 'anno_edit_post_assets');
+add_action('admin_enqueue_scripts', 'anno_edit_post_assets');
+
 
 /**
  * Bring in our main.css on the dashboard page.  Should be cached
@@ -130,8 +132,10 @@ add_action('load-post-new.php', 'anno_edit_post_assets');
  *
  * @return void
  */
-function anno_dashboard_assets() {
-	wp_enqueue_style('anno', trailingslashit(get_bloginfo('template_directory')) .'assets/main/css/main.css', array(), ANNO_VER);
+function anno_dashboard_assets($hook_suffix) {
+	if ($hook_suffix == 'index.php') {
+		wp_enqueue_style('anno', trailingslashit(get_bloginfo('template_directory')) .'assets/main/css/main.css', array(), ANNO_VER);
+	}
 }
 add_action('load-index.php', 'anno_dashboard_assets');
 

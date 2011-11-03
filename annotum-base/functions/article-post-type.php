@@ -367,12 +367,14 @@ function anno_deposit_doi_meta_box($post) {
 	}
 	else {
 		$deposit_enabled = true;
-		$deposit_value = anno_generate_doi();
+		$deposit_value = anno_get_doi($post->ID);
 		$deposit_id = 'doi-deposit-submit';
 	}
+	
 ?>
-	<?php wp_nonce_field('anno_doi_deposit', '_ajax_nonce-doi-deposit', false); ?>
+	<div id="doi-status"></div>
 	<input id="doi" type="text" name="doi-deposit" class="meta-doi-input" value="<?php echo $deposit_value; ?>"<?php disabled(true, true, true); ?> />
+	<?php wp_nonce_field('anno_doi_deposit', '_ajax_nonce-doi-deposit', false); ?>
 	<input id="<?php echo $deposit_id; ?>" type="button" value="<?php _ex('Deposit', 'doi deposit button label', 'anno'); ?>"<?php disabled($deposit_enabled, false, true); ?> />
 <?php
 }

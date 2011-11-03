@@ -331,17 +331,29 @@ function anno_reference_doi_process_author($author) {
 }
 
 
-
-function anno_doi_article_deposit($article_id, $doi, $user_id) {
+/**
+ * Generate an article XML for CrossRef deposit
+ * 
+ * @param int $article_id WP post ID
+ * @param int $user_id WP User ID
+ * 
+ * @return todo
+ */
+function anno_doi_article_deposit($article_id, $user_id) {
 	if (!(current_user_can('administrator') || current_user_can('editor'))) {
 		return array(
 			'message' => 'error',
-			'code' => '0',
 			'markup' => _x('You do not have the correct permissions to perform this action', 'DOI deposit error message', 'anno'),
 		);
 	}
 	
 	$article = get_post($article_id);
+	if ($article->post_status != 'publish') {
+		return array(
+			'message' => 'error',
+			'markup' => _x('Article must be published in order to deposit.', 'DOI deposit error message', 'anno'),
+		);
+	}
 	
 	$journal_title = cfct_get_option('journal_name');
 	$journal_issn = cfct_get_option('journal_issn');
@@ -350,6 +362,9 @@ function anno_doi_article_deposit($article_id, $doi, $user_id) {
 	$crossref_pass = cfct_get_option('crossref_pass');
 	
 	$error_markup = null;
+	
+	// We don't want this to be passed in as a parameter, in case someone has hijacked the POST var this would come in on
+	$doi = anno_get_doi($article_id);
 	
 	// User required credentials
 	if (empty($crossref_id) || empty($crossref_pass) || empty($registrant_code)) {
@@ -417,10 +432,10 @@ function anno_doi_article_deposit($article_id, $doi, $user_id) {
 			
 			$author_xml .= '<person_name sequence="'.$sequence.'" contributor_role="author">';
 			if (!empty($author['given_names'])) {
-				$author_xml .= '<given_name>'.esc_html($author['given_name']).'</given_name>';
+				$author_xml .= '<given_name>'.esc_html($author['given_names']).'</given_name>';
 			}
 			if (!empty($author['surname'])) {
-				$author_xml .= '<surname>'.esc_html($author['given_name']).'</surname>';
+				$author_xml .= '<surname>'.esc_html($author['surname']).'</surname>';
 			}
 			if (!empty($author['suffix'])) {
 				$author_xml .= '<suffix>'.esc_html($author['suffix']).'</suffix>';
@@ -492,7 +507,7 @@ function anno_doi_article_deposit($article_id, $doi, $user_id) {
 			<journal_article publication_type="full_text">
 				<titles>
 					<title>
-						'.esc_html($article->title).'
+						'.esc_html($article->post_title).'
 					</title>
 				</titles>
 				<contributors>
@@ -507,7 +522,7 @@ function anno_doi_article_deposit($article_id, $doi, $user_id) {
 					<timestamp>'.strtotime($article->post_date).'</timestamp>
 					<resource>'.$permalink.'</resource>
 				</doi_data>
-				'.$citation_list.
+				'.$citation_xml.
 /*				<component_list>
 					<component parent_relation="isPartOf">
 						<description>
@@ -533,50 +548,113 @@ function anno_doi_article_deposit($article_id, $doi, $user_id) {
 					</component>
 				</component_list>
 */
-		'</journal_article>
-	</journal>';
+			'</journal_article>
+		</journal>
+	</body>
+</doi_batch>';
 		
 	// @TODO Verify (Attempt to deposit in test DB)
-	$test_url = 'http://doi.crossref.org/servlet/deposit';
-	$test_args = array(
-		'encType' => 'multipart/form-data',
-		'login_id' => '',
-		'login_passwd' => '',
-		'area' => 'test',
-		'fname' => $xml,
-		'operation' => 'doMDUpload', 	
-	);
+	$filename = 'crossref-deposit-'.$article->ID.'.xml';
+	$file_handler = fopen($filename, 'w');
+	if (!$file_handler) {
+		fclose($file_handler);
+		return array(
+			'message' => 'error',
+			'markup' => _x('Could not create file to be deposited, please check your system setup',  'DOI deposit error message', 'anno'),
+		);
+	}
 	
-	wp_remote_post($test_url, $args);
+	fwrite($file_handler, $xml);
+	
+	$test_url = 'http://doi.crossref.org/servlet/deposit?operation=doMDUpload&login_id='.$crossref_id.'&login_passwd='.$crossref_pass.'&area=test';
+	$test_args = array(
+		'headers' => array(
+			'Content-type' => 'multipart/form-data',
+			'Content-Disposition' => 'form-data; name="fname"; filename="'.$filename.'";',
+		),
+	);
 
+	$test_result = wp_remote_post($test_url, $test_args);
+	
+	fclose($file_handler);
+	return array('test');
 
-
-	// @TODO Deposit
+	// @TODO Deposit, use area=live
 	// $url = 'http://www.crossref.org/openurl/?pid='.$crossref_login.'&id=doi:'.$doi.'&noredirect=true';
 	
 	// @TODO Submit meta
+	// DOI should no longer be able to be submitted, update corresponding post meta
 }
 
 function anno_doi_deposit_ajax() {
 	check_ajax_referer('anno_doi_deposit', '_ajax_nonce-doi-deposit');
 	// Make sure we have an article ID and user ID
-	if (empty($_POST['article_id']) || empty($_POST['doi'])) {
+	if (empty($_POST['article_id'])) {
 		die();
 	}
-	
+
 	$article_id = (int) $_POST['article_id'];
-	$doi = $_POST['doi'];
-	$response = anno_doi_article_deposit($article_id, $doi, get_current_user_id());
-	echo json_encode($response);
+//	$response = anno_doi_article_deposit($article_id, get_current_user_id());
+	// If we get an error that the DOI already exists: 
+//	$response['regenerate_markup'] = anno_regenerate_doi_markup();
+// 	echo json_encode($response);
 	die();
 }
 add_action('wp_ajax_anno-doi-deposit', 'anno_doi_deposit_ajax');
 
-
-function anno_generate_doi() {
-	$registrant_code = cfct_get_option('registrant_code');
+/**
+ * Get an existing DOI for a post, or generate a new one
+ * 
+ * @param int $post_id
+ * @param bool $generate_new_doi whether or not to force a new DOI generation
+ * 
+ * @return string DOI for this article
+ */
+function anno_get_doi($post_id, $generate_new_doi = false) {
+	if ($generate_new_doi) {
+		$registrant_code = cfct_get_option('registrant_code');
+		$doi = '10.'.$registrant_code.'/'.uniqid('', false);
+		update_post_meta($post_id, '_anno_doi', $doi);
+	}
+	else {
+		$doi = get_post_meta($post_id, '_anno_doi', true);
+		if (empty($doi)) {
+			$registrant_code = cfct_get_option('registrant_code');
+			$doi = '10.'.$registrant_code.'/'.uniqid('', false);
+			update_post_meta($post_id, '_anno_doi', $doi);
+		}
+	}
 	
-	return '10.'.$registrant_code.'/'.uniqid('', false);
+	return $doi;
 }
+
+/**
+ * Ajax handler for regenerating a new DOI
+ */ 
+function anno_doi_regenerate_ajax() {
+	check_ajax_referer('anno_doi_regenerate', '_ajax_nonce-doi-regenerate');
+	if (empty($_POST['article_id'])) {
+		die();
+	}
+		
+	$new_doi = anno_get_doi((int) $_POST['article_id'], true);
+	echo json_encode(array(
+		'doi' => $new_doi,
+		'status' => _x('New DOI Generated', 'DOI generation message', 'anno'),
+	));
+	die();
+}
+add_action('wp_ajax_anno-doi-regenerate', 'anno_doi_regenerate_ajax');
+
+/**
+ * Markup for regeneration submission
+ * @return string HTML String for regeneration markup
+ */ 
+function anno_regenerate_doi_markup() {
+	$html = '<input id="doi-regenerate" type="button" value="'._x('Regenerate DOI', 'button text', 'anno').'" />';
+ 	$html .= wp_nonce_field('anno_doi_regenerate', '_ajax_nonce-doi-regenerate', true, false);
+	return $html;
+}
+
 
 ?>

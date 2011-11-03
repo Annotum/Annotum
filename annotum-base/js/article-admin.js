@@ -19,23 +19,52 @@ jQuery(document).ready(function($){
 		});
 	}
 	
-	/**
-	 * Deposit data 
-	 */
-	// $('#doi-deposit-submit').click(function() {
-	// 			alert('test');
-	// 	var doi = $('#doi').val();
-	// 	var data = {doi: doi, action: 'anno-doi-deposit', article_id: ANNO_POST_ID};
-	// 
-	// 	// Nonce
-	// 	data['_ajax_nonce-doi-deposit'] = $('#_ajax_nonce-doi-deposit').val();
-	// 	$.post(ajaxurl, data, function(d) {
-	// 		alert(d);
-	// 	});
-	// 	return false;
-	// }); 
+	anno_reset_doi_status = function() {
+		$('#doi-status').hide().removeClass();
+	}
 	
-	// We alreay hide with JS, lets remove the html/visual switch buttons
+	/**
+	 * Deposit DOI data
+	 */
+	 $('#doi-deposit-submit').click(function() {
+	 	var data = {action: 'anno-doi-deposit', article_id: ANNO_POST_ID};
+		// Nonce
+	
+	 	data['_ajax_nonce-doi-deposit'] = $('#_ajax_nonce-doi-deposit').val();
+		
+		anno_reset_doi_status();
+
+	 	$.post(ajaxurl, data, function(d) {
+			if (d.regenerate_markup) {
+				// Only insert it if there isn't one on the page already
+				if ($("#doi-regenerate").length == 0) {
+					$(d.regenerate_markup).insertBefore('#doi-deposit-submit');
+				}
+			}
+	 	}, 'json');
+	 	return false;
+	 });
+		
+	/**
+	 * DOI regeneration
+	 */	
+	$('#doi-regenerate').live('click', function() {
+	 	var data = {action: 'anno-doi-regenerate', article_id: ANNO_POST_ID};
+		// Nonce
+	 	data['_ajax_nonce-doi-regenerate'] = $('#_ajax_nonce-doi-regenerate').val();
+	
+		anno_reset_doi_status();
+		
+	 	$.post(ajaxurl, data, function(d) {
+			if (d.doi) {
+				$('#doi.meta-doi-input').val(d.doi);
+				$('#doi-status').addClass('anno-success').html(d.status).show();
+			}
+	 	}, 'json');
+	 	return false;
+	 });
+	
+	// We already hide with JS, lets remove the html/visual switch buttons
 	$('.wp-switch-editor').remove();
 	$('.wp-editor-tools').remove();
 	

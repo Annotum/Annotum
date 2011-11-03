@@ -59,6 +59,16 @@ textarea.anno-meta {
 	top: -2px;
 }
 
+#doi-deposit {
+	text-align: center;
+}
+#doi-deposit input[type="button"] {
+	cursor: pointer;
+}
+.meta-doi-input {
+	width: 100%;
+}
+
 /** TinyMCE Popups - override default styles
  -------------------------------------------------- */
 body .wp-dialog {
