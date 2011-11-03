@@ -95,7 +95,7 @@ class Anno_PDF_Download {
 		$wp->add_query_var('pdf');
 		
 		// Tells WP that a request like /articles/my-article-name/pdf/ is valid
-		add_rewrite_rule($article_post_type->rewrite['slug'].'/([^/]+)/pdf/?$', 'index.php?articles=$matches[1]&pdf=1', 'top');
+		add_rewrite_rule($article_post_type->rewrite['slug'].'/([^/]+)/pdf/?$', 'index.php?articles=$matches[1]&pdf=true', 'top');
 	}
 	
 	
@@ -304,10 +304,22 @@ class Anno_PDF_Download {
 			$id = $post->ID;
 		}
 		
-		// Get permalink to the article, then slap the 'pdf/' onto the end
-		$permalink = trailingslashit(get_permalink($id));
-		$pdf_link = $permalink.'pdf/';
-		return $pdf_link;
+		// Build our download link
+		$permalink = get_permalink($id);
+		
+		/* Handle pretty and ugly permalinks. Need at least this stripos 
+		function, b/c initial drafts don't get a pretty permalink till 
+		published, so even if the setting is pretty permalinks the draft's 
+		permalink is going to be ugly. */
+		if (stripos($permalink, 'post_type=article') || get_option('permalink_structure') == '') {
+			// Ugly permalinks
+			$link = add_query_arg(array('pdf' => 'true'), $permalink);
+		}
+		else {
+			// Pretty permalinks
+			$link = trailingslashit($permalink).'pdf/';
+		}
+		return $link;
 	}
 	
 	
