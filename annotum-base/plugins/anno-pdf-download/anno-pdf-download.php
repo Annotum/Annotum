@@ -130,9 +130,6 @@ class Anno_PDF_Download {
 				$this->generic_die();
 			}
 			
-			// Enqueue the proper styles
-			$this->enqueue_pdf_styles();
-			
 			// Get our HTML locally
 			if (!$this->get_html($id)) {
 				$this->log('Could not find HTML post_meta for post ID: '.$id);
@@ -193,11 +190,6 @@ class Anno_PDF_Download {
 	 * @return bool - Whether there was HTML or not
 	 */
 	private function get_html($id) {
-		// Assign post content
-		if (!$this->get_post_content($id)) {
-			return false;
-		}
-		
 		// Setup our global $post stuff
 		global $post;
 		$post = get_post($id);
@@ -262,29 +254,6 @@ class Anno_PDF_Download {
 	
 	
 	/**
-	 * Enqueues various styles that should be applied to PDFs
-	 *
-	 * @return void
-	 */
-	private function enqueue_pdf_styles() {
-		wp_enqueue_style('anno', trailingslashit(get_template_directory_uri()).'assets/main/css/main.css', array(), $this->ver);
-	}
-	
-	
-	/**
-	 * Returns the content of the post...in HTML from the post_meta
-	 *
-	 * @param int $id 
-	 * @return bool - whether there was HTML or not
-	 */
-	private function get_post_content($id) {
-		$post = get_post($id);
-		$this->post_html = empty($post) ? '' : $post->post_content;
-		return !empty($this->post_html);
-	}
-	
-	
-	/**
 	 * Creates the PDF for download.  This is another place that will need 
 	 * modification to change which underlying class that creates the PDF.
 	 *
@@ -308,7 +277,13 @@ class Anno_PDF_Download {
 	 */
 	private function generate_pdf_title($id) {
 		$this->pdf_title = get_the_title($id);
-		return !empty($this->pdf_title);
+		
+		if (empty($this->pdf_title)) {
+			return false;
+		}
+
+		$this->pdf_title.= '.pdf';
+		return true;
 	}
 	
 	
