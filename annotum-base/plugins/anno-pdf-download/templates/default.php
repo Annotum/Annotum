@@ -5,42 +5,11 @@
 	
 	<title><?php wp_title( '-', true, 'right' ); echo esc_html( get_bloginfo('name') ); ?></title>
 
-	<link rel="stylesheet" id="anno-css"  href="<?php echo esc_url(trailingslashit(get_template_directory_uri()).'assets/main/css/main.css?ver=1.1'); ?>" type="text/css" media="all">
-	
-	<?php cfct_misc('custom-colors'); ?>
-	
-	<style type="text/css" media="all">
-		body {
-			margin: 20px;
-/*			color: #000 !important;*/
-		}
-		.sub,
-		.sup{
-			font-size:75%;
-			line-height:0;
-			position:relative;
-		}
-		.sup{
-			top:-0.5em;
-		}
-		.sub{
-			bottom:-0.25em;
-		}
-		.figcaption {
-			font-size:13px;
-			line-height:1.384615385;
-			overflow:hidden;
-		}
-		div.tools-bar {
-			display:none;
-		}
-		#wpadminbar {
-			display:none;
-		}
-	</style>
+	<link rel="stylesheet" id="anno-pdf-css"  href="<?php echo esc_url(trailingslashit(get_template_directory_uri()).'assets/main/css/pdf.css?ver=1.1'); ?>" type="text/css" media="all">
 </head>
 
 <body <?php body_class(); ?>>
+	
 	<div id="main" class="act">
 		<div class="in">
 		
