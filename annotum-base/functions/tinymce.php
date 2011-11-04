@@ -179,7 +179,7 @@ function anno_load_editor($content, $editor_id, $settings = array()) {
 			'debug' => 'true',
 			'verify_html' => true,
 			'force_p_newlines' => false,
-			'force_br_newlines' => false,
+			'force_br_newlines' => true,
 			'content_css' => trailingslashit(get_bloginfo('template_directory')).'css/tinymce.css',
 	// 		@TODO Define doctype (IE Compat?)
 	//		'doctype' => '<!DOCTYPE article SYSTEM \"http://dtd.nlm.nih.gov/ncbi/kipling/kipling-jp3.dtd\">',
