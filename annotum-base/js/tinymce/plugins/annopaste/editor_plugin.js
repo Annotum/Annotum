@@ -53,7 +53,7 @@
 			// Register optional preprocess handler
 			t.onPreProcess.add(function(pl, o) {
 				ed.execCallback('paste_preprocess', pl, o);
-			});
+			}); 
 
 			// Register optional postprocess
 			t.onPostProcess.add(function(pl, o) {
@@ -143,7 +143,7 @@
 			// is done it grabs that contents and processes that
 			function grabContent(e) {
 				var n, or, rng, oldRng, sel = ed.selection, dom = ed.dom, body = ed.getBody(), posY, textContent;
-
+				
 				// Check if browser supports direct plaintext access
 				if (e.clipboardData || dom.doc.dataTransfer) {
 					textContent = (e.clipboardData || dom.doc.dataTransfer).getData('Text');
@@ -213,6 +213,7 @@
 					// Block the real paste event
 					return tinymce.dom.Event.cancel(e);
 				} else {
+
 					function block(e) {
 						e.preventDefault();
 					};
@@ -263,7 +264,7 @@
 							});
 						} else {
 							// Found WebKit weirdness so force the content into plain text mode
-							h = '<pre>' + dom.encode(textContent).replace(/\r?\n/g, '<br />') + '</pre>';
+							h = '<preformat>' + dom.encode(textContent).replace(/\r?\n/g, '<br />') + '</preformat>';
 						}
 
 						// Remove the nodes
@@ -329,6 +330,7 @@
 		},
 
 		_preProcess : function(pl, o) {
+			console.log(o);
 			var ed = this.editor,
 				h = o.content,
 				grep = tinymce.grep,
@@ -336,6 +338,7 @@
 				trim = tinymce.trim,
 				len, stripClass,
 				dom = ed.dom;
+
 			function process(items) {
 				each(items, function(v) {
 					// Remove or replace
@@ -526,24 +529,25 @@
 			}
 			
 			// Replace html lists with list tags defined by the DTD.
+			
 			process([
-				[/<ul>|<ul .*>/gi, "<list list-type=\"bullet\">"],
-				[/<\/ul>|<\/ul .*>/gi, "</list>"]
+				[/<ul>|<ul .*?>/gi, "<list list-type=\"bullet\">"],
+				[/<\/ul>|<\/ul .*?>/gi, "</list>"]
 			]);
 			
 			process([
-				[/<h[1-9]>|<h[1-9] .*>/gi, "<heading>"],
-				[/<\/h[1-9]>|<\/h[1-9] .*>/gi, "</heading>"]
+				[/<h[1-9]>|<h[1-9] .*?>/gi, "<heading>"],
+				[/<\/h[1-9]>|<\/h[1-9] .*?>/gi, "</heading>"]
 			]);
 		
 			process([
-				[/<ol>|<ol .*>/gi, "<list list-type=\"order\">"],
-				[/<\/ol>|<\/ol .*>/gi, "</list>"]
+				[/<ol>|<ol .*?>/gi, "<list list-type=\"order\">"],
+				[/<\/ol>|<\/ol .*?>/gi, "</list>"]
 			]);
 
 			process([
-				[/<li>|<li .*>/gi, "<list-item>"],
-				[/<\/li>|<\/li .*>/gi, "</list-item>"]
+				[/<li>|<li .*?>/gi, "<list-item>"],
+				[/<\/li>|<\/li .*?>/gi, "</list-item>"]
 			]);
 			
 			// Replace formatting with formatting tags defined by the DTD.
@@ -810,7 +814,6 @@
 		 */
 		_insert : function(h, skip_undo) {
 			var ed = this.editor, r = ed.selection.getRng();
-									
 			// First delete the contents seems to work better on WebKit when the selection spans multiple list items or multiple table cells.
 			if (!ed.selection.isCollapsed() && r.startContainer != r.endContainer)
 				ed.getDoc().execCommand('Delete', false, null);
@@ -857,7 +860,7 @@
 
 			if ((typeof(h) === "string") && (h.length > 0)) {
 				// If HTML content with line-breaking tags, then remove all cr/lf chars because only tags will break a line
-				if (/<(?:p|br|h[1-6]|ul|ol|dl|table|t[rdh]|div|blockquote|fieldset|pre|address|center)[^>]*>/i.test(h)) {
+				if (/<(?:p|br|h[1-6]|ul|ol|dl|table|t[rdh]|div|blockquote|fieldset|pre|address|center|para|list|list-item|sec|heading)[^>]*>/i.test(h)) {
 					process([
 						/[\n\r]+/g
 					]);
@@ -869,7 +872,7 @@
 				}
 
 				process([
-					[/<\/(?:p|h[1-6]|ul|ol|dl|table|div|blockquote|fieldset|pre|address|center)>/gi, "\n\n"],		// Block tags get a blank line after them
+					[/<\/(?:p|h[1-6]|ul|ol|dl|table|div|blockquote|fieldset|pre|address|center|para|list|list-item|sec|heading)>/gi, "\n\n"],		// Block tags get a blank line after them
 					[/<br[^>]*>|<\/tr>/gi, "\n"],				// Single linebreak for <br /> tags and table rows
 					[/<\/t[dh]>\s*<t[dh][^>]*>/gi, "\t"],		// Table cells get tabs betweem them
 					/<[a-z!\/?][^>]*>/gi,						// Delete all remaining tags

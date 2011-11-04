@@ -29,7 +29,6 @@ jQuery(document).ready(function($){
 	 $('#doi-deposit-submit').click(function() {
 	 	var data = {action: 'anno-doi-deposit', article_id: ANNO_POST_ID};
 		// Nonce
-	
 	 	data['_ajax_nonce-doi-deposit'] = $('#_ajax_nonce-doi-deposit').val();
 		
 		anno_reset_doi_status();
