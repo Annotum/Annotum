@@ -330,7 +330,6 @@
 		},
 
 		_preProcess : function(pl, o) {
-			console.log(o);
 			var ed = this.editor,
 				h = o.content,
 				grep = tinymce.grep,

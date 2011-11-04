@@ -10,6 +10,8 @@
 				tinymce.activeEditor.formatter.toggle('preformat');
             });
 
+			// This registers which tags should respect whitespace
+			tinymce.html.Schema.whiteSpaceElementsMap = tinymce.makeMap('pre,preformat');
 
 			ed.addButton('annopreformat', {
 				title : 'Preformat',

@@ -47,6 +47,7 @@ $allowedposttags = array_merge($allowedposttags, array(
 		'ref-type' => array(),
 		'rid' => array(),
 	),
+	'br' => array(),
 ));
 
 
@@ -139,16 +140,19 @@ function anno_load_editor($content, $editor_id, $settings = array()) {
 		'media[alt-text|long-desc|permissions|div|span]',
 		'permissions[copyright-statement|copyright-holder|license|div|span]',
 		'license[license-p|xref|div|span]',
+		'license-p[preformat|'.$formats_as_children.']',
 		'list[title|list-item|div|span]',
 		'list-item[para|xref|list|div|span]',
-		'disp-formula[label|tex-math|div|span]',
-		'disp-quote[para|attrib|permissions|div|span]',
-		'fig[label|cap|media|img|div|span]',
+		'disp-formula[label|tex-math|div|span|preformat]',
+		'disp-quote[para|attrib|permissions|div|span|preformat]',
+		'fig[label|cap|media|img|div|span|preformat]',
 		'cap[title|para|xref|div|span]',
-		'table-wrap[label|cap|table|table-wrap-foot|permissions|div|span]',
+		'table-wrap[label|cap|table|table-wrap-foot|permissions|div|span|preformat]',
 		'table-wrap-foot[para|div|span]',
-		'para['.$formats_as_children.'|media|img|permissions|license|list|list-item|disp-formula|disp-quote|fig|cap|table-wrap|table-wrap-foot|table|h2|xref|img|table|ext-link|paste|div|span|div|span|a]',
-		'sec[sec|heading|media|img|permissions|license|list|list-item|disp-formula|disp-quote|fig|cap|table-wrap|table-wrap-foot|para|h2|div|span]',
+		'td['.$formats_as_children.'|preformat|ext-link|break|br|list|media|inline-graphic|xref]',
+		'th['.$formats_as_children.'|preformat|ext-link|break|br|list|media|inline-graphic|xref]'.
+		'para['.$formats_as_children.'|media|img|permissions|license|list|list-item|disp-formula|disp-quote|fig|cap|table-wrap|table-wrap-foot|table|h2|xref|img|table|ext-link|paste|div|span|div|span|a|br]',
+		'sec[sec|heading|media|img|permissions|license|list|list-item|disp-formula|disp-quote|fig|cap|table-wrap|table-wrap-foot|para|h2|div|span|preformat]',
 	);
 	
 	$default_settings = array(
@@ -664,15 +668,6 @@ function anno_popup_tips() {
 			<dd><?php _ex('To insert new sections (when within a section) or add new paragraphs when inside elements like a table, or figure caption.', 'tinyMCE tip dd', 'anno'); ?></dd>
 		</dl>
 </div>
-	
-<?php
-}
-
-function anno_equation_editor() {
-?>
-<div id="anno-equation-editor">
-
-</div>
 <?php
 }
 
@@ -1036,6 +1031,7 @@ function anno_get_dtd_valid_elements() {
 		'<article>',
 			'<sec>',
 			'<para>',
+			'<br>',
 	);
 	return apply_filters('anno_valid_dtd_elements', $tags);
 }
@@ -1072,7 +1068,7 @@ add_action('add_post_meta', 'anno_save_appendices_xml_as_html', 10, 3);
  */
 function anno_insert_post_data($data, $postarr) {
 	$is_article_type = false;
-	
+
 	// Both published and drafts (before article ever saved) get caught here
 	if ($postarr['post_type'] == 'article') {
 		$is_article_type = true;
@@ -1087,7 +1083,7 @@ function anno_insert_post_data($data, $postarr) {
 	if ($is_article_type) {
 		// Get our XML content for the revision
 		$content = stripslashes($data['post_content']);
-		
+
 		// Set XML as backup content. Filter markup and strip out tags not on whitelist.
 		$xml = anno_validate_xml_content_on_save($content);
 		$data['post_content_filtered'] = addslashes($xml);
