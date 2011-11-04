@@ -136,7 +136,7 @@ function anno_load_editor($content, $editor_id, $settings = array()) {
 		'body[sec|para|media|list|disp-formula|disp-quote|fig|table-wrap|preformat|div|span]',
 		'copyright-statement['.$formats_as_children.']',
 		'license-p['.$formats_as_children.'|xref|ext-link]',
-		'heading['.$formats_as_children.'|div|span]',
+		'heading['.$formats_as_children.'|div|span|br]',
 		'media[alt-text|long-desc|permissions|div|span]',
 		'permissions[copyright-statement|copyright-holder|license|div|span]',
 		'license[license-p|xref|div|span]',
@@ -149,9 +149,9 @@ function anno_load_editor($content, $editor_id, $settings = array()) {
 		'cap[title|para|xref|div|span]',
 		'table-wrap[label|cap|table|table-wrap-foot|permissions|div|span|preformat]',
 		'table-wrap-foot[para|div|span]',
-		'td['.$formats_as_children.'|preformat|ext-link|break|br|list|media|inline-graphic|xref]',
-		'th['.$formats_as_children.'|preformat|ext-link|break|br|list|media|inline-graphic|xref]'.
-		'para['.$formats_as_children.'|media|img|permissions|license|list|list-item|disp-formula|disp-quote|fig|cap|table-wrap|table-wrap-foot|table|h2|xref|img|table|ext-link|paste|div|span|div|span|a|br]',
+		'td['.$formats_as_children.'|preformat|ext-link|break|list|media|inline-graphic|xref|br]',
+		'th['.$formats_as_children.'|preformat|ext-link|break|list|media|inline-graphic|xref|br]',
+		'para['.$formats_as_children.'|media|img|permissions|license|list|list-item|disp-formula|disp-quote|fig|cap|table-wrap|table-wrap-foot|table|h2|xref|img|table|ext-link|paste|div|span|div|span|a]',
 		'sec[sec|heading|media|img|permissions|license|list|list-item|disp-formula|disp-quote|fig|cap|table-wrap|table-wrap-foot|para|h2|div|span|preformat]',
 	);
 	
@@ -879,24 +879,27 @@ add_action('wp_ajax_anno-img-save', 'anno_tinymce_image_save');
  * @return void
  */
 function anno_process_editor_content($content) {
+	// Break to BR
+	$content = str_replace('<break />', '<br />', $content);
+	
 	phpQuery::newDocument($content);
 
 	// Convert inline-graphics to <img> tags so they display
 	anno_xml_to_html_replace_inline_graphics($content);
 	
 	// Convert caption to cap
-	$content = anno_replace_caption_tag($content);
+	anno_replace_caption_tag($content);
 
-	$content = anno_replace_p_tag($content);
+	anno_replace_p_tag($content);
 	
 	// Convert title to heading
-	$content = anno_replace_title_tag($content);
+	anno_replace_title_tag($content);
 	
 	// Remove p tags wrapping list items
-	$content = anno_remove_p_from_list_items($content);
+	anno_remove_p_from_list_items($content);
 	
 	// Remove p tags from disp-quotes
-	$content = anno_remove_p_from_disp_quote_items($content);
+	anno_remove_p_from_disp_quote_items($content);
 		
 	// We need a clearfix for floated images.
 	$figs = pq('fig');
@@ -932,6 +935,9 @@ function anno_process_editor_content($content) {
 function anno_validate_xml_content_on_save($html_content) {
 	// Strip all tags not defined by DTD
 	$content = anno_to_xml($html_content);
+	
+	// Convert remaining br to break tags. Unable to do this with phpQuery, it thinks break tag should be opened and closed
+	$content = str_replace(array('<br />', '<br>'), '<break />', $content);
 
 	$content = strip_tags($content, implode('', array_unique(anno_get_dtd_valid_elements())));
 	return $content;
@@ -1087,7 +1093,6 @@ function anno_insert_post_data($data, $postarr) {
 		// Set XML as backup content. Filter markup and strip out tags not on whitelist.
 		$xml = anno_validate_xml_content_on_save($content);
 		$data['post_content_filtered'] = addslashes($xml);
-		
 		// Set formatted HTML as the_content
 		$data['post_content'] = addslashes(anno_xml_to_html($xml));
 	}
@@ -1095,6 +1100,18 @@ function anno_insert_post_data($data, $postarr) {
 	return $data;
 }
 add_filter('wp_insert_post_data', 'anno_insert_post_data', null, 2);
+
+/**
+ * Only maintain line breaks on certain tags (title, td, th)
+ */ 
+function anno_handle_br($xml) {
+	$tags = pq('br');
+	$save = pq('title > br, td > br, th > br');
+	//  ->not() with selector pattern is bugged
+	$tags = $tags->not($save);
+	$tags->remove();
+}
+add_action('anno_to_xml', 'anno_handle_br', 99);
 
 function anno_wp_insert_post_update_import($post_id) {
 	// If we've saved an imported post (Knol), we've likely changed the structure so we don't need to run
@@ -1243,6 +1260,9 @@ add_action('anno_to_xml', 'anno_to_xml_replace_inline_graphics');
  * @return void
  */
 function anno_xml_to_html($xml_content) {
+	// Unable to do this with phpQuery, break tag doesn't register as self closing element
+	$xml_content = str_replace('<break />', '<br />', $xml_content);
+
 	// Load our phpQuery document up, so filters should be able to use the pq() function to access its elements
 	phpQuery::newDocument($xml_content);
 	
