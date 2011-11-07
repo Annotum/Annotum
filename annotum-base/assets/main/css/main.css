@@ -116,7 +116,7 @@ form.search .type-submit{background:url(../img/sprite-y.8bit.png) 0 -100px no-re
 .article-full .content .entry-content,.article-full .content .entry-summary{margin-bottom:10px;}
 .author-header{height:auto !important;height:145px;min-height:145px;margin-bottom:25px;position:relative;padding-left:160px;}
 .author-header .avatar{left:0;position:absolute;top:5px;}
-.author-header .author-name{display:block;font-size:18px;font-weight:normal;margin-bottom:-4px;}
+.author-header .author-name{display:block;font-size:18px;font-weight:normal;}
 .author-header .author-link a{font:italic normal 14px Georgia, serif;}
 .author-header .author-link,.author-header .author-degrees,.author-header .author-affiliations{margin-bottom:7px;}
 .author-header .author-bio{line-height:1.29;}

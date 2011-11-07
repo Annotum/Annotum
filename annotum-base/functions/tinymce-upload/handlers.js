@@ -62,7 +62,6 @@ function annoPrepareMediaItem(fileObj, serverData) {
 	}
 	// New style: server data is just the attachment ID, fetch the thumbnail and form html from the server
 	else {
-		//TODO post action
 		jQuery.post('async-upload.php', {attachment_id:serverData, fetch:f, anno_action: 'anno_async_upload'}, function(data){
 			item.replaceWith(data);
 			prepareMediaItemInit(fileObj);

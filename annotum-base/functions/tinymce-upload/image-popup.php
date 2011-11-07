@@ -52,6 +52,7 @@ function anno_popup_images_iframe_html() {
 		'order' => 'ASC'
 	));	
 ?>
+<body id="anno-popup-images">
 <div id="anno-popup-images-inside" class="anno-mce-popup">
 	<div class="anno-mce-popup-fields">
 <?php 
@@ -82,6 +83,7 @@ function anno_popup_images_iframe_html() {
 
 		<?php anno_upload_form(); ?>
 	</div>
+</body>
 <?php
 }
 
@@ -193,7 +195,7 @@ function anno_popup_images_row_edit($attachment) {
 										$img_size_url = '';
 									}
 ?>
-									<label>
+									<label for="<?php echo esc_attr('img-size-'.$size_key.'-'.$attachment->ID); ?>">
 										<input type="radio" name="size" id="<?php echo esc_attr('img-size-'.$size_key.'-'.$attachment->ID); ?>" value="<?php echo esc_attr($size_key); ?>" data-url="<?php echo esc_attr($img_size_url); ?>"<?php checked($size_key, $img_size, true); ?><?php disabled( $enabled, false, true ); ?> /> <?php echo esc_html($size_label); ?>
 									</label>
 <?php

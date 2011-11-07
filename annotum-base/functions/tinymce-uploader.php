@@ -58,7 +58,7 @@ function anno_media_upload_form() {
 	<?php
 	// Check quota for this blog if multisite
 	if ( is_multisite() && !is_upload_space_available() ) {
-		echo '<p>' . sprintf( __( 'Sorry, you have filled your storage quota (%s MB).' ), get_space_allowed() ) . '</p>';
+		echo '<p>' . sprintf( _x( 'Sorry, you have filled your storage quota (%s MB).', 'Media upload error text', 'anno'), get_space_allowed() ) . '</p>';
 		return;
 	}
 
@@ -100,8 +100,8 @@ function anno_media_upload_form() {
 	var swfu;
 	SWFUpload.onload = function() {
 		var settings = {
-				button_text: '<span class="button"><?php _e('Select Files'); ?><\/span>',
-				button_text_style: '.button { text-align: center; font-weight: bold; font-family:"Lucida Grande",Verdana,Arial,"Bitstream Vera Sans",sans-serif; font-size: 11px; text-shadow: 0 1px 0 #FFFFFF; color:#464646; }',
+				button_text: '<span class="button"><?php _ex('Select Files', 'Media upload text', 'anno'); ?><\/span>',
+				button_text_style: '.button { text-align: center; font-weight: bold; font-family:"Lucida Grande",Verdana,Arial,"Bitstream Vera Sans",sans-serif; font-size: 11px; text-shadow: 0 1px 0 #FFFFFF; color:#464646;}',
 				button_height: "23",
 				button_width: "132",
 				button_text_top_padding: 3,
@@ -110,7 +110,6 @@ function anno_media_upload_form() {
 				upload_url : "<?php echo esc_attr( $flash_action_url ); ?>",
 				flash_url : "<?php echo includes_url('js/swfupload/swfupload.swf'); ?>",
 				file_post_name: "async-upload",
-				file_types: "<?php echo apply_filters('upload_file_glob', '*.*'); ?>",
 				post_params : {
 					<?php echo $post_params_str; ?>
 				},
@@ -130,7 +129,7 @@ function anno_media_upload_form() {
 					degraded_element_id : "html-upload-ui", // id of the element displayed when swfupload is unavailable
 					swfupload_element_id : "flash-upload-ui" // id of the element displayed when swfupload is available
 				},
-				file_types : "*.jpg;*.gif;*.png;*.jpeg;",
+				file_types : "*.jpg;*.gif;*.png;*.jpeg;*.bmp;",
 				debug: false
 			};
 			swfu = new SWFUpload(settings);
@@ -142,9 +141,9 @@ function anno_media_upload_form() {
 	<?php do_action('pre-flash-upload-ui'); ?>
 
 		<div>
-		<?php _e( 'Choose files to upload' ); ?>
+		<?php _ex('Choose files to upload', 'Media upload dialog', 'anno'); ?>
 		<div id="flash-browse-button"></div>
-		<span><input id="cancel-upload" disabled="disabled" onclick="cancelUpload()" type="button" value="<?php esc_attr_e('Cancel Upload'); ?>" class="button" /></span>
+		<span><input id="cancel-upload" disabled="disabled" onclick="cancelUpload()" type="button" value="<?php _ex('Cancel Upload', 'Media cancel button text', 'anno'); ?>" class="button" /></span>
 		</div>
 	<?php do_action('post-flash-upload-ui'); ?>
 	</div>
@@ -153,13 +152,13 @@ function anno_media_upload_form() {
 	<div id="html-upload-ui" class="tinymce-uploader<?php if ( $flash ) echo ' hide-if-js'; ?>">
 	<?php do_action('pre-html-upload-ui'); ?>
 		<p id="async-upload-wrap">
-			<label class="screen-reader-text" for="async-upload"><?php _e('Upload'); ?></label>
+			<label class="screen-reader-text" for="async-upload"><?php _ex('Upload', 'Media upload text', 'anno'); ?></label>
 			<input type="file" name="async-upload" id="async-upload" accept="image/gif, image/jpeg, image/jpg, image/png" />
-			<?php submit_button( __( 'Upload' ), 'button', 'html-upload', false ); ?>
+			<?php submit_button( _x( 'Upload', 'Media upload text', 'anno' ), 'button', 'html-upload', false ); ?>
 		</p>
 		<div class="clear"></div>
 		<?php if ( is_lighttpd_before_150() ): ?>
-		<p><?php _e('If you want to use all capabilities of the uploader, like uploading multiple files at once, please update to lighttpd 1.5.'); ?></p>
+		<p><?php _ex('If you want to use all capabilities of the uploader, like uploading multiple files at once, please update to lighttpd 1.5.', 'Media upload error text', 'anno'); ?></p>
 		<?php endif;?>
 	<?php do_action('post-html-upload-ui', $flash); ?>
 	</div>
@@ -273,16 +272,16 @@ function anno_async_upload() {
 	header('Content-Type: text/plain; charset=' . get_option('blog_charset'));
 
 	if ( !current_user_can('upload_files') )
-		wp_die(__('You do not have permission to upload files.'));
+		wp_die(_x('You do not have permission to upload files.', 'Media upload error text', 'anno'));
 
 	// just fetch the detail form for that attachment
 	if ( isset($_REQUEST['attachment_id']) && ($id = intval($_REQUEST['attachment_id'])) && $_REQUEST['fetch'] ) {
 		$post = get_post($id);
 		if ('attachment' != $post->post_type)
-			wp_die(__('Unknown post type.'));
+			wp_die(_x('Unknown post type.', 'Media upload error text', 'anno'));
 		$post_type_object = get_post_type_object('attachment');
 		if (!current_user_can( $post_type_object->cap->edit_post, $id))
-			wp_die(__( 'You are not allowed to edit this item.' ));
+			wp_die(_x( 'You are not allowed to edit this item.', 'Media upload error text', 'anno'));
 
  		add_filter('attachment_fields_to_edit', 'media_post_single_attachment_fields_to_edit', 10, 2);
 		echo anno_get_media_item($id);
@@ -294,8 +293,8 @@ function anno_async_upload() {
 	$id = media_handle_upload('async-upload', $_REQUEST['post_id']);
 	if ( is_wp_error($id) ) {
 		echo '<div class="error-div">
-		<a class="dismiss" href="#" onclick="jQuery(this).parents(\'div.media-item\').slideUp(200, function(){jQuery(this).remove();});">' . __('Dismiss') . '</a>
-		<strong>' . sprintf(__('&#8220;%s&#8221; has failed to upload due to an error'), esc_html($_FILES['async-upload']['name']) ) . '</strong><br />' .
+		<a class="dismiss" href="#" onclick="jQuery(this).parents(\'div.media-item\').slideUp(200, function(){jQuery(this).remove();});">' . _x('Dismiss', 'Media upload helper', 'anno') . '</a>
+		<strong>' . sprintf(_x('&#8220;%s&#8221; has failed to upload due to an error', 'Media upload error text', 'anno'), esc_html($_FILES['async-upload']['name']) ) . '</strong><br />' .
 		esc_html($id->get_error_message()) . '</div>';
 		exit;
 	}

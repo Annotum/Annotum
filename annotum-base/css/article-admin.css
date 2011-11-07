@@ -299,21 +299,30 @@ table#anno-references table td table td {
 }
 /** TinyMCE Images Popup
  -------------------------------------------------- */
+#anno-popup-images {
+	overflow-x: hidden !important;
+	width:480px;
+	min-width: 480px;
+}
+#anno-popup-images .swfupload {
+	vertical-align: bottom;
+}
 #anno-popup-images-inside.anno-mce-popup input[type="file"] {
 	width: 300px;
 }
 #anno-popup-images-inside table {
-	border: 1px solid #dfdfdf;
 	border-bottom: 0;
 }
 #anno-popup-images-inside table tr,
 #anno-popup-images-inside table td {
 	border: 0;
 }
+#anno-popup-images-inside table tbody tr {
+	border: 1px solid #dfdfdf;
+}
 #anno-popup-images-inside table td.img-list-img,
 #anno-popup-images-inside table td.img-list-title,
 #anno-popup-images-inside table td.img-list-actions {
-	border-bottom: 1px solid #dfdfdf;
 	padding: 2px;
 }
 #anno-popup-images-inside table td.img-list-img {
@@ -336,7 +345,7 @@ table#anno-references table td table td {
 	width: 100px;
 }
 #anno-popup-images-inside table tr th {
-	height: 0px;
+	height: 0px !important;
 }
 .anno-image-upload-box {
 	height: 40px;
@@ -384,12 +393,12 @@ table#anno-references table td table td {
 #anno-popup-equations fieldset input,
 #anno-popup-images-inside fieldset input,
 #anno-popup-images-inside fieldset textarea {
-	width: 250px;
+	width: 240px;
 }
 #anno-popup-equations fieldset label span,
 #anno-popup-quote fieldset label span,
 #anno-popup-images-inside fieldset label span {
-	width: 130px;
+	width: 120px;
 	float: left;
 }
 #anno-popup-equations fieldset label.radio,
@@ -460,4 +469,7 @@ table tr td.anno-mce-popup-footer {
 #anno-popup-equations textarea {
 	width: 100%;
 	max-width: 100%;
+}
+.anno-mce-popup {
+	overflow-x: hidden !important;
 }
