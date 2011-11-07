@@ -13,14 +13,15 @@
 
 	tinymce.create('tinymce.plugins.FullScreenPlugin', {
 		init : function(ed, url) {
-			var t = this, s = {}, vp, posCss;
+			var t = this, s = {}, vp, posCss;2
 
 			t.editor = ed;
 
 			// Register commands
 			ed.addCommand('mceFullScreen', function() {
 				var win, de = DOM.doc.documentElement;
-
+				// Remove full screen add media button WP adds
+				ed.settings.theme_advanced_buttons1 = ed.settings.theme_advanced_buttons1.replace(',|,add_media', '');
 				if (ed.getParam('fullscreen_is_enabled')) {
 					if (ed.getParam('fullscreen_new_window'))
 						closeFullscreen(); // Call to close in new window
