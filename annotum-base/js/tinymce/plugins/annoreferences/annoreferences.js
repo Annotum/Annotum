@@ -83,7 +83,7 @@ var annoReferences;
 			});
 			ed.selection.collapse();
 			
-			ed.execCommand('mceinsertContent', null, xml);
+			ed.execCommand('mceInsertContent', null, xml);
 			
 			annoReferences.close();
 		},

@@ -106,11 +106,6 @@
 				return FALSE;
 			}
 
-			// If root blocks are forced then use Operas default behavior since it's really good
-// Removed due to bug: #1853816
-//			if (se.forced_root_block && isOpera)
-//				return TRUE;
-
 			// Setup before range
 			rb = d.createRange();
 

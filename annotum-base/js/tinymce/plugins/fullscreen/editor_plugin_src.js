@@ -13,7 +13,7 @@
 
 	tinymce.create('tinymce.plugins.FullScreenPlugin', {
 		init : function(ed, url) {
-			var t = this, s = {}, vp, posCss;2
+			var t = this, s = {}, vp, posCss;
 
 			t.editor = ed;
 
