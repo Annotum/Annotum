@@ -113,6 +113,7 @@ function anno_load_editor($content, $editor_id, $settings = array()) {
 		'~license-p',
 		'~disp-quote',
 		'~attrib',
+		'heading',
 		'sec',
 		'list',
 		'list-item',
@@ -133,7 +134,7 @@ function anno_load_editor($content, $editor_id, $settings = array()) {
 	// This takes into account imported content and pasted content which gets inserted natively in divs and spans
 	$valid_children = array(
 		'preformat[]',
-		'body[sec|para|media|list|disp-formula|disp-quote|fig|table-wrap|preformat|div|span]',
+		'body[sec|para|media|list|disp-formula|disp-quote|fig|table-wrap|preformat|div|span|heading]',
 		'copyright-statement['.$formats_as_children.']',
 		'license-p['.$formats_as_children.'|xref|ext-link]',
 		'heading['.$formats_as_children.'|div|span|br]',
@@ -170,11 +171,11 @@ function anno_load_editor($content, $editor_id, $settings = array()) {
 					italic : { \'inline\' : \'italic\'},
 					monospace : { \'inline\' : \'monospace\'},
 					underline : { \'inline\' : \'underline\'},
-					sec : { \'inline\' : \'sec\', \'wrapper\' : \'false\' },
-					title : { \'block\' : \'heading\' },
-					preformat : { \'inline\' : \'preformat\' },
+					sec : {\'inline\' : \'sec\', wrapper : \'false\' },
+					para : { \'inline\' : \'para\' },
+					heading : { \'inline\' : \'heading\' },		
 				}',
-			'theme_advanced_blockformats' => 'Paragraph=para,Title=heading,Section=sec',
+			'theme_advanced_blockformats' => 'Paragraph=para,Heading=heading,Section=sec',
 			'forced_root_block' => '',
 			'debug' => 'true',
 			'verify_html' => true,
@@ -239,7 +240,7 @@ class Anno_tinyMCE {
 	
 	function mce_buttons_2($buttons) {
 		if ($this->is_article()) {
-			$buttons = array('formatselect', '|', 'table', 'row_before', 'row_after', 'delete_row', 'col_before', 'col_after', 'delete_col', 'split_cells', 'merge_cells', '|', 'annopastetext', 'annopasteword', 'annolist', '|', 'annoreferences', '|', 'annomonospace', 'annopreformat', '|', 'annoequations');
+			$buttons = array('annoformatselect', '|', 'table', 'row_before', 'row_after', 'delete_row', 'col_before', 'col_after', 'delete_col', 'split_cells', 'merge_cells', '|', 'annopastetext', 'annopasteword', 'annolist', '|', 'annoreferences', '|', 'annomonospace', 'annopreformat', '|', 'annoequations');
 		}
 		return $buttons;
 	}
@@ -914,8 +915,9 @@ function anno_process_editor_content($content) {
 			}
 		else {
 			$img_src = $fig->find('media')->attr('xlink:href');
+			error_log($fig->html());
+			//error_log($img_src);
 		}
-		
 		$fig->prepend('<img src="'.$img_src.'" />');
 		
 		// _mce_bogus stripped by tinyMCE on save
