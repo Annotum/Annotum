@@ -44,22 +44,29 @@
 			// Override default tinyMCE element.
 			se.element = 'para';
 				
-			if (e.ctrlKey || /(BODY|HTML|HEADING|PARA)/.test(node.nodeName)) {
+			if (e.ctrlKey || /(BODY|HTML|HEADING|PARA|SEC)/.test(node.nodeName)) {
 				function insertNewBlock(node) {
 					var newElement, parentNode;
-
 					if (dom.getParent(node, 'PARA') !== null) {
 						node = dom.getParent(node, 'PARA');
 					}
-					
-					if (!(parentNode = dom.getParent(node, 'SEC')) || node.nodeName == 'SEC') {
+
+					// If we're not in a section already, or this node is a section, insert a new section block
+					if ((!(parentNode = dom.getParent(node, 'SEC')) || node.nodeName == 'SEC') && e.ctrlKey) {
 						newElement = newSec();
 					}
 					else {
 						newElement = dom.create('PARA');
 					}
-					
-					return dom.insertAfter(newElement, node);
+					// If we're not trying to insert a new section and we're in a section node, just return insert a paragraph at the cursor
+					if (node.nodeName == 'SEC' && !e.ctrlKey) {
+						// @TODO This dom element does not actually get inserted, its the markup has ramifications for the range selection afterwords.
+						// Looking for an improved cursor targetting or insertion solution.
+						return ed.selection.select(newElement);
+					}
+					else {
+						return dom.insertAfter(newElement, node);
+					}
 				}
 
 				// Create a new sec element with a title
@@ -70,7 +77,7 @@
 					return sec;
 				}
 
-				// Just insert a new paragraph if the ctrl key isn't held and the cara is in a para tag
+				// Just insert a new paragraph if the ctrl key isn't held and the carat is in a para tag
 				// Or, various tags should create paragraphs, not enter a br (when the ctrl key is held).
 				if ((!e.ctrlKey && /(PARA)/.test(node.nodeName)) || /(DISP-FORMULA|TABLE-WRAP|FIG|DISP-QUOTE|HEADING)/.test(node.nodeName)) {
 					newElement = insertNewBlock(node);
@@ -90,18 +97,20 @@
 					newElement = insertNewBlock(parentNode);
 				}
 				
+				// Set new element as the first title tag, so we can select it
 				if (newElement.nodeName == 'SEC') {
 					var eleArray = dom.select(' > heading', newElement);
 					if (eleArray.length > 0) {
 						newElement = eleArray[0];
 					}
 				}
-				
+
 				// Move caret to the freshly created item
 				r = d.createRange();
 				r.selectNodeContents(newElement);
 				r.collapse(1);
 				ed.selection.setRng(r);
+				
 				
 				return FALSE;
 			}
