@@ -1,7 +1,9 @@
 (function(){ 
     tinymce.create('tinymce.plugins.annoFormats', {
  
-        init : function(ed, url){	
+        init : function(ed, url){
+			var t = this;
+			t.editor = ed;
             ed.addCommand('Anno_Monospace', function() {
 				tinymce.activeEditor.formatter.toggle('monospace');
             });
@@ -21,8 +23,92 @@
 				//ed.getLang('advanced.references_desc'),
 				cmd : 'Anno_Monospace',
 			});
-    	},
+		},
 
+		// @TODO on change format display update
+		// @TODO undo points
+		// @TODO Translation for formats		
+		createControl : function(n, cm) {
+			var t = this, c, ed = t.editor;		
+			if (n == 'annoformatselect') {
+				// Create the list box
+			    var listbox = cm.createListBox('annoformatselect', {
+			         title : 'Format',
+			         onselect : function(v) {
+						applyAnnoFormat(v);
+						ed.focus();
+			         }
+			    });        
+
+			    // Add some values to the list box
+			    listbox.add('Heading', 'heading');
+			    listbox.add('Paragraph', 'para');
+			    listbox.add('Section', 'sec');
+
+			    // Return the new listbox instance
+			    return listbox;
+				
+				function applyAnnoFormat(format) {
+					var sel = ed.selection, dom = ed.dom, range = sel.getRng(), remove = false, bookmark = sel.getBookmark();
+					// Returns a new node that removes all the unsupported tags of the new format
+					function getNewNode(originalNode, newNodeName) {
+						var newNode = ed.dom.create(newNodeName, null, '<div>'+originalNode.innerHTML+'</div>');
+						// We want to remove the div, which is required above
+						dom.remove(newNode.childNodes[0], true);
+
+						for (var i=0; i < newNode.childNodes.length; i++) {
+							childNode = newNode.childNodes[i];
+							if (childNode.nodeName == 'DIV') {
+								dom.remove(childNode, true);
+							}
+							if (childNode.nodeType != 3 && !ed.schema.isValidChild(newNode.nodeName.toLowerCase(), childNode.nodeName.toLowerCase())) {
+								//@TODO maybe keep formats, just strip them
+								dom.remove(childNode);
+							}
+						}
+
+						return newNode;
+					};
+
+					// We don't care about the selection, just collapse
+					sel.collapse(0);
+
+					// Find first parent
+					var wrapper = ed.dom.getParent(sel.getNode(), 'HEADING, PARA, SEC');
+					if (wrapper !== null) {
+						if (format.toLowerCase() === wrapper.nodeName.toLowerCase()) {
+							// Move to the end of the current wrapper, and get the bookmark
+							// This prevents us from having a bookmark in the middle of an element that may be removed
+							sel.select(wrapper);
+							sel.collapse(0);
+							bookmark = sel.getBookmark();
+
+							newNode = getNewNode(wrapper, wrapper.parentNode.nodeName);							
+							wrapper.parentNode.replaceChild(newNode, wrapper);
+							dom.remove(newNode, true);
+						
+							sel.moveToBookmark(bookmark);
+							remove = true;
+						}
+						else {
+							// convert
+							newNode = getNewNode(wrapper, format);
+							wrapper.parentNode.replaceChild(newNode, wrapper);
+						}					
+					}
+					else {
+						// Insert a new node if we don't have a valid wrapper
+						var newNode = ed.dom.create(format);
+						range.insertNode(newNode);
+					}
+					if (newNode && !remove) {
+						range.selectNodeContents(newNode);
+						range.collapse(0);
+						sel.setRng(range);
+					}
+				};
+			}
+		},
         getInfo : function() {
             return {
                 longname: 'Annotum Formats',
