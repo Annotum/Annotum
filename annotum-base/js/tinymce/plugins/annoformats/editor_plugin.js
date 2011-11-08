@@ -35,7 +35,9 @@
 			    var listbox = cm.createListBox('annoformatselect', {
 			         title : 'Format',
 			         onselect : function(v) {
+						ed.undoManager.beforeChange();
 						applyAnnoFormat(v);
+						ed.undoManager.add();
 						ed.focus();
 			         }
 			    });        
