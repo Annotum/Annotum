@@ -165,15 +165,12 @@ function anno_load_editor($content, $editor_id, $settings = array()) {
 			'extended_valid_elements' => implode(',', $extended_valid_elements),
 			'custom_elements' => implode(',', $custom_elements),
 			'valid_children' => implode(',', $valid_children),
-			//  Defines wrapper, need to set this up as its own button.
+			//  Defines formats.
 			'formats' => '{
 					bold : {\'inline\' : \'bold\'},
 					italic : { \'inline\' : \'italic\'},
 					monospace : { \'inline\' : \'monospace\'},
-					underline : { \'inline\' : \'underline\'},
-					sec : {\'inline\' : \'sec\', wrapper : \'false\' },
-					para : { \'inline\' : \'para\' },
-					heading : { \'inline\' : \'heading\' },		
+					underline : { \'inline\' : \'underline\'},	
 				}',
 			'theme_advanced_blockformats' => 'Paragraph=para,Heading=heading,Section=sec',
 			'forced_root_block' => '',
