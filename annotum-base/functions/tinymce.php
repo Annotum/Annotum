@@ -912,8 +912,6 @@ function anno_process_editor_content($content) {
 			}
 		else {
 			$img_src = $fig->find('media')->attr('xlink:href');
-			error_log($fig->html());
-			//error_log($img_src);
 		}
 		$fig->prepend('<img src="'.$img_src.'" />');
 		
