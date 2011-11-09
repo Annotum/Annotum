@@ -94,7 +94,7 @@ class Anno_Template {
 	 * An opt-out for transient caches used in this class.
 	 * Useful for turning them off when testing.
 	 */
-	protected $enable_caches = false;
+	protected $enable_caches = true;
 	protected $utils; // An instance of the Anno_Utils class -- or whatever comes back from Anno_Keeper
 	
 	public function __construct() {
