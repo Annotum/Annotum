@@ -873,7 +873,7 @@ add_action('right_now_content_table_end', 'anno_activity_information');
 
 
 /**
- * Clear footer transient when we update it on the backend
+ * Clear footer transient when we update the items in the menu it is currently using
  */ 
 function anno_update_nav_menu($menu_id) {
  	// Accounts for orphans where menu_id = 0
@@ -886,6 +886,85 @@ function anno_update_nav_menu($menu_id) {
 	}
 }
 add_action('wp_update_nav_menu', 'anno_update_nav_menu');
+
+/**
+ * Clear footer transient when we change which menu it is using
+ */
+function anno_update_nav_menu_location_add_action() {
+	$theme = get_option( 'stylesheet' );
+	add_action('update_option_theme_mods_'.$theme, 'anno_update_nav_menu_location');
+}
+add_action('admin_head-nav-menus.php', 'anno_init');
+
+function anno_update_nav_menu_location() {
+	delete_transient('anno_footer_menu');
+}
+
+/**
+ * Display default menus if a given menu is empty
+ * Handles the case where the theme location has a menu but it has no menu items
+ * @see anno_build_default_menu() for other case
+ */ 
+function anno_nav_menu_items($items, $args) {
+	if (empty($items)) {
+		$items = anno_default_menu_items($args->theme_location);
+	}
+	return $items;
+}
+add_filter('wp_nav_menu_items', 'anno_nav_menu_items', 10, 2);
+
+/**
+ * Build default nav menu items based on theme location
+ */ 
+function anno_default_menu_items($location) {
+	$items = '';
+	$default_classes = 'menu-item menu-item-type-taxonomy menu-item-object-category';
+	switch ($location) {
+		case 'main':
+		case 'secondary':
+			$items .= '<li classes="'.$default_classes.'">'.wp_loginout('', false).'</li>';
+		break;
+		case 'footer':
+			$items .= '<li classes="'.$default_classes.'"><a href="http://www.annotum.org">'._x('About Annotum', 'Default link description', 'anno').'</a></li>';
+			break;
+		default:
+			break;
+	}
+	
+	return $items;
+}
+
+/**
+ * Build a default menu based on theme location
+ * Handles the case where the theme location does not have a nav menu
+ * @see anno_nav_menu_items() for other case
+ */ 
+function anno_build_default_menu($args) {
+	$menu = '';
+	// The only arg that Annotum uses and cares about is menu_class and theme_location	
+	if (!empty($args['theme_location'])) {
+		$items = anno_default_menu_items($args['theme_location']);
+		if (!empty($items)) {
+
+			$class = !empty($args['menu_class']) ? ' class="'.esc_attr($args['menu_class']).'"' : '';
+			$menu = '<ul'.$class.'>'.$items.'</ul>';
+		}
+	}
+	return $menu;
+}
+
+/**
+ * Output a nav menu or fall back to a constructed default one
+ */ 
+function anno_nav_menu($args) {
+	$args['echo'] = false;
+	$menu = wp_nav_menu($args);
+	if (empty($menu)) {
+		$menu = anno_build_default_menu($args);
+	}
+
+	echo $menu;
+}
 
 /**
  * Display 'default' widgets (used when a sidebar is loaded but doesn't have widgets)

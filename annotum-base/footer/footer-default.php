@@ -25,7 +25,7 @@ if (CFCT_DEBUG) { cfct_banner(__FILE__); }
 					'container' => false,
 				);
 				ob_start();
-					wp_nav_menu($args);
+					anno_nav_menu($args);
 					$footer_menu_markup = ob_get_contents();
 				ob_end_clean();
 				set_transient('anno_footer_menu', $footer_menu_markup, (60 * 60 * 24));

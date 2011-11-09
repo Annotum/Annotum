@@ -38,7 +38,7 @@ if (CFCT_DEBUG) { cfct_banner(__FILE__); }
 					'theme_location' => 'secondary',
 					'container' => false,
 				);
-				wp_nav_menu($args);
+				anno_nav_menu($args);
 				?>
 				</nav>
 			</div>
@@ -52,7 +52,7 @@ if (CFCT_DEBUG) { cfct_banner(__FILE__); }
 					'container' => false,
 					'menu_class' => 'nav'
 				);
-				wp_nav_menu($args);
+				anno_nav_menu($args);
 				cfct_form('search');
 				?>
 				</nav>
