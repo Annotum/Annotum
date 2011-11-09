@@ -1071,7 +1071,6 @@ add_action('add_post_meta', 'anno_save_appendices_xml_as_html', 10, 3);
  */
 function anno_insert_post_data($data, $postarr) {
 	$is_article_type = false;
-
 	// Both published and drafts (before article ever saved) get caught here
 	if ($postarr['post_type'] == 'article') {
 		$is_article_type = true;
@@ -1086,7 +1085,7 @@ function anno_insert_post_data($data, $postarr) {
 	if ($is_article_type) {
 		// Get our XML content for the revision
 		$content = stripslashes($data['post_content']);
-
+		
 		// Set XML as backup content. Filter markup and strip out tags not on whitelist.
 		$xml = anno_validate_xml_content_on_save($content);
 		$data['post_content_filtered'] = addslashes($xml);
@@ -2057,5 +2056,16 @@ function anno_tinymce_js() {
 }
 add_action('admin_print_scripts-post.php', 'anno_tinymce_js');
 add_action('admin_print_scripts-post-new.php', 'anno_tinymce_js');
+
+
+/**
+ * Remove specific filters for non-admins for saving content properly
+ */ 
+function anno_remove_kses_from_content() {
+	// If we don't remove these, WP treats <list-item> as <list> for non-admin users
+	remove_filter('content_save_pre', 'wp_filter_post_kses');
+	remove_filter('content_filtered_save_pre', 'wp_filter_post_kses');
+}
+add_action('init', 'anno_remove_kses_from_content');
 
 ?>
