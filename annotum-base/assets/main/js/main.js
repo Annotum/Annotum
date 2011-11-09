@@ -27,10 +27,6 @@ Anno.ready = function() {
 };
 
 Anno.util = {
-	/* convertEntities is defined in l10n.js and handles JS-safe to HTML
-	entity conversion. All translated strings used for HTML should be run through it. */
-	_ents: convertEntities,
-
 	/* A dump sprintf-style function that only does positionals and doesn't do
 	data types oustide of string. e.g. %1$s %2$s */
 	formattedReplace: function (str, replacements) {
@@ -45,7 +41,6 @@ Anno.util = {
 
 	/* Convert entities and translate strings */
 	_l: function (str, replacements) {
-		str = this._ents(str);
 		return this.formattedReplace(str, replacements);
 	}
 };
@@ -78,8 +73,8 @@ Anno.contexts = (function () {
 				$pagination = $cycler.find('.control-panel'),
 				$controls = $('<div class="control-panel" />'),
 				$numbers = $('<div class="numbers"></div>'),
-				$prev = $('<a class="previous imr">'+util._ents(lang.previous)+'</a>'),
-				$next = $('<a class="next imr">'+util._ents(lang.next)+'</a>'),
+				$prev = $('<a class="previous imr">'+lang.previous+'</a>'),
+				$next = $('<a class="next imr">'+lang.next+'</a>'),
 				numbering,
 				trans,
 				oldfade;
