@@ -94,7 +94,7 @@ class Anno_Template {
 	 * An opt-out for transient caches used in this class.
 	 * Useful for turning them off when testing.
 	 */
-	protected $enable_caches = true;
+	protected $enable_caches = false;
 	protected $utils; // An instance of the Anno_Utils class -- or whatever comes back from Anno_Keeper
 	
 	public function __construct() {
@@ -329,21 +329,47 @@ class Anno_Template {
 			$title = sprintf(_x('%1$s: %2$s', 'Title and subtitle as a textarea-safe string', 'anno'), $title, $subtitle);
 		}
 
-		$contributors = $this->get_author_ids($post_id);
+		$contributors = get_post_meta($post_id, '_anno_author_snapshot', true);
+		$contributor_is_id = false;
+		if (empty($contributors) || !is_array($contributors)) {
+			$contributors = $this->get_author_ids($post_id);
+			$contributor_is_id = true;
+		}		
 
 		$names = array();
-		foreach ($contributors as $id) {
-			$first = get_user_meta($id, 'first_name', true);
-			$last = get_user_meta($id, 'last_name', true);
+		foreach ($contributors as $contributor) {
+			if ($contributor_is_id) {
+				$contributor_wp_data = get_user_by('id', $id);
+
+				$first = $contributor_wp_data->user_firstname;
+				$last = $contributor_wp_data->user_lastname;
+				$display_name = $contributor_wp_data->display_name;
+			}
+			else {
+				$contributor_id = $contributor['id'];
+				// Test for integer ID, thus we know its not a knol ID and we can attempt to look up a WP user for fallback
+				if ($contributor_id == (string) intval($contributor_id)) {
+					$contributor_wp_data = get_user_by('id', $contributor_id);
+				}
+				else {
+					$contributor_wp_data = false;
+				}
+
+				$first = $contributor['given_names'];
+				$last = $contributor['surname'];
+				$display_name = empty($author_wp_data) ? '' : $contributor_wp_data->display_name;
+			}
+			
 			if ($first && $last) {
 				$name = sprintf(_x('%1$s %2$s', 'First and last name as a textarea-safe string', 'anno'), $first, $last);
 			}
 			else {
-				$user = get_user_by('id', $id);
-				$name = $user->display_name;
-				unset($user);
+				$name = $display_name;
 			}
-			$names[] = $name;
+			
+			if (!empty($name)) {
+				$names[] = $name;
+			}
 		}
 		$authors = implode(', ', $names);
 
