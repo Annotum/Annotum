@@ -887,4 +887,18 @@ function anno_update_nav_menu($menu_id) {
 }
 add_action('wp_update_nav_menu', 'anno_update_nav_menu');
 
+/**
+ * Display 'default' widgets (used when a sidebar is loaded but doesn't have widgets)
+ * @see sidebar/sidebar-deafult.php
+ */ 
+function anno_default_widgets() {
+	global $wp_widget_factory;
+	if (isset($wp_widget_factory->widgets['Anno_Widget_Recently'])) {
+		the_widget('Anno_Widget_Recently');
+	}
+	if (isset($wp_widget_factory->widgets['WP_Widget_Meta'])) {
+		the_widget('WP_Widget_Meta');
+	}
+}
+
 ?>

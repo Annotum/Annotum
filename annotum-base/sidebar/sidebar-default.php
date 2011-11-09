@@ -19,4 +19,11 @@ if (is_page()) {
 else if (is_singular() && get_post_type() == 'article') {
 	$sidebar = 'sidebar-article';
 }
-dynamic_sidebar($sidebar); ?>
+if (is_dynamic_sidebar($sidebar)) {
+	dynamic_sidebar($sidebar); 
+}
+else {
+	anno_default_widgets();
+}
+
+?>
