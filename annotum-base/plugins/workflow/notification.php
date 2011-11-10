@@ -201,7 +201,7 @@ Thank you.
 			$notification = array(
 				'subject' => sprintf(_x('%s has been invited to review %s by %s', 'Email notification subject', 'anno'), $single_user, $title, $author),
 				'body' => sprintf(_x(
-'%s has been invted to review the following article:
+'%s has been invited to review the following article:
 --------------------
 Title: %s
 Author(s): %s
