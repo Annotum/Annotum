@@ -344,7 +344,6 @@ function anno_internal_comments_ajax() {
 		if ($comment_base_type == 'review') {
 			$recipients[] = $user->user_email;
 		}
-		
 		annowf_send_notification($comment_base_type.'_comment', $post, $comment, $recipients);
 	}
 	

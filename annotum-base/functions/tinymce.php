@@ -1070,6 +1070,11 @@ add_action('add_post_meta', 'anno_save_appendices_xml_as_html', 10, 3);
  * Save the formatted HTML to the post_content column
  */
 function anno_insert_post_data($data, $postarr) {
+	// This is the quick edit action, we don't want to mess around with the content.
+	if ($_POST['action'] == 'inline-save') {
+		return $data;
+	}
+	
 	$is_article_type = false;
 	// Both published and drafts (before article ever saved) get caught here
 	if ($postarr['post_type'] == 'article') {
