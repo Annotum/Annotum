@@ -794,7 +794,9 @@ foreach ($this->authors as $author_key => $author_data) {
 	        'email' => '',
 	        'link' => '',
 		);
+
 		foreach ( $this->posts as $post ) {
+		
 			if ( ! post_type_exists( $post['post_type'] ) ) {
 				printf( __( 'Failed to import &#8220;%s&#8221;: Invalid post type %s', 'anno' ),
 					esc_html($post['post_title']), esc_html($post['post_type']) );

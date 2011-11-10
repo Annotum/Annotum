@@ -11,7 +11,6 @@ class Knol_WXR_Parser {
 				case 'simplexml':
 					$parser = new Knol_WXR_Parser_SimpleXML;
 					$result = $parser->parse( $file );
-
 					// If SimpleXML succeeds or this is an invalid WXR file then return the results
 					if ( ! is_wp_error( $result ) || 'SimpleXML_parse_error' != $result->get_error_code() )
 						return $result;
@@ -28,9 +27,9 @@ class Knol_WXR_Parser {
 					return $parser->parse( $file );
 					break;
 				default:
+					printf(__('ANNO_IMPORT_DEBUG: Could not find parser %s.', 'anno'), esc_html($_POST['anno_knol_parser']));
 					break;
 			}
-			printf(__('ANNO_IMPORT_DEBUG: Could not find parser %s.', 'anno'), esc_html($_POST['anno_knol_parser']));
 			return;
 		}
 		
@@ -328,7 +327,7 @@ class Knol_WXR_Parser_SimpleXML {
 				
 				if (!empty($attrs['alt'])) {
 					$attachment['post_title'] = $attrs['title'];
-					$attachments['_wp_attachment_image_alt'] = array(
+					$attachment['_wp_attachment_image_alt'] = array(
 						'key' => '_wp_attachment_image_alt',
 						'value' => (string) $attrs['alt'],
 					);
