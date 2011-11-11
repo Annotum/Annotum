@@ -849,9 +849,7 @@ function anno_activity_information() {
 	}
 	?>
 	</table> <!-- /close up the other table -->
-	
-	<p id="article-dashboard-summary" class="sub"><?php _e('Article Summary', 'anno'); ?></p>
-	
+		
 	<table>
 		<tr>
 			<td class="first b"><a href="<?php echo esc_url($base_edit_link); ?>"><?php echo number_format_i18n($total_records); ?></a></td>
