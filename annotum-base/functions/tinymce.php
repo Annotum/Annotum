@@ -1071,7 +1071,7 @@ add_action('add_post_meta', 'anno_save_appendices_xml_as_html', 10, 3);
  */
 function anno_insert_post_data($data, $postarr) {
 	// This is the quick edit action, we don't want to mess around with the content.
-	if ($_POST['action'] == 'inline-save') {
+	if (isset($_POST['action']) && $_POST['action']  == 'inline-save') {
 		return $data;
 	}
 	

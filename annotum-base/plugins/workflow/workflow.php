@@ -196,7 +196,7 @@ function annowf_transistion_state($post_id, $post, $post_before) {
 			update_post_meta($post_id, '_round', intval($round) + 1);
 			$notification_type = 'revisions';
 		}
-
+		
 		if ($new_state != $old_state) {
 			if (empty($new_state)) {
 				$new_state = 'draft';
@@ -208,7 +208,7 @@ function annowf_transistion_state($post_id, $post, $post_before) {
 			annowf_save_audit_item($post->ID, $current_user->ID, 2, array($old_state, $new_state));
 			
 			// Send notifications
-			if (anno_workflow_enabled('notifications')) {
+			if (anno_workflow_enabled('notifications') && !($old_state == 'publish' && $new_state == 'draft')) {
 				annowf_send_notification($notification_type, $post);
 			}
 		}
