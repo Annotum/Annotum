@@ -971,6 +971,6 @@ jQuery(document).ready(function($) {
 <?php
 	}
 }
-//add_action('admin_head-revision.php', 'annowf_revision_remove_restore_link');
+add_action('admin_head-revision.php', 'annowf_revision_remove_restore_link');
 
 ?>
