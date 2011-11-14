@@ -26,7 +26,7 @@ include_once(CFCT_PATH.'functions/template.php');
 include_once(CFCT_PATH.'functions/widgets.php');
 include_once(CFCT_PATH.'functions/profile.php');
 include_once(CFCT_PATH.'functions/tinymce.php');
-include_once(CFCT_PATH.'functions/tinymce-uploader.php');
+include_once(CFCT_PATH.'functions/tinymce-upload/tinymce-uploader.php');
 include_once(CFCT_PATH.'functions/tinymce-upload/image-popup.php');
 include_once(CFCT_PATH.'functions/phpquery/phpquery.php');
 include_once(CFCT_PATH.'functions/anno-xml-download.php');
