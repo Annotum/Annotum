@@ -58,6 +58,23 @@ if (CFCT_DEBUG) { cfct_banner(__FILE__); }
 			</nav>
 		</div>
 	</div>
+	<?php if (is_home()) { ?>
+	<div id="masthead" class="clearfix">
+		<div class="in">
+			<div id="masthead-body">
+				<?php
+				$featured = new Anno_Featured_Articles();
+				$featured->render();
+				?>
+			</div><!-- #masthead-body -->
+			<div class="teasers">
+				<?php dynamic_sidebar('masthead'); ?>
+			</div><!-- #masthead-sidebar -->
+		</div>
+	</div><!-- #masthead -->
+	<?php
+	}
+	?>
 </header>
 <div id="main" class="act">
 	<div class="in">
