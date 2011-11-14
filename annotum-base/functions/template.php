@@ -339,7 +339,8 @@ class Anno_Template {
 		$names = array();
 		foreach ($contributors as $contributor) {
 			if ($contributor_is_id) {
-				$contributor_wp_data = get_user_by('id', $id);
+				error_log($contributor);
+				$contributor_wp_data = get_user_by('id', $contributor);
 
 				$first = $contributor_wp_data->user_firstname;
 				$last = $contributor_wp_data->user_lastname;

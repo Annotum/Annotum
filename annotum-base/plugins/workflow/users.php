@@ -21,6 +21,10 @@ function anno_user_can($cap, $user_id = null, $post_id = null, $comment_id = nul
 	if (is_null($post_id)) {
 		$post_id = anno_get_post_id();
 	}
+	if (!empty($_GET['revision'])) {
+		$revision = get_post($_GET['revision']);
+		$post_id = $revision->post_parent;
+	}
 
 	$post_state = annowf_get_post_state($post_id);
 
@@ -28,11 +32,10 @@ function anno_user_can($cap, $user_id = null, $post_id = null, $comment_id = nul
 
 	// Number of times this item has gone back to draft state.
 	$post_round = get_post_meta($post_id, '_round', true);
-	
+
 	// WP role names
 	$admin = 'administrator';
 	$editor = 'editor';
-	
 	switch ($cap) {
 		case 'administrator':
 		case 'admin': 
@@ -41,6 +44,7 @@ function anno_user_can($cap, $user_id = null, $post_id = null, $comment_id = nul
 			}
 		break;
 		case 'editor':
+		case 'view_audit':
 			if (in_array($user_role, array($admin, $editor))) {
 				return true;
 			}
@@ -192,11 +196,6 @@ function anno_user_can($cap, $user_id = null, $post_id = null, $comment_id = nul
 					break;
 				default:
 					break;
-			}
-			break;
-		case 'view_audit': 
-		 	if ($user_role == $admin) {
-				return true;
 			}
 			break;
 		case 'clone_post':

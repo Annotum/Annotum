@@ -35,7 +35,7 @@ function annowf_meta_boxes() {
 	}
 	
 	// Remove Revisions box in favor of audit log box
-	remove_meta_box('revisionsdiv', 'article', 'normal');
+	//remove_meta_box('revisionsdiv', 'article', 'normal');
 	if (anno_user_can('view_audit')) {
 		add_meta_box('audit_log', _x('Audit Log', 'Meta box title', 'anno'), 'annowf_audit_log', 'article', 'normal', 'low');
 	}
@@ -836,7 +836,6 @@ function annowf_admin_request_handler() {
 		wp_redirect($url);
 		die();
 	}
-	
 	// Enforce Capabilities on the backend. Determine the action, and its relevant annotum capability
 	if (isset($_POST['action'])) {
 		$wp_action = $_POST['action'];
@@ -853,12 +852,26 @@ function annowf_admin_request_handler() {
 	else if (isset($_GET['post_type'])) {
 		$post_type = $_GET['post_type'];
 	}
-	else if (isset($_GET['post'])) {
-		$post = get_post(absint($_GET['post']));
-		$post_type = $post->post_type;
+	else if (isset($_GET['revision'])) {
+		// We only get revision when restoring a given revision
+		$rev_id = $_GET['revision'];
+		$rev = get_post($rev_id);
+		if (isset($rev->post_parent)) {
+			$post = get_post($rev->post_parent);
+			if (isset($post->post_type)) {
+				$post_type = $post->post_type;
+			}
+		}
 	}
-	
+	else {
+		$post = get_post(anno_get_post_id());
+		if (isset($post->post_type)) {
+			$post_type = $post->post_type;
+		}
+	}
+		
 	if (!empty($wp_action) && !empty($post_type) && $post_type == 'article') {
+error_log($wp_action);
 		switch ($wp_action) {
 			case 'postajaxpost':
 			case 'post':
@@ -866,10 +879,11 @@ function annowf_admin_request_handler() {
 			case 'post-quickpress-save':
 				$anno_cap = 'edit_post';
 				break;
-			// Creation and editing
+			// Creation, editing, restoring from revision
 			case 'editpost':
 			case 'editattachment':
 			case 'autosave':
+			case 'restore':
 			case 'inline-save':
 				$anno_cap = 'edit_post';
 				break;
@@ -938,5 +952,25 @@ function annowf_imported_admin_notices($empty) {
 	}
 }
 //add_action('admin_notices', 'annowf_imported_admin_notices')
+
+/**
+ * Remove actions TD content if user cannot edit this post in the Workflow context
+ * 
+ * @todo Preferably a non-js way to do this. Currently js is the only option
+ */ 
+function annowf_revision_remove_restore_link() {
+	// This is actually the original post, not the revision
+	global $post;	
+	if ($post->post_type == 'article' && !anno_user_can('edit_post')) {
+?>
+<script type="text/javascript">
+jQuery(document).ready(function($) {
+	$('td.action-links').html('');
+});
+</script>
+<?php
+	}
+}
+//add_action('admin_head-revision.php', 'annowf_revision_remove_restore_link');
 
 ?>
