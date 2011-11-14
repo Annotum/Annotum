@@ -871,7 +871,6 @@ function annowf_admin_request_handler() {
 	}
 		
 	if (!empty($wp_action) && !empty($post_type) && $post_type == 'article') {
-error_log($wp_action);
 		switch ($wp_action) {
 			case 'postajaxpost':
 			case 'post':
