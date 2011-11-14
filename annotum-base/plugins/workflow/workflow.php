@@ -360,7 +360,10 @@ function annowf_user_li_markup($user, $type = null) {
 		global $anno_review_options;
 		$round = annowf_get_round($post_id);
 		// Review is stored in DB as an integer corresponding to a given review set in the $anno_review_options global for translation purposes.
-		$extra = $anno_review_options[intval(get_user_meta($user->ID, '_'.$post_id.'_review_'.$round, true))].'&nbsp;';
+		$review = annowf_get_user_review($post_id, $user->ID);
+		if (isset($anno_review_options[$review])) {
+			$extra = $anno_review_options[$review].'&nbsp;';
+		}
 	}
 	$remove = '&nbsp;';
 	
@@ -491,7 +494,6 @@ function annowf_add_co_author() {
 		//Add to the audit log
 		$current_user = wp_get_current_user();
 		annowf_save_audit_item($post_id, $current_user->ID, 6, array($response['user']->ID));
-		
 	}
 	unset($response['user']);
 	echo json_encode($response);

@@ -384,5 +384,16 @@ function annowf_get_role_emails($role, $post = null) {
 	return array();
 }
 
+/**
+ * Get a user's review for a post for the current round. 
+ * @param int $post_id
+ * @param int $user_id
+ * @return int|bool Integer corresponding to the user's review (can be 0), false if none can be found
+ */
+function annowf_get_user_review($post_id, $user_id) {
+	$round = annowf_get_round($post_id);
+	return get_user_meta($user_id, '_'.$post_id.'_review_'.$round, true);
+}
+
 
 ?>

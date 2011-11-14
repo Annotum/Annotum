@@ -160,13 +160,13 @@ function anno_internal_comments_general_comments() {
 	anno_internal_comments_display('general');
 }
 
+
 /**
  * Meta box markup for reviewer review and comments
  */
 function anno_internal_comments_reviewer_comments() {
 	global $anno_review_options, $current_user, $post;
-	$round = annowf_get_round($post->ID);
-	$user_review = get_user_meta($current_user->ID, '_'.$post->ID.'_review_'.$round, true);
+	$user_review = annowf_get_user_review($post->ID, $current_user->ID);
 	$reviewers = anno_get_reviewers($post->ID);
 	if (anno_user_can('leave_review', $current_user->ID, $post->ID)) {
 ?>
@@ -378,10 +378,14 @@ function anno_internal_comments_review_ajax() {
 				
 		// If review is set to none, remove the user from reviewed, otherwise update it with the current user.
 		if ($review != 0) {
+			// Keep track that this user has left a review on the post
 			if (!in_array($current_user->ID, $reviewed)) {
 				$reviewed[] = $current_user->ID;
 				update_post_meta($post_id, '_round_'.$post_round.'_reviewed', array_unique($reviewed));
 			}
+			// Send notification
+			$post = get_post(intval($post_id));
+			annowf_send_notification('review_recommendation', $post, null, null, $current_user->ID);
 			annowf_save_audit_item($post_id, $current_user->ID, 4, array($review));
 		}
 		else {
@@ -461,8 +465,4 @@ function anno_internal_comments_capabilities($allcaps, $caps, $args) {
 	return $allcaps;
 }
 add_action('user_has_cap', 'anno_internal_comments_capabilities', 1, 3);
-
-
-
-//annowf_user_has_cap_filter
 ?>

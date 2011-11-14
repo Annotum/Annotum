@@ -64,6 +64,7 @@ function annowf_notification_recipients($type, $post) {
 			$recipients = array_merge($recipients, annowf_get_role_emails('administrator', $post));	
 			break;
 		case 'review_comment':
+		case 'review_recommendation':
 			$recipients = array($recipients, annowf_get_role_emails('editor', $post));
 			$recipients = array_merge($recipients, annowf_get_role_emails('administrator', $post));
 			break;
@@ -89,9 +90,17 @@ function annowf_notification_message($type, $post, $comment, $single_user = null
 	$author = get_userdata($post->post_author);
 	$author = anno_user_display($author);
 	
+	if (!empty($single_user->ID)) {
+		$single_user_id = $single_user->ID;
+	}
+	else {
+		$single_user_id = $single_user;
+	}
 	if (!empty($single_user)) {
 		$single_user = anno_user_display($single_user);
 	}
+	// Used in determining a user's recommendation
+	
 		
 	$authors = anno_get_authors($post->ID);
 	$author_names = array_map('anno_user_display', $authors);
@@ -212,26 +221,55 @@ Excerpt: %s
 %s', 'Email notification body', 'anno'), $single_user, $title, implode($author_names), $post->post_excerpt, $edit_link, $reviewer_instructions, $footer),
 			);
 			break;
-			case 'co_author_added':
-				$notification = array(
-					'subject' => sprintf(_x('%s has been invited to co-author %s by %s', 'Email notification subject', 'anno'), $single_user, $title, $author),
-					'body' => sprintf(_x(
+		case 'co_author_added':
+			$notification = array(
+				'subject' => sprintf(_x('%s has been invited to co-author %s by %s', 'Email notification subject', 'anno'), $single_user, $title, $author),
+				'body' => sprintf(_x(
 '%s has been invited to co-author %s by %s.
 %s
 
 %s', 'Email notification body', 'anno'), $single_user, $title, $author, $edit_link, $footer),
 				);
-				break;
-			case 'primary_author': 
-				$notification = array(
-					'subject' => sprintf(_x('%s is now the primary author on %s', 'Email notification subject', 'anno'), $author, $title),
-					'body' => sprintf(_x(
+			break;
+		case 'primary_author': 
+			$notification = array(
+				'subject' => sprintf(_x('%s is now the primary author on %s', 'Email notification subject', 'anno'), $author, $single_user),
+				'body' => sprintf(_x(
 '%s is now the primary author on %s.
 %s
 
 %s', 'Email notification body', 'anno'), $author, $title, $edit_link, $footer),
 				);
-				break;
+			break;
+		case 'review_recommendation':
+			global $anno_review_options;
+			//Get user review
+			$review_key = annowf_get_user_review($post->ID, $single_user_id);
+			switch ($review_key) {
+				// Translate here so the entire sentence can be a translated string instead of bits and pieces
+				case 1:
+					$action_text = sprintf(_x('%s has reviewed %s and has accepted the article for publication.', 'Email review action text', 'anno'), $single_user, $title);
+					break;
+				case 2:
+					$action_text = sprintf(_x('%s has reviewed %s and has rejected the article for publication.', 'Email review action text', 'anno'), $single_user, $title);
+					break;
+				case 3:
+					$action_text = sprintf(_x('%s has reviewed %s and has requested revisions be made to the article prior to publication.', 'Email review action text', 'anno'), $single_user, $title);					
+					break;
+				default:
+					$action_text = '';
+					break;
+			}
+			
+			$notification = array(
+				'subject' => sprintf(_x('%s has reviewed %s', 'Email notification subject', 'anno'), $single_user, $title),
+				'body' => sprintf(_x(
+'%s
+%s
+
+%s', 'Email notification body', 'anno'), $action_text, $edit_link, $footer),
+			);
+			break;
 		default:
 			break;
 	}

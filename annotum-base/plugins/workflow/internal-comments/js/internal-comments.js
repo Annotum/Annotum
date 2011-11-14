@@ -20,7 +20,6 @@ jQuery(document).ready(function($) {
 		var comment_id = row_actions.attr('data-comment-id');
 		var type = $(this).closest('table.anno-comments').attr('data-comment-type');
 
-
 		$('#anno-internal-comment-' + type + '-form').insertAfter('#comment-' + comment_id);
 		$('#anno-internal-comment-' + type + '-form input.parent-id').val(comment_id);
 		$('#anno-internal-comment-' + type + '-form .anno-cancel').show();
@@ -53,7 +52,7 @@ jQuery(document).ready(function($) {
 		
 		var data = {action: 'anno-review', review: value, post_id: ANNO_POST_ID};
 		data['_ajax_nonce-review'] = nonce;
-
+		//@TODO translate
 		$('.review-notice').html('saving...');
 
 		$.post(ajaxurl, data, function(review){
