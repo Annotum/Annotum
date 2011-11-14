@@ -132,28 +132,29 @@ function anno_load_editor($content, $editor_id, $settings = array()) {
 
 	// Note the various html elements not defined by the DTD
 	// This takes into account imported content and pasted content which gets inserted natively in divs and spans
+	// BR accounts for being able to actually insert a line break, we handle removing or keep these later.
 	$valid_children = array(
 		'preformat[]',
-		'body[sec|para|media|list|disp-formula|disp-quote|fig|table-wrap|preformat|div|span|heading]',
-		'copyright-statement['.$formats_as_children.']',
-		'license-p['.$formats_as_children.'|xref|ext-link]',
+		'body[sec|para|media|list|disp-formula|disp-quote|fig|table-wrap|preformat|div|span|heading|br]',
+		'copyright-statement['.$formats_as_children.'|br]',
+		'license-p['.$formats_as_children.'|xref|ext-link|br]',
 		'heading['.$formats_as_children.'|div|span|br]',
-		'media[alt-text|long-desc|permissions|div|span]',
-		'permissions[copyright-statement|copyright-holder|license|div|span]',
-		'license[license-p|xref|div|span]',
-		'license-p[preformat|'.$formats_as_children.']',
-		'list[title|list-item|div|span]',
-		'list-item[para|xref|list|div|span]',
-		'disp-formula[label|tex-math|div|span|preformat]',
-		'disp-quote[para|attrib|permissions|div|span|preformat]',
-		'fig[label|cap|media|img|div|span|preformat]',
-		'cap[title|para|xref|div|span]',
-		'table-wrap[label|cap|table|table-wrap-foot|permissions|div|span|preformat]',
-		'table-wrap-foot[para|div|span]',
+		'media[alt-text|long-desc|permissions|div|span|br]',
+		'permissions[copyright-statement|copyright-holder|license|div|span|br]',
+		'license[license-p|xref|div|span|br]',
+		'license-p[preformat|br|'.$formats_as_children.']',
+		'list[title|list-item|div|span|br]',
+		'list-item[para|xref|list|div|span|br]',
+		'disp-formula[label|tex-math|div|span|preformat|br]',
+		'disp-quote[para|attrib|permissions|div|span|preformat|br]',
+		'fig[label|cap|media|img|div|span|preformat|br]',
+		'cap[title|para|xref|div|span|br]',
+		'table-wrap[label|cap|table|table-wrap-foot|permissions|div|span|preformat|br]',
+		'table-wrap-foot[para|div|span|br]',
 		'td['.$formats_as_children.'|preformat|ext-link|break|list|media|inline-graphic|xref|br]',
 		'th['.$formats_as_children.'|preformat|ext-link|break|list|media|inline-graphic|xref|br]',
-		'para['.$formats_as_children.'|media|img|permissions|license|list|list-item|disp-formula|disp-quote|fig|cap|table-wrap|table-wrap-foot|table|h2|xref|img|table|ext-link|paste|div|span|div|span|a]',
-		'sec[sec|heading|media|img|permissions|license|list|list-item|disp-formula|disp-quote|fig|cap|table-wrap|table-wrap-foot|para|h2|div|span|preformat]',
+		'para['.$formats_as_children.'|media|img|permissions|license|list|list-item|disp-formula|disp-quote|fig|cap|table-wrap|table-wrap-foot|table|h2|xref|img|table|ext-link|paste|div|span|div|span|a|br]',
+		'sec[sec|heading|media|img|permissions|license|list|list-item|disp-formula|disp-quote|fig|cap|table-wrap|table-wrap-foot|para|h2|div|span|preformat|br]',
 	);
 	
 	$default_settings = array(
