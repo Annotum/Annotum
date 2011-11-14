@@ -919,6 +919,8 @@ function anno_default_menu_items($location) {
 	$default_classes = 'menu-item menu-item-type-taxonomy menu-item-object-category';
 	switch ($location) {
 		case 'main':
+			$items .= '<li classes="'.$default_classes.'"><a href="'.home_url().'">'.__('Home', 'anno').'</a></li>';
+			break;
 		case 'secondary':
 			$items .= '<li classes="'.$default_classes.'">'.wp_loginout('', false).'</li>';
 		break;
