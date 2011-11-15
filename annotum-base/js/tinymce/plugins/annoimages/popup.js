@@ -31,6 +31,13 @@ jQuery(document).ready( function($) {
 		return false;
 	})
 	
+	$('.img-url-input button').live('click', function() {
+		var attachment_id = $(this).parent('div').attr('id').replace('img-url-buttons-', '');
+		var url = $(this).attr('title');
+		var form = 'form#img-edit-' + attachment_id;
+		$('#img-url-' + attachment_id, form).val(url);		
+	});
+	
 	$('.anno-image-insert').live('click', function() {
 		var attachment_id = $(this).attr('id').replace('anno-image-insert-', '');
 		var display_type, caption, label, copyright_statement, copyright_holder, license, url, xml;

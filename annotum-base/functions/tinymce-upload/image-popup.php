@@ -113,14 +113,19 @@ function anno_popup_images_row_edit($attachment) {
 			$display = 'figure';
 		}
 
+		//@TODO worth storing all this data in a single meta row as a serialized array
 		$label = get_post_meta($attachment->ID, '_anno_attachment_image_label', true);
 		$copyright_statement = get_post_meta($attachment->ID, '_anno_attachment_image_copyright_statement', true);
 		$copyright_holder = get_post_meta($attachment->ID, '_anno_attachment_image_copyright_holder', true);
 		$license = get_post_meta($attachment->ID, '_anno_attachment_image_license', true);
 		
+		$url = get_post_meta($attachment->ID, '_anno_attachment_image_url', true);
+		$file_url = wp_get_attachment_url($attachment->ID); 
+		$link = get_attachment_link($attachment->ID);
+		
 		$img_size = get_post_meta($attachment->ID, '_anno_attachment_image_size', true);
 		if (!$img_size) {
-			$img_size = 'full';
+			$img_size = 'large';
 		}
 ?>
 			<tr>
@@ -136,6 +141,16 @@ function anno_popup_images_row_edit($attachment) {
 								<div><?php _ex('Description', 'input label', 'anno'); ?></div>
 								<textarea name="description" id="<?php echo esc_attr('img-description-'.$attachment->ID); ?>"><?php echo esc_textarea($description); ?></textarea>
 							</label>
+						</div>
+						<div class="img-url-input">
+							<label for="<?php echo esc_attr('img-url-'.$attachment->ID); ?>">
+								<input id="<?php echo esc_attr('img-url-'.$attachment->ID); ?>" type="text" name="url" value="<?php echo esc_attr($url); ?>" /><span><?php _e('URL', 'anno'); ?></span>
+							</label>
+							<div id="<?php echo esc_attr('img-url-buttons-'.$attachment->ID); ?>" class="img-url-buttons">
+								<button type="button" class="button" title=""><?php _e('None', 'anno'); ?></button>
+								<button type="button" class="button" title="<?php echo esc_attr($file_url); ?>"> <?php _e('File URL', 'anno'); ?></button>
+								<button type="button" class="button" title="<?php echo esc_attr($link); ?>"><?php _e('Attachment Post URL', 'anno'); ?></button>
+							</div>
 						</div>
 						<fieldset class="img-display">
 							<legend><?php _ex('Display', 'legend', 'anno'); ?></legend>
@@ -180,13 +195,11 @@ function anno_popup_images_row_edit($attachment) {
 									'thumbnail' => _x('Thumbnail', 'size label for images', 'anno'),
 									'medium' => _x('Medium', 'size label for images', 'anno'),
 									'large' => _x('Large', 'size label for images', 'anno'),
-									'full' => _x('Full', 'size label for images', 'anno'),
 								);
 							
 								foreach ($sizes as $size_key => $size_label) {
-									
 									$downsize = image_downsize($attachment->ID, $size_key);
-									$enabled = ( $downsize[3] || 'full' == $size_key );
+									$enabled = ($downsize[3] || 'full' == $size_key);
 									if ($enabled) {
 										$img_size_url = wp_get_attachment_image_src($attachment->ID, $size_key);
 										$img_size_url = $img_size_url[0];

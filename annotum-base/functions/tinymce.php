@@ -143,7 +143,7 @@ function anno_load_editor($content, $editor_id, $settings = array()) {
 		'permissions[copyright-statement|copyright-holder|license|div|span|br]',
 		'license[license-p|xref|div|span|br]',
 		'license-p[preformat|br|'.$formats_as_children.']',
-		'list[title|list-item|div|span|br]',
+	'list[title|list-item|div|span|br]',
 		'list-item[para|xref|list|div|span|br]',
 		'disp-formula[label|tex-math|div|span|preformat|br]',
 		'disp-quote[para|attrib|permissions|div|span|preformat|br]',
@@ -842,6 +842,7 @@ function anno_tinymce_image_save() {
 				'copyright_holder',
 				'license',
 				'size',
+				'url',
 			);
 			foreach ($meta_fields as $meta_field) {
 				$meta_value = isset($_POST[$meta_field]) ? $_POST[$meta_field] : '';

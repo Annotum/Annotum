@@ -421,9 +421,9 @@ table#anno-references table td table td {
 }
 .img-edit-details input,
 .img-edit-details textarea  {
-	width: 280px;
-	min-width: 280px;
-	max-width: 280px;
+	width: 294px;
+	min-width: 294px;
+	max-width: 294px;
 }
 .img-insert {
 	padding: 10px;
@@ -463,6 +463,17 @@ table tr td.anno-mce-popup-footer {
 #anno-popup-images-inside .anno-mce-popup-fields {
 	margin-top: 0px;
 }
+#anno-popup-images-inside div.img-url-input span {
+	width: 41px;
+	margin-top: 2px;
+}
+#anno-popup-images-inside div.img-url-input input {
+	width: 395px;
+}
+#anno-popup-images-inside div.img-url-buttons {
+	margin-left: 41px;
+}
+
 /** TinyMCE Equations Popup, Most definitions made in images section
  -------------------------------------------------- */
 #anno-popup-equations input[name="alt_text"],
