@@ -23,10 +23,27 @@
 				//ed.getLang('advanced.references_desc'),
 				cmd : 'Anno_Monospace',
 			});
+			
+			// Add node change function which updates format dropdown
+			ed.onInit.add(function() {
+				ed.onNodeChange.add(t._nodeChanged, t);
+			})
 		},
-
-		// @TODO on change format display update
-		// @TODO undo points
+		
+		// Update format dropdown on change		
+		_nodeChanged : function (ed, cm) {
+			if (c = cm.get('annoformatselect')) {
+				var parent = ed.dom.getParent(ed.selection.getNode(), 'HEADING, PARA, SEC'), selVal;
+				if (parent) {
+					selVal = parent.nodeName.toLowerCase();
+				}
+				else {
+					selVal = 'format';
+				}
+				c.select(selVal);
+			}
+		},
+		
 		// @TODO Translation for formats		
 		createControl : function(n, cm) {
 			var t = this, c, ed = t.editor;		
