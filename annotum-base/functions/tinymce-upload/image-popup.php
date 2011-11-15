@@ -197,22 +197,43 @@ function anno_popup_images_row_edit($attachment) {
 									'large' => _x('Large', 'size label for images', 'anno'),
 								);
 							
+								// For small images, we won't have any image sizes displayed.
+								$size_displayed = false;
 								foreach ($sizes as $size_key => $size_label) {
 									$downsize = image_downsize($attachment->ID, $size_key);
-									$enabled = ($downsize[3] || 'full' == $size_key);
+									$enabled = $downsize[3];
 									if ($enabled) {
 										$img_size_url = wp_get_attachment_image_src($attachment->ID, $size_key);
 										$img_size_url = $img_size_url[0];
+										$size_displayed = true;
 									}
 									else {
 										$img_size_url = '';
 									}
+									
+									if (!empty($img_size_url)) {
 ?>
 									<label for="<?php echo esc_attr('img-size-'.$size_key.'-'.$attachment->ID); ?>">
-										<input type="radio" name="size" id="<?php echo esc_attr('img-size-'.$size_key.'-'.$attachment->ID); ?>" value="<?php echo esc_attr($size_key); ?>" data-url="<?php echo esc_attr($img_size_url); ?>"<?php checked($size_key, $img_size, true); ?><?php disabled( $enabled, false, true ); ?> /> <?php echo esc_html($size_label); ?>
+										<input type="radio" name="size" id="<?php echo esc_attr('img-size-'.$size_key.'-'.$attachment->ID); ?>" value="<?php echo esc_attr($size_key); ?>" data-url="<?php echo esc_attr($img_size_url); ?>"<?php checked($size_key, $img_size, true); ?>/> <?php echo esc_html($size_label); ?>
 									</label>
 <?php
+									}
 								}
+								// No size data displayed because the original image was too small
+								if (!$size_displayed) {
+									$img_size_url = wp_get_attachment_image_src($attachment->ID, 'full');
+									$img_size_url = $img_size_url[0];
+
+									if ($img_size_url) {
+?>										
+										<label for="<?php echo esc_attr('img-size-full-'.$attachment->ID); ?>">
+											<input type="radio" name="size" id="<?php echo esc_attr('img-size-full-'.$attachment->ID); ?>" value="<?php echo esc_attr($size_key); ?>" data-url="<?php echo esc_attr($img_size_url); ?>"<?php checked(true, true, true); ?> /> <?php _ex('Full', 'size label for images', 'anno'); ?>
+										</label>
+<?php
+									}
+								}
+								
+								
 							?>
 						</fieldset>
 						<div class="anno-mce-popup-footer">
