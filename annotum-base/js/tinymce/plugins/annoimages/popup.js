@@ -81,8 +81,9 @@ jQuery(document).ready( function($) {
 								+'</license>'
 							+'</permissions>'
 						+'</media>'
+						+'<div _mce_bogus="1" class="clearfix"></div>';
 					+'</fig>'
-					+'<div _mce_bogus="1" class="clearfix"></div>';
+				
 		}
 
 
