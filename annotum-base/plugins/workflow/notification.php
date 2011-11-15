@@ -100,13 +100,18 @@ function annowf_notification_message($type, $post, $comment, $single_user = null
 		$single_user = anno_user_display($single_user);
 	}
 	// Used in determining a user's recommendation
-	
-		
 	$authors = anno_get_authors($post->ID);
 	$author_names = array_map('anno_user_display', $authors);
 
 	$edit_link = get_edit_post_link($post->ID, null);
 	$title = $post->post_title;
+	
+	
+	$excerpt = strip_tags($post->post_excerpt ? $post->post_excerpt : $post->post_content);
+
+	if (strlen($excerpt) > 255) {
+		$excerpt = substr($excerpt,0,252) . '...';
+	}
 	
 	$reviewer_instructions = _x('To review this article, please visit the URL above and navigate to the Reviews section. You may leave comments and questions in this section as well as providing a general review of \'Approve\', \'Reject\' or \'Request Revisions\' from the dropdown.', 'Instructions sent to reviewers via email notification', 'anno');
 	
@@ -124,7 +129,7 @@ Author(s): %s
 Excerpt: %s
 %s
 
-%s', 'Email notification body', 'anno'), $title, implode(',', $author_names), $post->post_excerpt, $edit_link, $footer)	
+%s', 'Email notification body', 'anno'), $title, implode(',', $author_names), $excerpt, $edit_link, $footer)	
 			);
 			break;
 		// Status change to: in_review from submitted
@@ -173,6 +178,7 @@ Thank you.
 'Thank you for contributing to %s.  After our review process, we have decided not to accept the article at this time.  
 --------------------
 Title: %s
+
 %s
 
 %s', 'Email notification body', 'anno'), $title, $title, $edit_link, $footer),
@@ -218,7 +224,7 @@ Excerpt: %s
 %s
 
 %s
-%s', 'Email notification body', 'anno'), $single_user, $title, implode($author_names), $post->post_excerpt, $edit_link, $reviewer_instructions, $footer),
+%s', 'Email notification body', 'anno'), $single_user, $title, implode($author_names), $excerpt, $edit_link, $reviewer_instructions, $footer),
 			);
 			break;
 		case 'co_author_added':
