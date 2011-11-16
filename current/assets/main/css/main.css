@@ -4,6 +4,7 @@ button,input,select,textarea{font-family:Helvetica,Arial,sans-serif;}
 .figure,.quote{background:#fff;border:1px solid #d7d1bf;}
 html{min-width:960px;}
 body{background:url(../img/body-background.png) center 0 repeat-y;}
+#header{color:#333}
 #header .header-body{background:#2a2822;height:75px;}
 #header .navigation{height:auto !important;height:37px;min-height:37px;background:#a2220f url(../img/navigation-background.png) 0 bottom repeat-x;}
 #header #site-name{line-height:52px;padding:11px 0 0;white-space:nowrap;}
@@ -74,6 +75,9 @@ form.search .type-submit{background:url(../img/sprite-y.8bit.png) 0 -200px no-re
 .article-excerpt .header .meta a:link{color:#a29674;}
 .article-excerpt .header .meta a:hover{color:#A2220F;text-decoration:none;}
 .article-excerpt .entry-summary{margin-bottom:30px;}
+.teaser a{color:#A2220F}
+.teaser{color:#333}
+.teaser .title{color:#A2220F;text-shadow:rgba(51, 51, 51, 0.6) 0 1px 0;font:italic bold 15px/1.47 Georgia,Serif;}
 .widget-recent-posts .recently-container{border:0;padding:0;}
 .widget-recent-posts .nav{margin:0;padding:0;position:relative;top:1px;}
 .widget-recent-posts .nav li{background:none;border:0;font:bold 13px Helvetica,Arial,sans-serif;margin-right:0;padding:1px 0;}

@@ -151,9 +151,10 @@ form.search .type-submit{background:url(../img/sprite-y.8bit.png) 0 -100px no-re
 .callout-item{background:#f0f0f0;border-bottom-style:solid;border-bottom-width:2px;border-top-style:solid;border-top-width:2px;padding:13px 17px;}
 .callout-item .title{font:italic bold 18px Georgia, Serif;margin-bottom:4px;}
 .callout-item .content{font-size:14px;line-height:1.43;}
-.teasers{overflow:hidden;}
-.teaser{background:#66A6BF;color:#fff;margin-bottom:1px;height:auto !important;overflow:visible !important;height:67px;min-height:67px;padding:10px;position:relative;}
-.teaser .title{color:#fff;text-shadow:rgba(51, 51, 51, 0.6) 0 1px 0;font:italic bold 15px/1.47 Georgia,Serif;}
+.teasers{color:#000; overflow:hidden;}
+.teaser a{color:#fff}
+.teaser{margin-bottom:1px;height:auto !important;overflow:visible !important;height:67px;min-height:67px;padding:10px;position:relative;}
+.teaser .title{color:#FFF;text-shadow:rgba(51, 51, 51, 0.6) 0 1px 0;font:italic bold 15px/1.47 Georgia,Serif;}
 .tools-bar{margin-bottom:25px;padding:17px 12px;}
 .tools-bar .cell{float:left;}
 .tools-bar{line-height:20px;}
