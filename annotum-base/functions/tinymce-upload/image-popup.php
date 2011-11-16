@@ -227,7 +227,7 @@ function anno_popup_images_row_edit($attachment) {
 									if ($img_size_url) {
 ?>										
 										<label for="<?php echo esc_attr('img-size-full-'.$attachment->ID); ?>">
-											<input type="radio" name="size" id="<?php echo esc_attr('img-size-full-'.$attachment->ID); ?>" value="<?php echo esc_attr($size_key); ?>" data-url="<?php echo esc_attr($img_size_url); ?>"<?php checked(true, true, true); ?> /> <?php _ex('Full', 'size label for images', 'anno'); ?>
+											<input type="radio" name="size" id="<?php echo esc_attr('img-size-full-'.$attachment->ID); ?>" value="full" data-url="<?php echo esc_attr($img_size_url); ?>"<?php checked(true, true, true); ?> /> <?php _ex('Full', 'size label for images', 'anno'); ?>
 										</label>
 <?php
 									}
