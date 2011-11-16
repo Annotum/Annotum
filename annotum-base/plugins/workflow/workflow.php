@@ -207,8 +207,8 @@ function annowf_transistion_state($post_id, $post, $post_before) {
 			// Save to audit log
 			annowf_save_audit_item($post->ID, $current_user->ID, 2, array($old_state, $new_state));
 			
-			// Send notifications
-			if (anno_workflow_enabled('notifications') && !($old_state == 'publish' && $new_state == 'draft')) {
+			// Send notifications, but not for published to draft state
+			if (anno_workflow_enabled('notifications') && !($old_state == 'published' && $new_state == 'draft')) {
 				annowf_send_notification($notification_type, $post);
 			}
 		}
