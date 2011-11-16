@@ -143,7 +143,7 @@ function anno_load_editor($content, $editor_id, $settings = array()) {
 		'permissions[copyright-statement|copyright-holder|license|div|span|br]',
 		'license[license-p|xref|div|span|br]',
 		'license-p[preformat|br|'.$formats_as_children.']',
-	'list[title|list-item|div|span|br]',
+		'list[title|list-item|div|span|br]',
 		'list-item[para|xref|list|div|span|br]',
 		'disp-formula[label|tex-math|div|span|preformat|br]',
 		'disp-quote[para|attrib|permissions|div|span|preformat|br]',
@@ -178,7 +178,7 @@ function anno_load_editor($content, $editor_id, $settings = array()) {
 			'debug' => 'true',
 			'verify_html' => true,
 			'force_p_newlines' => false,
-			'force_br_newlines' => true,
+			'force_br_newlines' => false, // false required for proper list return
 			'content_css' => trailingslashit(get_bloginfo('template_directory')).'css/tinymce.css',
 	// 		@TODO Define doctype (IE Compat?)
 	//		'doctype' => '<!DOCTYPE article SYSTEM \"http://dtd.nlm.nih.gov/ncbi/kipling/kipling-jp3.dtd\">',
@@ -1094,7 +1094,7 @@ function anno_insert_post_data($data, $postarr) {
 		$content = stripslashes($data['post_content']);
 		
 		// Remove non-ascii characters
-		$content = preg_replace('/[^(\x20-\x7F)]*/','', $content);
+		$content = preg_replace('/(\xa0|\xc2)/','', $content);
 		
 		// Set XML as backup content. Filter markup and strip out tags not on whitelist.
 		$xml = anno_validate_xml_content_on_save($content);
