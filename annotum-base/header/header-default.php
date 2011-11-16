@@ -69,14 +69,7 @@ if (CFCT_DEBUG) { cfct_banner(__FILE__); }
 					?>
 				</div><!-- #masthead-body -->
 				<div class="teasers">
-					<?php 
-						if (is_dynamic_sidebar('masthead')) {
-							dynamic_sidebar('masthead');
-						}
-						else {
-							anno_default_widgets();
-						}
-					 ?>
+					<?php dynamic_sidebar('masthead'); ?>
 				</div><!-- #masthead-sidebar -->
 			</div>
 		</div><!-- #masthead -->
