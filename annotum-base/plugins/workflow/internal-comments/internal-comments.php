@@ -275,10 +275,6 @@ function anno_filter_edit_comments_page() {
 add_action('admin_init', 'anno_filter_edit_comments_page');
 
 /**
- * 
- */ 
-
-/**
  * Modify the comment count stored in the wp_post comment_count column, so internal comments don't show up there.
  * Based on code in the WP Core function wp_update_comment_count
  */
