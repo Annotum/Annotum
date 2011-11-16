@@ -125,7 +125,7 @@ function anno_popup_images_row_edit($attachment) {
 		
 		$img_size = get_post_meta($attachment->ID, '_anno_attachment_image_size', true);
 		if (!$img_size) {
-			$img_size = 'large';
+			$img_size = 'thumbnail';
 		}
 ?>
 			<tr>
