@@ -44,37 +44,18 @@
 			}
 		},
 		
-		// @TODO Translation for formats		
+		// @TODO Translation for formats
 		createControl : function(n, cm) {
 			var t = this, c, ed = t.editor;		
 			if (n == 'annoformatselect') {
-				// Create the list box
-			    var listbox = cm.createListBox('annoformatselect', {
-			         title : 'Format',
-			         onselect : function(v) {
-						ed.undoManager.beforeChange();
-						applyAnnoFormat(v);
-						ed.undoManager.add();
-						ed.focus();
-			         }
-			    });        
-
-			    // Add some values to the list box
-			    listbox.add('Heading', 'heading');
-			    listbox.add('Paragraph', 'para');
-			    listbox.add('Section', 'sec');
-
-			    // Return the new listbox instance
-			    return listbox;
-				
 				function applyAnnoFormat(format) {
-					var sel = ed.selection, dom = ed.dom, range = sel.getRng(), remove = false, bookmark = sel.getBookmark();
+					var sel = ed.selection, dom = ed.dom, range = sel.getRng(), remove = false;//, bookmark = sel.getBookmark();
+					
 					// Returns a new node that removes all the unsupported tags of the new format
 					function getNewNode(originalNode, newNodeName) {
 						var newNode = ed.dom.create(newNodeName, null, '<div>'+originalNode.innerHTML+'</div>');
 						// We want to remove the div, which is required above
 						dom.remove(newNode.childNodes[0], true);
-
 						for (var i=0; i < newNode.childNodes.length; i++) {
 							childNode = newNode.childNodes[i];
 							if (childNode.nodeName == 'DIV') {
@@ -95,18 +76,20 @@
 					// Find first parent
 					var wrapper = ed.dom.getParent(sel.getNode(), 'HEADING, PARA, SEC');
 					if (wrapper !== null) {
+						// Remove2
 						if (format.toLowerCase() === wrapper.nodeName.toLowerCase()) {
 							// Move to the end of the current wrapper, and get the bookmark
 							// This prevents us from having a bookmark in the middle of an element that may be removed
 							sel.select(wrapper);
 							sel.collapse(0);
-							bookmark = sel.getBookmark();
+							var bookmark = sel.getBookmark();
 
 							newNode = getNewNode(wrapper, wrapper.parentNode.nodeName);							
 							wrapper.parentNode.replaceChild(newNode, wrapper);
 							dom.remove(newNode, true);
 						
 							sel.moveToBookmark(bookmark);
+							
 							remove = true;
 						}
 						else {
@@ -126,6 +109,27 @@
 						sel.setRng(range);
 					}
 				};
+				
+				
+				// Create the list box
+			    var listbox = cm.createListBox('annoformatselect', {
+			         title : 'Format',
+			         onselect : function(v) {
+						ed.undoManager.beforeChange();
+						applyAnnoFormat(v);
+						ed.undoManager.add();
+						ed.focus();
+			         }
+			    });        
+
+			    // Add some values to the list box
+			    listbox.add('Heading', 'heading');
+			    listbox.add('Paragraph', 'para');
+			    listbox.add('Section', 'sec');
+
+			    // Return the new listbox instance
+			    return listbox;
+				
 			}
 		},
         getInfo : function() {

@@ -1047,7 +1047,7 @@ class Kipling_DTD_Parser {
 				'value' => trim(pq('subtitle', $article_meta)->text()),
 			);
 			
-			// @TODO
+			// Auto generated
 	 		$post['guid'] = '';
 
 			$abstract = pq('abstract', $article_meta);
@@ -1159,7 +1159,6 @@ class Kipling_DTD_Parser {
 			}
 
 			// Acknowledgements 
-			// @TODO support multiple tags defined by DTD
 			$ack = trim(pq('ack p', $article_back)->text());
 			if (!empty($ack)) {	
 		 		$post['postmeta'][] = array(
@@ -1169,7 +1168,6 @@ class Kipling_DTD_Parser {
 			}
 
 			// Funding
-			// @TODO support multiple tags defined by DTD
 			$funding = trim(pq('funding-statement', $article_meta)->text());
 			if (!empty($funding)) {	
 		 		$post['postmeta'][] = array(
@@ -1210,7 +1208,6 @@ class Kipling_DTD_Parser {
 			foreach ($references as $reference) {
 				$reference = pq($reference);
 				// For now, just support mixed-citations as text.
-				// @TODO support multiple tags http://dtd.nlm.nih.gov/publishing/tag-library/n-2kt0.html
 				$ref_id = $reference->attr('id');
 				$ref_data['text'] = trim($reference->text());
 			
@@ -1257,7 +1254,7 @@ class Kipling_DTD_Parser {
 			foreach ($inline_images as $img) {
 				$img = pq($img);
 							
-				// @TODO Regex for libxml2 < 2.6.29
+
 				$img_url = $img->attr('xlink:href');
 				
 				// Dont save chart api images (most likely formulas)
@@ -1343,7 +1340,6 @@ class Kipling_DTD_Parser {
 					'comment_author_email' => (string) $comment_author['author_email'],
 					'comment_author_IP' => '',
 					'comment_author_url' => (string) $comment_author['author_url'],
-					//@TODO determine where to put date
 					'comment_date' => (string) $comment_date,
 					'comment_date_gmt' => '',
 					// We only export approved comments
@@ -1351,8 +1347,7 @@ class Kipling_DTD_Parser {
 					'comment_approved' => 1,
 					'comment_type' => '',
 					'comment_parent' => '',
-					// @TODO If user is one of the authors defined in the file
-					'comment_user_id' => 0,//(int) $comment->comment_user_id,
+					'comment_user_id' => 0,
 					'commentmeta' => array(),
 				);
 			}
@@ -1406,7 +1401,6 @@ class Kipling_DTD_Parser {
 	/**
 	 * Parse contributor data from a <contrib> tag, maintaining as much data as possible
 	 * @TODO better handling of contrib-type, potentially do logic on <role> within <contrib>
-	 * 
 	 * 
 	 * @param phpQueryObj $contributor phpQuery object pertaining to a contrib tag
 	 * @return array Author data and author meta data gathered
@@ -1476,8 +1470,6 @@ class Kipling_DTD_Parser {
 			}
 			// Handle organizations, collaborations etc...
 			else if (!empty($collab)) {
-				// @TODO support all children http://dtd.nlm.nih.gov/publishing/tag-library/n-bb30.html
-
 				// Use three most likely items to generate ID
 				$contrib_group = pq('contrib-group', $collab)->text();
 				$affiliation = pq('> aff', $collab)->text();

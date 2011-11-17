@@ -177,8 +177,8 @@ function anno_load_editor($content, $editor_id, $settings = array()) {
 			'forced_root_block' => '',
 			'debug' => 'true',
 			'verify_html' => true,
-			'force_p_newlines' => false,
-			'force_br_newlines' => true,
+			'force_p_newlines' => true,
+			'force_br_newlines' => false,
 			'content_css' => trailingslashit(get_bloginfo('template_directory')).'css/tinymce.css',
 	// 		@TODO Define doctype (IE Compat?)
 	//		'doctype' => '<!DOCTYPE article SYSTEM \"http://dtd.nlm.nih.gov/ncbi/kipling/kipling-jp3.dtd\">',
@@ -326,7 +326,6 @@ function anno_popup_link() {
 ?>
 <div id="anno-popup-link" class="anno-mce-popup">
 	<form id="anno-tinymce-link-form" class="" tabindex="-1">
-		<?php //TODO NONCE ?>
 		<div class="anno-mce-popup-fields">
 			<label>
 				<span><?php _ex('URL', 'input label', 'anno'); ?></span>
@@ -356,7 +355,6 @@ function anno_popup_table() {
 ?>
 	<div id="anno-popup-table" class="anno-mce-popup">
 		<form id="anno-tinymce-table-form" class="" tabindex="-1">
-			<?php //TODO NONCE ?>
 			<div class="anno-mce-popup-fields">
 				<form>
 					<label for="table-label">
@@ -2066,7 +2064,6 @@ function anno_tinymce_js() {
 }
 add_action('admin_print_scripts-post.php', 'anno_tinymce_js');
 add_action('admin_print_scripts-post-new.php', 'anno_tinymce_js');
-
 
 /**
  * Remove specific filters for non-admins for saving content properly

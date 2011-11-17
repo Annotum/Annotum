@@ -12,7 +12,7 @@ jQuery(document).ready( function($) {
     var anno_manage_user = {};
 
 
-	//TODO possibly abstract this and anno_add_reviewer into a single function;
+
  	// @param string user (login or email expected) 
 	anno_manage_user.add_co_author = function anno_add_co_author(user) {
 		if (user == '') {

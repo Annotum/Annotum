@@ -1,9 +1,6 @@
 (function() {
 	tinymce.create('tinymce.plugins.annoSection', {		
-		init : function(ed, url) {
-			tinymce.html.Schema.blockElementsMap['CAP'] = {};
-			tinymce.html.Schema.blockElementsMap['LABEL'] = {};
-			
+		init : function(ed, url) {	
 			var t = this;
 			t.editor = ed;
 			t.dom = ed.dom;
@@ -261,7 +258,6 @@
 					return nl[0]; // Move caret to most inner element
 				} else
 					e.innerHTML = '<br />';
-//					e.innerHTML = isOpera ? '\u00a0' : '<br />'; // Extra space for Opera so that the caret can move there
 			};
 				
 			// Padd empty blocks

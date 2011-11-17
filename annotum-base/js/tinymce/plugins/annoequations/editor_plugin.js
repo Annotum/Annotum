@@ -71,7 +71,6 @@
 					description = $('#equation-description', form).val();
 					description = description == '' ? '<br />' : description;
 
-					// @TODO Caption Title Support
 					xml = '<fig>'
 								+'<img src="' + url + '" />'
 								+'<label>' + label + '</label>'
@@ -83,18 +82,7 @@
 							+'</fig>'
 							+'<div _mce_bogus="1" class="clearfix"></div>';
 				}	
-			// @TODO better insertion logic
-	/*				var ed = win.tinyMCE.activeEditor, d = ed.getDoc(), dom = ed.dom;
-
-				node = ed.selection.getNode();
-				figElement = dom.create('fig', null, innerXML);
-			// 		dom.add(figElement, node);		
-			//		if (newElement = ed.dom.getParent(ed.selection.getNode(), ))
-			//		r = d.createRange();
-			//		r.selectNodeContents(ed.selection.getNode());
-			//		r.collapse(1);
-				ed.selection.setRng(r);
-	*/		
+				
 				win.send_to_editor(xml);
 			}
 

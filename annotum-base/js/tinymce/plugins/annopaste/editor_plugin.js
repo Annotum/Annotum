@@ -13,8 +13,8 @@
 			paste_auto_cleanup_on_paste : true,
 			paste_enable_default_filters : true,
 			paste_block_drop : false,
-			paste_retain_style_properties : "none",
-			paste_strip_class_attributes : "all",
+			paste_retain_style_properties : 'none',
+			paste_strip_class_attributes : 'all',
 			paste_remove_spans : false,
 			paste_remove_styles : false,
 			paste_remove_styles_if_webkit : true,
@@ -23,9 +23,9 @@
 			paste_text_sticky : false,
 			paste_text_sticky_default : false,
 			paste_text_notifyalways : false,
-			paste_text_linebreaktype : "p",
+			paste_text_linebreaktype : 'p',
 			paste_text_replacements : [
-				[/\u2026/g, "..."],
+				[/\u2026/g, '...'],
 				[/[\x93\x94\u201c\u201d]/g, '"'],
 				[/[\x60\x91\x92\u2018\u2019]/g, "'"]
 			]
@@ -100,9 +100,9 @@
 				if ((!force_rich) && (ed.pasteAsPlainText)) {
 					t._insertPlainText(ed, dom, o.content);
 
-					if (!getParam(ed, "paste_text_sticky")) {
+					if (!getParam(ed, 'paste_text_sticky')) {
 						ed.pasteAsPlainText = false;
-						ed.controlManager.setActive("pastetext", false);
+						ed.controlManager.setActive('pastetext', false);
 					}
 				} else {
 					t._insert(o.content);
@@ -114,22 +114,22 @@
 				process(o, true);
 			});
 
-			if (!getParam(ed, "paste_text_use_dialog")) {
+			if (!getParam(ed, 'paste_text_use_dialog')) {
 				ed.addCommand('AnnomcePasteText', function(u, v) {
 					var cookie = tinymce.util.Cookie;
 
 					ed.pasteAsPlainText = !ed.pasteAsPlainText;
 					ed.controlManager.setActive('pastetext', ed.pasteAsPlainText);
 
-					if ((ed.pasteAsPlainText) && (!cookie.get("tinymcePasteText"))) {
-						if (getParam(ed, "paste_text_sticky")) {
+					if ((ed.pasteAsPlainText) && (!cookie.get('tinymcePasteText'))) {
+						if (getParam(ed, 'paste_text_sticky')) {
 							ed.windowManager.alert(ed.translate('paste.plaintext_mode_sticky'));
 						} else {
 							ed.windowManager.alert(ed.translate('paste.plaintext_mode_sticky'));
 						}
 
-						if (!getParam(ed, "paste_text_notifyalways")) {
-							cookie.set("tinymcePasteText", "1", new Date(new Date().getFullYear() + 1, 12, 31))
+						if (!getParam(ed, 'paste_text_notifyalways')) {
+							cookie.set('tinymcePasteText', '1', new Date(new Date().getFullYear() + 1, 12, 31))
 						}
 					}
 				});
@@ -286,7 +286,7 @@
 			}
 
 			// Check if we should use the new auto process method			
-			if (getParam(ed, "paste_auto_cleanup_on_paste")) {
+			if (getParam(ed, 'paste_auto_cleanup_on_paste')) {
 				// Is it's Opera or older FF use key handler
 				if (tinymce.isOpera || /Firefox\/2/.test(navigator.userAgent)) {
 					ed.onKeyDown.addToTop(function(ed, e) {
@@ -302,10 +302,10 @@
 			}
 
 			ed.onInit.add(function() {
-				ed.controlManager.setActive("pastetext", ed.pasteAsPlainText);
+				ed.controlManager.setActive('pastetext', ed.pasteAsPlainText);
 
 				// Block all drag/drop events
-				if (getParam(ed, "paste_block_drop")) {
+				if (getParam(ed, 'paste_block_drop')) {
 					ed.dom.bind(ed.getBody(), ['dragend', 'dragover', 'draggesture', 'dragdrop', 'drop', 'drag'], function(e) {
 						e.preventDefault();
 						e.stopPropagation();
@@ -325,7 +325,7 @@
 				author : 'Crowd Favorite',
 				authorurl : 'http://crowdfavorite.com',
 				infourl : '',
-				version : "1.0"
+				version : '1.0'
 			};
 		},
 
@@ -376,10 +376,10 @@
 				]);
 
 //				if (getParam(ed, "paste_convert_headers_to_strong")) {
-					h = h.replace(/<p [^>]*class="?MsoHeading"?[^>]*>(.*?)<\/p>/gi, "<heading>$1</heading>");
+					h = h.replace(/<p [^>]*class="?MsoHeading"?[^>]*>(.*?)<\/p>/gi, '<heading>$1</heading>');
 //				}
 
-				if (getParam(ed, "paste_convert_middot_lists")) {
+				if (getParam(ed, 'paste_convert_middot_lists')) {
 					process([
 						[/<!--\[if !supportLists\]-->/gi, '$&__MCE_ITEM__'],					// Convert supportLists to a list item marker
 						[/(<span[^>]+(?:mso-list:|:\s*symbol)[^>]+>)/gi, '$1__MCE_ITEM__'],		// Convert mso-list and symbol spans to item markers
@@ -395,22 +395,22 @@
 					/<(!|script[^>]*>.*?<\/script(?=[>\s])|\/?(\?xml(:\w+)?|img|meta|link|style|\w:\w+)(?=[\s\/>]))[^>]*>/gi,
 
 					// Convert <s> into <strike> for line-though
-					[/<(\/?)s>/gi, "<$1strike>"],
+					[/<(\/?)s>/gi, '<$1strike>'],
 
 					// Replace nsbp entites to char since it's easier to handle
-					[/&nbsp;/gi, "\u00a0"]
+					[/&nbsp;/gi, '\u00a0']
 				]);
 
 				// Remove bad attributes, with or without quotes, ensuring that attribute text is really inside a tag.
 				// If JavaScript had a RegExp look-behind, we could have integrated this with the last process() array and got rid of the loop. But alas, it does not, so we cannot.
 				do {
 					len = h.length;
-					h = h.replace(/(<[a-z][^>]*\s)(?:id|name|language|type|on\w+|\w+:\w+)=(?:"[^"]*"|\w+)\s?/gi, "$1");
+					h = h.replace(/(<[a-z][^>]*\s)(?:id|name|language|type|on\w+|\w+:\w+)=(?:"[^"]*"|\w+)\s?/gi, '$1');
 				} while (len != h.length);
 
 				// Remove all spans if no styles is to be retained
-				if (getParam(ed, "paste_retain_style_properties").replace(/^none$/i, "").length == 0) {
-					h = h.replace(/<\/?span[^>]*>/gi, "");
+				if (getParam(ed, 'paste_retain_style_properties').replace(/^none$/i, '').length == 0) {
+					h = h.replace(/<\/?span[^>]*>/gi, '');
 				} else {
 					// We're keeping styles, so at least clean them up.
 					// CSS Reference: http://msdn.microsoft.com/en-us/library/aa155477.aspx
@@ -419,7 +419,7 @@
 						// Convert <span style="mso-spacerun:yes">___</span> to string of alternating breaking/non-breaking spaces of same length
 						[/<span\s+style\s*=\s*"\s*mso-spacerun\s*:\s*yes\s*;?\s*"\s*>([\s\u00a0]*)<\/span>/gi,
 							function(str, spaces) {
-								return (spaces.length > 0)? spaces.replace(/./, " ").slice(Math.floor(spaces.length/2)).split("").join("\u00a0") : "";
+								return (spaces.length > 0)? spaces.replace(/./, ' ').slice(Math.floor(spaces.length/2)).split('').join('\u00a0') : '';
 							}
 						],
 
@@ -993,19 +993,19 @@
 		_legacySupport : function() {
 			var t = this, ed = t.editor;
 			// Register command(s) for backwards compatibility
-			ed.addCommand("AnnomcePasteWord", function() {
+			ed.addCommand('AnnomcePasteWord', function() {
 				ed.windowManager.open({
-					file: t.url + "/pasteword.htm",
+					file: t.url + '/pasteword.htm',
 					width: 483,
 					height: 450,
 					inline: 1,
 				});
 			});
 			
-			if (getParam(ed, "paste_text_use_dialog")) {
-				ed.addCommand("AnnomcePasteText", function() {
+			if (getParam(ed, 'paste_text_use_dialog')) {
+				ed.addCommand('AnnomcePasteText', function() {
 					ed.windowManager.open({
-						file : t.url + "/pastetext.htm",
+						file : t.url + '/pastetext.htm',
 						width: 483,
 						height: 450,
 						inline: 1,
@@ -1014,11 +1014,11 @@
 			}
 
 			// Register button for backwards compatibility
-			ed.addButton("annopasteword", {title : "paste.paste_word_desc", cmd : "AnnomcePasteWord"});
-			ed.addButton("annopastetext", {title : "paste.paste_text_desc", cmd : "AnnomcePasteText"});
+			ed.addButton('annopasteword', {title : 'paste.paste_word_desc', cmd : 'AnnomcePasteWord'});
+			ed.addButton('annopastetext', {title : 'paste.paste_text_desc', cmd : 'AnnomcePasteText'});
 		}
 	});
 
 	// Register plugin
-	tinymce.PluginManager.add("annoPaste", tinymce.plugins.AnnoPaste);
+	tinymce.PluginManager.add('annoPaste', tinymce.plugins.AnnoPaste);
 })();

@@ -1,6 +1,5 @@
 <?php 
 //@TODO perms :: if (!current_user_can('upload_files'))
-//@TODO Enforce browser upload to images on backend
 function anno_tinymce_enqueue() {
 	if (isset($_GET['anno_action']) && $_GET['anno_action'] == 'image_popup') {
 		wp_enqueue_script('swfupload-all');
@@ -246,7 +245,6 @@ function anno_get_media_item($attachment_id, $args = null) {
 	return $display;
 } 
 
-// TODO Enforce IMG
 
 // Request handler for uploading
 // Then do our magic

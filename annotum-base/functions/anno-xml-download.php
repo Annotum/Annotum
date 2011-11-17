@@ -213,9 +213,7 @@ class Anno_XML_Download {
 		else {
 			$funding_xml = '';
 		}
-		
-		//@TODO PMID?
-		
+				
 		// DOI
 		$doi = get_post_meta($article->ID, '_anno_doi', true);
 		if (!empty($doi)) {
@@ -372,7 +370,6 @@ class Anno_XML_Download {
 		$author_xml .= '
 		</contrib-group>';
 		
-//@TODO potentially abstract out journal meta, article meta to their own methods
 			return 
 '<?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE article SYSTEM "http://dtd.nlm.nih.gov/ncbi/kipling/kipling-jp3.dtd">

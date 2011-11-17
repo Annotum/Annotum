@@ -8,9 +8,8 @@ Author: Crowd Favorite
 Author URI: http://crowdfavorite.com
 */
 
-// @TODO turn off the debug 
-// add_filter('Anno_PDF_Download_debug', '__return_true');
 
+// add_filter('Anno_PDF_Download_debug', '__return_true');
 
 class Anno_PDF_Download {
 	

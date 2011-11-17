@@ -86,7 +86,7 @@ function annowf_audit_log($post) {
 					if (!empty($item['data']) && is_array($item['data'])) {
 						$comment = get_comment(absint($item['data'][0]));
 						if (!empty($comment)) {
-							//TODO possibly process current URL and just add #comment-$comment->comment_ID when appropriate
+							//@TODO possibly process current URL and just add #comment-$comment->comment_ID when appropriate
 							$comment_url = get_edit_post_link($comment->comment_post_ID).'#comment-'.$comment->comment_ID;
 							$event_html .= '<a href="'.$comment_url.'">'.$event_array[$event].'</a>';
 						}

@@ -305,7 +305,6 @@ class Anno_Template {
 	 * Text-only citation -- safe for textareas.
 	 * Output is cached for 1 hour unless cache is invalidated by updating the post.
 	 * @param int $post_id (optional) id of post to cite.
-	 * @todo respect author snapshot
 	 */
 	public function get_citation($post_id = null) {
 		$post_id = $this->utils->post_id_for_sure($post_id);

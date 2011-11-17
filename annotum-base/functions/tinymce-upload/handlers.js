@@ -46,9 +46,6 @@ function uploadProgress(fileObj, bytesDone, bytesTotal) {
 
 function annoPrepareMediaItem(fileObj, serverData) {
 	var f = ( typeof shortform == 'undefined' ) ? 1 : 2, item = jQuery('#media-item-' + fileObj.id);
-	// Move the progress bar to 100%
-//	jQuery('.bar', item).remove();
-//	jQuery('.progress', item).hide();
 
 	try {
 		if ( typeof topWin.tb_remove != 'undefined' )
@@ -73,80 +70,6 @@ function annoPrepareMediaItem(fileObj, serverData) {
 
 function prepareMediaItemInit(fileObj) {
 	var item = jQuery('#media-item-' + fileObj.id);
-	// Clone the thumbnail as a "pinkynail" -- a tiny image to the left of the filename
-//	jQuery('.thumbnail', item).clone().attr('class', 'pinkynail toggle').prependTo(item);
-
-	// Replace the original filename with the new (unique) one assigned during upload
-//	jQuery('.filename.original', item).replaceWith( jQuery('.filename.new', item) );
-
-	// Also bind toggle to the links
-/*	jQuery('a.toggle', item).click(function(){
-		jQuery(this).siblings('.slidetoggle').slideToggle(350, function(){
-			var w = jQuery(window).height(), t = jQuery(this).offset().top, h = jQuery(this).height(), b;
-
-			if ( w && t && h ) {
-                b = t + h;
-
-                if ( b > w && (h + 48) < w )
-                    window.scrollBy(0, b - w + 13);
-                else if ( b > w )
-                    window.scrollTo(0, t - 36);
-            }
-		});
-		jQuery(this).siblings('.toggle').andSelf().toggle();
-		jQuery(this).siblings('a.toggle').focus();
-		return false;
-	});
-*/
-
-	// Bind AJAX to the new Delete button
-	/*jQuery('a.delete', item).click(function(){
-		// Tell the server to delete it. TODO: handle exceptions
-		jQuery.ajax({
-			url: 'admin-ajax.php',
-			type: 'post',
-			success: deleteSuccess,
-			error: deleteError,
-			id: fileObj.id,
-			data: {
-				id : this.id.replace(/[^0-9]/g, ''),
-				action : 'trash-post',
-				_ajax_nonce : this.href.replace(/^.*wpnonce=/,'')
-			}
-		});
-		return false;
-	});*/
-
-	// Bind AJAX to the new Undo button
-	/*
-	jQuery('a.undo', item).click(function(){
-		// Tell the server to untrash it. TODO: handle exceptions
-		jQuery.ajax({
-			url: 'admin-ajax.php',
-			type: 'post',
-			id: fileObj.id,
-			data: {
-				id : this.id.replace(/[^0-9]/g,''),
-				action: 'untrash-post',
-				_ajax_nonce: this.href.replace(/^.*wpnonce=/,'')
-			},
-			success: function(data, textStatus){
-				var item = jQuery('#media-item-' + fileObj.id);
-
-				if ( type = jQuery('#type-of-' + fileObj.id).val() )
-					jQuery('#' + type + '-counter').text(jQuery('#' + type + '-counter').text()-0+1);
-				if ( item.hasClass('child-of-'+post_id) )
-					jQuery('#attachments-count').text(jQuery('#attachments-count').text()-0+1);
-
-				jQuery('.filename .trashnotice', item).remove();
-				jQuery('.filename .title', item).css('font-weight','normal');
-				jQuery('a.undo', item).addClass('hidden');
-				jQuery('a.describe-toggle-on, .menu_order_input', item).show();
-				item.css( {backgroundColor:'#ceb'} ).animate( {backgroundColor: '#fff'}, { queue: false, duration: 500, complete: function(){ jQuery(this).css({backgroundColor:''}); } }).removeClass('undo');
-			}
-		});
-		return false;
-	});*/
 
 	// Open this item if it says to start open (e.g. to display an error)
 	jQuery('#media-item-' + fileObj.id + '.startopen').removeClass('startopen').slideToggle(500).siblings('.toggle').toggle();
@@ -198,7 +121,7 @@ function deleteSuccess(data, textStatus) {
 }
 
 function deleteError(X, textStatus, errorThrown) {
-	// TODO
+
 }
 
 function updateMediaForm() {

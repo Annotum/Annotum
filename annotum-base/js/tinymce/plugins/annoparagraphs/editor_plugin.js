@@ -10,12 +10,15 @@
 			t.editor = ed;
 
 			ed.onKeyDown.addToTop(function(ed, e) {
-				
+
 				// If we're not hitting the shift key, we are hitting the return key, and we're not in a list (retain new list item functionality)
 				if (!e.shiftKey && e.keyCode == 13) {
 					if (!t.insertPara(e)) {
 						e.preventDefault();
-					}					
+
+						ed.undoManager.add();
+					}
+					t._nodeChanged(ed);
 					return false;
 				}
 				return true;
@@ -27,9 +30,43 @@
 					e.preventDefault();
 					return false;
 				}
-			});			
+				
+				return preventDefaultKey(ed, e);
+			});
+			
+			function preventDefaultKey(ed, e) {
+				var parent = ed.dom.getParent(ed.selection.getNode(), 'LIST, LIST-ITEM');
+				if (!e.shiftKey && e.keyCode == 13 && !parent) {
+					e.preventDefault();
+					return false;
+				}
+				return true;
+			}
+			
+			ed.onKeyPress.addToTop(function(ed, e) {
+				return preventDefaultKey(ed, e);
+			});
 		},
-
+		
+		// Create a controlManager to hangle new nodes, the dispatchers for onKeyUp, onKeyPress etc.. does not get passed a CM
+		createControl : function (ed, cm) {
+			this.cm = cm;
+		},
+		
+		// A new node is selected programtically, not be user. onNodeChange won't work, we need to add it to keypress.
+		_nodeChanged : function (ed) {
+			if (c = this.cm.get('annoformatselect')) {
+				var parent = ed.dom.getParent(ed.selection.getNode(), 'HEADING, PARA, SEC'), selVal;
+				if (parent) {
+					selVal = parent.nodeName.toLowerCase();
+				}
+				else {
+					selVal = 'format';
+				}
+				c.select(selVal);
+			}
+		},
+		
 		getParentBlock : function(n) {
 			var t = this, ed = t.editor;
 			return ed.dom.getParent(n, ed.dom.isBlock);
@@ -40,11 +77,9 @@
 			var rb, ra, dir, sn, so, en, eo, sb, eb, bn, bef, aft, sc, ec, n, vp = dom.getViewPort(ed.getWin()), y, ch, car;
 			var TRUE = true, FALSE = false, newElement, node = ed.selection.getNode();
 			ed.undoManager.beforeChange();
-			
 			// Override default tinyMCE element.
 			se.element = 'para';
-				
-			if (e.ctrlKey || /(BODY|HTML|HEADING|PARA|SEC)/.test(node.nodeName)) {
+			if (e.ctrlKey || /(BODY|HTML|HEADING|SEC)/.test(node.nodeName)) {
 				function insertNewBlock(node) {
 					var newElement, parentNode;
 					if (dom.getParent(node, 'PARA') !== null) {
@@ -62,13 +97,12 @@
 					if (node.nodeName == 'SEC' && !e.ctrlKey) {
 						// @TODO This dom element does not actually get inserted, its the markup has ramifications for the range selection afterwords.
 						// Looking for an improved cursor targetting or insertion solution.
-						return ed.selection.select(newElement);
+						return ed.selection.setNode(newElement);
 					}
 					else {
 						return dom.insertAfter(newElement, node);
 					}
 				}
-
 				// Create a new sec element with a title
 				function newSec() {
 					var sec = dom.create('sec', null);
@@ -76,10 +110,10 @@
 					dom.add(sec, 'para');
 					return sec;
 				}
-
+				
 				// Just insert a new paragraph if the ctrl key isn't held and the carat is in a para tag
 				// Or, various tags should create paragraphs, not enter a br (when the ctrl key is held).
-				if ((!e.ctrlKey && /(PARA)/.test(node.nodeName)) || /(DISP-FORMULA|TABLE-WRAP|FIG|DISP-QUOTE|HEADING)/.test(node.nodeName)) {
+				if (/(DISP-FORMULA|TABLE-WRAP|FIG|DISP-QUOTE|HEADING)/.test(node.nodeName)) {
 					newElement = insertNewBlock(node);
 				}
 				else if (/(BODY|HTML)/.test(node.nodeName)) {
@@ -110,11 +144,9 @@
 				r.selectNodeContents(newElement);
 				r.collapse(1);
 				ed.selection.setRng(r);
-				
-				
+				ed.undoManager.add();
 				return FALSE;
 			}
-
 			// Setup before range
 			rb = d.createRange();
 
@@ -157,10 +189,10 @@
 				r.selectNodeContents(aft);
 				r.collapse(1);
 				ed.selection.setRng(r);
-
+				ed.undoManager.add();
 				return FALSE;
 			}
-
+			
 			function insertBr(ed) {
 				var selection = ed.selection, rng = selection.getRng(), br, div = dom.create('div', null, ' '), divYPos, vpHeight = dom.getViewPort(ed.getWin()).h;
 
@@ -188,7 +220,6 @@
 				if (divYPos > vpHeight) // It is not necessary to scroll if the DIV is inside the view port.
 					ed.getWin().scrollTo(0, divYPos);
 			};
-
 			// If the caret is in an invalid location in FF we need to move it into the first block
 			if (sn == b && en == b && b.firstChild && ed.dom.isBlock(b.firstChild)) {
 				sn = en = sn.firstChild;
@@ -215,6 +246,7 @@
 				if (n.nodeName == 'LIST-ITEM') {
 					return annoListBreak(ed.selection, dom, n);
 				}
+				ed.undoManager.add();
 				return TRUE;
 			}
 			
@@ -226,14 +258,16 @@
 					if (!dom.getParent(listBlock.parentNode, 'list')) {
 						dom.split(listBlock, li);
 					}
+					ed.undoManager.add();
 					return FALSE;
 				}
+				ed.undoManager.add();
 				return TRUE;
 			};
-
-		
-			if (!/^(P|BODY|HTML)$/.test(bn)) {
+			
+			if (!/^(PARA|BODY|HTML)$/.test(bn)) {
 				insertBr(ed);
+				ed.undoManager.add();
 				return FALSE;
 			}	
 
@@ -255,7 +289,6 @@
 
 			// Remove id from after clone
 			aft.removeAttribute('id');
-
 			// Is header and cursor is at the end, then force paragraph under
 			if (/^(HEADING)$/.test(bn) && isAtEnd(r, sb)) 
 				aft = ed.dom.create(se.element);
@@ -293,12 +326,11 @@
 			} catch(ex) {
 				//console.debug(s.focusNode, s.focusOffset);
 			}
-
 			ra.setStart(en, eo);
 			aft.appendChild(ra.cloneContents() || d.createTextNode('')); // Empty text node needed for Safari
-
 			// Create range around everything
 			r = d.createRange();
+
 			if (!sc.previousSibling && sc.parentNode.nodeName == bn) {
 				r.setStartBefore(sc.parentNode);
 			} else {
@@ -325,6 +357,7 @@
 
 			if (aft.firstChild && aft.firstChild.nodeName == bn)
 				aft.innerHTML = aft.firstChild.innerHTML;
+
 
 			function appendStyles(e, en) {
 				var nl = [], nn, n, i;
@@ -377,6 +410,9 @@
 			// Normalize
 			aft.normalize();
 			bef.normalize();
+			if (!aft.innerHTML) {
+				aft.innerHTML = '<br />';
+			}
 
 			// Move cursor and scroll into view
 			ed.selection.select(aft, true);
@@ -385,12 +421,10 @@
 			// scrollIntoView seems to scroll the parent window in most browsers now including FF 3.0b4 so it's time to stop using it and do it our selfs
 			y = ed.dom.getPos(aft).y;
 			//ch = aft.clientHeight;
-
 			// Is element within viewport
 			if (y < vp.y || y + 25 > vp.y + vp.h) {
 				ed.getWin().scrollTo(0, y < vp.y ? y : y - vp.h + 25); // Needs to be hardcoded to roughly one line of text if a huge text block is broken into two blocks
 			}
-
 			ed.undoManager.add();
 
 			return FALSE;
