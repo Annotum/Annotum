@@ -101,11 +101,7 @@ form.search{position:relative;}
 form.search .type-submit{background:url(../img/sprite-y.8bit.png) 0 -100px no-repeat;border:0;height:13px;overflow:hidden;position:absolute;right:6px;top:5px;width:14px;}
 #site-nav .search{position:absolute;right:5px;top:6px;}
 .featured-posts{overflow:hidden;position:relative;zoom:1;}
-<<<<<<< HEAD
-.featured-posts ul,.featured-posts li{height:262px;list-style:none;list-style-position:outside;margin:0;overflow:hidden;width:100%;}
-=======
 .featured-posts ul,.featured-posts li{min-width:628px;height:260px;list-style:none;list-style-position:outside;margin:0;overflow:hidden;}
->>>>>>> 488800889c79b390cb1e6a92ee1cbfbe0fbb1e5f
 .featured-posts .carousel-item{height:auto !important;height:232px;min-height:232px;background:#66a6bf;color:#000;padding:16px 16px 16px 300px;position:relative;}
 .featured-posts .carousel-item img{left:16px;position:absolute;top:18px;}
 .featured-posts .carousel-item .title{font:italic bold 24px Georgia, Serif;margin-bottom:6px;}
