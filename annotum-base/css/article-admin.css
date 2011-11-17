@@ -451,8 +451,12 @@ table tr td.anno-mce-popup-footer {
 	vertical-align: middle;
 }
 #anno-popup-images-inside .progress {
-	height: 50px;
-	margin-bottom: -50px;
+	height: 24px;
+	margin-top: 12px;
+}
+#anno-popup-images-inside .progress .bar {
+	margin-top: 0;
+	padding-left: 5px;
 }
 .tinymce-uploader {
 	margin: 1em 0;
