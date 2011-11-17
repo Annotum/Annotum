@@ -51,7 +51,7 @@ dl.kv dd{margin-bottom:8px;}
 .bypostauthor .header h3.title{font-weight:bold;}
 .appendices,.figure,.list,.quote,.table{margin-bottom:10px;}
 .figure{background:#f6f6f6;border:1px solid #ddd;border-width:1px 0;padding:12px 12px 4px;}
-.figure .photo,.figure figcaption .fn,.figure .license{margin-bottom:8px;}
+.figure .photo,.figure figcaption .fn,.figure .license{margin-bottom:8px;display:inline;}
 .figure .photo{float:left;margin-right:13px;}
 .figure figcaption{font-size:13px;line-height:1.384615385;overflow:hidden;}
 .figure figcaption>.label{font-size:13px;margin:0 0 8px;}
@@ -300,5 +300,4 @@ div.tools-bar {
 #wpadminbar {
 	display:none;
 }
-.appendix h1 {text-transform: uppercase;}
-
+.appendix h1 {text-transform:uppercase;}
