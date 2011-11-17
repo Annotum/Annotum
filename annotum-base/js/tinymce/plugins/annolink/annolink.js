@@ -12,7 +12,8 @@ var annoLink;
 			inputs.submit = $('#anno-link-submit');
 			inputs.url = $('#anno-link-url-field');
 			inputs.title = $('#anno-link-title-field');
-
+			inputs.alt = $('#anno-link-alt-field');
+			
 			// Bind event handlers
 			inputs.dialog.keydown( annoLink.keydown );
 			inputs.dialog.keyup( annoLink.keyup );
@@ -159,13 +160,11 @@ var annoLink;
 		},
 
 		setDefaultValues : function() {
-			// Set URL and description to defaults.
+			// Set URL and descriptions to defaults.
 			// Leave the new tab setting as-is.
 			inputs.url.val('http://');
 			inputs.title.val('');
-
-			// Update save prompt.
-			inputs.submit.val( annoLinkL10n.save );
+			inputs.alt.val('');
 		},
 
 		keyup: function( event ) {

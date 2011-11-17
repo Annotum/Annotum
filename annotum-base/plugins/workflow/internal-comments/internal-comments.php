@@ -258,9 +258,21 @@ function anno_internal_comments_clauses($clauses) {
 	$clauses['where'] .= " AND comment_type NOT IN ('article_general', 'article_review')";
 	return $clauses;
 }
+// Never display internal comments on the front-end
 if (!is_admin()) {
 	add_filter('comments_clauses', 'anno_internal_comments_clauses');
 }
+
+/**
+ * Don't allow non editor/admin to see internal comments on comment listing page. 
+ */ 
+function anno_filter_edit_comments_page() {
+	global $pagenow;
+	if ($pagenow == 'edit-comments.php' && !(current_user_can('editor') || current_user_can('administrator'))) {
+		add_filter('comments_clauses', 'anno_internal_comments_clauses');
+	}
+}
+add_action('admin_init', 'anno_filter_edit_comments_page');
 
 /**
  * Modify the comment count stored in the wp_post comment_count column, so internal comments don't show up there.
@@ -412,8 +424,10 @@ function anno_internal_comments_pre_comment_approved($approved) {
  * Dropdown filter to display only our internal comment types in the admin screen
  */ 
 function anno_internal_comment_types_dropdown($comment_types) {
-	$comment_types['article_general'] = _x('Article General', 'Dropdown comment type selector', 'anno');
-	$comment_types['article_review'] = _x('Article Review', 'Dropdown comment type selector', 'anno');
+	if (current_user_can('editor') || current_user_can('administrator')) {
+		$comment_types['article_general'] = _x('Article General', 'Dropdown comment type selector', 'anno');
+		$comment_types['article_review'] = _x('Article Review', 'Dropdown comment type selector', 'anno');
+	}
 	return $comment_types;
 }
 add_filter('admin_comment_types_dropdown', 'anno_internal_comment_types_dropdown');

@@ -143,7 +143,7 @@ function anno_load_editor($content, $editor_id, $settings = array()) {
 		'permissions[copyright-statement|copyright-holder|license|div|span|br]',
 		'license[license-p|xref|div|span|br]',
 		'license-p[preformat|br|'.$formats_as_children.']',
-	'list[title|list-item|div|span|br]',
+		'list[title|list-item|div|span|br]',
 		'list-item[para|xref|list|div|span|br]',
 		'disp-formula[label|tex-math|div|span|preformat|br]',
 		'disp-quote[para|attrib|permissions|div|span|preformat|br]',
@@ -178,7 +178,7 @@ function anno_load_editor($content, $editor_id, $settings = array()) {
 			'debug' => 'true',
 			'verify_html' => true,
 			'force_p_newlines' => false,
-			'force_br_newlines' => true,
+			'force_br_newlines' => false, // false required for proper list return
 			'content_css' => trailingslashit(get_bloginfo('template_directory')).'css/tinymce.css',
 	// 		@TODO Define doctype (IE Compat?)
 	//		'doctype' => '<!DOCTYPE article SYSTEM \"http://dtd.nlm.nih.gov/ncbi/kipling/kipling-jp3.dtd\">',
@@ -1077,35 +1077,32 @@ function anno_insert_post_data($data, $postarr) {
 		return $data;
 	}
 	
-	$is_article_type = false;
-	// Both published and drafts (before article ever saved) get caught here
 	if ($postarr['post_type'] == 'article') {
-		$is_article_type = true;
-	}
-	// If we're a revision, we need to do one more check to ensure our parent is an article
-	if ($postarr['post_type'] == 'revision') {
-		if (!empty($data['post_parent']) && get_post_type($data['post_parent']) == 'article') {
-			$is_article_type = true;
-		}
-	}
-	
-	if ($is_article_type) {
 		// Get our XML content for the revision
 		$content = stripslashes($data['post_content']);
-		
-		// Remove non-ascii characters
-		$content = preg_replace('/[^(\x20-\x7F)]*/','', $content);
+
+		// Remove the gremlins
+		$content = preg_replace('/(\xa0|\xc2)/','', $content);
 		
 		// Set XML as backup content. Filter markup and strip out tags not on whitelist.
 		$xml = anno_validate_xml_content_on_save($content);
 		$data['post_content_filtered'] = addslashes($xml);
 		// Set formatted HTML as the_content
 		$data['post_content'] = addslashes(anno_xml_to_html($xml));
+		
 	}
-	
+
 	return $data;
 }
 add_filter('wp_insert_post_data', 'anno_insert_post_data', null, 2);
+
+/**
+ * Don't process incoming content from revisions, its already in the forms expected
+ */ 
+function anno_remove_insert_filter_for_restore() {
+	remove_filter('wp_insert_post_data', 'anno_insert_post_data', null, 2);
+}
+add_action('admin_action_restore', 'anno_remove_insert_filter_for_restore');
 
 /**
  * Only maintain line breaks on certain tags (title, td, th)
@@ -2077,5 +2074,15 @@ function anno_remove_kses_from_content() {
 	remove_filter('content_filtered_save_pre', 'wp_filter_post_kses');
 }
 add_action('init', 'anno_remove_kses_from_content');
+
+/**
+ * Allow post_content_filtered to be managed by revisions
+ */ 
+function anno_post_revision_fields($fields) {
+	$fields['post_content_filtered'] = _x('Post Content Filtered', 'Title for revision management', 'anno');
+	return $fields;
+}
+add_filter( '_wp_post_revision_fields', 'anno_post_revision_fields');
+
 
 ?>

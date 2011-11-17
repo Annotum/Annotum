@@ -12,17 +12,21 @@
 			ed.addCommand('annoUnlink', function() {
 				var se = ed.selection;
 				var sn = se.getStart(),
-					snp = ed.getParent(sn, 'EXT-LINK');
+					snp = ed.dom.getParent(sn, 'EXT-LINK');
 				var en = se.getEnd(),
-					enp = ed.getParent(en, 'EXT-LINK');
-								
+					enp = ed.dom.getParent(en, 'EXT-LINK');
+				var n = se.getNode(),
+					bookmark = se.getBookmark();
+					
 				if (n.nodeName != 'EXT-LINK') {
 					n = ed.dom.getParent(n, 'EXT-LINK');
 				}
 				if (se.isCollapsed() && n.nodeName != 'EXT-LINK')
 					return;
+
 				
 				ed.dom.remove(n, true);
+				se.moveToBookmark(bookmark);
 				//TODO remove partial selections.
 			});
 			
