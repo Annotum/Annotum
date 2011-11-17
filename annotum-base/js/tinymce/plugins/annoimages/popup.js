@@ -44,12 +44,12 @@ jQuery(document).ready( function($) {
 		var form = 'form#img-edit-' + attachment_id;
 
 		alt_text = $('#img-alttext-' + attachment_id, form).val();
-		url = $('input[name="size"]:checked', form).attr('data-url');
+		img_url = $('input[name="size"]:checked', form).attr('data-url');
 		display_type = $('input[name="display"]:checked', form).val();
 		
 		if (display_type == 'inline') {
 			// Inserting for tinyMCE. is converted to XML on save.
-			xml = '<img src="'+ url + '" class="_inline_graphic" alt="'+ alt_text + '"/>';
+			xml = '<img src="'+ img_url + '" class="_inline_graphic" alt="'+ alt_text + '"/>';
 		}
 		else {
 			// @TODO Revisit <br /> insertion for IE8 compatability 
@@ -67,10 +67,10 @@ jQuery(document).ready( function($) {
 						
 			// @TODO Caption Title Support
 			xml = '<fig>'
-						+'<img src="' + url + '" />'
+						+'<img src="' + img_url + '" />'
 						+'<label>' + label + '</label>'
 						+'<cap><para>' + caption + '</para></cap>'
-						+'<media xlink:href="' + url + '">'
+						+'<media xlink:href="' + img_url + '">'
 							+'<alt-text>' + alt_text + '</alt-text>'
 							+'<long-desc>' + description + '</long-desc>'
 							+'<permissions>'

@@ -9,18 +9,19 @@ var annoImages;
 
 		init : function() {
 			inputs.dialog = $('#anno-popup-images');
+			
+			// Disallow resizing of our anno popups
+			// @TODO provide a more liquid layout and renable resize
+			$('div[id^="anno-"]').bind('wpdialogbeforeopen', function() {
+				$('.ui-resizable').resizable( 'disable' );
+			});
 		
 			// Bind event handlers
 			inputs.dialog.keydown( annoImages.keydown );
 			inputs.dialog.keyup( annoImages.keyup );
 			
 			$('#anno-images-cancel').click(annoImages.close);
-
-			//	inputs.dialog.bind('wpdialogrefresh', annoLink.refresh);
-			//	inputs.dialog.bind('wpdialogbeforeopen', annoLink.beforeOpen);
-			//	inputs.dialog.bind('wpdialogclose', annoLink.onClose);
 		},
-
 
 		keyup : function( event ) {
 			var key = $.ui.keyCode;
