@@ -152,7 +152,7 @@ function annowf_registered_post_meta_items() {
 			'_anno_subtitle',
 			'_anno_appendices',
 			'_anno_doi',
-			'_anno_author_snapshot', // @TODO determine if this really needs "versioned"
+			'_anno_author_snapshot', 
 			'_anno_references',
 		);
 		
@@ -173,7 +173,6 @@ function annowf_meta_revision_display($meta_value) {
 		foreach ($meta_value as $key => $value) {
 			// The only occurence of serilized meta here is appendices
 			$key = _x('Appendix', 'revision heading', 'anno').anno_index_alpha($key);
-//@TODO remove padding from h4 to prevent jerkiness of JS
 			$html = '<h4>'.$key.'</h4><div>'.htmlspecialchars($value).'</div>
 ';
 		}
@@ -188,7 +187,7 @@ function annowf_meta_revision_display($meta_value) {
 /**
  * Styling for post-meta in revisions
  */ 
-function anno_revisions_css() {
+function annowf_revisions_css() {
 ?>
 <style type="text/css">
 h4 {
@@ -197,5 +196,5 @@ h4 {
 </style>
 <?php
 }
-add_action('admin_print_scripts-revision.php', 'anno_revisions_css');
+add_action('admin_print_scripts-revision.php', 'annowf_revisions_css');
 ?>
