@@ -233,7 +233,6 @@ function anno_popup_images_row_edit($attachment) {
 									}
 								}
 								
-								
 							?>
 						</fieldset>
 						<div class="anno-mce-popup-footer">
