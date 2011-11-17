@@ -237,7 +237,7 @@ html.ie8 #main-sidebar .widget_search #s{width:100px;}
 .content h4,.content h5,.content h6{color:#777;font-size:11px;text-transform:uppercase;letter-spacing:0.09em;margin-bottom:3px;}
 .content p,.content ul,.content ol,.content pre,.content blockquote,.content dl,.content address,.content table,.content table-wrap{margin-bottom:10px;}
 .content table-wrap label{display:block;}
-.content table caption{background:#f6f6f6;border:#ddd solid 1px;border-width:1px 1px 0;color:#787878;font-size:12px;line-height:22px;padding:0 8px;text-align:left;}
+.content table .caption{background:#f6f6f6;border:#ddd solid 1px;border-width:1px 1px 0;color:#787878;font-size:12px;line-height:22px;padding:0 8px;text-align:left;}
 .content table{background:#fff;border-collapse:collapse;border:#ddd solid 1px;min-width:200px;}
 .content table th,.content table td{padding-left:6px;padding-right:6px;text-align:left;}
 .content table th{background:#f6f6f6;border-bottom:#ddd solid 1px;}
@@ -256,14 +256,6 @@ html.ie8 #main-sidebar .widget_search #s{width:100px;}
 .references li{margin-bottom:10px;}
 .references li:before{content:attr(data-refid)"."; margin-right:5px}
 .references ul a{font-size:10px;line-height:1;text-transform:uppercase;}
-/*.authors{overflow:visible;position:relative;}
-.authors .author-info .content{background:url(../img/author-card-background.png) center bottom no-repeat;margin:0;padding:1px 15px 15px;}
-.authors .author-info .content p{margin:0;}
-.authors ul{zoom:1;padding-right:4px;}
-.authors li{display:inline;float:left;margin-right:10px;position:relative;}
-.authors li.hover{z-index:2;}
-.authors li a{zoom:1;display:inline;position:relative;}
-.author{display:block;position:relative;}*/
 .author .extra a{display:inline;}
 .author .extra .group{display:block;margin-bottom:5px;}
 .author .extra{background:url(../img/author-card-background.png) -300px bottom no-repeat;font-size:12px;display:none;left:50%;margin-left:-119px;padding-bottom:10px;position:absolute;top:20px;width:248px;z-index:1000;}
