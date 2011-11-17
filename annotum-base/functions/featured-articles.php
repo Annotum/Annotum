@@ -5,10 +5,10 @@ class Anno_Cacheer {
 	public $enable_cache = true;
 	public function __construct($key = '', $timeout = false) {
 		if ($key) {
-			$this->$key = $key;
+			$this->key = $key;
 		}
 		if ($timeout) {
-			$this->$timeout = $timeout;
+			$this->timeout = $timeout;
 		}
 	}
 	
@@ -18,7 +18,6 @@ class Anno_Cacheer {
 			ob_start();
 				$this->cached();
 			$cache = ob_get_clean();
-			
 			set_transient($this->key, $cache, $this->timeout);
 		}
 		echo $cache;

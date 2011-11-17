@@ -213,6 +213,10 @@ function anno_article_save_post($post_id, $post) {
 					else {
 						$value = 'off';
 					}
+					// Reset the transient if this is a published article
+					if ($post->post_status == 'publish') {
+						delete_transient('anno_featured');
+					}
 					break;
 				case 'anno_subtitle':
 				case 'anno_funding':

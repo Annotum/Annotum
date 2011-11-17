@@ -63,7 +63,7 @@ if (CFCT_DEBUG) { cfct_banner(__FILE__); }
 		<div class="in">
 			<div id="masthead-body">
 				<?php
-				$featured = new Anno_Featured_Articles();
+				$featured = new Anno_Featured_Articles('anno_featured');
 				$featured->render();
 				?>
 			</div><!-- #masthead-body -->
