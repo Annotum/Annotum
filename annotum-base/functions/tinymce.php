@@ -1077,23 +1077,11 @@ function anno_insert_post_data($data, $postarr) {
 		return $data;
 	}
 	
-	$is_article_type = false;
-	// Both published and drafts (before article ever saved) get caught here
 	if ($postarr['post_type'] == 'article') {
-		$is_article_type = true;
-	}
-	// If we're a revision, we need to do one more check to ensure our parent is an article
-	if ($postarr['post_type'] == 'revision') {
-		if (!empty($data['post_parent']) && get_post_type($data['post_parent']) == 'article') {
-			$is_article_type = true;
-		}
-	}
-	
-	if ($is_article_type) {
 		// Get our XML content for the revision
 		$content = stripslashes($data['post_content']);
-		
-		// Remove non-ascii characters
+
+		// Remove the gremlins
 		$content = preg_replace('/(\xa0|\xc2)/','', $content);
 		
 		// Set XML as backup content. Filter markup and strip out tags not on whitelist.
@@ -1101,11 +1089,20 @@ function anno_insert_post_data($data, $postarr) {
 		$data['post_content_filtered'] = addslashes($xml);
 		// Set formatted HTML as the_content
 		$data['post_content'] = addslashes(anno_xml_to_html($xml));
+		
 	}
-	
+
 	return $data;
 }
 add_filter('wp_insert_post_data', 'anno_insert_post_data', null, 2);
+
+/**
+ * Don't process incoming content from revisions, its already in the forms expected
+ */ 
+function anno_remove_insert_filter_for_restore() {
+	remove_filter('wp_insert_post_data', 'anno_insert_post_data', null, 2);
+}
+add_action('admin_action_restore', 'anno_remove_insert_filter_for_restore');
 
 /**
  * Only maintain line breaks on certain tags (title, td, th)
@@ -2077,5 +2074,15 @@ function anno_remove_kses_from_content() {
 	remove_filter('content_filtered_save_pre', 'wp_filter_post_kses');
 }
 add_action('init', 'anno_remove_kses_from_content');
+
+/**
+ * Allow post_content_filtered to be managed by revisions
+ */ 
+function anno_post_revision_fields($fields) {
+	$fields['post_content_filtered'] = _x('Post Content Filtered', 'Title for revision management', 'anno');
+	return $fields;
+}
+add_filter( '_wp_post_revision_fields', 'anno_post_revision_fields');
+
 
 ?>
