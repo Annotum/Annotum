@@ -6,9 +6,9 @@
 				ed.windowManager.open({
 					id : 'anno-popup-equations',
 					width : 480,
-					height : "auto",
+					height : 'auto',
 					wpDialog : true,
-					title : "Insert Equation"
+					title : 'Insert Equation'
 				}, {
 					plugin_url : url // Plugin absolute URL
 				});
@@ -27,7 +27,7 @@
                 author: 'Crowd Favorite',
                 authorurl: 'http://crowdfavorite.com/',
                 infourl: 'http://annotum.wordpress.com/',
-                version: "0.1"
+                version: '0.1'
 			};
         },
     });

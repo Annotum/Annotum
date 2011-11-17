@@ -40,9 +40,9 @@
 				ed.windowManager.open({
 					id : 'anno-popup-link',
 					width : 480,
-					height : "auto",
+					height : 'auto',
 					wpDialog : true,
-					title : ed.getLang('advlink.link_desc')
+					title : ed.getLang('advlink.link_desc'),
 				}, {
 					plugin_url : url // Plugin absolute URL
 				});
