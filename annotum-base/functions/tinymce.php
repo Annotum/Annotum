@@ -2050,7 +2050,7 @@ function anno_tinymce_js() {
 	if ($post_type == 'article') {
 		$main = trailingslashit(get_bloginfo('template_directory'));
 		
-//		wp_enqueue_script('closure-goog', $main.'js/tinymce/plugins/annoequations/equation-editor-compiled.js');
+		wp_enqueue_script('closure-goog', $main.'js/tinymce/plugins/annoequations/equation-editor-compiled.js');
 	}
 }
 add_action('admin_print_scripts-post.php', 'anno_tinymce_js');
