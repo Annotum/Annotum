@@ -408,24 +408,29 @@
 				car = appendStyles(aft, en);
 
 			// Opera needs this one backwards for older versions
-//			if (isOpera && parseFloat(opera.version()) < 9.5) {
-//				r.insertNode(bef);
-//				r.insertNode(aft);
-//			} else {
+			if (tinymce.isOpera && parseFloat(opera.version()) < 9.5) {
+				r.insertNode(bef);
+				r.insertNode(aft);
+			} 
+			else {
 				r.insertNode(aft);
 				r.insertNode(bef);
-//			}
+			}
 
-			// Normalize
 			aft.normalize();
 			bef.normalize();
-			if (!aft.innerHTML) {
+
+			if (!aft.innerHTML) {// && !tinymce.isIE) {
 				aft.innerHTML = '<br />';
 			}
 
 			// Move cursor and scroll into view
 			ed.selection.select(aft, true);
 			ed.selection.collapse(true);
+			if ((aft.innerHTML == '<br>' || aft.innerHTML == '<br />') && tinymce.isIE) {
+				aft.innerHTML = '';
+			}
+
 
 			// scrollIntoView seems to scroll the parent window in most browsers now including FF 3.0b4 so it's time to stop using it and do it our selfs
 			y = ed.dom.getPos(aft).y;
