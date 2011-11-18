@@ -83,11 +83,11 @@ jQuery(document).ready( function($) {
 						+'</media>'
 						+'<div _mce_bogus="1" class="clearfix"></div>';
 					+'</fig>'
-				
 		}
 
 
 		var win = window.dialogArguments || opener || parent || top;
+		win.tinyMCEPopup.restoreSelection();
 		win.send_to_editor(xml);
 		win.tinyMCEPopup.close();
 		return false;
