@@ -95,9 +95,18 @@
 					}
 					// If we're not trying to insert a new section and we're in a section node, just return insert a paragraph at the cursor
 					if (node.nodeName == 'SEC' && !e.ctrlKey) {
-						// @TODO This dom element does not actually get inserted, its the markup has ramifications for the range selection afterwords.
-						// Looking for an improved cursor targetting or insertion solution.
-						return ed.selection.setNode(newElement);
+						// Inefficient mechanism to insert node at selection then select it, but tinyMCE offers no other method currently
+						
+						// Set an ID so it can be searched for later
+						dom.setAttribs(newElement, { id: '_anno_inserted' });
+						// Inser the node into at the current selection - note this does not return the dom node, just the node passed into it
+						ed.selection.setNode(newElement);
+						// Find the newly inserted node by ID
+						newElement = dom.get('_anno_inserted');
+						// Remove ID, so this process can run again
+						dom.setAttribs(newElement, null);
+						
+						return newElement;
 					}
 					else {
 						return dom.insertAfter(newElement, node);
@@ -138,7 +147,7 @@
 						newElement = eleArray[0];
 					}
 				}
-
+				
 				// Move caret to the freshly created item
 				r = d.createRange();
 				r.selectNodeContents(newElement);
