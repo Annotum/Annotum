@@ -144,7 +144,7 @@ function anno_media_upload_form() {
 		<div id="flash-browse-button"></div>
 		<span><input id="cancel-upload" disabled="disabled" onclick="cancelUpload()" type="button" value="<?php _ex('Cancel Upload', 'Media cancel button text', 'anno'); ?>" class="button" /></span>
 		</div>
-	<?php do_action('post-flash-upload-ui'); ?>
+	<?php do_action('post-plupload-upload-ui'); ?>
 	</div>
 	<?php endif; // $flash ?>
 
