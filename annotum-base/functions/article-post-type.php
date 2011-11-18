@@ -237,7 +237,9 @@ function anno_article_save_post($post_id, $post) {
 		if (isset($_POST['anno_appendix']) && is_array($_POST['anno_appendix'])) {
 			foreach ($_POST['anno_appendix'] as $appendix) {
 				if (!empty($appendix)) {
-					$appendices[] = addslashes(anno_validate_xml_content_on_save(stripslashes($appendix)));
+					if (!anno_is_appendix_empty($appendix)) {
+						$appendices[] = addslashes(anno_validate_xml_content_on_save(stripslashes($appendix)));
+					}
 				}
 			}
 		}
@@ -245,6 +247,22 @@ function anno_article_save_post($post_id, $post) {
 	}
 }
 add_action('wp_insert_post', 'anno_article_save_post', 10, 2);
+
+/**
+ * Checks to see if a content block is empty or contains the default markup
+ * 
+ * @param string $appendix_content Content sent from the editor
+ * @return bool true if there exists content other than the default, false otherwise.
+ */ 
+function anno_is_appendix_empty($appendix_content) {
+	// Account for variations in how different browsers handle empty tags in tinyMCE
+	$appendix_content = str_replace(array(' ', ' ', '&nbsp', '\n', '<br>', '<br />'), '', $appendix_content);
+	if (empty($appendix_content) || $appendix_content == '<sec><heading></heading><para></para></sec>') {
+		return true;
+	}
+	
+	return false;
+}
 
 /**
  * Print styles for article post type.
