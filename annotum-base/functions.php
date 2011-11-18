@@ -919,13 +919,13 @@ function anno_default_menu_items($location) {
 	$default_classes = 'menu-item menu-item-type-taxonomy menu-item-object-category';
 	switch ($location) {
 		case 'main':
-			$items .= '<li classes="'.$default_classes.'"><a href="'.home_url().'">'.__('Home', 'anno').'</a></li>';
+			$items .= '<li class="'.$default_classes.'"><a href="'.home_url().'">'.__('Home', 'anno').'</a></li>';
 			break;
 		case 'secondary':
-			$items .= '<li classes="'.$default_classes.'">'.wp_loginout('', false).'</li>';
+			$items .= '<li class="'.$default_classes.'">'.wp_loginout('', false).'</li>';
 		break;
 		case 'footer':
-			$items .= '<li classes="'.$default_classes.'"><a href="http://www.annotum.org">'._x('About Annotum', 'Default link description', 'anno').'</a></li>';
+			$items .= '<li class="'.$default_classes.'"><a href="http://www.annotum.org">'._x('About Annotum', 'Default link description', 'anno').'</a></li>';
 			break;
 		default:
 			break;
@@ -946,7 +946,7 @@ function anno_build_default_menu($args) {
 		$items = anno_default_menu_items($args['theme_location']);
 		if (!empty($items)) {
 
-			$class = !empty($args['menu_class']) ? ' class="'.esc_attr($args['menu_class']).'"' : '';
+			$class = !empty($args['menu_class']) ? ' class="'.esc_attr($args['menu_class']).'"' : 'class="nav"';
 			$menu = '<ul'.$class.'>'.$items.'</ul>';
 		}
 	}
