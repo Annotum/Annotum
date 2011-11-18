@@ -24,29 +24,33 @@ var annoReferences;
 			$('#anno-references-cancel').click( annoReferences.close);
 
 			inputs.dialog.bind('wpdialogrefresh', annoReferences.refresh);
-			inputs.dialog.bind('wpdialogclose', annoReferences.onClose);			
+			inputs.dialog.bind('wpdialogclose', annoReferences.onClose);
+			inputs.dialog.bind('wpdialogbeforeopen', annoReferences.beforeOpen);
 		},
 
 		onClose : function() {
 			//Lets collapse the edit screens
+			if ( ! annoReferences.isMCE() ) {
+				annoReferences.textarea().focus();
+				if ( annoReferences.range ) {
+					annoReferences.range.moveToBookmark( annoReferences.range.getBookmark() );
+					annoReferences.range.select();
+				}
+			}
+		
 			$('.anno-reference-edit').hide();
 		},
 
-		open : function() {
-			// Initialize the dialog if necessary (html mode).
-			if ( ! inputs.dialog.data('wpdialog') ) {
-				inputs.dialog.wpdialog({
-					title: annoLinkL10n.title,
-					width: 480,
-					height: 'auto',
-					modal: true,
-					dialogClass: 'wp-dialog',
-					zIndex: 300000
-				});
-			}
+		beforeOpen : function() {
 
-			inputs.dialog.wpdialog('open');
+			annoReferences.range = null;
+
+			if ( ! annoReferences.isMCE() && document.selection ) {
+				annoReferences.textarea().focus();
+				annoReferences.range = document.selection.createRange();
+			}
 		},
+
 		
 		getCheckboxes : function() {
 			return $('#anno-popup-references input[type=checkbox]:checked');
@@ -61,15 +65,17 @@ var annoReferences;
 		},
 		
 		update : function() {
-			var ed = tinyMCEPopup.editor
-			var xml, checkboxes, id, text, validNodes;
-			xml = '';
+			var ed = tinyMCEPopup.editor;
+			var xml = '', checkboxes, id, text, validNodes, node;
 			validNodes = ['BODY', 'LABEL', 'CAP', 'LICENSE-P', 'PARA', 'TD', 'TH'];
 			
-			var node = ed.selection.getNode();
+			tinyMCEPopup.restoreSelection();
+			
+			node = ed.selection.getNode();
 			
 			// If we're in the middle of a link or something similar, we want to insert the references after the element
-			if (!ed.dom.isBlock(node) && $.inArray(node.nodeName, validNodes) == -1 ){
+			
+			if (!ed.dom.isBlock(node) && $.inArray(node.nodeName, validNodes) == -1 ) {
 				ed.selection.select(node);
 			}
 			checkboxes = annoReferences.getCheckboxes();
