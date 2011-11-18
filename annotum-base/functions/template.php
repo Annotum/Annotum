@@ -556,6 +556,11 @@ class Anno_Header_Image {
 		define('NO_HEADER_TEXT', true);
 		// define('HEADER_TEXTCOLOR', '');
 		
+		// Make sure the header textcolor is defined, or WP Core complains
+		if (!defined('HEADER_TEXTCOLOR')) {
+			define('HEADER_TEXTCOLOR', '');
+		}
+		
 		// These constants are required
 		define('HEADER_IMAGE', $this->default_image_path); // %s is the template dir uri
 		define('HEADER_IMAGE_WIDTH', $this->dimensions[0]); // use width and height appropriate for your theme
