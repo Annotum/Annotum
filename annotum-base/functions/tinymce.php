@@ -181,8 +181,8 @@ function anno_load_editor($content, $editor_id, $settings = array()) {
 			'force_br_newlines' => false,
 			'content_css' => trailingslashit(get_bloginfo('template_directory')).'css/tinymce.css',
 	// 		@TODO Define doctype (IE Compat?)
-	//		'doctype' => '<!DOCTYPE article SYSTEM \"http://dtd.nlm.nih.gov/ncbi/kipling/kipling-jp3.dtd\">',
-			'doctype' => '<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Transitional//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd\">',
+			'doctype' => '<!DOCTYPE article SYSTEM \"http://dtd.nlm.nih.gov/ncbi/kipling/kipling-jp3.dtd\">',
+	//		'doctype' => '<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Transitional//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd\">',
 		),
 	);
 	// Remove WP specific tinyMCE edit image plugin.
@@ -447,15 +447,6 @@ function anno_popup_references_row_edit($reference_key, $reference, $post_id, $d
 							<img src="<?php echo esc_url( admin_url( 'images/wpspin_light.gif' ) ); ?>" class="ajax-loading" />
 							<?php wp_nonce_field('anno_import_pubmed', '_ajax_nonce-import-pubmed', false); ?>
 						</label>
-						<label>
-							<span><?php _ex('Figures', 'input label for defining reference', 'anno'); ?></span>
-							<select name="figureselect" id="<?php echo esc_attr('reffigures-'.$reference_key); ?>">
-								<option value=""><?php _ex('Select Figure', 'select option', 'anno'); ?></option>
-							</select>
-						</label>
-						<p>
-							<textarea name="figures"></textarea>
-						</p>
 						<label>
 							<span><?php _ex('Text', 'input label for defining tables', 'anno'); ?></span>
 							<textarea type="text" name="text" id="<?php echo esc_attr('text-'.$reference_key); ?>"><?php echo esc_textarea($reference['text']) ?></textarea>
@@ -2059,7 +2050,7 @@ function anno_tinymce_js() {
 	if ($post_type == 'article') {
 		$main = trailingslashit(get_bloginfo('template_directory'));
 		
-		wp_enqueue_script('closure-goog', $main.'js/tinymce/plugins/annoequations/equation-editor-compiled.js');
+//		wp_enqueue_script('closure-goog', $main.'js/tinymce/plugins/annoequations/equation-editor-compiled.js');
 	}
 }
 add_action('admin_print_scripts-post.php', 'anno_tinymce_js');

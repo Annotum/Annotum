@@ -433,7 +433,7 @@ class Anno_Template {
 		$references = get_post_meta($post_id, '_anno_references', true);
 		if (is_array($references) && !empty($references)) {
 			
-			$out .= '<div class="references">
+			$out .= '<div id="references" class="references">
 						<section class="sec">
 							<h1><span>'._x('References', 'Reference title displayed in post.', 'anno').'</h1></span>
 							<ul>';
