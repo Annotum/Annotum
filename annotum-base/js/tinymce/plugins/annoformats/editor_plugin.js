@@ -48,9 +48,14 @@
 		createControl : function(n, cm) {
 			var t = this, c, ed = t.editor;		
 			if (n == 'annoformatselect') {
+				
+				
+				
 				function applyAnnoFormat(format) {
-					var sel = ed.selection, dom = ed.dom, range = sel.getRng(), remove = false;//, bookmark = sel.getBookmark();
-					
+					var sel = ed.selection, dom = ed.dom, range = sel.getRng(), remove = false;
+					// We don't care about the selection, just collapse
+					sel.collapse(0);
+
 					// Returns a new node that removes all the unsupported tags of the new format
 					function getNewNode(originalNode, newNodeName) {
 						var newNode = ed.dom.create(newNodeName, null, '<div>'+originalNode.innerHTML+'</div>');
@@ -69,12 +74,20 @@
 
 						return newNode;
 					};
-
-					// We don't care about the selection, just collapse
-					sel.collapse(0);
+					
+					// Determines whether or not the immediate parent supports the new format type
+					function canApplyFormat(node, newFormat) {
+						return !!ed.schema.isValidChild(node.parentNode.nodeName.toLowerCase(), newFormat.toLowerCase());
+					}
 
 					// Find first parent
 					var wrapper = ed.dom.getParent(sel.getNode(), 'HEADING, PARA, SEC');
+					
+					// Only continue if we can insert the new format into the parent node.
+					if (!canApplyFormat(wrapper, format) && wrapper !== null) {
+						return false;
+					}
+					
 					if (wrapper !== null) {
 						// Remove2
 						if (format.toLowerCase() === wrapper.nodeName.toLowerCase()) {

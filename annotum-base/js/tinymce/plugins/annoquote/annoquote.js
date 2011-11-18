@@ -26,7 +26,6 @@ var annoQuote;
 			var display_type, caption, label, copyright_statement, copyright_holder, license, url, xml;
 			var ed = tinyMCEPopup.editor;
 			ed.selection.collapse(0);
-			//TODO Validation
 								
 			form = $('#anno-popup-quote-form');
 			quote = $('input[name$="text"]', form).val();
