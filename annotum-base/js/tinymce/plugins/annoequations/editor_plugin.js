@@ -82,7 +82,7 @@
 							+'</fig>'
 							+'<div _mce_bogus="1" class="clearfix"></div>';
 				}	
-				
+				tinyMCEPopup.restoreSelection();
 				win.send_to_editor(xml);
 			}
 
