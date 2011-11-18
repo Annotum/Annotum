@@ -236,10 +236,8 @@ function anno_article_save_post($post_id, $post) {
 		$appendices = array();
 		if (isset($_POST['anno_appendix']) && is_array($_POST['anno_appendix'])) {
 			foreach ($_POST['anno_appendix'] as $appendix) {
-				if (!empty($appendix)) {
-					if (!anno_is_appendix_empty($appendix)) {
-						$appendices[] = addslashes(anno_validate_xml_content_on_save(stripslashes($appendix)));
-					}
+				if (!anno_is_appendix_empty($appendix)) {
+					$appendices[] = addslashes(anno_validate_xml_content_on_save(stripslashes($appendix)));
 				}
 			}
 		}
