@@ -75,9 +75,14 @@ function anno_internal_comments_display($type) {
  * @return void
  */ 
 function anno_internal_comment_table_row($cur_comment) {
-	global $comment;
+	global $comment, $current_screen;
 	$comment_holder = $comment;
 	$comment = $cur_comment;
+	// Filter in WP_Comments_List_Table expectes an object in current screen, throws a fit otherwise
+	if (empty($current_screen)) {
+		set_current_screen('article');
+	}
+	
 	$comment_list_table = _get_list_table('WP_Comments_List_Table');
 ?>
 	<tr id="comment-<?php echo $comment->comment_ID; ?>" class="approved">
