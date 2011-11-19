@@ -170,18 +170,35 @@ add_action('init', 'annowf_registered_post_meta_items');
 function annowf_meta_revision_display($meta_value) {
 	$html = '';
 	if (is_array($meta_value)) {
-		foreach ($meta_value as $key => $value) {
-			// The only occurence of serilized meta here is appendices
-			$key = _x('Appendix', 'revision heading', 'anno').anno_index_alpha($key);
-			$html = '<h4>'.$key.'</h4><div>'.htmlspecialchars($value).'</div>
-';
-		}
+		$html = annowf_meta_array_walk_display($meta_value, 0);
 	}
 	else {
-		$html = '<div>'.htmlspecialchars($meta_value).'</div>';
+		$html = '<div>'.esc_html($meta_value).'</div>';
 	}
 	
 	return $html;
+}
+
+/**
+ * Walk an array for display in revisions.
+ * 
+ * @param array $array Array to be walked
+ * @param int $margin amount to indent by
+ * @return string HTML markup
+ */ 
+function annowf_meta_array_walk_display($array, $margin) {
+	foreach ($array as $key => $value) {
+		$html = '<div style="'.esc_attr('margin-left:'.$margin.'px').'"><strong>'.$key.'</strong> => ';
+		
+		if (is_array($value)) {
+			$html .= annowf_meta_array_walk_display($value, $margin + 30);
+		}
+		else {
+			$html .= esc_html($value);
+		}
+	}
+
+	return $html.'</div>';
 }
 
 /**
