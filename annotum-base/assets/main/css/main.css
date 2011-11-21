@@ -256,7 +256,7 @@ html.ie8 #main-sidebar .widget_search #s{width:100px;}
 .content .aligncenter{display:block;margin:0 auto 10px auto;}
 .references ul{margin-left:0;list-style-type:none}
 .references li{margin-bottom:10px;}
-.references li:before{content:attr(data-refid)"."; margin-right:5px}
+.references li:before{content:attr(data-refid) '.'; margin-right:5px}
 .references ul a{font-size:10px;line-height:1;text-transform:uppercase;}
 .authors{overflow:visible;position:relative;}
 .authors .author-info .content{background:url(../img/author-card-background.png) center bottom no-repeat;margin:0;padding:1px 15px 15px;}
