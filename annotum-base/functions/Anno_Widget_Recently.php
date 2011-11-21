@@ -93,7 +93,7 @@ class Anno_Widget_Recently extends WP_Widget {
 				?>
 					<li class="recentcomments"><?php
 						/* translators: comments widget: 1: comment author, 2: post link */ 
-						printf(_x('%1$s on %2$s', 'widgets'), get_comment_author_link(), '<a href="' . esc_url(get_comment_link($comment->comment_ID)) . '">' . get_the_title($comment->comment_post_ID) . '</a>'); 
+						printf(_x('%1$s on %2$s', 'widgets'), get_comment_author_link($comment->comment_ID), '<a href="' . esc_url(get_comment_link($comment->comment_ID)) . '">' . get_the_title($comment->comment_post_ID) . '</a>'); 
 				?></li>
 				<?php
 					}
