@@ -30,11 +30,10 @@ include_once(CFCT_PATH.'functions/tinymce-upload/tinymce-uploader.php');
 include_once(CFCT_PATH.'functions/tinymce-upload/image-popup.php');
 include_once(CFCT_PATH.'functions/phpquery/phpquery.php');
 include_once(CFCT_PATH.'functions/anno-xml-download.php');
-include_once(CFCT_PATH.'plugins/load.php');
 
 function anno_setup() {
 	$path = trailingslashit(TEMPLATEPATH);
-
+	
 	// i18n support
 	load_theme_textdomain('anno', $path . 'languages');
 	$locale = get_locale();
@@ -92,6 +91,16 @@ function anno_setup() {
 	add_filter('cfct_admin_settings_title', 'anno_admin_settings_menu_form_title');
 }
 add_action('after_setup_theme', 'anno_setup');
+
+
+if (!function_exists('anno_load_plugins')) {
+	// Plugins specific to certain themes can be loaded with this function
+	function anno_load_plugins() {
+		// Only include color picker in the annotum-base theme.
+		include_once(CFCT_PATH.'plugins/anno-colors/anno-colors.php');
+	}
+	add_action('init', 'anno_load_plugins');
+}
 
 // Filter to customize the Carrington Core Admin Settings Form Title
 function anno_admin_settings_menu_form_title() {
@@ -979,5 +988,22 @@ function anno_default_widgets() {
 		the_widget('WP_Widget_Meta');
 	}
 }
+
+/**
+ * Print the article ID used in many JS scripts
+ * 
+ */ 
+function anno_js_post_id($hook_suffix) {
+	global $post;
+	if (($hook_suffix == 'post-new.php' || $hook_suffix == 'post.php') && (!empty($post->post_type) && $post->post_type == 'article')) {
+?>
+<script type="text/javascript">var ANNO_POST_ID = <?php echo esc_js($post->ID); ?>;</script>
+<?php 
+	}
+}
+add_action('admin_enqueue_scripts', 'anno_js_post_id', 0);
+
+// Remove autop, inserts unnecessary br tags in the nicely formatted HTML
+remove_filter('the_content','wpautop');
 
 ?>

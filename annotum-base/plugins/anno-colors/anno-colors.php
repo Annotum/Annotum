@@ -31,7 +31,6 @@ function cfcp_admin_init() {
 		// our js
 		wp_enqueue_script('cf-colors', $plugin_dir.'/js/cf-colors.js', array('jquery', 'colorpicker', 'jquery-ui-sortable'), CF_ANNO_COLORS_VERSION);
 		wp_localize_script('cf-colors', 'cf_kuler_settings', array(
-			'preview_css_template' => $css_preview_template,
 			'loading' => 'Loading...'
 		));	
 	}

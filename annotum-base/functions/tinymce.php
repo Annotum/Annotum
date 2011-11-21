@@ -1421,23 +1421,34 @@ add_action('anno_xml_to_html', 'anno_xml_to_html_replace_figures');
 
 /**
  * Change XML <sec> tags to HTML5 <section> tags
- * Run at priority 9 so we change the titles before global title changes happen.
  */
 function anno_xml_to_html_replace_sec($orig_xml) {
 	$sections = pq('sec');
 	if (count($sections)) {
 		foreach ($sections as $sec) {
-			$sec = pq($sec);
-			// Replace Titles
-			$title = $sec->find('title');
-			$title->replaceWith('<h2 class="title"><span>'.$title->html().'</span></h2>');
-			
+			$sec = pq($sec);			
 			// Replace sections
 			$sec->replaceWith('<section class="sec">'.$sec->html().'</section>');
 		}
 	}
 }
-add_action('anno_xml_to_html', 'anno_xml_to_html_replace_sec', 9);
+add_action('anno_xml_to_html', 'anno_xml_to_html_replace_sec');
+
+/**
+ * Change XML <title> tags to HTML5 <h2> tags
+ * Run at priority 9 so we change the titles before global title changes happen.
+ */
+function anno_xml_to_html_replace_title($orig_xml) {
+	// Replace Titles
+	$titles = pq('title');
+	if (count($titles)) {
+		foreach ($titles as $title) {
+			$title = pq($title);
+			$title->replaceWith('<h2 class="title"><span>'.$title->html().'</span></h2>');
+		}
+	}
+}
+add_action('anno_xml_to_html', 'anno_xml_to_html_replace_title', 9);
 
 /**
  * Change the XML <list> elements to proper HTML

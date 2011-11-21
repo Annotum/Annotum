@@ -20,9 +20,19 @@
 				//ed.getLang('advanced.references_desc'),
 				cmd : 'Anno_References'
 			});
+			
+			ed.onKeyUp.add(function(ed, e) {
+				// When we delete, check to see if reference is empty
+				if (e.keyCode == 8 || e.keyCode == 46) {
+					var node = ed.selection.getNode(), parent = node.parentNode;
+					if (node.nodeName == 'XREF' && node.innerHTML == '') {
+						ed.dom.remove(node);
+					}
+				}
+			});
     	},
 
-        getInfo : function(){
+        getInfo : function() {
             return {
                 longname: 'Annotum DTD',
                 author: 'Crowd Favorite',
