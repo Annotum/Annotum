@@ -22,7 +22,7 @@ $allowedposttags = array_merge($allowedposttags, array(
 	),
 	'heading' => array(),
 	'italic' => array(),
-	'label' => array(),
+	'lbl' => array(),
 	'license' => array(
 		'license-type' => array(),
 	),
@@ -76,7 +76,7 @@ function anno_load_editor($content, $editor_id, $settings = array()) {
 		'fig',
 		'heading',
 		'inline-graphic[xlink::href]',
-		'label',
+		'lbl',
 		'license[license-type:creative-commons]',
 		'license-p',
 		'list[list-type]',
@@ -105,7 +105,7 @@ function anno_load_editor($content, $editor_id, $settings = array()) {
 		'~xref',
 		'~inline-graphic',
 		'~alt-text',
-		'~label',
+		'~lbl',
 		'~long-desc',
 		'~copyright-statement',
 		'~copyright-holder',
@@ -145,11 +145,11 @@ function anno_load_editor($content, $editor_id, $settings = array()) {
 		'license-p[preformat|br|'.$formats_as_children.']',
 	'list[title|list-item|div|span|br]',
 		'list-item[para|xref|list|div|span|br]',
-		'disp-formula[label|tex-math|div|span|preformat|br]',
+		'disp-formula[lbl|tex-math|div|span|preformat|br]',
 		'disp-quote[para|attrib|permissions|div|span|preformat|br]',
-		'fig[label|cap|media|img|div|span|preformat|br]',
+		'fig[lbl|cap|media|img|div|span|preformat|br]',
 		'cap[title|para|xref|div|span|br]',
-		'table-wrap[label|cap|table|table-wrap-foot|permissions|div|span|preformat|br]',
+		'table-wrap[lbl|cap|table|table-wrap-foot|permissions|div|span|preformat|br]',
 		'table-wrap-foot[para|div|span|br]',
 		'td['.$formats_as_children.'|preformat|ext-link|break|list|media|inline-graphic|xref|br]',
 		'th['.$formats_as_children.'|preformat|ext-link|break|list|media|inline-graphic|xref|br]',
@@ -171,6 +171,7 @@ function anno_load_editor($content, $editor_id, $settings = array()) {
 					bold : {\'inline\' : \'bold\'},
 					italic : { \'inline\' : \'italic\'},
 					monospace : { \'inline\' : \'monospace\'},
+					preformat : {\'inline\' : \'preformat\'},
 					underline : { \'inline\' : \'underline\'},	
 				}',
 			'theme_advanced_blockformats' => 'Paragraph=para,Heading=heading,Section=sec',
@@ -181,7 +182,7 @@ function anno_load_editor($content, $editor_id, $settings = array()) {
 			'force_br_newlines' => false,
 			'content_css' => trailingslashit(get_bloginfo('template_directory')).'css/tinymce.css',
 	// 		@TODO Define doctype (IE Compat?)
-			'doctype' => '<!DOCTYPE article SYSTEM \"http://dtd.nlm.nih.gov/ncbi/kipling/kipling-jp3.dtd\">',
+	//		'doctype' => '<!DOCTYPE article SYSTEM \"http://dtd.nlm.nih.gov/ncbi/kipling/kipling-jp3.dtd\">',
 	//		'doctype' => '<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Transitional//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd\">',
 		),
 	);
@@ -815,7 +816,6 @@ function anno_delete_reference($post_id, $ref_id) {
 }
 
 function anno_tinymce_image_save() {
-	//TODO Nonce
 	if (isset($_POST['attachment_id'])) {
 		$attachment = get_post($_POST['attachment_id']);
 		if (!empty($attachment)) {
@@ -878,8 +878,12 @@ function anno_process_editor_content($content) {
 	
 	// Convert caption to cap
 	anno_replace_caption_tag($content);
-
+	
+	// Convert p to para
 	anno_replace_p_tag($content);
+	
+	// Convert label to lbl
+	anno_replace_label_tag($content);
 	
 	// Convert title to heading
 	anno_replace_title_tag($content);
@@ -933,6 +937,7 @@ function anno_validate_xml_content_on_save($html_content) {
 
 function anno_get_dtd_valid_elements() {
 	// Build big list of valid XML elements (listed in DTD)
+	// This is after the editor content is processed and converted to XML defined by DTD
 	$tags = array(
 		// Formats
 		'<bold>',
@@ -1084,7 +1089,7 @@ function anno_insert_post_data($data, $postarr) {
 		
 		// Remove non-ascii characters
 		$content = preg_replace('/[^(\x20-\x7F)]*/','', $content);
-		
+		$content = str_replace(array("\r", "\r\n", "\n"), '', $content);
 		// Set XML as backup content. Filter markup and strip out tags not on whitelist.
 		$xml = anno_validate_xml_content_on_save($content);
 		$data['post_content_filtered'] = addslashes($xml);
@@ -1528,7 +1533,7 @@ function anno_xml_to_html_iterate_list_item($item) {
 function anno_xml_to_html_replace_tables($orig_xml) {
 	/*
 	'<table-wrap>',
-		'<label>',
+		'<lbl>',
 		'<caption>',
 			'<title>',
 			'<p>',
@@ -1586,11 +1591,11 @@ add_action('anno_xml_to_html', 'anno_xml_to_html_replace_tables');
  */
 function anno_xml_to_html_iterate_table($table) {
 	// Get table title & caption'
-	$figcaption = $table->children('label:first')->html();
+	$figcaption = $table->children('lbl:first')->html();
 	$table_caption = $table->children('caption:first')->html();
 	
 	// Now that we have the title and caption, get rid of the elements
-	$table->children('label:first')->remove();
+	$table->children('lbl:first')->remove();
 	$table->children('caption:first')->remove();
 	
 	$inner_table = $table->children('table');
@@ -1768,6 +1773,12 @@ function anno_xml_to_html_preformat_tag($xml) {
 }
 add_action('anno_xml_to_html', 'anno_xml_to_html_preformat_tag');
 
+/**
+ * Convert permissions block to html
+ *
+ * @param phpQueryObject $permissions_pq_obj
+ * @return void 
+ */
 function anno_convert_permissions_to_html($permissions_pq_obj) {
 	$permissions = pq($permissions_pq_obj);
 	$tpl = new Anno_Template_Utils();
@@ -1880,6 +1891,18 @@ function anno_replace_p_tag($xml) {
 }
 
 /**
+ * Convert label tag to lbl tag for display in editor
+ * Firefox has issues selecting inside a label tag when it is in a textarea
+ * 
+ * @param phpQueryObject $xml
+ * @return void
+ */
+function anno_replace_label_tag($xml) {
+	anno_convert_tag('label', 'lbl');
+}
+
+
+/**
  * Swap para tags with p tag. P tag has issues with embedded block level elements 
  * 
  * @param phpQueryObject $xml (unused, required by add_action)
@@ -1889,6 +1912,17 @@ function anno_to_xml_para_tag($xml) {
 	anno_convert_tag('para', 'p');
 }
 add_action('anno_to_xml', 'anno_to_xml_para_tag');
+
+/**
+ * Swap lbl tags with label tag.
+ * 
+ * @param phpQueryObject $xml (unused, required by add_action)
+ * @return void
+ */
+function anno_to_xml_lbl_tag($xml) {
+	anno_convert_tag('lbl', 'label');
+}
+add_action('anno_to_xml', 'anno_to_xml_lbl_tag');
 
 /**
  * Format caption content and converts cap tags to caption to 
