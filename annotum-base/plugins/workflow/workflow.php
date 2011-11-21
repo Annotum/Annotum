@@ -32,7 +32,6 @@ function annowf_meta_boxes() {
 	}
 	
 	// Remove Revisions box in favor of audit log box
-	//remove_meta_box('revisionsdiv', 'article', 'normal');
 	if (anno_user_can('view_audit')) {
 		add_meta_box('audit_log', _x('Audit Log', 'Meta box title', 'anno'), 'annowf_audit_log', 'article', 'normal', 'low');
 	}
