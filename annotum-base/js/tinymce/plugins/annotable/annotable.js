@@ -59,9 +59,7 @@ var annoTable;
 			var formObj = $('#anno-tinymce-table-form');
 			
 			tinyMCEPopup.restoreSelection();
-			
-			//TODO validation
-			
+					
 			cols = $('input[name$="cols"]', formObj).val();
 			rows = $('input[name$="rows"]', formObj).val();
 			label = $('input[name$="label"]', formObj).val();

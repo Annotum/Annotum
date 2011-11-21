@@ -73,7 +73,7 @@ add_action('admin_head', 'anno_add_category_single_selection', 1);
 
 /**
  * Displays markup for article category dropdown
- * @todo formatting for child categories
+ * @todo improved formatting for child categories
  */
 function anno_article_category_dropdown() {
 	global $post;

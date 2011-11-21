@@ -1,6 +1,5 @@
 jQuery(document).ready( function($) {
 	// Type-ahead
-	//TODO prevent enter from submitting form
 	$('.user-input').suggest( 'admin-ajax.php?action=anno-user-search', { delay: 200, minchars: 2, multiple: false} );
 	
 	$('input[type="submit"], a.submitdelete, #submitpost').click(function() {

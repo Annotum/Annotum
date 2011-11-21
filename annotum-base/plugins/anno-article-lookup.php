@@ -594,10 +594,8 @@ function anno_doi_deposit_ajax() {
 	}
 
 	$article_id = (int) $_POST['article_id'];
-//	$response = anno_doi_article_deposit($article_id, get_current_user_id());
-	// If we get an error that the DOI already exists: 
-//	$response['regenerate_markup'] = anno_regenerate_doi_markup();
-// 	echo json_encode($response);
+	$response = anno_doi_article_deposit($article_id, get_current_user_id());
+ 	echo json_encode($response);
 	die();
 }
 add_action('wp_ajax_anno-doi-deposit', 'anno_doi_deposit_ajax');

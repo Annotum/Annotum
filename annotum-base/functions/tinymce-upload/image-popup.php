@@ -239,12 +239,14 @@ function anno_popup_images_row_edit($attachment) {
 								
 							?>
 						</fieldset>
+<?php if (anno_current_user_can_edit()): ?>
 						<div class="anno-mce-popup-footer">
 							<?php _anno_popup_submit_button('anno-image-save', _x('Save', 'button value', 'anno'), 'submit'); ?>
 							<input type="button" id="<?php echo esc_attr('anno-image-insert-'.$attachment->ID); ?>" class="anno-image-insert button" value="<?php _ex('Insert', 'button value', 'anno'); ?>" />
+							<input type="hidden" name="action" value="anno-img-save" />
+							<input type="hidden" name="attachment_id" value="<?php echo esc_attr($attachment->ID); ?>" />
 						</div>
-						<input type="hidden" name="action" value="anno-img-save" />
-						<input type="hidden" name="attachment_id" value="<?php echo esc_attr($attachment->ID); ?>" />
+<?php endif; ?>						
 					</form>
 				</td>
 			</tr>
