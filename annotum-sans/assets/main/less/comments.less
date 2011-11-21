@@ -1,0 +1,91 @@
+#replies {
+	border-top: #d7d1bf solid 4px;
+	padding-top: 28px;
+}
+
+#replies .reply-list {
+	padding-bottom: 15px;
+}
+#replies .reply-list .comment,
+#replies .reply-list .ping {
+	border-top: #d7d1bf solid 1px;
+	padding: 15px 0 0;
+	margin: 15px 0 0;
+	position: static;
+}
+#replies .reply-list li:first-child .comment,
+#replies .reply-list li:first-child .ping {
+	border: 0;
+	padding-top: 0;
+}
+#replies .reply-list li li:first-child .comment,
+#replies .reply-list li li:first-child .ping {
+	border-top: #d7d1bf solid 1px;
+	padding-top: 15px;
+}
+#replies .reply-list .comment .header {
+	height: auto;
+	min-height: 0;
+
+	margin-bottom: 10px;
+	position: relative;
+	padding: 0;
+	top: 0;
+	width: auto;
+}
+#replies .reply-list .comment .header h3 {
+	font-weight: bold;	
+}
+#replies .reply-list .comment .header .title a {
+	color: #A2220F;
+}
+#replies .reply-list .comment .header .published {
+	color: #666;
+	font-size: 12px;
+	font-style: italic;
+	position: absolute;
+	right: 0;
+	top: 0;
+}
+/* IE Italic Bug breaking Layout in IE7.  Supposedly this only happens in IE5 and IE6, but was defintely happening in IE7. 
+http://www.positioniseverything.net/explorer/italicbug-ie.html
+*/
+html.ie7 #replies .reply-list .comment .header .published {
+	font-style: normal;
+}
+#replies .section-title,
+#respond #reply-title {
+	background: none;
+	color: #A29674;
+	font: bold 15px Helvetica, Arial, sans-serif;
+	letter-spacing: 0;
+	padding: 0;
+	text-transform: none;
+}
+#replies .section-title {
+	margin: 0;
+}
+#replies .section-header {
+	border-bottom: #d7d1bf solid 1px;
+	margin: 0 0 17px;
+	padding: 0 0 12px;
+}
+#replies .section-header a {
+	font-size: 11px;
+	top: -2px;
+}
+#respond label {
+	color: #b9b195;
+}
+#respond #submit {
+	-moz-border-radius: 3px; /* FF1+ */
+	-webkit-border-radius: 3px; /* Saf3+, Chrome */
+	-khtml-border-radius: 3px; /* Konqueror */
+	border-radius: 3px; /* Standard. IE9 */
+	
+	background: url(../img/sprite-y.8bit.png) 0 -800px no-repeat;
+	border: #a29674 solid 1px;
+	font-size: 14px;
+	height: 28px;
+	line-height: 14px;
+}

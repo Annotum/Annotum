@@ -1,0 +1,109 @@
+html {
+	min-width: 960px;
+}
+body {
+	background: url(../img/body-background.png) center 0 repeat-y;
+}
+#header .header-body {
+	background: #2a2822;
+	height: 75px;
+}
+
+#header .navigation {
+	/**
+	 * @workaround min-height Fast Hack
+	 *
+	 * IE6 doesn't support min-height, but treats elements with
+	 * height and overflow:visible as min-height.
+	 *
+	 * @affected IE5, IE6
+	 * @see http://www.dustindiaz.com/min-height-fast-hack/
+	 */
+	height: auto !important;
+	height: 37px;
+	min-height: 37px;
+	
+	background: #a2220f url(../img/navigation-background.png) 0 bottom repeat-x;
+}
+#header #site-name {
+	line-height: 52px;
+	padding: 11px 0 0;
+	white-space: nowrap;
+}
+#header #site-nav {
+	background: none;
+	line-height: 22px;
+	padding-right: 200px;
+}
+#header #site-nav li {
+	/**
+	 * @workaround min-height Fast Hack
+	 *
+	 * IE6 doesn't support min-height, but treats elements with
+	 * height and overflow:visible as min-height.
+	 *
+	 * @affected IE5, IE6
+	 * @see http://www.dustindiaz.com/min-height-fast-hack/
+	 */
+	height: auto !important;
+	height: 37px;
+	min-height: 37px;
+	
+	border: 0;
+	margin-right: 24px;
+}
+#header #site-nav li li {
+	height: auto;
+	margin: 0;
+}
+#header #site-nav li a {
+	color: #f1e9d0;
+	padding-left: 0;
+	padding-right: 0;
+	text-shadow: 0 -1px 0 rgba(0, 0 , 0, .4);
+}
+#header #site-nav li ul {
+	background-color: #8b170a;
+	border: #580301 solid 1px;
+	border-top: 0;
+	left: -11px;
+	padding-bottom: 5px;
+	top: 36px;
+}
+#header #site-nav li li a {
+	background: none;
+	margin: 0;
+	padding: 5px 10px;
+}
+#header #secondary-nav {
+	font-size: 11px;
+}
+#header #secondary-nav .nav {
+	bottom: 4px;
+}
+#header #secondary-nav li,
+#footer .nav li {
+	background: url(../img/sprite-y.8bit.png) 0 -293px no-repeat;
+}
+#header #secondary-nav li:first-child {
+	background: none;
+}
+#header #secondary-nav li a {
+ 	color: #aaa9a7;
+}
+#masthead {
+	background: #b5a988;
+	border-bottom: #766845 solid 1px;
+}
+
+#footer {
+	background: #2a2822;
+	border-top: #000 solid 1px;
+	color: #aaa9a7;
+}
+#footer a {
+	color: #aaa9a7;
+}
+#footer .in {
+	border: 0;
+}
