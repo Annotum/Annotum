@@ -980,4 +980,21 @@ function anno_default_widgets() {
 	}
 }
 
+/**
+ * Print the article ID used in many JS scripts
+ * 
+ */ 
+function anno_js_post_id($hook_suffix) {
+	global $post;
+	if ($post->post_type == 'article' && ($hook_suffix == 'post-new.php' || $hook_suffix == 'post.php')) {
+?>
+<script type="text/javascript">var ANNO_POST_ID = <?php echo esc_js($post->ID); ?>;</script>
+<?php 
+	}
+}
+add_action('admin_enqueue_scripts', 'anno_js_post_id', 0);
+
+// Remove autop, inserts unnecessary br tags in the nicely formatted HTML
+remove_filter('the_content','wpautop');
+
 ?>
