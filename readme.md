@@ -82,5 +82,15 @@ Annotum has been developed to be easy to customize with [WordPress Child Themes]
 - Carrington Core theme engine debugging can be enabled/disabled in the functions.php file. This will output the file paths to all Carrington templates loaded into the page and is not recommended in non-development environments: `define('CFCT_DEBUG', true);`
 - Some of the expensive `template.php` tags use [transient caching](http://codex.wordpress.org/Transients_API) to make sure things are speedy. If you need to troubleshoot transient caching, you can set `Anno_Template::$use_caches` to `false`. Setting `CFCT_DEBUG` to `true` will also disable the transient caches.
 
+## Support
+
+For support information, please refer to http://annotum.org/support/
+
+## Credits
+
+Annotum is a production of [Solvitor LLC](http://solvitor.com) with heavy lifting provided by [Crowd Favorite](http://crowdfavorite.com), and special thanks to: Google, PLoS, NIH/NLM/NCBI, and Automattic.
+
+Annotum is free (speech and beer)
+
 ---
  
