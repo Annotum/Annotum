@@ -21,9 +21,6 @@ function annowf_meta_boxes() {
 	// Remove the WP Publish box
 	remove_meta_box('submitdiv', 'article', 'side');
 
-	// Remove discussion box
-	remove_meta_box('commentstatusdiv', 'article', 'normal');
-
 	// Remove author box
 	remove_meta_box('authordiv', 'article', 'normal');
 		
@@ -40,11 +37,16 @@ function annowf_meta_boxes() {
 		add_meta_box('audit_log', _x('Audit Log', 'Meta box title', 'anno'), 'annowf_audit_log', 'article', 'normal', 'low');
 	}
 	
-	// Remove taxonomy/edit boxes when a user is unable to save/edit
+	// Remove taxonomy, edit, featured, boxes when a user is unable to save/edit
 	if (!anno_user_can('edit_post', null, $post->ID)) {
 		remove_meta_box('tagsdiv-article_tag', 'article', 'side');
 		remove_meta_box('article_category_select', 'article', 'side');
 		remove_meta_box('postimagediv', 'article', 'side', 'low');
+	}
+	
+	//@TODO potential role hook here
+	if (!(current_user_can('editor') || current_user_can('administrator'))) {
+		remove_meta_box('commentstatusdiv', 'article', 'normal');
 	}
 
 	
