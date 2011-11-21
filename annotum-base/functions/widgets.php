@@ -7,9 +7,9 @@
 class WP_Widget_Solvitor_Ad extends WP_Widget_Text {
 
 	function WP_Widget_Solvitor_Ad() {
-		$widget_ops = array('classname' => 'widget_solvitor_ad', 'description' => __('A sidebar advertisement'));
+		$widget_ops = array('classname' => 'widget_solvitor_ad', 'description' => __('A sidebar advertisement', 'anno'));
 		$control_ops = array('width' => 400, 'height' => 350);
-		$this->WP_Widget('advertisement', __('Advertisement'), $widget_ops, $control_ops);
+		$this->WP_Widget('advertisement', __('Advertisement', 'anno'), $widget_ops, $control_ops);
 	}
 	
 	function widget( $args, $instance ) {

@@ -27,7 +27,7 @@ class Anno_Widget_Recently extends WP_Widget {
 			'description' => __('Display the most recent posts and comments in a tabbed box.', 'anno'),
 			'classname' => 'widget-recent-posts'
 		);
-		parent::__construct('anno_recently', __('Recently&hellip;'), $args);
+		parent::__construct('anno_recently', __('Recently&hellip;', 'anno'), $args);
 		
 		$this->html_uid = uniqid('anno-recently');
 		
