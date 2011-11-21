@@ -254,9 +254,10 @@ html.ie8 #main-sidebar .widget_search #s{width:100px;}
 .content .alignleft{float:left;margin:0 10px 10px 0;}
 .content .alignright{float:right;margin:0 0 10px 10px;}
 .content .aligncenter{display:block;margin:0 auto 10px auto;}
-.references ol{margin-left:2em;}
+.references ul{margin-left:2em;list-style-type:none}
 .references li{margin-bottom:10px;}
-.references ol a{font-size:10px;line-height:1;text-transform:uppercase;}
+.references li:before{content:attr(data-refid)"."; margin-right:5px}
+.references ul a{font-size:10px;line-height:1;text-transform:uppercase;}
 .authors{overflow:visible;position:relative;}
 .authors .author-info .content{background:url(../img/author-card-background.png) center bottom no-repeat;margin:0;padding:1px 15px 15px;}
 .authors .author-info .content p{margin:0;}
