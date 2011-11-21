@@ -1097,8 +1097,8 @@ function anno_insert_post_data($data, $postarr) {
 		// Get our XML content for the revision
 		$content = stripslashes($data['post_content']);
 		
-		// Remove non-ascii characters
-		$content = preg_replace('/[^(\x20-\x7F)]*/','', $content);
+		// Remove non-ascii gremlins
+		$content = preg_replace('/(\xa0|\xc2)/','', $content);
 		$content = str_replace(array("\r", "\r\n", "\n"), '', $content);
 		// Set XML as backup content. Filter markup and strip out tags not on whitelist.
 		$xml = anno_validate_xml_content_on_save($content);
