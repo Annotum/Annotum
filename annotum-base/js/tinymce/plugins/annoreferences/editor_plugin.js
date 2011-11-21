@@ -21,10 +21,13 @@
 				cmd : 'Anno_References'
 			});
 			
-			ed.onEvent.add(function(ed) {
-				var node = ed.selection.getNode(), parent = node.parentNode;
-				if (parent == 'XREF' && node.innerHTML == '') {
-					ed.dom.remove(node);
+			ed.onKeyUp.add(function(ed, e) {
+				// When we delete, check to see if reference is empty
+				if (e.keyCode == 8 || e.keyCode == 46) {
+					var node = ed.selection.getNode(), parent = node.parentNode;
+					if (node.nodeName == 'XREF' && node.innerHTML == '') {
+						ed.dom.remove(node);
+					}
 				}
 			});
     	},
