@@ -82,7 +82,7 @@ function anno_setup() {
 	register_sidebar(array_merge($sidebar_defaults, array(
 		'name' => __('Masthead Teasers', 'anno'),
 		'id' => 'masthead',
-		'description' => __('Display items on the home page masthead.'),
+		'description' => __('Display items on the home page masthead.','anno'),
 		'before_widget' => '<aside id="%1$s" class="teaser clearfix %2$s">'
 	)));
 	// Customize the Carrington Core Admin Settings Form Title
@@ -251,7 +251,7 @@ function anno_comment_form_defaults($defaults) {
 	$fields = apply_filters('comment_form_default_fields', array(
 		'author' => '<p class="row author">' . '<label for="author">' . __('Your Name', 'anno') . $req_label . '</label> <input id="author" class="type-text" name="author" type="text" value="' . esc_attr($commenter['comment_author']) . '"' . $req_attr . '></p>',
 		'email' => '<p class="row email"><label for="email">' . __('Email Address', 'anno') . $req_label . '</label> <input id="email" class="type-text" name="email" type="email" value="' . esc_attr(  $commenter['comment_author_email'] ) . '"' . $req_attr . '></p>',
-		'url' => '<p class="row url"><label for="url">' . __( 'Website' ) . '</label> <input id="url" class="type-text" name="url" type="url" value="' . esc_attr( $commenter['comment_author_url'] ) . '"></p>'
+		'url' => '<p class="row url"><label for="url">' . __( 'Website', 'anno' ) . '</label> <input id="url" class="type-text" name="url" type="url" value="' . esc_attr( $commenter['comment_author_url'] ) . '"></p>'
 	));
 	
 	$new = array(
@@ -746,7 +746,6 @@ function anno_user_email($user) {
 function anno_invite_contributor($user_login, $user_email, $extra = array()) {
 	// Wish to be able to invite other contributors, so no create_user check
 	
-	
 	$current_user = wp_get_current_user();
 	
 	// wp_insert_user handles all other errors
@@ -954,7 +953,7 @@ function anno_build_default_menu($args) {
 		if (!empty($items)) {
 
 			$class = !empty($args['menu_class']) ? ' class="'.esc_attr($args['menu_class']).'"' : 'class="nav"';
-			$menu = '<ul'.$class.'>'.$items.'</ul>';
+			$menu = '<ul '.$class.'>'.$items.'</ul>';
 		}
 	}
 	return $menu;
