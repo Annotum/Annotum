@@ -7,7 +7,7 @@ body{background:url(../img/body-background.png) center 0 repeat-y;}
 #header{color:#333}
 #header .header-body{background:#2a2822;height:75px;}
 #header .navigation{height:auto !important;height:37px;min-height:37px;background:#a2220f url(../img/navigation-background.png) 0 bottom repeat-x;}
-#header #site-name{line-height:52px;padding:11px 0 0;white-space:nowrap;}
+#header #site-name{line-height:52px;overflow:hidden;padding:11px 0 0;white-space:nowrap;width:960px;}
 #header #site-nav{background:none;line-height:22px;padding-right:200px;}
 #header #site-nav li{height:auto !important;height:37px;min-height:37px;border:0;margin-right:24px;}
 #header #site-nav li li{height:auto;margin:0;}
