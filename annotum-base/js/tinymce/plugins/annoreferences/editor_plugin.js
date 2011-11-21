@@ -20,9 +20,16 @@
 				//ed.getLang('advanced.references_desc'),
 				cmd : 'Anno_References'
 			});
+			
+			ed.onEvent.add(function(ed) {
+				var node = ed.selection.getNode(), parent = node.parentNode;
+				if (parent == 'XREF' && node.innerHTML == '') {
+					ed.dom.remove(node);
+				}
+			});
     	},
 
-        getInfo : function(){
+        getInfo : function() {
             return {
                 longname: 'Annotum DTD',
                 author: 'Crowd Favorite',
