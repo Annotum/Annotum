@@ -225,11 +225,6 @@ function anno_internal_comments_form($type) {
  */
 function anno_internal_comments_print_scripts() {
 global $post;
-	echo '
-<script type="text/javascript">
-	var ANNO_POST_ID = '.$post->ID.';
-</script>
-	';
 	wp_enqueue_script('anno-internal-comments', trailingslashit(get_bloginfo('template_directory')).'plugins/workflow/internal-comments/js/internal-comments.js', array('jquery'));
 }
 add_action('admin_print_scripts-post.php', 'anno_internal_comments_print_scripts');
