@@ -69,7 +69,7 @@
 
 					xml = '<fig>'
 								+'<img src="' + url + '" />'
-								+'<label>' + label + '</label>'
+								+'<lbl>' + label + '</lbl>'
 								+'<cap><para>' + caption + '</para></cap>'
 								+'<media xlink:href="' + url + '">'
 									+'<alt-text>' + alt_text + '</alt-text>'
