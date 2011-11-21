@@ -80,8 +80,6 @@ var annoReferences;
 			}
 			checkboxes = annoReferences.getCheckboxes();
 			checkboxes.each(function(i, checkbox) {
-				
-				//TODO proper reference (text)
 				id = $(checkbox).attr('id').replace('reference-checkbox-', '');
 				text = $('label[for="reference-checkbox-' + id + '"]').html();
 				id = parseInt(id) + 1;

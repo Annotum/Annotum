@@ -744,11 +744,8 @@ function anno_user_email($user) {
  * @return int|WP_Error ID of new user, or, WP_Error 
  */ 
 function anno_invite_contributor($user_login, $user_email, $extra = array()) {
-	//@TODO, needs to be author as well here, not just the default WP 
-	if (!current_user_can('create_users')) {
-		wp_die(__('Cheatin&#8217; uh?', 'anno'));
-	}
-
+	// Wish to be able to invite other contributors, so no create_user check
+	
 	$current_user = wp_get_current_user();
 	
 	// wp_insert_user handles all other errors
@@ -1002,6 +999,26 @@ function anno_js_post_id($hook_suffix) {
 	}
 }
 add_action('admin_enqueue_scripts', 'anno_js_post_id', 0);
+
+/**
+ * Determines whether or not a user can edit, based on the workflow being active or not
+ */ 
+function anno_current_user_can_edit() {
+	// User must have the WP permissions
+	if (current_user_can('edit_article')) {
+		// Do an additional check if the workflow is enabled
+		if (anno_workflow_enabled()) {
+			if (anno_user_can('edit_post')) {
+				return true;
+			}
+			else {
+				return false;
+			}
+		}
+		return true;
+	}
+	return false;
+}
 
 // Remove autop, inserts unnecessary br tags in the nicely formatted HTML
 remove_filter('the_content','wpautop');

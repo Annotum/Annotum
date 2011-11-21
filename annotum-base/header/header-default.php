@@ -28,9 +28,9 @@ if (CFCT_DEBUG) { cfct_banner(__FILE__); }
 		<div class="header-body">
 			<div class="in">
 				<?php if (anno_has_header_image()): ?>
-					<h1 id="site-name"><a href="<?php bloginfo('url') ?>/" title="Home" rel="home"><?php anno_header_image(); ?></a></h1>
+					<h1 id="site-name"><a href="<?php echo home_url(); ?>/" title="Home" rel="home"><?php anno_header_image(); ?></a></h1>
 				<?php else: ?>
-					<h1 id="site-name"><a href="<?php bloginfo('url') ?>/" title="Home" rel="home"><?php bloginfo('name') ?></a></h1>
+					<h1 id="site-name"><a href="<?php echo home_url(); ?>/" title="Home" rel="home"><?php bloginfo('name') ?></a></h1>
 				<?php endif; ?>
 				<nav id="secondary-nav" class="clearfix">
 				<?php

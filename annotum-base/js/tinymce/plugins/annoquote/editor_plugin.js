@@ -55,37 +55,3 @@
 	// Register plugin
 	tinymce.PluginManager.add('annoQuote', tinymce.plugins.annoQuote);
 })();
-
-jQuery(document).ready( function($) {
-/*	$('.img-list-actions .show-img').live('click', function() {
-		var img_id = $(this).attr('id').replace('toggle-', '');
-		$(this).removeClass('show-img');
-		$(this).addClass('hide-img');
-
-		$('#img-edit-' + img_id).slideDown();
-		//TODO translate
-		$(this).html('Hide');
-		return false;
-	});
-	
-	$('.img-list-actions .hide-img').live('click', function() {
-		var img_id = $(this).attr('id').replace('toggle-', '');
-		$(this).removeClass('hide-img');
-		$(this).addClass('show-img');
-		
-		$('#img-edit-' + img_id).slideUp();
-		//TODO translate
-		$(this).html('Show');
-		return false;
-	});
-		
-	
-	$('#anno-popup-quote form.anno-img-edit').submit(function() {
-		$.post(ajaxurl, $(this).serialize(), function(data) {
-			//TODO Quote saved!!
-		});
-		return false;
-	}) */
-	
-	
-});

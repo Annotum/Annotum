@@ -130,7 +130,6 @@
 			e1.appendChild(e2.firstChild);
 		}				
 		if (masterElement) {
-			//TODO
 			e1.style.listStyleType = masterElement.style.listStyleType;
 		}
 	
@@ -379,7 +378,6 @@
 			
 			function processBrs(element, callback) {
 				var startSection, previousBR, END_TO_START = 3, START_TO_END = 1,
-				//TODO
 					breakElements = 'br,list,para,p,div,h1,h2,h3,h4,h5,h6,table,blockquote,address,pre,form,center,dl';
 				function isAnyPartSelected(start, end) {
 					var r = dom.createRng(), sel;
@@ -689,7 +687,6 @@
 			}
 		},
 		
-		//@TODO reevalute
 		adjustPaddingFunction: function(isIndent) {
 			var indentAmount, indentUnits, ed = this.ed;
 			indentAmount = ed.settings.indentation;

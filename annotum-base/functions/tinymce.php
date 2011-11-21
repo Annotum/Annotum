@@ -181,9 +181,6 @@ function anno_load_editor($content, $editor_id, $settings = array()) {
 			'force_p_newlines' => true,
 			'force_br_newlines' => false,
 			'content_css' => trailingslashit(get_bloginfo('template_directory')).'css/tinymce.css',
-	// 		@TODO Define doctype (IE Compat?)
-	//		'doctype' => '<!DOCTYPE article SYSTEM \"http://dtd.nlm.nih.gov/ncbi/kipling/kipling-jp3.dtd\">',
-	//		'doctype' => '<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Transitional//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd\">',
 		),
 	);
 	// Remove WP specific tinyMCE edit image plugin.
@@ -404,9 +401,20 @@ function anno_popup_references_row_display($reference_key, $reference) {
 			</label>
 		</td>
 		<td class="reference-actions">
+<?php
+		if (anno_current_user_can_edit()) {
+?>
 			<a href="#" id="<?php echo esc_attr('reference-action-edit-'.$reference_key); ?>" class="edit"><?php _ex('Edit', 'reference action', 'anno'); ?></a>
 			<a href="#" id="<?php echo esc_attr('reference-action-delete-'.$reference_key); ?>" class="delete"><?php _ex('Delete', 'reference action', 'anno'); ?></a>
 			<?php  wp_nonce_field('anno_delete_reference', '_ajax_nonce-delete-reference'); ?>
+<?php
+		}
+		else {
+?>
+			<a href="#" id="<?php echo esc_attr('reference-action-edit-'.$reference_key); ?>" class="edit"><?php _ex('Show', 'reference action', 'anno'); ?></a>
+<?php
+		}
+?>
 		</td>
 	</tr>
 	</table>
@@ -437,16 +445,20 @@ function anno_popup_references_row_edit($reference_key, $reference, $post_id, $d
 						?>
 							<span><?php _ex('CrossRef DOI', 'input label for DOI lookup', 'anno'); ?></span>
 							<input type="text" class="short" name="doi" id="<?php echo esc_attr('doi-'.$reference_key); ?>" value="<?php echo $doi_value; ?>"<?php disabled($doi_enabled, false, true); ?>/>
+<?php if (anno_current_user_can_edit()): ?>
 							<input type="button" class="blue" name="import_doi" id="<?php echo esc_attr('doi-import-'.$reference_key); ?>" value="<?php _ex('Import', 'button label', 'anno'); ?>"<?php disabled($doi_enabled, false, true); ?>>
 							<img src="<?php echo esc_url(admin_url('images/wpspin_light.gif' )); ?>" class="ajax-loading" />
 							<?php wp_nonce_field('anno_import_doi', '_ajax_nonce-import-doi', false); ?>
+<?php endif; ?>
 						</label>
 						<label>
 							<span><?php _ex('PubMed ID (PMID)', 'input for PubMed ID lookup', 'anno'); ?></span>
 							<input type="text" class="short" name="pmid" id="<?php echo esc_attr('pmid-'.$reference_key); ?>" value="<?php echo esc_attr($reference['pmid']) ?>" />
+<?php if (anno_current_user_can_edit()): ?>
 							<input type="button" class="blue" name="import_pubmed" id="<?php echo esc_attr('pmid-import-'.$reference_key); ?>" value="<?php _ex('Import', 'button label', 'anno'); ?>">
 							<img src="<?php echo esc_url( admin_url( 'images/wpspin_light.gif' ) ); ?>" class="ajax-loading" />
 							<?php wp_nonce_field('anno_import_pubmed', '_ajax_nonce-import-pubmed', false); ?>
+<?php endif; ?>
 						</label>
 						<label>
 							<span><?php _ex('Text', 'input label for defining tables', 'anno'); ?></span>
@@ -456,9 +468,8 @@ function anno_popup_references_row_edit($reference_key, $reference, $post_id, $d
 							<span><?php _ex('URL', 'input label for defining tables', 'anno'); ?></span>
 							<input type="text" name="url" id="url" value="<?php echo esc_attr($reference['url']) ?>" />
 						</label>
-
+<?php if (anno_current_user_can_edit()): ?>
 						<div class="reference-edit-actions clearfix">
-							<?php //TODO Nonce for save ?>
 							<a href="#" id="<?php echo esc_attr('reference-action-save-'.$reference_key); ?>" class="save left">Save</a>
 							<a href="#" id="<?php echo esc_attr('reference-action-cancel-'.$reference_key); ?>" class="cancel right">Cancel</a>
 							<input type="hidden" name="ref_id" value="<?php echo esc_attr($reference_key); ?>" />
@@ -466,6 +477,7 @@ function anno_popup_references_row_edit($reference_key, $reference, $post_id, $d
 							<input type="hidden" name="action" value="anno-reference-save" />
 							<?php wp_nonce_field('anno_save_reference', '_ajax_nonce-save-reference'); ?>
 						</div>
+<?php endif; ?>						
 						<div class="clearfix"></div>
 					</form>
 				</div>
@@ -505,7 +517,6 @@ function anno_popup_references() {
 	
 ?>
 	<div id="anno-popup-references" class="anno-mce-popup">
-		<?php //TODO NONCE ?>
 		<div class="anno-mce-popup-fields">
 			<table id="anno-references">
 				<thead>
@@ -530,6 +541,7 @@ function anno_popup_references() {
 		}
 	}
 ?>
+<?php if (anno_current_user_can_edit()): ?>
 					<tr id="<?php echo esc_attr('reference-new'); ?>">
 						<td colspan="3">
 							<?php anno_popup_references_row_edit('new', array('text' => '', 'doi' => '', 'pmid' => '', 'url' => '', 'figures' => ''), $post->ID, $doi_enabled); ?>
@@ -539,6 +551,7 @@ function anno_popup_references() {
 							<?php _anno_popup_submit_button('anno-references-new', _x('New Reference', 'button value', 'anno')); ?>
 						</td>
 					</tr>
+<?php endif; ?>					
 				</tbody>
 			</table>	
 		</div>
@@ -556,7 +569,6 @@ function anno_popup_quote() {
 ?>
 <div id="anno-popup-quote" class="anno-mce-popup">
 	<form id="anno-popup-quote-form" class="" tabindex="-1">
-		<?php //TODO NONCE ?>
 		<div class="anno-mce-popup-fields">
 				<label for="quote-text">
 					<span><?php _ex('Text', 'input label for defining quotes', 'anno'); ?></span>
@@ -702,7 +714,6 @@ function anno_preload_dialogs($init) {
 <?php
 	}
 }
-// TODO better placement, so we're not loading these on non-edit pages
 add_action('after_wp_tiny_mce', 'anno_preload_dialogs', 10, 1 );
 
 
@@ -815,6 +826,7 @@ function anno_delete_reference($post_id, $ref_id) {
 	return false;
 }
 
+//@todo Update success response
 function anno_tinymce_image_save() {
 	if (isset($_POST['attachment_id'])) {
 		$attachment = get_post($_POST['attachment_id']);
@@ -850,14 +862,12 @@ function anno_tinymce_image_save() {
 						break;
 				}
 			}
-		//todo Update success response
 		}
 	}
 	
 	die();
 }
 add_action('wp_ajax_anno-img-save', 'anno_tinymce_image_save');
-
 
 /**
  * Prior to outputting the value of the textarea, convert a couple 
@@ -2079,7 +2089,6 @@ function anno_doi_lookup_enabled() {
 	return !empty($crossref_login);
 }
 
-//@todo single file
 function anno_tinymce_css($hook) {
 	global $post_type;
 	if ($post_type == 'article') {

@@ -1,5 +1,3 @@
-//Todo remove unneccessary functions, already defined in WP Core
-
 var topWin = window.dialogArguments || opener || parent || top;
 
 function fileDialogStart() {

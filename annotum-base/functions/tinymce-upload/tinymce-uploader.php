@@ -1,15 +1,19 @@
 <?php 
-//@TODO perms :: if (!current_user_can('upload_files'))
-function anno_tinymce_enqueue() {
-	if (isset($_GET['anno_action']) && $_GET['anno_action'] == 'image_popup') {
+function anno_tinymce_uploader_enqueue($hook) {
+	if (isset($_GET['anno_action']) && $_GET['anno_action'] == 'image_popup' ) {
 		wp_enqueue_script('swfupload-all');
 		wp_enqueue_script('swfupload-handlers');
 		wp_enqueue_script('anno_upload_handlers', trailingslashit(get_bloginfo('template_directory')).'functions/tinymce-upload/handlers.js', array('jquery'));	
 	}
 }
-add_action('admin_enqueue_scripts', 'anno_tinymce_enqueue');
+add_action('admin_enqueue_scripts', 'anno_tinymce_uploader_enqueue');
 
 function anno_media_upload_form() {
+		if (!anno_current_user_can_edit()) {
+			echo '<div style="text-align:center;">'._x('You do not have proper permissions to upload a new image', 'Permissions warning for image uplaod', 'anno').'</div>';
+			return;
+		}
+	
 		global $type, $tab, $pagenow;
 
 		$flash_action_url = admin_url('async-upload.php');
@@ -138,7 +142,6 @@ function anno_media_upload_form() {
 
 	<div id="flash-upload-ui" class="tinymce-uploader hide-if-no-js">
 	<?php do_action('pre-flash-upload-ui'); ?>
-
 		<div>
 		<?php _ex('Choose files to upload', 'Media upload dialog', 'anno'); ?>
 		<div id="flash-browse-button"></div>
@@ -269,7 +272,7 @@ function anno_async_upload() {
 
 	header('Content-Type: text/plain; charset=' . get_option('blog_charset'));
 
-	if ( !current_user_can('upload_files') )
+	if ( !current_user_can('upload_files'))
 		wp_die(_x('You do not have permission to upload files.', 'Media upload error text', 'anno'));
 
 	// just fetch the detail form for that attachment

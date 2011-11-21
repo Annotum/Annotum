@@ -685,18 +685,6 @@ function annowf_user_search() {
 	if ( strlen( $s ) < 2 )
 		die; // require 2 chars for matching
 
-	// @TODO Search with get_users
-	// @TODO modify query, remove lookup on user_nicename
-	// @TODO Prevent other search lookup (email, url, ID), see WP_User_Query
-	
-/*	
-	$user = get_users(array(
-		'meta_key' => '',
-		'meta_value' => '',
-		'meta_compare' => 'LIKE',
-		));
-*/
-
 	$results = $wpdb->get_col($wpdb->prepare("
 		SELECT user_login
 		FROM $wpdb->users
@@ -711,9 +699,9 @@ add_action('wp_ajax_anno-user-search', 'annowf_user_search');
 
 /**
  * Metabox for posts that have been cloned from this post
+ * @todo check for trash/deleted
  */ 
 function annowf_cloned_meta_box($post) {
-//TODO check for trash/deleted	
 	$cloned_from = get_post_meta($post->ID, '_anno_cloned_from', true);
 	$cloned_from_post = get_post($cloned_from_post);
 	if (!$cloned_from_post) {
