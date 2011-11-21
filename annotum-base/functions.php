@@ -986,7 +986,7 @@ function anno_default_widgets() {
  */ 
 function anno_js_post_id($hook_suffix) {
 	global $post;
-	if ($post->post_type == 'article' && ($hook_suffix == 'post-new.php' || $hook_suffix == 'post.php')) {
+	if (($hook_suffix == 'post-new.php' || $hook_suffix == 'post.php') && (!empty($post->post_type) && $post->post_type == 'article')) {
 ?>
 <script type="text/javascript">var ANNO_POST_ID = <?php echo esc_js($post->ID); ?>;</script>
 <?php 
