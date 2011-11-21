@@ -15,6 +15,14 @@ function annotum_sans_setup() {
 }
 add_action('after_setup_theme', 'annotum_sans_setup');
 
+/**
+ * Don't load any additional plugins outside of the required ones.
+ */ 
+if (!function_exists('anno_load_plugins')) {
+	// Plugins specific to certain themes can be loaded with this function
+	function anno_load_plugins() {}
+}
+
 function annotum_sans_css3_pie() {
 	$assets_root = get_bloginfo('template_url') . '/assets/main/';
 	?>
