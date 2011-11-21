@@ -1392,7 +1392,7 @@ foreach ($this->authors as $author_key => $author_data) {
 		}
 	?>
 	<p>
-	<label for="upload"><?php _e( 'Choose a file from your computer:', 'anno' ); ?></label> (<?php printf( __('Maximum size: %s' ), $size ); ?>)
+	<label for="upload"><?php _e( 'Choose a file from your computer:', 'anno' ); ?></label> (<?php printf( __('Maximum size: %s', 'anno' ), $size ); ?>)
 	<input type="file" id="upload" name="import" size="25" />
 	<input type="hidden" name="action" value="save" />
 	<input type="hidden" name="max_file_size" value="<?php echo $bytes; ?>" />
