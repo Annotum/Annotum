@@ -48,7 +48,7 @@ function annowf_audit_log($post) {
 		return $html;
 	}
 
-	// Indexes start at 1 to prevent empty() check failures
+	// Indices start at 1 to prevent empty() check failures
 	$event_array = array(
 		0 => '',
 		1 => _x('Created a revision', 'article audit event', 'anno'),
@@ -166,6 +166,8 @@ add_action('init', 'annowf_registered_post_meta_items');
 /**
  * Display callback for post meta in revisions
  * 
+ * @param string $meta_value 
+ * @return string HTML markup
  */ 
 function annowf_meta_revision_display($meta_value) {
 	$html = '';
