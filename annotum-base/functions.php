@@ -947,7 +947,7 @@ function anno_build_default_menu($args) {
 		if (!empty($items)) {
 
 			$class = !empty($args['menu_class']) ? ' class="'.esc_attr($args['menu_class']).'"' : 'class="nav"';
-			$menu = '<ul'.$class.'>'.$items.'</ul>';
+			$menu = '<ul '.$class.'>'.$items.'</ul>';
 		}
 	}
 	return $menu;
