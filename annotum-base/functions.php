@@ -1006,9 +1006,14 @@ add_action('admin_enqueue_scripts', 'anno_js_post_id', 0);
 function anno_current_user_can_edit() {
 	// User must have the WP permissions
 	if (current_user_can('edit_article')) {
+		$post_id = null;
+		if (isset($_POST['attachment_id'])) {
+			$post = get_post($_POST['attachment_id']);
+			$post_id = $post->post_parent;
+		}
 		// Do an additional check if the workflow is enabled
 		if (anno_workflow_enabled()) {
-			if (anno_user_can('edit_post')) {
+			if (anno_user_can('edit_post', null, $post_id)) {
 				return true;
 			}
 			else {
