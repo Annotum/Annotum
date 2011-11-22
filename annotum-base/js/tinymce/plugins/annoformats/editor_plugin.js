@@ -1,4 +1,4 @@
-(function(){ 
+(function(){ 	
     tinymce.create('tinymce.plugins.annoFormats', {
  
         init : function(ed, url){
@@ -23,12 +23,12 @@
 				//ed.getLang('advanced.references_desc'),
 				cmd : 'Anno_Monospace',
 			});
-			
+	
 			// Add node change function which updates format dropdown
 			ed.onInit.add(function() {
 				ed.onNodeChange.add(t._nodeChanged, t);
-			})
-		},
+			});	
+		},      
 		
 		// Update format dropdown on change		
 		_nodeChanged : function (ed, cm) {
@@ -46,10 +46,9 @@
 		
 		// @TODO Translation for formats
 		createControl : function(n, cm) {
-			var t = this, c, ed = t.editor;		
+			var t = this, c, ed = t.editor;
+			var bm = this.bookmark;
 			if (n == 'annoformatselect') {
-				
-				
 				
 				function applyAnnoFormat(format) {
 					var sel = ed.selection, dom = ed.dom, range = sel.getRng(), remove = false;
@@ -77,6 +76,10 @@
 					
 					// Determines whether or not the immediate parent supports the new format type
 					function canApplyFormat(node, newFormat) {
+						if (!node) {
+							return false;
+						}
+						
 						return !!ed.schema.isValidChild(node.parentNode.nodeName.toLowerCase(), newFormat.toLowerCase());
 					}
 
@@ -128,10 +131,20 @@
 			    var listbox = cm.createListBox('annoformatselect', {
 			         title : 'Format',
 			         onselect : function(v) {
+						var resetIsIE = false;
+						// Trick tinyMCE into thinking we're not in IE, and preform as exptected
+						// Range Dom errors occur otherwise.
+						if (tinymce.isIE) {
+							tinymce.isIE = false;
+							resetIsIE = true;
+						}
 						ed.undoManager.beforeChange();
 						applyAnnoFormat(v);
 						ed.undoManager.add();
 						ed.focus();
+						if (resetIsIE) {
+							tinymce.isIE = true;
+						}
 			         }
 			    });        
 
