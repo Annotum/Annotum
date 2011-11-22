@@ -36,6 +36,7 @@ function anno_remove_roles_and_capabilities() {
 			'edit_others_articles',
 			'delete_article',
 			'read_article',
+			'upload_files',
 		),
 		'author' => array(
 			'edit_articles',
