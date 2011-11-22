@@ -1,4 +1,16 @@
 <?php 
+/**
+ * @package anno
+ * This file is part of the Annotum theme for WordPress
+ * Built on the Carrington theme framework <http://carringtontheme.com>
+ *
+ * Copyright 2008-2011 Crowd Favorite, Ltd. All rights reserved. <http://crowdfavorite.com>
+ * Released under the GPL license
+ * http://www.opensource.org/licenses/gpl-license.php
+ * 
+ * Adapted from code present in WordPress Core 3.2.1
+ */
+
 function anno_tinymce_uploader_enqueue($hook) {
 	if (isset($_GET['anno_action']) && $_GET['anno_action'] == 'image_popup' ) {
 		wp_enqueue_script('swfupload-all');

@@ -1,3 +1,11 @@
+/* 
+* Based on the tinyMCE core paragraph handling
+* Released under LGPL License.
+*
+* License: http://tinymce.moxiecode.com/license
+* Contributing: http://tinymce.moxiecode.com/contributing
+*/
+
 (function() {
 	tinymce.create('tinymce.plugins.annoParagraphs', {		
 		init : function(ed, url) {
@@ -359,9 +367,6 @@
 
 			// Delete and replace it with new block elements
 			r.deleteContents();
-
-//			if (isOpera)
-//				ed.getWin().scrollTo(0, vp.y);
 
 			// Never wrap blocks in blocks
 			if (bef.firstChild && bef.firstChild.nodeName == bn)

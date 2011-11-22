@@ -3,12 +3,6 @@
 		init : function(ed, url) {
 			this.editor = ed;
 			
-		/*	removeLink : function(element) {
-				if (node.nodeName == 'EXT-Link') {
-					ed.dom.remove(element, true);
-				}
-			} */
-			
 			ed.addCommand('annoUnlink', function() {
 				var se = ed.selection;
 				var sn = se.getStart(),

@@ -1,3 +1,11 @@
+/**
+ * Based on the tables plugin for tinyMCE developed by Moxiecode Systems AB
+ * Released under LGPL License.
+ *
+ * License: http://tinymce.moxiecode.com/license
+ * Contributing: http://tinymce.moxiecode.com/contributing
+ */
+
 var annoTable;
 
 (function($){

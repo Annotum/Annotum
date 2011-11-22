@@ -1,5 +1,15 @@
 <?php
 
+/**
+ * @package anno
+ * This file is part of the Annotum theme for WordPress
+ * Built on the Carrington theme framework <http://carringtontheme.com>
+ *
+ * Copyright 2008-2011 Crowd Favorite, Ltd. All rights reserved. <http://crowdfavorite.com>
+ * Released under the GPL license
+ * http://www.opensource.org/licenses/gpl-license.php
+ */
+
 // Translateable workflow states
 global $annowf_states;
 $annowf_states = array(
@@ -676,6 +686,7 @@ function annowf_get_round($post_id) {
 
 /**
  * Typeahead user search AJAX handler. Based on code in WP Core 3.1.2
+ * note this searches the entire users table - on multisite you can add existing users from other blogs to this one.
  */ 
 function annowf_user_search() {
 	global $wpdb;

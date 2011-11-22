@@ -126,7 +126,6 @@
 					}
 				};
 				
-				
 				// Create the list box
 			    var listbox = cm.createListBox('annoformatselect', {
 			         title : 'Format',

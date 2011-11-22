@@ -8,6 +8,7 @@
  * Released under the GPL license
  * http://www.opensource.org/licenses/gpl-license.php
  */
+
 if (__FILE__ == $_SERVER['SCRIPT_FILENAME']) { die(); }
 
 function annotum_sans_setup() {

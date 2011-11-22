@@ -1,8 +1,13 @@
 <?php 
+
 /**
- * Text widget class
+ * @package anno
+ * This file is part of the Annotum theme for WordPress
+ * Built on the Carrington theme framework <http://carringtontheme.com>
  *
- * @since 2.8.0
+ * Copyright 2008-2011 Crowd Favorite, Ltd. All rights reserved. <http://crowdfavorite.com>
+ * Released under the GPL license
+ * http://www.opensource.org/licenses/gpl-license.php
  */
 class WP_Widget_Solvitor_Ad extends WP_Widget_Text {
 

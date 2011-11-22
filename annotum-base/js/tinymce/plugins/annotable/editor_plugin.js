@@ -1,7 +1,5 @@
 /**
- * editor_plugin_src.js
- *
- * Copyright 2009, Moxiecode Systems AB
+ * Based on the tables plugin for tinyMCE developed by Moxiecode Systems AB
  * Released under LGPL License.
  *
  * License: http://tinymce.moxiecode.com/license
