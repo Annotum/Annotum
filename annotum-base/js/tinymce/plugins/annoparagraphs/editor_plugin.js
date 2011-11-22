@@ -139,6 +139,9 @@
 				else if (parentNode = dom.getParent(node, 'SEC')) {
 					newElement = insertNewBlock(parentNode);
 				}
+				else {
+					newElement = insertNewBlock(node);
+				}
 				
 				// Set new element as the first title tag, so we can select it
 				if (newElement.nodeName == 'SEC') {
