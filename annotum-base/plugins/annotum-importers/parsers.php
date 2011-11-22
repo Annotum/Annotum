@@ -88,7 +88,9 @@ class Knol_WXR_Parser {
 /**
  * WXR Parser that makes use of the SimpleXML PHP extension.
  */
-class Knol_WXR_Parser_SimpleXML {
+class Knol_WXR_Parser_SimpleXML {	
+	var $img_id_modifier = 0;
+	
 	function parse( $file ) {
 		$authors = $posts = $categories = $tags = $terms = array();
 
@@ -249,7 +251,6 @@ class Knol_WXR_Parser_SimpleXML {
 					);
 				}
 				
-				
 				$attachment_template = array(
 					'upload_date' => $post['post_date_gmt'],
 					'post_date' => $post['post_date_gmt'],
@@ -350,6 +351,8 @@ class Knol_WXR_Parser_SimpleXML {
 				}
 				
 				if (!empty($attachment['attachment_url'])) {
+					$attachment['post_id'] = $attachment['post_parent'].'_img_'.$this->img_id_modifier;
+					$this->img_id_modifier++;
 					$attachments[] = $attachment;
 				}		
 			}		
