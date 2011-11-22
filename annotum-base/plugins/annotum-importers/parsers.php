@@ -328,8 +328,8 @@ class Knol_WXR_Parser_SimpleXML {
 					if (
 						(strpos($attrs['src'], 'http://') === false &&
 						 strpos($attrs['src'], 'https://') === false ) 
-						|| strpos($attrs['src'], '://knol.google.com' !== false)
-					) {
+						|| strpos($attrs['src'], '://knol.google.com') !== false
+					 ) {
 						$url_explode = explode('/', (string) $attrs['src']);
 						$attachment['post_title'] = end($url_explode);
 
