@@ -1182,10 +1182,14 @@ foreach ($this->authors as $author_key => $author_data) {
 		if ( ! $this->fetch_attachments )
 			return new WP_Error( 'attachment_processing_error',
 				__( 'Fetching attachments is not enabled', 'anno' ) );
+
+		// Keep track of the original URL for remapping purposes
+		$original_url = $url;
+
 		// if the URL is absolute, but does not contain address, then upload it assuming base_site_url
 		if ( preg_match( '|^/[\w\W]+$|', $url ) )
 			$url = rtrim( $this->base_url, '/' ) . $url;
-		$upload = $this->fetch_remote_file( $url, $post );
+		$upload = $this->fetch_remote_file( $url, $post, $original_url );
 		if ( is_wp_error( $upload ) )
 			return $upload;
 		if ( $info = wp_check_filetype( $upload['file'] ) )
@@ -1215,9 +1219,10 @@ foreach ($this->authors as $author_key => $author_data) {
 	 *
 	 * @param string $url URL of item to fetch
 	 * @param array $post Attachment details
+	 * @param string $original_url Original that can in from the content, un processed. Used in remapping
 	 * @return array|WP_Error Local file location details on success, WP_Error otherwise
 	 */
-	function fetch_remote_file( $url, $post ) {
+	function fetch_remote_file( $url, $post, $original_url) {
 		// extract the file name and extension from the url
 		$file_name = basename( $url );
 
@@ -1260,7 +1265,7 @@ foreach ($this->authors as $author_key => $author_data) {
 		}
 
 		// keep track of the old and new urls so we can substitute them later
-		$this->url_remap[$url] = $upload['url'];
+		$this->url_remap[$original_url] = $upload['url'];
 		$this->url_remap[$post['guid']] = $upload['url']; // r13735, really needed?
 
 		// keep track of the destination if the remote url is redirected somewhere else
