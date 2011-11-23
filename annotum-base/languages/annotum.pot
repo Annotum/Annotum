@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Annotum\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-10-31 16:13-0700\n"
-"PO-Revision-Date: 2011-10-31 16:14-0700\n"
+"POT-Creation-Date: 2011-11-23 14:46-0700\n"
+"PO-Revision-Date: 2011-11-23 14:46-0700\n"
 "Last-Translator: Crowd Favorite <crowdfavorite@gmail.com>\n"
 "Language-Team: Crowd Favorite <crowfavorite@gmail.com>\n"
 "MIME-Version: 1.0\n"
@@ -16,225 +16,225 @@ msgstr ""
 "X-Poedit-SourceCharset: utf-8\n"
 "X-Poedit-SearchPath-0: ../..\n"
 
-#: ../../code/Annotum/annotum-base/functions.php:70
+#: ../../code/Annotum/annotum-base/functions.php:69
 msgid "Default Sidebar"
 msgstr ""
 
-#: ../../code/Annotum/annotum-base/functions.php:74
+#: ../../code/Annotum/annotum-base/functions.php:73
 msgid "Page Sidebar"
 msgstr ""
 
-#: ../../code/Annotum/annotum-base/functions.php:76
+#: ../../code/Annotum/annotum-base/functions.php:75
 msgid "This sidebar will be shown on Pages."
 msgstr ""
 
-#: ../../code/Annotum/annotum-base/functions.php:79
+#: ../../code/Annotum/annotum-base/functions.php:78
 msgid "Article Sidebar"
 msgstr ""
 
-#: ../../code/Annotum/annotum-base/functions.php:81
+#: ../../code/Annotum/annotum-base/functions.php:80
 msgid "This sidebar will be shown single Articles."
 msgstr ""
 
-#: ../../code/Annotum/annotum-base/functions.php:84
+#: ../../code/Annotum/annotum-base/functions.php:83
 msgid "Masthead Teasers"
 msgstr ""
 
-#: ../../code/Annotum/annotum-base/functions.php:86
+#: ../../code/Annotum/annotum-base/functions.php:85
 msgid "Display items on the home page masthead."
 msgstr ""
 
-#: ../../code/Annotum/annotum-base/functions.php:98
+#: ../../code/Annotum/annotum-base/functions.php:107
 msgid "Annotum Settings"
 msgstr ""
 
-#: ../../code/Annotum/annotum-base/functions.php:232
+#: ../../code/Annotum/annotum-base/functions.php:248
 msgid "Required"
 msgstr ""
 
-#: ../../code/Annotum/annotum-base/functions.php:236
+#: ../../code/Annotum/annotum-base/functions.php:252
 msgid "Your Name"
 msgstr ""
 
-#: ../../code/Annotum/annotum-base/functions.php:237
+#: ../../code/Annotum/annotum-base/functions.php:253
 msgid "Email Address"
 msgstr ""
 
-#: ../../code/Annotum/annotum-base/functions.php:238
+#: ../../code/Annotum/annotum-base/functions.php:254
 msgid "Website"
 msgstr ""
 
-#: ../../code/Annotum/annotum-base/functions.php:242
+#: ../../code/Annotum/annotum-base/functions.php:258
 msgid "Comment"
 msgstr ""
 
-#: ../../code/Annotum/annotum-base/functions.php:244
+#: ../../code/Annotum/annotum-base/functions.php:260
 msgid "(cancel)"
 msgstr ""
 
-#: ../../code/Annotum/annotum-base/functions.php:245
+#: ../../code/Annotum/annotum-base/functions.php:261
 msgid "Leave a Comment"
 msgstr ""
 
-#: ../../code/Annotum/annotum-base/functions.php:246
+#: ../../code/Annotum/annotum-base/functions.php:262
 #, php-format
 msgid "Leave a Reply to %s"
 msgstr ""
 
-#: ../../code/Annotum/annotum-base/functions.php:247
+#: ../../code/Annotum/annotum-base/functions.php:263
 msgid "Submit"
 msgstr ""
 
-#: ../../code/Annotum/annotum-base/functions.php:266
+#: ../../code/Annotum/annotum-base/functions.php:282
 #: ../../code/Annotum/annotum-base/carrington-core/admin.php:79
 msgid "Yes"
 msgstr ""
 
-#: ../../code/Annotum/annotum-base/functions.php:267
+#: ../../code/Annotum/annotum-base/functions.php:283
 #: ../../code/Annotum/annotum-base/carrington-core/admin.php:80
 msgid "No"
 msgstr ""
 
-#: ../../code/Annotum/annotum-base/functions.php:272
+#: ../../code/Annotum/annotum-base/functions.php:288
 #: ../../code/Annotum/annotum-base/carrington-core/admin.php:34
 #: ../../code/Annotum/annotum-base/carrington-core/admin.php:51
 msgid "Theme Settings"
 msgstr ""
 
-#: ../../code/Annotum/annotum-base/functions.php:277
+#: ../../code/Annotum/annotum-base/functions.php:293
 msgid "Home Page Callout Left Title"
 msgstr ""
 
-#: ../../code/Annotum/annotum-base/functions.php:283
+#: ../../code/Annotum/annotum-base/functions.php:299
 msgid "Home Page Callout Left URL"
 msgstr ""
 
-#: ../../code/Annotum/annotum-base/functions.php:289
+#: ../../code/Annotum/annotum-base/functions.php:305
 msgid "Home Page Callout Left Content"
 msgstr ""
 
-#: ../../code/Annotum/annotum-base/functions.php:294
+#: ../../code/Annotum/annotum-base/functions.php:310
 msgid "Home Page Callout Right Title"
 msgstr ""
 
-#: ../../code/Annotum/annotum-base/functions.php:300
+#: ../../code/Annotum/annotum-base/functions.php:316
 msgid "Home Page Callout Right URL"
 msgstr ""
 
-#: ../../code/Annotum/annotum-base/functions.php:306
+#: ../../code/Annotum/annotum-base/functions.php:322
 msgid "Home Page Callout Right Content"
 msgstr ""
 
-#: ../../code/Annotum/annotum-base/functions.php:321
+#: ../../code/Annotum/annotum-base/functions.php:337
 msgid "Front Page Post Type"
 msgstr ""
 
-#: ../../code/Annotum/annotum-base/functions.php:323
+#: ../../code/Annotum/annotum-base/functions.php:339
 msgid "Article"
 msgstr ""
 
-#: ../../code/Annotum/annotum-base/functions.php:324
+#: ../../code/Annotum/annotum-base/functions.php:340
 msgid "Post"
 msgstr ""
 
-#: ../../code/Annotum/annotum-base/functions.php:330
+#: ../../code/Annotum/annotum-base/functions.php:346
 msgid "Google Analytics"
 msgstr ""
 
-#: ../../code/Annotum/annotum-base/functions.php:333
+#: ../../code/Annotum/annotum-base/functions.php:349
 msgid "Google Analytics ID"
 msgstr ""
 
-#: ../../code/Annotum/annotum-base/functions.php:337
+#: ../../code/Annotum/annotum-base/functions.php:353
 msgid "ex: UA-123456-12"
 msgstr ""
 
-#: ../../code/Annotum/annotum-base/functions.php:342
+#: ../../code/Annotum/annotum-base/functions.php:358
 msgid "Workflow Options"
 msgstr ""
 
-#: ../../code/Annotum/annotum-base/functions.php:345
+#: ../../code/Annotum/annotum-base/functions.php:361
 msgid "Enable Workflow"
 msgstr ""
 
-#: ../../code/Annotum/annotum-base/functions.php:351
+#: ../../code/Annotum/annotum-base/functions.php:367
 msgid "Allow article authors to see reviewers"
 msgstr ""
 
-#: ../../code/Annotum/annotum-base/functions.php:357
+#: ../../code/Annotum/annotum-base/functions.php:373
 msgid "Enable workflow notifications"
 msgstr ""
 
-#: ../../code/Annotum/annotum-base/functions.php:365
+#: ../../code/Annotum/annotum-base/functions.php:381
 msgid "Journal Options"
 msgstr ""
 
-#: ../../code/Annotum/annotum-base/functions.php:368
+#: ../../code/Annotum/annotum-base/functions.php:384
 msgid "Journal Name"
 msgstr ""
 
-#: ../../code/Annotum/annotum-base/functions.php:373
+#: ../../code/Annotum/annotum-base/functions.php:389
 msgid "Journal Abbreviation"
 msgstr ""
 
-#: ../../code/Annotum/annotum-base/functions.php:378
+#: ../../code/Annotum/annotum-base/functions.php:394
 msgid "Journal ID"
 msgstr ""
 
-#: ../../code/Annotum/annotum-base/functions.php:383
+#: ../../code/Annotum/annotum-base/functions.php:399
 msgid "Journal ID Type"
 msgstr ""
 
-#: ../../code/Annotum/annotum-base/functions.php:388
+#: ../../code/Annotum/annotum-base/functions.php:404
 msgid "Journal ISSN"
 msgstr ""
 
-#: ../../code/Annotum/annotum-base/functions.php:393
+#: ../../code/Annotum/annotum-base/functions.php:409
 msgid "Publisher Name"
 msgstr ""
 
-#: ../../code/Annotum/annotum-base/functions.php:398
+#: ../../code/Annotum/annotum-base/functions.php:414
 msgid "Publisher Location"
 msgstr ""
 
-#: ../../code/Annotum/annotum-base/functions.php:403
+#: ../../code/Annotum/annotum-base/functions.php:419
 msgid "Publisher ISSN"
 msgstr ""
 
-#: ../../code/Annotum/annotum-base/functions.php:410
+#: ../../code/Annotum/annotum-base/functions.php:426
 msgid "CrossRef Credentials"
 msgstr ""
 
-#: ../../code/Annotum/annotum-base/functions.php:413
+#: ../../code/Annotum/annotum-base/functions.php:429
 msgid "Login"
 msgstr ""
 
-#: ../../code/Annotum/annotum-base/functions.php:418
+#: ../../code/Annotum/annotum-base/functions.php:434
 msgid "Password"
 msgstr ""
 
-#: ../../code/Annotum/annotum-base/functions.php:423
+#: ../../code/Annotum/annotum-base/functions.php:439
 msgid "Registrant Code"
 msgstr ""
 
-#: ../../code/Annotum/annotum-base/functions.php:445
+#: ../../code/Annotum/annotum-base/functions.php:461
 msgid "Invalid Google Analytics ID"
 msgstr ""
 
-#: ../../code/Annotum/annotum-base/functions.php:734
-msgid "Cheatin&#8217; uh?"
-msgstr ""
-
-#: ../../code/Annotum/annotum-base/functions.php:741
+#: ../../code/Annotum/annotum-base/functions.php:753
 msgid "Invalid email address"
 msgstr ""
 
-#: ../../code/Annotum/annotum-base/functions.php:759
+#: ../../code/Annotum/annotum-base/functions.php:758
+msgid "Invalid username"
+msgstr ""
+
+#: ../../code/Annotum/annotum-base/functions.php:776
 #, php-format
 msgid "You have been invited to join %s"
 msgstr ""
 
-#: ../../code/Annotum/annotum-base/functions.php:761
+#: ../../code/Annotum/annotum-base/functions.php:778
 #, php-format
 msgid ""
 "%s has created a user with your email address for %s.\n"
@@ -245,28 +245,32 @@ msgid ""
 "%s"
 msgstr ""
 
-#: ../../code/Annotum/annotum-base/functions.php:786
+#: ../../code/Annotum/annotum-base/functions.php:802
 msgid "Published"
 msgstr ""
 
-#: ../../code/Annotum/annotum-base/functions.php:790
+#: ../../code/Annotum/annotum-base/functions.php:806
 msgid "Pending"
 msgstr ""
 
-#: ../../code/Annotum/annotum-base/functions.php:794
+#: ../../code/Annotum/annotum-base/functions.php:810
 msgid "Draft"
 msgstr ""
 
-#: ../../code/Annotum/annotum-base/functions.php:798
+#: ../../code/Annotum/annotum-base/functions.php:814
 msgid "Trash"
 msgstr ""
 
-#: ../../code/Annotum/annotum-base/functions.php:843
-msgid "Article Summary"
+#: ../../code/Annotum/annotum-base/functions.php:862
+msgid "Articles"
 msgstr ""
 
-#: ../../code/Annotum/annotum-base/functions.php:848
-msgid "Articles"
+#: ../../code/Annotum/annotum-base/functions.php:928
+msgid "Home"
+msgstr ""
+
+#: ../../code/Annotum/annotum-base/functions.php:934
+msgid "About Annotum"
 msgstr ""
 
 #: ../../code/Annotum/annotum-base/assets/load.php:32
@@ -280,6 +284,19 @@ msgstr ""
 #: ../../code/Annotum/annotum-base/assets/load.php:34
 #, php-format
 msgid "%1$s of %2$s"
+msgstr ""
+
+#: ../../code/Annotum/annotum-base/attachment/attachment-default.php:23
+msgid "article"
+msgstr ""
+
+#: ../../code/Annotum/annotum-base/attachment/attachment-default.php:28
+#, php-format
+msgid "back to &#8220;%s&#8221;"
+msgstr ""
+
+#: ../../code/Annotum/annotum-base/attachment/attachment-default.php:54
+msgid "Sorry, no attachments matched your criteria."
 msgstr ""
 
 #: ../../code/Annotum/annotum-base/carrington-core/admin.php:33
@@ -406,601 +423,614 @@ msgstr ""
 msgid "Search"
 msgstr ""
 
-#: ../../code/Annotum/annotum-base/functions/anno-xml-download.php:74
+#: ../../code/Annotum/annotum-base/functions/anno-xml-download.php:84
 msgid "No article found."
 msgstr ""
 
-#: ../../code/Annotum/annotum-base/functions/anno-xml-download.php:104
+#: ../../code/Annotum/annotum-base/functions/anno-xml-download.php:114
 msgid "Required article first."
 msgstr ""
 
-#: ../../code/Annotum/annotum-base/functions/anno-xml-download.php:426
+#: ../../code/Annotum/annotum-base/functions/anno-xml-download.php:433
 msgid "Acknowledgments"
 msgstr ""
 
-#: ../../code/Annotum/annotum-base/functions/anno-xml-download.php:445
-#: ../../code/Annotum/annotum-base/functions/template.php:315
+#: ../../code/Annotum/annotum-base/functions/anno-xml-download.php:452
+#: ../../code/Annotum/annotum-base/functions/template.php:415
 #, php-format
 msgid "Appendix %s"
 msgstr ""
 
-#: ../../code/Annotum/annotum-base/functions/anno-xml-download.php:464
-#: ../../code/Annotum/annotum-base/functions/article-post-type.php:94
-#: ../../code/Annotum/annotum-base/functions/template.php:339
+#: ../../code/Annotum/annotum-base/functions/anno-xml-download.php:471
+#: ../../code/Annotum/annotum-base/functions/article-post-type.php:104
+#: ../../code/Annotum/annotum-base/functions/template.php:439
 msgid "References"
 msgstr ""
 
-#: ../../code/Annotum/annotum-base/functions/Anno_Widget_Recently.php:27
+#: ../../code/Annotum/annotum-base/functions/Anno_Widget_Recently.php:28
 msgid "Display the most recent posts and comments in a tabbed box."
 msgstr ""
 
-#: ../../code/Annotum/annotum-base/functions/Anno_Widget_Recently.php:30
+#: ../../code/Annotum/annotum-base/functions/Anno_Widget_Recently.php:31
 msgid "Recently&hellip;"
 msgstr ""
 
-#: ../../code/Annotum/annotum-base/functions/Anno_Widget_Recently.php:60
+#: ../../code/Annotum/annotum-base/functions/Anno_Widget_Recently.php:61
 msgid "Recent Articles"
 msgstr ""
 
-#: ../../code/Annotum/annotum-base/functions/Anno_Widget_Recently.php:61
+#: ../../code/Annotum/annotum-base/functions/Anno_Widget_Recently.php:62
 msgid "Comments"
 msgstr ""
 
-#: ../../code/Annotum/annotum-base/functions/Anno_Widget_Recently.php:96
+#: ../../code/Annotum/annotum-base/functions/Anno_Widget_Recently.php:97
 #, php-format
 msgid "%1$s on %2$s"
 msgstr ""
 
-#: ../../code/Annotum/annotum-base/functions/appendix-repeater.php:43
+#: ../../code/Annotum/annotum-base/functions/appendix-repeater.php:55
 msgid "Are you sure you want to delete this?"
 msgstr ""
 
-#: ../../code/Annotum/annotum-base/functions/appendix-repeater.php:51
+#: ../../code/Annotum/annotum-base/functions/appendix-repeater.php:63
 msgid "Add Another Appendix"
 msgstr ""
 
-#: ../../code/Annotum/annotum-base/functions/appendix-repeater.php:83
+#: ../../code/Annotum/annotum-base/functions/appendix-repeater.php:68
+#: ../../code/Annotum/annotum-base/functions/article-post-type.php:143
+#, php-format
+msgid "The Annotum editor requires at least WordPress 3.3. It appears you are using WordPress %s. "
+msgstr ""
+
+#: ../../code/Annotum/annotum-base/functions/appendix-repeater.php:99
 msgid "Appendix"
 msgstr ""
 
-#: ../../code/Annotum/annotum-base/functions/appendix-repeater.php:83
+#: ../../code/Annotum/annotum-base/functions/appendix-repeater.php:99
 msgid "delete"
 msgstr ""
 
-#: ../../code/Annotum/annotum-base/functions/article-post-type.php:17
+#: ../../code/Annotum/annotum-base/functions/article-post-type.php:27
 msgid "Add New Article"
 msgstr ""
 
-#: ../../code/Annotum/annotum-base/functions/article-post-type.php:18
+#: ../../code/Annotum/annotum-base/functions/article-post-type.php:28
 msgid "Edit Article"
 msgstr ""
 
-#: ../../code/Annotum/annotum-base/functions/article-post-type.php:19
+#: ../../code/Annotum/annotum-base/functions/article-post-type.php:29
 msgid "New Article"
 msgstr ""
 
-#: ../../code/Annotum/annotum-base/functions/article-post-type.php:20
+#: ../../code/Annotum/annotum-base/functions/article-post-type.php:30
 msgid "View Article"
 msgstr ""
 
-#: ../../code/Annotum/annotum-base/functions/article-post-type.php:21
+#: ../../code/Annotum/annotum-base/functions/article-post-type.php:31
 msgid "Search Articles"
 msgstr ""
 
-#: ../../code/Annotum/annotum-base/functions/article-post-type.php:22
+#: ../../code/Annotum/annotum-base/functions/article-post-type.php:32
 msgid "No Articles found"
 msgstr ""
 
-#: ../../code/Annotum/annotum-base/functions/article-post-type.php:23
+#: ../../code/Annotum/annotum-base/functions/article-post-type.php:33
 msgid "No Articles found in Trash"
 msgstr ""
 
-#: ../../code/Annotum/annotum-base/functions/article-post-type.php:52
+#: ../../code/Annotum/annotum-base/functions/article-post-type.php:62
 msgid "Unable to perform that ability"
 msgstr ""
 
-#: ../../code/Annotum/annotum-base/functions/article-post-type.php:70
+#: ../../code/Annotum/annotum-base/functions/article-post-type.php:80
 #, php-format
 msgid "Article updated. <a href=\"%s\">View article</a>"
 msgstr ""
 
-#: ../../code/Annotum/annotum-base/functions/article-post-type.php:71
+#: ../../code/Annotum/annotum-base/functions/article-post-type.php:81
 msgid "Custom field updated."
 msgstr ""
 
-#: ../../code/Annotum/annotum-base/functions/article-post-type.php:72
+#: ../../code/Annotum/annotum-base/functions/article-post-type.php:82
 msgid "Custom field deleted."
 msgstr ""
 
-#: ../../code/Annotum/annotum-base/functions/article-post-type.php:73
+#: ../../code/Annotum/annotum-base/functions/article-post-type.php:83
 msgid "Article updated."
 msgstr ""
 
-#: ../../code/Annotum/annotum-base/functions/article-post-type.php:74
+#: ../../code/Annotum/annotum-base/functions/article-post-type.php:84
 #, php-format
 msgid "Article restored to revision from %s"
 msgstr ""
 
-#: ../../code/Annotum/annotum-base/functions/article-post-type.php:75
+#: ../../code/Annotum/annotum-base/functions/article-post-type.php:85
 #, php-format
 msgid "Article published. <a href=\"%s\">View article</a>"
 msgstr ""
 
-#: ../../code/Annotum/annotum-base/functions/article-post-type.php:76
+#: ../../code/Annotum/annotum-base/functions/article-post-type.php:86
 msgid "Article saved."
 msgstr ""
 
-#: ../../code/Annotum/annotum-base/functions/article-post-type.php:77
+#: ../../code/Annotum/annotum-base/functions/article-post-type.php:87
 #, php-format
 msgid "Article submitted. <a target=\"_blank\" href=\"%s\">Preview article</a>"
 msgstr ""
 
-#: ../../code/Annotum/annotum-base/functions/article-post-type.php:78
+#: ../../code/Annotum/annotum-base/functions/article-post-type.php:88
 #, php-format
 msgid "Article scheduled for: <strong>%1$s</strong>. <a target=\"_blank\" href=\"%2$s\">Preview article</a>"
 msgstr ""
 
-#: ../../code/Annotum/annotum-base/functions/article-post-type.php:78
+#: ../../code/Annotum/annotum-base/functions/article-post-type.php:88
 msgid "M j, Y @ G:i"
 msgstr ""
 
-#: ../../code/Annotum/annotum-base/functions/article-post-type.php:79
+#: ../../code/Annotum/annotum-base/functions/article-post-type.php:89
 #, php-format
 msgid "Article draft updated. <a target=\"_blank\" href=\"%s\">Preview article</a>"
 msgstr ""
 
-#: ../../code/Annotum/annotum-base/functions/article-post-type.php:80
+#: ../../code/Annotum/annotum-base/functions/article-post-type.php:90
 msgid "Article successfully cloned."
 msgstr ""
 
-#: ../../code/Annotum/annotum-base/functions/article-post-type.php:81
+#: ../../code/Annotum/annotum-base/functions/article-post-type.php:91
 msgid "Unable to clone article."
 msgstr ""
 
-#: ../../code/Annotum/annotum-base/functions/article-post-type.php:92
+#: ../../code/Annotum/annotum-base/functions/article-post-type.php:102
 msgid "Subtitle"
 msgstr ""
 
-#: ../../code/Annotum/annotum-base/functions/article-post-type.php:93
+#: ../../code/Annotum/annotum-base/functions/article-post-type.php:103
 msgid "Body"
 msgstr ""
 
-#: ../../code/Annotum/annotum-base/functions/article-post-type.php:98
+#: ../../code/Annotum/annotum-base/functions/article-post-type.php:108
 msgid "Appendices"
 msgstr ""
 
-#: ../../code/Annotum/annotum-base/functions/article-post-type.php:99
+#: ../../code/Annotum/annotum-base/functions/article-post-type.php:109
 msgid "Featured"
 msgstr ""
 
-#: ../../code/Annotum/annotum-base/functions/article-post-type.php:102
+#: ../../code/Annotum/annotum-base/functions/article-post-type.php:112
 msgid "Convert To Post"
 msgstr ""
 
-#: ../../code/Annotum/annotum-base/functions/article-post-type.php:103
-msgid "DOI Deposit"
+#: ../../code/Annotum/annotum-base/functions/article-post-type.php:201
+msgid "Appear in the home page carousel"
 msgstr ""
 
-#: ../../code/Annotum/annotum-base/functions/article-post-type.php:189
-msgid "Feature this article to appear in the home page carousel"
-msgstr ""
-
-#: ../../code/Annotum/annotum-base/functions/article-post-type.php:341
+#: ../../code/Annotum/annotum-base/functions/article-post-type.php:374
 msgid "Clicking the button below will convert the current <strong>Article</strong> to a <strong>Post</strong>. This will also convert any terms in article taxonomies to post taxonomies. You will not be able to revert this Article back once it has been converted to a Post."
 msgstr ""
 
-#: ../../code/Annotum/annotum-base/functions/article-post-type.php:361
-#: ../../code/Annotum/annotum-base/functions/tinymce.php:430
+#: ../../code/Annotum/annotum-base/functions/article-post-type.php:394
+#: ../../code/Annotum/annotum-base/functions/tinymce.php:454
 msgid "CrossRef Credentials Required"
 msgstr ""
 
-#: ../../code/Annotum/annotum-base/functions/article-post-type.php:372
+#: ../../code/Annotum/annotum-base/functions/article-post-type.php:407
 msgid "Deposit"
 msgstr ""
 
-#: ../../code/Annotum/annotum-base/functions/profile.php:8
+#: ../../code/Annotum/annotum-base/functions/profile.php:18
 msgid "Name Prefix"
 msgstr ""
 
-#: ../../code/Annotum/annotum-base/functions/profile.php:9
+#: ../../code/Annotum/annotum-base/functions/profile.php:19
 msgid "Name Suffix"
 msgstr ""
 
-#: ../../code/Annotum/annotum-base/functions/profile.php:10
+#: ../../code/Annotum/annotum-base/functions/profile.php:20
 msgid "Degrees"
 msgstr ""
 
-#: ../../code/Annotum/annotum-base/functions/profile.php:11
+#: ../../code/Annotum/annotum-base/functions/profile.php:21
 msgid "Affiliation"
 msgstr ""
 
-#: ../../code/Annotum/annotum-base/functions/profile.php:19
-#: ../../code/Annotum/annotum-base/functions/profile.php:20
-#: ../../code/Annotum/annotum-base/functions/profile.php:36
+#: ../../code/Annotum/annotum-base/functions/profile.php:29
+#: ../../code/Annotum/annotum-base/functions/profile.php:30
+#: ../../code/Annotum/annotum-base/functions/profile.php:46
 msgid "Annotum Profile"
 msgstr ""
 
-#: ../../code/Annotum/annotum-base/functions/profile.php:38
+#: ../../code/Annotum/annotum-base/functions/profile.php:48
 msgid "Profile Updated"
 msgstr ""
 
-#: ../../code/Annotum/annotum-base/functions/profile.php:44
+#: ../../code/Annotum/annotum-base/functions/profile.php:54
 msgid "First Name"
 msgstr ""
 
-#: ../../code/Annotum/annotum-base/functions/profile.php:45
-#: ../../code/Annotum/annotum-base/functions/profile.php:50
+#: ../../code/Annotum/annotum-base/functions/profile.php:55
+#: ../../code/Annotum/annotum-base/functions/profile.php:60
 msgid "Change"
 msgstr ""
 
-#: ../../code/Annotum/annotum-base/functions/profile.php:49
+#: ../../code/Annotum/annotum-base/functions/profile.php:59
 msgid "Last Name"
 msgstr ""
 
-#: ../../code/Annotum/annotum-base/functions/profile.php:71
+#: ../../code/Annotum/annotum-base/functions/profile.php:81
 msgid "Update Profile"
 msgstr ""
 
-#: ../../code/Annotum/annotum-base/functions/taxonomies.php:9
-#: ../../code/Annotum/annotum-base/functions/taxonomies.php:10
-#: ../../code/Annotum/annotum-base/functions/taxonomies.php:70
+#: ../../code/Annotum/annotum-base/functions/taxonomies.php:19
+#: ../../code/Annotum/annotum-base/functions/taxonomies.php:20
+#: ../../code/Annotum/annotum-base/functions/taxonomies.php:80
 msgid "Article Category"
 msgstr ""
 
-#: ../../code/Annotum/annotum-base/functions/taxonomies.php:11
+#: ../../code/Annotum/annotum-base/functions/taxonomies.php:21
 msgid "Search Article Categories"
 msgstr ""
 
-#: ../../code/Annotum/annotum-base/functions/taxonomies.php:12
+#: ../../code/Annotum/annotum-base/functions/taxonomies.php:22
 msgid "Popular Article Categories"
 msgstr ""
 
-#: ../../code/Annotum/annotum-base/functions/taxonomies.php:13
+#: ../../code/Annotum/annotum-base/functions/taxonomies.php:23
 msgid "All Article Categories"
 msgstr ""
 
-#: ../../code/Annotum/annotum-base/functions/taxonomies.php:14
+#: ../../code/Annotum/annotum-base/functions/taxonomies.php:24
 msgid "Edit Article Category"
 msgstr ""
 
-#: ../../code/Annotum/annotum-base/functions/taxonomies.php:15
+#: ../../code/Annotum/annotum-base/functions/taxonomies.php:25
 msgid "Update Article Category"
 msgstr ""
 
-#: ../../code/Annotum/annotum-base/functions/taxonomies.php:16
+#: ../../code/Annotum/annotum-base/functions/taxonomies.php:26
 msgid "Add New Article Category"
 msgstr ""
 
-#: ../../code/Annotum/annotum-base/functions/taxonomies.php:17
+#: ../../code/Annotum/annotum-base/functions/taxonomies.php:27
 msgid "New Article Category Name"
 msgstr ""
 
-#: ../../code/Annotum/annotum-base/functions/taxonomies.php:18
+#: ../../code/Annotum/annotum-base/functions/taxonomies.php:28
 msgid "Add or Remove Article Categories"
 msgstr ""
 
-#: ../../code/Annotum/annotum-base/functions/taxonomies.php:19
+#: ../../code/Annotum/annotum-base/functions/taxonomies.php:29
 msgid "Choose from the most used article categories"
 msgstr ""
 
-#: ../../code/Annotum/annotum-base/functions/taxonomies.php:20
+#: ../../code/Annotum/annotum-base/functions/taxonomies.php:30
 msgid "Article Categories"
 msgstr ""
 
-#: ../../code/Annotum/annotum-base/functions/taxonomies.php:33
-#: ../../code/Annotum/annotum-base/functions/taxonomies.php:34
+#: ../../code/Annotum/annotum-base/functions/taxonomies.php:43
+#: ../../code/Annotum/annotum-base/functions/taxonomies.php:44
 msgid "Article Tag"
 msgstr ""
 
-#: ../../code/Annotum/annotum-base/functions/taxonomies.php:35
+#: ../../code/Annotum/annotum-base/functions/taxonomies.php:45
 msgid "Search Article Tags"
 msgstr ""
 
-#: ../../code/Annotum/annotum-base/functions/taxonomies.php:36
+#: ../../code/Annotum/annotum-base/functions/taxonomies.php:46
 msgid "Popular Article Tags"
 msgstr ""
 
-#: ../../code/Annotum/annotum-base/functions/taxonomies.php:37
+#: ../../code/Annotum/annotum-base/functions/taxonomies.php:47
 msgid "All Article Tags"
 msgstr ""
 
-#: ../../code/Annotum/annotum-base/functions/taxonomies.php:38
+#: ../../code/Annotum/annotum-base/functions/taxonomies.php:48
 msgid "Edit Article Tag"
 msgstr ""
 
-#: ../../code/Annotum/annotum-base/functions/taxonomies.php:39
+#: ../../code/Annotum/annotum-base/functions/taxonomies.php:49
 msgid "Update Article Tag"
 msgstr ""
 
-#: ../../code/Annotum/annotum-base/functions/taxonomies.php:40
+#: ../../code/Annotum/annotum-base/functions/taxonomies.php:50
 msgid "Add New Article Tag"
 msgstr ""
 
-#: ../../code/Annotum/annotum-base/functions/taxonomies.php:41
+#: ../../code/Annotum/annotum-base/functions/taxonomies.php:51
 msgid "New Article Tag Name"
 msgstr ""
 
-#: ../../code/Annotum/annotum-base/functions/taxonomies.php:42
+#: ../../code/Annotum/annotum-base/functions/taxonomies.php:52
 msgid "Add or Remove Article Tags"
 msgstr ""
 
-#: ../../code/Annotum/annotum-base/functions/taxonomies.php:43
+#: ../../code/Annotum/annotum-base/functions/taxonomies.php:53
 msgid "Choose from the most used article tags"
 msgstr ""
 
-#: ../../code/Annotum/annotum-base/functions/taxonomies.php:44
+#: ../../code/Annotum/annotum-base/functions/taxonomies.php:54
 msgid "Article Tags"
 msgstr ""
 
-#: ../../code/Annotum/annotum-base/functions/template.php:198
+#: ../../code/Annotum/annotum-base/functions/template.php:271
 msgid "Website:"
 msgstr ""
 
-#: ../../code/Annotum/annotum-base/functions/template.php:255
+#: ../../code/Annotum/annotum-base/functions/template.php:277
+msgid "Affiliation:"
+msgstr ""
+
+#: ../../code/Annotum/annotum-base/functions/template.php:329
 #, php-format
 msgid "%1$s: %2$s"
 msgstr ""
 
-#: ../../code/Annotum/annotum-base/functions/template.php:265
+#: ../../code/Annotum/annotum-base/functions/template.php:364
 #, php-format
 msgid "%1$s %2$s"
 msgstr ""
 
-#: ../../code/Annotum/annotum-base/functions/template.php:282
+#: ../../code/Annotum/annotum-base/functions/template.php:382
 #, php-format
 msgid "%1$s. %2$s [Internet]. Version %3$s. %4$s. %5$s. Available from: %6$s."
 msgstr ""
 
-#: ../../code/Annotum/annotum-base/functions/template.php:343
+#: ../../code/Annotum/annotum-base/functions/template.php:443
 msgid "Reference Link"
 msgstr ""
 
-#: ../../code/Annotum/annotum-base/functions/template.php:362
+#: ../../code/Annotum/annotum-base/functions/template.php:462
 msgid "Tweet"
 msgstr ""
 
-#: ../../code/Annotum/annotum-base/functions/template.php:389
+#: ../../code/Annotum/annotum-base/functions/template.php:489
 msgid "Email"
 msgstr ""
 
-#: ../../code/Annotum/annotum-base/functions/tinymce-uploader.php:61
-#, php-format
-msgid "Sorry, you have filled your storage quota (%s MB)."
-msgstr ""
-
-#: ../../code/Annotum/annotum-base/functions/tinymce-uploader.php:103
-msgid "Select Files"
-msgstr ""
-
-#: ../../code/Annotum/annotum-base/functions/tinymce-uploader.php:145
-msgid "Choose files to upload"
-msgstr ""
-
-#: ../../code/Annotum/annotum-base/functions/tinymce-uploader.php:156
-#: ../../code/Annotum/annotum-base/functions/tinymce-uploader.php:158
-msgid "Upload"
-msgstr ""
-
-#: ../../code/Annotum/annotum-base/functions/tinymce-uploader.php:162
-msgid "If you want to use all capabilities of the uploader, like uploading multiple files at once, please update to lighttpd 1.5."
-msgstr ""
-
-#: ../../code/Annotum/annotum-base/functions/tinymce-uploader.php:276
-msgid "You do not have permission to upload files."
-msgstr ""
-
-#: ../../code/Annotum/annotum-base/functions/tinymce-uploader.php:282
-msgid "Unknown post type."
-msgstr ""
-
-#: ../../code/Annotum/annotum-base/functions/tinymce-uploader.php:285
-msgid "You are not allowed to edit this item."
-msgstr ""
-
-#: ../../code/Annotum/annotum-base/functions/tinymce-uploader.php:297
-msgid "Dismiss"
-msgstr ""
-
-#: ../../code/Annotum/annotum-base/functions/tinymce-uploader.php:298
-#, php-format
-msgid "&#8220;%s&#8221; has failed to upload due to an error"
-msgstr ""
-
-#: ../../code/Annotum/annotum-base/functions/tinymce.php:325
-#: ../../code/Annotum/annotum-base/functions/tinymce.php:459
+#: ../../code/Annotum/annotum-base/functions/tinymce.php:339
+#: ../../code/Annotum/annotum-base/functions/tinymce.php:478
 msgid "URL"
 msgstr ""
 
-#: ../../code/Annotum/annotum-base/functions/tinymce.php:329
+#: ../../code/Annotum/annotum-base/functions/tinymce.php:343
 msgid "Title"
 msgstr ""
 
-#: ../../code/Annotum/annotum-base/functions/tinymce.php:333
+#: ../../code/Annotum/annotum-base/functions/tinymce.php:347
+#: ../../code/Annotum/annotum-base/functions/tinymce.php:627
 msgid "Alt Text"
 msgstr ""
 
-#: ../../code/Annotum/annotum-base/functions/tinymce.php:356
+#: ../../code/Annotum/annotum-base/functions/tinymce.php:369
+#: ../../code/Annotum/annotum-base/functions/tinymce.php:647
 msgid "Label"
 msgstr ""
 
-#: ../../code/Annotum/annotum-base/functions/tinymce.php:360
+#: ../../code/Annotum/annotum-base/functions/tinymce.php:373
+#: ../../code/Annotum/annotum-base/functions/tinymce.php:651
 msgid "Caption"
 msgstr ""
 
-#: ../../code/Annotum/annotum-base/functions/tinymce.php:364
+#: ../../code/Annotum/annotum-base/functions/tinymce.php:377
 msgid "Table Properties"
 msgstr ""
 
-#: ../../code/Annotum/annotum-base/functions/tinymce.php:366
+#: ../../code/Annotum/annotum-base/functions/tinymce.php:379
 msgid "Columns"
 msgstr ""
 
-#: ../../code/Annotum/annotum-base/functions/tinymce.php:370
+#: ../../code/Annotum/annotum-base/functions/tinymce.php:383
 msgid "Rows"
 msgstr ""
 
-#: ../../code/Annotum/annotum-base/functions/tinymce.php:377
-#: ../../code/Annotum/annotum-base/functions/tinymce.php:590
-#: ../../code/Annotum/annotum-base/functions/tinymce.php:611
+#: ../../code/Annotum/annotum-base/functions/tinymce.php:390
+#: ../../code/Annotum/annotum-base/functions/tinymce.php:609
+#: ../../code/Annotum/annotum-base/functions/tinymce.php:658
 msgid "Insert"
 msgstr ""
 
-#: ../../code/Annotum/annotum-base/functions/tinymce.php:401
+#: ../../code/Annotum/annotum-base/functions/tinymce.php:417
 msgid "Edit"
 msgstr ""
 
-#: ../../code/Annotum/annotum-base/functions/tinymce.php:402
+#: ../../code/Annotum/annotum-base/functions/tinymce.php:418
 msgid "Delete"
 msgstr ""
 
-#: ../../code/Annotum/annotum-base/functions/tinymce.php:432
+#: ../../code/Annotum/annotum-base/functions/tinymce.php:424
+msgid "Show"
+msgstr ""
+
+#: ../../code/Annotum/annotum-base/functions/tinymce.php:456
 msgid "CrossRef DOI"
 msgstr ""
 
-#: ../../code/Annotum/annotum-base/functions/tinymce.php:434
-#: ../../code/Annotum/annotum-base/functions/tinymce.php:441
+#: ../../code/Annotum/annotum-base/functions/tinymce.php:459
+#: ../../code/Annotum/annotum-base/functions/tinymce.php:468
 msgid "Import"
 msgstr ""
 
-#: ../../code/Annotum/annotum-base/functions/tinymce.php:439
+#: ../../code/Annotum/annotum-base/functions/tinymce.php:465
 msgid "PubMed ID (PMID)"
 msgstr ""
 
-#: ../../code/Annotum/annotum-base/functions/tinymce.php:446
-msgid "Figures"
-msgstr ""
-
-#: ../../code/Annotum/annotum-base/functions/tinymce.php:448
-msgid "Select Figure"
-msgstr ""
-
-#: ../../code/Annotum/annotum-base/functions/tinymce.php:455
-#: ../../code/Annotum/annotum-base/functions/tinymce.php:565
+#: ../../code/Annotum/annotum-base/functions/tinymce.php:474
+#: ../../code/Annotum/annotum-base/functions/tinymce.php:584
 msgid "Text"
 msgstr ""
 
-#: ../../code/Annotum/annotum-base/functions/tinymce.php:542
+#: ../../code/Annotum/annotum-base/functions/tinymce.php:561
 msgid "New Reference"
 msgstr ""
 
-#: ../../code/Annotum/annotum-base/functions/tinymce.php:549
+#: ../../code/Annotum/annotum-base/functions/tinymce.php:569
 msgid "Insert Reference(s)"
 msgstr ""
 
-#: ../../code/Annotum/annotum-base/functions/tinymce.php:569
+#: ../../code/Annotum/annotum-base/functions/tinymce.php:588
 msgid "Attribution"
 msgstr ""
 
-#: ../../code/Annotum/annotum-base/functions/tinymce.php:573
+#: ../../code/Annotum/annotum-base/functions/tinymce.php:592
 msgid "Permissions"
 msgstr ""
 
-#: ../../code/Annotum/annotum-base/functions/tinymce.php:575
+#: ../../code/Annotum/annotum-base/functions/tinymce.php:594
 msgid "Copyright Statement"
 msgstr ""
 
-#: ../../code/Annotum/annotum-base/functions/tinymce.php:579
+#: ../../code/Annotum/annotum-base/functions/tinymce.php:598
 msgid "Copyright Holder"
 msgstr ""
 
-#: ../../code/Annotum/annotum-base/functions/tinymce.php:583
+#: ../../code/Annotum/annotum-base/functions/tinymce.php:602
 msgid "License"
 msgstr ""
 
 #: ../../code/Annotum/annotum-base/functions/tinymce.php:631
+msgid "Description"
+msgstr ""
+
+#: ../../code/Annotum/annotum-base/functions/tinymce.php:636
+msgid "Display"
+msgstr ""
+
+#: ../../code/Annotum/annotum-base/functions/tinymce.php:639
+msgid "Display as Figure"
+msgstr ""
+
+#: ../../code/Annotum/annotum-base/functions/tinymce.php:643
+msgid "Display Inline"
+msgstr ""
+
+#: ../../code/Annotum/annotum-base/functions/tinymce.php:678
 msgid "Use Ctrl+Enter"
 msgstr ""
 
-#: ../../code/Annotum/annotum-base/functions/tinymce.php:632
+#: ../../code/Annotum/annotum-base/functions/tinymce.php:679
 msgid "To insert new sections (when within a section) or add new paragraphs when inside elements like a table, or figure caption."
 msgstr ""
 
-#: ../../code/Annotum/annotum-base/functions/tinymce.php:692
+#: ../../code/Annotum/annotum-base/functions/tinymce.php:741
 msgid "Could not evaluate Article ID please try again."
 msgstr ""
 
-#: ../../code/Annotum/annotum-base/functions/tinymce.php:696
+#: ../../code/Annotum/annotum-base/functions/tinymce.php:745
 msgid "Text cannot be blank."
 msgstr ""
 
-#: ../../code/Annotum/annotum-base/functions/tinymce.php:700
+#: ../../code/Annotum/annotum-base/functions/tinymce.php:749
 msgid "Could not evaluate Reference ID please try again."
 msgstr ""
 
-#: ../../code/Annotum/annotum-base/functions/tinymce.php:708
+#: ../../code/Annotum/annotum-base/functions/tinymce.php:757
 msgid "Could not save reference, please try again."
 msgstr ""
 
-#: ../../code/Annotum/annotum-base/functions/tinymce.php:718
+#: ../../code/Annotum/annotum-base/functions/tinymce.php:767
 msgid "Reference Saved."
 msgstr ""
 
-#: ../../code/Annotum/annotum-base/functions/tinymce.php:1339
+#: ../../code/Annotum/annotum-base/functions/tinymce.php:1417
 #, php-format
 msgid "Fig. %d"
 msgstr ""
 
-#: ../../code/Annotum/annotum-base/functions/tinymce.php:1723
+#: ../../code/Annotum/annotum-base/functions/tinymce.php:1829
 #, php-format
 msgid "%1$s, %2$s."
 msgstr ""
 
-#: ../../code/Annotum/annotum-base/functions/tinymce.php:1730
+#: ../../code/Annotum/annotum-base/functions/tinymce.php:1836
 #, php-format
 msgid "%1$s."
 msgstr ""
 
-#: ../../code/Annotum/annotum-base/functions/tinymce.php:1736
+#: ../../code/Annotum/annotum-base/functions/tinymce.php:1842
 #, php-format
 msgid "Copyright, %1$s."
 msgstr ""
 
-#: ../../code/Annotum/annotum-base/functions/widgets.php:10
+#: ../../code/Annotum/annotum-base/functions/widgets.php:15
 msgid "A sidebar advertisement"
 msgstr ""
 
-#: ../../code/Annotum/annotum-base/functions/widgets.php:12
+#: ../../code/Annotum/annotum-base/functions/widgets.php:17
 msgid "Advertisement"
 msgstr ""
 
-#: ../../code/Annotum/annotum-base/functions/tinymce-upload/image-popup.php:134
-msgid "Description"
-msgstr ""
-
-#: ../../code/Annotum/annotum-base/functions/tinymce-upload/image-popup.php:139
-msgid "Display"
-msgstr ""
-
-#: ../../code/Annotum/annotum-base/functions/tinymce-upload/image-popup.php:142
-msgid "Display as Figure"
-msgstr ""
-
-#: ../../code/Annotum/annotum-base/functions/tinymce-upload/image-popup.php:146
-msgid "Display Inline"
-msgstr ""
-
-#: ../../code/Annotum/annotum-base/functions/tinymce-upload/image-popup.php:175
+#: ../../code/Annotum/annotum-base/functions/tinymce-upload/image-popup.php:204
 msgid "Size"
 msgstr ""
 
-#: ../../code/Annotum/annotum-base/functions/tinymce-upload/image-popup.php:178
+#: ../../code/Annotum/annotum-base/functions/tinymce-upload/image-popup.php:207
 msgid "Thumbnail"
 msgstr ""
 
-#: ../../code/Annotum/annotum-base/functions/tinymce-upload/image-popup.php:179
+#: ../../code/Annotum/annotum-base/functions/tinymce-upload/image-popup.php:208
 msgid "Medium"
 msgstr ""
 
-#: ../../code/Annotum/annotum-base/functions/tinymce-upload/image-popup.php:180
+#: ../../code/Annotum/annotum-base/functions/tinymce-upload/image-popup.php:209
 msgid "Large"
 msgstr ""
 
-#: ../../code/Annotum/annotum-base/functions/tinymce-upload/image-popup.php:181
+#: ../../code/Annotum/annotum-base/functions/tinymce-upload/image-popup.php:242
 msgid "Full"
 msgstr ""
 
-#: ../../code/Annotum/annotum-base/functions/tinymce-upload/image-popup.php:226
+#: ../../code/Annotum/annotum-base/functions/tinymce-upload/image-popup.php:275
 msgid "Show "
+msgstr ""
+
+#: ../../code/Annotum/annotum-base/functions/tinymce-upload/tinymce-uploader.php:25
+msgid "You do not have proper permissions to upload a new image"
+msgstr ""
+
+#: ../../code/Annotum/annotum-base/functions/tinymce-upload/tinymce-uploader.php:76
+#, php-format
+msgid "Sorry, you have filled your storage quota (%s MB)."
+msgstr ""
+
+#: ../../code/Annotum/annotum-base/functions/tinymce-upload/tinymce-uploader.php:118
+msgid "Select Files"
+msgstr ""
+
+#: ../../code/Annotum/annotum-base/functions/tinymce-upload/tinymce-uploader.php:158
+msgid "Choose files to upload"
+msgstr ""
+
+#: ../../code/Annotum/annotum-base/functions/tinymce-upload/tinymce-uploader.php:160
+msgid "Cancel Upload"
+msgstr ""
+
+#: ../../code/Annotum/annotum-base/functions/tinymce-upload/tinymce-uploader.php:169
+#: ../../code/Annotum/annotum-base/functions/tinymce-upload/tinymce-uploader.php:171
+msgid "Upload"
+msgstr ""
+
+#: ../../code/Annotum/annotum-base/functions/tinymce-upload/tinymce-uploader.php:175
+msgid "If you want to use all capabilities of the uploader, like uploading multiple files at once, please update to lighttpd 1.5."
+msgstr ""
+
+#: ../../code/Annotum/annotum-base/functions/tinymce-upload/tinymce-uploader.php:288
+msgid "You do not have permission to upload files."
+msgstr ""
+
+#: ../../code/Annotum/annotum-base/functions/tinymce-upload/tinymce-uploader.php:294
+msgid "Unknown post type."
+msgstr ""
+
+#: ../../code/Annotum/annotum-base/functions/tinymce-upload/tinymce-uploader.php:297
+msgid "You are not allowed to edit this item."
+msgstr ""
+
+#: ../../code/Annotum/annotum-base/functions/tinymce-upload/tinymce-uploader.php:309
+msgid "Dismiss"
+msgstr ""
+
+#: ../../code/Annotum/annotum-base/functions/tinymce-upload/tinymce-uploader.php:310
+#, php-format
+msgid "&#8220;%s&#8221; has failed to upload due to an error"
 msgstr ""
 
 #: ../../code/Annotum/annotum-base/misc/nav-posts.php:14
@@ -1015,47 +1045,83 @@ msgstr ""
 msgid "Sorry, we couldn't find any results that matched your request."
 msgstr ""
 
-#: ../../code/Annotum/annotum-base/misc/tools-bar.php:7
+#: ../../code/Annotum/annotum-base/misc/tools-bar.php:18
 msgid "PDF"
 msgstr ""
 
-#: ../../code/Annotum/annotum-base/misc/tools-bar.php:16
+#: ../../code/Annotum/annotum-base/misc/tools-bar.php:27
 msgid "XML"
 msgstr ""
 
-#: ../../code/Annotum/annotum-base/misc/tools-bar.php:23
+#: ../../code/Annotum/annotum-base/misc/tools-bar.php:34
 msgid "Print Article"
 msgstr ""
 
-#: ../../code/Annotum/annotum-base/misc/tools-bar.php:26
+#: ../../code/Annotum/annotum-base/misc/tools-bar.php:37
 msgid "Citation"
 msgstr ""
 
-#: ../../code/Annotum/annotum-base/plugins/anno-article-lookup.php:20
-#: ../../code/Annotum/annotum-base/plugins/anno-article-lookup.php:140
-#: ../../code/Annotum/annotum-base/plugins/anno-article-lookup.php:289
+#: ../../code/Annotum/annotum-base/plugins/anno-article-lookup.php:30
+#: ../../code/Annotum/annotum-base/plugins/anno-article-lookup.php:150
+#: ../../code/Annotum/annotum-base/plugins/anno-article-lookup.php:299
 msgid "An error has occurred, please try again later"
 msgstr ""
 
-#: ../../code/Annotum/annotum-base/plugins/anno-article-lookup.php:26
+#: ../../code/Annotum/annotum-base/plugins/anno-article-lookup.php:36
 msgid "Invalid PMID"
 msgstr ""
 
-#: ../../code/Annotum/annotum-base/plugins/anno-article-lookup.php:108
+#: ../../code/Annotum/annotum-base/plugins/anno-article-lookup.php:118
 msgid "PubMed PMID:"
 msgstr ""
 
-#: ../../code/Annotum/annotum-base/plugins/anno-article-lookup.php:146
-#: ../../code/Annotum/annotum-base/plugins/anno-article-lookup.php:188
+#: ../../code/Annotum/annotum-base/plugins/anno-article-lookup.php:156
+#: ../../code/Annotum/annotum-base/plugins/anno-article-lookup.php:198
 msgid "Invalid DOI"
 msgstr ""
 
-#: ../../code/Annotum/annotum-base/plugins/anno-article-lookup.php:155
+#: ../../code/Annotum/annotum-base/plugins/anno-article-lookup.php:165
 msgid "Invalid CrossRef Login"
 msgstr ""
 
-#: ../../code/Annotum/annotum-base/plugins/anno-article-lookup.php:263
+#: ../../code/Annotum/annotum-base/plugins/anno-article-lookup.php:273
 msgid "DOI:"
+msgstr ""
+
+#: ../../code/Annotum/annotum-base/plugins/anno-article-lookup.php:356
+msgid "You do not have the correct permissions to perform this action"
+msgstr ""
+
+#: ../../code/Annotum/annotum-base/plugins/anno-article-lookup.php:364
+msgid "Article must be published in order to deposit."
+msgstr ""
+
+#: ../../code/Annotum/annotum-base/plugins/anno-article-lookup.php:381
+msgid "Invalid or Empty CrossRef Credentials"
+msgstr ""
+
+#: ../../code/Annotum/annotum-base/plugins/anno-article-lookup.php:386
+msgid "Invalid or Empty Journal Data"
+msgstr ""
+
+#: ../../code/Annotum/annotum-base/plugins/anno-article-lookup.php:391
+msgid "Article must be published to submit a DOI request"
+msgstr ""
+
+#: ../../code/Annotum/annotum-base/plugins/anno-article-lookup.php:398
+msgid "Invalid or Empty Article Data"
+msgstr ""
+
+#: ../../code/Annotum/annotum-base/plugins/anno-article-lookup.php:573
+msgid "Could not create file to be deposited, please check your system setup"
+msgstr ""
+
+#: ../../code/Annotum/annotum-base/plugins/anno-article-lookup.php:651
+msgid "New DOI Generated"
+msgstr ""
+
+#: ../../code/Annotum/annotum-base/plugins/anno-article-lookup.php:662
+msgid "Regenerate DOI"
 msgstr ""
 
 #: ../../code/Annotum/annotum-base/plugins/anno-colors/anno-colors.php:148
@@ -1092,431 +1158,419 @@ msgstr ""
 msgid "Save Settings"
 msgstr ""
 
-#: ../../code/Annotum/annotum-base/plugins/anno-pdf-download/anno-pdf-download.php:345
+#: ../../code/Annotum/annotum-base/plugins/anno-pdf-download/anno-pdf-download.php:336
 msgid "There was an issue creating the PDF for your article, please try again later"
 msgstr ""
 
-#: ../../code/Annotum/annotum-base/plugins/annotum-importers/dtd-importer.php:6
+#: ../../code/Annotum/annotum-base/plugins/annotum-importers/dtd-importer.php:19
 msgid "XML Import"
 msgstr ""
 
-#: ../../code/Annotum/annotum-base/plugins/annotum-importers/dtd-importer.php:38
-#: ../../code/Annotum/annotum-base/plugins/annotum-importers/dtd-importer.php:47
+#: ../../code/Annotum/annotum-base/plugins/annotum-importers/dtd-importer.php:51
+#: ../../code/Annotum/annotum-base/plugins/annotum-importers/dtd-importer.php:60
 msgid "Sorry, there has been an error."
 msgstr ""
 
-#: ../../code/Annotum/annotum-base/plugins/annotum-importers/dtd-importer.php:39
+#: ../../code/Annotum/annotum-base/plugins/annotum-importers/dtd-importer.php:52
 msgid "The file does not exist, please try again."
 msgstr ""
 
-#: ../../code/Annotum/annotum-base/plugins/annotum-importers/dtd-importer.php:124
+#: ../../code/Annotum/annotum-base/plugins/annotum-importers/dtd-importer.php:137
 msgid "Kipling DTD XML Import"
 msgstr ""
 
-#: ../../code/Annotum/annotum-base/plugins/annotum-importers/dtd-importer.php:138
+#: ../../code/Annotum/annotum-base/plugins/annotum-importers/dtd-importer.php:151
 msgid "Howdy! Upload your Kipling DTD XML file and we&#8217;ll import the articles, keywords, subjects, and users into this site."
 msgstr ""
 
-#: ../../code/Annotum/annotum-base/plugins/annotum-importers/dtd-importer.php:139
+#: ../../code/Annotum/annotum-base/plugins/annotum-importers/dtd-importer.php:152
 msgid "Choose a Kipling DTD XML (.xml) file to upload, then click Upload file and import."
 msgstr ""
 
-#: ../../code/Annotum/annotum-base/plugins/annotum-importers/dtd-importer.php:152
+#: ../../code/Annotum/annotum-base/plugins/annotum-importers/dtd-importer.php:165
 msgid "Import <strong>articles, keywords, subjects and users</strong> from a Kipling DTD XML file."
 msgstr ""
 
-#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:132
-#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:349
+#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:144
+#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:363
 #, php-format
 msgid "ANNO_IMPORT_DEBUG: You are using %s to parse data."
 msgstr ""
 
-#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:245
+#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:257
 #, php-format
-msgid "%s &#8220;%s&#8221; processed. "
+msgid "%s &#8220;<strong>%s</strong>&#8221; imported. "
 msgstr ""
 
-#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:258
+#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:270
 #, php-format
 msgid "[ %sEdit%s | %sPreview%s ]"
 msgstr ""
 
-#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:267
+#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:279
 msgid "All done."
 msgstr ""
 
-#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:267
+#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:279
 msgid "Have fun!"
 msgstr ""
 
-#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:268
+#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:280
 msgid "Remember to update the passwords and roles of imported users."
 msgstr ""
 
-#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:299
+#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:311
 #, php-format
 msgid "This WXR file (version %s) may not be supported by this version of the importer. Please consider updating."
 msgstr ""
 
-#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:324
+#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:337
 #, php-format
 msgid "Failed to import author %s. Their posts will be attributed to the current user."
 msgstr ""
 
-#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:358
+#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:372
 msgid "Assign Authors"
 msgstr ""
 
-#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:359
+#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:373
 msgid "To make it easier for you to edit and save the imported content, you may want to reassign the author of the imported item to an existing user of this site. For example, you may want to import all the entries as <code>admin</code>s entries."
 msgstr ""
 
-#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:361
+#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:375
 msgid "If a new user is created by WordPress, a new password will be randomly generated and the new user&#8217;s role will be set as contributor. Manually changing the new user&#8217;s details will be necessary."
 msgstr ""
 
-#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:380
+#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:394
 msgid "Import Attachments"
 msgstr ""
 
-#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:383
+#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:397
 msgid "Download and import file attachments"
 msgstr ""
 
-#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:427
+#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:441
 msgid "Import "
 msgstr ""
 
-#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:432
+#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:446
 msgid "as the current user."
 msgstr ""
 
-#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:452
-#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:454
+#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:466
+#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:468
 msgid "<p>or assign posts to an existing user: "
 msgstr ""
 
-#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:458
+#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:472
 msgid "- Select -"
 msgstr ""
 
-#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:472
-#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:507
+#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:486
+#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:517
 msgid "</p>"
 msgstr ""
 
-#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:476
+#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:490
 msgid "or if you know an existing user&#8217;s <strong>email address</strong>, you can assign posts to that user: "
 msgstr ""
 
-#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:480
+#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:494
 msgid "or if you know an existing user&#8217;s <strong>username</strong>, you can assign posts to that user: "
 msgstr ""
 
-#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:483
+#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:497
 msgid "<p>"
 msgstr ""
 
-#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:485
+#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:499
 msgid "or you can create new user:"
 msgstr ""
 
-#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:488
+#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:502
 msgid "as a new user:"
 msgstr ""
 
-#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:494
-msgid "Login: "
-msgstr ""
-
-#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:498
+#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:508
 msgid "Email: "
 msgstr ""
 
-#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:548
+#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:558
 msgid "Please enter an Email <strong>OR</strong> a Username to search for."
 msgstr ""
 
-#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:554
+#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:564
 msgid "Please enter a valid email to search for."
 msgstr ""
 
-#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:562
+#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:572
 #, php-format
 msgid "Could not find user with email: %s"
 msgstr ""
 
-#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:574
+#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:584
 msgid "Please enter a valid username to search for."
 msgstr ""
 
-#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:582
+#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:592
 #, php-format
 msgid "Could not find user with username: %s"
 msgstr ""
 
-#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:602
+#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:613
 msgid "Email cannot be empty when creating a new user."
 msgstr ""
 
-#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:611
-msgid "Username cannot be empty when creating a new user."
-msgstr ""
-
-#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:617
+#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:619
 msgid "This email address is already registered."
 msgstr ""
 
-#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:621
-msgid "This username is already registered."
-msgstr ""
-
-#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:626
+#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:624
 msgid "Please enter a valid email when creating a new user."
 msgstr ""
 
-#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:630
-msgid "Please enter a valid username when creating a new user."
-msgstr ""
-
-#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:701
+#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:695
 #, php-format
 msgid "Failed to import category %s"
 msgstr ""
 
-#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:739
+#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:733
 #, php-format
 msgid "Failed to import post tag %s"
 msgstr ""
 
-#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:783
-#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:915
+#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:777
+#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:927
 #, php-format
 msgid "Failed to import %s %s"
 msgstr ""
 
-#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:805
+#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:813
 #, php-format
 msgid "Failed to import &#8220;%s&#8221;: Invalid post type %s"
 msgstr ""
 
-#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:826
+#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:839
 #, php-format
 msgid "%s &#8220;%s&#8221; already exists."
 msgstr ""
 
-#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:887
+#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:900
 #, php-format
 msgid "Failed to import %s &#8220;%s&#8221;"
 msgstr ""
 
-#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:1055
+#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:1114
 msgid "Menu item skipped due to missing menu slug"
 msgstr ""
 
-#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:1062
+#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:1121
 #, php-format
 msgid "Menu item skipped due to invalid menu slug: %s"
 msgstr ""
 
-#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:1125
+#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:1184
 msgid "Fetching attachments is not enabled"
 msgstr ""
 
-#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:1135
+#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:1194
 msgid "Invalid file type"
 msgstr ""
 
-#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:1176
+#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:1235
 msgid "Remote server did not respond"
 msgstr ""
 
-#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:1182
+#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:1241
 #, php-format
 msgid "Remote server returned error response %1$d %2$s"
 msgstr ""
 
-#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:1189
+#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:1248
 msgid "Remote file is incorrect size"
 msgstr ""
 
-#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:1194
+#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:1253
 msgid "Zero size file downloaded"
 msgstr ""
 
-#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:1200
+#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:1259
 #, php-format
 msgid "Remote file is too large, limit is %s"
 msgstr ""
 
-#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:1299
+#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:1358
 msgid "Google Knol WXR Import"
 msgstr ""
 
-#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:1306
+#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:1365
 #, php-format
 msgid "A new version of this importer is available. Please update to version %s to ensure compatibility with newer export files."
 msgstr ""
 
-#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:1321
+#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:1380
 msgid "Howdy! Upload your Google Knol eXtended RSS (WXR) file and we&#8217;ll import the posts, pages, comments, custom fields, categories, and tags into this site."
 msgstr ""
 
-#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:1322
+#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:1381
 msgid "Choose a Google Knol WXR (.xml) file to upload, then click Upload file and import."
 msgstr ""
 
-#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:1332
+#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:1391
 msgid "Before you can upload your import file, you will need to fix the following error:"
 msgstr ""
 
-#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:1339
+#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:1398
 msgid "ANNO_IMPORT_DEBUG: Select a parser:"
 msgstr ""
 
-#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:1348
+#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:1407
 msgid "Choose a file from your computer:"
 msgstr ""
 
-#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:1348
+#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:1407
 #, php-format
 msgid "Maximum size: %s"
 msgstr ""
 
-#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:1353
+#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:1412
 msgid "Upload file and import"
 msgstr ""
 
-#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:1427
+#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:1524
 msgid "Import <strong>articles, comments, custom fields, categories, and tags</strong> from a Google Knol WXR export file."
 msgstr ""
 
-#: ../../code/Annotum/annotum-base/plugins/annotum-importers/parsers.php:34
+#: ../../code/Annotum/annotum-base/plugins/annotum-importers/parsers.php:42
 #, php-format
 msgid "ANNO_IMPORT_DEBUG: Could not find parser %s."
 msgstr ""
 
-#: ../../code/Annotum/annotum-base/plugins/annotum-importers/parsers.php:67
-#: ../../code/Annotum/annotum-base/plugins/annotum-importers/parsers.php:89
-#: ../../code/Annotum/annotum-base/plugins/annotum-importers/parsers.php:385
+#: ../../code/Annotum/annotum-base/plugins/annotum-importers/parsers.php:77
+#: ../../code/Annotum/annotum-base/plugins/annotum-importers/parsers.php:101
+#: ../../code/Annotum/annotum-base/plugins/annotum-importers/parsers.php:399
 msgid "There was an error when reading this WXR file"
 msgstr ""
 
-#: ../../code/Annotum/annotum-base/plugins/annotum-importers/parsers.php:68
+#: ../../code/Annotum/annotum-base/plugins/annotum-importers/parsers.php:78
 msgid "Details are shown above. The importer will now try again with a different parser..."
 msgstr ""
 
-#: ../../code/Annotum/annotum-base/plugins/annotum-importers/parsers.php:93
-#: ../../code/Annotum/annotum-base/plugins/annotum-importers/parsers.php:98
-#: ../../code/Annotum/annotum-base/plugins/annotum-importers/parsers.php:390
-#: ../../code/Annotum/annotum-base/plugins/annotum-importers/parsers.php:686
+#: ../../code/Annotum/annotum-base/plugins/annotum-importers/parsers.php:105
+#: ../../code/Annotum/annotum-base/plugins/annotum-importers/parsers.php:110
+#: ../../code/Annotum/annotum-base/plugins/annotum-importers/parsers.php:404
+#: ../../code/Annotum/annotum-base/plugins/annotum-importers/parsers.php:751
 msgid "This does not appear to be a WXR file, missing/invalid WXR version number"
 msgstr ""
 
-#: ../../code/Annotum/annotum-base/plugins/annotum-importers/parsers.php:306
+#: ../../code/Annotum/annotum-base/plugins/annotum-importers/parsers.php:318
 #, php-format
 msgid "There was an error processing %s's content for attachments."
 msgstr ""
 
-#: ../../code/Annotum/annotum-base/plugins/annotum-importers/parsers.php:604
+#: ../../code/Annotum/annotum-base/plugins/annotum-importers/parsers.php:657
 #, php-format
 msgid "XML Parser: There was an error processing the content for attachments. Line %s. Column %s. Code %s."
 msgstr ""
 
-#: ../../code/Annotum/annotum-base/plugins/annotum-importers/parsers.php:968
+#: ../../code/Annotum/annotum-base/plugins/annotum-importers/parsers.php:1033
 msgid "There was an error when reading this Kipling DTD file"
 msgstr ""
 
-#: ../../code/Annotum/annotum-base/plugins/annotum-importers/parsers.php:981
+#: ../../code/Annotum/annotum-base/plugins/annotum-importers/parsers.php:1046
 msgid "This does not appear to be a Kipling DTD file, no articles could be found"
 msgstr ""
 
-#: ../../code/Annotum/annotum-base/plugins/cf-archive-title/cf-archive-title.php:9
+#: ../../code/Annotum/annotum-base/plugins/cf-archive-title/cf-archive-title.php:19
 #, php-format
 msgid "Latest / <b>page %s</b>"
 msgstr ""
 
-#: ../../code/Annotum/annotum-base/plugins/cf-archive-title/cf-archive-title.php:10
+#: ../../code/Annotum/annotum-base/plugins/cf-archive-title/cf-archive-title.php:20
 #, php-format
 msgid "Search results for <b>%s</b>"
 msgstr ""
 
-#: ../../code/Annotum/annotum-base/plugins/cf-archive-title/cf-archive-title.php:11
+#: ../../code/Annotum/annotum-base/plugins/cf-archive-title/cf-archive-title.php:21
 #, php-format
 msgid "Tag archives for <b>%s</b>"
 msgstr ""
 
-#: ../../code/Annotum/annotum-base/plugins/cf-archive-title/cf-archive-title.php:12
+#: ../../code/Annotum/annotum-base/plugins/cf-archive-title/cf-archive-title.php:22
 #, php-format
 msgid "Category archives for <b>%s</b>"
 msgstr ""
 
-#: ../../code/Annotum/annotum-base/plugins/cf-archive-title/cf-archive-title.php:13
+#: ../../code/Annotum/annotum-base/plugins/cf-archive-title/cf-archive-title.php:23
 #, php-format
 msgid "Author archives for <b>%s</b>"
 msgstr ""
 
-#: ../../code/Annotum/annotum-base/plugins/cf-archive-title/cf-archive-title.php:14
+#: ../../code/Annotum/annotum-base/plugins/cf-archive-title/cf-archive-title.php:24
 #, php-format
 msgid "Archives for <b>%s</b>"
 msgstr ""
 
-#: ../../code/Annotum/annotum-base/plugins/workflow/audit.php:54
+#: ../../code/Annotum/annotum-base/plugins/workflow/audit.php:64
 msgid "Created a revision"
 msgstr ""
 
-#: ../../code/Annotum/annotum-base/plugins/workflow/audit.php:55
+#: ../../code/Annotum/annotum-base/plugins/workflow/audit.php:65
 #, php-format
 msgid "Transitioned post state from %s to %s"
 msgstr ""
 
-#: ../../code/Annotum/annotum-base/plugins/workflow/audit.php:56
+#: ../../code/Annotum/annotum-base/plugins/workflow/audit.php:66
 msgid "Added a reviewer comment"
 msgstr ""
 
-#: ../../code/Annotum/annotum-base/plugins/workflow/audit.php:57
+#: ../../code/Annotum/annotum-base/plugins/workflow/audit.php:67
 #, php-format
 msgid "Added a review of %s"
 msgstr ""
 
-#: ../../code/Annotum/annotum-base/plugins/workflow/audit.php:58
+#: ../../code/Annotum/annotum-base/plugins/workflow/audit.php:68
 msgid "Added an internal comment"
 msgstr ""
 
-#: ../../code/Annotum/annotum-base/plugins/workflow/audit.php:59
+#: ../../code/Annotum/annotum-base/plugins/workflow/audit.php:69
 #, php-format
 msgid "Added %s as a co-author"
 msgstr ""
 
-#: ../../code/Annotum/annotum-base/plugins/workflow/audit.php:60
+#: ../../code/Annotum/annotum-base/plugins/workflow/audit.php:70
 #, php-format
 msgid "Removed %s as a co-author"
 msgstr ""
 
-#: ../../code/Annotum/annotum-base/plugins/workflow/audit.php:61
+#: ../../code/Annotum/annotum-base/plugins/workflow/audit.php:71
 #, php-format
 msgid "Added %s as a reviewer"
 msgstr ""
 
-#: ../../code/Annotum/annotum-base/plugins/workflow/audit.php:62
+#: ../../code/Annotum/annotum-base/plugins/workflow/audit.php:72
 #, php-format
 msgid "Removed %s as a reviewer"
 msgstr ""
 
-#: ../../code/Annotum/annotum-base/plugins/workflow/audit.php:131
+#: ../../code/Annotum/annotum-base/plugins/workflow/audit.php:129
+msgid "<strong>Deleted User</strong>"
+msgstr ""
+
+#: ../../code/Annotum/annotum-base/plugins/workflow/audit.php:147
 msgid "j F, Y @ H:i"
 msgstr ""
 
-#: ../../code/Annotum/annotum-base/plugins/workflow/notification.php:103
+#: ../../code/Annotum/annotum-base/plugins/workflow/notification.php:127
 msgid "To review this article, please visit the URL above and navigate to the Reviews section. You may leave comments and questions in this section as well as providing a general review of 'Approve', 'Reject' or 'Request Revisions' from the dropdown."
 msgstr ""
 
-#: ../../code/Annotum/annotum-base/plugins/workflow/notification.php:110
+#: ../../code/Annotum/annotum-base/plugins/workflow/notification.php:134
 #, php-format
 msgid "New Submission: %s by %s."
 msgstr ""
 
-#: ../../code/Annotum/annotum-base/plugins/workflow/notification.php:112
+#: ../../code/Annotum/annotum-base/plugins/workflow/notification.php:136
 #, php-format
 msgid ""
 "The following article has been submitted for review:\n"
@@ -1529,13 +1583,13 @@ msgid ""
 "%s"
 msgstr ""
 
-#: ../../code/Annotum/annotum-base/plugins/workflow/notification.php:125
-#: ../../code/Annotum/annotum-base/plugins/workflow/notification.php:137
+#: ../../code/Annotum/annotum-base/plugins/workflow/notification.php:149
+#: ../../code/Annotum/annotum-base/plugins/workflow/notification.php:161
 #, php-format
 msgid "%s now in review."
 msgstr ""
 
-#: ../../code/Annotum/annotum-base/plugins/workflow/notification.php:127
+#: ../../code/Annotum/annotum-base/plugins/workflow/notification.php:151
 #, php-format
 msgid ""
 "Review has begun for: %s\n"
@@ -1545,7 +1599,7 @@ msgid ""
 "%s"
 msgstr ""
 
-#: ../../code/Annotum/annotum-base/plugins/workflow/notification.php:139
+#: ../../code/Annotum/annotum-base/plugins/workflow/notification.php:163
 #, php-format
 msgid ""
 "Revisions have been made for %s and we ask you to please re-review the article.\n"
@@ -1555,12 +1609,12 @@ msgid ""
 "%s"
 msgstr ""
 
-#: ../../code/Annotum/annotum-base/plugins/workflow/notification.php:149
+#: ../../code/Annotum/annotum-base/plugins/workflow/notification.php:173
 #, php-format
 msgid "%s review is complete. APPROVED."
 msgstr ""
 
-#: ../../code/Annotum/annotum-base/plugins/workflow/notification.php:151
+#: ../../code/Annotum/annotum-base/plugins/workflow/notification.php:175
 #, php-format
 msgid ""
 "Thank you for your contribution to %s. We are pleased to inform you that the article, %s, has been approved!\n"
@@ -1572,28 +1626,29 @@ msgid ""
 "%s"
 msgstr ""
 
-#: ../../code/Annotum/annotum-base/plugins/workflow/notification.php:163
+#: ../../code/Annotum/annotum-base/plugins/workflow/notification.php:187
 #, php-format
 msgid "%s review is complete."
 msgstr ""
 
-#: ../../code/Annotum/annotum-base/plugins/workflow/notification.php:165
+#: ../../code/Annotum/annotum-base/plugins/workflow/notification.php:189
 #, php-format
 msgid ""
 "Thank you for contributing to %s.  After our review process, we have decided not to accept the article at this time.  \n"
 "--------------------\n"
 "Title: %s\n"
+"\n"
 "%s\n"
 "\n"
 "%s"
 msgstr ""
 
-#: ../../code/Annotum/annotum-base/plugins/workflow/notification.php:176
+#: ../../code/Annotum/annotum-base/plugins/workflow/notification.php:201
 #, php-format
 msgid "%s review is complete. CHANGES REQUESTED."
 msgstr ""
 
-#: ../../code/Annotum/annotum-base/plugins/workflow/notification.php:178
+#: ../../code/Annotum/annotum-base/plugins/workflow/notification.php:203
 #, php-format
 msgid ""
 "Thank you for contributing to %s.  After reviewing your article, we would like to request some changes.  Please open the article here:\n"
@@ -1607,12 +1662,12 @@ msgid ""
 "%s"
 msgstr ""
 
-#: ../../code/Annotum/annotum-base/plugins/workflow/notification.php:192
+#: ../../code/Annotum/annotum-base/plugins/workflow/notification.php:217
 #, php-format
 msgid "%s has been published."
 msgstr ""
 
-#: ../../code/Annotum/annotum-base/plugins/workflow/notification.php:194
+#: ../../code/Annotum/annotum-base/plugins/workflow/notification.php:219
 #, php-format
 msgid ""
 "The following article has been published: %s\n"
@@ -1622,15 +1677,15 @@ msgid ""
 "%s"
 msgstr ""
 
-#: ../../code/Annotum/annotum-base/plugins/workflow/notification.php:203
+#: ../../code/Annotum/annotum-base/plugins/workflow/notification.php:228
 #, php-format
 msgid "%s has been invited to review %s by %s"
 msgstr ""
 
-#: ../../code/Annotum/annotum-base/plugins/workflow/notification.php:205
+#: ../../code/Annotum/annotum-base/plugins/workflow/notification.php:230
 #, php-format
 msgid ""
-"%s has been invted to review the following article:\n"
+"%s has been invited to review the following article:\n"
 "--------------------\n"
 "Title: %s\n"
 "Author(s): %s\n"
@@ -1641,12 +1696,12 @@ msgid ""
 "%s"
 msgstr ""
 
-#: ../../code/Annotum/annotum-base/plugins/workflow/notification.php:218
+#: ../../code/Annotum/annotum-base/plugins/workflow/notification.php:243
 #, php-format
 msgid "%s has been invited to co-author %s by %s"
 msgstr ""
 
-#: ../../code/Annotum/annotum-base/plugins/workflow/notification.php:220
+#: ../../code/Annotum/annotum-base/plugins/workflow/notification.php:245
 #, php-format
 msgid ""
 "%s has been invited to co-author %s by %s.\n"
@@ -1655,12 +1710,12 @@ msgid ""
 "%s"
 msgstr ""
 
-#: ../../code/Annotum/annotum-base/plugins/workflow/notification.php:228
+#: ../../code/Annotum/annotum-base/plugins/workflow/notification.php:253
 #, php-format
 msgid "%s is now the primary author on %s"
 msgstr ""
 
-#: ../../code/Annotum/annotum-base/plugins/workflow/notification.php:230
+#: ../../code/Annotum/annotum-base/plugins/workflow/notification.php:255
 #, php-format
 msgid ""
 "%s is now the primary author on %s.\n"
@@ -1669,13 +1724,42 @@ msgid ""
 "%s"
 msgstr ""
 
-#: ../../code/Annotum/annotum-base/plugins/workflow/notification.php:245
+#: ../../code/Annotum/annotum-base/plugins/workflow/notification.php:268
+#, php-format
+msgid "%s has reviewed %s and has accepted the article for publication."
+msgstr ""
+
+#: ../../code/Annotum/annotum-base/plugins/workflow/notification.php:271
+#, php-format
+msgid "%s has reviewed %s and has rejected the article for publication."
+msgstr ""
+
+#: ../../code/Annotum/annotum-base/plugins/workflow/notification.php:274
+#, php-format
+msgid "%s has reviewed %s and has requested revisions be made to the article prior to publication."
+msgstr ""
+
+#: ../../code/Annotum/annotum-base/plugins/workflow/notification.php:282
+#, php-format
+msgid "%s has reviewed %s"
+msgstr ""
+
+#: ../../code/Annotum/annotum-base/plugins/workflow/notification.php:284
+#, php-format
+msgid ""
+"%s\n"
+"%s\n"
+"\n"
+"%s"
+msgstr ""
+
+#: ../../code/Annotum/annotum-base/plugins/workflow/notification.php:299
 #, php-format
 msgid "New internal comment on %s"
 msgstr ""
 
-#: ../../code/Annotum/annotum-base/plugins/workflow/notification.php:247
-#: ../../code/Annotum/annotum-base/plugins/workflow/notification.php:260
+#: ../../code/Annotum/annotum-base/plugins/workflow/notification.php:301
+#: ../../code/Annotum/annotum-base/plugins/workflow/notification.php:314
 #, php-format
 msgid ""
 "The following comment was submitted on %s by %s.\n"
@@ -1687,286 +1771,290 @@ msgid ""
 "%s"
 msgstr ""
 
-#: ../../code/Annotum/annotum-base/plugins/workflow/notification.php:258
+#: ../../code/Annotum/annotum-base/plugins/workflow/notification.php:312
 #, php-format
 msgid "New reviewer comment on %s"
 msgstr ""
 
-#: ../../code/Annotum/annotum-base/plugins/workflow/publishing-meta-box.php:60
+#: ../../code/Annotum/annotum-base/plugins/workflow/publishing-meta-box.php:70
 msgid "Move To Trash"
 msgstr ""
 
-#: ../../code/Annotum/annotum-base/plugins/workflow/publishing-meta-box.php:88
+#: ../../code/Annotum/annotum-base/plugins/workflow/publishing-meta-box.php:98
 msgid "Submitted - Waiting For Review"
 msgstr ""
 
-#: ../../code/Annotum/annotum-base/plugins/workflow/publishing-meta-box.php:141
+#: ../../code/Annotum/annotum-base/plugins/workflow/publishing-meta-box.php:151
 #, php-format
 msgid "%s of %s Reviews Complete"
 msgstr ""
 
-#: ../../code/Annotum/annotum-base/plugins/workflow/publishing-meta-box.php:148
+#: ../../code/Annotum/annotum-base/plugins/workflow/publishing-meta-box.php:158
 msgid "Submitted - In Review"
 msgstr ""
 
-#: ../../code/Annotum/annotum-base/plugins/workflow/publishing-meta-box.php:195
+#: ../../code/Annotum/annotum-base/plugins/workflow/publishing-meta-box.php:205
 msgid "Article Approved"
 msgstr ""
 
-#: ../../code/Annotum/annotum-base/plugins/workflow/publishing-meta-box.php:232
+#: ../../code/Annotum/annotum-base/plugins/workflow/publishing-meta-box.php:242
 msgid "Visibility:"
 msgstr ""
 
-#: ../../code/Annotum/annotum-base/plugins/workflow/publishing-meta-box.php:237
-#: ../../code/Annotum/annotum-base/plugins/workflow/publishing-meta-box.php:268
+#: ../../code/Annotum/annotum-base/plugins/workflow/publishing-meta-box.php:247
+#: ../../code/Annotum/annotum-base/plugins/workflow/publishing-meta-box.php:278
 msgid "Private"
 msgstr ""
 
-#: ../../code/Annotum/annotum-base/plugins/workflow/publishing-meta-box.php:241
-#: ../../code/Annotum/annotum-base/plugins/workflow/publishing-meta-box.php:266
+#: ../../code/Annotum/annotum-base/plugins/workflow/publishing-meta-box.php:251
+#: ../../code/Annotum/annotum-base/plugins/workflow/publishing-meta-box.php:276
 msgid "Password protected"
 msgstr ""
 
-#: ../../code/Annotum/annotum-base/plugins/workflow/publishing-meta-box.php:245
+#: ../../code/Annotum/annotum-base/plugins/workflow/publishing-meta-box.php:255
 msgid "Public, Sticky"
 msgstr ""
 
-#: ../../code/Annotum/annotum-base/plugins/workflow/publishing-meta-box.php:249
-#: ../../code/Annotum/annotum-base/plugins/workflow/publishing-meta-box.php:262
+#: ../../code/Annotum/annotum-base/plugins/workflow/publishing-meta-box.php:259
+#: ../../code/Annotum/annotum-base/plugins/workflow/publishing-meta-box.php:272
 msgid "Public"
 msgstr ""
 
-#: ../../code/Annotum/annotum-base/plugins/workflow/publishing-meta-box.php:264
+#: ../../code/Annotum/annotum-base/plugins/workflow/publishing-meta-box.php:274
 msgid "Stick this post to the front page"
 msgstr ""
 
-#: ../../code/Annotum/annotum-base/plugins/workflow/publishing-meta-box.php:267
+#: ../../code/Annotum/annotum-base/plugins/workflow/publishing-meta-box.php:277
 msgid "Password:"
 msgstr ""
 
-#: ../../code/Annotum/annotum-base/plugins/workflow/publishing-meta-box.php:271
+#: ../../code/Annotum/annotum-base/plugins/workflow/publishing-meta-box.php:281
 msgid "OK"
 msgstr ""
 
-#: ../../code/Annotum/annotum-base/plugins/workflow/publishing-meta-box.php:283
+#: ../../code/Annotum/annotum-base/plugins/workflow/publishing-meta-box.php:293
 #, php-format
 msgid "Scheduled for: <b>%1$s</b>"
 msgstr ""
 
-#: ../../code/Annotum/annotum-base/plugins/workflow/publishing-meta-box.php:285
+#: ../../code/Annotum/annotum-base/plugins/workflow/publishing-meta-box.php:295
 #, php-format
 msgid "Published on: <b>%1$s</b>"
 msgstr ""
 
-#: ../../code/Annotum/annotum-base/plugins/workflow/publishing-meta-box.php:287
-#: ../../code/Annotum/annotum-base/plugins/workflow/publishing-meta-box.php:295
+#: ../../code/Annotum/annotum-base/plugins/workflow/publishing-meta-box.php:297
+#: ../../code/Annotum/annotum-base/plugins/workflow/publishing-meta-box.php:305
 msgid "Publish <b>immediately</b>"
 msgstr ""
 
-#: ../../code/Annotum/annotum-base/plugins/workflow/publishing-meta-box.php:289
+#: ../../code/Annotum/annotum-base/plugins/workflow/publishing-meta-box.php:299
 #, php-format
 msgid "Schedule for: <b>%1$s</b>"
 msgstr ""
 
-#: ../../code/Annotum/annotum-base/plugins/workflow/publishing-meta-box.php:291
+#: ../../code/Annotum/annotum-base/plugins/workflow/publishing-meta-box.php:301
 #, php-format
 msgid "Publish on: <b>%1$s</b>"
 msgstr ""
 
-#: ../../code/Annotum/annotum-base/plugins/workflow/publishing-meta-box.php:320
+#: ../../code/Annotum/annotum-base/plugins/workflow/publishing-meta-box.php:330
 msgid "Article Rejected"
 msgstr ""
 
-#: ../../code/Annotum/annotum-base/plugins/workflow/publishing-meta-box.php:350
+#: ../../code/Annotum/annotum-base/plugins/workflow/publishing-meta-box.php:360
 msgid "Article Published"
 msgstr ""
 
-#: ../../code/Annotum/annotum-base/plugins/workflow/publishing-meta-box.php:379
-#: ../../code/Annotum/annotum-base/plugins/workflow/publishing-meta-box.php:405
+#: ../../code/Annotum/annotum-base/plugins/workflow/publishing-meta-box.php:389
+#: ../../code/Annotum/annotum-base/plugins/workflow/publishing-meta-box.php:415
 msgid "Preview Changes"
 msgstr ""
 
-#: ../../code/Annotum/annotum-base/plugins/workflow/publishing-meta-box.php:385
-#: ../../code/Annotum/annotum-base/plugins/workflow/publishing-meta-box.php:412
+#: ../../code/Annotum/annotum-base/plugins/workflow/publishing-meta-box.php:395
+#: ../../code/Annotum/annotum-base/plugins/workflow/publishing-meta-box.php:422
 msgid "Preview"
 msgstr ""
 
-#: ../../code/Annotum/annotum-base/plugins/workflow/workflow-init.php:39
-#: ../../code/Annotum/annotum-base/plugins/workflow/internal-comments/internal-comments.php:6
+#: ../../code/Annotum/annotum-base/plugins/workflow/workflow-init.php:49
+#: ../../code/Annotum/annotum-base/plugins/workflow/internal-comments/internal-comments.php:16
 msgid "Approve"
 msgstr ""
 
-#: ../../code/Annotum/annotum-base/plugins/workflow/workflow-init.php:40
+#: ../../code/Annotum/annotum-base/plugins/workflow/workflow-init.php:50
 msgid "Publish"
 msgstr ""
 
-#: ../../code/Annotum/annotum-base/plugins/workflow/workflow-init.php:41
-#: ../../code/Annotum/annotum-base/plugins/workflow/internal-comments/internal-comments.php:8
+#: ../../code/Annotum/annotum-base/plugins/workflow/workflow-init.php:51
+#: ../../code/Annotum/annotum-base/plugins/workflow/internal-comments/internal-comments.php:18
 msgid "Reject"
 msgstr ""
 
-#: ../../code/Annotum/annotum-base/plugins/workflow/workflow-init.php:42
+#: ../../code/Annotum/annotum-base/plugins/workflow/workflow-init.php:52
 msgid "Submit For Review"
 msgstr ""
 
-#: ../../code/Annotum/annotum-base/plugins/workflow/workflow-init.php:43
+#: ../../code/Annotum/annotum-base/plugins/workflow/workflow-init.php:53
 msgid "Request Revisions"
 msgstr ""
 
-#: ../../code/Annotum/annotum-base/plugins/workflow/workflow-init.php:44
+#: ../../code/Annotum/annotum-base/plugins/workflow/workflow-init.php:54
 msgid "Clone"
 msgstr ""
 
-#: ../../code/Annotum/annotum-base/plugins/workflow/workflow-init.php:45
+#: ../../code/Annotum/annotum-base/plugins/workflow/workflow-init.php:55
 msgid "Revert To Draft"
 msgstr ""
 
-#: ../../code/Annotum/annotum-base/plugins/workflow/workflow.php:7
+#: ../../code/Annotum/annotum-base/plugins/workflow/workflow.php:17
 msgid "Submitted"
 msgstr ""
 
-#: ../../code/Annotum/annotum-base/plugins/workflow/workflow.php:8
+#: ../../code/Annotum/annotum-base/plugins/workflow/workflow.php:18
 msgid "In Review"
 msgstr ""
 
-#: ../../code/Annotum/annotum-base/plugins/workflow/workflow.php:9
+#: ../../code/Annotum/annotum-base/plugins/workflow/workflow.php:19
 msgid "Approved"
 msgstr ""
 
-#: ../../code/Annotum/annotum-base/plugins/workflow/workflow.php:10
+#: ../../code/Annotum/annotum-base/plugins/workflow/workflow.php:20
 msgid "Rejected"
 msgstr ""
 
-#: ../../code/Annotum/annotum-base/plugins/workflow/workflow.php:40
+#: ../../code/Annotum/annotum-base/plugins/workflow/workflow.php:46
 msgid "Audit Log"
 msgstr ""
 
-#: ../../code/Annotum/annotum-base/plugins/workflow/workflow.php:53
-#: ../../code/Annotum/annotum-base/plugins/workflow/workflow.php:791
+#: ../../code/Annotum/annotum-base/plugins/workflow/workflow.php:64
+#: ../../code/Annotum/annotum-base/plugins/workflow/workflow.php:804
 msgid "Author"
 msgstr ""
 
-#: ../../code/Annotum/annotum-base/plugins/workflow/workflow.php:57
+#: ../../code/Annotum/annotum-base/plugins/workflow/workflow.php:68
 msgid "Status:"
 msgstr ""
 
-#: ../../code/Annotum/annotum-base/plugins/workflow/workflow.php:63
+#: ../../code/Annotum/annotum-base/plugins/workflow/workflow.php:74
 msgid "Versions"
 msgstr ""
 
-#: ../../code/Annotum/annotum-base/plugins/workflow/workflow.php:67
+#: ../../code/Annotum/annotum-base/plugins/workflow/workflow.php:78
 msgid "Reviewers"
 msgstr ""
 
-#: ../../code/Annotum/annotum-base/plugins/workflow/workflow.php:69
+#: ../../code/Annotum/annotum-base/plugins/workflow/workflow.php:80
 msgid "Co-Authors"
 msgstr ""
 
-#: ../../code/Annotum/annotum-base/plugins/workflow/workflow.php:246
-msgid "Username"
+#: ../../code/Annotum/annotum-base/plugins/workflow/workflow.php:260
+msgid "Email / Username"
 msgstr ""
 
-#: ../../code/Annotum/annotum-base/plugins/workflow/workflow.php:256
+#: ../../code/Annotum/annotum-base/plugins/workflow/workflow.php:265
 msgid "Create User"
 msgstr ""
 
-#: ../../code/Annotum/annotum-base/plugins/workflow/workflow.php:259
-#: ../../code/Annotum/annotum-base/plugins/workflow/workflow.php:287
+#: ../../code/Annotum/annotum-base/plugins/workflow/workflow.php:268
+#: ../../code/Annotum/annotum-base/plugins/workflow/workflow.php:296
 msgid "or <a href=\"#\" class=\""
 msgstr ""
 
-#: ../../code/Annotum/annotum-base/plugins/workflow/workflow.php:361
+#: ../../code/Annotum/annotum-base/plugins/workflow/workflow.php:383
 msgid "remove"
 msgstr ""
 
-#: ../../code/Annotum/annotum-base/plugins/workflow/workflow.php:394
+#: ../../code/Annotum/annotum-base/plugins/workflow/workflow.php:420
 msgid "User has been created and added"
 msgstr ""
 
-#: ../../code/Annotum/annotum-base/plugins/workflow/workflow.php:521
+#: ../../code/Annotum/annotum-base/plugins/workflow/workflow.php:545
 msgid "reviewer"
 msgstr ""
 
-#: ../../code/Annotum/annotum-base/plugins/workflow/workflow.php:524
+#: ../../code/Annotum/annotum-base/plugins/workflow/workflow.php:548
 msgid "co-author"
 msgstr ""
 
-#: ../../code/Annotum/annotum-base/plugins/workflow/workflow.php:528
+#: ../../code/Annotum/annotum-base/plugins/workflow/workflow.php:552
 #, php-format
 msgid "Cannot add author as a %s"
 msgstr ""
 
-#: ../../code/Annotum/annotum-base/plugins/workflow/workflow.php:531
+#: ../../code/Annotum/annotum-base/plugins/workflow/workflow.php:555
 #, php-format
 msgid "Cannot add %s as %s. User is already a co-author"
 msgstr ""
 
-#: ../../code/Annotum/annotum-base/plugins/workflow/workflow.php:534
+#: ../../code/Annotum/annotum-base/plugins/workflow/workflow.php:558
 #, php-format
 msgid "Cannot add %s as %s. User is already a reviewer"
 msgstr ""
 
-#: ../../code/Annotum/annotum-base/plugins/workflow/workflow.php:545
+#: ../../code/Annotum/annotum-base/plugins/workflow/workflow.php:569
 #, php-format
 msgid "User '%s' not found"
 msgstr ""
 
-#: ../../code/Annotum/annotum-base/plugins/workflow/workflow.php:714
+#: ../../code/Annotum/annotum-base/plugins/workflow/workflow.php:727
 msgid "Cloned From"
 msgstr ""
 
-#: ../../code/Annotum/annotum-base/plugins/workflow/workflow.php:722
+#: ../../code/Annotum/annotum-base/plugins/workflow/workflow.php:735
 msgid "Clones"
 msgstr ""
 
-#: ../../code/Annotum/annotum-base/plugins/workflow/workflow.php:756
+#: ../../code/Annotum/annotum-base/plugins/workflow/workflow.php:769
 #, php-format
 msgid "Cloned: %s"
 msgstr ""
 
-#: ../../code/Annotum/annotum-base/plugins/workflow/workflow.php:811
+#: ../../code/Annotum/annotum-base/plugins/workflow/workflow.php:824
 msgid "You are not allowed to clone this post."
 msgstr ""
 
-#: ../../code/Annotum/annotum-base/plugins/workflow/internal-comments/internal-comments.php:7
+#: ../../code/Annotum/annotum-base/plugins/workflow/workflow.php:947
+msgid "You are editing an imported article. Updating this article will likely change its XML and HTML output."
+msgstr ""
+
+#: ../../code/Annotum/annotum-base/plugins/workflow/internal-comments/internal-comments.php:17
 msgid "Revisions"
 msgstr ""
 
-#: ../../code/Annotum/annotum-base/plugins/workflow/internal-comments/internal-comments.php:16
+#: ../../code/Annotum/annotum-base/plugins/workflow/internal-comments/internal-comments.php:26
 msgid "Internal Comments"
 msgstr ""
 
-#: ../../code/Annotum/annotum-base/plugins/workflow/internal-comments/internal-comments.php:19
+#: ../../code/Annotum/annotum-base/plugins/workflow/internal-comments/internal-comments.php:29
 msgid "Reviews"
 msgstr ""
 
-#: ../../code/Annotum/annotum-base/plugins/workflow/internal-comments/internal-comments.php:112
+#: ../../code/Annotum/annotum-base/plugins/workflow/internal-comments/internal-comments.php:127
 #, php-format
 msgid "Submitted on <a href=\"%1$s\">%2$s at %3$s</a>"
 msgstr ""
 
-#: ../../code/Annotum/annotum-base/plugins/workflow/internal-comments/internal-comments.php:112
+#: ../../code/Annotum/annotum-base/plugins/workflow/internal-comments/internal-comments.php:127
 msgid "Y/m/d"
 msgstr ""
 
-#: ../../code/Annotum/annotum-base/plugins/workflow/internal-comments/internal-comments.php:117
+#: ../../code/Annotum/annotum-base/plugins/workflow/internal-comments/internal-comments.php:132
 #, php-format
 msgid "In reply to <a href=\"%1$s\">%2$s</a>."
 msgstr ""
 
-#: ../../code/Annotum/annotum-base/plugins/workflow/internal-comments/internal-comments.php:127
+#: ../../code/Annotum/annotum-base/plugins/workflow/internal-comments/internal-comments.php:142
 msgid "Reply"
 msgstr ""
 
-#: ../../code/Annotum/annotum-base/plugins/workflow/internal-comments/internal-comments.php:174
+#: ../../code/Annotum/annotum-base/plugins/workflow/internal-comments/internal-comments.php:189
 msgid "Recommendation: "
 msgstr ""
 
-#: ../../code/Annotum/annotum-base/plugins/workflow/internal-comments/internal-comments.php:412
+#: ../../code/Annotum/annotum-base/plugins/workflow/internal-comments/internal-comments.php:438
 msgid "Article General"
 msgstr ""
 
-#: ../../code/Annotum/annotum-base/plugins/workflow/internal-comments/internal-comments.php:413
+#: ../../code/Annotum/annotum-base/plugins/workflow/internal-comments/internal-comments.php:439
 msgid "Article Review"
 msgstr ""
 
