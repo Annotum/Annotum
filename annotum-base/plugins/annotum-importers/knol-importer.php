@@ -1224,7 +1224,8 @@ foreach ($this->authors as $author_key => $author_data) {
 	 */
 	function fetch_remote_file( $url, $post, $original_url) {
 		// extract the file name and extension from the url
-		$file_name = basename( $url );
+		// Decode and remove spaces, so WP can recognize the filename
+		$file_name = str_replace(' ', '', urldecode( basename( $url ) ) );
 
 		// get placeholder file in the upload dir with a unique, sanitized filename
 		$upload = wp_upload_bits( $file_name, 0, '', $post['upload_date'] );
