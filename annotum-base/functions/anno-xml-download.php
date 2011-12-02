@@ -195,7 +195,7 @@ class Anno_XML_Download {
 		// Publisher ISSN
 		$pub_issn = cfct_get_option('publisher_issn');
 		if (!empty($pub_issn)) {
-			$pub_issn_xml = '<issn pub-type="ppub">'.esc_html($pub_issn).'</issn>';
+			$pub_issn_xml = '<issn pub-type="epub">'.esc_html($pub_issn).'</issn>';
 		}
 		else {
 			$pub_issn_xml = '';
@@ -471,7 +471,7 @@ class Anno_XML_Download {
 				<title>'._x('References', 'xml reference title', 'anno').'</title>';
 		
 			foreach ($references as $ref_key => $reference) {
-				$ref_key_display = $ref_key + 1;
+				$ref_key_display = esc_attr('ref'.($ref_key + 1));
 				if (isset($reference['doi']) && !empty($reference['doi'])) {
 					$doi = '
 						<pub-id pub-id-type="doi">'.esc_html($reference['doi']).'</pub-id>';
@@ -643,7 +643,7 @@ class Anno_XML_Download {
 		if (!empty($pub_date)) {
 			$pub_date = strtotime($pub_date);
 			$pub_date_xml = '
-				<pub-date pub-type="ppub">
+				<pub-date pub-type="epub">
 					<day>'.date('j', $pub_date).'</day>
 					<month>'.date('n', $pub_date).'</month>
 					<year>'.date('Y', $pub_date).'</year>
