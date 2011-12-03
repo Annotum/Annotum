@@ -382,8 +382,9 @@ class Anno_XML_Download {
 		
 			return 
 '<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE article SYSTEM "http://dtd.nlm.nih.gov/ncbi/kipling/kipling-jp3.dtd">
-<article xmlns:xlink="http://www.w3.org/1999/xlink" article-type="research-article" xml:lang="en">
+<!DOCTYPE article PUBLIC "-//NLM//DTD Journal Publishing DTD v3.0 20080202//EN" 
+"http://dtd.nlm.nih.gov/ncbi/kipling/kipling-jp3.dtd">
+<article article-type="research-article" dtd-version="3.0" xml:lang="en" xmlns:mml="http://www.w3.org/1998/Math/MathML" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 	<front>
 		<journal-meta>
 			'.$journal_id_xml.'
@@ -505,7 +506,7 @@ class Anno_XML_Download {
 				$xml .='
 			<ref id="'.$ref_key_display.'">
 				<label>'.$ref_key_display.'</label>
-				<mixed-citation'.$link.'>'.$text.'
+				<mixed-citation'.$link.'>'.trim($text).'
 					'.$doi.$pmid.'
 				</mixed-citation>
 			</ref>';
