@@ -137,7 +137,7 @@ function anno_body_meta_box($post) {
 		$content = anno_process_editor_content($post->post_content);
 	}
 	if (function_exists('wp_editor')) {
-		anno_load_editor($content, 'anno-body', array('textarea_name' => 'content'));
+		anno_load_editor($content, 'content', array('textarea_name' => 'content'));
 	}
 	else {
 		echo '<p style="padding:0 10px;">'.sprintf(_x('The Annotum editor requires at least WordPress 3.3. It appears you are using WordPress %s. ', 'WordPress version error message', 'anno'), get_bloginfo('version')).'</p>';
@@ -214,32 +214,34 @@ function anno_article_save_post($post_id, $post) {
 			'anno_featured'
 		);
 		foreach ($anno_meta as $key) {
-			switch ($key) {			
-				case 'anno_featured':
-					if (isset($_POST['anno_featured']) && $_POST['anno_featured'] == 'on') {
-						$value = 'on';
-					}
-					else {
-						$value = 'off';
-					}
-					// Reset the transient if this is a published article
-					if ($post->post_status == 'publish') {
-						delete_transient('anno_featured');
-					}
-					break;
-				case 'anno_subtitle':
-				case 'anno_funding':
-				case 'anno_acknowledgements':
-				default:	
-					if (isset($_POST[$key])) {
-						$value = force_balance_tags($_POST[$key]);
-					}
-					else {
-						$value = '';
-					}		
-					break;
+			if (isset($_POST[$key])) {
+				switch ($key) {			
+					case 'anno_featured':
+						if (isset($_POST['anno_featured']) && $_POST['anno_featured'] == 'on') {
+							$value = 'on';
+						}
+						else {
+							$value = 'off';
+						}
+						// Reset the transient if this is a published article
+						if ($post->post_status == 'publish') {
+							delete_transient('anno_featured');
+						}
+						break;
+					case 'anno_subtitle':
+					case 'anno_funding':
+					case 'anno_acknowledgements':
+					default:	
+						if (isset($_POST[$key])) {
+							$value = force_balance_tags($_POST[$key]);
+						}
+						else {
+							$value = '';
+						}		
+						break;
+				}
+				update_post_meta($post_id, '_'.$key, $value);
 			}
-			update_post_meta($post_id, '_'.$key, $value);
 		}
 		
 		$appendices = array();
@@ -249,8 +251,8 @@ function anno_article_save_post($post_id, $post) {
 					$appendices[] = addslashes(anno_validate_xml_content_on_save(stripslashes($appendix)));
 				}
 			}
+			update_post_meta($post_id, '_anno_appendices', $appendices);		
 		}
-		update_post_meta($post_id, '_anno_appendices', $appendices);		
 	}
 }
 add_action('wp_insert_post', 'anno_article_save_post', 10, 2);

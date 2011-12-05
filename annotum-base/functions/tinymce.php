@@ -1103,6 +1103,7 @@ function anno_insert_post_data($data, $postarr) {
 		}
 	}
 	
+	
 	if ($is_article_type) {
 		// Get our XML content for the revision
 		$content = stripslashes($data['post_content']);
