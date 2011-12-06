@@ -1134,6 +1134,7 @@ class Kipling_DTD_Parser {
 			$default_author_id = $first_author_id = 1;
 			
 			// Grab the author(s). 
+			$authors = array();
 			foreach (pq('contrib', $article_meta) as $contributor) {
 				$contributor = pq($contributor);
 			
@@ -1223,16 +1224,42 @@ class Kipling_DTD_Parser {
 			foreach ($references as $reference) {
 				$reference = pq($reference);
 				// For now, just support mixed-citations as text.
-				$ref_id = $reference->attr('id');
-				$ref_data['text'] = trim($reference->text());
+				$ref_id = str_replace('ref', '', $reference->attr('id'));
+				
+				// Only store numeric values
+				if (is_numeric($ref_id)) {
+					$ref_id = intval($ref_id) - 1;
+				}
+				else {
+					$ref_id = null;
+				}
+				
+				$ref_text = pq('mixed-citation', $reference);
+				
+				$ref_data['text'] = trim($ref_text->text());
 			
 				if (empty($ref_id)) {
 					$ref_array[] = $ref_data;
 				}
 				else {
-					$ref_array[$ref_id] = $ref_data;
+					// Possibility that this key was already set prograttically, replace it and add old ref to end.
+					if (isset($ref_array[$ref_id])) {
+						$old_ref = $ref_array[$ref_id];
+						$ref_array[$ref_id] = $ref_data;
+						$ref_array[] = $old_ref;
+					}
+					else {
+						$ref_array[$ref_id] = $ref_data;
+					}
 				}
 			}
+			if (!empty($ref_array)) {
+				$post['postmeta'][] = array(
+					'key' => '_anno_references',
+					'value' => serialize($ref_array),
+				);
+			}
+			
 
 			// Attachments
 			

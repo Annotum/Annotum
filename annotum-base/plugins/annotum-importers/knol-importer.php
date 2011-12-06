@@ -124,9 +124,9 @@ class Knol_Import extends WP_Importer {
 	 * Loads data from $_POST variable.
 	 */ 
 	function load_data_from_post() {
-		$this->id = (int) $_POST['import_id'];
-		$this->version = (string) $_POST['version'];
-		$this->authors = $_POST['authors'];
+		$this->id = isset($_POST['import_id']) ? (int) $_POST['import_id'] : 0;
+		$this->version = isset($_POST['version']) ? (string) $_POST['version'] : '1.1' ;
+		$this->authors = isset($_POST['authors']) ? $_POST['authors'] : array();
 	}
 
 	/**
@@ -853,9 +853,15 @@ foreach ($this->authors as $author_key => $author_data) {
 				}
 
 				// map the post author
-				$author = sanitize_user( $post['post_author'], true );
-				if ( isset( $this->author_mapping[$author] ) )
-					$author = $this->author_mapping[$author];
+				if (isset($post['post_author'])) {
+					$author = sanitize_user($post['post_author'], true);
+					if ( isset( $this->author_mapping[$author] ) ) {
+						$author = $this->author_mapping[$author];
+					}
+					else {
+						$author = (int) get_current_user_id();
+					}
+				}
 				else
 					$author = (int) get_current_user_id();
 				
@@ -989,11 +995,13 @@ foreach ($this->authors as $author_key => $author_data) {
 				$author_snapshot = array();
 				// Save the primary author in the author snapshot first
 				$snapshot = $snapshot_template;
-				$snapshot['id'] = $this->authors[$post['post_author']]['author_id'];
-				$snapshot['email'] = $this->authors[$post['post_author']]['author_email'];
-				$snapshot['surname'] = $this->authors[$post['post_author']]['author_first_name'];
-				$snapshot['given_names'] = $this->authors[$post['post_author']]['author_last_name'];
-				$author_snapshot[$post['post_author']] = $snapshot;
+				if (isset($post['post_author'])) {
+					$snapshot['id'] = $this->authors[$post['post_author']]['author_id'];
+					$snapshot['email'] = $this->authors[$post['post_author']]['author_email'];
+					$snapshot['surname'] = $this->authors[$post['post_author']]['author_first_name'];
+					$snapshot['given_names'] = $this->authors[$post['post_author']]['author_last_name'];
+					$author_snapshot[$post['post_author']] = $snapshot;
+				}
 				
 				if ( isset( $post['postmeta'] ) && is_array($post['postmeta']) ) {
 					foreach ( $post['postmeta'] as $meta ) {
