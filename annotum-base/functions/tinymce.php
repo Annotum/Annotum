@@ -1102,8 +1102,7 @@ function anno_insert_post_data($data, $postarr) {
 			$is_article_type = true;
 		}
 	}
-	
-	
+		
 	if ($is_article_type) {
 		// Get our XML content for the revision
 		$content = stripslashes($data['post_content']);
@@ -1493,9 +1492,33 @@ function anno_xml_to_html_replace_lists($orig_xml) {
 	
 	*/
 	$lists = pq('list');
-	foreach ($lists as $list) {
-		$pq_list = pq($list);
+	while(count($lists)) {
+		// Get the first list encountered, this is a top level list
+		$pq_list = pq('list:first');
+		// Process the children
 		anno_xml_to_html_iterate_list($pq_list);
+
+		$list_type = $pq_list->attr('list-type');
+		$list_type = ($list_type == 'order') ? 'ol' : 'ul';
+
+		// Get list title if there is one
+		$figcaption = $pq_list->find('title:first')->html();
+
+		// Now that we have the title, get rid of the element
+		$pq_list->find('title:first')->remove();
+		
+		// Replace our list with our built-out HTML
+		$html = '';
+		$html .= '<figure class="list">';
+		$html .= empty($figcaption) ? '' : '<figcaption>'.$figcaption.'</figcaption>';
+		$html .= '<'.$list_type.'>'.$pq_list->html().'</'.$list_type.'>';
+		$html .= '</figure>';
+		// Remove wrapping p tags that are maintained in XML
+		$html = str_replace(array('<p>', '</p>'), '', $html);
+		$pq_list->replaceWith($html);
+		
+		// Update lists to double check for remaining lists in the document
+		$lists = pq('list');
 	}
 }
 add_action('anno_xml_to_html', 'anno_xml_to_html_replace_lists');
@@ -1505,18 +1528,13 @@ add_action('anno_xml_to_html', 'anno_xml_to_html_replace_lists');
  * Do stuff to the list elements
  * 
  * @param pq obj $list
+ * @param bool $child Whether or not this list is a child of another list (replace now vs with wrapping 'figure')
  * @return void
  */
-function anno_xml_to_html_iterate_list($list) {
+function anno_xml_to_html_iterate_list($list, $child = false) {
 	// Get list type
 	$list_type = $list->attr('list-type');
 	$list_type = ($list_type == 'order') ? 'ol' : 'ul';
-
-	// Get list title if there is one
-	$figcaption = $list->find('title:first')->html();
-	
-	// Now that we have the title, get rid of the element
-	$list->find('title:first')->remove();
 
 	// Loop over our items
 	$items = $list->children('list-item');
@@ -1527,19 +1545,14 @@ function anno_xml_to_html_iterate_list($list) {
 		}
 	}
 	
-	// Replace our list with our built-out HTML
-	$html = '';
-	$html .= '<figure class="list">';
-	$html .= empty($figcaption) ? '' : '<figcaption>'.$figcaption.'</figcaption>';
-	$html .= '<'.$list_type.'>'.$list->html().'</'.$list_type.'>';
-	$html .= '</figure>';
-	$list->replaceWith($html);
+	if ($child) {
+		$list->replaceWith('<'.$list_type.'>'.$list->html().'</'.$list_type.'>');
+	}
 }
-
 
 /**
  * Set the list items' HTML wrapper
- *
+ * because I dont want to wrip off all their clothes and do things to them
  * @param pqObj $item 
  * @return void
  */
@@ -1547,14 +1560,14 @@ function anno_xml_to_html_iterate_list_item($item) {
 	$child_list = $item->find('list');
 	if (!empty($child_list->elements)) {
 		foreach ($child_list->elements as $list) {
-			anno_xml_to_html_iterate_list(pq($list));
+			anno_xml_to_html_iterate_list(pq($list), true);
+			$item->replaceWith('<li>'.$item->html().'</li>');
 		}
 	}
 	else {
 		$item->replaceWith('<li>'.$item->html().'</li>');
 	}
 }
-
 
 /**
  * Replace the XML tables with proper HTML
@@ -1862,16 +1875,22 @@ function anno_convert_permissions_to_html($permissions_pq_obj) {
  * 
  * @param string $old_tag Old tag to convert from
  * @param string $new_tag New tag to convert to 
+ * @param phpQueryObj $context context to search for tag within
  * @return void.
  */ 
-function anno_convert_tag($old_tag, $new_tag) {
+function anno_convert_tag($old_tag, $new_tag, $context = null) {
 	$tags = pq($old_tag);
-	foreach ($tags as $tag) {
-		$tag = pq($tag);
-		$tag_html = $tag->html();
-		$tag->replaceWith('<'.$new_tag.'>'.$tag_html.'</'.$new_tag.'>');
+	// Not the most efficient, phpQuery has no way to return elements that are inserted
+	while(count($tags)) {
+		foreach ($tags as $tag) {
+			$tag = $tag_before = pq($tag);					
+			$tag_html = $tag->html();
+			// $tag in memory is still tag from above, replaceWith created a new element, inserted into the document and then removed $tag from the document. 
+			$tag->replaceWith('<'.$new_tag.'>'.$tag_html.'</'.$new_tag.'>');
+		}
+		$tags = pq($old_tag);
 	}
-}
+}	
 
 /**
  * Utilize RegEx to find the values of attributes given a specific element.
@@ -2028,17 +2047,15 @@ function anno_remove_p_from_disp_quote_items($xml) {
  * @param string $tag_name Tag name to remove the p tags from
  * @return void 
  */ 
-function anno_remove_p_from_items($tag_name) {
-	$tags = pq($tag_name);
-	foreach ($tags as $tag) {
-		$tag = pq($tag);
-		$p_tags = $tag->children('p');
-		// Replace p tag with its content
+function anno_remove_p_from_items($tag_name, $context = null) {	
+	$p_tags = pq($tag_name.' > para');
+	while(count($p_tags)) {
 		foreach ($p_tags as $p_tag) {
 			$p_tag = pq($p_tag);
 			$p_inner = $p_tag->html();
 			$p_tag->replaceWith($p_inner);
 		}
+		$p_tags = pq($tag_name.' > para');
 	}
 }
 
