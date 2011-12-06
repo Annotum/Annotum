@@ -153,7 +153,7 @@ function anno_load_editor($content, $editor_id, $settings = array()) {
 		'permissions[copyright-statement|copyright-holder|license|div|span|br]',
 		'license[license-p|xref|div|span|br]',
 		'license-p[preformat|br|'.$formats_as_children.']',
-	'list[title|list-item|div|span|br]',
+		'list[title|list-item|div|span|br]',
 		'list-item[para|xref|list|div|span|br]',
 		'disp-formula[lbl|tex-math|div|span|preformat|br]',
 		'disp-quote[para|attrib|permissions|div|span|preformat|br]',
@@ -1090,20 +1090,8 @@ function anno_insert_post_data($data, $postarr) {
 	if (isset($_POST['action']) && $_POST['action']  == 'inline-save') {
 		return $data;
 	}
-	
-	$is_article_type = false;
-	// Both published and drafts (before article ever saved) get caught here
+
 	if ($postarr['post_type'] == 'article') {
-		$is_article_type = true;
-	}
-	// If we're a revision, we need to do one more check to ensure our parent is an article
-	if ($postarr['post_type'] == 'revision') {
-		if (!empty($data['post_parent']) && get_post_type($data['post_parent']) == 'article') {
-			$is_article_type = true;
-		}
-	}
-		
-	if ($is_article_type) {
 		// Get our XML content for the revision
 		$content = stripslashes($data['post_content']);
 		
@@ -1120,6 +1108,23 @@ function anno_insert_post_data($data, $postarr) {
 	return $data;
 }
 add_filter('wp_insert_post_data', 'anno_insert_post_data', null, 2);
+
+/**
+ * Don't process incoming content from revisions, its already in the forms expected
+ */ 
+function anno_remove_insert_filter_for_restore() {
+	remove_filter('wp_insert_post_data', 'anno_insert_post_data', null, 2);
+}
+add_action('admin_action_restore', 'anno_remove_insert_filter_for_restore');
+
+/**
+ * Allow post_content_filtered to be managed by revisions
+ */ 
+function anno_post_revision_fields($fields) {
+	$fields['post_content_filtered'] = _x('Post Content Filtered', 'Title for revision management', 'anno');  	
+	return $fields;	  	
+}
+add_filter( '_wp_post_revision_fields', 'anno_post_revision_fields');
 
 /**
  * Only maintain line breaks on certain tags (title, td, th)
