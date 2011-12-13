@@ -1096,7 +1096,7 @@ function anno_insert_post_data($data, $postarr) {
 		$content = stripslashes($data['post_content']);
 		
 		// Remove non-ascii gremlins
-		$content = preg_replace('/(\xc2\xa0)/','', $content);
+		$content = preg_replace('/(\xc2\xa0)/',' ', $content);
 		$content = str_replace(array("\r", "\r\n", "\n"), '', $content);
 		// Set XML as backup content. Filter markup and strip out tags not on whitelist.
 		$xml = anno_validate_xml_content_on_save($content);
@@ -1641,7 +1641,7 @@ add_action('anno_xml_to_html', 'anno_xml_to_html_replace_tables');
  */
 function anno_xml_to_html_iterate_table($table) {
 	// Get table title & caption'
-	$figcaption = $table->children('lbl:first')->html();
+	$figcaption = $table->children('label:first')->html();
 	$table_caption = $table->children('caption:first')->html();
 	
 	// Now that we have the title and caption, get rid of the elements
@@ -1747,7 +1747,7 @@ function anno_xml_to_html_replace_references($orig_xml) {
 	foreach ($references as $ref) {
 		$ref = pq($ref);
 		$ref_id = $ref->attr('rid');
-		$ref->replaceWith('<sup><a class="reflink" href="#ref'.esc_attr($ref_id).'">'.esc_html($ref_id).'</a></sup>');
+		$ref->replaceWith('<sup><a class="reflink" href="#'.esc_attr($ref_id).'">'.esc_html(preg_replace("/[^0-9]+/","",$ref_id)).'</a></sup>');
 	}
 }
 add_action('anno_xml_to_html', 'anno_xml_to_html_replace_references');
