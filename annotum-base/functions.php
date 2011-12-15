@@ -1026,6 +1026,8 @@ function anno_current_user_can_edit() {
 }
 
 // Remove autop, inserts unnecessary br tags in the nicely formatted HTML
-remove_filter('the_content','wpautop');
-
+// Carlthewebmaster 15-Dec-11 - but only for Articles
+		if ($post_type == 'article') {
+			remove_filter('the_content','wpautop');
+		}
 ?>
