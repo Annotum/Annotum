@@ -1079,7 +1079,7 @@ foreach ($this->authors as $author_key => $author_data) {
 					}
 					// Save our snapshot
 					if (!empty($author_snapshot)) {
-						//update_post_meta($post_id, '_anno_author_snapshot', $author_snapshot);
+						update_post_meta($post_id, '_anno_author_snapshot', $author_snapshot);
 					}
 				}
 			
