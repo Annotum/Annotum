@@ -45,6 +45,7 @@ jQuery(document).ready( function($) {
 
 		alt_text = $('#img-alttext-' + attachment_id, form).val();
 		img_url = $('input[name="size"]:checked', form).attr('data-url');
+		file_url = $('#img-url-' + attachment_id, form).val();
 		display_type = $('input[name="display"]:checked', form).val();
 		
 		if (display_type == 'inline') {
@@ -54,17 +55,26 @@ jQuery(document).ready( function($) {
 		else {
 			caption = $('#img-caption-' + attachment_id).val();
 			label = $('#img-label-' + attachment_id).val();
-
+			
 			description = $('#img-description-' + attachment_id, form).val();
 			description = description == '' ? '<br />' : description;
 			copyright_statement = $('#img-copystatement-' + attachment_id, form).val();
 			copyright_holder = $('#img-copyholder-' + attachment_id, form).val();
 			license = $('#img-license-' + attachment_id, form).val();
-						
+
+			if (file_url) {
+				file_link = '<para><ext-link ext-link-type="uri" xlink:href="'
+							+ file_url
+							+ '">[Full Image]</ext-link></para>';
+			}
+			else { file_link = ''; }
+			
 			xml = '<fig>'
 						+'<img src="' + img_url + '" />'
 						+'<lbl>' + label + '</lbl>'
-						+'<cap><para>' + caption + '</para></cap>'
+						+'<cap><para>' + caption + '</para>'
+						+ file_link
+						+ '</cap>'
 						+'<media xlink:href="' + img_url + '">'
 							+'<alt-text>' + alt_text + '</alt-text>'
 							+'<long-desc>' + description + '</long-desc>'
@@ -76,8 +86,8 @@ jQuery(document).ready( function($) {
 								+'</license>'
 							+'</permissions>'
 						+'</media>'
-						+'<div _mce_bogus="1" class="clearfix"></div>';
-					+'</fig>'
+						+'<div _mce_bogus="1" class="clearfix"></div>'
+					+'</fig>';
 		}
 
 
