@@ -381,7 +381,7 @@ class Anno_XML_Download {
 		$author_xml .= '
 				<contrib>
 				<name>
-					<surname>Author Placeholder</surname>
+					<surname>&nbsp; </surname>
 				</name>
 				</contrib>';
 		}
