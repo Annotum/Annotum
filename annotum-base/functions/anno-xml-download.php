@@ -377,6 +377,14 @@ class Anno_XML_Download {
 			}
 		
 		}
+		else {
+		$author_xml .= '
+				<contrib>
+				<name>
+					<surname>Author Placeholder</surname>
+				</name>
+				</contrib>';
+		}
 		$author_xml .= '
 		</contrib-group>';
 		
