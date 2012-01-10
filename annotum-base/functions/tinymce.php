@@ -246,7 +246,7 @@ class Anno_tinyMCE {
 	
 	function mce_buttons_2($buttons) {
 		if ($this->is_article()) {
-			$buttons = array('annoformatselect', '|', 'table', 'row_before', 'row_after', 'delete_row', 'col_before', 'col_after', 'delete_col', 'split_cells', 'merge_cells', '|', 'annopastetext', 'annopasteword', 'annolist', '|', 'annoreferences', '|', 'annomonospace', 'annopreformat', '|', 'annoequations');
+			$buttons = array('table', 'row_before', 'row_after', 'delete_row', 'col_before', 'col_after', 'delete_col', 'split_cells', 'merge_cells', '|', 'annopastetext', 'annopasteword', 'annolist', '|', 'annoreferences', '|', 'annomonospace', 'annopreformat', '|', 'annoequations');
 		}
 		return $buttons;
 	}
@@ -300,7 +300,11 @@ function anno_tiny_mce_before_init($init_array) {
 	if (isset($init_array['plugins'])) {
 		$init_array['plugins'] = str_replace('wpeditimage,', '', $init_array['plugins']);
 		$init_array['plugins'] = str_replace('wpeditimage', '', $init_array['plugins']);
-	}
+	};
+	
+	//show Kitchen Sink by default
+	$init_array['wordpress_adv_hidden'] = false;
+	
 	return $init_array;
 }
 
