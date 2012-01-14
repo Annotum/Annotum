@@ -11,8 +11,10 @@
  */
 if (__FILE__ == $_SERVER['SCRIPT_FILENAME']) { die(); }
 if (CFCT_DEBUG) { cfct_banner(__FILE__); }
-
-$s = the_search_query();
+ob_start();
+the_search_query();
+$s = ob_get_contents();
+ob_end_clean()
 
 ?>
 
