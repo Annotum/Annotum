@@ -11,9 +11,14 @@
  */
 if (__FILE__ == $_SERVER['SCRIPT_FILENAME']) { die(); }
 if (CFCT_DEBUG) { cfct_banner(__FILE__); }
+
+// the_search_query uses echo not return, so buffer the output to store 
+// in $s
 ob_start();
 the_search_query();
+
 $s = ob_get_contents();
+
 ob_end_clean()
 
 ?>
