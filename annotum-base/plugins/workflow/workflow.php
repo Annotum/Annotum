@@ -767,13 +767,15 @@ function annowf_clone_post($orig_id) {
 		'post_author' => $current_user->ID,
 		'post_status' => 'draft',
 		'post_title' => sprintf(_x('Cloned: %s', 'Cloned article title prepend', 'anno'), $post->post_title),
+		'post_content_filtered' => $post->post_content_filtered,
 		'post_content' => $post->post_content,
 		'post_excerpt' => $post->post_excerpt,
 		'post_type' => $post->post_type,
 		'post_parent' => $post->post_parent,
 	);
-	
+	remove_filter('wp_insert_post_data', 'anno_insert_post_data', null, 2);
 	$new_id = wp_insert_post($new_post);
+	add_filter('wp_insert_post_data', 'anno_insert_post_data', null, 2);
 
 	// Add to clone/cloned post meta
 	if ($new_id) {
