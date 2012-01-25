@@ -1419,7 +1419,7 @@ function anno_xml_to_html_replace_figures($orig_xml) {
 			$alt = $media->children('alt-text')->html();
 			$title = $media->children('long-desc')->html();
 			$uri = pq($media->children('uri'));
-			$link_url = $uri->attr('xlink:href');
+			$link_uri = $uri->attr('xlink:href');
 			
 			// Build our img tag
 			$img_tag = $tpl->to_tag('img', null, array(
@@ -1454,7 +1454,7 @@ function anno_xml_to_html_replace_figures($orig_xml) {
 		
 			$html = '
 				<figure class="figure hmedia clearfix">
-					<a href="'.$link_uri.'#">'.$img_tag.'</a>
+					<a href="'.$link_uri.'">'.$img_tag.'</a>
 					'.$figcaption.'
 				</figure>';
 			

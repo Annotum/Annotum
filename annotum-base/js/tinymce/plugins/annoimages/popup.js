@@ -80,7 +80,7 @@ jQuery(document).ready( function($) {
 						+'<lbl>' + label + '</lbl>'
 						+'<cap><para>' + caption + '</para>'
 						+ file_link
-						+ 'ok</cap>'
+						+ '</cap>'
 						+'<media xlink:href="' + img_url + '">'
 							+ fig_uri
 							+'<alt-text>' + alt_text + '</alt-text>'
