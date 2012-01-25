@@ -53,6 +53,9 @@ $allowedposttags = array_merge($allowedposttags, array(
 	'title' => array(),
 	'table-wrap' => array(),
 	'underline' => array(),
+	'uri' => array(
+		'xlink:href' => array(),
+	),
 	'xref' => array(
 		'ref-type' => array(),
 		'rid' => array(),
@@ -99,6 +102,7 @@ function anno_load_editor($content, $editor_id, $settings = array()) {
 		'preformat',
 		'sec',
 		'table-wrap',
+		'uri[xlink::href]',
 		'xref[ref-type|rid]',
 		'paste',
 	), $formats);
@@ -136,6 +140,7 @@ function anno_load_editor($content, $editor_id, $settings = array()) {
 		'disp-quote',
 		'para',
 		'paste',
+		'uri',
 	);
 	
 	$formats_as_children = implode('|', $formats);
@@ -149,7 +154,7 @@ function anno_load_editor($content, $editor_id, $settings = array()) {
 		'copyright-statement['.$formats_as_children.'|br]',
 		'license-p['.$formats_as_children.'|xref|ext-link|br]',
 		'heading['.$formats_as_children.'|div|span|br]',
-		'media[alt-text|long-desc|permissions|div|span|br]',
+		'media[uri|alt-text|long-desc|permissions|div|span|br]',
 		'permissions[copyright-statement|copyright-holder|license|div|span|br]',
 		'license[license-p|xref|div|span|br]',
 		'license-p[preformat|br|'.$formats_as_children.']',
@@ -1413,7 +1418,9 @@ function anno_xml_to_html_replace_figures($orig_xml) {
 			}
 			$alt = $media->children('alt-text')->html();
 			$title = $media->children('long-desc')->html();
-		
+			$uri = pq($media->children('uri'));
+			$link_url = $uri->attr('xlink:href');
+			
 			// Build our img tag
 			$img_tag = $tpl->to_tag('img', null, array(
 				'src' => $img_src,
@@ -1421,6 +1428,16 @@ function anno_xml_to_html_replace_figures($orig_xml) {
 				'alt' => $alt,
 				'class' => 'photo'
 			));
+			
+			// Make img tag a link if there's a media__link_uri
+			// if (!empty($media_link_url)) {
+				// $linked_img_tag_start = '<a href="' + $media_link_url + '">';
+				// $linked_img_tag_end = '</a>';
+			// }
+			// else {
+				// $linked_img_tag_start = '';
+				// $linked_img_tag_end = '';
+			// }
 			
 			$label = $fig->children('label')->html();
 			$label = ($label ? sprintf(__('Fig. %d', 'anno'), ++$count).': '.strip_tags($label) : '');
@@ -1437,7 +1454,7 @@ function anno_xml_to_html_replace_figures($orig_xml) {
 		
 			$html = '
 				<figure class="figure hmedia clearfix">
-					'.$img_tag.'
+					<a href="'.$link_uri.'#">'.$img_tag.'</a>
 					'.$figcaption.'
 				</figure>';
 			
