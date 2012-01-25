@@ -158,9 +158,6 @@ fig media {
 fig alt-text {
 	display: none;
 }
-fig uri {
-	display: none;
-}
 fig lbl {
 	font-weight: bold;
 	min-width: 250px;

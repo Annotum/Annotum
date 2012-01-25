@@ -65,24 +65,17 @@ jQuery(document).ready( function($) {
 			if (file_url) {
 				file_link = '<para><ext-link ext-link-type="uri" xlink:href="'
 							+ file_url
-							+ '">[Image Link]</ext-link></para>';
-			
-				fig_uri = '<uri xlink:href="' + file_url + '"></uri>';
-							
+							+ '">[Full Image]</ext-link></para>';
 			}
-			else { 
-				file_link = ''; 
-				fig_uri = '';
-			}
+			else { file_link = ''; }
 			
 			xml = '<fig>'
 						+'<img src="' + img_url + '" />'
 						+'<lbl>' + label + '</lbl>'
 						+'<cap><para>' + caption + '</para>'
 						+ file_link
-						+ 'ok</cap>'
+						+ '</cap>'
 						+'<media xlink:href="' + img_url + '">'
-							+ fig_uri
 							+'<alt-text>' + alt_text + '</alt-text>'
 							+'<long-desc>' + description + '</long-desc>'
 							+'<permissions>'
