@@ -62,20 +62,22 @@ jQuery(document).ready( function($) {
 			copyright_holder = $('#img-copyholder-' + attachment_id, form).val();
 			license = $('#img-license-' + attachment_id, form).val();
 
+			// Add the URI element if there's a file_url - 
+			// something to link if the image is clicked.
 			if (file_url) {
-				file_link = '<para><ext-link ext-link-type="uri" xlink:href="'
-							+ file_url
-							+ '">[Full Image]</ext-link></para>';
+				fig_uri = '<uri xlink:href="' + file_url + '"></uri>';
 			}
-			else { file_link = ''; }
+			else { 
+				fig_uri = '';
+			}
 			
 			xml = '<fig>'
 						+'<img src="' + img_url + '" />'
 						+'<lbl>' + label + '</lbl>'
 						+'<cap><para>' + caption + '</para>'
-						+ file_link
 						+ '</cap>'
 						+'<media xlink:href="' + img_url + '">'
+							+ fig_uri
 							+'<alt-text>' + alt_text + '</alt-text>'
 							+'<long-desc>' + description + '</long-desc>'
 							+'<permissions>'
