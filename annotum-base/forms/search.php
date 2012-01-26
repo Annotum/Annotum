@@ -12,11 +12,11 @@
 if (__FILE__ == $_SERVER['SCRIPT_FILENAME']) { die(); }
 if (CFCT_DEBUG) { cfct_banner(__FILE__); }
 
-$s = the_search_query();
+$s = get_search_query();
 
 ?>
 
 <form class="search" method="get" action="<?php echo esc_url(home_url()); ?>">
-	<input type="text" name="s" value="<?php echo esc_html($s); ?>" placeholder="<?php _e('Search', 'anno'); ?>" class="type-text" />
+	<input type="text" name="s" value="<?php echo esc_attr($s); ?>" placeholder="<?php _e('Search', 'anno'); ?>" class="type-text" />
 	<button class="type-submit imr" type="submit"><?php _e('Search', 'anno'); ?></button>
 </form>

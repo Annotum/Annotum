@@ -650,6 +650,12 @@
 			each(dom.select('p', o.node), function(el) {
 				dom.rename(el, 'para');
 			});
+
+			// Replace blockquote tags with para tags. 
+			each(dom.select('blockquote', o.node), function(el) {
+				dom.rename(el, 'para');
+			});
+
 			
 			each(dom.select('a', o.node), function(a) {
 				if (!a.href || a.href.indexOf('#_Toc') != -1)

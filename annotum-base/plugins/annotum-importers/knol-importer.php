@@ -998,8 +998,8 @@ foreach ($this->authors as $author_key => $author_data) {
 				if (isset($post['post_author'])) {
 					$snapshot['id'] = $this->authors[$post['post_author']]['author_id'];
 					$snapshot['email'] = $this->authors[$post['post_author']]['author_email'];
-					$snapshot['surname'] = $this->authors[$post['post_author']]['author_first_name'];
-					$snapshot['given_names'] = $this->authors[$post['post_author']]['author_last_name'];
+					$snapshot['surname'] = $this->authors[$post['post_author']]['author_last_name'];
+					$snapshot['given_names'] = $this->authors[$post['post_author']]['author_first_name'];
 					$author_snapshot[$post['post_author']] = $snapshot;
 				}
 				
@@ -1023,8 +1023,8 @@ foreach ($this->authors as $author_key => $author_data) {
 								$snapshot = $snapshot_template;
 								$snapshot['id'] = $this->authors[$knol_author_id]['author_id'];
 								$snapshot['email'] = $this->authors[$knol_author_id]['author_email'];
-								$snapshot['surname'] = $this->authors[$knol_author_id]['author_first_name'];
-								$snapshot['given_names'] = $this->authors[$knol_author_id]['author_last_name'];
+								$snapshot['surname'] = $this->authors[$knol_author_id]['author_last_name'];
+								$snapshot['given_names'] = $this->authors[$knol_author_id]['author_first_name'];
 								$author_snapshot[$snapshot['id']] = $snapshot;
 							}
 						}
