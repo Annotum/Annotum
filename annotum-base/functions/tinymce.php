@@ -1018,6 +1018,7 @@ function anno_get_dtd_valid_elements() {
 				'<p>',
 					'<xref>',
 			'<media>',
+				'<uri>',
 				'<alt-text>',
 				'<long-desc>',
 				'<permissions>',
@@ -1419,7 +1420,7 @@ function anno_xml_to_html_replace_figures($orig_xml) {
 			$alt = $media->children('alt-text')->html();
 			$title = $media->children('long-desc')->html();
 			$uri = pq($media->children('uri'));
-			$link_uri = $uri->attr('xlink:href');
+			$uri_href = $uri->attr('xlink:href');
 			
 			// Build our img tag
 			$img_tag = $tpl->to_tag('img', null, array(
@@ -1429,15 +1430,15 @@ function anno_xml_to_html_replace_figures($orig_xml) {
 				'class' => 'photo'
 			));
 			
-			// Make img tag a link if there's a media__link_uri
-			// if (!empty($media_link_url)) {
-				// $linked_img_tag_start = '<a href="' + $media_link_url + '">';
-				// $linked_img_tag_end = '</a>';
-			// }
-			// else {
-				// $linked_img_tag_start = '';
-				// $linked_img_tag_end = '';
-			// }
+			// add start and end a tags if we have a uri to which to link the image
+			if (!empty($uri_href)) {
+				$linked_img_tag_start = '<a href="'.$uri_href.'">';
+				$linked_img_tag_end = '</a>';
+			}
+			else {
+				$linked_img_tag_start = '';
+				$linked_img_tag_end = '';
+			}
 			
 			$label = $fig->children('label')->html();
 			$label = ($label ? sprintf(__('Fig. %d', 'anno'), ++$count).': '.strip_tags($label) : '');
@@ -1454,7 +1455,7 @@ function anno_xml_to_html_replace_figures($orig_xml) {
 		
 			$html = '
 				<figure class="figure hmedia clearfix">
-					<a href="'.$link_uri.'">'.$img_tag.'</a>
+					'.$linked_img_tag_start.$img_tag.$linked_img_tag_end.'
 					'.$figcaption.'
 				</figure>';
 			
