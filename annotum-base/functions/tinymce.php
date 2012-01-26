@@ -984,6 +984,7 @@ function anno_get_dtd_valid_elements() {
 		
 		// Paragraph-level
 		'<media>',
+			'<uri>',
 			'<alt-text>',
 			'<long-desc>',
 			'<permissions>',

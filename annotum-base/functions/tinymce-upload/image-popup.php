@@ -150,9 +150,6 @@ function anno_popup_images_row_edit($attachment) {
 								<textarea name="description" id="<?php echo esc_attr('img-description-'.$attachment->ID); ?>"><?php echo esc_textarea($description); ?></textarea>
 							</label>
 						</div>
-<?php 
-						// @TODO Find a way to maintain wrapping URL data while adhering to DTD
-?>
 						<div class="img-url-input">
 							<label for="<?php echo esc_attr('img-url-'.$attachment->ID); ?>">
 								<input id="<?php echo esc_attr('img-url-'.$attachment->ID); ?>" type="text" name="url" value="<?php echo esc_attr($file_url); ?>" /><span><?php _e('URL', 'anno'); ?></span>
