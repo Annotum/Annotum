@@ -313,8 +313,10 @@ class Anno_XML_Download {
 		
 		// Authors	
 		$authors = get_post_meta($article->ID, '_anno_author_snapshot', true);
-		$author_xml = '<contrib-group>';
 		if (!empty($authors) && is_array($authors)) {
+		
+			$author_xml = '<contrib-group>';
+		
 			foreach ($authors as $author) {
 				$author_xml .= '
 				<contrib>';
@@ -376,15 +378,15 @@ class Anno_XML_Download {
 				</contrib>';
 			}
 		
+			$author_xml .= '
+			</contrib-group>';
 		}
-		$author_xml .= '
-		</contrib-group>';
 		
 			return 
 '<?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE article PUBLIC "-//NLM//DTD Journal Publishing DTD v3.0 20080202//EN" 
 "http://dtd.nlm.nih.gov/ncbi/kipling/kipling-jp3.dtd">
-<article article-type="research-article" dtd-version="3.0" xml:lang="en" xmlns:mml="http://www.w3.org/1998/Math/MathML" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<article article-type="research-article" xml:lang="en" xmlns:mml="http://www.w3.org/1998/Math/MathML" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 	<front>
 		<journal-meta>
 			'.$journal_id_xml.'
