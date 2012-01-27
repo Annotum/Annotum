@@ -898,7 +898,7 @@ function anno_update_nav_menu_location_add_action() {
 	$theme = get_option( 'stylesheet' );
 	add_action('update_option_theme_mods_'.$theme, 'anno_update_nav_menu_location');
 }
-add_action('admin_head-nav-menus.php', 'anno_init');
+add_action('admin_head-nav-menus.php', 'anno_update_nav_menu_location_add_action');
 
 function anno_update_nav_menu_location() {
 	delete_transient('anno_footer_menu');
