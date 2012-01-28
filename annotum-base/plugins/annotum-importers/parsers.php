@@ -1242,7 +1242,7 @@ class Kipling_DTD_Parser {
 					$ref_array[] = $ref_data;
 				}
 				else {
-					// Possibility that this key was already set prograttically, replace it and add old ref to end.
+					// Possibility that this key was already set programmatically, replace it and add old ref to end.
 					if (isset($ref_array[$ref_id])) {
 						$old_ref = $ref_array[$ref_id];
 						$ref_array[$ref_id] = $ref_data;

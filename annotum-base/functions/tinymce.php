@@ -1580,8 +1580,7 @@ function anno_xml_to_html_iterate_list($list, $child = false) {
 
 /**
  * Set the list items' HTML wrapper
- * because I dont want to wrip off all their clothes and do things to them
- * @param pqObj $item 
+  * @param pqObj $item 
  * @return void
  */
 function anno_xml_to_html_iterate_list_item($item) {
