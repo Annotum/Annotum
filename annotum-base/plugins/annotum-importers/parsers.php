@@ -1300,7 +1300,7 @@ class Kipling_DTD_Parser {
 				$img_url = $img->attr('xlink:href');
 				
 				// Dont save chart api images (most likely formulas)
-				if (!empty($img_url) && strpos($img_url, 'google.com/chart') === false) {
+				if (!empty($img_url) && strpos($img_url, 'googleapis.com/chart') === false) {
 					$post_meta = array();
 					
 					$alt_text = pq('alt-text', $img)->html();
@@ -1621,7 +1621,7 @@ class Kipling_DTD_Parser {
 	function parse_media($media) {		
 		$img_url = $media->attr('xlink:href');
 		
-		if (!empty($img_url) && strpos($img_url, 'google.com/chart') === false) {
+		if (!empty($img_url) && strpos($img_url, 'googleapis.com/chart') === false) {
 			$post_meta = array();
 			
 			$alt_text = pq('alt-text', $media)->text();

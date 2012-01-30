@@ -274,7 +274,7 @@ class Anno_XML_Download {
 			$title_xml = '<title-group>';
 			if (!empty($article->post_title)) {
 				$title_xml .= '
-				<article-title><bold>'.esc_html($article->post_title).'</bold></article-title>';
+				<article-title>'.esc_html($article->post_title).'</article-title>';
 			}
 			else {
 				$title_xml .= '
@@ -282,7 +282,7 @@ class Anno_XML_Download {
 			}
 			if (!empty($subtitle)) {
 				$title_xml .= '
-				<subtitle><bold>'.esc_html($subtitle).'</bold></subtitle>';
+				<subtitle>'.esc_html($subtitle).'</subtitle>';
 			}
 		}
 		$title_xml .= '
