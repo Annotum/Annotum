@@ -267,10 +267,18 @@ class Knol_Import extends WP_Importer {
 					$preview_url = add_query_arg('preview', 'true', $preview_url);
 				}
 
-				printf( __('[ %sEdit%s | %sPreview%s ]', 'anno'),
-					'<a href="'.esc_url(get_edit_post_link($the_imported_post->ID)).'">','</a>',
-					'<a href="'.esc_url($preview_url).'">','</a>.');
-	
+				// Only provide preview link for attachments or knol articles 
+				// Kipling DTD articles must be edited and saved at least once to preview correctly
+				if ($GLOBALS['importer'] == 'google_knol_wxr' or $the_imported_post->post_type == 'attachment') {
+					printf( __('[ %sEdit%s | %sPreview%s ]', 'anno'),
+						'<a href="'.esc_url(get_edit_post_link($the_imported_post->ID)).'">','</a>',
+						'<a href="'.esc_url($preview_url).'">','</a>.');
+				}
+				else {
+					printf( __('[ %sEdit%s ]', 'anno'),
+						'<a href="'.esc_url(get_edit_post_link($the_imported_post->ID)).'">','</a>');
+				}
+				
 				echo '<br />';				
 			}
 			echo '</p>';
@@ -1082,9 +1090,13 @@ foreach ($this->authors as $author_key => $author_data) {
 						update_post_meta($post_id, '_anno_author_snapshot', $author_snapshot);
 					}
 				}
-			
-				// Add a key to the post. Posts with this key are alerted that the XML structure may change on save. Meta is deleted on save.x2
-				add_post_meta($post_id, '_anno_knol_import', 1);
+				if ($GLOBALS['importer'] == 'google_knol_wxr') {
+					// Add a key to the post. Posts from google knol with this key are alerted 
+					// that the XML structure may change on save. Meta is deleted on save.
+					// Kipling (non-knol xml) imports don't need the extra parsing on save
+					// Fixes https://github.com/Annotum/Annotum/issues/40
+					add_post_meta($post_id, '_anno_knol_import', 1);
+				}
 			}
 		}
 
