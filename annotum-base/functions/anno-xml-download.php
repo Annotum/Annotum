@@ -204,10 +204,10 @@ class Anno_XML_Download {
 		// Abstract
 		$abstract = $article->post_excerpt;
 		if (!empty($abstract)) {
-			$abstract_xml = '<abstract>
-					<title>'._x('Abstract', 'xml abstract title', 'anno').'</title>
-					<p>'.esc_html($abstract).'</p>
-				</abstract>';
+			$abstract_xml = '
+			<abstract>
+				<p>'.esc_html($abstract).'</p>
+			</abstract>';
 		}
 		else {
 			$abstract_xml = '';
@@ -218,7 +218,7 @@ class Anno_XML_Download {
 		if (!empty($funding)) {
 			$funding_xml = '<funding-group>
 					<funding-statement>'.esc_html($funding).'</funding-statement>
-				</funding-group>';
+			</funding-group>';
 		}
 		else {
 			$funding_xml = '';
@@ -522,17 +522,23 @@ class Anno_XML_Download {
 		
 	}
 	
-	private function xml_back($article) {
-		return 
-'	<back>
-'.$this->xml_acknoledgements($article).'
-'.$this->xml_appendices($article).'
-'.$this->xml_references($article).'
-	</back>
-'.$this->xml_responses($article).'
-</article>';	
-	}
-	
+private function xml_back($article) {
+	if($this->xml_acknoledgements($article) || $this->xml_appendices($article) || $this->xml_references($article)) {
+	$xml_back = '	<back>
+		'.$this->xml_acknoledgements($article).'
+		'.$this->xml_appendices($article).'
+		'.$this->xml_references($article).'
+		</back>
+		'.$this->xml_responses($article).'
+		</article>';	
+		}
+	else { 
+		$xml_back =$this->xml_responses($article).'
+	</article>';
+	} 
+	return $xml_back; 
+}
+
 	private function xml_responses($article) {
 		$comments = get_comments(array('post_id' => $article->ID));
 		$comment_xml = '';
@@ -645,11 +651,11 @@ class Anno_XML_Download {
 		if (!empty($pub_date)) {
 			$pub_date = strtotime($pub_date);
 			$pub_date_xml = '
-				<pub-date pub-type="epub">
-					<day>'.date('j', $pub_date).'</day>
-					<month>'.date('n', $pub_date).'</month>
-					<year>'.date('Y', $pub_date).'</year>
-				</pub-date>';
+			<pub-date pub-type="epub">
+				<day>'.date('j', $pub_date).'</day>
+				<month>'.date('n', $pub_date).'</month>
+				<year>'.date('Y', $pub_date).'</year>
+			</pub-date>';
 		}
 		else {
 			$pub_date_xml = '';
