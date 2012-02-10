@@ -217,7 +217,7 @@ class Anno_XML_Download {
 		$funding = get_post_meta($article->ID, '_anno_funding', true);
 		if (!empty($funding)) {
 			$funding_xml = '<funding-group>
-					<funding-statement><bold>'.esc_html($funding).'</bold></funding-statement>
+					<funding-statement>'.esc_html($funding).'</funding-statement>
 				</funding-group>';
 		}
 		else {
@@ -240,7 +240,7 @@ class Anno_XML_Download {
 			if (!empty($category)) {
 				$category_xml = '<article-categories>
 				<subj-group>
-					<subject><bold>'.esc_html($category->name).'</bold></subject>
+					<subject>'.esc_html($category->name).'</subject>
 				</subj-group>
 			</article-categories>';
 			}
@@ -258,7 +258,7 @@ class Anno_XML_Download {
 			$tag_xml = '<kwd-group kwd-group-type="simple">';
 			foreach ($tags as $tag) {
 				$tag = get_term($tag, 'article_tag');
-				$tag_xml .= '<kwd><bold>'.esc_html($tag->name).'</bold></kwd>';
+				$tag_xml .= '<kwd>'.esc_html($tag->name).'</kwd>';
 			}
 			$tag_xml .= '
 			</kwd-group>';
