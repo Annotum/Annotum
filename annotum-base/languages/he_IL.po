@@ -1,0 +1,2135 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: \n"
+"Last-Translator: Annotum Support <info@annotum.org>\n"
+"Language-Team: Solvitor LLC <info@solvitor.com>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: ../../code/Annotum/annotum-base/functions.php:70
+msgid "Default Sidebar"
+msgstr "Default Sidebar"
+
+#: ../../code/Annotum/annotum-base/functions.php:74
+msgid "Page Sidebar"
+msgstr "Page Sidebar"
+
+#: ../../code/Annotum/annotum-base/functions.php:76
+msgid "This sidebar will be shown on Pages."
+msgstr "This sidebar will be shown on Pages."
+
+#: ../../code/Annotum/annotum-base/functions.php:79
+msgid "Article Sidebar"
+msgstr "Article Sidebar"
+
+#: ../../code/Annotum/annotum-base/functions.php:81
+msgid "This sidebar will be shown single Articles."
+msgstr "סרגל הצד יוצג במאמרים בודדים."
+
+#: ../../code/Annotum/annotum-base/functions.php:84
+msgid "Masthead Teasers"
+msgstr "קדימונים מסוג Masthead"
+
+#: ../../code/Annotum/annotum-base/functions.php:86
+msgid "Display items on the home page masthead."
+msgstr "הצג פריטים על ה-Masthead של דף הבית."
+
+#: ../../code/Annotum/annotum-base/functions.php:98
+msgid "Annotum Settings"
+msgstr "הגדרות Annotum"
+
+#: ../../code/Annotum/annotum-base/functions.php:232
+msgid "Required"
+msgstr "דרוש"
+
+#: ../../code/Annotum/annotum-base/functions.php:236
+msgid "Your Name"
+msgstr "שמך"
+
+#: ../../code/Annotum/annotum-base/functions.php:237
+msgid "Email Address"
+msgstr "כתובת דוא ל"
+
+#: ../../code/Annotum/annotum-base/functions.php:238
+msgid "Website"
+msgstr "אתר"
+
+#: ../../code/Annotum/annotum-base/functions.php:242
+msgid "Comment"
+msgstr "הערה"
+
+#: ../../code/Annotum/annotum-base/functions.php:244
+msgid "(cancel)"
+msgstr "(ביטול)"
+
+#: ../../code/Annotum/annotum-base/functions.php:245
+msgid "Leave a Comment"
+msgstr "השאר תגובה"
+
+#: ../../code/Annotum/annotum-base/functions.php:246
+#, php-format
+msgid "Leave a Reply to %s"
+msgstr "השאר תשובה ל-%s"
+
+#: ../../code/Annotum/annotum-base/functions.php:247
+msgid "Submit"
+msgstr "שלח"
+
+#: ../../code/Annotum/annotum-base/functions.php:266
+#: ../../code/Annotum/annotum-base/carrington-core/admin.php:79
+msgid "Yes"
+msgstr "כן"
+
+#: ../../code/Annotum/annotum-base/functions.php:267
+#: ../../code/Annotum/annotum-base/carrington-core/admin.php:80
+msgid "No"
+msgstr "לא"
+
+#: ../../code/Annotum/annotum-base/functions.php:272
+#: ../../code/Annotum/annotum-base/carrington-core/admin.php:34
+#: ../../code/Annotum/annotum-base/carrington-core/admin.php:51
+msgid "Theme Settings"
+msgstr "הגדרות עיצוב"
+
+#: ../../code/Annotum/annotum-base/functions.php:277
+msgid "Home Page Callout Left Title"
+msgstr "הסבר בדף הבית, כותרת משמאל"
+
+#: ../../code/Annotum/annotum-base/functions.php:283
+msgid "Home Page Callout Left URL"
+msgstr "הסבר בדף הבית, כתובת אתר משמאל"
+
+#: ../../code/Annotum/annotum-base/functions.php:289
+msgid "Home Page Callout Left Content"
+msgstr "הסבר בדף הבית, תוכן משמאל"
+
+#: ../../code/Annotum/annotum-base/functions.php:294
+msgid "Home Page Callout Right Title"
+msgstr "הסבר בדף הבית, כותרת מימין"
+
+#: ../../code/Annotum/annotum-base/functions.php:300
+msgid "Home Page Callout Right URL"
+msgstr "הסבר בדף הבית, כתובת אתר מימין"
+
+#: ../../code/Annotum/annotum-base/functions.php:306
+msgid "Home Page Callout Right Content"
+msgstr "הסבר בדף הבית, תוכן מימין"
+
+#: ../../code/Annotum/annotum-base/functions.php:321
+msgid "Front Page Post Type"
+msgstr "פוסט מסוג דף שער"
+
+#: ../../code/Annotum/annotum-base/functions.php:323
+msgid "Article"
+msgstr "מאמר"
+
+#: ../../code/Annotum/annotum-base/functions.php:324
+msgid "Post"
+msgstr "פוסט"
+
+#: ../../code/Annotum/annotum-base/functions.php:330
+msgid "Google Analytics"
+msgstr "Google Analytics"
+
+#: ../../code/Annotum/annotum-base/functions.php:333
+msgid "Google Analytics ID"
+msgstr "מזהה Google Analytics"
+
+#: ../../code/Annotum/annotum-base/functions.php:337
+msgid "ex: UA-123456-12"
+msgstr "לדוגמה: UA-123456-12"
+
+#: ../../code/Annotum/annotum-base/functions.php:342
+msgid "Workflow Options"
+msgstr "אפשרויות זרימת עבודה"
+
+#: ../../code/Annotum/annotum-base/functions.php:345
+msgid "Enable Workflow"
+msgstr "אפשר זרימת עבודה"
+
+#: ../../code/Annotum/annotum-base/functions.php:351
+msgid "Allow article authors to see reviewers"
+msgstr "אפשר למחברי מאמרים לראות מבקרים"
+
+#: ../../code/Annotum/annotum-base/functions.php:357
+msgid "Enable workflow notifications"
+msgstr "אפשר התראות זרימת עבודה"
+
+#: ../../code/Annotum/annotum-base/functions.php:365
+msgid "Journal Options"
+msgstr "אפשרויות כתב עת"
+
+#: ../../code/Annotum/annotum-base/functions.php:368
+msgid "Journal Name"
+msgstr "שם כתב עת"
+
+#: ../../code/Annotum/annotum-base/functions.php:373
+msgid "Journal Abbreviation"
+msgstr "קיצור כתב עת"
+
+#: ../../code/Annotum/annotum-base/functions.php:378
+msgid "Journal ID"
+msgstr "מזהה כתב עת"
+
+#: ../../code/Annotum/annotum-base/functions.php:383
+msgid "Journal ID Type"
+msgstr "סוג מזהה כתב עת"
+
+#: ../../code/Annotum/annotum-base/functions.php:388
+msgid "Journal ISSN"
+msgstr "ISSN של כתב עת"
+
+#: ../../code/Annotum/annotum-base/functions.php:393
+msgid "Publisher Name"
+msgstr "שם המוציא לאור"
+
+#: ../../code/Annotum/annotum-base/functions.php:398
+msgid "Publisher Location"
+msgstr "מיקום המוציא לאור"
+
+#: ../../code/Annotum/annotum-base/functions.php:403
+msgid "Publisher ISSN"
+msgstr "ISSN של המוציא לאור"
+
+#: ../../code/Annotum/annotum-base/functions.php:410
+msgid "CrossRef Credentials"
+msgstr "אישורי CrossRef"
+
+#: ../../code/Annotum/annotum-base/functions.php:413
+msgid "Login"
+msgstr "התחברות"
+
+#: ../../code/Annotum/annotum-base/functions.php:418
+msgid "Password"
+msgstr "סיסמה"
+
+#: ../../code/Annotum/annotum-base/functions.php:423
+msgid "Registrant Code"
+msgstr "קוד נרשם"
+
+#: ../../code/Annotum/annotum-base/functions.php:445
+msgid "Invalid Google Analytics ID"
+msgstr "מזהה Google Analytics לא חוקי"
+
+#: ../../code/Annotum/annotum-base/functions.php:734
+msgid "Cheatin&#8217; uh?"
+msgstr "‎Cheatin&#8217; uh?‎"
+
+#: ../../code/Annotum/annotum-base/functions.php:741
+msgid "Invalid email address"
+msgstr "כתובת דוא ל לא חוקית"
+
+#: ../../code/Annotum/annotum-base/functions.php:759
+#, php-format
+msgid "You have been invited to join %s"
+msgstr "הוזמנת להצטרף ל-‎%s‎"
+
+#: ../../code/Annotum/annotum-base/functions.php:761
+#, php-format
+msgid ""
+"%s has created a user with your email address for %s.\n"
+"Please use the following credentials to login and change your password:\n"
+"\n"
+"Username: %s\n"
+"Password: %s\n"
+"%s"
+msgstr ""
+"%s has created a user with your email address for %s.\n"
+"Please use the following credentials to login and change your password:\n"
+"\n"
+"Username: %s\n"
+"Password: %s\n"
+"%s"
+
+#: ../../code/Annotum/annotum-base/functions.php:786
+msgid "Published"
+msgstr "פורסם"
+
+#: ../../code/Annotum/annotum-base/functions.php:790
+msgid "Pending"
+msgstr "בהמתנה"
+
+#: ../../code/Annotum/annotum-base/functions.php:794
+msgid "Draft"
+msgstr "טיוטה"
+
+#: ../../code/Annotum/annotum-base/functions.php:798
+msgid "Trash"
+msgstr "אשפה"
+
+#: ../../code/Annotum/annotum-base/functions.php:843
+msgid "Article Summary"
+msgstr "סיכום מאמר"
+
+#: ../../code/Annotum/annotum-base/functions.php:848
+msgid "Articles"
+msgstr "מאמרים"
+
+#: ../../code/Annotum/annotum-base/assets/load.php:32
+msgid "Previous"
+msgstr "הקודם"
+
+#: ../../code/Annotum/annotum-base/assets/load.php:33
+msgid "Next"
+msgstr "הבא  "
+
+#: ../../code/Annotum/annotum-base/assets/load.php:34
+#, php-format
+msgid "%1$s of %2$s"
+msgstr "‎%1$s‎ מתוך ‎%2$s‎"
+
+#: ../../code/Annotum/annotum-base/carrington-core/admin.php:33
+#: ../../code/Annotum/annotum-base/carrington-core/admin.php:319
+msgid "Carrington Theme Settings"
+msgstr "הגדרות עיצוב Carrington"
+
+#: ../../code/Annotum/annotum-base/carrington-core/admin.php:90
+msgid "About text (shown in sidebar)"
+msgstr "טקסט 'אודות' (מוצג בסרגל הצד)"
+
+#: ../../code/Annotum/annotum-base/carrington-core/admin.php:97
+msgid "Header code (analytics, etc.)"
+msgstr "קוד כותרת עליונה (Google Analytics, וכולי.)"
+
+#: ../../code/Annotum/annotum-base/carrington-core/admin.php:102
+msgid "Footer code (analytics, etc.)"
+msgstr "קוד כותרת תחתונה (Google Analytics, וכולי.)"
+
+#: ../../code/Annotum/annotum-base/carrington-core/admin.php:107
+msgid "Copyright / legal footer text"
+msgstr "טקסט כותרת תחתונה בנושא זכויות יוצרים / מידע משפטי"
+
+#: ../../code/Annotum/annotum-base/carrington-core/admin.php:109
+msgid "(add %Y to output the current year)"
+msgstr "(הוסף %Y לתפוקה בשנה הנוכחית)"
+
+#: ../../code/Annotum/annotum-base/carrington-core/admin.php:114
+msgid "Show log in/out links in footer"
+msgstr "הצג קישורי התחברות/יציאה בכותרת התחתונה"
+
+#: ../../code/Annotum/annotum-base/carrington-core/admin.php:120
+msgid "Give credit in footer"
+msgstr "תן קרדיט בכותרת תחתונה"
+
+#: ../../code/Annotum/annotum-base/carrington-core/admin.php:329
+msgid "Save"
+msgstr "שמירה"
+
+#: ../../code/Annotum/annotum-base/carrington-core/admin.php:371
+msgid "No Image"
+msgstr "ללא תמונה"
+
+#: ../../code/Annotum/annotum-base/carrington-core/admin.php:388
+#, php-format
+msgid "Header Image &mdash; <a href=\"%s\">Upload Images</a>"
+msgstr "תמונת כותרת עליונה &mdash; <a href=\"%s\">העלה תמונות</a>"
+
+#: ../../code/Annotum/annotum-base/carrington-core/ajax-load.php:50
+msgid "Close"
+msgstr "סגור"
+
+#: ../../code/Annotum/annotum-base/carrington-core/carrington.php:92
+#, php-format
+msgid "<a class=\"more\" href=\"%s\">more &rarr;</a>"
+msgstr "<a class=\"עוד\" href‏=\"%s\">עוד &rarr;‏</a>"
+
+#: ../../code/Annotum/annotum-base/carrington-core/compatibility.php:44
+msgid "Cancel"
+msgstr "ביטול"
+
+#: ../../code/Annotum/annotum-base/carrington-core/utility.php:65
+#, php-format
+msgid "Copyright &copy; %s &nbsp;&middot;&nbsp; %s"
+msgstr "זכויות יוצרים &copy; %s &nbsp;&middot;&nbsp; %s"
+
+#: ../../code/Annotum/annotum-base/comment/comment-default.php:24
+msgid "Your comment is awaiting moderation."
+msgstr "ההערה שלך מחכה לעריכה."
+
+#: ../../code/Annotum/annotum-base/comment/comment-default.php:32
+msgid "Edit This"
+msgstr "ערוך זאת"
+
+#: ../../code/Annotum/annotum-base/comments/comments-default.php:20
+msgid "1 Comment"
+msgstr "הערה אחת"
+
+#: ../../code/Annotum/annotum-base/comments/comments-default.php:20
+msgid "% Comments"
+msgstr "% הערות"
+
+#: ../../code/Annotum/annotum-base/content/content-default.php:26
+msgid "Print Post"
+msgstr "הדפס פוסט"
+
+#: ../../code/Annotum/annotum-base/content/content-default.php:39
+#: ../../code/Annotum/annotum-base/content/type-article.php:31
+msgid "Authors"
+msgstr "מחברים"
+
+#: ../../code/Annotum/annotum-base/content/content-default.php:48
+#: ../../code/Annotum/annotum-base/content/type-article.php:52
+msgid "Continued&hellip;"
+msgstr "המשך&hellip;"
+
+#: ../../code/Annotum/annotum-base/content/content-default.php:54
+#: ../../code/Annotum/annotum-base/content/type-article.php:67
+msgid "Tags:"
+msgstr "תגים:"
+
+#: ../../code/Annotum/annotum-base/content/type-article.php:41
+msgid "Abstract"
+msgstr "תקציר"
+
+#: ../../code/Annotum/annotum-base/content/type-article.php:47
+msgid "Funding Statement"
+msgstr "הצהרת מימון"
+
+#: ../../code/Annotum/annotum-base/content/type-article.php:57
+msgid "Acknowledgements"
+msgstr "תודות"
+
+#: ../../code/Annotum/annotum-base/error/404.php:18
+msgid "Page Not Found"
+msgstr "הדף לא נמצא"
+
+#: ../../code/Annotum/annotum-base/error/404.php:19
+msgid "Sorry, we&rsquo;re not sure what you&rsquo;re looking for here."
+msgstr "מצטערים, לא הבנו בדיוק מה אתה מחפש כאן."
+
+#: ../../code/Annotum/annotum-base/forms/search.php:20
+#: ../../code/Annotum/annotum-base/forms/search.php:21
+msgid "Search"
+msgstr "חיפוש"
+
+#: ../../code/Annotum/annotum-base/functions/anno-xml-download.php:74
+msgid "No article found."
+msgstr "לא נמצא מאמר."
+
+#: ../../code/Annotum/annotum-base/functions/anno-xml-download.php:104
+msgid "Required article first."
+msgstr "המאמר הנדרש ראשון."
+
+#: ../../code/Annotum/annotum-base/functions/anno-xml-download.php:426
+msgid "Acknowledgments"
+msgstr "תודות"
+
+#: ../../code/Annotum/annotum-base/functions/anno-xml-download.php:445
+#: ../../code/Annotum/annotum-base/functions/template.php:315
+#, php-format
+msgid "Appendix %s"
+msgstr "נספח %s"
+
+#: ../../code/Annotum/annotum-base/functions/anno-xml-download.php:464
+#: ../../code/Annotum/annotum-base/functions/article-post-type.php:94
+#: ../../code/Annotum/annotum-base/functions/template.php:339
+msgid "References"
+msgstr "הפניות"
+
+#: ../../code/Annotum/annotum-base/functions/Anno_Widget_Recently.php:27
+msgid "Display the most recent posts and comments in a tabbed box."
+msgstr "הצג את ההערות והפוסטים האחרונים בתיבה עם כרטיסיות."
+
+#: ../../code/Annotum/annotum-base/functions/Anno_Widget_Recently.php:30
+msgid "Recently&hellip;"
+msgstr "לאחרונה&hellip;"
+
+#: ../../code/Annotum/annotum-base/functions/Anno_Widget_Recently.php:60
+msgid "Recent Articles"
+msgstr "מאמרים אחרונים"
+
+#: ../../code/Annotum/annotum-base/functions/Anno_Widget_Recently.php:61
+msgid "Comments"
+msgstr "הערות"
+
+#: ../../code/Annotum/annotum-base/functions/Anno_Widget_Recently.php:96
+#, php-format
+msgid "%1$s on %2$s"
+msgstr "‎%1$s על %2$s‎"
+
+#: ../../code/Annotum/annotum-base/functions/appendix-repeater.php:43
+msgid "Are you sure you want to delete this?"
+msgstr "האם אתה בטוח שברצונך למחוק זאת?"
+
+#: ../../code/Annotum/annotum-base/functions/appendix-repeater.php:51
+msgid "Add Another Appendix"
+msgstr "הוסף נספח נוסף"
+
+#: ../../code/Annotum/annotum-base/functions/appendix-repeater.php:83
+msgid "Appendix"
+msgstr "נספח"
+
+#: ../../code/Annotum/annotum-base/functions/appendix-repeater.php:83
+msgid "delete"
+msgstr "מחק"
+
+#: ../../code/Annotum/annotum-base/functions/article-post-type.php:17
+msgid "Add New Article"
+msgstr "הוסף מאמר חדש"
+
+#: ../../code/Annotum/annotum-base/functions/article-post-type.php:18
+msgid "Edit Article"
+msgstr "ערוך מאמר"
+
+#: ../../code/Annotum/annotum-base/functions/article-post-type.php:19
+msgid "New Article"
+msgstr "מאמר חדש"
+
+#: ../../code/Annotum/annotum-base/functions/article-post-type.php:20
+msgid "View Article"
+msgstr "הצג מאמר"
+
+#: ../../code/Annotum/annotum-base/functions/article-post-type.php:21
+msgid "Search Articles"
+msgstr "חפש מאמרים"
+
+#: ../../code/Annotum/annotum-base/functions/article-post-type.php:22
+msgid "No Articles found"
+msgstr "לא נמצאו מאמרים"
+
+#: ../../code/Annotum/annotum-base/functions/article-post-type.php:23
+msgid "No Articles found in Trash"
+msgstr "לא נמצאו מאמרים באשפה"
+
+#: ../../code/Annotum/annotum-base/functions/article-post-type.php:52
+msgid "Unable to perform that ability"
+msgstr "אין אפשרות לבצע יכולת זו"
+
+#: ../../code/Annotum/annotum-base/functions/article-post-type.php:70
+#, php-format
+msgid "Article updated. <a href=\"%s\">View article</a>"
+msgstr "מאמר עודכן. <a href=\"%s\">הצג מאמר</a>"
+
+#: ../../code/Annotum/annotum-base/functions/article-post-type.php:71
+msgid "Custom field updated."
+msgstr "שדה מותאם אישית עודכן."
+
+#: ../../code/Annotum/annotum-base/functions/article-post-type.php:72
+msgid "Custom field deleted."
+msgstr "שדה מותאם אישית נמחק."
+
+#: ../../code/Annotum/annotum-base/functions/article-post-type.php:73
+msgid "Article updated."
+msgstr "מאמר עודכן."
+
+#: ../../code/Annotum/annotum-base/functions/article-post-type.php:74
+#, php-format
+msgid "Article restored to revision from %s"
+msgstr "מאמר שוחזר לתיקונים מ-%s"
+
+#: ../../code/Annotum/annotum-base/functions/article-post-type.php:75
+#, php-format
+msgid "Article published. <a href=\"%s\">View article</a>"
+msgstr "המאמר פורסם. <a href=\"%s\">הצג מאמר</a>"
+
+#: ../../code/Annotum/annotum-base/functions/article-post-type.php:76
+msgid "Article saved."
+msgstr "המאמר נשמר."
+
+#: ../../code/Annotum/annotum-base/functions/article-post-type.php:77
+#, php-format
+msgid "Article submitted. <a target=\"_blank\" href=\"%s\">Preview article</a>"
+msgstr "המאמר נשלח. <a target=\"_blank\" href=\"%s\">הצג מאמר בתצוגה מקדימה</a>"
+
+#: ../../code/Annotum/annotum-base/functions/article-post-type.php:78
+#, php-format
+msgid "Article scheduled for: <strong>%1$s</strong>. <a target=\"_blank\" href=\"%2$s\">Preview article</a>"
+msgstr "המאמר מיועד לפרסום בתאריך: <strong>%1$s</strong>. <a target=\"_blank\" href=\"%2$s\">הצג מאמר בתצוגה מקדימה</a>"
+
+#: ../../code/Annotum/annotum-base/functions/article-post-type.php:78
+msgid "M j, Y @ G:i"
+msgstr "M j, Y @ G:i"
+
+#: ../../code/Annotum/annotum-base/functions/article-post-type.php:79
+#, php-format
+msgid "Article draft updated. <a target=\"_blank\" href=\"%s\">Preview article</a>"
+msgstr "טיוטת המאמר עודכנה. <a target=\"_blank\" href=\"%s\">הצג מאמר בתצוגה מקדימה</a>"
+
+#: ../../code/Annotum/annotum-base/functions/article-post-type.php:80
+msgid "Article successfully cloned."
+msgstr "המאמר שוכפל בהצלחה."
+
+#: ../../code/Annotum/annotum-base/functions/article-post-type.php:81
+msgid "Unable to clone article."
+msgstr "אין אפשרות לשכפל מאמר."
+
+#: ../../code/Annotum/annotum-base/functions/article-post-type.php:92
+msgid "Subtitle"
+msgstr "כותרת משנה"
+
+#: ../../code/Annotum/annotum-base/functions/article-post-type.php:93
+msgid "Body"
+msgstr "גוף המאמר"
+
+#: ../../code/Annotum/annotum-base/functions/article-post-type.php:98
+msgid "Appendices"
+msgstr "נספחים"
+
+#: ../../code/Annotum/annotum-base/functions/article-post-type.php:99
+msgid "Featured"
+msgstr "מוצגים"
+
+#: ../../code/Annotum/annotum-base/functions/article-post-type.php:102
+msgid "Convert To Post"
+msgstr "המר לפוסט"
+
+#: ../../code/Annotum/annotum-base/functions/article-post-type.php:103
+msgid "DOI Deposit"
+msgstr "הפקדת DOI"
+
+#: ../../code/Annotum/annotum-base/functions/article-post-type.php:189
+msgid "Feature this article to appear in the home page carousel"
+msgstr "הצג מאמר זה כך שיופיע בקרוסלת דף הבית"
+
+#: ../../code/Annotum/annotum-base/functions/article-post-type.php:341
+msgid "Clicking the button below will convert the current <strong>Article</strong> to a <strong>Post</strong>. This will also convert any terms in article taxonomies to post taxonomies. You will not be able to revert this Article back once it has been converted to a Post."
+msgstr "לחיצה על הלחצן למטה תמיר את ה<strong>מאמר</strong> הנוכחי ל<strong>פוסט</strong>. פעולה זו תמיר גם את כל המונחים בטקסונומיות של מאמר לטקסונומיות של פוסט. לא תוכל להחזיר מאמר זה למצב הקודם לאחר שיעבור המרה לפוסט."
+
+#: ../../code/Annotum/annotum-base/functions/article-post-type.php:361
+#: ../../code/Annotum/annotum-base/functions/tinymce.php:430
+msgid "CrossRef Credentials Required"
+msgstr "נדרשים אישורי CrossRef"
+
+#: ../../code/Annotum/annotum-base/functions/article-post-type.php:372
+msgid "Deposit"
+msgstr "הפקדה"
+
+#: ../../code/Annotum/annotum-base/functions/profile.php:8
+msgid "Name Prefix"
+msgstr "קידומת שם"
+
+#: ../../code/Annotum/annotum-base/functions/profile.php:9
+msgid "Name Suffix"
+msgstr "סיומת שם"
+
+#: ../../code/Annotum/annotum-base/functions/profile.php:10
+msgid "Degrees"
+msgstr "תארים"
+
+#: ../../code/Annotum/annotum-base/functions/profile.php:11
+msgid "Affiliation"
+msgstr "השתייכות"
+
+#: ../../code/Annotum/annotum-base/functions/profile.php:19
+#: ../../code/Annotum/annotum-base/functions/profile.php:20
+#: ../../code/Annotum/annotum-base/functions/profile.php:36
+msgid "Annotum Profile"
+msgstr "פרופיל Annotum"
+
+#: ../../code/Annotum/annotum-base/functions/profile.php:38
+msgid "Profile Updated"
+msgstr "הפרופיל עודכן"
+
+#: ../../code/Annotum/annotum-base/functions/profile.php:44
+msgid "First Name"
+msgstr "שם פרטי"
+
+#: ../../code/Annotum/annotum-base/functions/profile.php:45
+#: ../../code/Annotum/annotum-base/functions/profile.php:50
+msgid "Change"
+msgstr "שנה"
+
+#: ../../code/Annotum/annotum-base/functions/profile.php:49
+msgid "Last Name"
+msgstr "שם משפחה"
+
+#: ../../code/Annotum/annotum-base/functions/profile.php:71
+msgid "Update Profile"
+msgstr "עדכן פרופיל"
+
+#: ../../code/Annotum/annotum-base/functions/taxonomies.php:9
+#: ../../code/Annotum/annotum-base/functions/taxonomies.php:10
+#: ../../code/Annotum/annotum-base/functions/taxonomies.php:70
+msgid "Article Category"
+msgstr "קטגוריית המאמר"
+
+#: ../../code/Annotum/annotum-base/functions/taxonomies.php:11
+msgid "Search Article Categories"
+msgstr "חפש קטגוריות מאמרים"
+
+#: ../../code/Annotum/annotum-base/functions/taxonomies.php:12
+msgid "Popular Article Categories"
+msgstr "קטגוריות מאמרים פופולריות"
+
+#: ../../code/Annotum/annotum-base/functions/taxonomies.php:13
+msgid "All Article Categories"
+msgstr "כל קטגוריות המאמרים"
+
+#: ../../code/Annotum/annotum-base/functions/taxonomies.php:14
+msgid "Edit Article Category"
+msgstr "ערוך את קטגוריית המאמר"
+
+#: ../../code/Annotum/annotum-base/functions/taxonomies.php:15
+msgid "Update Article Category"
+msgstr "עדכן את קטגוריית המאמר"
+
+#: ../../code/Annotum/annotum-base/functions/taxonomies.php:16
+msgid "Add New Article Category"
+msgstr "הוסף קטגוריית מאמר חדשה"
+
+#: ../../code/Annotum/annotum-base/functions/taxonomies.php:17
+msgid "New Article Category Name"
+msgstr "שם קטגוריית מאמר חדשה"
+
+#: ../../code/Annotum/annotum-base/functions/taxonomies.php:18
+msgid "Add or Remove Article Categories"
+msgstr "הוסף או הסר קטגוריות מאמרים"
+
+#: ../../code/Annotum/annotum-base/functions/taxonomies.php:19
+msgid "Choose from the most used article categories"
+msgstr "בחר מתוך קטגוריות המאמרים הנפוצות ביותר"
+
+#: ../../code/Annotum/annotum-base/functions/taxonomies.php:20
+msgid "Article Categories"
+msgstr "קטגוריות מאמרים"
+
+#: ../../code/Annotum/annotum-base/functions/taxonomies.php:33
+#: ../../code/Annotum/annotum-base/functions/taxonomies.php:34
+msgid "Article Tag"
+msgstr "תג מאמר"
+
+#: ../../code/Annotum/annotum-base/functions/taxonomies.php:35
+msgid "Search Article Tags"
+msgstr "חפש תגי מאמרים"
+
+#: ../../code/Annotum/annotum-base/functions/taxonomies.php:36
+msgid "Popular Article Tags"
+msgstr "תגי מאמרים פופולריים"
+
+#: ../../code/Annotum/annotum-base/functions/taxonomies.php:37
+msgid "All Article Tags"
+msgstr "כל תגי המאמרים"
+
+#: ../../code/Annotum/annotum-base/functions/taxonomies.php:38
+msgid "Edit Article Tag"
+msgstr "ערוך את תג המאמר"
+
+#: ../../code/Annotum/annotum-base/functions/taxonomies.php:39
+msgid "Update Article Tag"
+msgstr "עדכן את תג המאמר"
+
+#: ../../code/Annotum/annotum-base/functions/taxonomies.php:40
+msgid "Add New Article Tag"
+msgstr "הוסף תג מאמר חדש"
+
+#: ../../code/Annotum/annotum-base/functions/taxonomies.php:41
+msgid "New Article Tag Name"
+msgstr "שם תג מאמר חדש"
+
+#: ../../code/Annotum/annotum-base/functions/taxonomies.php:42
+msgid "Add or Remove Article Tags"
+msgstr "הוסף או הסר תגי מאמרים"
+
+#: ../../code/Annotum/annotum-base/functions/taxonomies.php:43
+msgid "Choose from the most used article tags"
+msgstr "בחר מתוך תגי המאמרים הנפוצים ביותר"
+
+#: ../../code/Annotum/annotum-base/functions/taxonomies.php:44
+msgid "Article Tags"
+msgstr "תגי מאמרים"
+
+#: ../../code/Annotum/annotum-base/functions/template.php:198
+msgid "Website:"
+msgstr "אתר:"
+
+#: ../../code/Annotum/annotum-base/functions/template.php:255
+#, php-format
+msgid "%1$s: %2$s"
+msgstr "‎%1$s: %2$s‎"
+
+#: ../../code/Annotum/annotum-base/functions/template.php:265
+#, php-format
+msgid "%1$s %2$s"
+msgstr "‎%1$s %2$s‎"
+
+#: ../../code/Annotum/annotum-base/functions/template.php:282
+#, php-format
+msgid "%1$s. %2$s [Internet]. Version %3$s. %4$s. %5$s. Available from: %6$s."
+msgstr "‎%1$s. %2$s‎ [אינטרנט]. גירסה ‎%3$s. %4$s. %5$s.‎ זמינה החל מ-: %6$s."
+
+#: ../../code/Annotum/annotum-base/functions/template.php:343
+msgid "Reference Link"
+msgstr "קישור הפניה"
+
+#: ../../code/Annotum/annotum-base/functions/template.php:362
+msgid "Tweet"
+msgstr "ציוץ"
+
+#: ../../code/Annotum/annotum-base/functions/template.php:389
+msgid "Email"
+msgstr "דוא ל"
+
+#: ../../code/Annotum/annotum-base/functions/tinymce-uploader.php:61
+#, php-format
+msgid "Sorry, you have filled your storage quota (%s MB)."
+msgstr "מצטערים, עברת את מכסת שטח האחסון שלך (‎%s MB‎)."
+
+#: ../../code/Annotum/annotum-base/functions/tinymce-uploader.php:103
+msgid "Select Files"
+msgstr "בחר קבצים"
+
+#: ../../code/Annotum/annotum-base/functions/tinymce-uploader.php:145
+msgid "Choose files to upload"
+msgstr "בחר קבצים להעלאה"
+
+#: ../../code/Annotum/annotum-base/functions/tinymce-uploader.php:156
+#: ../../code/Annotum/annotum-base/functions/tinymce-uploader.php:158
+msgid "Upload"
+msgstr "העלה"
+
+#: ../../code/Annotum/annotum-base/functions/tinymce-uploader.php:162
+msgid "If you want to use all capabilities of the uploader, like uploading multiple files at once, please update to lighttpd 1.5."
+msgstr "אם ברצונך להשתמש בכל היכולות של Google Uploader, כגון העלאת קבצים מרובים בבת אחת, עדכן ל-lighttpd 1.5."
+
+#: ../../code/Annotum/annotum-base/functions/tinymce-uploader.php:276
+msgid "You do not have permission to upload files."
+msgstr "אין לך אישור להעלאת קבצים."
+
+#: ../../code/Annotum/annotum-base/functions/tinymce-uploader.php:282
+msgid "Unknown post type."
+msgstr "סוג פוסט לא ידוע."
+
+#: ../../code/Annotum/annotum-base/functions/tinymce-uploader.php:285
+msgid "You are not allowed to edit this item."
+msgstr "אינך מורשה לערוך פריט זה."
+
+#: ../../code/Annotum/annotum-base/functions/tinymce-uploader.php:297
+msgid "Dismiss"
+msgstr "דחה"
+
+#: ../../code/Annotum/annotum-base/functions/tinymce-uploader.php:298
+#, php-format
+msgid "&#8220;%s&#8221; has failed to upload due to an error"
+msgstr "העלאת ‎&#8220;%s&#8221;‎ נכשלה בשל שגיאה"
+
+#: ../../code/Annotum/annotum-base/functions/tinymce.php:325
+#: ../../code/Annotum/annotum-base/functions/tinymce.php:459
+msgid "URL"
+msgstr "כתובת אתר"
+
+#: ../../code/Annotum/annotum-base/functions/tinymce.php:329
+msgid "Title"
+msgstr "כותרת"
+
+#: ../../code/Annotum/annotum-base/functions/tinymce.php:333
+msgid "Alt Text"
+msgstr "כל הטקסט"
+
+#: ../../code/Annotum/annotum-base/functions/tinymce.php:356
+msgid "Label"
+msgstr "תווית"
+
+#: ../../code/Annotum/annotum-base/functions/tinymce.php:360
+msgid "Caption"
+msgstr "כיתוב"
+
+#: ../../code/Annotum/annotum-base/functions/tinymce.php:364
+msgid "Table Properties"
+msgstr "מאפייני טבלה"
+
+#: ../../code/Annotum/annotum-base/functions/tinymce.php:366
+msgid "Columns"
+msgstr "עמודות"
+
+#: ../../code/Annotum/annotum-base/functions/tinymce.php:370
+msgid "Rows"
+msgstr "שורות"
+
+#: ../../code/Annotum/annotum-base/functions/tinymce.php:377
+#: ../../code/Annotum/annotum-base/functions/tinymce.php:590
+#: ../../code/Annotum/annotum-base/functions/tinymce.php:611
+msgid "Insert"
+msgstr "הוסף"
+
+#: ../../code/Annotum/annotum-base/functions/tinymce.php:401
+msgid "Edit"
+msgstr "ערוך"
+
+#: ../../code/Annotum/annotum-base/functions/tinymce.php:402
+msgid "Delete"
+msgstr "מחק"
+
+#: ../../code/Annotum/annotum-base/functions/tinymce.php:432
+msgid "CrossRef DOI"
+msgstr "DOI של CrossRef"
+
+#: ../../code/Annotum/annotum-base/functions/tinymce.php:434
+#: ../../code/Annotum/annotum-base/functions/tinymce.php:441
+msgid "Import"
+msgstr "ייבא"
+
+#: ../../code/Annotum/annotum-base/functions/tinymce.php:439
+msgid "PubMed ID (PMID)"
+msgstr "מזהה PubMed‏ (PMID)"
+
+#: ../../code/Annotum/annotum-base/functions/tinymce.php:446
+msgid "Figures"
+msgstr "איורים"
+
+#: ../../code/Annotum/annotum-base/functions/tinymce.php:448
+msgid "Select Figure"
+msgstr "בחר איור"
+
+#: ../../code/Annotum/annotum-base/functions/tinymce.php:455
+#: ../../code/Annotum/annotum-base/functions/tinymce.php:565
+msgid "Text"
+msgstr "טקסט"
+
+#: ../../code/Annotum/annotum-base/functions/tinymce.php:542
+msgid "New Reference"
+msgstr "הפניה חדשה"
+
+#: ../../code/Annotum/annotum-base/functions/tinymce.php:549
+msgid "Insert Reference(s)"
+msgstr "הוסף הפניות"
+
+#: ../../code/Annotum/annotum-base/functions/tinymce.php:569
+msgid "Attribution"
+msgstr "ייחוס"
+
+#: ../../code/Annotum/annotum-base/functions/tinymce.php:573
+msgid "Permissions"
+msgstr "הרשאות"
+
+#: ../../code/Annotum/annotum-base/functions/tinymce.php:575
+msgid "Copyright Statement"
+msgstr "הצהרת זכויות יוצרים"
+
+#: ../../code/Annotum/annotum-base/functions/tinymce.php:579
+msgid "Copyright Holder"
+msgstr "בעל זכויות יוצרים "
+
+#: ../../code/Annotum/annotum-base/functions/tinymce.php:583
+msgid "License"
+msgstr "רישיון"
+
+#: ../../code/Annotum/annotum-base/functions/tinymce.php:631
+msgid "Use Ctrl+Enter"
+msgstr "השתמש ב-Ctrl+Enter"
+
+#: ../../code/Annotum/annotum-base/functions/tinymce.php:632
+msgid "To insert new sections (when within a section) or add new paragraphs when inside elements like a table, or figure caption."
+msgstr "כדי להוסיף קטעים חדשים (כשאתה נמצא בתוך קטע) או להוסיף פסקאות חדשות שאתה נמצא בתוך אלמנטים כגון טבלה, או כיתוב של איור."
+
+#: ../../code/Annotum/annotum-base/functions/tinymce.php:692
+msgid "Could not evaluate Article ID please try again."
+msgstr "אין אפשרות להעריך את מזהה המאמר, נסה שוב."
+
+#: ../../code/Annotum/annotum-base/functions/tinymce.php:696
+msgid "Text cannot be blank."
+msgstr "טקסט לא יכול להיות ריק."
+
+#: ../../code/Annotum/annotum-base/functions/tinymce.php:700
+msgid "Could not evaluate Reference ID please try again."
+msgstr "אין אפשרות להעריך את מזהה ההפניה, נסה שוב."
+
+#: ../../code/Annotum/annotum-base/functions/tinymce.php:708
+msgid "Could not save reference, please try again."
+msgstr "אין אפשרות לשמור את ההפניה, נסה שוב."
+
+#: ../../code/Annotum/annotum-base/functions/tinymce.php:718
+msgid "Reference Saved."
+msgstr "ההפניה נשמרה."
+
+#: ../../code/Annotum/annotum-base/functions/tinymce.php:1339
+#, php-format
+msgid "Fig. %d"
+msgstr "איור %d"
+
+#: ../../code/Annotum/annotum-base/functions/tinymce.php:1723
+#, php-format
+msgid "%1$s, %2$s."
+msgstr "‎%1$s, %2$s.‎"
+
+#: ../../code/Annotum/annotum-base/functions/tinymce.php:1730
+#, php-format
+msgid "%1$s."
+msgstr "‎%1$s.‎"
+
+#: ../../code/Annotum/annotum-base/functions/tinymce.php:1736
+#, php-format
+msgid "Copyright, %1$s."
+msgstr "זכויות יוצרים, ‎%1$s‎."
+
+#: ../../code/Annotum/annotum-base/functions/widgets.php:10
+msgid "A sidebar advertisement"
+msgstr "פרסומת בסרגל צד"
+
+#: ../../code/Annotum/annotum-base/functions/widgets.php:12
+msgid "Advertisement"
+msgstr "פרסומת"
+
+#: ../../code/Annotum/annotum-base/functions/tinymce-upload/image-popup.php:134
+msgid "Description"
+msgstr "תיאור"
+
+#: ../../code/Annotum/annotum-base/functions/tinymce-upload/image-popup.php:139
+msgid "Display"
+msgstr "הצג"
+
+#: ../../code/Annotum/annotum-base/functions/tinymce-upload/image-popup.php:142
+msgid "Display as Figure"
+msgstr "הצג כאיור"
+
+#: ../../code/Annotum/annotum-base/functions/tinymce-upload/image-popup.php:146
+msgid "Display Inline"
+msgstr "הצג בתוך שורה"
+
+#: ../../code/Annotum/annotum-base/functions/tinymce-upload/image-popup.php:175
+msgid "Size"
+msgstr "גודל"
+
+#: ../../code/Annotum/annotum-base/functions/tinymce-upload/image-popup.php:178
+msgid "Thumbnail"
+msgstr "תמונה ממוזערת"
+
+#: ../../code/Annotum/annotum-base/functions/tinymce-upload/image-popup.php:179
+msgid "Medium"
+msgstr "בינוני"
+
+#: ../../code/Annotum/annotum-base/functions/tinymce-upload/image-popup.php:180
+msgid "Large"
+msgstr "גדול"
+
+#: ../../code/Annotum/annotum-base/functions/tinymce-upload/image-popup.php:181
+msgid "Full"
+msgstr "מלא"
+
+#: ../../code/Annotum/annotum-base/functions/tinymce-upload/image-popup.php:226
+msgid "Show "
+msgstr "הצג"
+
+#: ../../code/Annotum/annotum-base/misc/nav-posts.php:14
+msgid "&laquo; Newer"
+msgstr "&laquo; חדש יותר"
+
+#: ../../code/Annotum/annotum-base/misc/nav-posts.php:15
+msgid "Older &raquo;"
+msgstr "ישן יותר &raquo;"
+
+#: ../../code/Annotum/annotum-base/misc/no-results.php:15
+msgid "Sorry, we couldn't find any results that matched your request."
+msgstr "מצטערים, לא הצלחנו למצוא תוצאות שתאמו לבקשתך."
+
+#: ../../code/Annotum/annotum-base/misc/tools-bar.php:7
+msgid "PDF"
+msgstr "PDF"
+
+#: ../../code/Annotum/annotum-base/misc/tools-bar.php:16
+msgid "XML"
+msgstr "XML"
+
+#: ../../code/Annotum/annotum-base/misc/tools-bar.php:23
+msgid "Print Article"
+msgstr "הדפס את המאמר"
+
+#: ../../code/Annotum/annotum-base/misc/tools-bar.php:26
+msgid "Citation"
+msgstr "ציטוט"
+
+#: ../../code/Annotum/annotum-base/plugins/anno-article-lookup.php:20
+#: ../../code/Annotum/annotum-base/plugins/anno-article-lookup.php:140
+#: ../../code/Annotum/annotum-base/plugins/anno-article-lookup.php:289
+msgid "An error has occurred, please try again later"
+msgstr "אירעה שגיאה, נסה שוב מאוחר יותר"
+
+#: ../../code/Annotum/annotum-base/plugins/anno-article-lookup.php:26
+msgid "Invalid PMID"
+msgstr "PMID לא חוקי"
+
+#: ../../code/Annotum/annotum-base/plugins/anno-article-lookup.php:108
+msgid "PubMed PMID:"
+msgstr "‎PubMed PMID:‎"
+
+#: ../../code/Annotum/annotum-base/plugins/anno-article-lookup.php:146
+#: ../../code/Annotum/annotum-base/plugins/anno-article-lookup.php:188
+msgid "Invalid DOI"
+msgstr "DOI לא חוקי"
+
+#: ../../code/Annotum/annotum-base/plugins/anno-article-lookup.php:155
+msgid "Invalid CrossRef Login"
+msgstr "התחברות לא חוקית ל-CrossRef"
+
+#: ../../code/Annotum/annotum-base/plugins/anno-article-lookup.php:263
+msgid "DOI:"
+msgstr "DOI:"
+
+#: ../../code/Annotum/annotum-base/plugins/anno-colors/anno-colors.php:148
+msgid "edit"
+msgstr "ערוך"
+
+#: ../../code/Annotum/annotum-base/plugins/anno-colors/anno-colors.php:156
+msgid "Based on"
+msgstr "מבוסס על"
+
+#: ../../code/Annotum/annotum-base/plugins/anno-colors/anno-colors.php:156
+msgid "by"
+msgstr "מאת"
+
+#: ../../code/Annotum/annotum-base/plugins/anno-colors/anno-colors.php:177
+#: ../../code/Annotum/annotum-base/plugins/anno-colors/anno-colors.php:232
+msgid "Color Settings"
+msgstr "הגדרות צבע"
+
+#: ../../code/Annotum/annotum-base/plugins/anno-colors/anno-colors.php:178
+#: ../../code/Annotum/annotum-base/plugins/anno-colors/anno-colors.php:191
+msgid "Colors"
+msgstr "צבעים"
+
+#: ../../code/Annotum/annotum-base/plugins/anno-colors/anno-colors.php:226
+msgid "Settings updated."
+msgstr "ההגדרות עודכנו."
+
+#: ../../code/Annotum/annotum-base/plugins/anno-colors/anno-colors.php:235
+msgid "My Colors"
+msgstr "הצבעים שלי"
+
+#: ../../code/Annotum/annotum-base/plugins/anno-colors/anno-colors.php:251
+msgid "Save Settings"
+msgstr "שמור את ההגדרות"
+
+#: ../../code/Annotum/annotum-base/plugins/anno-pdf-download/anno-pdf-download.php:345
+msgid "There was an issue creating the PDF for your article, please try again later"
+msgstr "אירעה בעיה בעת יצירת קובץ ה-PDF עבור המאמר שלך, נסה שוב מאוחר יותר"
+
+#: ../../code/Annotum/annotum-base/plugins/annotum-importers/dtd-importer.php:6
+msgid "XML Import"
+msgstr "ייבוא XML"
+
+#: ../../code/Annotum/annotum-base/plugins/annotum-importers/dtd-importer.php:38
+#: ../../code/Annotum/annotum-base/plugins/annotum-importers/dtd-importer.php:47
+msgid "Sorry, there has been an error."
+msgstr "מצטערים, אירעה שגיאה."
+
+#: ../../code/Annotum/annotum-base/plugins/annotum-importers/dtd-importer.php:39
+msgid "The file does not exist, please try again."
+msgstr "הקובץ לא קיים, נסה שוב."
+
+#: ../../code/Annotum/annotum-base/plugins/annotum-importers/dtd-importer.php:124
+msgid "Kipling DTD XML Import"
+msgstr "ייבוא Kipling DTD XML"
+
+#: ../../code/Annotum/annotum-base/plugins/annotum-importers/dtd-importer.php:138
+msgid "Howdy! Upload your Kipling DTD XML file and we&#8217;ll import the articles, keywords, subjects, and users into this site."
+msgstr "אהלן! עדכן את קובץ ה-Kipling DTD XML ואנו נייבא את המאמרים, מילות המפתח, הנושאים והמשתמשים לאתר זה."
+
+#: ../../code/Annotum/annotum-base/plugins/annotum-importers/dtd-importer.php:139
+msgid "Choose a Kipling DTD XML (.xml) file to upload, then click Upload file and import."
+msgstr "בחר קובץ Kipling DTD XML‏ (‎.xml) להעלאה, לאחר מכן לחץ על 'העלה קובץ' וייבא."
+
+#: ../../code/Annotum/annotum-base/plugins/annotum-importers/dtd-importer.php:152
+msgid "Import <strong>articles, keywords, subjects and users</strong> from a Kipling DTD XML file."
+msgstr "ייבא <strong>מאמרים, מילות מפתח, נושאים ומשתמשים</strong> מקובץ Kipling DTD XML."
+
+#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:132
+#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:349
+#, php-format
+msgid "ANNO_IMPORT_DEBUG: You are using %s to parse data."
+msgstr "ANNO_IMPORT_DEBUG: אתה משתמש ב-%s לניתוח נתונים."
+
+#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:245
+#, php-format
+msgid "%s &#8220;%s&#8221; processed. "
+msgstr "העיבוד של ‎%s &#8220;%s&#8221;‎ הסתיים."
+
+#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:258
+#, php-format
+msgid "[ %sEdit%s | %sPreview%s ]"
+msgstr "‎[ %sEdit%s | %sPreview%s ]‎"
+
+#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:267
+msgid "All done."
+msgstr "סיימנו. "
+
+#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:267
+msgid "Have fun!"
+msgstr "תיהנה!"
+
+#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:268
+msgid "Remember to update the passwords and roles of imported users."
+msgstr "זכור לעדכן את הסיסמאות ואת התפקידים של משתמשים חשובים."
+
+#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:299
+#, php-format
+msgid "This WXR file (version %s) may not be supported by this version of the importer. Please consider updating."
+msgstr "ייתכן שקובץ WXR זה (גירסה %s) אינו נתמך על-ידי גירסה זו של המייבא. שקול לבצע עדכון."
+
+#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:324
+#, php-format
+msgid "Failed to import author %s. Their posts will be attributed to the current user."
+msgstr "הייבוא של מחבר %s נכשל. הפוסטים שלו ישוייכו למשתמש הנוכחי."
+
+#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:358
+msgid "Assign Authors"
+msgstr "הקצה מחברים"
+
+#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:359
+msgid "To make it easier for you to edit and save the imported content, you may want to reassign the author of the imported item to an existing user of this site. For example, you may want to import all the entries as <code>admin</code>s entries."
+msgstr "כדי להקל עליך לערוך ולשמור את התוכן המיובא, ייתכן שתרצה להקצות מחדש את המחבר של הפריט המיובא למשתמש קיים באתר זה. לדוגמה, ייתכן שתרצה לייבא את כל הערכים כערכי <code>מנהל</code>."
+
+#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:361
+msgid "If a new user is created by WordPress, a new password will be randomly generated and the new user&#8217;s role will be set as contributor. Manually changing the new user&#8217;s details will be necessary."
+msgstr "אם נוצר משתמש חדש על ידי WordPress, תיווצר סיסמה חדשה באופן אקראי והתפקיד של המשתמש החדש יוגדר כתורם. יהיה צורך לשנות באופן ידני את פרטי המשתמש החדש."
+
+#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:380
+msgid "Import Attachments"
+msgstr "ייבא קבצים מצורפים"
+
+#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:383
+msgid "Download and import file attachments"
+msgstr "הורד וייבא קבצים מצורפים"
+
+#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:427
+msgid "Import "
+msgstr "ייבא"
+
+#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:432
+msgid "as the current user."
+msgstr "כמשתמש הנוכחי."
+
+#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:452
+#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:454
+msgid "<p>or assign posts to an existing user: "
+msgstr "<p>או הקצה פוסטים למשתמש קיים:"
+
+#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:458
+msgid "- Select -"
+msgstr "- בחר -"
+
+#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:472
+#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:507
+msgid "</p>"
+msgstr "</p>"
+
+#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:476
+msgid "or if you know an existing user&#8217;s <strong>email address</strong>, you can assign posts to that user: "
+msgstr "לחלופין, אם אתה מכיר <strong>כתובת דוא ל</strong> של משתמש קיים, תוכל להקצות פוסטים לאותו משתמש:"
+
+#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:480
+msgid "or if you know an existing user&#8217;s <strong>username</strong>, you can assign posts to that user: "
+msgstr "לחלופין, אם אתה מכיר <strong>שם משתמש</strong> של משתמש קיים, תוכל להקצות פוסטים לאותו משתמש:"
+
+#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:483
+msgid "<p>"
+msgstr "<p>"
+
+#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:485
+msgid "or you can create new user:"
+msgstr "לחלופין, תוכל ליצור משתמש חדש:"
+
+#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:488
+msgid "as a new user:"
+msgstr "כמשתמש חדש:"
+
+#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:494
+msgid "Login: "
+msgstr "התחברות:"
+
+#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:498
+msgid "Email: "
+msgstr "דוא ל:"
+
+#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:548
+msgid "Please enter an Email <strong>OR</strong> a Username to search for."
+msgstr "הזן כתובת דוא ל <strong>או</strong> שם משתמש לחיפוש."
+
+#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:554
+msgid "Please enter a valid email to search for."
+msgstr "הזן דוא ל חוקי לחיפוש."
+
+#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:562
+#, php-format
+msgid "Could not find user with email: %s"
+msgstr "אין אפשרות לאתר משתמש עם דוא ל: %s"
+
+#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:574
+msgid "Please enter a valid username to search for."
+msgstr "הזן שם משתמש חוקי לחיפוש."
+
+#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:582
+#, php-format
+msgid "Could not find user with username: %s"
+msgstr "אין אפשרות לאתר משתמש עם שם משתמש: % s"
+
+#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:602
+msgid "Email cannot be empty when creating a new user."
+msgstr "כתובת הדוא ל לא יכול להיות ריקה בעת יצירת משתמש חדש."
+
+#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:611
+msgid "Username cannot be empty when creating a new user."
+msgstr "שם משתמש לא יכול להיות ריק בעת יצירת משתמש חדש."
+
+#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:617
+msgid "This email address is already registered."
+msgstr "כתובת דוא ל זו כבר רשומה."
+
+#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:621
+msgid "This username is already registered."
+msgstr "שם משתמש זה כבר רשום."
+
+#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:626
+msgid "Please enter a valid email when creating a new user."
+msgstr "הזן כתובת דוא ל חוקית בעת יצירת משתמש חדש."
+
+#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:630
+msgid "Please enter a valid username when creating a new user."
+msgstr "הזן שם משתמש חוקי בעת יצירת משתמש חדש."
+
+#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:701
+#, php-format
+msgid "Failed to import category %s"
+msgstr "הייבוא של קטגוריה %s נכשל"
+
+#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:739
+#, php-format
+msgid "Failed to import post tag %s"
+msgstr "הייבוא של תג פוסט %s נכשל"
+
+#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:783
+#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:915
+#, php-format
+msgid "Failed to import %s %s"
+msgstr "הייבוא של ‎%s %s‎ נכשל"
+
+#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:805
+#, php-format
+msgid "Failed to import &#8220;%s&#8221;: Invalid post type %s"
+msgstr "הייבוא של ‎&#8220;%s&#8221;‎ נכשל: סוג פוסט לא חוקי %s"
+
+#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:826
+#, php-format
+msgid "%s &#8220;%s&#8221; already exists."
+msgstr "‎%s &#8220;%s&#8221;‎ כבר קיים."
+
+#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:887
+#, php-format
+msgid "Failed to import %s &#8220;%s&#8221;"
+msgstr "הייבוא של ‎%s &#8220;%s&#8221;‎ נכשל"
+
+#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:1055
+msgid "Menu item skipped due to missing menu slug"
+msgstr "בוצע דילוג על פריט תפריט בשל מזהה תפריט (slug) חסר"
+
+#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:1062
+#, php-format
+msgid "Menu item skipped due to invalid menu slug: %s"
+msgstr "בוצע דילוג על פריט תפריט בשל מזהה תפריט (slug) לא חוקי: %s"
+
+#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:1125
+msgid "Fetching attachments is not enabled"
+msgstr "השגת קבצים מצורפים אינה פעילה"
+
+#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:1135
+msgid "Invalid file type"
+msgstr "סוג קובץ לא חוקי"
+
+#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:1176
+msgid "Remote server did not respond"
+msgstr "השרת המרוחק לא הגיב"
+
+#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:1182
+#, php-format
+msgid "Remote server returned error response %1$d %2$s"
+msgstr "השרת המרוחק החזיר תגובת שגיאה ‎%1$d %2$s‎"
+
+#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:1189
+msgid "Remote file is incorrect size"
+msgstr "גודל הקובץ המרוחק שגוי"
+
+#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:1194
+msgid "Zero size file downloaded"
+msgstr "הורד קובץ שגודלו אפס"
+
+#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:1200
+#, php-format
+msgid "Remote file is too large, limit is %s"
+msgstr "הקובץ המרוחק גדול מדי, המגבלה היא %s"
+
+#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:1299
+msgid "Google Knol WXR Import"
+msgstr "ייבוא של Google Knol WXR"
+
+#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:1306
+#, php-format
+msgid "A new version of this importer is available. Please update to version %s to ensure compatibility with newer export files."
+msgstr "גירסה חדשה של מייבא זה זמינה. יש לעדכן לגירסה %s כדי להבטיח תאימות לקובצי ייצוא חדשים יותר."
+
+#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:1321
+msgid "Howdy! Upload your Google Knol eXtended RSS (WXR) file and we&#8217;ll import the posts, pages, comments, custom fields, categories, and tags into this site."
+msgstr "אהלן! העלה את קובץ Google Knol eXtended RSS‏ (WXR) שלך ואנו נייבא את הפוסטים, הדפים, ההערות, השדות המותאמים אישית, הקטגוריות והתגים לאתר זה."
+
+#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:1322
+msgid "Choose a Google Knol WXR (.xml) file to upload, then click Upload file and import."
+msgstr "בחר קובץ Google Knol WXR‏ (‎.xml) להעלאה, לאחר מכן לחץ על 'העלה קובץ' וייבא."
+
+#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:1332
+msgid "Before you can upload your import file, you will need to fix the following error:"
+msgstr "לפני שתוכל להעלות את קובץ הייבוא שלך, עליך לתקן את השגיאה הבאה:"
+
+#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:1339
+msgid "ANNO_IMPORT_DEBUG: Select a parser:"
+msgstr "ANNO_IMPORT_DEBUG: בחר מנתח:"
+
+#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:1348
+msgid "Choose a file from your computer:"
+msgstr "בחר קובץ מהמחשב שלך:"
+
+#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:1348
+#, php-format
+msgid "Maximum size: %s"
+msgstr "גודל מרבי: %s"
+
+#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:1353
+msgid "Upload file and import"
+msgstr "העלה קובץ וייבא"
+
+#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:1427
+msgid "Import <strong>articles, comments, custom fields, categories, and tags</strong> from a Google Knol WXR export file."
+msgstr "ייבא <strong>מאמרים, הערות, שדות מותאמים אישית, קטגוריות ותגים</strong> מקובץ ייצוא של Google Knol WXR."
+
+#: ../../code/Annotum/annotum-base/plugins/annotum-importers/parsers.php:34
+#, php-format
+msgid "ANNO_IMPORT_DEBUG: Could not find parser %s."
+msgstr "ANNO_IMPORT_DEBUG: אין אפשרות למצוא מנתח %s."
+
+#: ../../code/Annotum/annotum-base/plugins/annotum-importers/parsers.php:67
+#: ../../code/Annotum/annotum-base/plugins/annotum-importers/parsers.php:89
+#: ../../code/Annotum/annotum-base/plugins/annotum-importers/parsers.php:385
+msgid "There was an error when reading this WXR file"
+msgstr "אירעה שגיאה בעת קריאת קובץ WXR זה"
+
+#: ../../code/Annotum/annotum-base/plugins/annotum-importers/parsers.php:68
+msgid "Details are shown above. The importer will now try again with a different parser..."
+msgstr "הפרטים מוצגים למעלה. המייבא יבצע כעת ניסיון חוזר עם מנתח אחר..."
+
+#: ../../code/Annotum/annotum-base/plugins/annotum-importers/parsers.php:93
+#: ../../code/Annotum/annotum-base/plugins/annotum-importers/parsers.php:98
+#: ../../code/Annotum/annotum-base/plugins/annotum-importers/parsers.php:390
+#: ../../code/Annotum/annotum-base/plugins/annotum-importers/parsers.php:686
+msgid "This does not appear to be a WXR file, missing/invalid WXR version number"
+msgstr "כנראה שקובץ זה אינו קובץ WXR, מספר גירסת WXR חסר/לא חוקי"
+
+#: ../../code/Annotum/annotum-base/plugins/annotum-importers/parsers.php:306
+#, php-format
+msgid "There was an error processing %s's content for attachments."
+msgstr "אירעה שגיאה בעת עיבוד התוכן של %s לקבצים מצורפים."
+
+#: ../../code/Annotum/annotum-base/plugins/annotum-importers/parsers.php:604
+#, php-format
+msgid "XML Parser: There was an error processing the content for attachments. Line %s. Column %s. Code %s."
+msgstr "מנתח XML: אירעה שגיאה בעת עיבוד התוכן לקבצים מצורפים. שורה %s. עמודה %s. קוד %s."
+
+#: ../../code/Annotum/annotum-base/plugins/annotum-importers/parsers.php:968
+msgid "There was an error when reading this Kipling DTD file"
+msgstr "אירעה שגיאה בעת קריאת קובץ Kipling DTD זה"
+
+#: ../../code/Annotum/annotum-base/plugins/annotum-importers/parsers.php:981
+msgid "This does not appear to be a Kipling DTD file, no articles could be found"
+msgstr "כנראה שקובץ זה אינו קובץ Kipling DTD, אין אפשרות למצוא מאמרים"
+
+#: ../../code/Annotum/annotum-base/plugins/cf-archive-title/cf-archive-title.php:9
+#, php-format
+msgid "Latest / <b>page %s</b>"
+msgstr "החדש ביותר / <b>דף %s</b>"
+
+#: ../../code/Annotum/annotum-base/plugins/cf-archive-title/cf-archive-title.php:10
+#, php-format
+msgid "Search results for <b>%s</b>"
+msgstr "חפש תוצאות עבור <b>%s</b>"
+
+#: ../../code/Annotum/annotum-base/plugins/cf-archive-title/cf-archive-title.php:11
+#, php-format
+msgid "Tag archives for <b>%s</b>"
+msgstr "ארכיונים של תגים עבור <b>%s</b>"
+
+#: ../../code/Annotum/annotum-base/plugins/cf-archive-title/cf-archive-title.php:12
+#, php-format
+msgid "Category archives for <b>%s</b>"
+msgstr "ארכיונים של קטגוריות עבור <b>%s</b>"
+
+#: ../../code/Annotum/annotum-base/plugins/cf-archive-title/cf-archive-title.php:13
+#, php-format
+msgid "Author archives for <b>%s</b>"
+msgstr "ארכיונים של מחברים עבור <b>%s</b>"
+
+#: ../../code/Annotum/annotum-base/plugins/cf-archive-title/cf-archive-title.php:14
+#, php-format
+msgid "Archives for <b>%s</b>"
+msgstr "ארכיונים עבור <b>%s</b>"
+
+#: ../../code/Annotum/annotum-base/plugins/workflow/audit.php:54
+msgid "Created a revision"
+msgstr "יצר תיקונים"
+
+#: ../../code/Annotum/annotum-base/plugins/workflow/audit.php:55
+#, php-format
+msgid "Transitioned post state from %s to %s"
+msgstr "מצב הפוסט הועבר מ-%s ל-%s"
+
+#: ../../code/Annotum/annotum-base/plugins/workflow/audit.php:56
+msgid "Added a reviewer comment"
+msgstr "הוסיף הערת מבקר"
+
+#: ../../code/Annotum/annotum-base/plugins/workflow/audit.php:57
+#, php-format
+msgid "Added a review of %s"
+msgstr "הוסיף ביקורת של %s"
+
+#: ../../code/Annotum/annotum-base/plugins/workflow/audit.php:58
+msgid "Added an internal comment"
+msgstr "הוסיף הערה פנימית"
+
+#: ../../code/Annotum/annotum-base/plugins/workflow/audit.php:59
+#, php-format
+msgid "Added %s as a co-author"
+msgstr "הוסיף את %s כמחבר משנה"
+
+#: ../../code/Annotum/annotum-base/plugins/workflow/audit.php:60
+#, php-format
+msgid "Removed %s as a co-author"
+msgstr "הסיר את %s כמחבר משנה"
+
+#: ../../code/Annotum/annotum-base/plugins/workflow/audit.php:61
+#, php-format
+msgid "Added %s as a reviewer"
+msgstr "הוסיף את %s כמבקר"
+
+#: ../../code/Annotum/annotum-base/plugins/workflow/audit.php:62
+#, php-format
+msgid "Removed %s as a reviewer"
+msgstr "הסיר את %s כמבקר"
+
+#: ../../code/Annotum/annotum-base/plugins/workflow/audit.php:131
+msgid "j F, Y @ H:i"
+msgstr "j F, Y @ H:i"
+
+#: ../../code/Annotum/annotum-base/plugins/workflow/notification.php:103
+msgid "To review this article, please visit the URL above and navigate to the Reviews section. You may leave comments and questions in this section as well as providing a general review of 'Approve', 'Reject' or 'Request Revisions' from the dropdown."
+msgstr "כדי לכתוב ביקורת למאמר זה, בקר בכתובת האתר למעלה ונווט אל הקטע 'ביקורות'. תוכל להשאיר הערות ושאלות בקטע זה וכמו כן לספק ביקורת כללית על ידי בחירת 'אשר', 'דחה' או 'בקש תיקונים' מהתפריט הנפתח."
+
+#: ../../code/Annotum/annotum-base/plugins/workflow/notification.php:110
+#, php-format
+msgid "New Submission: %s by %s."
+msgstr "הגשה חדשה: %s עד %s."
+
+#: ../../code/Annotum/annotum-base/plugins/workflow/notification.php:112
+#, php-format
+msgid ""
+"The following article has been submitted for review:\n"
+"--------------------\n"
+"Title: %s\n"
+"Author(s): %s\n"
+"Excerpt: %s\n"
+"%s\n"
+"\n"
+"%s"
+msgstr ""
+"The following article has been submitted for review:\n"
+"--------------------\n"
+"Title: %s\n"
+"Author(s): %s\n"
+"Excerpt: %s\n"
+"%s\n"
+"\n"
+"%s"
+
+#: ../../code/Annotum/annotum-base/plugins/workflow/notification.php:125
+#: ../../code/Annotum/annotum-base/plugins/workflow/notification.php:137
+#, php-format
+msgid "%s now in review."
+msgstr "%s נמצא בביקורת כעת."
+
+#: ../../code/Annotum/annotum-base/plugins/workflow/notification.php:127
+#, php-format
+msgid ""
+"Review has begun for: %s\n"
+"\n"
+"%s\n"
+"\n"
+"%s"
+msgstr ""
+"Review has begun for: %s\n"
+"\n"
+"%s\n"
+"\n"
+"%s"
+
+#: ../../code/Annotum/annotum-base/plugins/workflow/notification.php:149
+#, php-format
+msgid "%s review is complete. APPROVED."
+msgstr "הביקורת של %s הסתיימה. אושר."
+
+#: ../../code/Annotum/annotum-base/plugins/workflow/notification.php:163
+#, php-format
+msgid "%s review is complete."
+msgstr "הביקורת של %s הסתיימה. "
+
+#: ../../code/Annotum/annotum-base/plugins/workflow/notification.php:165
+#, php-format
+msgid ""
+"Thank you for contributing to %s.  After our review process, we have decided not to accept the article at this time.  \n"
+"--------------------\n"
+"Title: %s\n"
+"%s\n"
+"\n"
+"%s"
+msgstr ""
+"Thank you for contributing to %s.  After our review process, we have decided not to accept the article at this time.  \n"
+"--------------------\n"
+"Title: %s\n"
+"%s\n"
+"\n"
+"%s"
+
+#: ../../code/Annotum/annotum-base/plugins/workflow/notification.php:176
+#, php-format
+msgid "%s review is complete. CHANGES REQUESTED."
+msgstr "הביקורת של %s הסתיימה. הוגשה בקשה לשינויים."
+
+#: ../../code/Annotum/annotum-base/plugins/workflow/notification.php:192
+#, php-format
+msgid "%s has been published."
+msgstr "%s פורסם."
+
+#: ../../code/Annotum/annotum-base/plugins/workflow/notification.php:203
+#, php-format
+msgid "%s has been invited to review %s by %s"
+msgstr "%s הוזמן לכתוב ביקורת על %s מאת %s"
+
+#: ../../code/Annotum/annotum-base/plugins/workflow/notification.php:205
+#, php-format
+msgid ""
+"%s has been invted to review the following article:\n"
+"--------------------\n"
+"Title: %s\n"
+"Author(s): %s\n"
+"Excerpt: %s\n"
+"%s\n"
+"\n"
+"%s\n"
+"%s"
+msgstr ""
+"%s has been invted to review the following article:\n"
+"--------------------\n"
+"Title: %s\n"
+"Author(s): %s\n"
+"Excerpt: %s\n"
+"%s\n"
+"\n"
+"%s\n"
+"%s"
+
+#: ../../code/Annotum/annotum-base/plugins/workflow/notification.php:218
+#, php-format
+msgid "%s has been invited to co-author %s by %s"
+msgstr "%s הוזמן להיות מחבר משנה של %s מאת %s"
+
+#: ../../code/Annotum/annotum-base/plugins/workflow/notification.php:228
+#, php-format
+msgid "%s is now the primary author on %s"
+msgstr "%s הוא כעת המחבר הראשי של %s"
+
+#: ../../code/Annotum/annotum-base/plugins/workflow/notification.php:245
+#, php-format
+msgid "New internal comment on %s"
+msgstr "הערה פנימית חדשה על %s"
+
+#: ../../code/Annotum/annotum-base/plugins/workflow/notification.php:247
+#: ../../code/Annotum/annotum-base/plugins/workflow/notification.php:260
+#, php-format
+msgid ""
+"The following comment was submitted on %s by %s.\n"
+"--------------------\n"
+"%s\n"
+"--------------------\n"
+"%s\n"
+"\n"
+"%s"
+msgstr ""
+"The following comment was submitted on %s by %s.\n"
+"--------------------\n"
+"%s\n"
+"--------------------\n"
+"%s\n"
+"\n"
+"%s"
+
+#: ../../code/Annotum/annotum-base/plugins/workflow/notification.php:258
+#, php-format
+msgid "New reviewer comment on %s"
+msgstr "הערת מבקר חדשה על %s"
+
+#: ../../code/Annotum/annotum-base/plugins/workflow/publishing-meta-box.php:60
+msgid "Move To Trash"
+msgstr "העבר לאשפה"
+
+#: ../../code/Annotum/annotum-base/plugins/workflow/publishing-meta-box.php:88
+msgid "Submitted - Waiting For Review"
+msgstr "הוגש - ממתין לביקורת"
+
+#: ../../code/Annotum/annotum-base/plugins/workflow/publishing-meta-box.php:141
+#, php-format
+msgid "%s of %s Reviews Complete"
+msgstr "%s מתוך %s ביקורות הסתיימו"
+
+#: ../../code/Annotum/annotum-base/plugins/workflow/publishing-meta-box.php:148
+msgid "Submitted - In Review"
+msgstr "הוגש - נמצא בביקורת"
+
+#: ../../code/Annotum/annotum-base/plugins/workflow/publishing-meta-box.php:195
+msgid "Article Approved"
+msgstr "המאמר אושר"
+
+#: ../../code/Annotum/annotum-base/plugins/workflow/publishing-meta-box.php:232
+msgid "Visibility:"
+msgstr "חשיפה:"
+
+#: ../../code/Annotum/annotum-base/plugins/workflow/publishing-meta-box.php:237
+#: ../../code/Annotum/annotum-base/plugins/workflow/publishing-meta-box.php:268
+msgid "Private"
+msgstr "פרטי"
+
+#: ../../code/Annotum/annotum-base/plugins/workflow/publishing-meta-box.php:241
+#: ../../code/Annotum/annotum-base/plugins/workflow/publishing-meta-box.php:266
+msgid "Password protected"
+msgstr "מוגן על ידי סיסמה"
+
+#: ../../code/Annotum/annotum-base/plugins/workflow/publishing-meta-box.php:245
+msgid "Public, Sticky"
+msgstr "אתר ציבורי, מדבק"
+
+#: ../../code/Annotum/annotum-base/plugins/workflow/publishing-meta-box.php:249
+#: ../../code/Annotum/annotum-base/plugins/workflow/publishing-meta-box.php:262
+msgid "Public"
+msgstr "ציבורי"
+
+#: ../../code/Annotum/annotum-base/plugins/workflow/publishing-meta-box.php:264
+msgid "Stick this post to the front page"
+msgstr "הדבק פוסט זה על דף השער"
+
+#: ../../code/Annotum/annotum-base/plugins/workflow/publishing-meta-box.php:267
+msgid "Password:"
+msgstr "סיסמה:"
+
+#: ../../code/Annotum/annotum-base/plugins/workflow/publishing-meta-box.php:271
+msgid "OK"
+msgstr "אישור"
+
+#: ../../code/Annotum/annotum-base/plugins/workflow/publishing-meta-box.php:283
+#, php-format
+msgid "Scheduled for: <b>%1$s</b>"
+msgstr "מיועד לפרסום בתאריך: <b>%1$s</b>"
+
+#: ../../code/Annotum/annotum-base/plugins/workflow/publishing-meta-box.php:285
+#, php-format
+msgid "Published on: <b>%1$s</b>"
+msgstr "פורסם בתאריך: <b>%1$s</b>"
+
+#: ../../code/Annotum/annotum-base/plugins/workflow/publishing-meta-box.php:287
+#: ../../code/Annotum/annotum-base/plugins/workflow/publishing-meta-box.php:295
+msgid "Publish <b>immediately</b>"
+msgstr "פרסם <b>באופן מיידי</b>"
+
+#: ../../code/Annotum/annotum-base/plugins/workflow/publishing-meta-box.php:289
+#, php-format
+msgid "Schedule for: <b>%1$s</b>"
+msgstr "תזמן לפרסום בתאריך: <b>%1$s</b>"
+
+#: ../../code/Annotum/annotum-base/plugins/workflow/publishing-meta-box.php:291
+#, php-format
+msgid "Publish on: <b>%1$s</b>"
+msgstr "פרסם בתאריך: <b>%1$s</b>"
+
+#: ../../code/Annotum/annotum-base/plugins/workflow/publishing-meta-box.php:320
+msgid "Article Rejected"
+msgstr "המאמר נדחה"
+
+#: ../../code/Annotum/annotum-base/plugins/workflow/publishing-meta-box.php:350
+msgid "Article Published"
+msgstr "המאמר פורסם"
+
+#: ../../code/Annotum/annotum-base/plugins/workflow/publishing-meta-box.php:379
+#: ../../code/Annotum/annotum-base/plugins/workflow/publishing-meta-box.php:405
+msgid "Preview Changes"
+msgstr "הצג שינויים בתצוגה מקדימה"
+
+#: ../../code/Annotum/annotum-base/plugins/workflow/publishing-meta-box.php:385
+#: ../../code/Annotum/annotum-base/plugins/workflow/publishing-meta-box.php:412
+msgid "Preview"
+msgstr "תצוגה מקדימה"
+
+#: ../../code/Annotum/annotum-base/plugins/workflow/workflow-init.php:39
+#: ../../code/Annotum/annotum-base/plugins/workflow/internal-comments/internal-comments.php:6
+msgid "Approve"
+msgstr "אשר"
+
+#: ../../code/Annotum/annotum-base/plugins/workflow/workflow-init.php:40
+msgid "Publish"
+msgstr "פרסם"
+
+#: ../../code/Annotum/annotum-base/plugins/workflow/workflow-init.php:41
+#: ../../code/Annotum/annotum-base/plugins/workflow/internal-comments/internal-comments.php:8
+msgid "Reject"
+msgstr "דחה"
+
+#: ../../code/Annotum/annotum-base/plugins/workflow/workflow-init.php:42
+msgid "Submit For Review"
+msgstr "שלח לביקורת"
+
+#: ../../code/Annotum/annotum-base/plugins/workflow/workflow-init.php:43
+msgid "Request Revisions"
+msgstr "בקש תיקונים"
+
+#: ../../code/Annotum/annotum-base/plugins/workflow/workflow-init.php:44
+msgid "Clone"
+msgstr "שכפל"
+
+#: ../../code/Annotum/annotum-base/plugins/workflow/workflow-init.php:45
+msgid "Revert To Draft"
+msgstr "חזור לטיוטה"
+
+#: ../../code/Annotum/annotum-base/plugins/workflow/workflow.php:7
+msgid "Submitted"
+msgstr "הוגש"
+
+#: ../../code/Annotum/annotum-base/plugins/workflow/workflow.php:8
+msgid "In Review"
+msgstr "בביקורת"
+
+#: ../../code/Annotum/annotum-base/plugins/workflow/workflow.php:9
+msgid "Approved"
+msgstr "אושר"
+
+#: ../../code/Annotum/annotum-base/plugins/workflow/workflow.php:10
+msgid "Rejected"
+msgstr "נדחה"
+
+#: ../../code/Annotum/annotum-base/plugins/workflow/workflow.php:40
+msgid "Audit Log"
+msgstr "יומן ביקורת"
+
+#: ../../code/Annotum/annotum-base/plugins/workflow/workflow.php:53
+#: ../../code/Annotum/annotum-base/plugins/workflow/workflow.php:791
+msgid "Author"
+msgstr "מחבר"
+
+#: ../../code/Annotum/annotum-base/plugins/workflow/workflow.php:57
+msgid "Status:"
+msgstr "סטטוס:"
+
+#: ../../code/Annotum/annotum-base/plugins/workflow/workflow.php:63
+msgid "Versions"
+msgstr "גירסאות"
+
+#: ../../code/Annotum/annotum-base/plugins/workflow/workflow.php:67
+msgid "Reviewers"
+msgstr "מבקרים"
+
+#: ../../code/Annotum/annotum-base/plugins/workflow/workflow.php:69
+msgid "Co-Authors"
+msgstr "מחברי משנה"
+
+#: ../../code/Annotum/annotum-base/plugins/workflow/workflow.php:246
+msgid "Username"
+msgstr "שם משתמש"
+
+#: ../../code/Annotum/annotum-base/plugins/workflow/workflow.php:256
+msgid "Create User"
+msgstr "צור משתמש"
+
+#: ../../code/Annotum/annotum-base/plugins/workflow/workflow.php:259
+#: ../../code/Annotum/annotum-base/plugins/workflow/workflow.php:287
+msgid "or <a href=\"#\" class=\""
+msgstr "או <a href‏=‏\"#\" class=\""
+
+#: ../../code/Annotum/annotum-base/plugins/workflow/workflow.php:361
+msgid "remove"
+msgstr "הסר"
+
+#: ../../code/Annotum/annotum-base/plugins/workflow/workflow.php:394
+msgid "User has been created and added"
+msgstr "המשתמש נוצר ונוסף"
+
+#: ../../code/Annotum/annotum-base/plugins/workflow/workflow.php:521
+msgid "reviewer"
+msgstr "מבקר"
+
+#: ../../code/Annotum/annotum-base/plugins/workflow/workflow.php:524
+msgid "co-author"
+msgstr "מחבר משנה"
+
+#: ../../code/Annotum/annotum-base/plugins/workflow/workflow.php:528
+#, php-format
+msgid "Cannot add author as a %s"
+msgstr "לא ניתן להוסיף מחבר כ%s"
+
+#: ../../code/Annotum/annotum-base/plugins/workflow/workflow.php:531
+#, php-format
+msgid "Cannot add %s as %s. User is already a co-author"
+msgstr "לא ניתן להוסיף את %s כ%s. המשתמש הוא כבר מחבר משנה"
+
+#: ../../code/Annotum/annotum-base/plugins/workflow/workflow.php:534
+#, php-format
+msgid "Cannot add %s as %s. User is already a reviewer"
+msgstr "לא ניתן להוסיף את %s כ%s. המשתמש הוא כבר מבקר"
+
+#: ../../code/Annotum/annotum-base/plugins/workflow/workflow.php:545
+#, php-format
+msgid "User '%s' not found"
+msgstr "משתמש '%s' לא נמצא"
+
+#: ../../code/Annotum/annotum-base/plugins/workflow/workflow.php:714
+msgid "Cloned From"
+msgstr "שוכפל מ-"
+
+#: ../../code/Annotum/annotum-base/plugins/workflow/workflow.php:722
+msgid "Clones"
+msgstr "שכפולים"
+
+#: ../../code/Annotum/annotum-base/plugins/workflow/workflow.php:756
+#, php-format
+msgid "Cloned: %s"
+msgstr "שוכפל: %s"
+
+#: ../../code/Annotum/annotum-base/plugins/workflow/workflow.php:811
+msgid "You are not allowed to clone this post."
+msgstr "אינך מורשה לשכפל פוסט זה."
+
+#: ../../code/Annotum/annotum-base/plugins/workflow/internal-comments/internal-comments.php:7
+msgid "Revisions"
+msgstr "תיקונים"
+
+#: ../../code/Annotum/annotum-base/plugins/workflow/internal-comments/internal-comments.php:16
+msgid "Internal Comments"
+msgstr "הערות פנימיות"
+
+#: ../../code/Annotum/annotum-base/plugins/workflow/internal-comments/internal-comments.php:19
+msgid "Reviews"
+msgstr "ביקורות"
+
+#: ../../code/Annotum/annotum-base/plugins/workflow/internal-comments/internal-comments.php:112
+#, php-format
+msgid "Submitted on <a href=\"%1$s\">%2$s at %3$s</a>"
+msgstr "הוגש בתאריך <a href=\"%1$s\">%2$s בשעה %3$s‏</a>"
+
+#: ../../code/Annotum/annotum-base/plugins/workflow/internal-comments/internal-comments.php:112
+msgid "Y/m/d"
+msgstr "Y/m/d"
+
+#: ../../code/Annotum/annotum-base/plugins/workflow/internal-comments/internal-comments.php:117
+#, php-format
+msgid "In reply to <a href=\"%1$s\">%2$s</a>."
+msgstr "בתשובה ל<a href=\"%1$s\">%2$s</a>."
+
+#: ../../code/Annotum/annotum-base/plugins/workflow/internal-comments/internal-comments.php:127
+msgid "Reply"
+msgstr "השב"
+
+#: ../../code/Annotum/annotum-base/plugins/workflow/internal-comments/internal-comments.php:174
+msgid "Recommendation: "
+msgstr "המלצה:"
+
+#: ../../code/Annotum/annotum-base/plugins/workflow/internal-comments/internal-comments.php:412
+msgid "Article General"
+msgstr "מאמר כללי"
+
+#: ../../code/Annotum/annotum-base/plugins/workflow/internal-comments/internal-comments.php:413
+msgid "Article Review"
+msgstr "ביקורת מאמר"
+
+#: ../../code/Annotum/annotum-base/posts/search.php:29
+#, php-format
+msgid "Search Results for: %s"
+msgstr "תוצאות חיפוש עבור: %s"
+
+#: ../../code/trunk/wp-plugins/anno-data-fix.php:13
+#: ../../code/trunk/wp-plugins/anno-data-fix.php:14
+msgid "Annotum Data Fix"
+msgstr "Annotum Data Fix"
+
+#: ../../code/trunk/wp-plugins/anno-data-fix.php:45
+msgid "Migrate co-author and reviewer data assigned to articles pre-alpha."
+msgstr "העבר נתוני מחבר משנה ומבקר המוקצים למאמרים בגירסה ראשונית."
+
+#: ../../code/trunk/wp-plugins/anno-data-fix.php:49
+msgid "Migrate!"
+msgstr "העבר!"
+
+#: ../../code/Annotum/annotum-base/functions.php:758
+msgid "Invalid username"
+msgstr "שם משתמש לא חוקי"
+
+#: ../../code/Annotum/annotum-base/functions.php:928
+msgid "Home"
+msgstr "דף הבית"
+
+#: ../../code/Annotum/annotum-base/functions.php:934
+msgid "About Annotum"
+msgstr "מידע על Annotum"
+
+#: ../../code/Annotum/annotum-base/attachment/attachment-default.php:23
+msgid "article"
+msgstr "מאמר"
+
+#: ../../code/Annotum/annotum-base/attachment/attachment-default.php:28
+#, php-format
+msgid "back to &#8220;%s&#8221;"
+msgstr "חזור אל &#8220;%s&#8221;"
+
+#: ../../code/Annotum/annotum-base/attachment/attachment-default.php:54
+msgid "Sorry, no attachments matched your criteria."
+msgstr "מצטערים, אין קבצים מצורפים המתאימים לקריטריונים שלך."
+
+#: ../../code/Annotum/annotum-base/functions/appendix-repeater.php:68
+#: ../../code/Annotum/annotum-base/functions/article-post-type.php:143
+#, php-format
+msgid "The Annotum editor requires at least WordPress 3.3. It appears you are using WordPress %s. "
+msgstr "The Annotum editor requires at least WordPress 3.3. It appears you are using WordPress %s. "
+
+#: ../../code/Annotum/annotum-base/functions/article-post-type.php:201
+msgid "Appear in the home page carousel"
+msgstr "מופיע בקרוסלת דף הבית"
+
+#: ../../code/Annotum/annotum-base/functions/template.php:277
+msgid "Affiliation:"
+msgstr "השתייכות:"
+
+#: ../../code/Annotum/annotum-base/functions/tinymce.php:424
+msgid "Show"
+msgstr "הצג"
+
+#: ../../code/Annotum/annotum-base/functions/tinymce-upload/tinymce-uploader.php:25
+msgid "You do not have proper permissions to upload a new image"
+msgstr "אין לך הרשאות מתאימות כדי להעלות תמונה חדשה"
+
+#: ../../code/Annotum/annotum-base/functions/tinymce-upload/tinymce-uploader.php:160
+msgid "Cancel Upload"
+msgstr "בטל את ההעלאה"
+
+#: ../../code/Annotum/annotum-base/plugins/anno-article-lookup.php:356
+msgid "You do not have the correct permissions to perform this action"
+msgstr "אין לך את ההרשאות הנכונות כדי לבצע פעולה זו"
+
+#: ../../code/Annotum/annotum-base/plugins/anno-article-lookup.php:364
+msgid "Article must be published in order to deposit."
+msgstr "יש לפרסם את המאמר כדי לבצע הפקדה."
+
+#: ../../code/Annotum/annotum-base/plugins/anno-article-lookup.php:381
+msgid "Invalid or Empty CrossRef Credentials"
+msgstr "אישורי CrossRef לא חוקיים או ריקים"
+
+#: ../../code/Annotum/annotum-base/plugins/anno-article-lookup.php:386
+msgid "Invalid or Empty Journal Data"
+msgstr "נתוני כתב עת לא חוקיים או ריקים"
+
+#: ../../code/Annotum/annotum-base/plugins/anno-article-lookup.php:391
+msgid "Article must be published to submit a DOI request"
+msgstr "יש לפרסם את המאמר כדי לשלוח בקשת DOI"
+
+#: ../../code/Annotum/annotum-base/plugins/anno-article-lookup.php:398
+msgid "Invalid or Empty Article Data"
+msgstr "נתוני מאמר לא חוקיים או ריקים"
+
+#: ../../code/Annotum/annotum-base/plugins/anno-article-lookup.php:573
+msgid "Could not create file to be deposited, please check your system setup"
+msgstr "לא היתה אפשרות ליצור את הקובץ להפקדה, בדוק את הגדרת המערכת"
+
+#: ../../code/Annotum/annotum-base/plugins/anno-article-lookup.php:651
+msgid "New DOI Generated"
+msgstr "נוצר DOI חדש"
+
+#: ../../code/Annotum/annotum-base/plugins/anno-article-lookup.php:662
+msgid "Regenerate DOI"
+msgstr "צור שוב DOI"
+
+#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:257
+#, php-format
+msgid "%s &#8220;<strong>%s</strong>&#8221; imported. "
+msgstr "הייבוא של %s &#8220;<strong>%s</strong>&#8221; הסתיים."
+
+#: ../../code/Annotum/annotum-base/plugins/workflow/audit.php:129
+msgid "<strong>Deleted User</strong>"
+msgstr "<strong>המשתמש נמחק</strong>"
+
+#: ../../code/Annotum/annotum-base/plugins/workflow/notification.php:189
+#, php-format
+msgid ""
+"Thank you for contributing to %s.  After our review process, we have decided not to accept the article at this time.  \n"
+"--------------------\n"
+"Title: %s\n"
+"\n"
+"%s\n"
+"\n"
+"%s"
+msgstr ""
+"Thank you for contributing to %s.  After our review process, we have decided not to accept the article at this time.  \n"
+"--------------------\n"
+"Title: %s\n"
+"\n"
+"%s\n"
+"\n"
+"%s"
+
+#: ../../code/Annotum/annotum-base/plugins/workflow/notification.php:230
+#, php-format
+msgid ""
+"%s has been invited to review the following article:\n"
+"--------------------\n"
+"Title: %s\n"
+"Author(s): %s\n"
+"Excerpt: %s\n"
+"%s\n"
+"\n"
+"%s\n"
+"%s"
+msgstr ""
+"%s has been invited to review the following article:\n"
+"--------------------\n"
+"Title: %s\n"
+"Author(s): %s\n"
+"Excerpt: %s\n"
+"%s\n"
+"\n"
+"%s\n"
+"%s"
+
+#: ../../code/Annotum/annotum-base/plugins/workflow/notification.php:268
+#, php-format
+msgid "%s has reviewed %s and has accepted the article for publication."
+msgstr "%s בדק את %s וקיבל את המאמר לפרסום."
+
+#: ../../code/Annotum/annotum-base/plugins/workflow/notification.php:271
+#, php-format
+msgid "%s has reviewed %s and has rejected the article for publication."
+msgstr "%s בדק את %s ודחה את המאמר לפרסום."
+
+#: ../../code/Annotum/annotum-base/plugins/workflow/notification.php:274
+#, php-format
+msgid "%s has reviewed %s and has requested revisions be made to the article prior to publication."
+msgstr "%s has reviewed %s and has requested revisions be made to the article prior to publication."
+
+#: ../../code/Annotum/annotum-base/plugins/workflow/notification.php:282
+#, php-format
+msgid "%s has reviewed %s"
+msgstr "%s בדק את %s"
+
+#: ../../code/Annotum/annotum-base/plugins/workflow/notification.php:284
+#, php-format
+msgid ""
+"%s\n"
+"%s\n"
+"\n"
+"%s"
+msgstr ""
+"%s\n"
+"%s\n"
+"\n"
+"%s"
+
+#: ../../code/Annotum/annotum-base/plugins/workflow/workflow.php:947
+msgid "You are editing an imported article. Updating this article will likely change its XML and HTML output."
+msgstr "You are editing an imported article. Updating this article will likely change its XML and HTML output."
+
