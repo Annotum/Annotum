@@ -19,7 +19,7 @@ class Anno_Widget_Recently extends WP_Widget {
 	public $timeout = 3600; // 1 hour
 	public $enable_cache = true;
 	public $html_uid;
-	public $number = 5;
+	public $number;
 	
 	protected static $script_initiated = false;
 	
@@ -42,6 +42,7 @@ class Anno_Widget_Recently extends WP_Widget {
 	
 	public function widget($args, $instance) {
 		extract($args);
+		$this->number = 5;
 		$cache = get_transient($this->key);
 		if ($cache === false || $this->enable_cache === false) {
 			ob_start();
@@ -54,7 +55,7 @@ class Anno_Widget_Recently extends WP_Widget {
 		echo $after_widget;
 	}
 
-	public function cached($args, $instance) { ?>
+	public function cached($args, $instance) { 	?>
 	<div class="recently-container">
 		<div class="tabs">
 			<ul class="nav">
@@ -62,7 +63,7 @@ class Anno_Widget_Recently extends WP_Widget {
 				<li><a href="#p2-<?php echo $this->html_uid; ?>"><?php _e('Comments', 'anno'); ?></a></li>
 			</ul>
 			<div class="panel first-child" id="p1-<?php echo $this->html_uid; ?>">
-				<?php 
+				<?php ;
 				$articles = new WP_Query(array(
 					'post_type' => 'article',
 					'posts_per_page' => $this->number
@@ -75,7 +76,7 @@ class Anno_Widget_Recently extends WP_Widget {
 					<li><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></li>
 				<?php 
 					}
-					echo '</ol>';
+					echo '</ol>;
 					wp_reset_postdata();
 					unset($articles);
 				}
