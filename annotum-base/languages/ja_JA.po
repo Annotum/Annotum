@@ -1,233 +1,240 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: \n"
-"POT-Creation-Date: \n"
-"PO-Revision-Date: \n"
-"Last-Translator: Annotum Support <info@annotum.org>\n"
-"Language-Team: Solvitor LLC <info@solvitor.com>\n"
+"Project-Id-Version: Annotum\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2011-11-23 14:46-0700\n"
+"PO-Revision-Date: 2012-02-17 12:55-0500\n"
+"Last-Translator: Solvitor LLC <info@solvitor.com>\n"
+"Language-Team: Crowd Favorite <crowfavorite@gmail.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-KeywordsList: __;_e;_ex;_x\n"
+"X-Poedit-Basepath: ../../\n"
+"X-Poedit-Language: English\n"
+"X-Poedit-Country: UNITED STATES\n"
+"X-Poedit-SourceCharset: utf-8\n"
+"X-Poedit-SearchPath-0: ../..\n"
 
-#: ../../code/Annotum/annotum-base/functions.php:70
+#: ../../code/Annotum/annotum-base/functions.php:69
 msgid "Default Sidebar"
-msgstr "Default Sidebar"
+msgstr "デフォルト サイドバー"
 
-#: ../../code/Annotum/annotum-base/functions.php:74
+#: ../../code/Annotum/annotum-base/functions.php:73
 msgid "Page Sidebar"
-msgstr "Page Sidebar"
+msgstr "ページ サイドバー"
 
-#: ../../code/Annotum/annotum-base/functions.php:76
+#: ../../code/Annotum/annotum-base/functions.php:75
 msgid "This sidebar will be shown on Pages."
-msgstr "This sidebar will be shown on Pages."
+msgstr "このサイドバーはページに表示されます。"
 
-#: ../../code/Annotum/annotum-base/functions.php:79
+#: ../../code/Annotum/annotum-base/functions.php:78
 msgid "Article Sidebar"
-msgstr "Article Sidebar"
+msgstr "記事サイドバー"
 
-#: ../../code/Annotum/annotum-base/functions.php:81
+#: ../../code/Annotum/annotum-base/functions.php:80
 msgid "This sidebar will be shown single Articles."
 msgstr "このサイドバーは単体の記事に表示されます。"
 
-#: ../../code/Annotum/annotum-base/functions.php:84
+#: ../../code/Annotum/annotum-base/functions.php:83
 msgid "Masthead Teasers"
 msgstr "マストヘッド ティーザー"
 
-#: ../../code/Annotum/annotum-base/functions.php:86
+#: ../../code/Annotum/annotum-base/functions.php:85
 msgid "Display items on the home page masthead."
 msgstr "ホーム ページのマストヘッドにアイテムを表示します。"
 
-#: ../../code/Annotum/annotum-base/functions.php:98
+#: ../../code/Annotum/annotum-base/functions.php:107
 msgid "Annotum Settings"
 msgstr "Annotum 設定"
 
-#: ../../code/Annotum/annotum-base/functions.php:232
+#: ../../code/Annotum/annotum-base/functions.php:248
 msgid "Required"
 msgstr "必須"
 
-#: ../../code/Annotum/annotum-base/functions.php:236
+#: ../../code/Annotum/annotum-base/functions.php:252
 msgid "Your Name"
 msgstr "名前"
 
-#: ../../code/Annotum/annotum-base/functions.php:237
+#: ../../code/Annotum/annotum-base/functions.php:253
 msgid "Email Address"
 msgstr "メール アドレス"
 
-#: ../../code/Annotum/annotum-base/functions.php:238
+#: ../../code/Annotum/annotum-base/functions.php:254
 msgid "Website"
 msgstr "ウェブサイト"
 
-#: ../../code/Annotum/annotum-base/functions.php:242
+#: ../../code/Annotum/annotum-base/functions.php:258
 msgid "Comment"
 msgstr "コメント"
 
-#: ../../code/Annotum/annotum-base/functions.php:244
+#: ../../code/Annotum/annotum-base/functions.php:260
 msgid "(cancel)"
 msgstr "（キャンセル）"
 
-#: ../../code/Annotum/annotum-base/functions.php:245
+#: ../../code/Annotum/annotum-base/functions.php:261
 msgid "Leave a Comment"
 msgstr "コメントを投稿"
 
-#: ../../code/Annotum/annotum-base/functions.php:246
+#: ../../code/Annotum/annotum-base/functions.php:262
 #, php-format
 msgid "Leave a Reply to %s"
 msgstr "%s への返信を投稿"
 
-#: ../../code/Annotum/annotum-base/functions.php:247
+#: ../../code/Annotum/annotum-base/functions.php:263
 msgid "Submit"
 msgstr "送信"
 
-#: ../../code/Annotum/annotum-base/functions.php:266
+#: ../../code/Annotum/annotum-base/functions.php:282
 #: ../../code/Annotum/annotum-base/carrington-core/admin.php:79
 msgid "Yes"
 msgstr "はい"
 
-#: ../../code/Annotum/annotum-base/functions.php:267
+#: ../../code/Annotum/annotum-base/functions.php:283
 #: ../../code/Annotum/annotum-base/carrington-core/admin.php:80
 msgid "No"
 msgstr "いいえ"
 
-#: ../../code/Annotum/annotum-base/functions.php:272
+#: ../../code/Annotum/annotum-base/functions.php:288
 #: ../../code/Annotum/annotum-base/carrington-core/admin.php:34
 #: ../../code/Annotum/annotum-base/carrington-core/admin.php:51
 msgid "Theme Settings"
 msgstr "テーマ設定"
 
-#: ../../code/Annotum/annotum-base/functions.php:277
+#: ../../code/Annotum/annotum-base/functions.php:293
 msgid "Home Page Callout Left Title"
 msgstr "ホームページ吹き出し左側タイトル"
 
-#: ../../code/Annotum/annotum-base/functions.php:283
+#: ../../code/Annotum/annotum-base/functions.php:299
 msgid "Home Page Callout Left URL"
 msgstr "ホームページ吹き出し左側 URL"
 
-#: ../../code/Annotum/annotum-base/functions.php:289
+#: ../../code/Annotum/annotum-base/functions.php:305
 msgid "Home Page Callout Left Content"
 msgstr "ホームページ吹き出し左側コンテンツ"
 
-#: ../../code/Annotum/annotum-base/functions.php:294
+#: ../../code/Annotum/annotum-base/functions.php:310
 msgid "Home Page Callout Right Title"
 msgstr "ホームページ吹き出し右側タイトル"
 
-#: ../../code/Annotum/annotum-base/functions.php:300
+#: ../../code/Annotum/annotum-base/functions.php:316
 msgid "Home Page Callout Right URL"
 msgstr "ホームページ吹き出し右側 URL"
 
-#: ../../code/Annotum/annotum-base/functions.php:306
+#: ../../code/Annotum/annotum-base/functions.php:322
 msgid "Home Page Callout Right Content"
 msgstr "ホームページ吹き出し右側コンテンツ"
 
-#: ../../code/Annotum/annotum-base/functions.php:321
+#: ../../code/Annotum/annotum-base/functions.php:337
 msgid "Front Page Post Type"
 msgstr "トップページの投稿タイプ"
 
-#: ../../code/Annotum/annotum-base/functions.php:323
+#: ../../code/Annotum/annotum-base/functions.php:339
 msgid "Article"
 msgstr "記事"
 
-#: ../../code/Annotum/annotum-base/functions.php:324
+#: ../../code/Annotum/annotum-base/functions.php:340
 msgid "Post"
 msgstr "投稿"
 
-#: ../../code/Annotum/annotum-base/functions.php:330
+#: ../../code/Annotum/annotum-base/functions.php:346
 msgid "Google Analytics"
 msgstr "Google アナリティクス"
 
-#: ../../code/Annotum/annotum-base/functions.php:333
+#: ../../code/Annotum/annotum-base/functions.php:349
 msgid "Google Analytics ID"
 msgstr "Google アナリティクス ID"
 
-#: ../../code/Annotum/annotum-base/functions.php:337
+#: ../../code/Annotum/annotum-base/functions.php:353
 msgid "ex: UA-123456-12"
 msgstr "例: UA-123456-12"
 
-#: ../../code/Annotum/annotum-base/functions.php:342
+#: ../../code/Annotum/annotum-base/functions.php:358
 msgid "Workflow Options"
 msgstr "ワークフロー オプション"
 
-#: ../../code/Annotum/annotum-base/functions.php:345
+#: ../../code/Annotum/annotum-base/functions.php:361
 msgid "Enable Workflow"
 msgstr "ワークフローを有効にする"
 
-#: ../../code/Annotum/annotum-base/functions.php:351
+#: ../../code/Annotum/annotum-base/functions.php:367
 msgid "Allow article authors to see reviewers"
 msgstr "記事の執筆者がレビューアを確認できるようにする"
 
-#: ../../code/Annotum/annotum-base/functions.php:357
+#: ../../code/Annotum/annotum-base/functions.php:373
 msgid "Enable workflow notifications"
 msgstr "ワークフロー通知を有効にする"
 
-#: ../../code/Annotum/annotum-base/functions.php:365
+#: ../../code/Annotum/annotum-base/functions.php:381
 msgid "Journal Options"
 msgstr "ジャーナル オプション"
 
-#: ../../code/Annotum/annotum-base/functions.php:368
+#: ../../code/Annotum/annotum-base/functions.php:384
 msgid "Journal Name"
 msgstr "ジャーナル名"
 
-#: ../../code/Annotum/annotum-base/functions.php:373
+#: ../../code/Annotum/annotum-base/functions.php:389
 msgid "Journal Abbreviation"
 msgstr "ジャーナルの略称"
 
-#: ../../code/Annotum/annotum-base/functions.php:378
+#: ../../code/Annotum/annotum-base/functions.php:394
 msgid "Journal ID"
 msgstr "ジャーナル ID"
 
-#: ../../code/Annotum/annotum-base/functions.php:383
+#: ../../code/Annotum/annotum-base/functions.php:399
 msgid "Journal ID Type"
 msgstr "ジャーナル ID タイプ"
 
-#: ../../code/Annotum/annotum-base/functions.php:388
+#: ../../code/Annotum/annotum-base/functions.php:404
 msgid "Journal ISSN"
 msgstr "ジャーナル ISSN"
 
-#: ../../code/Annotum/annotum-base/functions.php:393
+#: ../../code/Annotum/annotum-base/functions.php:409
 msgid "Publisher Name"
 msgstr "発行者名"
 
-#: ../../code/Annotum/annotum-base/functions.php:398
+#: ../../code/Annotum/annotum-base/functions.php:414
 msgid "Publisher Location"
 msgstr "発行者所在地"
 
-#: ../../code/Annotum/annotum-base/functions.php:403
+#: ../../code/Annotum/annotum-base/functions.php:419
 msgid "Publisher ISSN"
 msgstr "発行者 ISSN"
 
-#: ../../code/Annotum/annotum-base/functions.php:410
+#: ../../code/Annotum/annotum-base/functions.php:426
 msgid "CrossRef Credentials"
 msgstr "CrossRef 認証情報"
 
-#: ../../code/Annotum/annotum-base/functions.php:413
+#: ../../code/Annotum/annotum-base/functions.php:429
 msgid "Login"
 msgstr "ログイン"
 
-#: ../../code/Annotum/annotum-base/functions.php:418
+#: ../../code/Annotum/annotum-base/functions.php:434
 msgid "Password"
 msgstr "パスワード"
 
-#: ../../code/Annotum/annotum-base/functions.php:423
+#: ../../code/Annotum/annotum-base/functions.php:439
 msgid "Registrant Code"
 msgstr "登録者コード"
 
-#: ../../code/Annotum/annotum-base/functions.php:445
+#: ../../code/Annotum/annotum-base/functions.php:461
 msgid "Invalid Google Analytics ID"
 msgstr "無効な Google アナリティクス ID"
 
-#: ../../code/Annotum/annotum-base/functions.php:734
-msgid "Cheatin&#8217; uh?"
-msgstr "不正行為をしていませんか？"
-
-#: ../../code/Annotum/annotum-base/functions.php:741
+#: ../../code/Annotum/annotum-base/functions.php:753
 msgid "Invalid email address"
 msgstr "無効なメール アドレス"
 
-#: ../../code/Annotum/annotum-base/functions.php:759
+#: ../../code/Annotum/annotum-base/functions.php:758
+msgid "Invalid username"
+msgstr "無効なユーザー名"
+
+#: ../../code/Annotum/annotum-base/functions.php:776
 #, php-format
 msgid "You have been invited to join %s"
 msgstr "%s に招待されました"
 
-#: ../../code/Annotum/annotum-base/functions.php:761
+#: ../../code/Annotum/annotum-base/functions.php:778
 #, php-format
 msgid ""
 "%s has created a user with your email address for %s.\n"
@@ -237,36 +244,40 @@ msgid ""
 "Password: %s\n"
 "%s"
 msgstr ""
-"%s has created a user with your email address for %s.\n"
-"Please use the following credentials to login and change your password:\n"
+"%s がメール アドレス %s でユーザーを作成しました。\n"
+"次の認証情報を使用してログインし、パスワードを変更してください:\n"
 "\n"
-"Username: %s\n"
-"Password: %s\n"
+"ユーザー名:%s\n"
+"パスワード:%s\n"
 "%s"
 
-#: ../../code/Annotum/annotum-base/functions.php:786
+#: ../../code/Annotum/annotum-base/functions.php:802
 msgid "Published"
 msgstr "公開済み"
 
-#: ../../code/Annotum/annotum-base/functions.php:790
+#: ../../code/Annotum/annotum-base/functions.php:806
 msgid "Pending"
 msgstr "保留"
 
-#: ../../code/Annotum/annotum-base/functions.php:794
+#: ../../code/Annotum/annotum-base/functions.php:810
 msgid "Draft"
 msgstr "下書き"
 
-#: ../../code/Annotum/annotum-base/functions.php:798
+#: ../../code/Annotum/annotum-base/functions.php:814
 msgid "Trash"
 msgstr "ゴミ箱"
 
-#: ../../code/Annotum/annotum-base/functions.php:843
-msgid "Article Summary"
-msgstr "記事の概要"
-
-#: ../../code/Annotum/annotum-base/functions.php:848
+#: ../../code/Annotum/annotum-base/functions.php:862
 msgid "Articles"
 msgstr "記事"
+
+#: ../../code/Annotum/annotum-base/functions.php:928
+msgid "Home"
+msgstr "ホーム"
+
+#: ../../code/Annotum/annotum-base/functions.php:934
+msgid "About Annotum"
+msgstr "Annotum について"
 
 #: ../../code/Annotum/annotum-base/assets/load.php:32
 msgid "Previous"
@@ -280,6 +291,19 @@ msgstr "次へ"
 #, php-format
 msgid "%1$s of %2$s"
 msgstr "%1$s/%2$s"
+
+#: ../../code/Annotum/annotum-base/attachment/attachment-default.php:23
+msgid "article"
+msgstr "記事"
+
+#: ../../code/Annotum/annotum-base/attachment/attachment-default.php:28
+#, php-format
+msgid "back to &#8220;%s&#8221;"
+msgstr "「%s」に戻る"
+
+#: ../../code/Annotum/annotum-base/attachment/attachment-default.php:54
+msgid "Sorry, no attachments matched your criteria."
+msgstr "条件に一致する添付ファイルはありません。"
 
 #: ../../code/Annotum/annotum-base/carrington-core/admin.php:33
 #: ../../code/Annotum/annotum-base/carrington-core/admin.php:319
@@ -405,602 +429,615 @@ msgstr "申し訳ありませんが、お探しの対象が不明です。"
 msgid "Search"
 msgstr "検索"
 
-#: ../../code/Annotum/annotum-base/functions/anno-xml-download.php:74
+#: ../../code/Annotum/annotum-base/functions/anno-xml-download.php:84
 msgid "No article found."
 msgstr "記事が見つかりませんでした。"
 
-#: ../../code/Annotum/annotum-base/functions/anno-xml-download.php:104
+#: ../../code/Annotum/annotum-base/functions/anno-xml-download.php:114
 msgid "Required article first."
 msgstr "最初に記事が必要です。"
 
-#: ../../code/Annotum/annotum-base/functions/anno-xml-download.php:426
+#: ../../code/Annotum/annotum-base/functions/anno-xml-download.php:433
 msgid "Acknowledgments"
 msgstr "謝辞"
 
-#: ../../code/Annotum/annotum-base/functions/anno-xml-download.php:445
-#: ../../code/Annotum/annotum-base/functions/template.php:315
+#: ../../code/Annotum/annotum-base/functions/anno-xml-download.php:452
+#: ../../code/Annotum/annotum-base/functions/template.php:415
 #, php-format
 msgid "Appendix %s"
 msgstr "付録 %s"
 
-#: ../../code/Annotum/annotum-base/functions/anno-xml-download.php:464
-#: ../../code/Annotum/annotum-base/functions/article-post-type.php:94
-#: ../../code/Annotum/annotum-base/functions/template.php:339
+#: ../../code/Annotum/annotum-base/functions/anno-xml-download.php:471
+#: ../../code/Annotum/annotum-base/functions/article-post-type.php:104
+#: ../../code/Annotum/annotum-base/functions/template.php:439
 msgid "References"
 msgstr "参照情報"
 
-#: ../../code/Annotum/annotum-base/functions/Anno_Widget_Recently.php:27
+#: ../../code/Annotum/annotum-base/functions/Anno_Widget_Recently.php:28
 msgid "Display the most recent posts and comments in a tabbed box."
 msgstr "最新の投稿とコメントをタブ付きのボックスで表示する。"
 
-#: ../../code/Annotum/annotum-base/functions/Anno_Widget_Recently.php:30
+#: ../../code/Annotum/annotum-base/functions/Anno_Widget_Recently.php:31
 msgid "Recently&hellip;"
 msgstr "最新&hellip;"
 
-#: ../../code/Annotum/annotum-base/functions/Anno_Widget_Recently.php:60
+#: ../../code/Annotum/annotum-base/functions/Anno_Widget_Recently.php:61
 msgid "Recent Articles"
 msgstr "最新の記事"
 
-#: ../../code/Annotum/annotum-base/functions/Anno_Widget_Recently.php:61
+#: ../../code/Annotum/annotum-base/functions/Anno_Widget_Recently.php:62
 msgid "Comments"
 msgstr "コメント"
 
-#: ../../code/Annotum/annotum-base/functions/Anno_Widget_Recently.php:96
+#: ../../code/Annotum/annotum-base/functions/Anno_Widget_Recently.php:97
 #, php-format
 msgid "%1$s on %2$s"
 msgstr "%2$s についての %1$s"
 
-#: ../../code/Annotum/annotum-base/functions/appendix-repeater.php:43
+#: ../../code/Annotum/annotum-base/functions/appendix-repeater.php:55
 msgid "Are you sure you want to delete this?"
 msgstr "これを削除してもよろしいですか？"
 
-#: ../../code/Annotum/annotum-base/functions/appendix-repeater.php:51
+#: ../../code/Annotum/annotum-base/functions/appendix-repeater.php:63
 msgid "Add Another Appendix"
 msgstr "別の付録を追加"
 
-#: ../../code/Annotum/annotum-base/functions/appendix-repeater.php:83
+#: ../../code/Annotum/annotum-base/functions/appendix-repeater.php:68
+#: ../../code/Annotum/annotum-base/functions/article-post-type.php:143
+#, php-format
+msgid "The Annotum editor requires at least WordPress 3.3. It appears you are using WordPress %s. "
+msgstr "Annotum エディタを使用するには WordPress 3.3 以上が必要です。お使いのエディタは WordPress %s のようです。"
+
+#: ../../code/Annotum/annotum-base/functions/appendix-repeater.php:99
 msgid "Appendix"
 msgstr "付録"
 
-#: ../../code/Annotum/annotum-base/functions/appendix-repeater.php:83
+#: ../../code/Annotum/annotum-base/functions/appendix-repeater.php:99
 msgid "delete"
 msgstr "削除"
 
-#: ../../code/Annotum/annotum-base/functions/article-post-type.php:17
+#: ../../code/Annotum/annotum-base/functions/article-post-type.php:27
 msgid "Add New Article"
 msgstr "新しい記事を追加"
 
-#: ../../code/Annotum/annotum-base/functions/article-post-type.php:18
+#: ../../code/Annotum/annotum-base/functions/article-post-type.php:28
 msgid "Edit Article"
 msgstr "記事を編集"
 
-#: ../../code/Annotum/annotum-base/functions/article-post-type.php:19
+#: ../../code/Annotum/annotum-base/functions/article-post-type.php:29
 msgid "New Article"
 msgstr "新しい記事"
 
-#: ../../code/Annotum/annotum-base/functions/article-post-type.php:20
+#: ../../code/Annotum/annotum-base/functions/article-post-type.php:30
 msgid "View Article"
 msgstr "記事を表示"
 
-#: ../../code/Annotum/annotum-base/functions/article-post-type.php:21
+#: ../../code/Annotum/annotum-base/functions/article-post-type.php:31
 msgid "Search Articles"
 msgstr "記事を検索"
 
-#: ../../code/Annotum/annotum-base/functions/article-post-type.php:22
+#: ../../code/Annotum/annotum-base/functions/article-post-type.php:32
 msgid "No Articles found"
 msgstr "記事が見つかりませんでした"
 
-#: ../../code/Annotum/annotum-base/functions/article-post-type.php:23
+#: ../../code/Annotum/annotum-base/functions/article-post-type.php:33
 msgid "No Articles found in Trash"
 msgstr "ゴミ箱に記事は見つかりませんでした"
 
-#: ../../code/Annotum/annotum-base/functions/article-post-type.php:52
+#: ../../code/Annotum/annotum-base/functions/article-post-type.php:62
 msgid "Unable to perform that ability"
 msgstr "その機能は実行できません"
 
-#: ../../code/Annotum/annotum-base/functions/article-post-type.php:70
+#: ../../code/Annotum/annotum-base/functions/article-post-type.php:80
 #, php-format
 msgid "Article updated. <a href=\"%s\">View article</a>"
 msgstr "記事が更新されました。<a href=\"%s\">記事を表示</a>"
 
-#: ../../code/Annotum/annotum-base/functions/article-post-type.php:71
+#: ../../code/Annotum/annotum-base/functions/article-post-type.php:81
 msgid "Custom field updated."
 msgstr "カスタム フィールドが更新されました。"
 
-#: ../../code/Annotum/annotum-base/functions/article-post-type.php:72
+#: ../../code/Annotum/annotum-base/functions/article-post-type.php:82
 msgid "Custom field deleted."
 msgstr "カスタム フィールドが削除されました。"
 
-#: ../../code/Annotum/annotum-base/functions/article-post-type.php:73
+#: ../../code/Annotum/annotum-base/functions/article-post-type.php:83
 msgid "Article updated."
 msgstr "記事が更新されました。"
 
-#: ../../code/Annotum/annotum-base/functions/article-post-type.php:74
+#: ../../code/Annotum/annotum-base/functions/article-post-type.php:84
 #, php-format
 msgid "Article restored to revision from %s"
 msgstr "記事が %s から改訂版へと回復されました"
 
-#: ../../code/Annotum/annotum-base/functions/article-post-type.php:75
+#: ../../code/Annotum/annotum-base/functions/article-post-type.php:85
 #, php-format
 msgid "Article published. <a href=\"%s\">View article</a>"
 msgstr "記事が公開されました。<a href=\"%s\">記事を表示</a>"
 
-#: ../../code/Annotum/annotum-base/functions/article-post-type.php:76
+#: ../../code/Annotum/annotum-base/functions/article-post-type.php:86
 msgid "Article saved."
 msgstr "記事が保存されました。"
 
-#: ../../code/Annotum/annotum-base/functions/article-post-type.php:77
+#: ../../code/Annotum/annotum-base/functions/article-post-type.php:87
 #, php-format
 msgid "Article submitted. <a target=\"_blank\" href=\"%s\">Preview article</a>"
 msgstr "記事が送信されました。<a target=\"_blank\" href=\"%s\">記事をプレビュー</a>"
 
-#: ../../code/Annotum/annotum-base/functions/article-post-type.php:78
+#: ../../code/Annotum/annotum-base/functions/article-post-type.php:88
 #, php-format
 msgid "Article scheduled for: <strong>%1$s</strong>. <a target=\"_blank\" href=\"%2$s\">Preview article</a>"
 msgstr "記事がスケジュールされました: <strong>%1$s</strong>。<a target=\"_blank\" href=\"%2$s\">記事をプレビュー</a>"
 
-#: ../../code/Annotum/annotum-base/functions/article-post-type.php:78
+#: ../../code/Annotum/annotum-base/functions/article-post-type.php:88
 msgid "M j, Y @ G:i"
 msgstr "M j, Y @ G:i"
 
-#: ../../code/Annotum/annotum-base/functions/article-post-type.php:79
+#: ../../code/Annotum/annotum-base/functions/article-post-type.php:89
 #, php-format
 msgid "Article draft updated. <a target=\"_blank\" href=\"%s\">Preview article</a>"
 msgstr "記事の下書きが更新されました。<a target=\"_blank\" href=\"%s\">記事をプレビュー</a>"
 
-#: ../../code/Annotum/annotum-base/functions/article-post-type.php:80
+#: ../../code/Annotum/annotum-base/functions/article-post-type.php:90
 msgid "Article successfully cloned."
 msgstr "記事が複製されました。"
 
-#: ../../code/Annotum/annotum-base/functions/article-post-type.php:81
+#: ../../code/Annotum/annotum-base/functions/article-post-type.php:91
 msgid "Unable to clone article."
 msgstr "記事を複製できません。"
 
-#: ../../code/Annotum/annotum-base/functions/article-post-type.php:92
+#: ../../code/Annotum/annotum-base/functions/article-post-type.php:102
 msgid "Subtitle"
 msgstr "サブタイトル"
 
-#: ../../code/Annotum/annotum-base/functions/article-post-type.php:93
+#: ../../code/Annotum/annotum-base/functions/article-post-type.php:103
 msgid "Body"
 msgstr "本文"
 
-#: ../../code/Annotum/annotum-base/functions/article-post-type.php:98
+#: ../../code/Annotum/annotum-base/functions/article-post-type.php:108
 msgid "Appendices"
 msgstr "付録"
 
-#: ../../code/Annotum/annotum-base/functions/article-post-type.php:99
+#: ../../code/Annotum/annotum-base/functions/article-post-type.php:109
 msgid "Featured"
 msgstr "注目の記事"
 
-#: ../../code/Annotum/annotum-base/functions/article-post-type.php:102
+#: ../../code/Annotum/annotum-base/functions/article-post-type.php:112
 msgid "Convert To Post"
 msgstr "投稿に切り替える"
 
-#: ../../code/Annotum/annotum-base/functions/article-post-type.php:103
-msgid "DOI Deposit"
-msgstr "DOI デポジット"
+#: ../../code/Annotum/annotum-base/functions/article-post-type.php:201
+msgid "Appear in the home page carousel"
+msgstr "ホームページの一覧で紹介"
 
-#: ../../code/Annotum/annotum-base/functions/article-post-type.php:189
-msgid "Feature this article to appear in the home page carousel"
-msgstr "この記事をホームページの一覧で紹介する"
-
-#: ../../code/Annotum/annotum-base/functions/article-post-type.php:341
+#: ../../code/Annotum/annotum-base/functions/article-post-type.php:374
 msgid "Clicking the button below will convert the current <strong>Article</strong> to a <strong>Post</strong>. This will also convert any terms in article taxonomies to post taxonomies. You will not be able to revert this Article back once it has been converted to a Post."
 msgstr "下のボタンをクリックすると、現在の<strong>記事</strong>が<strong>投稿</strong>に切り替わります。その際、記事区分の用語も投稿区分の用語に変更されます。この記事をいったん投稿に切り替えると、元に戻すことはできません。"
 
-#: ../../code/Annotum/annotum-base/functions/article-post-type.php:361
-#: ../../code/Annotum/annotum-base/functions/tinymce.php:430
+#: ../../code/Annotum/annotum-base/functions/article-post-type.php:394
+#: ../../code/Annotum/annotum-base/functions/tinymce.php:454
 msgid "CrossRef Credentials Required"
 msgstr "CrossRef 認証情報が必要です"
 
-#: ../../code/Annotum/annotum-base/functions/article-post-type.php:372
+#: ../../code/Annotum/annotum-base/functions/article-post-type.php:407
 msgid "Deposit"
 msgstr "デポジット"
 
-#: ../../code/Annotum/annotum-base/functions/profile.php:8
+#: ../../code/Annotum/annotum-base/functions/profile.php:18
 msgid "Name Prefix"
 msgstr "名前の前に付ける敬称"
 
-#: ../../code/Annotum/annotum-base/functions/profile.php:9
+#: ../../code/Annotum/annotum-base/functions/profile.php:19
 msgid "Name Suffix"
 msgstr "名前の後に付ける敬称"
 
-#: ../../code/Annotum/annotum-base/functions/profile.php:10
+#: ../../code/Annotum/annotum-base/functions/profile.php:20
 msgid "Degrees"
 msgstr "学位"
 
-#: ../../code/Annotum/annotum-base/functions/profile.php:11
+#: ../../code/Annotum/annotum-base/functions/profile.php:21
 msgid "Affiliation"
 msgstr "所属"
 
-#: ../../code/Annotum/annotum-base/functions/profile.php:19
-#: ../../code/Annotum/annotum-base/functions/profile.php:20
-#: ../../code/Annotum/annotum-base/functions/profile.php:36
+#: ../../code/Annotum/annotum-base/functions/profile.php:29
+#: ../../code/Annotum/annotum-base/functions/profile.php:30
+#: ../../code/Annotum/annotum-base/functions/profile.php:46
 msgid "Annotum Profile"
 msgstr "Annotum プロフィール"
 
-#: ../../code/Annotum/annotum-base/functions/profile.php:38
+#: ../../code/Annotum/annotum-base/functions/profile.php:48
 msgid "Profile Updated"
 msgstr "プロフィールが更新されました"
 
-#: ../../code/Annotum/annotum-base/functions/profile.php:44
+#: ../../code/Annotum/annotum-base/functions/profile.php:54
 msgid "First Name"
 msgstr "名"
 
-#: ../../code/Annotum/annotum-base/functions/profile.php:45
-#: ../../code/Annotum/annotum-base/functions/profile.php:50
+#: ../../code/Annotum/annotum-base/functions/profile.php:55
+#: ../../code/Annotum/annotum-base/functions/profile.php:60
 msgid "Change"
 msgstr "変更"
 
-#: ../../code/Annotum/annotum-base/functions/profile.php:49
+#: ../../code/Annotum/annotum-base/functions/profile.php:59
 msgid "Last Name"
 msgstr "姓"
 
-#: ../../code/Annotum/annotum-base/functions/profile.php:71
+#: ../../code/Annotum/annotum-base/functions/profile.php:81
 msgid "Update Profile"
 msgstr "プロフィールを更新"
 
-#: ../../code/Annotum/annotum-base/functions/taxonomies.php:9
-#: ../../code/Annotum/annotum-base/functions/taxonomies.php:10
-#: ../../code/Annotum/annotum-base/functions/taxonomies.php:70
+#: ../../code/Annotum/annotum-base/functions/taxonomies.php:19
+#: ../../code/Annotum/annotum-base/functions/taxonomies.php:20
+#: ../../code/Annotum/annotum-base/functions/taxonomies.php:80
 msgid "Article Category"
 msgstr "記事カテゴリ"
 
-#: ../../code/Annotum/annotum-base/functions/taxonomies.php:11
+#: ../../code/Annotum/annotum-base/functions/taxonomies.php:21
 msgid "Search Article Categories"
 msgstr "記事カテゴリを検索"
 
-#: ../../code/Annotum/annotum-base/functions/taxonomies.php:12
+#: ../../code/Annotum/annotum-base/functions/taxonomies.php:22
 msgid "Popular Article Categories"
 msgstr "人気の記事カテゴリ"
 
-#: ../../code/Annotum/annotum-base/functions/taxonomies.php:13
+#: ../../code/Annotum/annotum-base/functions/taxonomies.php:23
 msgid "All Article Categories"
 msgstr "すべての記事カテゴリ"
 
-#: ../../code/Annotum/annotum-base/functions/taxonomies.php:14
+#: ../../code/Annotum/annotum-base/functions/taxonomies.php:24
 msgid "Edit Article Category"
 msgstr "記事カテゴリを編集"
 
-#: ../../code/Annotum/annotum-base/functions/taxonomies.php:15
+#: ../../code/Annotum/annotum-base/functions/taxonomies.php:25
 msgid "Update Article Category"
 msgstr "記事カテゴリを更新"
 
-#: ../../code/Annotum/annotum-base/functions/taxonomies.php:16
+#: ../../code/Annotum/annotum-base/functions/taxonomies.php:26
 msgid "Add New Article Category"
 msgstr "新しい記事カテゴリを追加"
 
-#: ../../code/Annotum/annotum-base/functions/taxonomies.php:17
+#: ../../code/Annotum/annotum-base/functions/taxonomies.php:27
 msgid "New Article Category Name"
 msgstr "新しい記事カテゴリ名"
 
-#: ../../code/Annotum/annotum-base/functions/taxonomies.php:18
+#: ../../code/Annotum/annotum-base/functions/taxonomies.php:28
 msgid "Add or Remove Article Categories"
 msgstr "記事カテゴリを追加/削除"
 
-#: ../../code/Annotum/annotum-base/functions/taxonomies.php:19
+#: ../../code/Annotum/annotum-base/functions/taxonomies.php:29
 msgid "Choose from the most used article categories"
 msgstr "よく使用されている記事カテゴリから選択"
 
-#: ../../code/Annotum/annotum-base/functions/taxonomies.php:20
+#: ../../code/Annotum/annotum-base/functions/taxonomies.php:30
 msgid "Article Categories"
 msgstr "記事カテゴリ"
 
-#: ../../code/Annotum/annotum-base/functions/taxonomies.php:33
-#: ../../code/Annotum/annotum-base/functions/taxonomies.php:34
+#: ../../code/Annotum/annotum-base/functions/taxonomies.php:43
+#: ../../code/Annotum/annotum-base/functions/taxonomies.php:44
 msgid "Article Tag"
 msgstr "記事タグ"
 
-#: ../../code/Annotum/annotum-base/functions/taxonomies.php:35
+#: ../../code/Annotum/annotum-base/functions/taxonomies.php:45
 msgid "Search Article Tags"
 msgstr "記事タグを検索"
 
-#: ../../code/Annotum/annotum-base/functions/taxonomies.php:36
+#: ../../code/Annotum/annotum-base/functions/taxonomies.php:46
 msgid "Popular Article Tags"
 msgstr "人気の記事タグ"
 
-#: ../../code/Annotum/annotum-base/functions/taxonomies.php:37
+#: ../../code/Annotum/annotum-base/functions/taxonomies.php:47
 msgid "All Article Tags"
 msgstr "すべての記事タグ"
 
-#: ../../code/Annotum/annotum-base/functions/taxonomies.php:38
+#: ../../code/Annotum/annotum-base/functions/taxonomies.php:48
 msgid "Edit Article Tag"
 msgstr "記事タグを編集"
 
-#: ../../code/Annotum/annotum-base/functions/taxonomies.php:39
+#: ../../code/Annotum/annotum-base/functions/taxonomies.php:49
 msgid "Update Article Tag"
 msgstr "記事タグを更新"
 
-#: ../../code/Annotum/annotum-base/functions/taxonomies.php:40
+#: ../../code/Annotum/annotum-base/functions/taxonomies.php:50
 msgid "Add New Article Tag"
 msgstr "新しい記事タグを追加"
 
-#: ../../code/Annotum/annotum-base/functions/taxonomies.php:41
+#: ../../code/Annotum/annotum-base/functions/taxonomies.php:51
 msgid "New Article Tag Name"
 msgstr "新しい記事タグ名"
 
-#: ../../code/Annotum/annotum-base/functions/taxonomies.php:42
+#: ../../code/Annotum/annotum-base/functions/taxonomies.php:52
 msgid "Add or Remove Article Tags"
 msgstr "記事タグを追加/削除"
 
-#: ../../code/Annotum/annotum-base/functions/taxonomies.php:43
+#: ../../code/Annotum/annotum-base/functions/taxonomies.php:53
 msgid "Choose from the most used article tags"
 msgstr "よく使用されている記事タグから選択"
 
-#: ../../code/Annotum/annotum-base/functions/taxonomies.php:44
+#: ../../code/Annotum/annotum-base/functions/taxonomies.php:54
 msgid "Article Tags"
 msgstr "記事タグ"
 
-#: ../../code/Annotum/annotum-base/functions/template.php:198
+#: ../../code/Annotum/annotum-base/functions/template.php:271
 msgid "Website:"
 msgstr "ウェブサイト:"
 
-#: ../../code/Annotum/annotum-base/functions/template.php:255
+#: ../../code/Annotum/annotum-base/functions/template.php:277
+msgid "Affiliation:"
+msgstr "所属:"
+
+#: ../../code/Annotum/annotum-base/functions/template.php:329
 #, php-format
 msgid "%1$s: %2$s"
 msgstr "%1$s: %2$s"
 
-#: ../../code/Annotum/annotum-base/functions/template.php:265
+#: ../../code/Annotum/annotum-base/functions/template.php:364
 #, php-format
 msgid "%1$s %2$s"
 msgstr "%1$s %2$s"
 
-#: ../../code/Annotum/annotum-base/functions/template.php:282
+#: ../../code/Annotum/annotum-base/functions/template.php:382
 #, php-format
 msgid "%1$s. %2$s [Internet]. Version %3$s. %4$s. %5$s. Available from: %6$s."
 msgstr "%1$s。%2$s [インターネット]。バージョン %3$s。%4$s。%5$s。次から使用可能: %6$s。"
 
-#: ../../code/Annotum/annotum-base/functions/template.php:343
+#: ../../code/Annotum/annotum-base/functions/template.php:443
 msgid "Reference Link"
 msgstr "参照リンク"
 
-#: ../../code/Annotum/annotum-base/functions/template.php:362
+#: ../../code/Annotum/annotum-base/functions/template.php:462
 msgid "Tweet"
 msgstr "ツイート"
 
-#: ../../code/Annotum/annotum-base/functions/template.php:389
+#: ../../code/Annotum/annotum-base/functions/template.php:489
 msgid "Email"
 msgstr "メール"
 
-#: ../../code/Annotum/annotum-base/functions/tinymce-uploader.php:61
-#, php-format
-msgid "Sorry, you have filled your storage quota (%s MB)."
-msgstr "ストレージの割り当て上限（%s MB）に達しました。"
-
-#: ../../code/Annotum/annotum-base/functions/tinymce-uploader.php:103
-msgid "Select Files"
-msgstr "ファイルを選択"
-
-#: ../../code/Annotum/annotum-base/functions/tinymce-uploader.php:145
-msgid "Choose files to upload"
-msgstr "アップロードするファイルを選択"
-
-#: ../../code/Annotum/annotum-base/functions/tinymce-uploader.php:156
-#: ../../code/Annotum/annotum-base/functions/tinymce-uploader.php:158
-msgid "Upload"
-msgstr "アップロード"
-
-#: ../../code/Annotum/annotum-base/functions/tinymce-uploader.php:162
-msgid "If you want to use all capabilities of the uploader, like uploading multiple files at once, please update to lighttpd 1.5."
-msgstr "複数のファイルを一度にアップロードするなど、アップローダのすべての機能を使用するには、lighttpd 1.5 にアップデートしてください。"
-
-#: ../../code/Annotum/annotum-base/functions/tinymce-uploader.php:276
-msgid "You do not have permission to upload files."
-msgstr "ファイルをアップロードする権限がありません。"
-
-#: ../../code/Annotum/annotum-base/functions/tinymce-uploader.php:282
-msgid "Unknown post type."
-msgstr "不明な投稿タイプです。"
-
-#: ../../code/Annotum/annotum-base/functions/tinymce-uploader.php:285
-msgid "You are not allowed to edit this item."
-msgstr "このアイテムの編集が許可されていません。"
-
-#: ../../code/Annotum/annotum-base/functions/tinymce-uploader.php:297
-msgid "Dismiss"
-msgstr "表示しない"
-
-#: ../../code/Annotum/annotum-base/functions/tinymce-uploader.php:298
-#, php-format
-msgid "&#8220;%s&#8221; has failed to upload due to an error"
-msgstr "エラーが発生したため &#8220;%s&#8221; をアップロードできませんでした。"
-
-#: ../../code/Annotum/annotum-base/functions/tinymce.php:325
-#: ../../code/Annotum/annotum-base/functions/tinymce.php:459
+#: ../../code/Annotum/annotum-base/functions/tinymce.php:339
+#: ../../code/Annotum/annotum-base/functions/tinymce.php:478
 msgid "URL"
 msgstr "URL"
 
-#: ../../code/Annotum/annotum-base/functions/tinymce.php:329
+#: ../../code/Annotum/annotum-base/functions/tinymce.php:343
 msgid "Title"
 msgstr "タイトル"
 
-#: ../../code/Annotum/annotum-base/functions/tinymce.php:333
+#: ../../code/Annotum/annotum-base/functions/tinymce.php:347
+#: ../../code/Annotum/annotum-base/functions/tinymce.php:627
 msgid "Alt Text"
 msgstr "代替テキスト"
 
-#: ../../code/Annotum/annotum-base/functions/tinymce.php:356
+#: ../../code/Annotum/annotum-base/functions/tinymce.php:369
+#: ../../code/Annotum/annotum-base/functions/tinymce.php:647
 msgid "Label"
 msgstr "ラベル"
 
-#: ../../code/Annotum/annotum-base/functions/tinymce.php:360
+#: ../../code/Annotum/annotum-base/functions/tinymce.php:373
+#: ../../code/Annotum/annotum-base/functions/tinymce.php:651
 msgid "Caption"
 msgstr "説明"
 
-#: ../../code/Annotum/annotum-base/functions/tinymce.php:364
+#: ../../code/Annotum/annotum-base/functions/tinymce.php:377
 msgid "Table Properties"
 msgstr "表のプロパティ"
 
-#: ../../code/Annotum/annotum-base/functions/tinymce.php:366
+#: ../../code/Annotum/annotum-base/functions/tinymce.php:379
 msgid "Columns"
 msgstr "列"
 
-#: ../../code/Annotum/annotum-base/functions/tinymce.php:370
+#: ../../code/Annotum/annotum-base/functions/tinymce.php:383
 msgid "Rows"
 msgstr "行"
 
-#: ../../code/Annotum/annotum-base/functions/tinymce.php:377
-#: ../../code/Annotum/annotum-base/functions/tinymce.php:590
-#: ../../code/Annotum/annotum-base/functions/tinymce.php:611
+#: ../../code/Annotum/annotum-base/functions/tinymce.php:390
+#: ../../code/Annotum/annotum-base/functions/tinymce.php:609
+#: ../../code/Annotum/annotum-base/functions/tinymce.php:658
 msgid "Insert"
 msgstr "挿入"
 
-#: ../../code/Annotum/annotum-base/functions/tinymce.php:401
+#: ../../code/Annotum/annotum-base/functions/tinymce.php:417
 msgid "Edit"
 msgstr "編集"
 
-#: ../../code/Annotum/annotum-base/functions/tinymce.php:402
+#: ../../code/Annotum/annotum-base/functions/tinymce.php:418
 msgid "Delete"
 msgstr "削除"
 
-#: ../../code/Annotum/annotum-base/functions/tinymce.php:432
+#: ../../code/Annotum/annotum-base/functions/tinymce.php:424
+msgid "Show"
+msgstr "表示"
+
+#: ../../code/Annotum/annotum-base/functions/tinymce.php:456
 msgid "CrossRef DOI"
 msgstr "CrossRef DOI"
 
-#: ../../code/Annotum/annotum-base/functions/tinymce.php:434
-#: ../../code/Annotum/annotum-base/functions/tinymce.php:441
+#: ../../code/Annotum/annotum-base/functions/tinymce.php:459
+#: ../../code/Annotum/annotum-base/functions/tinymce.php:468
 msgid "Import"
 msgstr "インポート"
 
-#: ../../code/Annotum/annotum-base/functions/tinymce.php:439
+#: ../../code/Annotum/annotum-base/functions/tinymce.php:465
 msgid "PubMed ID (PMID)"
 msgstr "PubMed ID（PMID）"
 
-#: ../../code/Annotum/annotum-base/functions/tinymce.php:446
-msgid "Figures"
-msgstr "図"
-
-#: ../../code/Annotum/annotum-base/functions/tinymce.php:448
-msgid "Select Figure"
-msgstr "図を選択"
-
-#: ../../code/Annotum/annotum-base/functions/tinymce.php:455
-#: ../../code/Annotum/annotum-base/functions/tinymce.php:565
+#: ../../code/Annotum/annotum-base/functions/tinymce.php:474
+#: ../../code/Annotum/annotum-base/functions/tinymce.php:584
 msgid "Text"
 msgstr "テキスト"
 
-#: ../../code/Annotum/annotum-base/functions/tinymce.php:542
+#: ../../code/Annotum/annotum-base/functions/tinymce.php:561
 msgid "New Reference"
 msgstr "新しい参照"
 
-#: ../../code/Annotum/annotum-base/functions/tinymce.php:549
+#: ../../code/Annotum/annotum-base/functions/tinymce.php:569
 msgid "Insert Reference(s)"
 msgstr "参照を挿入"
 
-#: ../../code/Annotum/annotum-base/functions/tinymce.php:569
+#: ../../code/Annotum/annotum-base/functions/tinymce.php:588
 msgid "Attribution"
 msgstr "帰属"
 
-#: ../../code/Annotum/annotum-base/functions/tinymce.php:573
+#: ../../code/Annotum/annotum-base/functions/tinymce.php:592
 msgid "Permissions"
 msgstr "権限"
 
-#: ../../code/Annotum/annotum-base/functions/tinymce.php:575
+#: ../../code/Annotum/annotum-base/functions/tinymce.php:594
 msgid "Copyright Statement"
 msgstr "著作権情報"
 
-#: ../../code/Annotum/annotum-base/functions/tinymce.php:579
+#: ../../code/Annotum/annotum-base/functions/tinymce.php:598
 msgid "Copyright Holder"
 msgstr "著作権保有者"
 
-#: ../../code/Annotum/annotum-base/functions/tinymce.php:583
+#: ../../code/Annotum/annotum-base/functions/tinymce.php:602
 msgid "License"
 msgstr "ライセンス"
 
 #: ../../code/Annotum/annotum-base/functions/tinymce.php:631
+msgid "Description"
+msgstr "説明"
+
+#: ../../code/Annotum/annotum-base/functions/tinymce.php:636
+msgid "Display"
+msgstr "表示"
+
+#: ../../code/Annotum/annotum-base/functions/tinymce.php:639
+msgid "Display as Figure"
+msgstr "図として表示"
+
+#: ../../code/Annotum/annotum-base/functions/tinymce.php:643
+msgid "Display Inline"
+msgstr "インライン表示"
+
+#: ../../code/Annotum/annotum-base/functions/tinymce.php:678
 msgid "Use Ctrl+Enter"
 msgstr "Ctrl+Enter を使用"
 
-#: ../../code/Annotum/annotum-base/functions/tinymce.php:632
+#: ../../code/Annotum/annotum-base/functions/tinymce.php:679
 msgid "To insert new sections (when within a section) or add new paragraphs when inside elements like a table, or figure caption."
 msgstr "セクション内で新しいセクションを挿入したり、表や図キャプションなどの要素内で新しいパラグラフを追加したりするときに使用します。"
 
-#: ../../code/Annotum/annotum-base/functions/tinymce.php:692
+#: ../../code/Annotum/annotum-base/functions/tinymce.php:741
 msgid "Could not evaluate Article ID please try again."
 msgstr "記事 ID を識別できませんでした。もう一度お試しください。"
 
-#: ../../code/Annotum/annotum-base/functions/tinymce.php:696
+#: ../../code/Annotum/annotum-base/functions/tinymce.php:745
 msgid "Text cannot be blank."
 msgstr "テキストは空白にできません。"
 
-#: ../../code/Annotum/annotum-base/functions/tinymce.php:700
+#: ../../code/Annotum/annotum-base/functions/tinymce.php:749
 msgid "Could not evaluate Reference ID please try again."
 msgstr "参照 ID を識別できませんでした。もう一度お試しください。"
 
-#: ../../code/Annotum/annotum-base/functions/tinymce.php:708
+#: ../../code/Annotum/annotum-base/functions/tinymce.php:757
 msgid "Could not save reference, please try again."
 msgstr "参照を保存できませんでした。もう一度お試しください。"
 
-#: ../../code/Annotum/annotum-base/functions/tinymce.php:718
+#: ../../code/Annotum/annotum-base/functions/tinymce.php:767
 msgid "Reference Saved."
 msgstr "参照が保存されました。"
 
-#: ../../code/Annotum/annotum-base/functions/tinymce.php:1339
+#: ../../code/Annotum/annotum-base/functions/tinymce.php:1417
 #, php-format
 msgid "Fig. %d"
 msgstr "図 %d"
 
-#: ../../code/Annotum/annotum-base/functions/tinymce.php:1723
+#: ../../code/Annotum/annotum-base/functions/tinymce.php:1829
 #, php-format
 msgid "%1$s, %2$s."
 msgstr "%1$s、%2$s。"
 
-#: ../../code/Annotum/annotum-base/functions/tinymce.php:1730
+#: ../../code/Annotum/annotum-base/functions/tinymce.php:1836
 #, php-format
 msgid "%1$s."
 msgstr "%1$s。"
 
-#: ../../code/Annotum/annotum-base/functions/tinymce.php:1736
+#: ../../code/Annotum/annotum-base/functions/tinymce.php:1842
 #, php-format
 msgid "Copyright, %1$s."
 msgstr "著作権、%1$s。"
 
-#: ../../code/Annotum/annotum-base/functions/widgets.php:10
+#: ../../code/Annotum/annotum-base/functions/widgets.php:15
 msgid "A sidebar advertisement"
 msgstr "サイドバー広告"
 
-#: ../../code/Annotum/annotum-base/functions/widgets.php:12
+#: ../../code/Annotum/annotum-base/functions/widgets.php:17
 msgid "Advertisement"
 msgstr "広告"
 
-#: ../../code/Annotum/annotum-base/functions/tinymce-upload/image-popup.php:134
-msgid "Description"
-msgstr "説明"
-
-#: ../../code/Annotum/annotum-base/functions/tinymce-upload/image-popup.php:139
-msgid "Display"
-msgstr "表示"
-
-#: ../../code/Annotum/annotum-base/functions/tinymce-upload/image-popup.php:142
-msgid "Display as Figure"
-msgstr "図として表示"
-
-#: ../../code/Annotum/annotum-base/functions/tinymce-upload/image-popup.php:146
-msgid "Display Inline"
-msgstr "インライン表示"
-
-#: ../../code/Annotum/annotum-base/functions/tinymce-upload/image-popup.php:175
+#: ../../code/Annotum/annotum-base/functions/tinymce-upload/image-popup.php:204
 msgid "Size"
 msgstr "サイズ"
 
-#: ../../code/Annotum/annotum-base/functions/tinymce-upload/image-popup.php:178
+#: ../../code/Annotum/annotum-base/functions/tinymce-upload/image-popup.php:207
 msgid "Thumbnail"
 msgstr "サムネイル"
 
-#: ../../code/Annotum/annotum-base/functions/tinymce-upload/image-popup.php:179
+#: ../../code/Annotum/annotum-base/functions/tinymce-upload/image-popup.php:208
 msgid "Medium"
 msgstr "中"
 
-#: ../../code/Annotum/annotum-base/functions/tinymce-upload/image-popup.php:180
+#: ../../code/Annotum/annotum-base/functions/tinymce-upload/image-popup.php:209
 msgid "Large"
 msgstr "大"
 
-#: ../../code/Annotum/annotum-base/functions/tinymce-upload/image-popup.php:181
+#: ../../code/Annotum/annotum-base/functions/tinymce-upload/image-popup.php:242
 msgid "Full"
 msgstr "全体"
 
-#: ../../code/Annotum/annotum-base/functions/tinymce-upload/image-popup.php:226
+#: ../../code/Annotum/annotum-base/functions/tinymce-upload/image-popup.php:275
 msgid "Show "
 msgstr "表示"
+
+#: ../../code/Annotum/annotum-base/functions/tinymce-upload/tinymce-uploader.php:25
+msgid "You do not have proper permissions to upload a new image"
+msgstr "新しい画像をアップロードするための適切な権限がありません"
+
+#: ../../code/Annotum/annotum-base/functions/tinymce-upload/tinymce-uploader.php:76
+#, php-format
+msgid "Sorry, you have filled your storage quota (%s MB)."
+msgstr "ストレージの割り当て上限（%s MB）に達しました。"
+
+#: ../../code/Annotum/annotum-base/functions/tinymce-upload/tinymce-uploader.php:118
+msgid "Select Files"
+msgstr "ファイルを選択"
+
+#: ../../code/Annotum/annotum-base/functions/tinymce-upload/tinymce-uploader.php:158
+msgid "Choose files to upload"
+msgstr "アップロードするファイルを選択"
+
+#: ../../code/Annotum/annotum-base/functions/tinymce-upload/tinymce-uploader.php:160
+msgid "Cancel Upload"
+msgstr "アップロードをキャンセル"
+
+#: ../../code/Annotum/annotum-base/functions/tinymce-upload/tinymce-uploader.php:169
+#: ../../code/Annotum/annotum-base/functions/tinymce-upload/tinymce-uploader.php:171
+msgid "Upload"
+msgstr "アップロード"
+
+#: ../../code/Annotum/annotum-base/functions/tinymce-upload/tinymce-uploader.php:175
+msgid "If you want to use all capabilities of the uploader, like uploading multiple files at once, please update to lighttpd 1.5."
+msgstr "複数のファイルを一度にアップロードするなど、アップローダのすべての機能を使用するには、lighttpd 1.5 にアップデートしてください。"
+
+#: ../../code/Annotum/annotum-base/functions/tinymce-upload/tinymce-uploader.php:288
+msgid "You do not have permission to upload files."
+msgstr "ファイルをアップロードする権限がありません。"
+
+#: ../../code/Annotum/annotum-base/functions/tinymce-upload/tinymce-uploader.php:294
+msgid "Unknown post type."
+msgstr "不明な投稿タイプです。"
+
+#: ../../code/Annotum/annotum-base/functions/tinymce-upload/tinymce-uploader.php:297
+msgid "You are not allowed to edit this item."
+msgstr "このアイテムの編集が許可されていません。"
+
+#: ../../code/Annotum/annotum-base/functions/tinymce-upload/tinymce-uploader.php:309
+msgid "Dismiss"
+msgstr "表示しない"
+
+#: ../../code/Annotum/annotum-base/functions/tinymce-upload/tinymce-uploader.php:310
+#, php-format
+msgid "&#8220;%s&#8221; has failed to upload due to an error"
+msgstr "エラーが発生したため &#8220;%s&#8221; をアップロードできませんでした。"
 
 #: ../../code/Annotum/annotum-base/misc/nav-posts.php:14
 msgid "&laquo; Newer"
@@ -1014,1000 +1051,48 @@ msgstr "古い記事 &raquo;"
 msgid "Sorry, we couldn't find any results that matched your request."
 msgstr "リクエストに一致する結果が見つかりませんでした。"
 
-#: ../../code/Annotum/annotum-base/misc/tools-bar.php:7
+#: ../../code/Annotum/annotum-base/misc/tools-bar.php:18
 msgid "PDF"
 msgstr "PDF"
 
-#: ../../code/Annotum/annotum-base/misc/tools-bar.php:16
+#: ../../code/Annotum/annotum-base/misc/tools-bar.php:27
 msgid "XML"
 msgstr "XML"
 
-#: ../../code/Annotum/annotum-base/misc/tools-bar.php:23
+#: ../../code/Annotum/annotum-base/misc/tools-bar.php:34
 msgid "Print Article"
 msgstr "記事を印刷"
 
-#: ../../code/Annotum/annotum-base/misc/tools-bar.php:26
+#: ../../code/Annotum/annotum-base/misc/tools-bar.php:37
 msgid "Citation"
 msgstr "引用"
 
-#: ../../code/Annotum/annotum-base/plugins/anno-article-lookup.php:20
-#: ../../code/Annotum/annotum-base/plugins/anno-article-lookup.php:140
-#: ../../code/Annotum/annotum-base/plugins/anno-article-lookup.php:289
+#: ../../code/Annotum/annotum-base/plugins/anno-article-lookup.php:30
+#: ../../code/Annotum/annotum-base/plugins/anno-article-lookup.php:150
+#: ../../code/Annotum/annotum-base/plugins/anno-article-lookup.php:299
 msgid "An error has occurred, please try again later"
 msgstr "エラーが発生しました。しばらくしてからもう一度お試しください"
 
-#: ../../code/Annotum/annotum-base/plugins/anno-article-lookup.php:26
+#: ../../code/Annotum/annotum-base/plugins/anno-article-lookup.php:36
 msgid "Invalid PMID"
 msgstr "無効な PMID"
 
-#: ../../code/Annotum/annotum-base/plugins/anno-article-lookup.php:108
+#: ../../code/Annotum/annotum-base/plugins/anno-article-lookup.php:118
 msgid "PubMed PMID:"
 msgstr "PubMed PMID:"
 
-#: ../../code/Annotum/annotum-base/plugins/anno-article-lookup.php:146
-#: ../../code/Annotum/annotum-base/plugins/anno-article-lookup.php:188
+#: ../../code/Annotum/annotum-base/plugins/anno-article-lookup.php:156
+#: ../../code/Annotum/annotum-base/plugins/anno-article-lookup.php:198
 msgid "Invalid DOI"
 msgstr "無効な DOI"
 
-#: ../../code/Annotum/annotum-base/plugins/anno-article-lookup.php:155
+#: ../../code/Annotum/annotum-base/plugins/anno-article-lookup.php:165
 msgid "Invalid CrossRef Login"
 msgstr "無効な CrossRef ログイン"
 
-#: ../../code/Annotum/annotum-base/plugins/anno-article-lookup.php:263
+#: ../../code/Annotum/annotum-base/plugins/anno-article-lookup.php:273
 msgid "DOI:"
 msgstr "DOI:"
-
-#: ../../code/Annotum/annotum-base/plugins/anno-colors/anno-colors.php:148
-msgid "edit"
-msgstr "編集"
-
-#: ../../code/Annotum/annotum-base/plugins/anno-colors/anno-colors.php:156
-msgid "Based on"
-msgstr "ベース:"
-
-#: ../../code/Annotum/annotum-base/plugins/anno-colors/anno-colors.php:156
-msgid "by"
-msgstr "by"
-
-#: ../../code/Annotum/annotum-base/plugins/anno-colors/anno-colors.php:177
-#: ../../code/Annotum/annotum-base/plugins/anno-colors/anno-colors.php:232
-msgid "Color Settings"
-msgstr "色の設定"
-
-#: ../../code/Annotum/annotum-base/plugins/anno-colors/anno-colors.php:178
-#: ../../code/Annotum/annotum-base/plugins/anno-colors/anno-colors.php:191
-msgid "Colors"
-msgstr "色"
-
-#: ../../code/Annotum/annotum-base/plugins/anno-colors/anno-colors.php:226
-msgid "Settings updated."
-msgstr "設定が更新されました。"
-
-#: ../../code/Annotum/annotum-base/plugins/anno-colors/anno-colors.php:235
-msgid "My Colors"
-msgstr "マイ カラー"
-
-#: ../../code/Annotum/annotum-base/plugins/anno-colors/anno-colors.php:251
-msgid "Save Settings"
-msgstr "設定を保存"
-
-#: ../../code/Annotum/annotum-base/plugins/anno-pdf-download/anno-pdf-download.php:345
-msgid "There was an issue creating the PDF for your article, please try again later"
-msgstr "記事の PDF の作成で問題が発生しました。しばらくしてからもう一度お試しください"
-
-#: ../../code/Annotum/annotum-base/plugins/annotum-importers/dtd-importer.php:6
-msgid "XML Import"
-msgstr "XML のインポート"
-
-#: ../../code/Annotum/annotum-base/plugins/annotum-importers/dtd-importer.php:38
-#: ../../code/Annotum/annotum-base/plugins/annotum-importers/dtd-importer.php:47
-msgid "Sorry, there has been an error."
-msgstr "エラーが発生しました。"
-
-#: ../../code/Annotum/annotum-base/plugins/annotum-importers/dtd-importer.php:39
-msgid "The file does not exist, please try again."
-msgstr "ファイルが存在しません。もう一度お試しください。"
-
-#: ../../code/Annotum/annotum-base/plugins/annotum-importers/dtd-importer.php:124
-msgid "Kipling DTD XML Import"
-msgstr "Kipling DTD XML のインポート"
-
-#: ../../code/Annotum/annotum-base/plugins/annotum-importers/dtd-importer.php:138
-msgid "Howdy! Upload your Kipling DTD XML file and we&#8217;ll import the articles, keywords, subjects, and users into this site."
-msgstr "Kipling DTD XML ファイルをアップロードしてください。ファイルが処理され、記事、キーワード、テーマ、ユーザーがこのサイトにインポートされます。"
-
-#: ../../code/Annotum/annotum-base/plugins/annotum-importers/dtd-importer.php:139
-msgid "Choose a Kipling DTD XML (.xml) file to upload, then click Upload file and import."
-msgstr "アップロードする Kipling DTD XML（.xml）ファイルを選択し、[ファイルをアップロードしてインポート] をクリックします。"
-
-#: ../../code/Annotum/annotum-base/plugins/annotum-importers/dtd-importer.php:152
-msgid "Import <strong>articles, keywords, subjects and users</strong> from a Kipling DTD XML file."
-msgstr "Kipling DTD XML ファイルから、<strong>記事、キーワード、テーマ、ユーザー</strong>をインポートします。"
-
-#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:132
-#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:349
-#, php-format
-msgid "ANNO_IMPORT_DEBUG: You are using %s to parse data."
-msgstr "ANNO_IMPORT_DEBUG: データの解析に %s を使用しています。"
-
-#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:245
-#, php-format
-msgid "%s &#8220;%s&#8221; processed. "
-msgstr "%s &#8220;%s&#8221; が処理されました。"
-
-#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:258
-#, php-format
-msgid "[ %sEdit%s | %sPreview%s ]"
-msgstr "[ %s編集%s | %sプレビュー%s ]"
-
-#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:267
-msgid "All done."
-msgstr "すべて完了です。"
-
-#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:267
-msgid "Have fun!"
-msgstr "ご利用いただけます。"
-
-#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:268
-msgid "Remember to update the passwords and roles of imported users."
-msgstr "インポートしたユーザーのパスワードと役割を必ず更新してください。"
-
-#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:299
-#, php-format
-msgid "This WXR file (version %s) may not be supported by this version of the importer. Please consider updating."
-msgstr "この WXR ファイル（バージョン %s）は、インポート ツールのこのバージョンでサポートされていない可能性があります。アップデートをご検討ください。"
-
-#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:324
-#, php-format
-msgid "Failed to import author %s. Their posts will be attributed to the current user."
-msgstr "執筆者 %s をインポートできませんでした。この執筆者の投稿は現在のユーザーに属するものとなります。"
-
-#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:358
-msgid "Assign Authors"
-msgstr "執筆者を割り当てる"
-
-#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:359
-msgid "To make it easier for you to edit and save the imported content, you may want to reassign the author of the imported item to an existing user of this site. For example, you may want to import all the entries as <code>admin</code>s entries."
-msgstr "インポートしたコンテンツを簡単に編集、保存できるようにするには、インポートしたアイテムの執筆者をこのサイトの既存のユーザーに再度割り当てることができます。たとえば、すべてのエントリを <code>admin</code> のエントリとしてインポートできます。"
-
-#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:361
-msgid "If a new user is created by WordPress, a new password will be randomly generated and the new user&#8217;s role will be set as contributor. Manually changing the new user&#8217;s details will be necessary."
-msgstr "新しいユーザーが WordPress で作成された場合は、新しいパスワードがランダムに生成されます。新しいユーザーの役割は、寄稿者として設定されます。また、新しいユーザーの詳細情報を手動で変更する作業が必要です。"
-
-#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:380
-msgid "Import Attachments"
-msgstr "添付ファイルをインポート"
-
-#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:383
-msgid "Download and import file attachments"
-msgstr "添付ファイルをダウンロード/インポート"
-
-#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:427
-msgid "Import "
-msgstr "インポート"
-
-#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:432
-msgid "as the current user."
-msgstr "（現在のユーザーとして）"
-
-#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:452
-#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:454
-msgid "<p>or assign posts to an existing user: "
-msgstr "<p>または、投稿を既存のユーザーに割り当てます:"
-
-#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:458
-msgid "- Select -"
-msgstr "- 選択 -"
-
-#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:472
-#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:507
-msgid "</p>"
-msgstr "</p>"
-
-#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:476
-msgid "or if you know an existing user&#8217;s <strong>email address</strong>, you can assign posts to that user: "
-msgstr "または、既存のユーザーの<strong>メール アドレス</strong>がわかる場合は、そのユーザーに投稿を割り当てることができます:"
-
-#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:480
-msgid "or if you know an existing user&#8217;s <strong>username</strong>, you can assign posts to that user: "
-msgstr "または、既存のユーザーの<strong>ユーザー名</strong>がわかる場合は、そのユーザーに投稿を割り当てることができます:"
-
-#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:483
-msgid "<p>"
-msgstr "<p>"
-
-#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:485
-msgid "or you can create new user:"
-msgstr "または、新しいユーザーを作成できます:"
-
-#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:488
-msgid "as a new user:"
-msgstr "新しいユーザーとして:"
-
-#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:494
-msgid "Login: "
-msgstr "ログイン:"
-
-#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:498
-msgid "Email: "
-msgstr "メール アドレス:"
-
-#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:548
-msgid "Please enter an Email <strong>OR</strong> a Username to search for."
-msgstr "検索するメール アドレス<strong>または</strong>ユーザー名を入力してください。"
-
-#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:554
-msgid "Please enter a valid email to search for."
-msgstr "検索する有効なメール アドレスを入力してください。"
-
-#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:562
-#, php-format
-msgid "Could not find user with email: %s"
-msgstr "メール アドレス「%s」のユーザーは見つかりませんでした"
-
-#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:574
-msgid "Please enter a valid username to search for."
-msgstr "検索する有効なユーザー名を入力してください。"
-
-#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:582
-#, php-format
-msgid "Could not find user with username: %s"
-msgstr "ユーザー名「%s」のユーザーは見つかりませんでした"
-
-#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:602
-msgid "Email cannot be empty when creating a new user."
-msgstr "新しいユーザーを作成する際、メール アドレスを空白にすることはできません。"
-
-#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:611
-msgid "Username cannot be empty when creating a new user."
-msgstr "新しいユーザーを作成する際、ユーザー名を空白にすることはできません。"
-
-#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:617
-msgid "This email address is already registered."
-msgstr "このメール アドレスは既に登録されています。"
-
-#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:621
-msgid "This username is already registered."
-msgstr "このユーザー名は既に登録されています。"
-
-#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:626
-msgid "Please enter a valid email when creating a new user."
-msgstr "新しいユーザーを作成するには、有効なメール アドレスを入力してください。"
-
-#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:630
-msgid "Please enter a valid username when creating a new user."
-msgstr "新しいユーザーを作成するには、有効なユーザー名を入力してください。"
-
-#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:701
-#, php-format
-msgid "Failed to import category %s"
-msgstr "カテゴリ %s をインポートできませんでした"
-
-#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:739
-#, php-format
-msgid "Failed to import post tag %s"
-msgstr "投稿タグ %s をインポートできませんでした"
-
-#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:783
-#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:915
-#, php-format
-msgid "Failed to import %s %s"
-msgstr "%s %s をインポートできませんでした"
-
-#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:805
-#, php-format
-msgid "Failed to import &#8220;%s&#8221;: Invalid post type %s"
-msgstr "「%s」をインポートできませんでした: 無効な投稿タイプ %s です"
-
-#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:826
-#, php-format
-msgid "%s &#8220;%s&#8221; already exists."
-msgstr "「%s &#8220;%s&#8221; 」は既に存在しています。"
-
-#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:887
-#, php-format
-msgid "Failed to import %s &#8220;%s&#8221;"
-msgstr "「%s &#8220;%s&#8221; 」をインポートできませんでした"
-
-#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:1055
-msgid "Menu item skipped due to missing menu slug"
-msgstr "メニュー スラグがないためメニュー アイテムはスキップされました"
-
-#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:1062
-#, php-format
-msgid "Menu item skipped due to invalid menu slug: %s"
-msgstr "メニュー スラグ「%s」は無効なためメニュー アイテムはスキップされました"
-
-#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:1125
-msgid "Fetching attachments is not enabled"
-msgstr "添付ファイルの取得は有効になっていません"
-
-#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:1135
-msgid "Invalid file type"
-msgstr "無効なファイル形式"
-
-#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:1176
-msgid "Remote server did not respond"
-msgstr "リモート サーバーが応答しませんでした"
-
-#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:1182
-#, php-format
-msgid "Remote server returned error response %1$d %2$s"
-msgstr "リモート サーバーがエラー応答を返しました: %1$d %2$s "
-
-#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:1189
-msgid "Remote file is incorrect size"
-msgstr "リモート ファイルのサイズが正しくありません"
-
-#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:1194
-msgid "Zero size file downloaded"
-msgstr "サイズがゼロのファイルがダウンロードされました"
-
-#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:1200
-#, php-format
-msgid "Remote file is too large, limit is %s"
-msgstr "リモート ファイルが大きすぎます。上限は %s です"
-
-#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:1299
-msgid "Google Knol WXR Import"
-msgstr "Google Knol WXR のインポート"
-
-#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:1306
-#, php-format
-msgid "A new version of this importer is available. Please update to version %s to ensure compatibility with newer export files."
-msgstr "このインポート ツールの新しいバージョンをご利用いただけます。最新のエクスポート ファイルとの互換性のため、バージョン %s にアップデートしてください。"
-
-#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:1321
-msgid "Howdy! Upload your Google Knol eXtended RSS (WXR) file and we&#8217;ll import the posts, pages, comments, custom fields, categories, and tags into this site."
-msgstr "Google Knol eXtended RSS（WXR）ファイルをアップロードしてください。ファイルが処理され、投稿、ページ、コメント、カスタム フィールド、カテゴリ、タグがこのサイトにインポートされます。"
-
-#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:1322
-msgid "Choose a Google Knol WXR (.xml) file to upload, then click Upload file and import."
-msgstr "アップロードする Google Knol WXR（.xml）ファイルを選択し、[ファイルをアップロードしてインポート] をクリックします。"
-
-#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:1332
-msgid "Before you can upload your import file, you will need to fix the following error:"
-msgstr "インポート ファイルをアップロードするには、その前に次のエラーを修正する必要があります:"
-
-#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:1339
-msgid "ANNO_IMPORT_DEBUG: Select a parser:"
-msgstr "ANNO_IMPORT_DEBUG: パーサーを選択:"
-
-#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:1348
-msgid "Choose a file from your computer:"
-msgstr "パソコンからファイルを選択:"
-
-#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:1348
-#, php-format
-msgid "Maximum size: %s"
-msgstr "上限サイズ: %s"
-
-#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:1353
-msgid "Upload file and import"
-msgstr "ファイルをアップロードしてインポート"
-
-#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:1427
-msgid "Import <strong>articles, comments, custom fields, categories, and tags</strong> from a Google Knol WXR export file."
-msgstr "Google Knol WXR エクスポート ファイルから、<strong>記事、コメント、カスタム フィールド、カテゴリ、タグ</strong>をインポートします。"
-
-#: ../../code/Annotum/annotum-base/plugins/annotum-importers/parsers.php:34
-#, php-format
-msgid "ANNO_IMPORT_DEBUG: Could not find parser %s."
-msgstr "ANNO_IMPORT_DEBUG: パーサー %s が見つかりませんでした。"
-
-#: ../../code/Annotum/annotum-base/plugins/annotum-importers/parsers.php:67
-#: ../../code/Annotum/annotum-base/plugins/annotum-importers/parsers.php:89
-#: ../../code/Annotum/annotum-base/plugins/annotum-importers/parsers.php:385
-msgid "There was an error when reading this WXR file"
-msgstr "この WXR ファイルの読み取り中にエラーが発生しました"
-
-#: ../../code/Annotum/annotum-base/plugins/annotum-importers/parsers.php:68
-msgid "Details are shown above. The importer will now try again with a different parser..."
-msgstr "詳細は上記のとおりです。別のパーサーを使用して再試行します..."
-
-#: ../../code/Annotum/annotum-base/plugins/annotum-importers/parsers.php:93
-#: ../../code/Annotum/annotum-base/plugins/annotum-importers/parsers.php:98
-#: ../../code/Annotum/annotum-base/plugins/annotum-importers/parsers.php:390
-#: ../../code/Annotum/annotum-base/plugins/annotum-importers/parsers.php:686
-msgid "This does not appear to be a WXR file, missing/invalid WXR version number"
-msgstr "これは WXR ファイルではないようです。WXR のバージョン番号がないか、バージョン番号が無効です。"
-
-#: ../../code/Annotum/annotum-base/plugins/annotum-importers/parsers.php:306
-#, php-format
-msgid "There was an error processing %s's content for attachments."
-msgstr "添付ファイルに対し %s のコンテンツを処理中にエラーが発生しました。"
-
-#: ../../code/Annotum/annotum-base/plugins/annotum-importers/parsers.php:604
-#, php-format
-msgid "XML Parser: There was an error processing the content for attachments. Line %s. Column %s. Code %s."
-msgstr "XML パーサー: 添付ファイルに対しコンテンツを処理中にエラーが発生しました。行 %s。列 %s。コード %s。"
-
-#: ../../code/Annotum/annotum-base/plugins/annotum-importers/parsers.php:968
-msgid "There was an error when reading this Kipling DTD file"
-msgstr "この Kipling DTD ファイルの読み取り中にエラーが発生しました"
-
-#: ../../code/Annotum/annotum-base/plugins/annotum-importers/parsers.php:981
-msgid "This does not appear to be a Kipling DTD file, no articles could be found"
-msgstr "これは Kipling DTD ファイルではないようです。記事が見つかりませんでした"
-
-#: ../../code/Annotum/annotum-base/plugins/cf-archive-title/cf-archive-title.php:9
-#, php-format
-msgid "Latest / <b>page %s</b>"
-msgstr "最新/<b>ページ %s</b>"
-
-#: ../../code/Annotum/annotum-base/plugins/cf-archive-title/cf-archive-title.php:10
-#, php-format
-msgid "Search results for <b>%s</b>"
-msgstr "「<b>%s</b>」の検索結果"
-
-#: ../../code/Annotum/annotum-base/plugins/cf-archive-title/cf-archive-title.php:11
-#, php-format
-msgid "Tag archives for <b>%s</b>"
-msgstr "「<b>%s</b>」のタグ アーカイブ"
-
-#: ../../code/Annotum/annotum-base/plugins/cf-archive-title/cf-archive-title.php:12
-#, php-format
-msgid "Category archives for <b>%s</b>"
-msgstr "「<b>%s</b>」のカテゴリ アーカイブ"
-
-#: ../../code/Annotum/annotum-base/plugins/cf-archive-title/cf-archive-title.php:13
-#, php-format
-msgid "Author archives for <b>%s</b>"
-msgstr "「<b>%s</b>」の執筆者アーカイブ"
-
-#: ../../code/Annotum/annotum-base/plugins/cf-archive-title/cf-archive-title.php:14
-#, php-format
-msgid "Archives for <b>%s</b>"
-msgstr "「<b>%s</b>」のアーカイブ"
-
-#: ../../code/Annotum/annotum-base/plugins/workflow/audit.php:54
-msgid "Created a revision"
-msgstr "改訂版を作成"
-
-#: ../../code/Annotum/annotum-base/plugins/workflow/audit.php:55
-#, php-format
-msgid "Transitioned post state from %s to %s"
-msgstr "投稿の状態を %s から %s に変更"
-
-#: ../../code/Annotum/annotum-base/plugins/workflow/audit.php:56
-msgid "Added a reviewer comment"
-msgstr "レビューアのコメントを追加"
-
-#: ../../code/Annotum/annotum-base/plugins/workflow/audit.php:57
-#, php-format
-msgid "Added a review of %s"
-msgstr "%s のレビューを追加"
-
-#: ../../code/Annotum/annotum-base/plugins/workflow/audit.php:58
-msgid "Added an internal comment"
-msgstr "内部コメントを追加"
-
-#: ../../code/Annotum/annotum-base/plugins/workflow/audit.php:59
-#, php-format
-msgid "Added %s as a co-author"
-msgstr "%s を共同執筆者として追加"
-
-#: ../../code/Annotum/annotum-base/plugins/workflow/audit.php:60
-#, php-format
-msgid "Removed %s as a co-author"
-msgstr "%s を共同執筆者から削除"
-
-#: ../../code/Annotum/annotum-base/plugins/workflow/audit.php:61
-#, php-format
-msgid "Added %s as a reviewer"
-msgstr "%s をレビューアとして追加"
-
-#: ../../code/Annotum/annotum-base/plugins/workflow/audit.php:62
-#, php-format
-msgid "Removed %s as a reviewer"
-msgstr "%s をレビューアから削除"
-
-#: ../../code/Annotum/annotum-base/plugins/workflow/audit.php:131
-msgid "j F, Y @ H:i"
-msgstr "j F, Y @ H:i"
-
-#: ../../code/Annotum/annotum-base/plugins/workflow/notification.php:103
-msgid "To review this article, please visit the URL above and navigate to the Reviews section. You may leave comments and questions in this section as well as providing a general review of 'Approve', 'Reject' or 'Request Revisions' from the dropdown."
-msgstr "この記事のレビューを書くには、上記 URL にアクセスして [レビュー] セクションに移動してください。このセクションでは、コメントや質問を投稿したり、通常のレビューとしてプルダウンから [承認]、[拒否]、[改訂をリクエスト] を選択したりすることができます。"
-
-#: ../../code/Annotum/annotum-base/plugins/workflow/notification.php:110
-#, php-format
-msgid "New Submission: %s by %s."
-msgstr "新しい送信: %s、送信者 %s。"
-
-#: ../../code/Annotum/annotum-base/plugins/workflow/notification.php:112
-#, php-format
-msgid ""
-"The following article has been submitted for review:\n"
-"--------------------\n"
-"Title: %s\n"
-"Author(s): %s\n"
-"Excerpt: %s\n"
-"%s\n"
-"\n"
-"%s"
-msgstr ""
-"The following article has been submitted for review:\n"
-"--------------------\n"
-"Title: %s\n"
-"Author(s): %s\n"
-"Excerpt: %s\n"
-"%s\n"
-"\n"
-"%s"
-
-#: ../../code/Annotum/annotum-base/plugins/workflow/notification.php:125
-#: ../../code/Annotum/annotum-base/plugins/workflow/notification.php:137
-#, php-format
-msgid "%s now in review."
-msgstr "%s はレビュー中です。"
-
-#: ../../code/Annotum/annotum-base/plugins/workflow/notification.php:127
-#, php-format
-msgid ""
-"Review has begun for: %s\n"
-"\n"
-"%s\n"
-"\n"
-"%s"
-msgstr ""
-"Review has begun for: %s\n"
-"\n"
-"%s\n"
-"\n"
-"%s"
-
-#: ../../code/Annotum/annotum-base/plugins/workflow/notification.php:149
-#, php-format
-msgid "%s review is complete. APPROVED."
-msgstr "%s のレビューが完了しました。承認されました。"
-
-#: ../../code/Annotum/annotum-base/plugins/workflow/notification.php:163
-#, php-format
-msgid "%s review is complete."
-msgstr "%s のレビューが完了しました。"
-
-#: ../../code/Annotum/annotum-base/plugins/workflow/notification.php:165
-#, php-format
-msgid ""
-"Thank you for contributing to %s.  After our review process, we have decided not to accept the article at this time.  \n"
-"--------------------\n"
-"Title: %s\n"
-"%s\n"
-"\n"
-"%s"
-msgstr ""
-"Thank you for contributing to %s.  After our review process, we have decided not to accept the article at this time.  \n"
-"--------------------\n"
-"Title: %s\n"
-"%s\n"
-"\n"
-"%s"
-
-#: ../../code/Annotum/annotum-base/plugins/workflow/notification.php:176
-#, php-format
-msgid "%s review is complete. CHANGES REQUESTED."
-msgstr "%s のレビューが完了しました。変更がリクエストされました。"
-
-#: ../../code/Annotum/annotum-base/plugins/workflow/notification.php:192
-#, php-format
-msgid "%s has been published."
-msgstr "%s が公開されました。"
-
-#: ../../code/Annotum/annotum-base/plugins/workflow/notification.php:203
-#, php-format
-msgid "%s has been invited to review %s by %s"
-msgstr "%s が %s のレビューを書くように招待されました（招待者: %s）"
-
-#: ../../code/Annotum/annotum-base/plugins/workflow/notification.php:205
-#, php-format
-msgid ""
-"%s has been invted to review the following article:\n"
-"--------------------\n"
-"Title: %s\n"
-"Author(s): %s\n"
-"Excerpt: %s\n"
-"%s\n"
-"\n"
-"%s\n"
-"%s"
-msgstr ""
-"%s has been invted to review the following article:\n"
-"--------------------\n"
-"Title: %s\n"
-"Author(s): %s\n"
-"Excerpt: %s\n"
-"%s\n"
-"\n"
-"%s\n"
-"%s"
-
-#: ../../code/Annotum/annotum-base/plugins/workflow/notification.php:218
-#, php-format
-msgid "%s has been invited to co-author %s by %s"
-msgstr "%s が %s を共同執筆するように招待されました（招待者: %s）"
-
-#: ../../code/Annotum/annotum-base/plugins/workflow/notification.php:228
-#, php-format
-msgid "%s is now the primary author on %s"
-msgstr "%s は現在 %s のメイン執筆者です"
-
-#: ../../code/Annotum/annotum-base/plugins/workflow/notification.php:245
-#, php-format
-msgid "New internal comment on %s"
-msgstr "%s についての新しい内部コメント"
-
-#: ../../code/Annotum/annotum-base/plugins/workflow/notification.php:247
-#: ../../code/Annotum/annotum-base/plugins/workflow/notification.php:260
-#, php-format
-msgid ""
-"The following comment was submitted on %s by %s.\n"
-"--------------------\n"
-"%s\n"
-"--------------------\n"
-"%s\n"
-"\n"
-"%s"
-msgstr ""
-"The following comment was submitted on %s by %s.\n"
-"--------------------\n"
-"%s\n"
-"--------------------\n"
-"%s\n"
-"\n"
-"%s"
-
-#: ../../code/Annotum/annotum-base/plugins/workflow/notification.php:258
-#, php-format
-msgid "New reviewer comment on %s"
-msgstr "%s についての新しいレビューアのコメント"
-
-#: ../../code/Annotum/annotum-base/plugins/workflow/publishing-meta-box.php:60
-msgid "Move To Trash"
-msgstr "ゴミ箱に移動"
-
-#: ../../code/Annotum/annotum-base/plugins/workflow/publishing-meta-box.php:88
-msgid "Submitted - Waiting For Review"
-msgstr "送信済み - レビュー待ち"
-
-#: ../../code/Annotum/annotum-base/plugins/workflow/publishing-meta-box.php:141
-#, php-format
-msgid "%s of %s Reviews Complete"
-msgstr "%s/%s 件のレビュー完了"
-
-#: ../../code/Annotum/annotum-base/plugins/workflow/publishing-meta-box.php:148
-msgid "Submitted - In Review"
-msgstr "送信済み - レビュー中"
-
-#: ../../code/Annotum/annotum-base/plugins/workflow/publishing-meta-box.php:195
-msgid "Article Approved"
-msgstr "記事が承認されました"
-
-#: ../../code/Annotum/annotum-base/plugins/workflow/publishing-meta-box.php:232
-msgid "Visibility:"
-msgstr "公開設定:"
-
-#: ../../code/Annotum/annotum-base/plugins/workflow/publishing-meta-box.php:237
-#: ../../code/Annotum/annotum-base/plugins/workflow/publishing-meta-box.php:268
-msgid "Private"
-msgstr "限定公開"
-
-#: ../../code/Annotum/annotum-base/plugins/workflow/publishing-meta-box.php:241
-#: ../../code/Annotum/annotum-base/plugins/workflow/publishing-meta-box.php:266
-msgid "Password protected"
-msgstr "パスワードは保護されています"
-
-#: ../../code/Annotum/annotum-base/plugins/workflow/publishing-meta-box.php:245
-msgid "Public, Sticky"
-msgstr "一般公開、人気コンテンツ"
-
-#: ../../code/Annotum/annotum-base/plugins/workflow/publishing-meta-box.php:249
-#: ../../code/Annotum/annotum-base/plugins/workflow/publishing-meta-box.php:262
-msgid "Public"
-msgstr "一般公開"
-
-#: ../../code/Annotum/annotum-base/plugins/workflow/publishing-meta-box.php:264
-msgid "Stick this post to the front page"
-msgstr "この投稿をトップページに表示"
-
-#: ../../code/Annotum/annotum-base/plugins/workflow/publishing-meta-box.php:267
-msgid "Password:"
-msgstr "パスワード:"
-
-#: ../../code/Annotum/annotum-base/plugins/workflow/publishing-meta-box.php:271
-msgid "OK"
-msgstr "OK"
-
-#: ../../code/Annotum/annotum-base/plugins/workflow/publishing-meta-box.php:283
-#, php-format
-msgid "Scheduled for: <b>%1$s</b>"
-msgstr "スケジュール設定済み: <b>%1$s</b>"
-
-#: ../../code/Annotum/annotum-base/plugins/workflow/publishing-meta-box.php:285
-#, php-format
-msgid "Published on: <b>%1$s</b>"
-msgstr "公開済み: <b>%1$s</b>"
-
-#: ../../code/Annotum/annotum-base/plugins/workflow/publishing-meta-box.php:287
-#: ../../code/Annotum/annotum-base/plugins/workflow/publishing-meta-box.php:295
-msgid "Publish <b>immediately</b>"
-msgstr "<b>今すぐ</b>公開"
-
-#: ../../code/Annotum/annotum-base/plugins/workflow/publishing-meta-box.php:289
-#, php-format
-msgid "Schedule for: <b>%1$s</b>"
-msgstr "スケジュール: <b>%1$s</b>"
-
-#: ../../code/Annotum/annotum-base/plugins/workflow/publishing-meta-box.php:291
-#, php-format
-msgid "Publish on: <b>%1$s</b>"
-msgstr "公開: <b>%1$s</b>"
-
-#: ../../code/Annotum/annotum-base/plugins/workflow/publishing-meta-box.php:320
-msgid "Article Rejected"
-msgstr "記事が拒否されました"
-
-#: ../../code/Annotum/annotum-base/plugins/workflow/publishing-meta-box.php:350
-msgid "Article Published"
-msgstr "記事が公開されました"
-
-#: ../../code/Annotum/annotum-base/plugins/workflow/publishing-meta-box.php:379
-#: ../../code/Annotum/annotum-base/plugins/workflow/publishing-meta-box.php:405
-msgid "Preview Changes"
-msgstr "変更のプレビュー"
-
-#: ../../code/Annotum/annotum-base/plugins/workflow/publishing-meta-box.php:385
-#: ../../code/Annotum/annotum-base/plugins/workflow/publishing-meta-box.php:412
-msgid "Preview"
-msgstr "プレビュー"
-
-#: ../../code/Annotum/annotum-base/plugins/workflow/workflow-init.php:39
-#: ../../code/Annotum/annotum-base/plugins/workflow/internal-comments/internal-comments.php:6
-msgid "Approve"
-msgstr "承認"
-
-#: ../../code/Annotum/annotum-base/plugins/workflow/workflow-init.php:40
-msgid "Publish"
-msgstr "公開"
-
-#: ../../code/Annotum/annotum-base/plugins/workflow/workflow-init.php:41
-#: ../../code/Annotum/annotum-base/plugins/workflow/internal-comments/internal-comments.php:8
-msgid "Reject"
-msgstr "拒否"
-
-#: ../../code/Annotum/annotum-base/plugins/workflow/workflow-init.php:42
-msgid "Submit For Review"
-msgstr "レビューのため送信"
-
-#: ../../code/Annotum/annotum-base/plugins/workflow/workflow-init.php:43
-msgid "Request Revisions"
-msgstr "改訂をリクエスト"
-
-#: ../../code/Annotum/annotum-base/plugins/workflow/workflow-init.php:44
-msgid "Clone"
-msgstr "複製"
-
-#: ../../code/Annotum/annotum-base/plugins/workflow/workflow-init.php:45
-msgid "Revert To Draft"
-msgstr "下書きに戻す"
-
-#: ../../code/Annotum/annotum-base/plugins/workflow/workflow.php:7
-msgid "Submitted"
-msgstr "送信済み"
-
-#: ../../code/Annotum/annotum-base/plugins/workflow/workflow.php:8
-msgid "In Review"
-msgstr "レビュー中"
-
-#: ../../code/Annotum/annotum-base/plugins/workflow/workflow.php:9
-msgid "Approved"
-msgstr "承認済み"
-
-#: ../../code/Annotum/annotum-base/plugins/workflow/workflow.php:10
-msgid "Rejected"
-msgstr "拒否済み"
-
-#: ../../code/Annotum/annotum-base/plugins/workflow/workflow.php:40
-msgid "Audit Log"
-msgstr "監査ログ"
-
-#: ../../code/Annotum/annotum-base/plugins/workflow/workflow.php:53
-#: ../../code/Annotum/annotum-base/plugins/workflow/workflow.php:791
-msgid "Author"
-msgstr "執筆者"
-
-#: ../../code/Annotum/annotum-base/plugins/workflow/workflow.php:57
-msgid "Status:"
-msgstr "ステータス:"
-
-#: ../../code/Annotum/annotum-base/plugins/workflow/workflow.php:63
-msgid "Versions"
-msgstr "版"
-
-#: ../../code/Annotum/annotum-base/plugins/workflow/workflow.php:67
-msgid "Reviewers"
-msgstr "レビューア"
-
-#: ../../code/Annotum/annotum-base/plugins/workflow/workflow.php:69
-msgid "Co-Authors"
-msgstr "共同執筆者"
-
-#: ../../code/Annotum/annotum-base/plugins/workflow/workflow.php:246
-msgid "Username"
-msgstr "ユーザー名"
-
-#: ../../code/Annotum/annotum-base/plugins/workflow/workflow.php:256
-msgid "Create User"
-msgstr "ユーザーを作成"
-
-#: ../../code/Annotum/annotum-base/plugins/workflow/workflow.php:259
-#: ../../code/Annotum/annotum-base/plugins/workflow/workflow.php:287
-msgid "or <a href=\"#\" class=\""
-msgstr "または<a href=\"#\" class=\""
-
-#: ../../code/Annotum/annotum-base/plugins/workflow/workflow.php:361
-msgid "remove"
-msgstr "削除"
-
-#: ../../code/Annotum/annotum-base/plugins/workflow/workflow.php:394
-msgid "User has been created and added"
-msgstr "ユーザーが作成され追加されました"
-
-#: ../../code/Annotum/annotum-base/plugins/workflow/workflow.php:521
-msgid "reviewer"
-msgstr "レビューア"
-
-#: ../../code/Annotum/annotum-base/plugins/workflow/workflow.php:524
-msgid "co-author"
-msgstr "共同執筆者"
-
-#: ../../code/Annotum/annotum-base/plugins/workflow/workflow.php:528
-#, php-format
-msgid "Cannot add author as a %s"
-msgstr "執筆者を %s として追加できません"
-
-#: ../../code/Annotum/annotum-base/plugins/workflow/workflow.php:531
-#, php-format
-msgid "Cannot add %s as %s. User is already a co-author"
-msgstr "%s を %s として追加できません。ユーザーは既に共同執筆者です"
-
-#: ../../code/Annotum/annotum-base/plugins/workflow/workflow.php:534
-#, php-format
-msgid "Cannot add %s as %s. User is already a reviewer"
-msgstr "%s を %s として追加できません。ユーザーは既にレビューアです"
-
-#: ../../code/Annotum/annotum-base/plugins/workflow/workflow.php:545
-#, php-format
-msgid "User '%s' not found"
-msgstr "ユーザー「%s」が見つかりません"
-
-#: ../../code/Annotum/annotum-base/plugins/workflow/workflow.php:714
-msgid "Cloned From"
-msgstr "次から複製:"
-
-#: ../../code/Annotum/annotum-base/plugins/workflow/workflow.php:722
-msgid "Clones"
-msgstr "複製"
-
-#: ../../code/Annotum/annotum-base/plugins/workflow/workflow.php:756
-#, php-format
-msgid "Cloned: %s"
-msgstr "複製済み: %s"
-
-#: ../../code/Annotum/annotum-base/plugins/workflow/workflow.php:811
-msgid "You are not allowed to clone this post."
-msgstr "この投稿の複製が許可されていません。"
-
-#: ../../code/Annotum/annotum-base/plugins/workflow/internal-comments/internal-comments.php:7
-msgid "Revisions"
-msgstr "改訂"
-
-#: ../../code/Annotum/annotum-base/plugins/workflow/internal-comments/internal-comments.php:16
-msgid "Internal Comments"
-msgstr "内部コメント"
-
-#: ../../code/Annotum/annotum-base/plugins/workflow/internal-comments/internal-comments.php:19
-msgid "Reviews"
-msgstr "レビュー"
-
-#: ../../code/Annotum/annotum-base/plugins/workflow/internal-comments/internal-comments.php:112
-#, php-format
-msgid "Submitted on <a href=\"%1$s\">%2$s at %3$s</a>"
-msgstr "送信済み: <a href=\"%1$s\">%2$s、%3$s</a>"
-
-#: ../../code/Annotum/annotum-base/plugins/workflow/internal-comments/internal-comments.php:112
-msgid "Y/m/d"
-msgstr "Y/m/d"
-
-#: ../../code/Annotum/annotum-base/plugins/workflow/internal-comments/internal-comments.php:117
-#, php-format
-msgid "In reply to <a href=\"%1$s\">%2$s</a>."
-msgstr "<a href=\"%1$s\">%2$s</a>への返信です。"
-
-#: ../../code/Annotum/annotum-base/plugins/workflow/internal-comments/internal-comments.php:127
-msgid "Reply"
-msgstr "返信"
-
-#: ../../code/Annotum/annotum-base/plugins/workflow/internal-comments/internal-comments.php:174
-msgid "Recommendation: "
-msgstr "おすすめ:"
-
-#: ../../code/Annotum/annotum-base/plugins/workflow/internal-comments/internal-comments.php:412
-msgid "Article General"
-msgstr "記事全般"
-
-#: ../../code/Annotum/annotum-base/plugins/workflow/internal-comments/internal-comments.php:413
-msgid "Article Review"
-msgstr "記事のレビュー"
-
-#: ../../code/Annotum/annotum-base/posts/search.php:29
-#, php-format
-msgid "Search Results for: %s"
-msgstr "「%s」の検索結果"
-
-#: ../../code/trunk/wp-plugins/anno-data-fix.php:13
-#: ../../code/trunk/wp-plugins/anno-data-fix.php:14
-msgid "Annotum Data Fix"
-msgstr "Annotum データ修正"
-
-#: ../../code/trunk/wp-plugins/anno-data-fix.php:45
-msgid "Migrate co-author and reviewer data assigned to articles pre-alpha."
-msgstr "記事のプレアルファ版に割り当てられた共同執筆者とレビューアのデータを移行する。"
-
-#: ../../code/trunk/wp-plugins/anno-data-fix.php:49
-msgid "Migrate!"
-msgstr "移行"
-
-#: ../../code/Annotum/annotum-base/functions.php:758
-msgid "Invalid username"
-msgstr "無効なユーザー名"
-
-#: ../../code/Annotum/annotum-base/functions.php:928
-msgid "Home"
-msgstr "ホーム"
-
-#: ../../code/Annotum/annotum-base/functions.php:934
-msgid "About Annotum"
-msgstr "Annotum について"
-
-#: ../../code/Annotum/annotum-base/attachment/attachment-default.php:23
-msgid "article"
-msgstr "記事"
-
-#: ../../code/Annotum/annotum-base/attachment/attachment-default.php:28
-#, php-format
-msgid "back to &#8220;%s&#8221;"
-msgstr "「%s」に戻る"
-
-#: ../../code/Annotum/annotum-base/attachment/attachment-default.php:54
-msgid "Sorry, no attachments matched your criteria."
-msgstr "条件に一致する添付ファイルはありません。"
-
-#: ../../code/Annotum/annotum-base/functions/appendix-repeater.php:68
-#: ../../code/Annotum/annotum-base/functions/article-post-type.php:143
-#, php-format
-msgid "The Annotum editor requires at least WordPress 3.3. It appears you are using WordPress %s. "
-msgstr "The Annotum editor requires at least WordPress 3.3. It appears you are using WordPress %s. "
-
-#: ../../code/Annotum/annotum-base/functions/article-post-type.php:201
-msgid "Appear in the home page carousel"
-msgstr "ホームページの一覧で紹介"
-
-#: ../../code/Annotum/annotum-base/functions/template.php:277
-msgid "Affiliation:"
-msgstr "所属:"
-
-#: ../../code/Annotum/annotum-base/functions/tinymce.php:424
-msgid "Show"
-msgstr "表示"
-
-#: ../../code/Annotum/annotum-base/functions/tinymce-upload/tinymce-uploader.php:25
-msgid "You do not have proper permissions to upload a new image"
-msgstr "新しい画像をアップロードするための適切な権限がありません"
-
-#: ../../code/Annotum/annotum-base/functions/tinymce-upload/tinymce-uploader.php:160
-msgid "Cancel Upload"
-msgstr "アップロードをキャンセル"
 
 #: ../../code/Annotum/annotum-base/plugins/anno-article-lookup.php:356
 msgid "You do not have the correct permissions to perform this action"
@@ -2045,14 +1130,537 @@ msgstr "新しい DOI が生成されました"
 msgid "Regenerate DOI"
 msgstr "DOI を再生成"
 
+#: ../../code/Annotum/annotum-base/plugins/anno-colors/anno-colors.php:148
+msgid "edit"
+msgstr "編集"
+
+#: ../../code/Annotum/annotum-base/plugins/anno-colors/anno-colors.php:156
+msgid "Based on"
+msgstr "ベース:"
+
+#: ../../code/Annotum/annotum-base/plugins/anno-colors/anno-colors.php:156
+msgid "by"
+msgstr "by"
+
+#: ../../code/Annotum/annotum-base/plugins/anno-colors/anno-colors.php:177
+#: ../../code/Annotum/annotum-base/plugins/anno-colors/anno-colors.php:232
+msgid "Color Settings"
+msgstr "色の設定"
+
+#: ../../code/Annotum/annotum-base/plugins/anno-colors/anno-colors.php:178
+#: ../../code/Annotum/annotum-base/plugins/anno-colors/anno-colors.php:191
+msgid "Colors"
+msgstr "色"
+
+#: ../../code/Annotum/annotum-base/plugins/anno-colors/anno-colors.php:226
+msgid "Settings updated."
+msgstr "設定が更新されました。"
+
+#: ../../code/Annotum/annotum-base/plugins/anno-colors/anno-colors.php:235
+msgid "My Colors"
+msgstr "マイ カラー"
+
+#: ../../code/Annotum/annotum-base/plugins/anno-colors/anno-colors.php:251
+msgid "Save Settings"
+msgstr "設定を保存"
+
+#: ../../code/Annotum/annotum-base/plugins/anno-pdf-download/anno-pdf-download.php:336
+msgid "There was an issue creating the PDF for your article, please try again later"
+msgstr "記事の PDF の作成で問題が発生しました。しばらくしてからもう一度お試しください"
+
+#: ../../code/Annotum/annotum-base/plugins/annotum-importers/dtd-importer.php:19
+msgid "XML Import"
+msgstr "XML のインポート"
+
+#: ../../code/Annotum/annotum-base/plugins/annotum-importers/dtd-importer.php:51
+#: ../../code/Annotum/annotum-base/plugins/annotum-importers/dtd-importer.php:60
+msgid "Sorry, there has been an error."
+msgstr "エラーが発生しました。"
+
+#: ../../code/Annotum/annotum-base/plugins/annotum-importers/dtd-importer.php:52
+msgid "The file does not exist, please try again."
+msgstr "ファイルが存在しません。もう一度お試しください。"
+
+#: ../../code/Annotum/annotum-base/plugins/annotum-importers/dtd-importer.php:137
+msgid "Kipling DTD XML Import"
+msgstr "Kipling DTD XML のインポート"
+
+#: ../../code/Annotum/annotum-base/plugins/annotum-importers/dtd-importer.php:151
+msgid "Howdy! Upload your Kipling DTD XML file and we&#8217;ll import the articles, keywords, subjects, and users into this site."
+msgstr "ようこそ。Kipling DTD XML ファイルをアップロードしてください。ファイルが処理され、記事、キーワード、テーマ、ユーザーがこのサイトにインポートされます。"
+
+#: ../../code/Annotum/annotum-base/plugins/annotum-importers/dtd-importer.php:152
+msgid "Choose a Kipling DTD XML (.xml) file to upload, then click Upload file and import."
+msgstr "アップロードする Kipling DTD XML（.xml）ファイルを選択し、[ファイルをアップロードしてインポート] をクリックします。"
+
+#: ../../code/Annotum/annotum-base/plugins/annotum-importers/dtd-importer.php:165
+msgid "Import <strong>articles, keywords, subjects and users</strong> from a Kipling DTD XML file."
+msgstr "Kipling DTD XML ファイルから、<strong>記事、キーワード、テーマ、ユーザー</strong>をインポートします。"
+
+#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:144
+#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:363
+#, php-format
+msgid "ANNO_IMPORT_DEBUG: You are using %s to parse data."
+msgstr "ANNO_IMPORT_DEBUG: データの解析に %s を使用しています。"
+
 #: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:257
 #, php-format
 msgid "%s &#8220;<strong>%s</strong>&#8221; imported. "
-msgstr "%s「<strong>%s</strong>」がインポートされました。"
+msgstr "%s &#x300C;<strong>%s</strong>&#x300D;がインポートされました。"
+
+#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:270
+#, php-format
+msgid "[ %sEdit%s | %sPreview%s ]"
+msgstr "[ %s編集%s | %sプレビュー%s ]"
+
+#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:279
+msgid "All done."
+msgstr "すべて完了です。"
+
+#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:279
+msgid "Have fun!"
+msgstr "ご利用いただけます。"
+
+#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:280
+msgid "Remember to update the passwords and roles of imported users."
+msgstr "インポートしたユーザーのパスワードと役割を必ず更新してください。"
+
+#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:311
+#, php-format
+msgid "This WXR file (version %s) may not be supported by this version of the importer. Please consider updating."
+msgstr "この WXR ファイル（バージョン %s）は、インポート ツールのこのバージョンでサポートされていない可能性があります。アップデートをご検討ください。"
+
+#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:337
+#, php-format
+msgid "Failed to import author %s. Their posts will be attributed to the current user."
+msgstr "執筆者 %s をインポートできませんでした。この執筆者の投稿は現在のユーザーに属するものとなります。"
+
+#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:372
+msgid "Assign Authors"
+msgstr "執筆者を割り当てる"
+
+#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:373
+msgid "To make it easier for you to edit and save the imported content, you may want to reassign the author of the imported item to an existing user of this site. For example, you may want to import all the entries as <code>admin</code>s entries."
+msgstr "インポートしたコンテンツを簡単に編集、保存できるようにするには、インポートしたアイテムの執筆者をこのサイトの既存のユーザーに再度割り当てることができます。たとえば、すべてのエントリを <code>admin</code> のエントリとしてインポートできます。"
+
+#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:375
+msgid "If a new user is created by WordPress, a new password will be randomly generated and the new user&#8217;s role will be set as contributor. Manually changing the new user&#8217;s details will be necessary."
+msgstr "新しいユーザーが WordPress で作成された場合は、新しいパスワードがランダムに生成されます。新しいユーザーの役割は、寄稿者として設定されます。また、新しいユーザーの詳細情報を手動で変更する作業が必要です。"
+
+#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:394
+msgid "Import Attachments"
+msgstr "添付ファイルをインポート"
+
+#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:397
+msgid "Download and import file attachments"
+msgstr "添付ファイルをダウンロード/インポート"
+
+#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:441
+msgid "Import "
+msgstr "インポート"
+
+#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:446
+msgid "as the current user."
+msgstr "（現在のユーザーとして）"
+
+#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:466
+#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:468
+msgid "<p>or assign posts to an existing user: "
+msgstr "<p>または、投稿を既存のユーザーに割り当てます:"
+
+#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:472
+msgid "- Select -"
+msgstr "- 選択 -"
+
+#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:486
+#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:517
+msgid "</p>"
+msgstr "</p>"
+
+#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:490
+msgid "or if you know an existing user&#8217;s <strong>email address</strong>, you can assign posts to that user: "
+msgstr "または、既存のユーザーの<strong>メール アドレス</strong>がわかる場合は、そのユーザーに投稿を割り当てることができます:"
+
+#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:494
+msgid "or if you know an existing user&#8217;s <strong>username</strong>, you can assign posts to that user: "
+msgstr "または、既存のユーザーの<strong>ユーザー名</strong>がわかる場合は、そのユーザーに投稿を割り当てることができます:"
+
+#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:497
+msgid "<p>"
+msgstr "<p>"
+
+#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:499
+msgid "or you can create new user:"
+msgstr "または、新しいユーザーを作成できます:"
+
+#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:502
+msgid "as a new user:"
+msgstr "新しいユーザーとして:"
+
+#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:508
+msgid "Email: "
+msgstr "メール アドレス:"
+
+#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:558
+msgid "Please enter an Email <strong>OR</strong> a Username to search for."
+msgstr "検索するメール アドレス<strong>または</strong>ユーザー名を入力してください。"
+
+#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:564
+msgid "Please enter a valid email to search for."
+msgstr "検索する有効なメール アドレスを入力してください。"
+
+#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:572
+#, php-format
+msgid "Could not find user with email: %s"
+msgstr "メール アドレス「%s」のユーザーは見つかりませんでした"
+
+#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:584
+msgid "Please enter a valid username to search for."
+msgstr "検索する有効なユーザー名を入力してください。"
+
+#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:592
+#, php-format
+msgid "Could not find user with username: %s"
+msgstr "ユーザー名「%s」のユーザーは見つかりませんでした"
+
+#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:613
+msgid "Email cannot be empty when creating a new user."
+msgstr "新しいユーザーを作成する際、メール アドレスを空白にすることはできません。"
+
+#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:619
+msgid "This email address is already registered."
+msgstr "このメール アドレスは既に登録されています。"
+
+#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:624
+msgid "Please enter a valid email when creating a new user."
+msgstr "新しいユーザーを作成するには、有効なメール アドレスを入力してください。"
+
+#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:695
+#, php-format
+msgid "Failed to import category %s"
+msgstr "カテゴリ %s をインポートできませんでした"
+
+#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:733
+#, php-format
+msgid "Failed to import post tag %s"
+msgstr "投稿タグ %s をインポートできませんでした"
+
+#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:777
+#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:927
+#, php-format
+msgid "Failed to import %s %s"
+msgstr "%s %s をインポートできませんでした"
+
+#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:813
+#, php-format
+msgid "Failed to import &#8220;%s&#8221;: Invalid post type %s"
+msgstr "「%s」をインポートできませんでした: 無効な投稿タイプ %s です"
+
+#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:839
+#, php-format
+msgid "%s &#8220;%s&#8221; already exists."
+msgstr "%s &#x300C;%s&#x300D;は既に存在しています。"
+
+#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:900
+#, php-format
+msgid "Failed to import %s &#8220;%s&#8221;"
+msgstr "%s &#x300C;%s&#x300D;をインポートできませんでした"
+
+#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:1114
+msgid "Menu item skipped due to missing menu slug"
+msgstr "メニュー スラグがないためメニュー アイテムはスキップされました"
+
+#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:1121
+#, php-format
+msgid "Menu item skipped due to invalid menu slug: %s"
+msgstr "メニュー スラグ「%s」は無効なためメニュー アイテムはスキップされました"
+
+#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:1184
+msgid "Fetching attachments is not enabled"
+msgstr "添付ファイルの取得は有効になっていません"
+
+#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:1194
+msgid "Invalid file type"
+msgstr "無効なファイル形式"
+
+#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:1235
+msgid "Remote server did not respond"
+msgstr "リモート サーバーが応答しませんでした"
+
+#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:1241
+#, php-format
+msgid "Remote server returned error response %1$d %2$s"
+msgstr "リモート サーバーがエラー応答を返しました: %1$d %2$s"
+
+#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:1248
+msgid "Remote file is incorrect size"
+msgstr "リモート ファイルのサイズが正しくありません"
+
+#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:1253
+msgid "Zero size file downloaded"
+msgstr "サイズがゼロのファイルがダウンロードされました"
+
+#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:1259
+#, php-format
+msgid "Remote file is too large, limit is %s"
+msgstr "リモート ファイルが大きすぎます。上限は %s です"
+
+#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:1358
+msgid "Google Knol WXR Import"
+msgstr "Google Knol WXR のインポート"
+
+#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:1365
+#, php-format
+msgid "A new version of this importer is available. Please update to version %s to ensure compatibility with newer export files."
+msgstr "このインポート ツールの新しいバージョンをご利用いただけます。最新のエクスポート ファイルとの互換性のため、バージョン %s にアップデートしてください。"
+
+#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:1380
+msgid "Howdy! Upload your Google Knol eXtended RSS (WXR) file and we&#8217;ll import the posts, pages, comments, custom fields, categories, and tags into this site."
+msgstr "ようこそ。Google Knol eXtended RSS（WXR）ファイルをアップロードしてください。ファイルが処理され、投稿、ページ、コメント、カスタム フィールド、カテゴリ、タグがこのサイトにインポートされます。"
+
+#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:1381
+msgid "Choose a Google Knol WXR (.xml) file to upload, then click Upload file and import."
+msgstr "アップロードする Google Knol WXR（.xml）ファイルを選択し、[ファイルをアップロードしてインポート] をクリックします。"
+
+#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:1391
+msgid "Before you can upload your import file, you will need to fix the following error:"
+msgstr "インポート ファイルをアップロードするには、その前に次のエラーを修正する必要があります:"
+
+#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:1398
+msgid "ANNO_IMPORT_DEBUG: Select a parser:"
+msgstr "ANNO_IMPORT_DEBUG: パーサーを選択:"
+
+#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:1407
+msgid "Choose a file from your computer:"
+msgstr "パソコンからファイルを選択:"
+
+#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:1407
+#, php-format
+msgid "Maximum size: %s"
+msgstr "上限サイズ: %s"
+
+#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:1412
+msgid "Upload file and import"
+msgstr "ファイルをアップロードしてインポート"
+
+#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:1524
+msgid "Import <strong>articles, comments, custom fields, categories, and tags</strong> from a Google Knol WXR export file."
+msgstr "Google Knol WXR エクスポート ファイルから、<strong>記事、コメント、カスタム フィールド、カテゴリ、タグ</strong>をインポートします。"
+
+#: ../../code/Annotum/annotum-base/plugins/annotum-importers/parsers.php:42
+#, php-format
+msgid "ANNO_IMPORT_DEBUG: Could not find parser %s."
+msgstr "ANNO_IMPORT_DEBUG: パーサー %s が見つかりませんでした。"
+
+#: ../../code/Annotum/annotum-base/plugins/annotum-importers/parsers.php:77
+#: ../../code/Annotum/annotum-base/plugins/annotum-importers/parsers.php:101
+#: ../../code/Annotum/annotum-base/plugins/annotum-importers/parsers.php:399
+msgid "There was an error when reading this WXR file"
+msgstr "この WXR ファイルの読み取り中にエラーが発生しました"
+
+#: ../../code/Annotum/annotum-base/plugins/annotum-importers/parsers.php:78
+msgid "Details are shown above. The importer will now try again with a different parser..."
+msgstr "詳細は上記のとおりです。別のパーサーを使用して再試行します..."
+
+#: ../../code/Annotum/annotum-base/plugins/annotum-importers/parsers.php:105
+#: ../../code/Annotum/annotum-base/plugins/annotum-importers/parsers.php:110
+#: ../../code/Annotum/annotum-base/plugins/annotum-importers/parsers.php:404
+#: ../../code/Annotum/annotum-base/plugins/annotum-importers/parsers.php:751
+msgid "This does not appear to be a WXR file, missing/invalid WXR version number"
+msgstr "これは WXR ファイルではないようです。WXR のバージョン番号がないか、バージョン番号が無効です。"
+
+#: ../../code/Annotum/annotum-base/plugins/annotum-importers/parsers.php:318
+#, php-format
+msgid "There was an error processing %s's content for attachments."
+msgstr "添付ファイルに対し %s のコンテンツを処理中にエラーが発生しました。"
+
+#: ../../code/Annotum/annotum-base/plugins/annotum-importers/parsers.php:657
+#, php-format
+msgid "XML Parser: There was an error processing the content for attachments. Line %s. Column %s. Code %s."
+msgstr "XML パーサー: 添付ファイルに対しコンテンツを処理中にエラーが発生しました。行 %s。列 %s。コード %s。"
+
+#: ../../code/Annotum/annotum-base/plugins/annotum-importers/parsers.php:1033
+msgid "There was an error when reading this Kipling DTD file"
+msgstr "この Kipling DTD ファイルの読み取り中にエラーが発生しました"
+
+#: ../../code/Annotum/annotum-base/plugins/annotum-importers/parsers.php:1046
+msgid "This does not appear to be a Kipling DTD file, no articles could be found"
+msgstr "これは Kipling DTD ファイルではないようです。記事が見つかりませんでした"
+
+#: ../../code/Annotum/annotum-base/plugins/cf-archive-title/cf-archive-title.php:19
+#, php-format
+msgid "Latest / <b>page %s</b>"
+msgstr "最新/<b>ページ %s</b>"
+
+#: ../../code/Annotum/annotum-base/plugins/cf-archive-title/cf-archive-title.php:20
+#, php-format
+msgid "Search results for <b>%s</b>"
+msgstr "「<b>%s</b>」の検索結果"
+
+#: ../../code/Annotum/annotum-base/plugins/cf-archive-title/cf-archive-title.php:21
+#, php-format
+msgid "Tag archives for <b>%s</b>"
+msgstr "「<b>%s</b>」のタグ アーカイブ"
+
+#: ../../code/Annotum/annotum-base/plugins/cf-archive-title/cf-archive-title.php:22
+#, php-format
+msgid "Category archives for <b>%s</b>"
+msgstr "「<b>%s</b>」のカテゴリ アーカイブ"
+
+#: ../../code/Annotum/annotum-base/plugins/cf-archive-title/cf-archive-title.php:23
+#, php-format
+msgid "Author archives for <b>%s</b>"
+msgstr "「<b>%s</b>」の執筆者アーカイブ"
+
+#: ../../code/Annotum/annotum-base/plugins/cf-archive-title/cf-archive-title.php:24
+#, php-format
+msgid "Archives for <b>%s</b>"
+msgstr "「<b>%s</b>」のアーカイブ"
+
+#: ../../code/Annotum/annotum-base/plugins/workflow/audit.php:64
+msgid "Created a revision"
+msgstr "改訂版を作成"
+
+#: ../../code/Annotum/annotum-base/plugins/workflow/audit.php:65
+#, php-format
+msgid "Transitioned post state from %s to %s"
+msgstr "投稿の状態を %s から %s に変更"
+
+#: ../../code/Annotum/annotum-base/plugins/workflow/audit.php:66
+msgid "Added a reviewer comment"
+msgstr "レビューアのコメントを追加"
+
+#: ../../code/Annotum/annotum-base/plugins/workflow/audit.php:67
+#, php-format
+msgid "Added a review of %s"
+msgstr "%s のレビューを追加"
+
+#: ../../code/Annotum/annotum-base/plugins/workflow/audit.php:68
+msgid "Added an internal comment"
+msgstr "内部コメントを追加"
+
+#: ../../code/Annotum/annotum-base/plugins/workflow/audit.php:69
+#, php-format
+msgid "Added %s as a co-author"
+msgstr "%s を共同執筆者として追加"
+
+#: ../../code/Annotum/annotum-base/plugins/workflow/audit.php:70
+#, php-format
+msgid "Removed %s as a co-author"
+msgstr "%s を共同執筆者から削除"
+
+#: ../../code/Annotum/annotum-base/plugins/workflow/audit.php:71
+#, php-format
+msgid "Added %s as a reviewer"
+msgstr "%s をレビューアとして追加"
+
+#: ../../code/Annotum/annotum-base/plugins/workflow/audit.php:72
+#, php-format
+msgid "Removed %s as a reviewer"
+msgstr "%s をレビューアから削除"
 
 #: ../../code/Annotum/annotum-base/plugins/workflow/audit.php:129
 msgid "<strong>Deleted User</strong>"
 msgstr "<strong>削除したユーザー</strong>"
+
+#: ../../code/Annotum/annotum-base/plugins/workflow/audit.php:147
+msgid "j F, Y @ H:i"
+msgstr "j F, Y @ H:i"
+
+#: ../../code/Annotum/annotum-base/plugins/workflow/notification.php:127
+msgid "To review this article, please visit the URL above and navigate to the Reviews section. You may leave comments and questions in this section as well as providing a general review of 'Approve', 'Reject' or 'Request Revisions' from the dropdown."
+msgstr "この記事のレビューを書くには、上記 URL にアクセスして [レビュー] セクションに移動してください。このセクションでは、コメントや質問を投稿したり、通常のレビューとしてプルダウンから [承認]、[拒否]、[改訂をリクエスト] を選択したりすることができます。"
+
+#: ../../code/Annotum/annotum-base/plugins/workflow/notification.php:134
+#, php-format
+msgid "New Submission: %s by %s."
+msgstr "新しい送信: %s、送信者 %s。"
+
+#: ../../code/Annotum/annotum-base/plugins/workflow/notification.php:136
+#, php-format
+msgid ""
+"The following article has been submitted for review:\n"
+"--------------------\n"
+"Title: %s\n"
+"Author(s): %s\n"
+"Excerpt: %s\n"
+"%s\n"
+"\n"
+"%s"
+msgstr ""
+"次の記事がレビューに送信されました:\n"
+"--------------------\n"
+"タイトル:%s\n"
+"執筆者:%s\n"
+"抜粋:%s\n"
+"%s\n"
+"\n"
+"%s"
+
+#: ../../code/Annotum/annotum-base/plugins/workflow/notification.php:149
+#: ../../code/Annotum/annotum-base/plugins/workflow/notification.php:161
+#, php-format
+msgid "%s now in review."
+msgstr "%s はレビュー中です。"
+
+#: ../../code/Annotum/annotum-base/plugins/workflow/notification.php:151
+#, php-format
+msgid ""
+"Review has begun for: %s\n"
+"\n"
+"%s\n"
+"\n"
+"%s"
+msgstr ""
+"次のレビューが開始されました:%s\n"
+"\n"
+"%s\n"
+"\n"
+"%s"
+
+#: ../../code/Annotum/annotum-base/plugins/workflow/notification.php:163
+#, php-format
+msgid ""
+"Revisions have been made for %s and we ask you to please re-review the article.\n"
+"\n"
+"%s\n"
+"\n"
+"%s"
+msgstr ""
+"%s の改訂が完了しました。記事をもう一度レビューしてください。\n"
+"\n"
+"%s\n"
+"\n"
+"%s"
+
+#: ../../code/Annotum/annotum-base/plugins/workflow/notification.php:173
+#, php-format
+msgid "%s review is complete. APPROVED."
+msgstr "%s のレビューが完了しました。承認されました。"
+
+#: ../../code/Annotum/annotum-base/plugins/workflow/notification.php:175
+#, php-format
+msgid ""
+"Thank you for your contribution to %s. We are pleased to inform you that the article, %s, has been approved!\n"
+"\n"
+"You will receive an additional notification when the article is published.\n"
+"\n"
+"Thank you.\n"
+"\n"
+"%s"
+msgstr ""
+"%s にご協力ありがとうございます。記事「%s」は無事承認されました。\n"
+"\n"
+"記事が公開されたらまたお知らせいたします。\n"
+"\n"
+"ありがとうございました。\n"
+"\n"
+"%s"
+
+#: ../../code/Annotum/annotum-base/plugins/workflow/notification.php:187
+#, php-format
+msgid "%s review is complete."
+msgstr "%s のレビューが完了しました。"
 
 #: ../../code/Annotum/annotum-base/plugins/workflow/notification.php:189
 #, php-format
@@ -2065,13 +1673,66 @@ msgid ""
 "\n"
 "%s"
 msgstr ""
-"Thank you for contributing to %s.  After our review process, we have decided not to accept the article at this time.  \n"
+"%s にご協力ありがとうございます。レビューの結果、今回記事の承認は見送りとなりました。\n"
 "--------------------\n"
-"Title: %s\n"
+"タイトル:%s\n"
 "\n"
 "%s\n"
 "\n"
 "%s"
+
+#: ../../code/Annotum/annotum-base/plugins/workflow/notification.php:201
+#, php-format
+msgid "%s review is complete. CHANGES REQUESTED."
+msgstr "%s のレビューが完了しました。変更がリクエストされました。"
+
+#: ../../code/Annotum/annotum-base/plugins/workflow/notification.php:203
+#, php-format
+msgid ""
+"Thank you for contributing to %s.  After reviewing your article, we would like to request some changes.  Please open the article here:\n"
+"\n"
+"%s\n"
+"\n"
+"and refer to the comments listed.  Once you have updated your submission in accordance with the comments, please resubmit your article.\n"
+"\n"
+"Thank you.\n"
+"\n"
+"%s"
+msgstr ""
+"%s にご協力ありがとうございます。記事をレビューした結果、いくつか変更をお願いしたい点が見つかりました。次から記事を開き、記載されているコメントをご確認ください: \n"
+"\n"
+"%s\n"
+"\n"
+"コメントに従って記事を修正した後、記事を再送信していただきますようお願いします。\n"
+"\n"
+"ありがとうございました。\n"
+"\n"
+"%s"
+
+#: ../../code/Annotum/annotum-base/plugins/workflow/notification.php:217
+#, php-format
+msgid "%s has been published."
+msgstr "%s が公開されました。"
+
+#: ../../code/Annotum/annotum-base/plugins/workflow/notification.php:219
+#, php-format
+msgid ""
+"The following article has been published: %s\n"
+"\n"
+"%s\n"
+"\n"
+"%s"
+msgstr ""
+"次の記事が公開されました:%s\n"
+"\n"
+"%s\n"
+"\n"
+"%s"
+
+#: ../../code/Annotum/annotum-base/plugins/workflow/notification.php:228
+#, php-format
+msgid "%s has been invited to review %s by %s"
+msgstr "%s は、%s をレビューするように招待されました（招待者: %s）"
 
 #: ../../code/Annotum/annotum-base/plugins/workflow/notification.php:230
 #, php-format
@@ -2086,35 +1747,71 @@ msgid ""
 "%s\n"
 "%s"
 msgstr ""
-"%s has been invited to review the following article:\n"
+"%s は、次の記事をレビューするように招待されました:\n"
 "--------------------\n"
-"Title: %s\n"
-"Author(s): %s\n"
-"Excerpt: %s\n"
+"タイトル:%s\n"
+"執筆者:%s\n"
+"抜粋:%s\n"
 "%s\n"
 "\n"
 "%s\n"
 "%s"
 
+#: ../../code/Annotum/annotum-base/plugins/workflow/notification.php:243
+#, php-format
+msgid "%s has been invited to co-author %s by %s"
+msgstr "%s は、%s を共同執筆するように招待されました（招待者: %s）"
+
+#: ../../code/Annotum/annotum-base/plugins/workflow/notification.php:245
+#, php-format
+msgid ""
+"%s has been invited to co-author %s by %s.\n"
+"%s\n"
+"\n"
+"%s"
+msgstr ""
+"%s は、%s を共同執筆するように招待されました（招待者: %s）。\n"
+"%s\n"
+"\n"
+"%s"
+
+#: ../../code/Annotum/annotum-base/plugins/workflow/notification.php:253
+#, php-format
+msgid "%s is now the primary author on %s"
+msgstr "%s は現在 %s のメイン執筆者です"
+
+#: ../../code/Annotum/annotum-base/plugins/workflow/notification.php:255
+#, php-format
+msgid ""
+"%s is now the primary author on %s.\n"
+"%s\n"
+"\n"
+"%s"
+msgstr ""
+"%s は現在 %s のメイン執筆者です。\n"
+"%s\n"
+"\n"
+"%s"
+
 #: ../../code/Annotum/annotum-base/plugins/workflow/notification.php:268
 #, php-format
 msgid "%s has reviewed %s and has accepted the article for publication."
-msgstr "%s による %s のレビューが完了し、記事の公開が承認されました。"
+msgstr "%s が %s のレビューを完了し、記事の公開を承認しました。"
 
 #: ../../code/Annotum/annotum-base/plugins/workflow/notification.php:271
 #, php-format
 msgid "%s has reviewed %s and has rejected the article for publication."
-msgstr "%s による %s のレビューが完了し、記事の公開が拒否されました。"
+msgstr "%s が %s のレビューを完了し、記事の公開を拒否しました。"
 
 #: ../../code/Annotum/annotum-base/plugins/workflow/notification.php:274
 #, php-format
 msgid "%s has reviewed %s and has requested revisions be made to the article prior to publication."
-msgstr "%s has reviewed %s and has requested revisions be made to the article prior to publication."
+msgstr "%s が %s のレビューを完了し、公開前に記事を改訂するようリクエストしました。"
 
 #: ../../code/Annotum/annotum-base/plugins/workflow/notification.php:282
 #, php-format
 msgid "%s has reviewed %s"
-msgstr "%s による %s のレビューが完了しました"
+msgstr "%s が %s のレビューを完了しました"
 
 #: ../../code/Annotum/annotum-base/plugins/workflow/notification.php:284
 #, php-format
@@ -2129,7 +1826,333 @@ msgstr ""
 "\n"
 "%s"
 
+#: ../../code/Annotum/annotum-base/plugins/workflow/notification.php:299
+#, php-format
+msgid "New internal comment on %s"
+msgstr "%s についての新しい内部コメント"
+
+#: ../../code/Annotum/annotum-base/plugins/workflow/notification.php:301
+#: ../../code/Annotum/annotum-base/plugins/workflow/notification.php:314
+#, php-format
+msgid ""
+"The following comment was submitted on %s by %s.\n"
+"--------------------\n"
+"%s\n"
+"--------------------\n"
+"%s\n"
+"\n"
+"%s"
+msgstr ""
+"%s について、%s が次のコメントを送信しました。\n"
+"--------------------\n"
+"%s\n"
+"--------------------\n"
+"%s\n"
+"\n"
+"%s"
+
+#: ../../code/Annotum/annotum-base/plugins/workflow/notification.php:312
+#, php-format
+msgid "New reviewer comment on %s"
+msgstr "%s についての新しいレビューアのコメント"
+
+#: ../../code/Annotum/annotum-base/plugins/workflow/publishing-meta-box.php:70
+msgid "Move To Trash"
+msgstr "ゴミ箱に移動"
+
+#: ../../code/Annotum/annotum-base/plugins/workflow/publishing-meta-box.php:98
+msgid "Submitted - Waiting For Review"
+msgstr "送信済み - レビュー待ち"
+
+#: ../../code/Annotum/annotum-base/plugins/workflow/publishing-meta-box.php:151
+#, php-format
+msgid "%s of %s Reviews Complete"
+msgstr "%s/%s 件のレビュー完了"
+
+#: ../../code/Annotum/annotum-base/plugins/workflow/publishing-meta-box.php:158
+msgid "Submitted - In Review"
+msgstr "送信済み - レビュー中"
+
+#: ../../code/Annotum/annotum-base/plugins/workflow/publishing-meta-box.php:205
+msgid "Article Approved"
+msgstr "記事が承認されました"
+
+#: ../../code/Annotum/annotum-base/plugins/workflow/publishing-meta-box.php:242
+msgid "Visibility:"
+msgstr "公開設定:"
+
+#: ../../code/Annotum/annotum-base/plugins/workflow/publishing-meta-box.php:247
+#: ../../code/Annotum/annotum-base/plugins/workflow/publishing-meta-box.php:278
+msgid "Private"
+msgstr "限定公開"
+
+#: ../../code/Annotum/annotum-base/plugins/workflow/publishing-meta-box.php:251
+#: ../../code/Annotum/annotum-base/plugins/workflow/publishing-meta-box.php:276
+msgid "Password protected"
+msgstr "パスワードは保護されています"
+
+#: ../../code/Annotum/annotum-base/plugins/workflow/publishing-meta-box.php:255
+msgid "Public, Sticky"
+msgstr "一般公開、人気コンテンツ"
+
+#: ../../code/Annotum/annotum-base/plugins/workflow/publishing-meta-box.php:259
+#: ../../code/Annotum/annotum-base/plugins/workflow/publishing-meta-box.php:272
+msgid "Public"
+msgstr "一般公開"
+
+#: ../../code/Annotum/annotum-base/plugins/workflow/publishing-meta-box.php:274
+msgid "Stick this post to the front page"
+msgstr "この投稿をトップページに表示"
+
+#: ../../code/Annotum/annotum-base/plugins/workflow/publishing-meta-box.php:277
+msgid "Password:"
+msgstr "パスワード:"
+
+#: ../../code/Annotum/annotum-base/plugins/workflow/publishing-meta-box.php:281
+msgid "OK"
+msgstr "OK"
+
+#: ../../code/Annotum/annotum-base/plugins/workflow/publishing-meta-box.php:293
+#, php-format
+msgid "Scheduled for: <b>%1$s</b>"
+msgstr "スケジュール設定済み: <b>%1$s</b>"
+
+#: ../../code/Annotum/annotum-base/plugins/workflow/publishing-meta-box.php:295
+#, php-format
+msgid "Published on: <b>%1$s</b>"
+msgstr "公開済み: <b>%1$s</b>"
+
+#: ../../code/Annotum/annotum-base/plugins/workflow/publishing-meta-box.php:297
+#: ../../code/Annotum/annotum-base/plugins/workflow/publishing-meta-box.php:305
+msgid "Publish <b>immediately</b>"
+msgstr "<b>今すぐ</b>公開"
+
+#: ../../code/Annotum/annotum-base/plugins/workflow/publishing-meta-box.php:299
+#, php-format
+msgid "Schedule for: <b>%1$s</b>"
+msgstr "スケジュール: <b>%1$s</b>"
+
+#: ../../code/Annotum/annotum-base/plugins/workflow/publishing-meta-box.php:301
+#, php-format
+msgid "Publish on: <b>%1$s</b>"
+msgstr "公開: <b>%1$s</b>"
+
+#: ../../code/Annotum/annotum-base/plugins/workflow/publishing-meta-box.php:330
+msgid "Article Rejected"
+msgstr "記事が拒否されました"
+
+#: ../../code/Annotum/annotum-base/plugins/workflow/publishing-meta-box.php:360
+msgid "Article Published"
+msgstr "記事が公開されました"
+
+#: ../../code/Annotum/annotum-base/plugins/workflow/publishing-meta-box.php:389
+#: ../../code/Annotum/annotum-base/plugins/workflow/publishing-meta-box.php:415
+msgid "Preview Changes"
+msgstr "変更のプレビュー"
+
+#: ../../code/Annotum/annotum-base/plugins/workflow/publishing-meta-box.php:395
+#: ../../code/Annotum/annotum-base/plugins/workflow/publishing-meta-box.php:422
+msgid "Preview"
+msgstr "プレビュー"
+
+#: ../../code/Annotum/annotum-base/plugins/workflow/workflow-init.php:49
+#: ../../code/Annotum/annotum-base/plugins/workflow/internal-comments/internal-comments.php:16
+msgid "Approve"
+msgstr "承認"
+
+#: ../../code/Annotum/annotum-base/plugins/workflow/workflow-init.php:50
+msgid "Publish"
+msgstr "公開"
+
+#: ../../code/Annotum/annotum-base/plugins/workflow/workflow-init.php:51
+#: ../../code/Annotum/annotum-base/plugins/workflow/internal-comments/internal-comments.php:18
+msgid "Reject"
+msgstr "拒否"
+
+#: ../../code/Annotum/annotum-base/plugins/workflow/workflow-init.php:52
+msgid "Submit For Review"
+msgstr "レビューに送信"
+
+#: ../../code/Annotum/annotum-base/plugins/workflow/workflow-init.php:53
+msgid "Request Revisions"
+msgstr "改訂をリクエスト"
+
+#: ../../code/Annotum/annotum-base/plugins/workflow/workflow-init.php:54
+msgid "Clone"
+msgstr "複製"
+
+#: ../../code/Annotum/annotum-base/plugins/workflow/workflow-init.php:55
+msgid "Revert To Draft"
+msgstr "下書きに戻す"
+
+#: ../../code/Annotum/annotum-base/plugins/workflow/workflow.php:17
+msgid "Submitted"
+msgstr "送信済み"
+
+#: ../../code/Annotum/annotum-base/plugins/workflow/workflow.php:18
+msgid "In Review"
+msgstr "レビュー中"
+
+#: ../../code/Annotum/annotum-base/plugins/workflow/workflow.php:19
+msgid "Approved"
+msgstr "承認済み"
+
+#: ../../code/Annotum/annotum-base/plugins/workflow/workflow.php:20
+msgid "Rejected"
+msgstr "拒否済み"
+
+#: ../../code/Annotum/annotum-base/plugins/workflow/workflow.php:46
+msgid "Audit Log"
+msgstr "監査ログ"
+
+#: ../../code/Annotum/annotum-base/plugins/workflow/workflow.php:64
+#: ../../code/Annotum/annotum-base/plugins/workflow/workflow.php:804
+msgid "Author"
+msgstr "執筆者"
+
+#: ../../code/Annotum/annotum-base/plugins/workflow/workflow.php:68
+msgid "Status:"
+msgstr "ステータス:"
+
+#: ../../code/Annotum/annotum-base/plugins/workflow/workflow.php:74
+msgid "Versions"
+msgstr "版"
+
+#: ../../code/Annotum/annotum-base/plugins/workflow/workflow.php:78
+msgid "Reviewers"
+msgstr "レビューア"
+
+#: ../../code/Annotum/annotum-base/plugins/workflow/workflow.php:80
+msgid "Co-Authors"
+msgstr "共同執筆者"
+
+#: ../../code/Annotum/annotum-base/plugins/workflow/workflow.php:260
+msgid "Email / Username"
+msgstr "メール アドレス/ユーザー名"
+
+#: ../../code/Annotum/annotum-base/plugins/workflow/workflow.php:265
+msgid "Create User"
+msgstr "ユーザーを作成"
+
+#: ../../code/Annotum/annotum-base/plugins/workflow/workflow.php:268
+#: ../../code/Annotum/annotum-base/plugins/workflow/workflow.php:296
+msgid "or &lt;a href=\"#\" class=\""
+msgstr "または<a href=\"#\" class=\""
+
+#: ../../code/Annotum/annotum-base/plugins/workflow/workflow.php:383
+msgid "remove"
+msgstr "削除"
+
+#: ../../code/Annotum/annotum-base/plugins/workflow/workflow.php:420
+msgid "User has been created and added"
+msgstr "ユーザーが作成され追加されました"
+
+#: ../../code/Annotum/annotum-base/plugins/workflow/workflow.php:545
+msgid "reviewer"
+msgstr "レビューア"
+
+#: ../../code/Annotum/annotum-base/plugins/workflow/workflow.php:548
+msgid "co-author"
+msgstr "共同執筆者"
+
+#: ../../code/Annotum/annotum-base/plugins/workflow/workflow.php:552
+#, php-format
+msgid "Cannot add author as a %s"
+msgstr "執筆者を %s として追加できません"
+
+#: ../../code/Annotum/annotum-base/plugins/workflow/workflow.php:555
+#, php-format
+msgid "Cannot add %s as %s. User is already a co-author"
+msgstr "%s を %s として追加できません。ユーザーは既に共同執筆者です"
+
+#: ../../code/Annotum/annotum-base/plugins/workflow/workflow.php:558
+#, php-format
+msgid "Cannot add %s as %s. User is already a reviewer"
+msgstr "%s を %s として追加できません。ユーザーは既にレビューアです"
+
+#: ../../code/Annotum/annotum-base/plugins/workflow/workflow.php:569
+#, php-format
+msgid "User '%s' not found"
+msgstr "ユーザー「%s」が見つかりません"
+
+#: ../../code/Annotum/annotum-base/plugins/workflow/workflow.php:727
+msgid "Cloned From"
+msgstr "次から複製:"
+
+#: ../../code/Annotum/annotum-base/plugins/workflow/workflow.php:735
+msgid "Clones"
+msgstr "複製"
+
+#: ../../code/Annotum/annotum-base/plugins/workflow/workflow.php:769
+#, php-format
+msgid "Cloned: %s"
+msgstr "複製済み: %s"
+
+#: ../../code/Annotum/annotum-base/plugins/workflow/workflow.php:824
+msgid "You are not allowed to clone this post."
+msgstr "この投稿の複製が許可されていません。"
+
 #: ../../code/Annotum/annotum-base/plugins/workflow/workflow.php:947
 msgid "You are editing an imported article. Updating this article will likely change its XML and HTML output."
-msgstr "You are editing an imported article. Updating this article will likely change its XML and HTML output."
+msgstr "インポートした記事を編集しています。この記事を更新すると、記事の XML 出力と HTML 出力も変更される可能性があります。"
+
+#: ../../code/Annotum/annotum-base/plugins/workflow/internal-comments/internal-comments.php:17
+msgid "Revisions"
+msgstr "改訂"
+
+#: ../../code/Annotum/annotum-base/plugins/workflow/internal-comments/internal-comments.php:26
+msgid "Internal Comments"
+msgstr "内部コメント"
+
+#: ../../code/Annotum/annotum-base/plugins/workflow/internal-comments/internal-comments.php:29
+msgid "Reviews"
+msgstr "レビュー"
+
+#: ../../code/Annotum/annotum-base/plugins/workflow/internal-comments/internal-comments.php:127
+#, php-format
+msgid "Submitted on <a href=\"%1$s\">%2$s at %3$s</a>"
+msgstr "送信済み: <a href=\"%1$s\">%2$s、%3$s</a>"
+
+#: ../../code/Annotum/annotum-base/plugins/workflow/internal-comments/internal-comments.php:127
+msgid "Y/m/d"
+msgstr "Y/m/d"
+
+#: ../../code/Annotum/annotum-base/plugins/workflow/internal-comments/internal-comments.php:132
+#, php-format
+msgid "In reply to <a href=\"%1$s\">%2$s</a>."
+msgstr "<a href=\"%1$s\">%2$s</a>への返信です。"
+
+#: ../../code/Annotum/annotum-base/plugins/workflow/internal-comments/internal-comments.php:142
+msgid "Reply"
+msgstr "返信"
+
+#: ../../code/Annotum/annotum-base/plugins/workflow/internal-comments/internal-comments.php:189
+msgid "Recommendation: "
+msgstr "おすすめ:"
+
+#: ../../code/Annotum/annotum-base/plugins/workflow/internal-comments/internal-comments.php:438
+msgid "Article General"
+msgstr "記事全般"
+
+#: ../../code/Annotum/annotum-base/plugins/workflow/internal-comments/internal-comments.php:439
+msgid "Article Review"
+msgstr "記事のレビュー"
+
+#: ../../code/Annotum/annotum-base/posts/search.php:29
+#, php-format
+msgid "Search Results for: %s"
+msgstr "「%s」の検索結果"
+
+#: ../../code/trunk/wp-plugins/anno-data-fix.php:13
+#: ../../code/trunk/wp-plugins/anno-data-fix.php:14
+msgid "Annotum Data Fix"
+msgstr "Annotum データ修正"
+
+#: ../../code/trunk/wp-plugins/anno-data-fix.php:45
+msgid "Migrate co-author and reviewer data assigned to articles pre-alpha."
+msgstr "記事のプレアルファ版に割り当てられた共同執筆者とレビューアのデータを移行する。"
+
+#: ../../code/trunk/wp-plugins/anno-data-fix.php:49
+msgid "Migrate!"
+msgstr "移行"
 

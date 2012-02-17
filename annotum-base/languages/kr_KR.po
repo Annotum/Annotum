@@ -1,233 +1,240 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: \n"
-"POT-Creation-Date: \n"
-"PO-Revision-Date: \n"
-"Last-Translator: Annotum Support <info@annotum.org>\n"
-"Language-Team: Solvitor LLC <info@solvitor.com>\n"
+"Project-Id-Version: Annotum\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2011-11-23 14:46-0700\n"
+"PO-Revision-Date: 2012-02-16 13:28-0800\n"
+"Last-Translator: weloc <info@welocalize.com>\n"
+"Language-Team: Crowd Favorite <crowfavorite@gmail.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-KeywordsList: __;_e;_ex;_x\n"
+"X-Poedit-Basepath: ../../\n"
+"X-Poedit-Language: English\n"
+"X-Poedit-Country: UNITED STATES\n"
+"X-Poedit-SourceCharset: utf-8\n"
+"X-Poedit-SearchPath-0: ../..\n"
 
-#: ../../code/Annotum/annotum-base/functions.php:70
+#: ../../code/Annotum/annotum-base/functions.php:69
 msgid "Default Sidebar"
-msgstr "Default Sidebar"
+msgstr "기본 메뉴"
 
-#: ../../code/Annotum/annotum-base/functions.php:74
+#: ../../code/Annotum/annotum-base/functions.php:73
 msgid "Page Sidebar"
-msgstr "Page Sidebar"
+msgstr "페이지 메뉴"
 
-#: ../../code/Annotum/annotum-base/functions.php:76
+#: ../../code/Annotum/annotum-base/functions.php:75
 msgid "This sidebar will be shown on Pages."
-msgstr "This sidebar will be shown on Pages."
+msgstr "이 메뉴는 페이지에 표시됩니다."
 
-#: ../../code/Annotum/annotum-base/functions.php:79
+#: ../../code/Annotum/annotum-base/functions.php:78
 msgid "Article Sidebar"
-msgstr "Article Sidebar"
+msgstr "글 메뉴"
 
-#: ../../code/Annotum/annotum-base/functions.php:81
+#: ../../code/Annotum/annotum-base/functions.php:80
 msgid "This sidebar will be shown single Articles."
 msgstr "이 메뉴에는 단일 글이 표시됩니다."
 
-#: ../../code/Annotum/annotum-base/functions.php:84
+#: ../../code/Annotum/annotum-base/functions.php:83
 msgid "Masthead Teasers"
 msgstr "마스트헤드 티저"
 
-#: ../../code/Annotum/annotum-base/functions.php:86
+#: ../../code/Annotum/annotum-base/functions.php:85
 msgid "Display items on the home page masthead."
 msgstr "홈페이지 마스트헤드에 항목을 표시합니다."
 
-#: ../../code/Annotum/annotum-base/functions.php:98
+#: ../../code/Annotum/annotum-base/functions.php:107
 msgid "Annotum Settings"
 msgstr "Annotum 설정"
 
-#: ../../code/Annotum/annotum-base/functions.php:232
+#: ../../code/Annotum/annotum-base/functions.php:248
 msgid "Required"
 msgstr "필수"
 
-#: ../../code/Annotum/annotum-base/functions.php:236
+#: ../../code/Annotum/annotum-base/functions.php:252
 msgid "Your Name"
 msgstr "이름"
 
-#: ../../code/Annotum/annotum-base/functions.php:237
+#: ../../code/Annotum/annotum-base/functions.php:253
 msgid "Email Address"
 msgstr "이메일 주소"
 
-#: ../../code/Annotum/annotum-base/functions.php:238
+#: ../../code/Annotum/annotum-base/functions.php:254
 msgid "Website"
 msgstr "웹사이트"
 
-#: ../../code/Annotum/annotum-base/functions.php:242
+#: ../../code/Annotum/annotum-base/functions.php:258
 msgid "Comment"
 msgstr "댓글"
 
-#: ../../code/Annotum/annotum-base/functions.php:244
+#: ../../code/Annotum/annotum-base/functions.php:260
 msgid "(cancel)"
 msgstr "(취소)"
 
-#: ../../code/Annotum/annotum-base/functions.php:245
+#: ../../code/Annotum/annotum-base/functions.php:261
 msgid "Leave a Comment"
 msgstr "댓글 남기기"
 
-#: ../../code/Annotum/annotum-base/functions.php:246
+#: ../../code/Annotum/annotum-base/functions.php:262
 #, php-format
 msgid "Leave a Reply to %s"
 msgstr "%s에 답글 남기기"
 
-#: ../../code/Annotum/annotum-base/functions.php:247
+#: ../../code/Annotum/annotum-base/functions.php:263
 msgid "Submit"
 msgstr "제출"
 
-#: ../../code/Annotum/annotum-base/functions.php:266
+#: ../../code/Annotum/annotum-base/functions.php:282
 #: ../../code/Annotum/annotum-base/carrington-core/admin.php:79
 msgid "Yes"
 msgstr "예"
 
-#: ../../code/Annotum/annotum-base/functions.php:267
+#: ../../code/Annotum/annotum-base/functions.php:283
 #: ../../code/Annotum/annotum-base/carrington-core/admin.php:80
 msgid "No"
 msgstr "아니요"
 
-#: ../../code/Annotum/annotum-base/functions.php:272
+#: ../../code/Annotum/annotum-base/functions.php:288
 #: ../../code/Annotum/annotum-base/carrington-core/admin.php:34
 #: ../../code/Annotum/annotum-base/carrington-core/admin.php:51
 msgid "Theme Settings"
 msgstr "테마 설정"
 
-#: ../../code/Annotum/annotum-base/functions.php:277
+#: ../../code/Annotum/annotum-base/functions.php:293
 msgid "Home Page Callout Left Title"
 msgstr "홈페이지 설명선 왼쪽 제목"
 
-#: ../../code/Annotum/annotum-base/functions.php:283
+#: ../../code/Annotum/annotum-base/functions.php:299
 msgid "Home Page Callout Left URL"
 msgstr "홈페이지 설명선 왼쪽 URL"
 
-#: ../../code/Annotum/annotum-base/functions.php:289
+#: ../../code/Annotum/annotum-base/functions.php:305
 msgid "Home Page Callout Left Content"
 msgstr "홈페이지 설명선 왼쪽 콘텐츠"
 
-#: ../../code/Annotum/annotum-base/functions.php:294
+#: ../../code/Annotum/annotum-base/functions.php:310
 msgid "Home Page Callout Right Title"
 msgstr "홈페이지 설명선 오른쪽 제목"
 
-#: ../../code/Annotum/annotum-base/functions.php:300
+#: ../../code/Annotum/annotum-base/functions.php:316
 msgid "Home Page Callout Right URL"
 msgstr "홈페이지 설명선 오른쪽 URL"
 
-#: ../../code/Annotum/annotum-base/functions.php:306
+#: ../../code/Annotum/annotum-base/functions.php:322
 msgid "Home Page Callout Right Content"
 msgstr "홈페이지 설명선 오른쪽 콘텐츠"
 
-#: ../../code/Annotum/annotum-base/functions.php:321
+#: ../../code/Annotum/annotum-base/functions.php:337
 msgid "Front Page Post Type"
 msgstr "첫 페이지 게시물 유형"
 
-#: ../../code/Annotum/annotum-base/functions.php:323
+#: ../../code/Annotum/annotum-base/functions.php:339
 msgid "Article"
 msgstr "글"
 
-#: ../../code/Annotum/annotum-base/functions.php:324
+#: ../../code/Annotum/annotum-base/functions.php:340
 msgid "Post"
 msgstr "게시물"
 
-#: ../../code/Annotum/annotum-base/functions.php:330
+#: ../../code/Annotum/annotum-base/functions.php:346
 msgid "Google Analytics"
 msgstr "Google 웹로그 분석"
 
-#: ../../code/Annotum/annotum-base/functions.php:333
+#: ../../code/Annotum/annotum-base/functions.php:349
 msgid "Google Analytics ID"
 msgstr "Google 웹로그 분석 ID"
 
-#: ../../code/Annotum/annotum-base/functions.php:337
+#: ../../code/Annotum/annotum-base/functions.php:353
 msgid "ex: UA-123456-12"
 msgstr "예: UA-123456-12"
 
-#: ../../code/Annotum/annotum-base/functions.php:342
+#: ../../code/Annotum/annotum-base/functions.php:358
 msgid "Workflow Options"
 msgstr "워크플로 옵션"
 
-#: ../../code/Annotum/annotum-base/functions.php:345
+#: ../../code/Annotum/annotum-base/functions.php:361
 msgid "Enable Workflow"
 msgstr "워크플로 사용"
 
-#: ../../code/Annotum/annotum-base/functions.php:351
+#: ../../code/Annotum/annotum-base/functions.php:367
 msgid "Allow article authors to see reviewers"
 msgstr "글 작성자가 리뷰어를 볼 수 있도록 허용"
 
-#: ../../code/Annotum/annotum-base/functions.php:357
+#: ../../code/Annotum/annotum-base/functions.php:373
 msgid "Enable workflow notifications"
 msgstr "워크플로 알림 사용"
 
-#: ../../code/Annotum/annotum-base/functions.php:365
+#: ../../code/Annotum/annotum-base/functions.php:381
 msgid "Journal Options"
 msgstr "저널 옵션"
 
-#: ../../code/Annotum/annotum-base/functions.php:368
+#: ../../code/Annotum/annotum-base/functions.php:384
 msgid "Journal Name"
 msgstr "저널 이름"
 
-#: ../../code/Annotum/annotum-base/functions.php:373
+#: ../../code/Annotum/annotum-base/functions.php:389
 msgid "Journal Abbreviation"
 msgstr "저널 약어"
 
-#: ../../code/Annotum/annotum-base/functions.php:378
+#: ../../code/Annotum/annotum-base/functions.php:394
 msgid "Journal ID"
 msgstr "저널 ID"
 
-#: ../../code/Annotum/annotum-base/functions.php:383
+#: ../../code/Annotum/annotum-base/functions.php:399
 msgid "Journal ID Type"
 msgstr "저널 ID 유형"
 
-#: ../../code/Annotum/annotum-base/functions.php:388
+#: ../../code/Annotum/annotum-base/functions.php:404
 msgid "Journal ISSN"
 msgstr "저널 ISSN"
 
-#: ../../code/Annotum/annotum-base/functions.php:393
+#: ../../code/Annotum/annotum-base/functions.php:409
 msgid "Publisher Name"
 msgstr "게시자 이름"
 
-#: ../../code/Annotum/annotum-base/functions.php:398
+#: ../../code/Annotum/annotum-base/functions.php:414
 msgid "Publisher Location"
 msgstr "게시자 위치"
 
-#: ../../code/Annotum/annotum-base/functions.php:403
+#: ../../code/Annotum/annotum-base/functions.php:419
 msgid "Publisher ISSN"
 msgstr "게시자 ISSN"
 
-#: ../../code/Annotum/annotum-base/functions.php:410
+#: ../../code/Annotum/annotum-base/functions.php:426
 msgid "CrossRef Credentials"
 msgstr "상호 참조 자격 정보"
 
-#: ../../code/Annotum/annotum-base/functions.php:413
+#: ../../code/Annotum/annotum-base/functions.php:429
 msgid "Login"
 msgstr "로그인"
 
-#: ../../code/Annotum/annotum-base/functions.php:418
+#: ../../code/Annotum/annotum-base/functions.php:434
 msgid "Password"
 msgstr "비밀번호"
 
-#: ../../code/Annotum/annotum-base/functions.php:423
+#: ../../code/Annotum/annotum-base/functions.php:439
 msgid "Registrant Code"
 msgstr "등록자 코드"
 
-#: ../../code/Annotum/annotum-base/functions.php:445
+#: ../../code/Annotum/annotum-base/functions.php:461
 msgid "Invalid Google Analytics ID"
 msgstr "Google 웹로그 분석 ID가 잘못되었습니다."
 
-#: ../../code/Annotum/annotum-base/functions.php:734
-msgid "Cheatin&#8217; uh?"
-msgstr "올바른 정보를 입력하세요."
-
-#: ../../code/Annotum/annotum-base/functions.php:741
+#: ../../code/Annotum/annotum-base/functions.php:753
 msgid "Invalid email address"
 msgstr "이메일 주소가 잘못되었습니다."
 
-#: ../../code/Annotum/annotum-base/functions.php:759
+#: ../../code/Annotum/annotum-base/functions.php:758
+msgid "Invalid username"
+msgstr "사용자 이름이 유효하지 않음"
+
+#: ../../code/Annotum/annotum-base/functions.php:776
 #, php-format
 msgid "You have been invited to join %s"
 msgstr "%s에 가입하도록 초대되었습니다."
 
-#: ../../code/Annotum/annotum-base/functions.php:761
+#: ../../code/Annotum/annotum-base/functions.php:778
 #, php-format
 msgid ""
 "%s has created a user with your email address for %s.\n"
@@ -237,36 +244,40 @@ msgid ""
 "Password: %s\n"
 "%s"
 msgstr ""
-"%s has created a user with your email address for %s.\n"
-"Please use the following credentials to login and change your password:\n"
+"%s님이 %s에 대해 내 이메일 주소를 갖는 사용자를 만들었습니다.\n"
+"로그인하여 비밀번호를 변경하려면 다음 자격증명을 이용하시기 바랍니다.\n"
 "\n"
-"Username: %s\n"
-"Password: %s\n"
+"사용자 이름: %s\n"
+"비밀번호: %s\n"
 "%s"
 
-#: ../../code/Annotum/annotum-base/functions.php:786
+#: ../../code/Annotum/annotum-base/functions.php:802
 msgid "Published"
 msgstr "게시됨"
 
-#: ../../code/Annotum/annotum-base/functions.php:790
+#: ../../code/Annotum/annotum-base/functions.php:806
 msgid "Pending"
 msgstr "대기 중"
 
-#: ../../code/Annotum/annotum-base/functions.php:794
+#: ../../code/Annotum/annotum-base/functions.php:810
 msgid "Draft"
 msgstr "초안"
 
-#: ../../code/Annotum/annotum-base/functions.php:798
+#: ../../code/Annotum/annotum-base/functions.php:814
 msgid "Trash"
 msgstr "휴지통"
 
-#: ../../code/Annotum/annotum-base/functions.php:843
-msgid "Article Summary"
-msgstr "글 요약"
-
-#: ../../code/Annotum/annotum-base/functions.php:848
+#: ../../code/Annotum/annotum-base/functions.php:862
 msgid "Articles"
 msgstr "글"
+
+#: ../../code/Annotum/annotum-base/functions.php:928
+msgid "Home"
+msgstr "홈"
+
+#: ../../code/Annotum/annotum-base/functions.php:934
+msgid "About Annotum"
+msgstr "Annotum 정보"
 
 #: ../../code/Annotum/annotum-base/assets/load.php:32
 msgid "Previous"
@@ -280,6 +291,19 @@ msgstr "다음"
 #, php-format
 msgid "%1$s of %2$s"
 msgstr "%1$s/%2$s"
+
+#: ../../code/Annotum/annotum-base/attachment/attachment-default.php:23
+msgid "article"
+msgstr "글"
+
+#: ../../code/Annotum/annotum-base/attachment/attachment-default.php:28
+#, php-format
+msgid "back to &#8220;%s&#8221;"
+msgstr "&#8220;%s&#8221;(으)로 돌아가기"
+
+#: ../../code/Annotum/annotum-base/attachment/attachment-default.php:54
+msgid "Sorry, no attachments matched your criteria."
+msgstr "조건에 맞는 첨부파일이 없습니다."
 
 #: ../../code/Annotum/annotum-base/carrington-core/admin.php:33
 #: ../../code/Annotum/annotum-base/carrington-core/admin.php:319
@@ -405,602 +429,615 @@ msgstr "찾고 계신 내용이 무엇인지 파악할 수 없습니다."
 msgid "Search"
 msgstr "검색"
 
-#: ../../code/Annotum/annotum-base/functions/anno-xml-download.php:74
+#: ../../code/Annotum/annotum-base/functions/anno-xml-download.php:84
 msgid "No article found."
 msgstr "글이 없습니다."
 
-#: ../../code/Annotum/annotum-base/functions/anno-xml-download.php:104
+#: ../../code/Annotum/annotum-base/functions/anno-xml-download.php:114
 msgid "Required article first."
 msgstr "필요한 글 먼저"
 
-#: ../../code/Annotum/annotum-base/functions/anno-xml-download.php:426
+#: ../../code/Annotum/annotum-base/functions/anno-xml-download.php:433
 msgid "Acknowledgments"
 msgstr "감사의 말"
 
-#: ../../code/Annotum/annotum-base/functions/anno-xml-download.php:445
-#: ../../code/Annotum/annotum-base/functions/template.php:315
+#: ../../code/Annotum/annotum-base/functions/anno-xml-download.php:452
+#: ../../code/Annotum/annotum-base/functions/template.php:415
 #, php-format
 msgid "Appendix %s"
 msgstr "부록 %s"
 
-#: ../../code/Annotum/annotum-base/functions/anno-xml-download.php:464
-#: ../../code/Annotum/annotum-base/functions/article-post-type.php:94
-#: ../../code/Annotum/annotum-base/functions/template.php:339
+#: ../../code/Annotum/annotum-base/functions/anno-xml-download.php:471
+#: ../../code/Annotum/annotum-base/functions/article-post-type.php:104
+#: ../../code/Annotum/annotum-base/functions/template.php:439
 msgid "References"
 msgstr "참조"
 
-#: ../../code/Annotum/annotum-base/functions/Anno_Widget_Recently.php:27
+#: ../../code/Annotum/annotum-base/functions/Anno_Widget_Recently.php:28
 msgid "Display the most recent posts and comments in a tabbed box."
 msgstr "탭 상자에 최근 게시물 및 댓글을 표시합니다."
 
-#: ../../code/Annotum/annotum-base/functions/Anno_Widget_Recently.php:30
+#: ../../code/Annotum/annotum-base/functions/Anno_Widget_Recently.php:31
 msgid "Recently&hellip;"
 msgstr "최근&hellip;"
 
-#: ../../code/Annotum/annotum-base/functions/Anno_Widget_Recently.php:60
+#: ../../code/Annotum/annotum-base/functions/Anno_Widget_Recently.php:61
 msgid "Recent Articles"
 msgstr "최근 글"
 
-#: ../../code/Annotum/annotum-base/functions/Anno_Widget_Recently.php:61
+#: ../../code/Annotum/annotum-base/functions/Anno_Widget_Recently.php:62
 msgid "Comments"
 msgstr "댓글"
 
-#: ../../code/Annotum/annotum-base/functions/Anno_Widget_Recently.php:96
+#: ../../code/Annotum/annotum-base/functions/Anno_Widget_Recently.php:97
 #, php-format
 msgid "%1$s on %2$s"
 msgstr "%1$s(%2$s)"
 
-#: ../../code/Annotum/annotum-base/functions/appendix-repeater.php:43
+#: ../../code/Annotum/annotum-base/functions/appendix-repeater.php:55
 msgid "Are you sure you want to delete this?"
 msgstr "삭제하시겠습니까?"
 
-#: ../../code/Annotum/annotum-base/functions/appendix-repeater.php:51
+#: ../../code/Annotum/annotum-base/functions/appendix-repeater.php:63
 msgid "Add Another Appendix"
 msgstr "다른 부록 추가"
 
-#: ../../code/Annotum/annotum-base/functions/appendix-repeater.php:83
+#: ../../code/Annotum/annotum-base/functions/appendix-repeater.php:68
+#: ../../code/Annotum/annotum-base/functions/article-post-type.php:143
+#, php-format
+msgid "The Annotum editor requires at least WordPress 3.3. It appears you are using WordPress %s. "
+msgstr "Annotum 편집기를 사용하려면 WordPress 3.3 이상이 필요합니다. WordPress %s을(를) 사용하시는 것 같습니다. "
+
+#: ../../code/Annotum/annotum-base/functions/appendix-repeater.php:99
 msgid "Appendix"
 msgstr "부록"
 
-#: ../../code/Annotum/annotum-base/functions/appendix-repeater.php:83
+#: ../../code/Annotum/annotum-base/functions/appendix-repeater.php:99
 msgid "delete"
 msgstr "삭제"
 
-#: ../../code/Annotum/annotum-base/functions/article-post-type.php:17
+#: ../../code/Annotum/annotum-base/functions/article-post-type.php:27
 msgid "Add New Article"
 msgstr "새 글 추가"
 
-#: ../../code/Annotum/annotum-base/functions/article-post-type.php:18
+#: ../../code/Annotum/annotum-base/functions/article-post-type.php:28
 msgid "Edit Article"
 msgstr "글 수정"
 
-#: ../../code/Annotum/annotum-base/functions/article-post-type.php:19
+#: ../../code/Annotum/annotum-base/functions/article-post-type.php:29
 msgid "New Article"
 msgstr "새 글"
 
-#: ../../code/Annotum/annotum-base/functions/article-post-type.php:20
+#: ../../code/Annotum/annotum-base/functions/article-post-type.php:30
 msgid "View Article"
 msgstr "글 보기"
 
-#: ../../code/Annotum/annotum-base/functions/article-post-type.php:21
+#: ../../code/Annotum/annotum-base/functions/article-post-type.php:31
 msgid "Search Articles"
 msgstr "글 검색"
 
-#: ../../code/Annotum/annotum-base/functions/article-post-type.php:22
+#: ../../code/Annotum/annotum-base/functions/article-post-type.php:32
 msgid "No Articles found"
 msgstr "글 없음"
 
-#: ../../code/Annotum/annotum-base/functions/article-post-type.php:23
+#: ../../code/Annotum/annotum-base/functions/article-post-type.php:33
 msgid "No Articles found in Trash"
 msgstr "휴지통에 글 없음"
 
-#: ../../code/Annotum/annotum-base/functions/article-post-type.php:52
+#: ../../code/Annotum/annotum-base/functions/article-post-type.php:62
 msgid "Unable to perform that ability"
 msgstr "해당 기능을 실행할 수 없음"
 
-#: ../../code/Annotum/annotum-base/functions/article-post-type.php:70
+#: ../../code/Annotum/annotum-base/functions/article-post-type.php:80
 #, php-format
 msgid "Article updated. <a href=\"%s\">View article</a>"
 msgstr "글이 업데이트되었습니다. <a href=\"%s\">글 보기</a>"
 
-#: ../../code/Annotum/annotum-base/functions/article-post-type.php:71
+#: ../../code/Annotum/annotum-base/functions/article-post-type.php:81
 msgid "Custom field updated."
 msgstr "맞춤 입력란이 업데이트되었습니다."
 
-#: ../../code/Annotum/annotum-base/functions/article-post-type.php:72
+#: ../../code/Annotum/annotum-base/functions/article-post-type.php:82
 msgid "Custom field deleted."
 msgstr "맞춤 입력란이 삭제되었습니다."
 
-#: ../../code/Annotum/annotum-base/functions/article-post-type.php:73
+#: ../../code/Annotum/annotum-base/functions/article-post-type.php:83
 msgid "Article updated."
 msgstr "글이 업데이트되었습니다."
 
-#: ../../code/Annotum/annotum-base/functions/article-post-type.php:74
+#: ../../code/Annotum/annotum-base/functions/article-post-type.php:84
 #, php-format
 msgid "Article restored to revision from %s"
 msgstr "글이 %s의 버전으로 복원되었습니다."
 
-#: ../../code/Annotum/annotum-base/functions/article-post-type.php:75
+#: ../../code/Annotum/annotum-base/functions/article-post-type.php:85
 #, php-format
 msgid "Article published. <a href=\"%s\">View article</a>"
 msgstr "글이 게시되었습니다. <a href=\"%s\">글 보기</a>"
 
-#: ../../code/Annotum/annotum-base/functions/article-post-type.php:76
+#: ../../code/Annotum/annotum-base/functions/article-post-type.php:86
 msgid "Article saved."
 msgstr "글이 저장되었습니다."
 
-#: ../../code/Annotum/annotum-base/functions/article-post-type.php:77
+#: ../../code/Annotum/annotum-base/functions/article-post-type.php:87
 #, php-format
 msgid "Article submitted. <a target=\"_blank\" href=\"%s\">Preview article</a>"
 msgstr "글이 제출되었습니다. <a target=\"_blank\" href=\"%s\">글 미리보기</a>"
 
-#: ../../code/Annotum/annotum-base/functions/article-post-type.php:78
+#: ../../code/Annotum/annotum-base/functions/article-post-type.php:88
 #, php-format
 msgid "Article scheduled for: <strong>%1$s</strong>. <a target=\"_blank\" href=\"%2$s\">Preview article</a>"
 msgstr "<strong>%1$s</strong>에 예정된 글입니다. <a target=\"_blank\" href=\"%2$s\">글 미리보기</a>"
 
-#: ../../code/Annotum/annotum-base/functions/article-post-type.php:78
+#: ../../code/Annotum/annotum-base/functions/article-post-type.php:88
 msgid "M j, Y @ G:i"
 msgstr "M j, Y @ G:i"
 
-#: ../../code/Annotum/annotum-base/functions/article-post-type.php:79
+#: ../../code/Annotum/annotum-base/functions/article-post-type.php:89
 #, php-format
 msgid "Article draft updated. <a target=\"_blank\" href=\"%s\">Preview article</a>"
 msgstr "글 초안이 업데이트되었습니다. <a target=\"_blank\" href=\"%s\">글 미리보기</a>"
 
-#: ../../code/Annotum/annotum-base/functions/article-post-type.php:80
+#: ../../code/Annotum/annotum-base/functions/article-post-type.php:90
 msgid "Article successfully cloned."
 msgstr "글이 복제되었습니다."
 
-#: ../../code/Annotum/annotum-base/functions/article-post-type.php:81
+#: ../../code/Annotum/annotum-base/functions/article-post-type.php:91
 msgid "Unable to clone article."
 msgstr "글을 복제할 수 없습니다."
 
-#: ../../code/Annotum/annotum-base/functions/article-post-type.php:92
+#: ../../code/Annotum/annotum-base/functions/article-post-type.php:102
 msgid "Subtitle"
 msgstr "부제목"
 
-#: ../../code/Annotum/annotum-base/functions/article-post-type.php:93
+#: ../../code/Annotum/annotum-base/functions/article-post-type.php:103
 msgid "Body"
 msgstr "본문"
 
-#: ../../code/Annotum/annotum-base/functions/article-post-type.php:98
+#: ../../code/Annotum/annotum-base/functions/article-post-type.php:108
 msgid "Appendices"
 msgstr "부록"
 
-#: ../../code/Annotum/annotum-base/functions/article-post-type.php:99
+#: ../../code/Annotum/annotum-base/functions/article-post-type.php:109
 msgid "Featured"
 msgstr "추천"
 
-#: ../../code/Annotum/annotum-base/functions/article-post-type.php:102
+#: ../../code/Annotum/annotum-base/functions/article-post-type.php:112
 msgid "Convert To Post"
 msgstr "게시물로 변환"
 
-#: ../../code/Annotum/annotum-base/functions/article-post-type.php:103
-msgid "DOI Deposit"
-msgstr "DOI 등록"
+#: ../../code/Annotum/annotum-base/functions/article-post-type.php:201
+msgid "Appear in the home page carousel"
+msgstr "홈페이지 캐러셀에 표시"
 
-#: ../../code/Annotum/annotum-base/functions/article-post-type.php:189
-msgid "Feature this article to appear in the home page carousel"
-msgstr "이 글을 홈페이지 캐러셀에 표시"
-
-#: ../../code/Annotum/annotum-base/functions/article-post-type.php:341
+#: ../../code/Annotum/annotum-base/functions/article-post-type.php:374
 msgid "Clicking the button below will convert the current <strong>Article</strong> to a <strong>Post</strong>. This will also convert any terms in article taxonomies to post taxonomies. You will not be able to revert this Article back once it has been converted to a Post."
 msgstr "아래 버튼을 클릭하면 현재 <strong>글</strong>이 <strong>게시물</strong>로 변환됩니다. 또한 이렇게 하면 글 분류 체계에 포함된 모든 용어가 게시물 분류 체계로 변환됩니다. 게시물로 변환된 후에는 글을 되돌릴 수 없습니다."
 
-#: ../../code/Annotum/annotum-base/functions/article-post-type.php:361
-#: ../../code/Annotum/annotum-base/functions/tinymce.php:430
+#: ../../code/Annotum/annotum-base/functions/article-post-type.php:394
+#: ../../code/Annotum/annotum-base/functions/tinymce.php:454
 msgid "CrossRef Credentials Required"
 msgstr "상호 참조 자격 정보 필요"
 
-#: ../../code/Annotum/annotum-base/functions/article-post-type.php:372
+#: ../../code/Annotum/annotum-base/functions/article-post-type.php:407
 msgid "Deposit"
 msgstr "등록"
 
-#: ../../code/Annotum/annotum-base/functions/profile.php:8
+#: ../../code/Annotum/annotum-base/functions/profile.php:18
 msgid "Name Prefix"
 msgstr "이름 접두어"
 
-#: ../../code/Annotum/annotum-base/functions/profile.php:9
+#: ../../code/Annotum/annotum-base/functions/profile.php:19
 msgid "Name Suffix"
 msgstr "이름 접미어"
 
-#: ../../code/Annotum/annotum-base/functions/profile.php:10
+#: ../../code/Annotum/annotum-base/functions/profile.php:20
 msgid "Degrees"
 msgstr "학위"
 
-#: ../../code/Annotum/annotum-base/functions/profile.php:11
+#: ../../code/Annotum/annotum-base/functions/profile.php:21
 msgid "Affiliation"
 msgstr "소속"
 
-#: ../../code/Annotum/annotum-base/functions/profile.php:19
-#: ../../code/Annotum/annotum-base/functions/profile.php:20
-#: ../../code/Annotum/annotum-base/functions/profile.php:36
+#: ../../code/Annotum/annotum-base/functions/profile.php:29
+#: ../../code/Annotum/annotum-base/functions/profile.php:30
+#: ../../code/Annotum/annotum-base/functions/profile.php:46
 msgid "Annotum Profile"
 msgstr "Annotum 프로필"
 
-#: ../../code/Annotum/annotum-base/functions/profile.php:38
+#: ../../code/Annotum/annotum-base/functions/profile.php:48
 msgid "Profile Updated"
 msgstr "프로필 업데이트"
 
-#: ../../code/Annotum/annotum-base/functions/profile.php:44
+#: ../../code/Annotum/annotum-base/functions/profile.php:54
 msgid "First Name"
 msgstr "이름"
 
-#: ../../code/Annotum/annotum-base/functions/profile.php:45
-#: ../../code/Annotum/annotum-base/functions/profile.php:50
+#: ../../code/Annotum/annotum-base/functions/profile.php:55
+#: ../../code/Annotum/annotum-base/functions/profile.php:60
 msgid "Change"
 msgstr "변경"
 
-#: ../../code/Annotum/annotum-base/functions/profile.php:49
+#: ../../code/Annotum/annotum-base/functions/profile.php:59
 msgid "Last Name"
 msgstr "성"
 
-#: ../../code/Annotum/annotum-base/functions/profile.php:71
+#: ../../code/Annotum/annotum-base/functions/profile.php:81
 msgid "Update Profile"
 msgstr "프로필 업데이트"
 
-#: ../../code/Annotum/annotum-base/functions/taxonomies.php:9
-#: ../../code/Annotum/annotum-base/functions/taxonomies.php:10
-#: ../../code/Annotum/annotum-base/functions/taxonomies.php:70
+#: ../../code/Annotum/annotum-base/functions/taxonomies.php:19
+#: ../../code/Annotum/annotum-base/functions/taxonomies.php:20
+#: ../../code/Annotum/annotum-base/functions/taxonomies.php:80
 msgid "Article Category"
 msgstr "글 카테고리"
 
-#: ../../code/Annotum/annotum-base/functions/taxonomies.php:11
+#: ../../code/Annotum/annotum-base/functions/taxonomies.php:21
 msgid "Search Article Categories"
 msgstr "글 카테고리 검색"
 
-#: ../../code/Annotum/annotum-base/functions/taxonomies.php:12
+#: ../../code/Annotum/annotum-base/functions/taxonomies.php:22
 msgid "Popular Article Categories"
 msgstr "인기 글 카테고리"
 
-#: ../../code/Annotum/annotum-base/functions/taxonomies.php:13
+#: ../../code/Annotum/annotum-base/functions/taxonomies.php:23
 msgid "All Article Categories"
 msgstr "전체 글 카테고리"
 
-#: ../../code/Annotum/annotum-base/functions/taxonomies.php:14
+#: ../../code/Annotum/annotum-base/functions/taxonomies.php:24
 msgid "Edit Article Category"
 msgstr "글 카테고리 수정"
 
-#: ../../code/Annotum/annotum-base/functions/taxonomies.php:15
+#: ../../code/Annotum/annotum-base/functions/taxonomies.php:25
 msgid "Update Article Category"
 msgstr "글 카테고리 업데이트"
 
-#: ../../code/Annotum/annotum-base/functions/taxonomies.php:16
+#: ../../code/Annotum/annotum-base/functions/taxonomies.php:26
 msgid "Add New Article Category"
 msgstr "새 글 카테고리 추가"
 
-#: ../../code/Annotum/annotum-base/functions/taxonomies.php:17
+#: ../../code/Annotum/annotum-base/functions/taxonomies.php:27
 msgid "New Article Category Name"
 msgstr "새 글 카테고리 이름"
 
-#: ../../code/Annotum/annotum-base/functions/taxonomies.php:18
+#: ../../code/Annotum/annotum-base/functions/taxonomies.php:28
 msgid "Add or Remove Article Categories"
 msgstr "글 카테고리 추가 또는 삭제"
 
-#: ../../code/Annotum/annotum-base/functions/taxonomies.php:19
+#: ../../code/Annotum/annotum-base/functions/taxonomies.php:29
 msgid "Choose from the most used article categories"
 msgstr "가장 많이 사용한 글 카테고리에서 선택"
 
-#: ../../code/Annotum/annotum-base/functions/taxonomies.php:20
+#: ../../code/Annotum/annotum-base/functions/taxonomies.php:30
 msgid "Article Categories"
 msgstr "글 카테고리"
 
-#: ../../code/Annotum/annotum-base/functions/taxonomies.php:33
-#: ../../code/Annotum/annotum-base/functions/taxonomies.php:34
+#: ../../code/Annotum/annotum-base/functions/taxonomies.php:43
+#: ../../code/Annotum/annotum-base/functions/taxonomies.php:44
 msgid "Article Tag"
 msgstr "글 태그"
 
-#: ../../code/Annotum/annotum-base/functions/taxonomies.php:35
+#: ../../code/Annotum/annotum-base/functions/taxonomies.php:45
 msgid "Search Article Tags"
 msgstr "글 태그 검색"
 
-#: ../../code/Annotum/annotum-base/functions/taxonomies.php:36
+#: ../../code/Annotum/annotum-base/functions/taxonomies.php:46
 msgid "Popular Article Tags"
 msgstr "인기 글 태그"
 
-#: ../../code/Annotum/annotum-base/functions/taxonomies.php:37
+#: ../../code/Annotum/annotum-base/functions/taxonomies.php:47
 msgid "All Article Tags"
 msgstr "전체 글 태그"
 
-#: ../../code/Annotum/annotum-base/functions/taxonomies.php:38
+#: ../../code/Annotum/annotum-base/functions/taxonomies.php:48
 msgid "Edit Article Tag"
 msgstr "글 태그 수정"
 
-#: ../../code/Annotum/annotum-base/functions/taxonomies.php:39
+#: ../../code/Annotum/annotum-base/functions/taxonomies.php:49
 msgid "Update Article Tag"
 msgstr "글 태그 업데이트"
 
-#: ../../code/Annotum/annotum-base/functions/taxonomies.php:40
+#: ../../code/Annotum/annotum-base/functions/taxonomies.php:50
 msgid "Add New Article Tag"
 msgstr "새 글 태그 추가"
 
-#: ../../code/Annotum/annotum-base/functions/taxonomies.php:41
+#: ../../code/Annotum/annotum-base/functions/taxonomies.php:51
 msgid "New Article Tag Name"
 msgstr "새 글 태그 이름"
 
-#: ../../code/Annotum/annotum-base/functions/taxonomies.php:42
+#: ../../code/Annotum/annotum-base/functions/taxonomies.php:52
 msgid "Add or Remove Article Tags"
 msgstr "글 태그 추가 또는 삭제"
 
-#: ../../code/Annotum/annotum-base/functions/taxonomies.php:43
+#: ../../code/Annotum/annotum-base/functions/taxonomies.php:53
 msgid "Choose from the most used article tags"
 msgstr "가장 많이 사용한 글 태그에서 선택"
 
-#: ../../code/Annotum/annotum-base/functions/taxonomies.php:44
+#: ../../code/Annotum/annotum-base/functions/taxonomies.php:54
 msgid "Article Tags"
 msgstr "글 태그"
 
-#: ../../code/Annotum/annotum-base/functions/template.php:198
+#: ../../code/Annotum/annotum-base/functions/template.php:271
 msgid "Website:"
 msgstr "웹사이트:"
 
-#: ../../code/Annotum/annotum-base/functions/template.php:255
+#: ../../code/Annotum/annotum-base/functions/template.php:277
+msgid "Affiliation:"
+msgstr "소속:"
+
+#: ../../code/Annotum/annotum-base/functions/template.php:329
 #, php-format
 msgid "%1$s: %2$s"
 msgstr "%1$s: %2$s"
 
-#: ../../code/Annotum/annotum-base/functions/template.php:265
+#: ../../code/Annotum/annotum-base/functions/template.php:364
 #, php-format
 msgid "%1$s %2$s"
 msgstr "%1$s %2$s"
 
-#: ../../code/Annotum/annotum-base/functions/template.php:282
+#: ../../code/Annotum/annotum-base/functions/template.php:382
 #, php-format
 msgid "%1$s. %2$s [Internet]. Version %3$s. %4$s. %5$s. Available from: %6$s."
-msgstr "%1$s. %2$s [인터넷]. 버전 %3$s. %4$s. %5$s. 제공 위치: %6$s."
+msgstr "%1$s. %2$s [인터넷]. 버전 %3$s. %4$s. %5$s. 제공 위치: %6$s"
 
-#: ../../code/Annotum/annotum-base/functions/template.php:343
+#: ../../code/Annotum/annotum-base/functions/template.php:443
 msgid "Reference Link"
 msgstr "참조 링크"
 
-#: ../../code/Annotum/annotum-base/functions/template.php:362
+#: ../../code/Annotum/annotum-base/functions/template.php:462
 msgid "Tweet"
 msgstr "트윗"
 
-#: ../../code/Annotum/annotum-base/functions/template.php:389
+#: ../../code/Annotum/annotum-base/functions/template.php:489
 msgid "Email"
 msgstr "이메일"
 
-#: ../../code/Annotum/annotum-base/functions/tinymce-uploader.php:61
-#, php-format
-msgid "Sorry, you have filled your storage quota (%s MB)."
-msgstr "저장용량(%sMB)을 모두 사용했습니다."
-
-#: ../../code/Annotum/annotum-base/functions/tinymce-uploader.php:103
-msgid "Select Files"
-msgstr "파일 선택"
-
-#: ../../code/Annotum/annotum-base/functions/tinymce-uploader.php:145
-msgid "Choose files to upload"
-msgstr "업로드할 파일 선택"
-
-#: ../../code/Annotum/annotum-base/functions/tinymce-uploader.php:156
-#: ../../code/Annotum/annotum-base/functions/tinymce-uploader.php:158
-msgid "Upload"
-msgstr "업로드"
-
-#: ../../code/Annotum/annotum-base/functions/tinymce-uploader.php:162
-msgid "If you want to use all capabilities of the uploader, like uploading multiple files at once, please update to lighttpd 1.5."
-msgstr "한번에 여러 파일을 업로드하는 기능 등 업로더의 모든 기능을 사용하려면 lighttpd 1.5로 업데이트하세요."
-
-#: ../../code/Annotum/annotum-base/functions/tinymce-uploader.php:276
-msgid "You do not have permission to upload files."
-msgstr "파일을 업로드할 권한이 없습니다."
-
-#: ../../code/Annotum/annotum-base/functions/tinymce-uploader.php:282
-msgid "Unknown post type."
-msgstr "알 수 없는 게시물 유형입니다."
-
-#: ../../code/Annotum/annotum-base/functions/tinymce-uploader.php:285
-msgid "You are not allowed to edit this item."
-msgstr "이 항목을 수정할 권한이 없습니다."
-
-#: ../../code/Annotum/annotum-base/functions/tinymce-uploader.php:297
-msgid "Dismiss"
-msgstr "취소"
-
-#: ../../code/Annotum/annotum-base/functions/tinymce-uploader.php:298
-#, php-format
-msgid "&#8220;%s&#8221; has failed to upload due to an error"
-msgstr "오류로 인해 &#8220;%s&#8221;을(를) 업로드하지 못했습니다."
-
-#: ../../code/Annotum/annotum-base/functions/tinymce.php:325
-#: ../../code/Annotum/annotum-base/functions/tinymce.php:459
+#: ../../code/Annotum/annotum-base/functions/tinymce.php:339
+#: ../../code/Annotum/annotum-base/functions/tinymce.php:478
 msgid "URL"
 msgstr "URL"
 
-#: ../../code/Annotum/annotum-base/functions/tinymce.php:329
+#: ../../code/Annotum/annotum-base/functions/tinymce.php:343
 msgid "Title"
 msgstr "제목"
 
-#: ../../code/Annotum/annotum-base/functions/tinymce.php:333
+#: ../../code/Annotum/annotum-base/functions/tinymce.php:347
+#: ../../code/Annotum/annotum-base/functions/tinymce.php:627
 msgid "Alt Text"
 msgstr "대체 텍스트"
 
-#: ../../code/Annotum/annotum-base/functions/tinymce.php:356
+#: ../../code/Annotum/annotum-base/functions/tinymce.php:369
+#: ../../code/Annotum/annotum-base/functions/tinymce.php:647
 msgid "Label"
 msgstr "라벨"
 
-#: ../../code/Annotum/annotum-base/functions/tinymce.php:360
+#: ../../code/Annotum/annotum-base/functions/tinymce.php:373
+#: ../../code/Annotum/annotum-base/functions/tinymce.php:651
 msgid "Caption"
 msgstr "캡션"
 
-#: ../../code/Annotum/annotum-base/functions/tinymce.php:364
+#: ../../code/Annotum/annotum-base/functions/tinymce.php:377
 msgid "Table Properties"
 msgstr "표 속성"
 
-#: ../../code/Annotum/annotum-base/functions/tinymce.php:366
+#: ../../code/Annotum/annotum-base/functions/tinymce.php:379
 msgid "Columns"
 msgstr "열"
 
-#: ../../code/Annotum/annotum-base/functions/tinymce.php:370
+#: ../../code/Annotum/annotum-base/functions/tinymce.php:383
 msgid "Rows"
 msgstr "행"
 
-#: ../../code/Annotum/annotum-base/functions/tinymce.php:377
-#: ../../code/Annotum/annotum-base/functions/tinymce.php:590
-#: ../../code/Annotum/annotum-base/functions/tinymce.php:611
+#: ../../code/Annotum/annotum-base/functions/tinymce.php:390
+#: ../../code/Annotum/annotum-base/functions/tinymce.php:609
+#: ../../code/Annotum/annotum-base/functions/tinymce.php:658
 msgid "Insert"
 msgstr "삽입"
 
-#: ../../code/Annotum/annotum-base/functions/tinymce.php:401
+#: ../../code/Annotum/annotum-base/functions/tinymce.php:417
 msgid "Edit"
 msgstr "수정"
 
-#: ../../code/Annotum/annotum-base/functions/tinymce.php:402
+#: ../../code/Annotum/annotum-base/functions/tinymce.php:418
 msgid "Delete"
 msgstr "삭제"
 
-#: ../../code/Annotum/annotum-base/functions/tinymce.php:432
+#: ../../code/Annotum/annotum-base/functions/tinymce.php:424
+msgid "Show"
+msgstr "표시"
+
+#: ../../code/Annotum/annotum-base/functions/tinymce.php:456
 msgid "CrossRef DOI"
 msgstr "상호 참조 DOI"
 
-#: ../../code/Annotum/annotum-base/functions/tinymce.php:434
-#: ../../code/Annotum/annotum-base/functions/tinymce.php:441
+#: ../../code/Annotum/annotum-base/functions/tinymce.php:459
+#: ../../code/Annotum/annotum-base/functions/tinymce.php:468
 msgid "Import"
-msgstr "가져오기"
+msgstr "현재 사용자로"
 
-#: ../../code/Annotum/annotum-base/functions/tinymce.php:439
+#: ../../code/Annotum/annotum-base/functions/tinymce.php:465
 msgid "PubMed ID (PMID)"
 msgstr "PubMed ID(PMID)"
 
-#: ../../code/Annotum/annotum-base/functions/tinymce.php:446
-msgid "Figures"
-msgstr "그림"
-
-#: ../../code/Annotum/annotum-base/functions/tinymce.php:448
-msgid "Select Figure"
-msgstr "그림 선택"
-
-#: ../../code/Annotum/annotum-base/functions/tinymce.php:455
-#: ../../code/Annotum/annotum-base/functions/tinymce.php:565
+#: ../../code/Annotum/annotum-base/functions/tinymce.php:474
+#: ../../code/Annotum/annotum-base/functions/tinymce.php:584
 msgid "Text"
 msgstr "텍스트"
 
-#: ../../code/Annotum/annotum-base/functions/tinymce.php:542
+#: ../../code/Annotum/annotum-base/functions/tinymce.php:561
 msgid "New Reference"
 msgstr "새 참조"
 
-#: ../../code/Annotum/annotum-base/functions/tinymce.php:549
+#: ../../code/Annotum/annotum-base/functions/tinymce.php:569
 msgid "Insert Reference(s)"
 msgstr "참조 삽입"
 
-#: ../../code/Annotum/annotum-base/functions/tinymce.php:569
+#: ../../code/Annotum/annotum-base/functions/tinymce.php:588
 msgid "Attribution"
 msgstr "저작자표시"
 
-#: ../../code/Annotum/annotum-base/functions/tinymce.php:573
+#: ../../code/Annotum/annotum-base/functions/tinymce.php:592
 msgid "Permissions"
 msgstr "권한"
 
-#: ../../code/Annotum/annotum-base/functions/tinymce.php:575
+#: ../../code/Annotum/annotum-base/functions/tinymce.php:594
 msgid "Copyright Statement"
 msgstr "저작권 진술문"
 
-#: ../../code/Annotum/annotum-base/functions/tinymce.php:579
+#: ../../code/Annotum/annotum-base/functions/tinymce.php:598
 msgid "Copyright Holder"
 msgstr "저작권 보유자"
 
-#: ../../code/Annotum/annotum-base/functions/tinymce.php:583
+#: ../../code/Annotum/annotum-base/functions/tinymce.php:602
 msgid "License"
-msgstr "라이센스"
+msgstr "라이선스"
 
 #: ../../code/Annotum/annotum-base/functions/tinymce.php:631
+msgid "Description"
+msgstr "설명"
+
+#: ../../code/Annotum/annotum-base/functions/tinymce.php:636
+msgid "Display"
+msgstr "표시"
+
+#: ../../code/Annotum/annotum-base/functions/tinymce.php:639
+msgid "Display as Figure"
+msgstr "그림으로 표시"
+
+#: ../../code/Annotum/annotum-base/functions/tinymce.php:643
+msgid "Display Inline"
+msgstr "인라인 표시"
+
+#: ../../code/Annotum/annotum-base/functions/tinymce.php:678
 msgid "Use Ctrl+Enter"
 msgstr "Ctrl+Enter 사용"
 
-#: ../../code/Annotum/annotum-base/functions/tinymce.php:632
+#: ../../code/Annotum/annotum-base/functions/tinymce.php:679
 msgid "To insert new sections (when within a section) or add new paragraphs when inside elements like a table, or figure caption."
 msgstr "새로운 섹션(한 섹션 내에)을 삽입하거나 새 문단(표와 같은 요소 안에) 또는 그림 캡션을 추가할 수 있습니다."
 
-#: ../../code/Annotum/annotum-base/functions/tinymce.php:692
+#: ../../code/Annotum/annotum-base/functions/tinymce.php:741
 msgid "Could not evaluate Article ID please try again."
 msgstr "글 ID를 확인할 수 없습니다. 다시 시도해 주세요."
 
-#: ../../code/Annotum/annotum-base/functions/tinymce.php:696
+#: ../../code/Annotum/annotum-base/functions/tinymce.php:745
 msgid "Text cannot be blank."
 msgstr "텍스트는 비워둘 수 없습니다."
 
-#: ../../code/Annotum/annotum-base/functions/tinymce.php:700
+#: ../../code/Annotum/annotum-base/functions/tinymce.php:749
 msgid "Could not evaluate Reference ID please try again."
 msgstr "참조 ID를 확인할 수 없습니다. 다시 시도해 주세요."
 
-#: ../../code/Annotum/annotum-base/functions/tinymce.php:708
+#: ../../code/Annotum/annotum-base/functions/tinymce.php:757
 msgid "Could not save reference, please try again."
 msgstr "참조를 저장할 수 없습니다. 다시 시도해 주세요."
 
-#: ../../code/Annotum/annotum-base/functions/tinymce.php:718
+#: ../../code/Annotum/annotum-base/functions/tinymce.php:767
 msgid "Reference Saved."
 msgstr "참조가 저장되었습니다."
 
-#: ../../code/Annotum/annotum-base/functions/tinymce.php:1339
+#: ../../code/Annotum/annotum-base/functions/tinymce.php:1417
 #, php-format
 msgid "Fig. %d"
-msgstr "그림 %d"
+msgstr "그림. %d"
 
-#: ../../code/Annotum/annotum-base/functions/tinymce.php:1723
+#: ../../code/Annotum/annotum-base/functions/tinymce.php:1829
 #, php-format
 msgid "%1$s, %2$s."
 msgstr "%1$s, %2$s."
 
-#: ../../code/Annotum/annotum-base/functions/tinymce.php:1730
+#: ../../code/Annotum/annotum-base/functions/tinymce.php:1836
 #, php-format
 msgid "%1$s."
 msgstr "%1$s."
 
-#: ../../code/Annotum/annotum-base/functions/tinymce.php:1736
+#: ../../code/Annotum/annotum-base/functions/tinymce.php:1842
 #, php-format
 msgid "Copyright, %1$s."
 msgstr "저작권, %1$s."
 
-#: ../../code/Annotum/annotum-base/functions/widgets.php:10
+#: ../../code/Annotum/annotum-base/functions/widgets.php:15
 msgid "A sidebar advertisement"
 msgstr "메뉴 광고"
 
-#: ../../code/Annotum/annotum-base/functions/widgets.php:12
+#: ../../code/Annotum/annotum-base/functions/widgets.php:17
 msgid "Advertisement"
 msgstr "광고"
 
-#: ../../code/Annotum/annotum-base/functions/tinymce-upload/image-popup.php:134
-msgid "Description"
-msgstr "설명"
-
-#: ../../code/Annotum/annotum-base/functions/tinymce-upload/image-popup.php:139
-msgid "Display"
-msgstr "표시"
-
-#: ../../code/Annotum/annotum-base/functions/tinymce-upload/image-popup.php:142
-msgid "Display as Figure"
-msgstr "그림으로 표시"
-
-#: ../../code/Annotum/annotum-base/functions/tinymce-upload/image-popup.php:146
-msgid "Display Inline"
-msgstr "인라인 표시"
-
-#: ../../code/Annotum/annotum-base/functions/tinymce-upload/image-popup.php:175
+#: ../../code/Annotum/annotum-base/functions/tinymce-upload/image-popup.php:204
 msgid "Size"
 msgstr "크기"
 
-#: ../../code/Annotum/annotum-base/functions/tinymce-upload/image-popup.php:178
+#: ../../code/Annotum/annotum-base/functions/tinymce-upload/image-popup.php:207
 msgid "Thumbnail"
 msgstr "미리보기 이미지"
 
-#: ../../code/Annotum/annotum-base/functions/tinymce-upload/image-popup.php:179
+#: ../../code/Annotum/annotum-base/functions/tinymce-upload/image-popup.php:208
 msgid "Medium"
 msgstr "보통"
 
-#: ../../code/Annotum/annotum-base/functions/tinymce-upload/image-popup.php:180
+#: ../../code/Annotum/annotum-base/functions/tinymce-upload/image-popup.php:209
 msgid "Large"
 msgstr "크게"
 
-#: ../../code/Annotum/annotum-base/functions/tinymce-upload/image-popup.php:181
+#: ../../code/Annotum/annotum-base/functions/tinymce-upload/image-popup.php:242
 msgid "Full"
 msgstr "전체"
 
-#: ../../code/Annotum/annotum-base/functions/tinymce-upload/image-popup.php:226
+#: ../../code/Annotum/annotum-base/functions/tinymce-upload/image-popup.php:275
 msgid "Show "
-msgstr "표시"
+msgstr "표시 "
+
+#: ../../code/Annotum/annotum-base/functions/tinymce-upload/tinymce-uploader.php:25
+msgid "You do not have proper permissions to upload a new image"
+msgstr "새 이미지를 업로드할 수 있는 권한이 없음"
+
+#: ../../code/Annotum/annotum-base/functions/tinymce-upload/tinymce-uploader.php:76
+#, php-format
+msgid "Sorry, you have filled your storage quota (%s MB)."
+msgstr "저장용량(%sMB)을 모두 사용했습니다."
+
+#: ../../code/Annotum/annotum-base/functions/tinymce-upload/tinymce-uploader.php:118
+msgid "Select Files"
+msgstr "파일 선택"
+
+#: ../../code/Annotum/annotum-base/functions/tinymce-upload/tinymce-uploader.php:158
+msgid "Choose files to upload"
+msgstr "업로드할 파일 선택"
+
+#: ../../code/Annotum/annotum-base/functions/tinymce-upload/tinymce-uploader.php:160
+msgid "Cancel Upload"
+msgstr "업로드 취소"
+
+#: ../../code/Annotum/annotum-base/functions/tinymce-upload/tinymce-uploader.php:169
+#: ../../code/Annotum/annotum-base/functions/tinymce-upload/tinymce-uploader.php:171
+msgid "Upload"
+msgstr "업로드"
+
+#: ../../code/Annotum/annotum-base/functions/tinymce-upload/tinymce-uploader.php:175
+msgid "If you want to use all capabilities of the uploader, like uploading multiple files at once, please update to lighttpd 1.5."
+msgstr "한번에 여러 파일을 업로드하는 기능 등 업로더의 모든 기능을 사용하려면 lighttpd 1.5로 업데이트하세요."
+
+#: ../../code/Annotum/annotum-base/functions/tinymce-upload/tinymce-uploader.php:288
+msgid "You do not have permission to upload files."
+msgstr "파일을 업로드할 권한이 없습니다."
+
+#: ../../code/Annotum/annotum-base/functions/tinymce-upload/tinymce-uploader.php:294
+msgid "Unknown post type."
+msgstr "알 수 없는 게시물 유형입니다."
+
+#: ../../code/Annotum/annotum-base/functions/tinymce-upload/tinymce-uploader.php:297
+msgid "You are not allowed to edit this item."
+msgstr "이 항목을 수정할 권한이 없습니다."
+
+#: ../../code/Annotum/annotum-base/functions/tinymce-upload/tinymce-uploader.php:309
+msgid "Dismiss"
+msgstr "취소"
+
+#: ../../code/Annotum/annotum-base/functions/tinymce-upload/tinymce-uploader.php:310
+#, php-format
+msgid "&#8220;%s&#8221; has failed to upload due to an error"
+msgstr "오류로 인해 &#8220;%s&#8221;을(를) 업로드하지 못했습니다."
 
 #: ../../code/Annotum/annotum-base/misc/nav-posts.php:14
 msgid "&laquo; Newer"
@@ -1014,1000 +1051,48 @@ msgstr "다음 &raquo;"
 msgid "Sorry, we couldn't find any results that matched your request."
 msgstr "요청과 일치하는 결과를 찾을 수 없습니다."
 
-#: ../../code/Annotum/annotum-base/misc/tools-bar.php:7
+#: ../../code/Annotum/annotum-base/misc/tools-bar.php:18
 msgid "PDF"
 msgstr "PDF"
 
-#: ../../code/Annotum/annotum-base/misc/tools-bar.php:16
+#: ../../code/Annotum/annotum-base/misc/tools-bar.php:27
 msgid "XML"
 msgstr "XML"
 
-#: ../../code/Annotum/annotum-base/misc/tools-bar.php:23
+#: ../../code/Annotum/annotum-base/misc/tools-bar.php:34
 msgid "Print Article"
 msgstr "글 인쇄"
 
-#: ../../code/Annotum/annotum-base/misc/tools-bar.php:26
+#: ../../code/Annotum/annotum-base/misc/tools-bar.php:37
 msgid "Citation"
 msgstr "인용"
 
-#: ../../code/Annotum/annotum-base/plugins/anno-article-lookup.php:20
-#: ../../code/Annotum/annotum-base/plugins/anno-article-lookup.php:140
-#: ../../code/Annotum/annotum-base/plugins/anno-article-lookup.php:289
+#: ../../code/Annotum/annotum-base/plugins/anno-article-lookup.php:30
+#: ../../code/Annotum/annotum-base/plugins/anno-article-lookup.php:150
+#: ../../code/Annotum/annotum-base/plugins/anno-article-lookup.php:299
 msgid "An error has occurred, please try again later"
 msgstr "오류가 발생했습니다. 나중에 다시 시도해 주세요."
 
-#: ../../code/Annotum/annotum-base/plugins/anno-article-lookup.php:26
+#: ../../code/Annotum/annotum-base/plugins/anno-article-lookup.php:36
 msgid "Invalid PMID"
 msgstr "잘못된 PMID"
 
-#: ../../code/Annotum/annotum-base/plugins/anno-article-lookup.php:108
+#: ../../code/Annotum/annotum-base/plugins/anno-article-lookup.php:118
 msgid "PubMed PMID:"
 msgstr "PubMed PMID:"
 
-#: ../../code/Annotum/annotum-base/plugins/anno-article-lookup.php:146
-#: ../../code/Annotum/annotum-base/plugins/anno-article-lookup.php:188
+#: ../../code/Annotum/annotum-base/plugins/anno-article-lookup.php:156
+#: ../../code/Annotum/annotum-base/plugins/anno-article-lookup.php:198
 msgid "Invalid DOI"
 msgstr "잘못된 DOI"
 
-#: ../../code/Annotum/annotum-base/plugins/anno-article-lookup.php:155
+#: ../../code/Annotum/annotum-base/plugins/anno-article-lookup.php:165
 msgid "Invalid CrossRef Login"
 msgstr "잘못된 상호 참조 로그인"
 
-#: ../../code/Annotum/annotum-base/plugins/anno-article-lookup.php:263
+#: ../../code/Annotum/annotum-base/plugins/anno-article-lookup.php:273
 msgid "DOI:"
 msgstr "DOI:"
-
-#: ../../code/Annotum/annotum-base/plugins/anno-colors/anno-colors.php:148
-msgid "edit"
-msgstr "수정"
-
-#: ../../code/Annotum/annotum-base/plugins/anno-colors/anno-colors.php:156
-msgid "Based on"
-msgstr "기준:"
-
-#: ../../code/Annotum/annotum-base/plugins/anno-colors/anno-colors.php:156
-msgid "by"
-msgstr "작성자:"
-
-#: ../../code/Annotum/annotum-base/plugins/anno-colors/anno-colors.php:177
-#: ../../code/Annotum/annotum-base/plugins/anno-colors/anno-colors.php:232
-msgid "Color Settings"
-msgstr "색상 설정"
-
-#: ../../code/Annotum/annotum-base/plugins/anno-colors/anno-colors.php:178
-#: ../../code/Annotum/annotum-base/plugins/anno-colors/anno-colors.php:191
-msgid "Colors"
-msgstr "색상"
-
-#: ../../code/Annotum/annotum-base/plugins/anno-colors/anno-colors.php:226
-msgid "Settings updated."
-msgstr "설정이 업데이트되었습니다."
-
-#: ../../code/Annotum/annotum-base/plugins/anno-colors/anno-colors.php:235
-msgid "My Colors"
-msgstr "내 색상"
-
-#: ../../code/Annotum/annotum-base/plugins/anno-colors/anno-colors.php:251
-msgid "Save Settings"
-msgstr "설정 저장"
-
-#: ../../code/Annotum/annotum-base/plugins/anno-pdf-download/anno-pdf-download.php:345
-msgid "There was an issue creating the PDF for your article, please try again later"
-msgstr "글을 PDF 파일로 만드는 중에 문제가 발생했습니다. 나중에 다시 시도해 주세요."
-
-#: ../../code/Annotum/annotum-base/plugins/annotum-importers/dtd-importer.php:6
-msgid "XML Import"
-msgstr "XML 가져오기"
-
-#: ../../code/Annotum/annotum-base/plugins/annotum-importers/dtd-importer.php:38
-#: ../../code/Annotum/annotum-base/plugins/annotum-importers/dtd-importer.php:47
-msgid "Sorry, there has been an error."
-msgstr "오류가 발생했습니다."
-
-#: ../../code/Annotum/annotum-base/plugins/annotum-importers/dtd-importer.php:39
-msgid "The file does not exist, please try again."
-msgstr "파일이 존재하지 않습니다. 다시 시도해 주세요."
-
-#: ../../code/Annotum/annotum-base/plugins/annotum-importers/dtd-importer.php:124
-msgid "Kipling DTD XML Import"
-msgstr "Kipling DTD XML 가져오기"
-
-#: ../../code/Annotum/annotum-base/plugins/annotum-importers/dtd-importer.php:138
-msgid "Howdy! Upload your Kipling DTD XML file and we&#8217;ll import the articles, keywords, subjects, and users into this site."
-msgstr "안녕하세요. Kipling DTD XML 파일을 업로드하시면 Google에서 글, 키워드, 주제 및 사용자를 이 사이트로 가져옵니다."
-
-#: ../../code/Annotum/annotum-base/plugins/annotum-importers/dtd-importer.php:139
-msgid "Choose a Kipling DTD XML (.xml) file to upload, then click Upload file and import."
-msgstr "업로드할 Kipling DTD XML(.xml) 파일을 선택한 다음, 파일 업로드 및 가져오기를 클릭하세요."
-
-#: ../../code/Annotum/annotum-base/plugins/annotum-importers/dtd-importer.php:152
-msgid "Import <strong>articles, keywords, subjects and users</strong> from a Kipling DTD XML file."
-msgstr "Kipling DTD XML 파일에서 <strong>글, 키워드 및 사용자</strong>를 가져옵니다."
-
-#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:132
-#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:349
-#, php-format
-msgid "ANNO_IMPORT_DEBUG: You are using %s to parse data."
-msgstr "ANNO_IMPORT_DEBUG: 데이터를 파싱하는 데 %s(을)를 사용하고 있습니다."
-
-#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:245
-#, php-format
-msgid "%s &#8220;%s&#8221; processed. "
-msgstr "%s &#8220;%s&#8221;(이)가 처리되었습니다."
-
-#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:258
-#, php-format
-msgid "[ %sEdit%s | %sPreview%s ]"
-msgstr "[ %sEdit%s | %sPreview%s ]"
-
-#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:267
-msgid "All done."
-msgstr "모두 완료되었습니다."
-
-#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:267
-msgid "Have fun!"
-msgstr "즐거운 시간 보내세요."
-
-#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:268
-msgid "Remember to update the passwords and roles of imported users."
-msgstr "비밀번호 및 가져온 사용자의 역할을 업데이트하시기 바랍니다."
-
-#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:299
-#, php-format
-msgid "This WXR file (version %s) may not be supported by this version of the importer. Please consider updating."
-msgstr "이 WXR 파일(버전 %s)은 이 버전의 가져오기 도구에서 지원되지 않을 수 있습니다. 가져오기 도구를 업데이트하는 것이 좋습니다."
-
-#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:324
-#, php-format
-msgid "Failed to import author %s. Their posts will be attributed to the current user."
-msgstr "작성자 %s을(를) 가져오지 못했습니다. 이들의 게시물에 대한 권한이 현재 사용자에게 부여됩니다."
-
-#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:358
-msgid "Assign Authors"
-msgstr "작성자 지정"
-
-#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:359
-msgid "To make it easier for you to edit and save the imported content, you may want to reassign the author of the imported item to an existing user of this site. For example, you may want to import all the entries as <code>admin</code>s entries."
-msgstr "가져온 항목의 작성자를 이 사이트의 기존 사용자로 다시 지정하면 가져온 콘텐츠를 더 쉽게 수정하고 저장할 수 있습니다. 예를 들어 모든 항목을 <code>관리자</code> 항목으로 가져올 수 있습니다."
-
-#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:361
-msgid "If a new user is created by WordPress, a new password will be randomly generated and the new user&#8217;s role will be set as contributor. Manually changing the new user&#8217;s details will be necessary."
-msgstr "WordPress에서 새 사용자를 만드는 경우 새 비밀번호가 임의로 생성되고 새 사용자의 역할은 기고자로 설정됩니다. 새 사용자의 세부정보는 직접 변경해야 합니다."
-
-#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:380
-msgid "Import Attachments"
-msgstr "첨부파일 가져오기"
-
-#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:383
-msgid "Download and import file attachments"
-msgstr "첨부파일 다운로드 및 가져오기"
-
-#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:427
-msgid "Import "
-msgstr "현재 사용자로"
-
-#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:432
-msgid "as the current user."
-msgstr "가져옵니다."
-
-#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:452
-#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:454
-msgid "<p>or assign posts to an existing user: "
-msgstr "<p>또는 기존 사용자에게 게시물을 지정합니다."
-
-#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:458
-msgid "- Select -"
-msgstr "- 선택 -"
-
-#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:472
-#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:507
-msgid "</p>"
-msgstr "</p>"
-
-#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:476
-msgid "or if you know an existing user&#8217;s <strong>email address</strong>, you can assign posts to that user: "
-msgstr "또는 기존 사용자의 <strong>이메일 주소</strong>를 아는 경우 해당 사용자에게 게시물을 지정할 수 있습니다."
-
-#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:480
-msgid "or if you know an existing user&#8217;s <strong>username</strong>, you can assign posts to that user: "
-msgstr "또는 기존 사용자의 <strong>사용자 이름</strong>를 아는 경우 해당 사용자에게 게시물을 지정할 수 있습니다."
-
-#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:483
-msgid "<p>"
-msgstr "<p>"
-
-#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:485
-msgid "or you can create new user:"
-msgstr "또는 새 사용자를 만들 수 있습니다."
-
-#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:488
-msgid "as a new user:"
-msgstr "새 사용자로:"
-
-#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:494
-msgid "Login: "
-msgstr "로그인:"
-
-#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:498
-msgid "Email: "
-msgstr "이메일:"
-
-#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:548
-msgid "Please enter an Email <strong>OR</strong> a Username to search for."
-msgstr "검색하려는 이메일<strong>또는</strong> 사용자 이름을 입력하세요."
-
-#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:554
-msgid "Please enter a valid email to search for."
-msgstr "검색하려는 유효한 이메일을 입력하세요."
-
-#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:562
-#, php-format
-msgid "Could not find user with email: %s"
-msgstr "다음 이메일을 가진 사용자를 찾을 수 없습니다. %s"
-
-#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:574
-msgid "Please enter a valid username to search for."
-msgstr "검색하려는 유효한 사용자 이름을 입력하세요."
-
-#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:582
-#, php-format
-msgid "Could not find user with username: %s"
-msgstr "다음 이름을 가진 사용자를 찾을 수 없습니다. %s"
-
-#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:602
-msgid "Email cannot be empty when creating a new user."
-msgstr "새 사용자를 만들 때 이메일은 비워둘 수 없습니다."
-
-#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:611
-msgid "Username cannot be empty when creating a new user."
-msgstr "새 사용자를 만들 때 사용자 이름은 비워둘 수 없습니다."
-
-#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:617
-msgid "This email address is already registered."
-msgstr "이미 등록된 이메일 주소입니다."
-
-#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:621
-msgid "This username is already registered."
-msgstr "이미 등록된 사용자 이름입니다."
-
-#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:626
-msgid "Please enter a valid email when creating a new user."
-msgstr "새 사용자를 만들 때 유효한 이메일을 입력하세요."
-
-#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:630
-msgid "Please enter a valid username when creating a new user."
-msgstr "새 사용자를 만들 때 유효한 사용자 이름을 입력하세요."
-
-#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:701
-#, php-format
-msgid "Failed to import category %s"
-msgstr "카테고리 %s을(를) 가져오지 못했습니다."
-
-#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:739
-#, php-format
-msgid "Failed to import post tag %s"
-msgstr "게시물 태그 %s을(를) 가져오지 못했습니다."
-
-#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:783
-#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:915
-#, php-format
-msgid "Failed to import %s %s"
-msgstr "%s %s을(를) 가져오지 못했습니다."
-
-#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:805
-#, php-format
-msgid "Failed to import &#8220;%s&#8221;: Invalid post type %s"
-msgstr "%s을(를) 가져오지 못했습니다. 게시물 유형(%s)이 잘못되었습니다."
-
-#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:826
-#, php-format
-msgid "%s &#8220;%s&#8221; already exists."
-msgstr "%s &#8220;%s&#8221; (이)가 이미 존재합니다."
-
-#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:887
-#, php-format
-msgid "Failed to import %s &#8220;%s&#8221;"
-msgstr "%s &#8220;%s&#8221;(을)를 가져오지 못했습니다."
-
-#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:1055
-msgid "Menu item skipped due to missing menu slug"
-msgstr "누락된 메뉴 슬러그로 인해 메뉴 항목을 건너뛰었습니다."
-
-#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:1062
-#, php-format
-msgid "Menu item skipped due to invalid menu slug: %s"
-msgstr "잘못된 메뉴 슬러그(%s)로 인해 메뉴 항목을 건너뛰었습니다."
-
-#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:1125
-msgid "Fetching attachments is not enabled"
-msgstr "첨부파일 가져오기를 사용하도록 설정하지 않았습니다."
-
-#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:1135
-msgid "Invalid file type"
-msgstr "잘못된 파일 형식입니다."
-
-#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:1176
-msgid "Remote server did not respond"
-msgstr "원격 서버가 응답하지 않았습니다."
-
-#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:1182
-#, php-format
-msgid "Remote server returned error response %1$d %2$s"
-msgstr "원격 서버가 오류 응답(%1$d %2$s)을 반환했습니다."
-
-#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:1189
-msgid "Remote file is incorrect size"
-msgstr "원격 파일의 크기가 올바르지 않습니다."
-
-#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:1194
-msgid "Zero size file downloaded"
-msgstr "크기가 0인 파일이 다운로드되었습니다."
-
-#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:1200
-#, php-format
-msgid "Remote file is too large, limit is %s"
-msgstr "원격 파일이 너무 큽니다. 한도는 %s입니다."
-
-#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:1299
-msgid "Google Knol WXR Import"
-msgstr "Google 놀 WXR 가져오기"
-
-#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:1306
-#, php-format
-msgid "A new version of this importer is available. Please update to version %s to ensure compatibility with newer export files."
-msgstr "가져오기 도구의 새 버전을 사용할 수 있습니다. 최신 내보내기 파일과 호환될 수 있도록 %s 버전으로 업데이트하시기 바랍니다."
-
-#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:1321
-msgid "Howdy! Upload your Google Knol eXtended RSS (WXR) file and we&#8217;ll import the posts, pages, comments, custom fields, categories, and tags into this site."
-msgstr "안녕하세요. Google 놀 eXtended RSS(WXR)파일을 업로드하시면 게시물, 페이지, 댓글, 맞춤 입력란, 카테고리 및 태그를 이 사이트로 가져오겠습니다."
-
-#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:1322
-msgid "Choose a Google Knol WXR (.xml) file to upload, then click Upload file and import."
-msgstr "업로드할 Google 놀 WXR(.xml) 파일을 선택한 다음 파일 업로드 및 가져오기를 클릭하세요."
-
-#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:1332
-msgid "Before you can upload your import file, you will need to fix the following error:"
-msgstr "가져온 파일을 업로드하려면 다음 오류를 수정해야 합니다."
-
-#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:1339
-msgid "ANNO_IMPORT_DEBUG: Select a parser:"
-msgstr "ANNO_IMPORT_DEBUG: 파서를 선택하세요."
-
-#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:1348
-msgid "Choose a file from your computer:"
-msgstr "컴퓨터에서 파일 선택:"
-
-#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:1348
-#, php-format
-msgid "Maximum size: %s"
-msgstr "최대 크기: %s"
-
-#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:1353
-msgid "Upload file and import"
-msgstr "파일 업로드 및 가져오기"
-
-#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:1427
-msgid "Import <strong>articles, comments, custom fields, categories, and tags</strong> from a Google Knol WXR export file."
-msgstr "Google 놀 WXR 내보내기 파일에서 <strong>글, 댓글, 맞춤 입력란, 카테고리 및 태그</strong>를 가져옵니다."
-
-#: ../../code/Annotum/annotum-base/plugins/annotum-importers/parsers.php:34
-#, php-format
-msgid "ANNO_IMPORT_DEBUG: Could not find parser %s."
-msgstr "ANNO_IMPORT_DEBUG: 파서 %s(을)를 찾을 수 없습니다."
-
-#: ../../code/Annotum/annotum-base/plugins/annotum-importers/parsers.php:67
-#: ../../code/Annotum/annotum-base/plugins/annotum-importers/parsers.php:89
-#: ../../code/Annotum/annotum-base/plugins/annotum-importers/parsers.php:385
-msgid "There was an error when reading this WXR file"
-msgstr "WXR 파일을 읽는 중에 오류가 발생했습니다."
-
-#: ../../code/Annotum/annotum-base/plugins/annotum-importers/parsers.php:68
-msgid "Details are shown above. The importer will now try again with a different parser..."
-msgstr "세부정보는 위에 표시되어 있습니다. 가져오기 도구가 다른 파서를 사용하여 다시 시도합니다..."
-
-#: ../../code/Annotum/annotum-base/plugins/annotum-importers/parsers.php:93
-#: ../../code/Annotum/annotum-base/plugins/annotum-importers/parsers.php:98
-#: ../../code/Annotum/annotum-base/plugins/annotum-importers/parsers.php:390
-#: ../../code/Annotum/annotum-base/plugins/annotum-importers/parsers.php:686
-msgid "This does not appear to be a WXR file, missing/invalid WXR version number"
-msgstr "WXR 파일이 아닌 것 같습니다. WXR 버전 번호가 누락되었거나 잘못되었습니다."
-
-#: ../../code/Annotum/annotum-base/plugins/annotum-importers/parsers.php:306
-#, php-format
-msgid "There was an error processing %s's content for attachments."
-msgstr "첨부를 위해 %s의 콘텐츠를 처리하는 중에 오류가 발생했습니다."
-
-#: ../../code/Annotum/annotum-base/plugins/annotum-importers/parsers.php:604
-#, php-format
-msgid "XML Parser: There was an error processing the content for attachments. Line %s. Column %s. Code %s."
-msgstr "XML 파서: 첨부를 위해 의 콘텐츠를 처리하는 중에 오류가 발생했습니다. 줄 %s. 열 %s. 코드 %s."
-
-#: ../../code/Annotum/annotum-base/plugins/annotum-importers/parsers.php:968
-msgid "There was an error when reading this Kipling DTD file"
-msgstr "Kipling DTD 파일을 읽는 중에 오류가 발생했습니다."
-
-#: ../../code/Annotum/annotum-base/plugins/annotum-importers/parsers.php:981
-msgid "This does not appear to be a Kipling DTD file, no articles could be found"
-msgstr "Kipling DTD 파일이 아닌 것 같습니다. 글을 찾을 수 없습니다."
-
-#: ../../code/Annotum/annotum-base/plugins/cf-archive-title/cf-archive-title.php:9
-#, php-format
-msgid "Latest / <b>page %s</b>"
-msgstr "최신/<b>%s페이지</b>"
-
-#: ../../code/Annotum/annotum-base/plugins/cf-archive-title/cf-archive-title.php:10
-#, php-format
-msgid "Search results for <b>%s</b>"
-msgstr "<b>%s</b>에 대한 검색결과"
-
-#: ../../code/Annotum/annotum-base/plugins/cf-archive-title/cf-archive-title.php:11
-#, php-format
-msgid "Tag archives for <b>%s</b>"
-msgstr "<b>%s</b>에 대한 태그 자료실"
-
-#: ../../code/Annotum/annotum-base/plugins/cf-archive-title/cf-archive-title.php:12
-#, php-format
-msgid "Category archives for <b>%s</b>"
-msgstr "<b>%s</b>에 대한 카테고리 자료실"
-
-#: ../../code/Annotum/annotum-base/plugins/cf-archive-title/cf-archive-title.php:13
-#, php-format
-msgid "Author archives for <b>%s</b>"
-msgstr "<b>%s</b>에 대한 작성자 자료실"
-
-#: ../../code/Annotum/annotum-base/plugins/cf-archive-title/cf-archive-title.php:14
-#, php-format
-msgid "Archives for <b>%s</b>"
-msgstr "<b>%s</b>에 대한 자료실"
-
-#: ../../code/Annotum/annotum-base/plugins/workflow/audit.php:54
-msgid "Created a revision"
-msgstr "새 버전이 작성되었습니다."
-
-#: ../../code/Annotum/annotum-base/plugins/workflow/audit.php:55
-#, php-format
-msgid "Transitioned post state from %s to %s"
-msgstr "게시물 상태를 %s에서 %s(으)로 전환했습니다."
-
-#: ../../code/Annotum/annotum-base/plugins/workflow/audit.php:56
-msgid "Added a reviewer comment"
-msgstr "리뷰어 댓글을 추가했습니다."
-
-#: ../../code/Annotum/annotum-base/plugins/workflow/audit.php:57
-#, php-format
-msgid "Added a review of %s"
-msgstr "%s의 리뷰를 추가했습니다."
-
-#: ../../code/Annotum/annotum-base/plugins/workflow/audit.php:58
-msgid "Added an internal comment"
-msgstr "내부 댓글을 추가했습니다."
-
-#: ../../code/Annotum/annotum-base/plugins/workflow/audit.php:59
-#, php-format
-msgid "Added %s as a co-author"
-msgstr "%s님을 공동작성자로 추가했습니다."
-
-#: ../../code/Annotum/annotum-base/plugins/workflow/audit.php:60
-#, php-format
-msgid "Removed %s as a co-author"
-msgstr "%s님을 공동작성자에서 삭제했습니다."
-
-#: ../../code/Annotum/annotum-base/plugins/workflow/audit.php:61
-#, php-format
-msgid "Added %s as a reviewer"
-msgstr "%s님을 리뷰어로 추가했습니다."
-
-#: ../../code/Annotum/annotum-base/plugins/workflow/audit.php:62
-#, php-format
-msgid "Removed %s as a reviewer"
-msgstr "%s님을 리뷰어에서 삭제했습니다."
-
-#: ../../code/Annotum/annotum-base/plugins/workflow/audit.php:131
-msgid "j F, Y @ H:i"
-msgstr "j F, Y @ H:i"
-
-#: ../../code/Annotum/annotum-base/plugins/workflow/notification.php:103
-msgid "To review this article, please visit the URL above and navigate to the Reviews section. You may leave comments and questions in this section as well as providing a general review of 'Approve', 'Reject' or 'Request Revisions' from the dropdown."
-msgstr "이 글을 리뷰하려면 위 URL을 방문하여 리뷰 섹션으로 이동하시기 바랍니다. 이 섹션에 댓글과 질문을 남기고 메뉴에서 '승인', '거부' 또는 '개정 필요' 등 일반적인 리뷰를 제공할 수 있습니다."
-
-#: ../../code/Annotum/annotum-base/plugins/workflow/notification.php:110
-#, php-format
-msgid "New Submission: %s by %s."
-msgstr "새로 제출된 놀: %s(작성자: %s)"
-
-#: ../../code/Annotum/annotum-base/plugins/workflow/notification.php:112
-#, php-format
-msgid ""
-"The following article has been submitted for review:\n"
-"--------------------\n"
-"Title: %s\n"
-"Author(s): %s\n"
-"Excerpt: %s\n"
-"%s\n"
-"\n"
-"%s"
-msgstr ""
-"The following article has been submitted for review:\n"
-"--------------------\n"
-"Title: %s\n"
-"Author(s): %s\n"
-"Excerpt: %s\n"
-"%s\n"
-"\n"
-"%s"
-
-#: ../../code/Annotum/annotum-base/plugins/workflow/notification.php:125
-#: ../../code/Annotum/annotum-base/plugins/workflow/notification.php:137
-#, php-format
-msgid "%s now in review."
-msgstr "현재 %s(을)를 리뷰 중입니다."
-
-#: ../../code/Annotum/annotum-base/plugins/workflow/notification.php:127
-#, php-format
-msgid ""
-"Review has begun for: %s\n"
-"\n"
-"%s\n"
-"\n"
-"%s"
-msgstr ""
-"Review has begun for: %s\n"
-"\n"
-"%s\n"
-"\n"
-"%s"
-
-#: ../../code/Annotum/annotum-base/plugins/workflow/notification.php:149
-#, php-format
-msgid "%s review is complete. APPROVED."
-msgstr "%s에 대한 리뷰가 완료되었습니다. 승인되었습니다."
-
-#: ../../code/Annotum/annotum-base/plugins/workflow/notification.php:163
-#, php-format
-msgid "%s review is complete."
-msgstr "%s에 대한 리뷰가 완료되었습니다. "
-
-#: ../../code/Annotum/annotum-base/plugins/workflow/notification.php:165
-#, php-format
-msgid ""
-"Thank you for contributing to %s.  After our review process, we have decided not to accept the article at this time.  \n"
-"--------------------\n"
-"Title: %s\n"
-"%s\n"
-"\n"
-"%s"
-msgstr ""
-"Thank you for contributing to %s.  After our review process, we have decided not to accept the article at this time.  \n"
-"--------------------\n"
-"Title: %s\n"
-"%s\n"
-"\n"
-"%s"
-
-#: ../../code/Annotum/annotum-base/plugins/workflow/notification.php:176
-#, php-format
-msgid "%s review is complete. CHANGES REQUESTED."
-msgstr "%s에 대한 리뷰가 완료되었습니다. 변경이 필요합니다."
-
-#: ../../code/Annotum/annotum-base/plugins/workflow/notification.php:192
-#, php-format
-msgid "%s has been published."
-msgstr "%s이(가) 게시되었습니다."
-
-#: ../../code/Annotum/annotum-base/plugins/workflow/notification.php:203
-#, php-format
-msgid "%s has been invited to review %s by %s"
-msgstr "%s님이 %s님에게 %s을(를) 리뷰하도록 초청했습니다."
-
-#: ../../code/Annotum/annotum-base/plugins/workflow/notification.php:205
-#, php-format
-msgid ""
-"%s has been invted to review the following article:\n"
-"--------------------\n"
-"Title: %s\n"
-"Author(s): %s\n"
-"Excerpt: %s\n"
-"%s\n"
-"\n"
-"%s\n"
-"%s"
-msgstr ""
-"%s has been invted to review the following article:\n"
-"--------------------\n"
-"Title: %s\n"
-"Author(s): %s\n"
-"Excerpt: %s\n"
-"%s\n"
-"\n"
-"%s\n"
-"%s"
-
-#: ../../code/Annotum/annotum-base/plugins/workflow/notification.php:218
-#, php-format
-msgid "%s has been invited to co-author %s by %s"
-msgstr "%s님이 %s님을 %s의 공동작성자로 초대했습니다."
-
-#: ../../code/Annotum/annotum-base/plugins/workflow/notification.php:228
-#, php-format
-msgid "%s is now the primary author on %s"
-msgstr "이제 %s님이 %s의 주 작성자입니다."
-
-#: ../../code/Annotum/annotum-base/plugins/workflow/notification.php:245
-#, php-format
-msgid "New internal comment on %s"
-msgstr "%s에 대한 새 내부 댓글"
-
-#: ../../code/Annotum/annotum-base/plugins/workflow/notification.php:247
-#: ../../code/Annotum/annotum-base/plugins/workflow/notification.php:260
-#, php-format
-msgid ""
-"The following comment was submitted on %s by %s.\n"
-"--------------------\n"
-"%s\n"
-"--------------------\n"
-"%s\n"
-"\n"
-"%s"
-msgstr ""
-"The following comment was submitted on %s by %s.\n"
-"--------------------\n"
-"%s\n"
-"--------------------\n"
-"%s\n"
-"\n"
-"%s"
-
-#: ../../code/Annotum/annotum-base/plugins/workflow/notification.php:258
-#, php-format
-msgid "New reviewer comment on %s"
-msgstr "%s에 대한 새 리뷰어 댓글"
-
-#: ../../code/Annotum/annotum-base/plugins/workflow/publishing-meta-box.php:60
-msgid "Move To Trash"
-msgstr "휴지통으로 이동"
-
-#: ../../code/Annotum/annotum-base/plugins/workflow/publishing-meta-box.php:88
-msgid "Submitted - Waiting For Review"
-msgstr "제출됨 - 리뷰 대기 중"
-
-#: ../../code/Annotum/annotum-base/plugins/workflow/publishing-meta-box.php:141
-#, php-format
-msgid "%s of %s Reviews Complete"
-msgstr "리뷰 %s개 중 %s개 완료"
-
-#: ../../code/Annotum/annotum-base/plugins/workflow/publishing-meta-box.php:148
-msgid "Submitted - In Review"
-msgstr "제출됨 - 리뷰 중"
-
-#: ../../code/Annotum/annotum-base/plugins/workflow/publishing-meta-box.php:195
-msgid "Article Approved"
-msgstr "글이 승인됨"
-
-#: ../../code/Annotum/annotum-base/plugins/workflow/publishing-meta-box.php:232
-msgid "Visibility:"
-msgstr "공개 설정:"
-
-#: ../../code/Annotum/annotum-base/plugins/workflow/publishing-meta-box.php:237
-#: ../../code/Annotum/annotum-base/plugins/workflow/publishing-meta-box.php:268
-msgid "Private"
-msgstr "비공개"
-
-#: ../../code/Annotum/annotum-base/plugins/workflow/publishing-meta-box.php:241
-#: ../../code/Annotum/annotum-base/plugins/workflow/publishing-meta-box.php:266
-msgid "Password protected"
-msgstr "비밀번호로 보호됨"
-
-#: ../../code/Annotum/annotum-base/plugins/workflow/publishing-meta-box.php:245
-msgid "Public, Sticky"
-msgstr "공개, 고정"
-
-#: ../../code/Annotum/annotum-base/plugins/workflow/publishing-meta-box.php:249
-#: ../../code/Annotum/annotum-base/plugins/workflow/publishing-meta-box.php:262
-msgid "Public"
-msgstr "공개"
-
-#: ../../code/Annotum/annotum-base/plugins/workflow/publishing-meta-box.php:264
-msgid "Stick this post to the front page"
-msgstr "이 게시물을 첫 페이지에 고정"
-
-#: ../../code/Annotum/annotum-base/plugins/workflow/publishing-meta-box.php:267
-msgid "Password:"
-msgstr "비밀번호:"
-
-#: ../../code/Annotum/annotum-base/plugins/workflow/publishing-meta-box.php:271
-msgid "OK"
-msgstr "확인"
-
-#: ../../code/Annotum/annotum-base/plugins/workflow/publishing-meta-box.php:283
-#, php-format
-msgid "Scheduled for: <b>%1$s</b>"
-msgstr "예정된 날짜: <b>%1$s</b>"
-
-#: ../../code/Annotum/annotum-base/plugins/workflow/publishing-meta-box.php:285
-#, php-format
-msgid "Published on: <b>%1$s</b>"
-msgstr "게시된 날짜: <b>%1$s</b>"
-
-#: ../../code/Annotum/annotum-base/plugins/workflow/publishing-meta-box.php:287
-#: ../../code/Annotum/annotum-base/plugins/workflow/publishing-meta-box.php:295
-msgid "Publish <b>immediately</b>"
-msgstr "<b>즉시</b> 게시"
-
-#: ../../code/Annotum/annotum-base/plugins/workflow/publishing-meta-box.php:289
-#, php-format
-msgid "Schedule for: <b>%1$s</b>"
-msgstr "예정 날짜: <b>%1$s</b>"
-
-#: ../../code/Annotum/annotum-base/plugins/workflow/publishing-meta-box.php:291
-#, php-format
-msgid "Publish on: <b>%1$s</b>"
-msgstr "게시 날짜: <b>%1$s</b>"
-
-#: ../../code/Annotum/annotum-base/plugins/workflow/publishing-meta-box.php:320
-msgid "Article Rejected"
-msgstr "글 거부됨"
-
-#: ../../code/Annotum/annotum-base/plugins/workflow/publishing-meta-box.php:350
-msgid "Article Published"
-msgstr "글 게시됨"
-
-#: ../../code/Annotum/annotum-base/plugins/workflow/publishing-meta-box.php:379
-#: ../../code/Annotum/annotum-base/plugins/workflow/publishing-meta-box.php:405
-msgid "Preview Changes"
-msgstr "변경사항 미리보기"
-
-#: ../../code/Annotum/annotum-base/plugins/workflow/publishing-meta-box.php:385
-#: ../../code/Annotum/annotum-base/plugins/workflow/publishing-meta-box.php:412
-msgid "Preview"
-msgstr "미리보기"
-
-#: ../../code/Annotum/annotum-base/plugins/workflow/workflow-init.php:39
-#: ../../code/Annotum/annotum-base/plugins/workflow/internal-comments/internal-comments.php:6
-msgid "Approve"
-msgstr "승인"
-
-#: ../../code/Annotum/annotum-base/plugins/workflow/workflow-init.php:40
-msgid "Publish"
-msgstr "게시"
-
-#: ../../code/Annotum/annotum-base/plugins/workflow/workflow-init.php:41
-#: ../../code/Annotum/annotum-base/plugins/workflow/internal-comments/internal-comments.php:8
-msgid "Reject"
-msgstr "거부"
-
-#: ../../code/Annotum/annotum-base/plugins/workflow/workflow-init.php:42
-msgid "Submit For Review"
-msgstr "제출하여 검토받기"
-
-#: ../../code/Annotum/annotum-base/plugins/workflow/workflow-init.php:43
-msgid "Request Revisions"
-msgstr "개정 요청"
-
-#: ../../code/Annotum/annotum-base/plugins/workflow/workflow-init.php:44
-msgid "Clone"
-msgstr "복제"
-
-#: ../../code/Annotum/annotum-base/plugins/workflow/workflow-init.php:45
-msgid "Revert To Draft"
-msgstr "초안으로 되돌리기"
-
-#: ../../code/Annotum/annotum-base/plugins/workflow/workflow.php:7
-msgid "Submitted"
-msgstr "제출됨"
-
-#: ../../code/Annotum/annotum-base/plugins/workflow/workflow.php:8
-msgid "In Review"
-msgstr "리뷰 중"
-
-#: ../../code/Annotum/annotum-base/plugins/workflow/workflow.php:9
-msgid "Approved"
-msgstr "승인됨"
-
-#: ../../code/Annotum/annotum-base/plugins/workflow/workflow.php:10
-msgid "Rejected"
-msgstr "거부됨"
-
-#: ../../code/Annotum/annotum-base/plugins/workflow/workflow.php:40
-msgid "Audit Log"
-msgstr "감사 로그"
-
-#: ../../code/Annotum/annotum-base/plugins/workflow/workflow.php:53
-#: ../../code/Annotum/annotum-base/plugins/workflow/workflow.php:791
-msgid "Author"
-msgstr "작성자"
-
-#: ../../code/Annotum/annotum-base/plugins/workflow/workflow.php:57
-msgid "Status:"
-msgstr "상태:"
-
-#: ../../code/Annotum/annotum-base/plugins/workflow/workflow.php:63
-msgid "Versions"
-msgstr "버전"
-
-#: ../../code/Annotum/annotum-base/plugins/workflow/workflow.php:67
-msgid "Reviewers"
-msgstr "리뷰어"
-
-#: ../../code/Annotum/annotum-base/plugins/workflow/workflow.php:69
-msgid "Co-Authors"
-msgstr "공동작성자"
-
-#: ../../code/Annotum/annotum-base/plugins/workflow/workflow.php:246
-msgid "Username"
-msgstr "사용자 이름"
-
-#: ../../code/Annotum/annotum-base/plugins/workflow/workflow.php:256
-msgid "Create User"
-msgstr "사용자 만들기"
-
-#: ../../code/Annotum/annotum-base/plugins/workflow/workflow.php:259
-#: ../../code/Annotum/annotum-base/plugins/workflow/workflow.php:287
-msgid "or <a href=\"#\" class=\""
-msgstr "또는 <a href=\"#\" class=\""
-
-#: ../../code/Annotum/annotum-base/plugins/workflow/workflow.php:361
-msgid "remove"
-msgstr "삭제"
-
-#: ../../code/Annotum/annotum-base/plugins/workflow/workflow.php:394
-msgid "User has been created and added"
-msgstr "사용자를 만들어 추가했습니다."
-
-#: ../../code/Annotum/annotum-base/plugins/workflow/workflow.php:521
-msgid "reviewer"
-msgstr "리뷰어"
-
-#: ../../code/Annotum/annotum-base/plugins/workflow/workflow.php:524
-msgid "co-author"
-msgstr "공동작성자"
-
-#: ../../code/Annotum/annotum-base/plugins/workflow/workflow.php:528
-#, php-format
-msgid "Cannot add author as a %s"
-msgstr "작성자를 %s(으)로 추가할 수 없습니다."
-
-#: ../../code/Annotum/annotum-base/plugins/workflow/workflow.php:531
-#, php-format
-msgid "Cannot add %s as %s. User is already a co-author"
-msgstr "%s님을 %s(으)로 추가할 수 없습니다. 이미 공동작성자인 사용자입니다."
-
-#: ../../code/Annotum/annotum-base/plugins/workflow/workflow.php:534
-#, php-format
-msgid "Cannot add %s as %s. User is already a reviewer"
-msgstr "%s님을 %s(으)로 추가할 수 없습니다. 이미 리뷰어인 사용자입니다."
-
-#: ../../code/Annotum/annotum-base/plugins/workflow/workflow.php:545
-#, php-format
-msgid "User '%s' not found"
-msgstr "사용자 '%s'(을)를 찾을 수 없습니다."
-
-#: ../../code/Annotum/annotum-base/plugins/workflow/workflow.php:714
-msgid "Cloned From"
-msgstr "복제 출처"
-
-#: ../../code/Annotum/annotum-base/plugins/workflow/workflow.php:722
-msgid "Clones"
-msgstr "복제된 게시물"
-
-#: ../../code/Annotum/annotum-base/plugins/workflow/workflow.php:756
-#, php-format
-msgid "Cloned: %s"
-msgstr "복제된 날짜: %s"
-
-#: ../../code/Annotum/annotum-base/plugins/workflow/workflow.php:811
-msgid "You are not allowed to clone this post."
-msgstr "이 게시물을 복제할 권한이 없습니다."
-
-#: ../../code/Annotum/annotum-base/plugins/workflow/internal-comments/internal-comments.php:7
-msgid "Revisions"
-msgstr "개정"
-
-#: ../../code/Annotum/annotum-base/plugins/workflow/internal-comments/internal-comments.php:16
-msgid "Internal Comments"
-msgstr "내부 댓글"
-
-#: ../../code/Annotum/annotum-base/plugins/workflow/internal-comments/internal-comments.php:19
-msgid "Reviews"
-msgstr "리뷰"
-
-#: ../../code/Annotum/annotum-base/plugins/workflow/internal-comments/internal-comments.php:112
-#, php-format
-msgid "Submitted on <a href=\"%1$s\">%2$s at %3$s</a>"
-msgstr "<a href=\"%1$s\">%2$s %3$s</a>에 제출됨"
-
-#: ../../code/Annotum/annotum-base/plugins/workflow/internal-comments/internal-comments.php:112
-msgid "Y/m/d"
-msgstr "Y/m/d"
-
-#: ../../code/Annotum/annotum-base/plugins/workflow/internal-comments/internal-comments.php:117
-#, php-format
-msgid "In reply to <a href=\"%1$s\">%2$s</a>."
-msgstr "<a href=\"%1$s\">%2$s</a>에 보낸 답글입니다."
-
-#: ../../code/Annotum/annotum-base/plugins/workflow/internal-comments/internal-comments.php:127
-msgid "Reply"
-msgstr "답글"
-
-#: ../../code/Annotum/annotum-base/plugins/workflow/internal-comments/internal-comments.php:174
-msgid "Recommendation: "
-msgstr "추천:"
-
-#: ../../code/Annotum/annotum-base/plugins/workflow/internal-comments/internal-comments.php:412
-msgid "Article General"
-msgstr "글 일반"
-
-#: ../../code/Annotum/annotum-base/plugins/workflow/internal-comments/internal-comments.php:413
-msgid "Article Review"
-msgstr "글 리뷰"
-
-#: ../../code/Annotum/annotum-base/posts/search.php:29
-#, php-format
-msgid "Search Results for: %s"
-msgstr "%s에 대한 검색결과"
-
-#: ../../code/trunk/wp-plugins/anno-data-fix.php:13
-#: ../../code/trunk/wp-plugins/anno-data-fix.php:14
-msgid "Annotum Data Fix"
-msgstr "Annotum 데이터 수정"
-
-#: ../../code/trunk/wp-plugins/anno-data-fix.php:45
-msgid "Migrate co-author and reviewer data assigned to articles pre-alpha."
-msgstr "지정된 공동작성자와 리뷰어 데이터를 글에 미리 이전할 수 있습니다."
-
-#: ../../code/trunk/wp-plugins/anno-data-fix.php:49
-msgid "Migrate!"
-msgstr "지금 이전하세요."
-
-#: ../../code/Annotum/annotum-base/functions.php:758
-msgid "Invalid username"
-msgstr "사용자 이름이 유효하지 않음"
-
-#: ../../code/Annotum/annotum-base/functions.php:928
-msgid "Home"
-msgstr "홈"
-
-#: ../../code/Annotum/annotum-base/functions.php:934
-msgid "About Annotum"
-msgstr "Annotum 정보"
-
-#: ../../code/Annotum/annotum-base/attachment/attachment-default.php:23
-msgid "article"
-msgstr "글"
-
-#: ../../code/Annotum/annotum-base/attachment/attachment-default.php:28
-#, php-format
-msgid "back to &#8220;%s&#8221;"
-msgstr "&#8220;%s&#8221;(으)로 돌아가기"
-
-#: ../../code/Annotum/annotum-base/attachment/attachment-default.php:54
-msgid "Sorry, no attachments matched your criteria."
-msgstr "조건에 맞는 첨부파일이 없습니다."
-
-#: ../../code/Annotum/annotum-base/functions/appendix-repeater.php:68
-#: ../../code/Annotum/annotum-base/functions/article-post-type.php:143
-#, php-format
-msgid "The Annotum editor requires at least WordPress 3.3. It appears you are using WordPress %s. "
-msgstr "The Annotum editor requires at least WordPress 3.3. It appears you are using WordPress %s. "
-
-#: ../../code/Annotum/annotum-base/functions/article-post-type.php:201
-msgid "Appear in the home page carousel"
-msgstr "홈페이지 캐러셀에 표시"
-
-#: ../../code/Annotum/annotum-base/functions/template.php:277
-msgid "Affiliation:"
-msgstr "소속:"
-
-#: ../../code/Annotum/annotum-base/functions/tinymce.php:424
-msgid "Show"
-msgstr "표시"
-
-#: ../../code/Annotum/annotum-base/functions/tinymce-upload/tinymce-uploader.php:25
-msgid "You do not have proper permissions to upload a new image"
-msgstr "새 이미지를 업로드할 수 있는 권한이 없음"
-
-#: ../../code/Annotum/annotum-base/functions/tinymce-upload/tinymce-uploader.php:160
-msgid "Cancel Upload"
-msgstr "업로드 취소"
 
 #: ../../code/Annotum/annotum-base/plugins/anno-article-lookup.php:356
 msgid "You do not have the correct permissions to perform this action"
@@ -2045,14 +1130,537 @@ msgstr "새 DOI 생성됨"
 msgid "Regenerate DOI"
 msgstr "DOI 재생성"
 
+#: ../../code/Annotum/annotum-base/plugins/anno-colors/anno-colors.php:148
+msgid "edit"
+msgstr "수정"
+
+#: ../../code/Annotum/annotum-base/plugins/anno-colors/anno-colors.php:156
+msgid "Based on"
+msgstr "기준:"
+
+#: ../../code/Annotum/annotum-base/plugins/anno-colors/anno-colors.php:156
+msgid "by"
+msgstr "작성자:"
+
+#: ../../code/Annotum/annotum-base/plugins/anno-colors/anno-colors.php:177
+#: ../../code/Annotum/annotum-base/plugins/anno-colors/anno-colors.php:232
+msgid "Color Settings"
+msgstr "색상 설정"
+
+#: ../../code/Annotum/annotum-base/plugins/anno-colors/anno-colors.php:178
+#: ../../code/Annotum/annotum-base/plugins/anno-colors/anno-colors.php:191
+msgid "Colors"
+msgstr "색상"
+
+#: ../../code/Annotum/annotum-base/plugins/anno-colors/anno-colors.php:226
+msgid "Settings updated."
+msgstr "설정이 업데이트되었습니다."
+
+#: ../../code/Annotum/annotum-base/plugins/anno-colors/anno-colors.php:235
+msgid "My Colors"
+msgstr "내 색상"
+
+#: ../../code/Annotum/annotum-base/plugins/anno-colors/anno-colors.php:251
+msgid "Save Settings"
+msgstr "설정 저장"
+
+#: ../../code/Annotum/annotum-base/plugins/anno-pdf-download/anno-pdf-download.php:336
+msgid "There was an issue creating the PDF for your article, please try again later"
+msgstr "글을 PDF 파일로 만드는 중에 문제가 발생했습니다. 나중에 다시 시도해 주세요."
+
+#: ../../code/Annotum/annotum-base/plugins/annotum-importers/dtd-importer.php:19
+msgid "XML Import"
+msgstr "XML 가져오기"
+
+#: ../../code/Annotum/annotum-base/plugins/annotum-importers/dtd-importer.php:51
+#: ../../code/Annotum/annotum-base/plugins/annotum-importers/dtd-importer.php:60
+msgid "Sorry, there has been an error."
+msgstr "오류가 발생했습니다."
+
+#: ../../code/Annotum/annotum-base/plugins/annotum-importers/dtd-importer.php:52
+msgid "The file does not exist, please try again."
+msgstr "파일이 존재하지 않습니다. 다시 시도해 주세요."
+
+#: ../../code/Annotum/annotum-base/plugins/annotum-importers/dtd-importer.php:137
+msgid "Kipling DTD XML Import"
+msgstr "Kipling DTD XML 가져오기"
+
+#: ../../code/Annotum/annotum-base/plugins/annotum-importers/dtd-importer.php:151
+msgid "Howdy! Upload your Kipling DTD XML file and we&#8217;ll import the articles, keywords, subjects, and users into this site."
+msgstr "안녕하세요. Kipling DTD XML 파일을 업로드하시면 Google에서 글, 키워드, 주제 및 사용자를 이 사이트로 가져옵니다."
+
+#: ../../code/Annotum/annotum-base/plugins/annotum-importers/dtd-importer.php:152
+msgid "Choose a Kipling DTD XML (.xml) file to upload, then click Upload file and import."
+msgstr "업로드할 Kipling DTD XML(.xml) 파일을 선택한 다음, 파일 업로드 및 가져오기를 클릭하세요."
+
+#: ../../code/Annotum/annotum-base/plugins/annotum-importers/dtd-importer.php:165
+msgid "Import <strong>articles, keywords, subjects and users</strong> from a Kipling DTD XML file."
+msgstr "Kipling DTD XML 파일에서 <strong>글, 키워드 및 사용자</strong>를 가져옵니다."
+
+#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:144
+#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:363
+#, php-format
+msgid "ANNO_IMPORT_DEBUG: You are using %s to parse data."
+msgstr "ANNO_IMPORT_DEBUG: 데이터를 파싱하는 데 %s(을)를 사용하고 있습니다."
+
 #: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:257
 #, php-format
 msgid "%s &#8220;<strong>%s</strong>&#8221; imported. "
-msgstr "%s &#8220;<strong>%s</strong>&#8221;을(를) 가져왔습니다."
+msgstr "%s &#8220;<strong>%s</strong>&#8221;을(를) 가져왔습니다. "
+
+#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:270
+#, php-format
+msgid "[ %sEdit%s | %sPreview%s ]"
+msgstr "[ %sEdit%s | %sPreview%s ]"
+
+#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:279
+msgid "All done."
+msgstr "모두 완료되었습니다."
+
+#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:279
+msgid "Have fun!"
+msgstr "즐거운 시간 보내세요."
+
+#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:280
+msgid "Remember to update the passwords and roles of imported users."
+msgstr "비밀번호 및 가져온 사용자의 역할을 업데이트하시기 바랍니다."
+
+#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:311
+#, php-format
+msgid "This WXR file (version %s) may not be supported by this version of the importer. Please consider updating."
+msgstr "이 WXR 파일(버전 %s)은 이 버전의 가져오기 도구에서 지원되지 않을 수 있습니다. 가져오기 도구를 업데이트하는 것이 좋습니다."
+
+#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:337
+#, php-format
+msgid "Failed to import author %s. Their posts will be attributed to the current user."
+msgstr "작성자 %s을(를) 가져오지 못했습니다. 이들의 게시물에 대한 권한이 현재 사용자에게 부여됩니다."
+
+#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:372
+msgid "Assign Authors"
+msgstr "작성자 지정"
+
+#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:373
+msgid "To make it easier for you to edit and save the imported content, you may want to reassign the author of the imported item to an existing user of this site. For example, you may want to import all the entries as <code>admin</code>s entries."
+msgstr "가져온 항목의 작성자를 이 사이트의 기존 사용자로 다시 지정하면 가져온 콘텐츠를 더 쉽게 수정하고 저장할 수 있습니다. 예를 들어 모든 항목을 <code>관리자</code> 항목으로 가져올 수 있습니다."
+
+#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:375
+msgid "If a new user is created by WordPress, a new password will be randomly generated and the new user&#8217;s role will be set as contributor. Manually changing the new user&#8217;s details will be necessary."
+msgstr "WordPress에서 새 사용자를 만드는 경우 새 비밀번호가 임의로 생성되고 새 사용자의 역할은 기고자로 설정됩니다. 새 사용자의 세부정보는 직접 변경해야 합니다."
+
+#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:394
+msgid "Import Attachments"
+msgstr "첨부파일 가져오기"
+
+#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:397
+msgid "Download and import file attachments"
+msgstr "첨부파일 다운로드 및 가져오기"
+
+#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:441
+msgid "Import "
+msgstr "현재 사용자로 "
+
+#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:446
+msgid "as the current user."
+msgstr "가져옵니다."
+
+#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:466
+#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:468
+msgid "<p>or assign posts to an existing user: "
+msgstr "<p>또는 기존 사용자에게 게시물을 지정합니다. "
+
+#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:472
+msgid "- Select -"
+msgstr "- 선택 -"
+
+#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:486
+#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:517
+msgid "</p>"
+msgstr "</p>"
+
+#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:490
+msgid "or if you know an existing user&#8217;s <strong>email address</strong>, you can assign posts to that user: "
+msgstr "또는 기존 사용자의 <strong>이메일 주소</strong>를 아는 경우 해당 사용자에게 게시물을 지정할 수 있습니다. "
+
+#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:494
+msgid "or if you know an existing user&#8217;s <strong>username</strong>, you can assign posts to that user: "
+msgstr "또는 기존 사용자의 <strong>사용자 이름</strong>를 아는 경우 해당 사용자에게 게시물을 지정할 수 있습니다. "
+
+#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:497
+msgid "<p>"
+msgstr "<p>"
+
+#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:499
+msgid "or you can create new user:"
+msgstr "또는 새 사용자를 만들 수 있습니다."
+
+#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:502
+msgid "as a new user:"
+msgstr "새 사용자로:"
+
+#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:508
+msgid "Email: "
+msgstr "이메일: "
+
+#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:558
+msgid "Please enter an Email <strong>OR</strong> a Username to search for."
+msgstr "검색하려는 이메일<strong>또는</strong> 사용자 이름을 입력하세요."
+
+#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:564
+msgid "Please enter a valid email to search for."
+msgstr "검색하려는 유효한 이메일을 입력하세요."
+
+#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:572
+#, php-format
+msgid "Could not find user with email: %s"
+msgstr "다음 이메일을 가진 사용자를 찾을 수 없습니다. %s"
+
+#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:584
+msgid "Please enter a valid username to search for."
+msgstr "검색하려는 유효한 사용자 이름을 입력하세요."
+
+#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:592
+#, php-format
+msgid "Could not find user with username: %s"
+msgstr "다음 이름을 가진 사용자를 찾을 수 없습니다. %s"
+
+#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:613
+msgid "Email cannot be empty when creating a new user."
+msgstr "새 사용자를 만들 때 이메일은 비워둘 수 없습니다."
+
+#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:619
+msgid "This email address is already registered."
+msgstr "이미 등록된 이메일 주소입니다."
+
+#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:624
+msgid "Please enter a valid email when creating a new user."
+msgstr "새 사용자를 만들 때 유효한 이메일을 입력하세요."
+
+#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:695
+#, php-format
+msgid "Failed to import category %s"
+msgstr "카테고리 %s을(를) 가져오지 못했습니다."
+
+#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:733
+#, php-format
+msgid "Failed to import post tag %s"
+msgstr "게시물 태그 %s을(를) 가져오지 못했습니다."
+
+#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:777
+#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:927
+#, php-format
+msgid "Failed to import %s %s"
+msgstr "%s %s을(를) 가져오지 못했습니다."
+
+#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:813
+#, php-format
+msgid "Failed to import &#8220;%s&#8221;: Invalid post type %s"
+msgstr "%s을(를) 가져오지 못했습니다. 게시물 유형(%s)이 잘못되었습니다."
+
+#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:839
+#, php-format
+msgid "%s &#8220;%s&#8221; already exists."
+msgstr "%s %s(이)가 이미 존재합니다."
+
+#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:900
+#, php-format
+msgid "Failed to import %s &#8220;%s&#8221;"
+msgstr "%s &#8220;%s&#8221;(을)를 가져오지 못했습니다."
+
+#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:1114
+msgid "Menu item skipped due to missing menu slug"
+msgstr "누락된 메뉴 슬러그로 인해 메뉴 항목을 건너뛰었습니다."
+
+#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:1121
+#, php-format
+msgid "Menu item skipped due to invalid menu slug: %s"
+msgstr "잘못된 메뉴 슬러그(%s)로 인해 메뉴 항목을 건너뛰었습니다."
+
+#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:1184
+msgid "Fetching attachments is not enabled"
+msgstr "첨부파일 가져오기를 사용하도록 설정하지 않았습니다."
+
+#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:1194
+msgid "Invalid file type"
+msgstr "잘못된 파일 형식입니다."
+
+#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:1235
+msgid "Remote server did not respond"
+msgstr "원격 서버가 응답하지 않았습니다."
+
+#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:1241
+#, php-format
+msgid "Remote server returned error response %1$d %2$s"
+msgstr "원격 서버가 오류 응답(%1$d %2$s)을 반환했습니다."
+
+#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:1248
+msgid "Remote file is incorrect size"
+msgstr "원격 파일의 크기가 올바르지 않습니다."
+
+#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:1253
+msgid "Zero size file downloaded"
+msgstr "크기가 0인 파일이 다운로드되었습니다."
+
+#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:1259
+#, php-format
+msgid "Remote file is too large, limit is %s"
+msgstr "원격 파일이 너무 큽니다. 한도는 %s입니다."
+
+#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:1358
+msgid "Google Knol WXR Import"
+msgstr "Google 놀 WXR 가져오기"
+
+#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:1365
+#, php-format
+msgid "A new version of this importer is available. Please update to version %s to ensure compatibility with newer export files."
+msgstr "가져오기 도구의 새 버전을 사용할 수 있습니다. 최신 내보내기 파일과 호환될 수 있도록 %s 버전으로 업데이트하시기 바랍니다."
+
+#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:1380
+msgid "Howdy! Upload your Google Knol eXtended RSS (WXR) file and we&#8217;ll import the posts, pages, comments, custom fields, categories, and tags into this site."
+msgstr "안녕하세요. Google 놀 eXtended RSS(WXR)파일을 업로드하시면 게시물, 페이지, 댓글, 맞춤 입력란, 카테고리 및 태그를 이 사이트로 가져오겠습니다."
+
+#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:1381
+msgid "Choose a Google Knol WXR (.xml) file to upload, then click Upload file and import."
+msgstr "업로드할 Google 놀 WXR(.xml) 파일을 선택한 다음 파일 업로드 및 가져오기를 클릭하세요."
+
+#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:1391
+msgid "Before you can upload your import file, you will need to fix the following error:"
+msgstr "가져온 파일을 업로드하려면 다음 오류를 수정해야 합니다."
+
+#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:1398
+msgid "ANNO_IMPORT_DEBUG: Select a parser:"
+msgstr "ANNO_IMPORT_DEBUG: 파서를 선택하세요."
+
+#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:1407
+msgid "Choose a file from your computer:"
+msgstr "컴퓨터에서 파일 선택:"
+
+#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:1407
+#, php-format
+msgid "Maximum size: %s"
+msgstr "최대 크기: %s"
+
+#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:1412
+msgid "Upload file and import"
+msgstr "파일 업로드 및 가져오기"
+
+#: ../../code/Annotum/annotum-base/plugins/annotum-importers/knol-importer.php:1524
+msgid "Import <strong>articles, comments, custom fields, categories, and tags</strong> from a Google Knol WXR export file."
+msgstr "Google 놀 WXR 내보내기 파일에서 <strong>글, 댓글, 맞춤 입력란, 카테고리 및 태그</strong>를 가져옵니다."
+
+#: ../../code/Annotum/annotum-base/plugins/annotum-importers/parsers.php:42
+#, php-format
+msgid "ANNO_IMPORT_DEBUG: Could not find parser %s."
+msgstr "ANNO_IMPORT_DEBUG: 파서 %s(을)를 찾을 수 없습니다."
+
+#: ../../code/Annotum/annotum-base/plugins/annotum-importers/parsers.php:77
+#: ../../code/Annotum/annotum-base/plugins/annotum-importers/parsers.php:101
+#: ../../code/Annotum/annotum-base/plugins/annotum-importers/parsers.php:399
+msgid "There was an error when reading this WXR file"
+msgstr "WXR 파일을 읽는 중에 오류가 발생했습니다."
+
+#: ../../code/Annotum/annotum-base/plugins/annotum-importers/parsers.php:78
+msgid "Details are shown above. The importer will now try again with a different parser..."
+msgstr "세부정보는 위에 표시되어 있습니다. 가져오기 도구가 다른 파서를 사용하여 다시 시도합니다..."
+
+#: ../../code/Annotum/annotum-base/plugins/annotum-importers/parsers.php:105
+#: ../../code/Annotum/annotum-base/plugins/annotum-importers/parsers.php:110
+#: ../../code/Annotum/annotum-base/plugins/annotum-importers/parsers.php:404
+#: ../../code/Annotum/annotum-base/plugins/annotum-importers/parsers.php:751
+msgid "This does not appear to be a WXR file, missing/invalid WXR version number"
+msgstr "WXR 파일이 아닌 것 같습니다. WXR 버전 번호가 누락되었거나 잘못되었습니다."
+
+#: ../../code/Annotum/annotum-base/plugins/annotum-importers/parsers.php:318
+#, php-format
+msgid "There was an error processing %s's content for attachments."
+msgstr "첨부를 위해 %s의 콘텐츠를 처리하는 중에 오류가 발생했습니다."
+
+#: ../../code/Annotum/annotum-base/plugins/annotum-importers/parsers.php:657
+#, php-format
+msgid "XML Parser: There was an error processing the content for attachments. Line %s. Column %s. Code %s."
+msgstr "XML 파서: 첨부를 위해 의 콘텐츠를 처리하는 중에 오류가 발생했습니다. 줄 %s. 열 %s. 코드 %s."
+
+#: ../../code/Annotum/annotum-base/plugins/annotum-importers/parsers.php:1033
+msgid "There was an error when reading this Kipling DTD file"
+msgstr "Kipling DTD 파일을 읽는 중에 오류가 발생했습니다."
+
+#: ../../code/Annotum/annotum-base/plugins/annotum-importers/parsers.php:1046
+msgid "This does not appear to be a Kipling DTD file, no articles could be found"
+msgstr "Kipling DTD 파일이 아닌 것 같습니다. 글을 찾을 수 없습니다."
+
+#: ../../code/Annotum/annotum-base/plugins/cf-archive-title/cf-archive-title.php:19
+#, php-format
+msgid "Latest / <b>page %s</b>"
+msgstr "최신/<b>%s페이지</b>"
+
+#: ../../code/Annotum/annotum-base/plugins/cf-archive-title/cf-archive-title.php:20
+#, php-format
+msgid "Search results for <b>%s</b>"
+msgstr "<b>%s</b>에 대한 검색결과"
+
+#: ../../code/Annotum/annotum-base/plugins/cf-archive-title/cf-archive-title.php:21
+#, php-format
+msgid "Tag archives for <b>%s</b>"
+msgstr "<b>%s</b>에 대한 태그 자료실"
+
+#: ../../code/Annotum/annotum-base/plugins/cf-archive-title/cf-archive-title.php:22
+#, php-format
+msgid "Category archives for <b>%s</b>"
+msgstr "<b>%s</b>에 대한 카테고리 자료실"
+
+#: ../../code/Annotum/annotum-base/plugins/cf-archive-title/cf-archive-title.php:23
+#, php-format
+msgid "Author archives for <b>%s</b>"
+msgstr "<b>%s</b>에 대한 작성자 자료실"
+
+#: ../../code/Annotum/annotum-base/plugins/cf-archive-title/cf-archive-title.php:24
+#, php-format
+msgid "Archives for <b>%s</b>"
+msgstr "<b>%s</b>에 대한 자료실"
+
+#: ../../code/Annotum/annotum-base/plugins/workflow/audit.php:64
+msgid "Created a revision"
+msgstr "새 버전이 작성되었습니다."
+
+#: ../../code/Annotum/annotum-base/plugins/workflow/audit.php:65
+#, php-format
+msgid "Transitioned post state from %s to %s"
+msgstr "게시물 상태를 %s에서 %s(으)로 전환했습니다."
+
+#: ../../code/Annotum/annotum-base/plugins/workflow/audit.php:66
+msgid "Added a reviewer comment"
+msgstr "리뷰어 댓글을 추가했습니다."
+
+#: ../../code/Annotum/annotum-base/plugins/workflow/audit.php:67
+#, php-format
+msgid "Added a review of %s"
+msgstr "%s의 리뷰를 추가했습니다."
+
+#: ../../code/Annotum/annotum-base/plugins/workflow/audit.php:68
+msgid "Added an internal comment"
+msgstr "내부 댓글을 추가했습니다."
+
+#: ../../code/Annotum/annotum-base/plugins/workflow/audit.php:69
+#, php-format
+msgid "Added %s as a co-author"
+msgstr "%s님을 공동작성자로 추가했습니다."
+
+#: ../../code/Annotum/annotum-base/plugins/workflow/audit.php:70
+#, php-format
+msgid "Removed %s as a co-author"
+msgstr "%s님을 공동작성자에서 삭제했습니다."
+
+#: ../../code/Annotum/annotum-base/plugins/workflow/audit.php:71
+#, php-format
+msgid "Added %s as a reviewer"
+msgstr "%s님을 리뷰어로 추가했습니다."
+
+#: ../../code/Annotum/annotum-base/plugins/workflow/audit.php:72
+#, php-format
+msgid "Removed %s as a reviewer"
+msgstr "%s님을 리뷰어에서 삭제했습니다."
 
 #: ../../code/Annotum/annotum-base/plugins/workflow/audit.php:129
 msgid "<strong>Deleted User</strong>"
 msgstr "<strong>삭제된 사용자</strong>"
+
+#: ../../code/Annotum/annotum-base/plugins/workflow/audit.php:147
+msgid "j F, Y @ H:i"
+msgstr "j F, Y @ H:i"
+
+#: ../../code/Annotum/annotum-base/plugins/workflow/notification.php:127
+msgid "To review this article, please visit the URL above and navigate to the Reviews section. You may leave comments and questions in this section as well as providing a general review of 'Approve', 'Reject' or 'Request Revisions' from the dropdown."
+msgstr "이 글을 리뷰하려면 위 URL을 방문하여 리뷰 섹션으로 이동하시기 바랍니다. 이 섹션에 댓글과 질문을 남기고 메뉴에서 '승인', '거부' 또는 '개정 필요' 등 일반적인 리뷰를 제공할 수 있습니다."
+
+#: ../../code/Annotum/annotum-base/plugins/workflow/notification.php:134
+#, php-format
+msgid "New Submission: %s by %s."
+msgstr "새로 제출된 놀: %s(작성자: %s)"
+
+#: ../../code/Annotum/annotum-base/plugins/workflow/notification.php:136
+#, php-format
+msgid ""
+"The following article has been submitted for review:\n"
+"--------------------\n"
+"Title: %s\n"
+"Author(s): %s\n"
+"Excerpt: %s\n"
+"%s\n"
+"\n"
+"%s"
+msgstr ""
+"검토를 위해 다음 글이 제출되었습니다.\n"
+"--------------------\n"
+"제목: %s\n"
+"작성자: %s\n"
+"발췌부분: %s\n"
+"%s\n"
+"\n"
+"%s"
+
+#: ../../code/Annotum/annotum-base/plugins/workflow/notification.php:149
+#: ../../code/Annotum/annotum-base/plugins/workflow/notification.php:161
+#, php-format
+msgid "%s now in review."
+msgstr "현재 %s(을)를 리뷰 중입니다."
+
+#: ../../code/Annotum/annotum-base/plugins/workflow/notification.php:151
+#, php-format
+msgid ""
+"Review has begun for: %s\n"
+"\n"
+"%s\n"
+"\n"
+"%s"
+msgstr ""
+"리뷰 중인 글: %s\n"
+"\n"
+"%s\n"
+"\n"
+"%s"
+
+#: ../../code/Annotum/annotum-base/plugins/workflow/notification.php:163
+#, php-format
+msgid ""
+"Revisions have been made for %s and we ask you to please re-review the article.\n"
+"\n"
+"%s\n"
+"\n"
+"%s"
+msgstr ""
+"%s을(를) 개정했습니다. 글을 다시 리뷰해주시기 바랍니다.\n"
+"\n"
+"%s\n"
+"\n"
+"%s"
+
+#: ../../code/Annotum/annotum-base/plugins/workflow/notification.php:173
+#, php-format
+msgid "%s review is complete. APPROVED."
+msgstr "%s에 대한 리뷰가 완료되었습니다. 승인되었습니다."
+
+#: ../../code/Annotum/annotum-base/plugins/workflow/notification.php:175
+#, php-format
+msgid ""
+"Thank you for your contribution to %s. We are pleased to inform you that the article, %s, has been approved!\n"
+"\n"
+"You will receive an additional notification when the article is published.\n"
+"\n"
+"Thank you.\n"
+"\n"
+"%s"
+msgstr ""
+"%s에 참여해 주셔서 감사합니다. 글(%s)이 승인된 것을 축하합니다.\n"
+"\n"
+"글이 게시되면 추가 알림이 전송됩니다.\n"
+"\n"
+"감사합니다.\n"
+"\n"
+"%s"
+
+#: ../../code/Annotum/annotum-base/plugins/workflow/notification.php:187
+#, php-format
+msgid "%s review is complete."
+msgstr "%s에 대한 리뷰가 완료되었습니다. "
 
 #: ../../code/Annotum/annotum-base/plugins/workflow/notification.php:189
 #, php-format
@@ -2065,13 +1673,66 @@ msgid ""
 "\n"
 "%s"
 msgstr ""
-"Thank you for contributing to %s.  After our review process, we have decided not to accept the article at this time.  \n"
+"%s에 참여해 주셔서 감사합니다.  검토를 마친 결과, 현재로서는 글 게시를 승인하지 않기로 결정했습니다.  \n"
 "--------------------\n"
-"Title: %s\n"
+"제목: %s\n"
 "\n"
 "%s\n"
 "\n"
 "%s"
+
+#: ../../code/Annotum/annotum-base/plugins/workflow/notification.php:201
+#, php-format
+msgid "%s review is complete. CHANGES REQUESTED."
+msgstr "%s에 대한 리뷰가 완료되었습니다. 변경이 필요합니다."
+
+#: ../../code/Annotum/annotum-base/plugins/workflow/notification.php:203
+#, php-format
+msgid ""
+"Thank you for contributing to %s.  After reviewing your article, we would like to request some changes.  Please open the article here:\n"
+"\n"
+"%s\n"
+"\n"
+"and refer to the comments listed.  Once you have updated your submission in accordance with the comments, please resubmit your article.\n"
+"\n"
+"Thank you.\n"
+"\n"
+"%s"
+msgstr ""
+"%s에 참여해 주셔서 감사합니다.  글을 검토한 결과 일부 변경이 필요합니다.  여기(\n"
+"\n"
+"%s\n"
+"\n"
+")에서 글을 열고 나열된 댓글을 참조하시기 바랍니다.  댓글에 따라 제출된 놀을 업데이트한 다음, 글을 다시 제출하시기 바랍니다.\n"
+"\n"
+"감사합니다.\n"
+"\n"
+"%s"
+
+#: ../../code/Annotum/annotum-base/plugins/workflow/notification.php:217
+#, php-format
+msgid "%s has been published."
+msgstr "%s이(가) 게시되었습니다."
+
+#: ../../code/Annotum/annotum-base/plugins/workflow/notification.php:219
+#, php-format
+msgid ""
+"The following article has been published: %s\n"
+"\n"
+"%s\n"
+"\n"
+"%s"
+msgstr ""
+"다음 글이 게시되었습니다. %s\n"
+"\n"
+"%s\n"
+"\n"
+"%s"
+
+#: ../../code/Annotum/annotum-base/plugins/workflow/notification.php:228
+#, php-format
+msgid "%s has been invited to review %s by %s"
+msgstr "%s님이 %s님에게 %s을(를) 리뷰하도록 초청했습니다."
 
 #: ../../code/Annotum/annotum-base/plugins/workflow/notification.php:230
 #, php-format
@@ -2086,14 +1747,50 @@ msgid ""
 "%s\n"
 "%s"
 msgstr ""
-"%s has been invited to review the following article:\n"
+"%s님을 다음 글을 리뷰하도록 초청했습니다.\n"
 "--------------------\n"
-"Title: %s\n"
-"Author(s): %s\n"
-"Excerpt: %s\n"
+"제목: %s\n"
+"작성자: %s\n"
+"발췌부분: %s\n"
 "%s\n"
 "\n"
 "%s\n"
+"%s"
+
+#: ../../code/Annotum/annotum-base/plugins/workflow/notification.php:243
+#, php-format
+msgid "%s has been invited to co-author %s by %s"
+msgstr "%s님이 %s님을 %s의 공동작성자로 초대했습니다."
+
+#: ../../code/Annotum/annotum-base/plugins/workflow/notification.php:245
+#, php-format
+msgid ""
+"%s has been invited to co-author %s by %s.\n"
+"%s\n"
+"\n"
+"%s"
+msgstr ""
+"%s님이 %s님을 %s의 공동작성자로 초대했습니다.\n"
+"%s\n"
+"\n"
+"%s"
+
+#: ../../code/Annotum/annotum-base/plugins/workflow/notification.php:253
+#, php-format
+msgid "%s is now the primary author on %s"
+msgstr "이제 %s님이 %s의 주 작성자입니다."
+
+#: ../../code/Annotum/annotum-base/plugins/workflow/notification.php:255
+#, php-format
+msgid ""
+"%s is now the primary author on %s.\n"
+"%s\n"
+"\n"
+"%s"
+msgstr ""
+"이제 %s님이 %s의 주 작성자입니다.\n"
+"%s\n"
+"\n"
 "%s"
 
 #: ../../code/Annotum/annotum-base/plugins/workflow/notification.php:268
@@ -2109,7 +1806,7 @@ msgstr "%s님이 %s을(를) 리뷰하고 글 게시를 거부했습니다."
 #: ../../code/Annotum/annotum-base/plugins/workflow/notification.php:274
 #, php-format
 msgid "%s has reviewed %s and has requested revisions be made to the article prior to publication."
-msgstr "%s has reviewed %s and has requested revisions be made to the article prior to publication."
+msgstr "%s님이 %s을(를) 리뷰하고 게시 전에 글에 대해 개정을 요청했습니다."
 
 #: ../../code/Annotum/annotum-base/plugins/workflow/notification.php:282
 #, php-format
@@ -2129,7 +1826,333 @@ msgstr ""
 "\n"
 "%s"
 
+#: ../../code/Annotum/annotum-base/plugins/workflow/notification.php:299
+#, php-format
+msgid "New internal comment on %s"
+msgstr "%s에 대한 새 내부 댓글"
+
+#: ../../code/Annotum/annotum-base/plugins/workflow/notification.php:301
+#: ../../code/Annotum/annotum-base/plugins/workflow/notification.php:314
+#, php-format
+msgid ""
+"The following comment was submitted on %s by %s.\n"
+"--------------------\n"
+"%s\n"
+"--------------------\n"
+"%s\n"
+"\n"
+"%s"
+msgstr ""
+"%s에 %s님이 다음 댓글을 제출했습니다.\n"
+"--------------------\n"
+"%s\n"
+"--------------------\n"
+"%s\n"
+"\n"
+"%s"
+
+#: ../../code/Annotum/annotum-base/plugins/workflow/notification.php:312
+#, php-format
+msgid "New reviewer comment on %s"
+msgstr "%s에 대한 새 리뷰어 댓글"
+
+#: ../../code/Annotum/annotum-base/plugins/workflow/publishing-meta-box.php:70
+msgid "Move To Trash"
+msgstr "휴지통으로 이동"
+
+#: ../../code/Annotum/annotum-base/plugins/workflow/publishing-meta-box.php:98
+msgid "Submitted - Waiting For Review"
+msgstr "제출됨 - 리뷰 대기 중"
+
+#: ../../code/Annotum/annotum-base/plugins/workflow/publishing-meta-box.php:151
+#, php-format
+msgid "%s of %s Reviews Complete"
+msgstr "리뷰 %s개 중 %s개 완료"
+
+#: ../../code/Annotum/annotum-base/plugins/workflow/publishing-meta-box.php:158
+msgid "Submitted - In Review"
+msgstr "제출됨 - 리뷰 중"
+
+#: ../../code/Annotum/annotum-base/plugins/workflow/publishing-meta-box.php:205
+msgid "Article Approved"
+msgstr "글이 승인됨"
+
+#: ../../code/Annotum/annotum-base/plugins/workflow/publishing-meta-box.php:242
+msgid "Visibility:"
+msgstr "공개 설정:"
+
+#: ../../code/Annotum/annotum-base/plugins/workflow/publishing-meta-box.php:247
+#: ../../code/Annotum/annotum-base/plugins/workflow/publishing-meta-box.php:278
+msgid "Private"
+msgstr "비공개"
+
+#: ../../code/Annotum/annotum-base/plugins/workflow/publishing-meta-box.php:251
+#: ../../code/Annotum/annotum-base/plugins/workflow/publishing-meta-box.php:276
+msgid "Password protected"
+msgstr "비밀번호로 보호됨"
+
+#: ../../code/Annotum/annotum-base/plugins/workflow/publishing-meta-box.php:255
+msgid "Public, Sticky"
+msgstr "공개, 고정"
+
+#: ../../code/Annotum/annotum-base/plugins/workflow/publishing-meta-box.php:259
+#: ../../code/Annotum/annotum-base/plugins/workflow/publishing-meta-box.php:272
+msgid "Public"
+msgstr "공개"
+
+#: ../../code/Annotum/annotum-base/plugins/workflow/publishing-meta-box.php:274
+msgid "Stick this post to the front page"
+msgstr "이 게시물을 첫 페이지에 고정"
+
+#: ../../code/Annotum/annotum-base/plugins/workflow/publishing-meta-box.php:277
+msgid "Password:"
+msgstr "비밀번호:"
+
+#: ../../code/Annotum/annotum-base/plugins/workflow/publishing-meta-box.php:281
+msgid "OK"
+msgstr "확인"
+
+#: ../../code/Annotum/annotum-base/plugins/workflow/publishing-meta-box.php:293
+#, php-format
+msgid "Scheduled for: <b>%1$s</b>"
+msgstr "예정된 날짜: <b>%1$s</b>"
+
+#: ../../code/Annotum/annotum-base/plugins/workflow/publishing-meta-box.php:295
+#, php-format
+msgid "Published on: <b>%1$s</b>"
+msgstr "게시된 날짜: <b>%1$s</b>"
+
+#: ../../code/Annotum/annotum-base/plugins/workflow/publishing-meta-box.php:297
+#: ../../code/Annotum/annotum-base/plugins/workflow/publishing-meta-box.php:305
+msgid "Publish <b>immediately</b>"
+msgstr "<b>즉시</b> 게시"
+
+#: ../../code/Annotum/annotum-base/plugins/workflow/publishing-meta-box.php:299
+#, php-format
+msgid "Schedule for: <b>%1$s</b>"
+msgstr "예정 날짜: <b>%1$s</b>"
+
+#: ../../code/Annotum/annotum-base/plugins/workflow/publishing-meta-box.php:301
+#, php-format
+msgid "Publish on: <b>%1$s</b>"
+msgstr "게시 날짜: <b>%1$s</b>"
+
+#: ../../code/Annotum/annotum-base/plugins/workflow/publishing-meta-box.php:330
+msgid "Article Rejected"
+msgstr "글 거부됨"
+
+#: ../../code/Annotum/annotum-base/plugins/workflow/publishing-meta-box.php:360
+msgid "Article Published"
+msgstr "글 게시됨"
+
+#: ../../code/Annotum/annotum-base/plugins/workflow/publishing-meta-box.php:389
+#: ../../code/Annotum/annotum-base/plugins/workflow/publishing-meta-box.php:415
+msgid "Preview Changes"
+msgstr "변경사항 미리보기"
+
+#: ../../code/Annotum/annotum-base/plugins/workflow/publishing-meta-box.php:395
+#: ../../code/Annotum/annotum-base/plugins/workflow/publishing-meta-box.php:422
+msgid "Preview"
+msgstr "미리보기"
+
+#: ../../code/Annotum/annotum-base/plugins/workflow/workflow-init.php:49
+#: ../../code/Annotum/annotum-base/plugins/workflow/internal-comments/internal-comments.php:16
+msgid "Approve"
+msgstr "승인"
+
+#: ../../code/Annotum/annotum-base/plugins/workflow/workflow-init.php:50
+msgid "Publish"
+msgstr "게시"
+
+#: ../../code/Annotum/annotum-base/plugins/workflow/workflow-init.php:51
+#: ../../code/Annotum/annotum-base/plugins/workflow/internal-comments/internal-comments.php:18
+msgid "Reject"
+msgstr "거부"
+
+#: ../../code/Annotum/annotum-base/plugins/workflow/workflow-init.php:52
+msgid "Submit For Review"
+msgstr "제출하여 검토받기"
+
+#: ../../code/Annotum/annotum-base/plugins/workflow/workflow-init.php:53
+msgid "Request Revisions"
+msgstr "개정 요청"
+
+#: ../../code/Annotum/annotum-base/plugins/workflow/workflow-init.php:54
+msgid "Clone"
+msgstr "복제"
+
+#: ../../code/Annotum/annotum-base/plugins/workflow/workflow-init.php:55
+msgid "Revert To Draft"
+msgstr "초안으로 되돌리기"
+
+#: ../../code/Annotum/annotum-base/plugins/workflow/workflow.php:17
+msgid "Submitted"
+msgstr "제출됨"
+
+#: ../../code/Annotum/annotum-base/plugins/workflow/workflow.php:18
+msgid "In Review"
+msgstr "리뷰 중"
+
+#: ../../code/Annotum/annotum-base/plugins/workflow/workflow.php:19
+msgid "Approved"
+msgstr "승인됨"
+
+#: ../../code/Annotum/annotum-base/plugins/workflow/workflow.php:20
+msgid "Rejected"
+msgstr "거부됨"
+
+#: ../../code/Annotum/annotum-base/plugins/workflow/workflow.php:46
+msgid "Audit Log"
+msgstr "감사 로그"
+
+#: ../../code/Annotum/annotum-base/plugins/workflow/workflow.php:64
+#: ../../code/Annotum/annotum-base/plugins/workflow/workflow.php:804
+msgid "Author"
+msgstr "작성자"
+
+#: ../../code/Annotum/annotum-base/plugins/workflow/workflow.php:68
+msgid "Status:"
+msgstr "상태:"
+
+#: ../../code/Annotum/annotum-base/plugins/workflow/workflow.php:74
+msgid "Versions"
+msgstr "버전"
+
+#: ../../code/Annotum/annotum-base/plugins/workflow/workflow.php:78
+msgid "Reviewers"
+msgstr "리뷰어"
+
+#: ../../code/Annotum/annotum-base/plugins/workflow/workflow.php:80
+msgid "Co-Authors"
+msgstr "공동작성자"
+
+#: ../../code/Annotum/annotum-base/plugins/workflow/workflow.php:260
+msgid "Email / Username"
+msgstr "이메일/사용자 이름"
+
+#: ../../code/Annotum/annotum-base/plugins/workflow/workflow.php:265
+msgid "Create User"
+msgstr "사용자 만들기"
+
+#: ../../code/Annotum/annotum-base/plugins/workflow/workflow.php:268
+#: ../../code/Annotum/annotum-base/plugins/workflow/workflow.php:296
+msgid "or &lt;a href=\"#\" class=\""
+msgstr "또는 <a href=\"#\" class=\""
+
+#: ../../code/Annotum/annotum-base/plugins/workflow/workflow.php:383
+msgid "remove"
+msgstr "삭제"
+
+#: ../../code/Annotum/annotum-base/plugins/workflow/workflow.php:420
+msgid "User has been created and added"
+msgstr "사용자를 만들어 추가했습니다."
+
+#: ../../code/Annotum/annotum-base/plugins/workflow/workflow.php:545
+msgid "reviewer"
+msgstr "리뷰어"
+
+#: ../../code/Annotum/annotum-base/plugins/workflow/workflow.php:548
+msgid "co-author"
+msgstr "공동작성자"
+
+#: ../../code/Annotum/annotum-base/plugins/workflow/workflow.php:552
+#, php-format
+msgid "Cannot add author as a %s"
+msgstr "작성자를 %s(으)로 추가할 수 없습니다."
+
+#: ../../code/Annotum/annotum-base/plugins/workflow/workflow.php:555
+#, php-format
+msgid "Cannot add %s as %s. User is already a co-author"
+msgstr "%s님을 %s(으)로 추가할 수 없습니다. 이미 공동작성자인 사용자입니다."
+
+#: ../../code/Annotum/annotum-base/plugins/workflow/workflow.php:558
+#, php-format
+msgid "Cannot add %s as %s. User is already a reviewer"
+msgstr "%s님을 %s(으)로 추가할 수 없습니다. 이미 리뷰어인 사용자입니다."
+
+#: ../../code/Annotum/annotum-base/plugins/workflow/workflow.php:569
+#, php-format
+msgid "User '%s' not found"
+msgstr "사용자 '%s'(을)를 찾을 수 없습니다."
+
+#: ../../code/Annotum/annotum-base/plugins/workflow/workflow.php:727
+msgid "Cloned From"
+msgstr "복제 출처"
+
+#: ../../code/Annotum/annotum-base/plugins/workflow/workflow.php:735
+msgid "Clones"
+msgstr "복제된 게시물"
+
+#: ../../code/Annotum/annotum-base/plugins/workflow/workflow.php:769
+#, php-format
+msgid "Cloned: %s"
+msgstr "복제된 날짜: %s"
+
+#: ../../code/Annotum/annotum-base/plugins/workflow/workflow.php:824
+msgid "You are not allowed to clone this post."
+msgstr "이 게시물을 복제할 권한이 없습니다."
+
 #: ../../code/Annotum/annotum-base/plugins/workflow/workflow.php:947
 msgid "You are editing an imported article. Updating this article will likely change its XML and HTML output."
-msgstr "You are editing an imported article. Updating this article will likely change its XML and HTML output."
+msgstr "가져온 글을 수정하고 있습니다. 글을 업데이트하면 XML 및 HTML 출력이 바뀔 수도 있습니다."
+
+#: ../../code/Annotum/annotum-base/plugins/workflow/internal-comments/internal-comments.php:17
+msgid "Revisions"
+msgstr "개정"
+
+#: ../../code/Annotum/annotum-base/plugins/workflow/internal-comments/internal-comments.php:26
+msgid "Internal Comments"
+msgstr "내부 댓글"
+
+#: ../../code/Annotum/annotum-base/plugins/workflow/internal-comments/internal-comments.php:29
+msgid "Reviews"
+msgstr "리뷰"
+
+#: ../../code/Annotum/annotum-base/plugins/workflow/internal-comments/internal-comments.php:127
+#, php-format
+msgid "Submitted on <a href=\"%1$s\">%2$s at %3$s</a>"
+msgstr "<a href=\"%1$s\">%2$s %3$s</a>에 제출됨"
+
+#: ../../code/Annotum/annotum-base/plugins/workflow/internal-comments/internal-comments.php:127
+msgid "Y/m/d"
+msgstr "Y/m/d"
+
+#: ../../code/Annotum/annotum-base/plugins/workflow/internal-comments/internal-comments.php:132
+#, php-format
+msgid "In reply to <a href=\"%1$s\">%2$s</a>."
+msgstr "<a href=\"%1$s\">%2$s</a>에 보낸 답글입니다."
+
+#: ../../code/Annotum/annotum-base/plugins/workflow/internal-comments/internal-comments.php:142
+msgid "Reply"
+msgstr "답글"
+
+#: ../../code/Annotum/annotum-base/plugins/workflow/internal-comments/internal-comments.php:189
+msgid "Recommendation: "
+msgstr "추천: "
+
+#: ../../code/Annotum/annotum-base/plugins/workflow/internal-comments/internal-comments.php:438
+msgid "Article General"
+msgstr "글 일반"
+
+#: ../../code/Annotum/annotum-base/plugins/workflow/internal-comments/internal-comments.php:439
+msgid "Article Review"
+msgstr "글 리뷰"
+
+#: ../../code/Annotum/annotum-base/posts/search.php:29
+#, php-format
+msgid "Search Results for: %s"
+msgstr "%s에 대한 검색결과"
+
+#: ../../code/trunk/wp-plugins/anno-data-fix.php:13
+#: ../../code/trunk/wp-plugins/anno-data-fix.php:14
+msgid "Annotum Data Fix"
+msgstr "Annotum 데이터 수정"
+
+#: ../../code/trunk/wp-plugins/anno-data-fix.php:45
+msgid "Migrate co-author and reviewer data assigned to articles pre-alpha."
+msgstr "지정된 공동작성자와 리뷰어 데이터를 글에 미리 이전할 수 있습니다."
+
+#: ../../code/trunk/wp-plugins/anno-data-fix.php:49
+msgid "Migrate!"
+msgstr "지금 이전하세요."
 
