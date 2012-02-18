@@ -63,7 +63,7 @@ class Anno_Widget_Recently extends WP_Widget {
 				<li><a href="#p2-<?php echo $this->html_uid; ?>"><?php _e('Comments', 'anno'); ?></a></li>
 			</ul>
 			<div class="panel first-child" id="p1-<?php echo $this->html_uid; ?>">
-				<?php ;
+				<?php 
 				$articles = new WP_Query(array(
 					'post_type' => 'article',
 					'posts_per_page' => $this->number
@@ -76,7 +76,7 @@ class Anno_Widget_Recently extends WP_Widget {
 					<li><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></li>
 				<?php 
 					}
-					echo '</ol>;
+					echo '</ol>';
 					wp_reset_postdata();
 					unset($articles);
 				}
