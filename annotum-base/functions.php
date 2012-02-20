@@ -790,6 +790,59 @@ Password: %s
 }
 
 /**
+ * Get count of available articles that a user can see/edit
+ * 
+ * @param int $user_id ID of the user to count for, otherwise uses current user
+ * @return object|int Object if user is admin or editor of all the states and counts. Single int count otherwise
+ */
+function anno_viewable_article_count($user_id = false) {	
+	$count = 0;
+	
+	if (empty($user_id)) {
+		$user = wp_get_current_user();
+	}
+	else{
+		$user = get_user_by('id', (int) $user_id);
+	}
+	
+	if ($user) {
+		if ($user->has_cap('editor') || $user->has_cap('administrator')) {
+			return wp_count_posts('article', 'readable');
+		}
+		// The user is not an editor, nor an admin, so only count published posts and ones they are an author/co-author on.
+		else {
+			// Disable caches (meta, term)
+			$published_count_query = new WP_Query(array(
+				'post_status' => 'publish',
+				'fields' => 'ids',
+				'post_type' => 'article',
+				'cache_results' => false,
+			));
+			
+			$author_count_query = new WP_Query(array(
+				'fields' => 'ids',
+				'post_type' => 'article',
+				'post_status' => array('draft', 'pending', 'private', 'future'),
+				'cache_results' => false,
+				'meta_query' => array(
+					array( 
+						'key' => '_anno_author_'.$user->ID,
+					),
+				),
+			));
+						
+			$count += !empty($published_count_query->posts) ? count($published_count_query->posts) : 0;
+			$count += !empty($author_count_query->posts) ? count($author_count_query->posts) : 0;
+			
+			wp_reset_query();
+		}
+	}
+	
+	return $count;
+}
+
+
+/**
  * Output general stats in dashboard widget
  *
  * @return void
@@ -816,14 +869,20 @@ function anno_activity_information() {
 		),
 	);
 	
-	$num_posts = wp_count_posts( $article_post_type, 'readable' );
+	$num_posts = anno_viewable_article_count();
 	
-	// Get the absolute total of $num_posts
-	$total_records = array_sum( (array) $num_posts );
-
-	// Subtract post types that are not included in the admin all list.
-	foreach (get_post_stati(array('show_in_admin_all_list' => false)) as $state) {
-		$total_records -= $num_posts->$state;
+	if (!is_int($num_posts)) {
+	
+		// Get the absolute total of $num_posts
+		$total_records = array_sum( (array) $num_posts );
+		
+		// Subtract post types that are not included in the admin all list.
+		foreach (get_post_stati(array('show_in_admin_all_list' => false)) as $state) {
+			$total_records -= $num_posts->$state;
+		}
+	}
+	else {
+		$total_records = $num_posts;
 	}
 	
 	// Default
@@ -1027,6 +1086,7 @@ function anno_current_user_can_edit() {
 
 // Remove autop, inserts unnecessary br tags in the nicely formatted HTML
 // Carlthewebmaster 15-Dec-11 - but only for Articles
+		global $post_type;
 		if ($post_type == 'article') {
 			remove_filter('the_content','wpautop');
 		}
