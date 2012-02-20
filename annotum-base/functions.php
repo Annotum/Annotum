@@ -279,8 +279,8 @@ function anno_settings($settings) {
 	unset($settings['cfct']['fields']['about']);
 	
 	$yn_options = array(
-		'1' => __('Yes', 'carrington'),
-		'0' => __('No', 'carrington')
+		'1' => __('Yes', 'anno'),
+		'0' => __('No', 'anno')
 	);
 	
 	$anno_settings_top = array(
