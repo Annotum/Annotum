@@ -920,7 +920,7 @@ function annowf_prevent_preview($posts, $query) {
 				$posts = array();
 				$query->is_404 = 1;
 				$query->is_single = 0;
-				$query->set('error', '404');;
+				$query->set('error', '404');
 				$query->is_singular = 0;
 				$query->is_preview = 0;
 				$query->post = null;

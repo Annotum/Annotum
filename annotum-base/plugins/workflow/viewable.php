@@ -64,22 +64,4 @@ function annov_modify_list_where($where) {
 			OR wp_posts.post_status = 'publish'
 		)";
 }
-
-/**
- * Prevent a user from accessing the back end view screen for an article if they are not
- * an author or have authoring capabilities
- */
-function annov_prevent_view() {
-	global $pagenow;
-	if ($pagenow == 'post.php') {
-		global $post;
-		// Some disconnect from workflow, use WP post_status instead of the Annotum post state meta
- 		if ($post->post_type == 'article' && !anno_user_can('edit_post', null, $post->ID) && $post->post_status !== 'publish') {
-			// Remove all capabilities for that user in this instance
-			add_filter('user_has_cap', 'annowf_user_has_cap_filter');
-		}
-	}
-}
-add_action('wp_init', 'annov_prevent_view');
-
 ?>
