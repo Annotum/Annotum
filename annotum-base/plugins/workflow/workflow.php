@@ -912,15 +912,12 @@ add_action('admin_init', 'annowf_admin_request_handler', 0);
 /**
  * Prevent preview of posts that a user cannot edit
  */
-
 function annowf_prevent_preview($posts, $query) {
-	
 	if ($query->is_single && $query->is_preview() && !empty($posts)) {
 		$post = $posts[0];
 		if ($post->post_type == 'article') {
 		 	if (!anno_user_can('view_post', null, $post->ID)) {
 				$posts = array();
-				// Pretend its a 404, remove post type so carrington-core treats it as default
 				$query->is_404 = 1;
 				$query->is_single = 0;
 				$query->set('error', '404');;
@@ -932,6 +929,7 @@ function annowf_prevent_preview($posts, $query) {
 	}
 	return $posts;
 }
+// Could run similar at pre_get_posts, but this is more reliable at the cost of a slight performance decrease.
 add_filter('the_posts', 'annowf_prevent_preview', 10, 2);
 
 /**
