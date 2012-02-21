@@ -43,41 +43,22 @@ add_action('pre_get_posts', 'annov_add_modify_list_where');
 
 /**
  * Adjust where clause to display posts this user is attributed to or published ones
- * 
- * Original Query:
- *  	AND wp_posts.post_type = 'article' 
- *  		AND (
- *  			wp_posts.post_status = 'publish' 
- *  			OR wp_posts.post_status = 'future' 
- *  			OR wp_posts.post_status = 'draft' 
- *  			OR wp_posts.post_status = 'pending' 
- *  			OR wp_posts.post_author = $user_id 
- *  			AND wp_posts.post_status = 'private'
- *  		)
- *  		AND (
- *  			wp_postmeta.meta_key = '_anno_author_$user_id' 
- *  		)
- *
  */
 function annov_modify_list_where($where) {	
 	$user_id = get_current_user_id();
-	global $wpdb;
+	global $wpdb, $wp_query;
+
 	// Self removing filter
 	remove_filter('posts_where', 'annov_modify_list_where');
+	$post_status = $wp_query->get('post_status');
+	
+	// Only want to display published if displaying all items, or if displaying published items
+	if (empty($post_status) || $post_status == 'publish' || $post_status == 'all') {
+		$where = str_replace("$wpdb->postmeta.meta_key = '_anno_author_$user_id'", "$wpdb->postmeta.meta_key = '_anno_author_$user_id' 
+			OR $wpdb->posts.post_status = 'publish'", $where);
+	}
 
-	return "AND $wpdb->posts.post_type = 'article' 
-		AND (
-			$wpdb->posts.post_status = 'publish' 
-			OR $wpdb->posts.post_status = 'future' 
-			OR $wpdb->posts.post_status = 'draft' 
-			OR $wpdb->posts.post_status = 'pending' 
-			OR $wpdb->posts.post_author = $user_id 
-			AND $wpdb->posts.post_status = 'private'
-		)
-		AND (
-			$wpdb->postmeta.meta_key = '_anno_author_$user_id' 
-			OR $wpdb->posts.post_status = 'publish'
-		)";
+	return $where;
 }
 
 /**
@@ -120,7 +101,7 @@ add_action('pre_get_posts', 'annov_modify_media_list_query');
 
 
 /**
- * Filter to get all attachments this use should be able to see
+ * Filter to get all attachments the current user should be able to see
  */
 function anonv_media_parent_in_where($where) {
 	remove_filter('posts_where', 'anonv_media_parent_in_where');
