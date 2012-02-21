@@ -12,8 +12,6 @@
 /**
  * Filter for article listing screen to only show articles a user is author/co-author on unless they
  * are an editor or administrator
- *
- * @todo Allow publish posts regardless of user to show up
  */
 function annov_modify_list_query($query) {
 	global $pagenow;
@@ -70,8 +68,6 @@ function annov_modify_list_where($where) {
 /**
  * Prevent a user from accessing the back end view screen for an article if they are not
  * an author or have authoring capabilities
- *
- * @author Evan Anderson
  */
 function annov_prevent_view() {
 	global $pagenow;
