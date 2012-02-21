@@ -790,6 +790,107 @@ Password: %s
 }
 
 /**
+ * Get published post ids for a given post type
+ *
+ * @param array $posts_types 
+ * @return array of post ids that are published for the posts types defined
+ */
+function anno_get_published_posts($post_types = array('article')) {
+	$posts = array();
+		
+	// author will always be stored in post_meta
+	$query = new WP_Query(array(
+		'fields' => 'ids',
+		'post_type' => $post_types,
+		'post_status' => array('publish'),
+		'cache_results' => false,
+	));
+	
+	if (isset($query->posts) && is_array($query->posts)) {
+		$posts = $query->posts;
+	}
+	
+	wp_reset_query();
+	
+	return $posts;
+}
+
+/**
+ * Get a list of posts a user is the author or co-author on
+ *
+ * @param int $user_id User id to look up, else uses current user id
+ * @param array $post_type Post types to find posts for, defaults to article
+ * @param array $post_stati Post statuses to look up 
+ * @return array Empty array or array of post ids
+ * @author Evan Anderson
+ */
+function anno_get_owned_posts($user_id = false, $post_types = array('article'), $post_statuses = array('draft', 'pending', 'private', 'future')) {
+	$posts = array();
+	
+	if (empty($user_id)) {
+		$user_id = get_current_user_id();
+	}
+	
+	// author will always be stored in post_meta
+	$query = new WP_Query(array(
+		'fields' => 'ids',
+		'post_type' => $post_types,
+		'post_status' => $post_statuses,
+		'cache_results' => false,
+		'posts_per_page' => -1,
+		'author' => $user_id,
+	));
+	
+	if (isset($query->posts) && is_array($query->posts)) {
+		$posts = $query->posts;
+	}
+	
+	wp_reset_query();
+	
+	return $posts;
+}
+
+
+/**
+ * Get a list of posts a user is the author or co-author on
+ *
+ * @param int $user_id User id to look up, else uses current user id
+ * @param array $post_type Post types to find posts for, defaults to article
+ * @param array $post_stati Post statuses to look up 
+ * @return array Empty array or array of post ids
+ * @author Evan Anderson
+ */
+function anno_get_authored_posts($user_id = false, $post_types = array('article'), $post_statuses = array('draft', 'pending', 'private', 'future')) {
+	$posts = array();
+	
+	if (empty($user_id)) {
+		$user_id = get_current_user_id();
+	}
+	
+	// author will always be stored in post_meta
+	$query = new WP_Query(array(
+		'fields' => 'ids',
+		'post_type' => $post_types,
+		'post_status' => $post_statuses,
+		'cache_results' => false,
+		'posts_per_page' => -1,
+		'meta_query' => array(
+			array( 
+				'key' => '_anno_author_'.$user_id,
+			),
+		),
+	));
+	
+	if (isset($query->posts) && is_array($query->posts)) {
+		$posts = $query->posts;
+	}
+	
+	wp_reset_query();
+	
+	return $posts;
+}
+
+/**
  * Get count of available articles that a user can see/edit
  * 
  * @param int $user_id ID of the user to count for, otherwise uses current user
@@ -816,23 +917,14 @@ function anno_viewable_article_count($user_id = false) {
 				'post_status' => 'publish',
 				'fields' => 'ids',
 				'post_type' => 'article',
+				'posts_per_page' => -1,
 				'cache_results' => false,
 			));
 			
-			$author_count_query = new WP_Query(array(
-				'fields' => 'ids',
-				'post_type' => 'article',
-				'post_status' => array('draft', 'pending', 'private', 'future'),
-				'cache_results' => false,
-				'meta_query' => array(
-					array( 
-						'key' => '_anno_author_'.$user->ID,
-					),
-				),
-			));
+			$author_posts = anno_get_authored_posts($user->ID);
 						
 			$count += !empty($published_count_query->posts) ? count($published_count_query->posts) : 0;
-			$count += !empty($author_count_query->posts) ? count($author_count_query->posts) : 0;
+			$count += count($author_posts);
 			
 			wp_reset_query();
 		}
@@ -840,7 +932,6 @@ function anno_viewable_article_count($user_id = false) {
 	
 	return $count;
 }
-
 
 /**
  * Output general stats in dashboard widget
