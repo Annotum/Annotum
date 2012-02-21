@@ -275,16 +275,17 @@ function annov_media_view_counts($views) {
 	
 	$image_count = count($posts);
 	
-	if ($wp_query->get('post_mime_type') == 'image') {
-		$class = ' class="current"';
-	}
-	else {
-		$class = '';
-	}
+	if ($image_count > 0) {
+		if ($wp_query->get('post_mime_type') == 'image') {
+			$class = ' class="current"';
+		}
+		else {
+			$class = '';
+		}
 	
-	$views['image'] = sprintf(__('<a href="%s"'. $class .'>Image <span class="count">(%d)</span></a>', 'anno'),
-    	admin_url('upload.php?post_mime_type=image'), $image_count);
-	
+		$views['image'] = sprintf(__('<a href="%s"'. $class .'>Image <span class="count">(%d)</span></a>', 'anno'),
+	    	admin_url('upload.php?post_mime_type=image'), $image_count);
+	}
 	wp_reset_query();
 			
 	$owned_detached = new WP_Query(array(
@@ -298,16 +299,18 @@ function annov_media_view_counts($views) {
 	
 	$detached_count = count($owned_detached->posts);
 	
-	// Not showing up in wp_query query vars
-	if (!empty($_GET['detached'])) {
-		$class = ' class="current"';
-	}
-	else {
-		$class = '';
-	}
+	if ($detached_count > 0) {
+		// Not showing up in wp_query query vars
+		if (!empty($_GET['detached'])) {
+			$class = ' class="current"';
+		}
+		else {
+			$class = '';
+		}
 	
-	$views['detached'] = sprintf(__('<a href="%s"'. $class .'>Detached <span class="count">(%d)</span></a>', 'anno'),
-    	admin_url('upload.php?detached=1'), $detached_count);
+		$views['detached'] = sprintf(__('<a href="%s"'. $class .'>Detached <span class="count">(%d)</span></a>', 'anno'),
+	    	admin_url('upload.php?detached=1'), $detached_count);
+	}
 	
 	wp_reset_query();
 	
