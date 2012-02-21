@@ -18,9 +18,14 @@ function annov_modify_list_query($query) {
 	if (is_admin() && $pagenow == 'edit.php' && $query->get('post_type') == 'article') {
 		if (!current_user_can('editor') && !current_user_can('administrator')) {
 			$user_id = get_current_user_id();
+			// ORDER MATTERS HERE! _anno_author must come first
 			$query->set('meta_query', array( 
+				'relation' => 'OR',
 				array(
 					'key' => '_anno_author_'.$user_id,
+				),
+				array(
+					'key' => '_anno_reviewer_'.$user_id,
 				),
 			));
 			add_filter('views_edit-article', 'annov_article_view_counts');
@@ -142,6 +147,7 @@ function annov_article_view_counts($views) {
 
 	global $wp_query;
 	$post_status = $wp_query->get('post_status');
+	$user_id = get_current_user_id();
 	unset($views['mine']);
 	$types = array(
 		array('status' =>  NULL),
@@ -159,8 +165,12 @@ function annov_article_view_counts($views) {
 			'posts_per_page' => -1,
 			'cache_results' => false,
 			'meta_query' => array(
+				'relation' => 'OR',
 				array(
-					'key' => '_anno_author_'.get_current_user_id(),
+					'key' => '_anno_author_'.$user_id,
+				),
+				array(
+					'key' => '_anno_reviewer_'.$user_id,
 				),
 			),
 		));
@@ -181,7 +191,7 @@ function annov_article_view_counts($views) {
 				unset($views['draft']);
 			}
 		}
-		elseif ($type['status'] == 'pending' && !empty($query->posts)) {
+		elseif ($type['status'] == 'pending') {
 			if (!empty($query->posts)) {
 		    	$class = $post_status == 'pending' ? ' class="current"' : '';
 		    	$views['pending'] = sprintf(__('<a href="%s"'. $class .'>Pending <span class="count">(%d)</span></a>', 'anno'),
@@ -191,7 +201,7 @@ function annov_article_view_counts($views) {
 				unset($views['pending']);
 			}
 		}
-		elseif( $type['status'] == 'trash' && !empty($query->posts)) {
+		elseif( $type['status'] == 'trash') {
 			if (!empty($query->posts)) {
 		    	$class = $wp_query->get('post_status') == 'trash' ? ' class="current"' : '';
 		    	$views['trash'] = sprintf(__('<a href="%s"'. $class .'>Trash <span class="count">(%d)</span></a>', 'anno'),

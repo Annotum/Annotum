@@ -882,8 +882,12 @@ function anno_get_authored_posts($user_id = false, $post_types = array('article'
 		'cache_results' => false,
 		'posts_per_page' => -1,
 		'meta_query' => array(
-			array( 
+			'relation' => 'OR',
+			array(
 				'key' => '_anno_author_'.$user_id,
+			),
+			array(
+				'key' => '_anno_reviewer_'.$user_id,
 			),
 		),
 	));
