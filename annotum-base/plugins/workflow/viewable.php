@@ -317,4 +317,36 @@ function annov_media_view_counts($views) {
 	return $views;	
 }
 
+/**
+ * Enqueue style that hides attach button by default
+ */
+function annov_enqueue_css() {
+	if (!current_user_can('editor') && !current_user_can('administrator')) {
+		wp_enqueue_style('anno-listing-filter', trailingslashit(get_bloginfo('template_directory')).'plugins/workflow/css/listing-filter.css');
+	}
+}
+add_action('admin_print_styles-upload.php', 'annov_enqueue_css');
+
+/**
+ * Enqueue script that removes the attach button
+ */
+function annov_enqueue_js() {
+	if (!current_user_can('editor') && !current_user_can('administrator')) {
+		wp_enqueue_script('anno-listing-filter', trailingslashit(get_bloginfo('template_directory')).'plugins/workflow/js/listing-filter.js', array('jquery'));
+	}
+}
+add_action('admin_print_scripts-upload.php', 'annov_enqueue_js');
+
+/**
+ * Do not allow user to use the find_posts ajax method if they are not editor or admin
+ */
+function annov_disable_attach_find() {
+	if (!current_user_can('editor') && !current_user_can('administrator')) {
+		if (isset($_REQUEST['action']) && $_REQUEST['action'] == 'find_posts') {
+			wp_die(__( 'Cheatin&#8217; uh?', 'anno'));
+		}
+	}
+}
+add_action('admin_init', 'annov_disable_attach_find')
+
 ?>
