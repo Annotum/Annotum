@@ -73,6 +73,9 @@ function annov_modify_media_list_query($query) {
 	remove_action('pre_get_posts', 'annov_modify_media_list_query');
 	if (is_admin() && $pagenow == 'upload.php') {
 		if (!current_user_can('editor') && !current_user_can('administrator')) {
+			// Update post counts
+			add_filter('views_upload', 'annov_media_view_counts');
+			
 			add_filter('posts_where', 'annonv_media_parent_in_where');
 			$viewable_attachments = new WP_Query(array(
 				'post_type' => 'attachment',
@@ -161,17 +164,17 @@ function annov_article_view_counts($views) {
 				),
 			),
 		));
-		error_log(print_r($query->posts,1));
+
 		if ($type['status'] == NULL) {
 		    $class = (empty($post_status) || $post_status == 'all') ? ' class="current"' : '';
-		    $views['all'] = sprintf(__('<a href="%s"'. $class .'>All <span class="count">(%d)</span></a>', 'all'),
+		    $views['all'] = sprintf(__('<a href="%s"'. $class .'>All <span class="count">(%d)</span></a>', 'anno'),
 		        admin_url('edit.php?post_type=article'),
 		        count($query->posts));
 		}
 		elseif ($type['status'] == 'draft') {
 			if (!empty($query->posts)) {
 			    $class = $post_status == 'draft' ? ' class="current"' : '';
-			    $views['draft'] = sprintf(__('<a href="%s"'. $class .'>Draft'. ((sizeof($query->posts) > 1) ? "s" : "") .' <span class="count">(%d)</span></a>', 'draft'),
+			    $views['draft'] = sprintf(__('<a href="%s"'. $class .'>Draft'. ((sizeof($query->posts) > 1) ? "s" : "") .' <span class="count">(%d)</span></a>', 'anno'),
 			        admin_url('edit.php?post_status=draft&post_type=article'), count($query->posts));
 			}
 			else {
@@ -181,7 +184,7 @@ function annov_article_view_counts($views) {
 		elseif ($type['status'] == 'pending' && !empty($query->posts)) {
 			if (!empty($query->posts)) {
 		    	$class = $post_status == 'pending' ? ' class="current"' : '';
-		    	$views['pending'] = sprintf(__('<a href="%s"'. $class .'>Pending <span class="count">(%d)</span></a>', 'pending'),
+		    	$views['pending'] = sprintf(__('<a href="%s"'. $class .'>Pending <span class="count">(%d)</span></a>', 'anno'),
 		        	admin_url('edit.php?post_status=pending&post_type=article'), count($query->posts));
 			}
 			else {
@@ -191,7 +194,7 @@ function annov_article_view_counts($views) {
 		elseif( $type['status'] == 'trash' && !empty($query->posts)) {
 			if (!empty($query->posts)) {
 		    	$class = $wp_query->get('post_status') == 'trash' ? ' class="current"' : '';
-		    	$views['trash'] = sprintf(__('<a href="%s"'. $class .'>Trash <span class="count">(%d)</span></a>', 'trash'),
+		    	$views['trash'] = sprintf(__('<a href="%s"'. $class .'>Trash <span class="count">(%d)</span></a>', 'anno'),
 		        	admin_url('edit.php?post_status=trash&post_type=article'), count($query->posts));
 			}
 			else {
@@ -202,6 +205,113 @@ function annov_article_view_counts($views) {
 		wp_reset_query();
 	}
 	return $views;
+}
+
+/**
+ * Filter to adjust counts for article listing page
+ */
+function annov_media_view_counts($views) {
+	remove_filter('views_upload', 'annov_media_view_counts');
+
+	global $wp_query;
+	$user_id = get_current_user_id();
+	// Only care about the ones defined in this function
+	$views = array();
+	$class = '';
+	
+	// all
+	add_filter('posts_where', 'annonv_media_parent_in_where');
+	$viewable_attachments = new WP_Query(array(
+		'post_type' => 'attachment',
+		'post_status' => 'inherit',
+		'fields' => 'ids',
+		'cache_results' => false,
+	));
+	
+	// Also show all attachments the user owns, which may not be attached to a post
+	$owned_posts = anno_get_owned_posts(null, array('attachment'), array('inherit'));
+
+	$posts = array_merge($viewable_attachments->posts, $owned_posts);
+	$posts = array_unique($posts);
+	
+	$all_count = count($posts);
+	
+	// Filters passed in through get params
+	if (empty($_GET)) {
+		$class = ' class="current"';
+	}
+	else {
+		$class = '';
+	}
+	
+	$views['all'] = sprintf(__('<a href="%s"'. $class .'>All <span class="count">(%d)</span></a>', 'anno'),
+    	admin_url('upload.php'), $all_count);
+	
+	wp_reset_query();
+	
+	// Images
+	
+	// Grab image associated with post this user can edit
+	add_filter('posts_where', 'annonv_media_parent_in_where');
+	$image_attachments = new WP_Query(array(
+		'post_type' => 'attachment',
+		'post_status' => 'inherit',
+		'fields' => 'ids',
+		'cache_results' => false,
+		'post_mime_type' => 'image',
+	));
+	// Also grab images the user owns (could be detached)
+	$image_owned_attachments = new WP_Query(array(
+		'post_type' => 'attachment',
+		'post_status' => 'inherit',
+		'fields' => 'ids',
+		'cache_results' => false,
+		'post_mime_type' => 'image',
+		'author' => $user_id,
+	));
+	
+	$posts = array_merge($image_attachments->posts, $image_owned_attachments->posts);
+	$posts = array_unique($posts);
+	
+	$image_count = count($posts);
+	
+	if ($wp_query->get('post_mime_type') == 'image') {
+		$class = ' class="current"';
+	}
+	else {
+		$class = '';
+	}
+	
+	$views['image'] = sprintf(__('<a href="%s"'. $class .'>Image <span class="count">(%d)</span></a>', 'anno'),
+    	admin_url('upload.php?post_mime_type=image'), $image_count);
+	
+	wp_reset_query();
+			
+	$owned_detached = new WP_Query(array(
+		'post_type' => 'attachment',
+		'post_status' => 'inherit',
+		'fields' => 'ids',
+		'cache_results' => false,
+		'post_parent' => 0,
+		'author' => $user_id,
+	));
+	
+	$detached_count = count($owned_detached->posts);
+	
+	// Not showing up in wp_query query vars
+	if (!empty($_GET['detached'])) {
+		$class = ' class="current"';
+	}
+	else {
+		$class = '';
+	}
+	
+	$views['detached'] = sprintf(__('<a href="%s"'. $class .'>Detached <span class="count">(%d)</span></a>', 'anno'),
+    	admin_url('upload.php?detached=1'), $detached_count);
+	
+	wp_reset_query();
+	
+	return $views;	
 }
 
 ?>
