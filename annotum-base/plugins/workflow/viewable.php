@@ -136,8 +136,9 @@ function annonv_media_parent_in_where($where) {
  */
 function annov_article_view_counts($views) {
 	remove_filter('views_edit-article', 'annov_article_view_counts');
-	
+
 	global $wp_query;
+	$post_status = $wp_query->get('post_status');
 	unset($views['mine']);
 	$types = array(
 		array('status' =>  NULL),
@@ -160,31 +161,42 @@ function annov_article_view_counts($views) {
 				),
 			),
 		));
-		$post_status = $wp_query->get('post_status');
-				
+		error_log(print_r($query->posts,1));
 		if ($type['status'] == NULL) {
 		    $class = (empty($post_status) || $post_status == 'all') ? ' class="current"' : '';
 		    $views['all'] = sprintf(__('<a href="%s"'. $class .'>All <span class="count">(%d)</span></a>', 'all'),
 		        admin_url('edit.php?post_type=article'),
 		        count($query->posts));
 		}
-		elseif ($type['status'] == 'draft' && !empty($query->posts)) {
-		    $class = $post_status == 'draft' ? ' class="current"' : '';
-		    $views['draft'] = sprintf(__('<a href="%s"'. $class .'>Draft'. ((sizeof($query->posts) > 1) ? "s" : "") .' <span class="count">(%d)</span></a>', 'draft'),
-		        admin_url('edit.php?post_status=draft&post_type=article'),
-		        count($query->posts));
+		elseif ($type['status'] == 'draft') {
+			if (!empty($query->posts)) {
+			    $class = $post_status == 'draft' ? ' class="current"' : '';
+			    $views['draft'] = sprintf(__('<a href="%s"'. $class .'>Draft'. ((sizeof($query->posts) > 1) ? "s" : "") .' <span class="count">(%d)</span></a>', 'draft'),
+			        admin_url('edit.php?post_status=draft&post_type=article'), count($query->posts));
+			}
+			else {
+				unset($views['draft']);
+			}
 		}
 		elseif ($type['status'] == 'pending' && !empty($query->posts)) {
-		    $class = $post_status == 'pending' ? ' class="current"' : '';
-		    $views['pending'] = sprintf(__('<a href="%s"'. $class .'>Pending <span class="count">(%d)</span></a>', 'pending'),
-		        admin_url('edit.php?post_status=pending&post_type=article'),
-		        count($query->posts));
+			if (!empty($query->posts)) {
+		    	$class = $post_status == 'pending' ? ' class="current"' : '';
+		    	$views['pending'] = sprintf(__('<a href="%s"'. $class .'>Pending <span class="count">(%d)</span></a>', 'pending'),
+		        	admin_url('edit.php?post_status=pending&post_type=article'), count($query->posts));
+			}
+			else {
+				unset($views['pending']);
+			}
 		}
 		elseif( $type['status'] == 'trash' && !empty($query->posts)) {
-		    $class = $wp_query->get('post_status') == 'trash' ? ' class="current"' : '';
-		    $views['trash'] = sprintf(__('<a href="%s"'. $class .'>Trash <span class="count">(%d)</span></a>', 'trash'),
-		        admin_url('edit.php?post_status=trash&post_type=article'),
-		        count($query->posts));
+			if (!empty($query->posts)) {
+		    	$class = $wp_query->get('post_status') == 'trash' ? ' class="current"' : '';
+		    	$views['trash'] = sprintf(__('<a href="%s"'. $class .'>Trash <span class="count">(%d)</span></a>', 'trash'),
+		        	admin_url('edit.php?post_status=trash&post_type=article'), count($query->posts));
+			}
+			else {
+				unset($views['trash']);
+			}
 		}
 		
 		wp_reset_query();
