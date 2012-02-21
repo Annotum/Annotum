@@ -19,7 +19,7 @@
 function annowf_get_option($key, $default = false) {
 	$option = cfct_get_option('workflow_settings');
 
-	if (is_null($option[$key])) {
+	if (!isset($option[$key])) {
 		return $default;
 	}
 	else {
