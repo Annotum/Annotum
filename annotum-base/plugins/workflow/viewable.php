@@ -23,6 +23,7 @@ function annov_modify_list_query($query) {
 					'key' => '_anno_author_'.$user_id,
 				),
 			));
+			add_filter('views_edit-article', 'annov_article_view_counts');
 		}
 	}
 }
@@ -72,7 +73,7 @@ function annov_modify_media_list_query($query) {
 	remove_action('pre_get_posts', 'annov_modify_media_list_query');
 	if (is_admin() && $pagenow == 'upload.php') {
 		if (!current_user_can('editor') && !current_user_can('administrator')) {
-			add_filter('posts_where', 'anonv_media_parent_in_where');
+			add_filter('posts_where', 'annonv_media_parent_in_where');
 			$viewable_attachments = new WP_Query(array(
 				'post_type' => 'attachment',
 				'post_status' => 'inherit',
@@ -103,8 +104,8 @@ add_action('pre_get_posts', 'annov_modify_media_list_query');
 /**
  * Filter to get all attachments the current user should be able to see
  */
-function anonv_media_parent_in_where($where) {
-	remove_filter('posts_where', 'anonv_media_parent_in_where');
+function annonv_media_parent_in_where($where) {
+	remove_filter('posts_where', 'annonv_media_parent_in_where');
 		
 	// Grab all posts this user is associated with
 	$authored_posts = anno_get_authored_posts(false, array('article'));
@@ -130,5 +131,65 @@ function anonv_media_parent_in_where($where) {
 	return $where;
 }
 
+/**
+ * Filter to adjust counts for article listing page
+ */
+function annov_article_view_counts($views) {
+	remove_filter('views_edit-article', 'annov_article_view_counts');
+	
+	global $wp_query;
+	unset($views['mine']);
+	$types = array(
+		array('status' =>  NULL),
+		// Publish should show all published, not just for this user, default
+		// array( 'status' => 'publish' ),
+		array('status' => 'draft'),
+		array('status' => 'pending'),
+		array('status' => 'trash')
+	);
+	foreach( $types as $type ) {
+		$query = new WP_Query(array(
+			'post_type'   => 'article',
+			'post_status' => $type['status'],
+			'fields' => 'ids',
+			'posts_per_page' => -1,
+			'cache_results' => false,
+			'meta_query' => array(
+				array(
+					'key' => '_anno_author_'.get_current_user_id(),
+				),
+			),
+		));
+		$post_status = $wp_query->get('post_status');
+				
+		if ($type['status'] == NULL) {
+		    $class = (empty($post_status) || $post_status == 'all') ? ' class="current"' : '';
+		    $views['all'] = sprintf(__('<a href="%s"'. $class .'>All <span class="count">(%d)</span></a>', 'all'),
+		        admin_url('edit.php?post_type=article'),
+		        count($query->posts));
+		}
+		elseif ($type['status'] == 'draft' && !empty($query->posts)) {
+		    $class = $post_status == 'draft' ? ' class="current"' : '';
+		    $views['draft'] = sprintf(__('<a href="%s"'. $class .'>Draft'. ((sizeof($query->posts) > 1) ? "s" : "") .' <span class="count">(%d)</span></a>', 'draft'),
+		        admin_url('edit.php?post_status=draft&post_type=article'),
+		        count($query->posts));
+		}
+		elseif ($type['status'] == 'pending' && !empty($query->posts)) {
+		    $class = $post_status == 'pending' ? ' class="current"' : '';
+		    $views['pending'] = sprintf(__('<a href="%s"'. $class .'>Pending <span class="count">(%d)</span></a>', 'pending'),
+		        admin_url('edit.php?post_status=pending&post_type=article'),
+		        count($query->posts));
+		}
+		elseif( $type['status'] == 'trash' && !empty($query->posts)) {
+		    $class = $wp_query->get('post_status') == 'trash' ? ' class="current"' : '';
+		    $views['trash'] = sprintf(__('<a href="%s"'. $class .'>Trash <span class="count">(%d)</span></a>', 'trash'),
+		        admin_url('edit.php?post_status=trash&post_type=article'),
+		        count($query->posts));
+		}
+		
+		wp_reset_query();
+	}
+	return $views;
+}
 
 ?>
