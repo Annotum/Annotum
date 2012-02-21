@@ -375,6 +375,12 @@ function anno_settings($settings) {
 					'type' => 'radio',
 					'options' => $yn_options,
 				),
+				'listing_filter' => array(
+					'label' => _x('Enable article and media list page filter', 'options label', 'anno'),
+					'name' => 'workflow_settings[listing_filter]',
+					'type' => 'radio',
+					'options' => $yn_options,
+				),
 			),
 		),
 		'anno_journal' => array(
@@ -494,6 +500,7 @@ function anno_defaults($defaults) {
 		'workflow' => 0,
 		'author_reviewer' => 0,
 		'notifications' => 0,
+		'listing_filter' => 0,
 	);
 	return $defaults;
 }
