@@ -138,6 +138,11 @@ function annonv_media_parent_in_where($where) {
 	}
 	return $where;
 }
+function test() {
+	
+	
+}
+add_action('init', 'test');
 
 /**
  * Filter to adjust counts for article listing page
@@ -158,6 +163,9 @@ function annov_article_view_counts($views) {
 		array('status' => 'trash')
 	);
 	foreach( $types as $type ) {
+		if ($type['status'] == NULL) {
+			add_filter('posts_where', 'annov_modify_list_where');
+		}
 		$query = new WP_Query(array(
 			'post_type'   => 'article',
 			'post_status' => $type['status'],
@@ -176,10 +184,13 @@ function annov_article_view_counts($views) {
 		));
 
 		if ($type['status'] == NULL) {
+			$pub_posts = anno_get_published_posts(array('article'));
+			$posts = array_unique(array_merge($pub_posts, $query->posts));
+			
 		    $class = (empty($post_status) || $post_status == 'all') ? ' class="current"' : '';
 		    $views['all'] = sprintf(__('<a href="%s"'. $class .'>All <span class="count">(%d)</span></a>', 'anno'),
 		        admin_url('edit.php?post_type=article'),
-		        count($query->posts));
+		        count($posts));
 		}
 		elseif ($type['status'] == 'draft') {
 			if (!empty($query->posts)) {
