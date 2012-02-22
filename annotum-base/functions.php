@@ -811,6 +811,7 @@ function anno_get_published_posts($post_types = array('article')) {
 		'post_type' => $post_types,
 		'post_status' => array('publish'),
 		'cache_results' => false,
+		'posts_per_page' => -1,
 	));
 	
 	if (isset($query->posts) && is_array($query->posts)) {
