@@ -868,7 +868,7 @@ function anno_get_owned_posts($user_id = false, $post_types = array('article'), 
  * @return array Empty array or array of post ids
  * @author Evan Anderson
  */
-function anno_get_authored_posts($user_id = false, $post_types = array('article'), $post_statuses = array('draft', 'pending', 'private', 'future')) {
+function anno_get_authored_posts($user_id = false, $post_types = array('article'), $post_statuses = array('draft', 'pending', 'private', 'publish', 'future')) {
 	$posts = array();
 	
 	if (empty($user_id)) {
@@ -935,7 +935,7 @@ function anno_viewable_article_count($user_id = false) {
 			
 			$author_posts = anno_get_authored_posts($user->ID);
 						
-			$count += !empty($published_count_query->posts) ? count($published_count_query->posts) : 0;
+			//$count += !empty($published_count_query->posts) ? count($published_count_query->posts) : 0;
 			$count += count($author_posts);
 			
 			wp_reset_query();

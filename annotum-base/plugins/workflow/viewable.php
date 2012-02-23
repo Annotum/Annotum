@@ -60,8 +60,8 @@ function annov_modify_list_where($where) {
 	
 	// Only want to display published if displaying all items, or if displaying published items
 	if (empty($post_status) || $post_status == 'publish' || $post_status == 'all') {
-		$where = str_replace("$wpdb->postmeta.meta_key = '_anno_author_$user_id'", "$wpdb->postmeta.meta_key = '_anno_author_$user_id' 
-			OR $wpdb->posts.post_status = 'publish'", $where);
+//		$where = str_replace("$wpdb->postmeta.meta_key = '_anno_author_$user_id'", "$wpdb->postmeta.meta_key = '_anno_author_$user_id' 
+//			OR $wpdb->posts.post_status = 'publish'", $where);
 	}
 
 	return $where;
@@ -119,9 +119,9 @@ function annonv_media_parent_in_where($where) {
 	$authored_posts = anno_get_authored_posts(false, array('article'));
 	
 	// Grab all published posts
-	$published_posts = anno_get_published_posts('any');
+	//$published_posts = anno_get_published_posts('any');
 
-	$parent_ids = array_merge($authored_posts, $published_posts);
+	$parent_ids = $authored_posts; //array_merge($authored_posts, $published_posts);
 	$parent_ids = array_unique($parent_ids);
 	
 
@@ -157,7 +157,7 @@ function annov_article_view_counts($views) {
 	$types = array(
 		array('status' =>  NULL),
 		// Publish should show all published, not just for this user, default
-		// array( 'status' => 'publish' ),
+		array( 'status' => 'publish' ),
 		array('status' => 'draft'),
 		array('status' => 'pending'),
 		array('status' => 'trash')
@@ -184,13 +184,23 @@ function annov_article_view_counts($views) {
 		));
 
 		if ($type['status'] == NULL) {
-			$pub_posts = anno_get_published_posts(array('article'));
+			$pub_posts = array(); //anno_get_published_posts(array('article'));
 			$posts = array_unique(array_merge($pub_posts, $query->posts));
 			
 		    $class = (empty($post_status) || $post_status == 'all') ? ' class="current"' : '';
 		    $views['all'] = sprintf(__('<a href="%s"'. $class .'>All <span class="count">(%d)</span></a>', 'anno'),
 		        admin_url('edit.php?post_type=article'),
 		        count($posts));
+		}
+		elseif ($type['status'] == 'publish') {
+			if (!empty($query->posts)) {
+			    $class = $post_status == 'publish' ? ' class="current"' : '';
+			    $views['publish'] = sprintf(__('<a href="%s"'. $class .'>PubDraft'. ((sizeof($query->posts) > 1) ? "s" : "") .' <span class="count">(%d)</span></a>', 'anno'),
+			        admin_url('edit.php?post_status=publish&post_type=article'), count($query->posts));
+			}
+			else {
+				unset($views['publish']);
+			}
 		}
 		elseif ($type['status'] == 'draft') {
 			if (!empty($query->posts)) {
