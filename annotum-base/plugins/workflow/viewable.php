@@ -18,7 +18,6 @@ function annov_modify_list_query($query) {
 	if (is_admin() && $pagenow == 'edit.php' && $query->get('post_type') == 'article') {
 		if (!current_user_can('editor') && !current_user_can('administrator')) {
 			$user_id = get_current_user_id();
-			// ORDER MATTERS HERE! _anno_author must come first
 			$query->set('meta_query', array( 
 				'relation' => 'OR',
 				array(
@@ -33,39 +32,6 @@ function annov_modify_list_query($query) {
 	}
 }
 add_action('pre_get_posts', 'annov_modify_list_query');
-
-/**
- * Add filter to modify where clause if on article listing screen
- */
-function annov_add_modify_list_where($query) {
-	global $pagenow;
-	if (!current_user_can('editor') && !current_user_can('administrator')) {
-		if (is_admin() && $pagenow == 'edit.php' && $query->get('post_type') == 'article') {
-			add_filter('posts_where', 'annov_modify_list_where');
-		}
-	}
-}
-add_action('pre_get_posts', 'annov_add_modify_list_where');
-
-/**
- * Adjust where clause to display posts this user is attributed to or published ones
- */
-function annov_modify_list_where($where) {	
-	$user_id = get_current_user_id();
-	global $wpdb, $wp_query;
-
-	// Self removing filter
-	remove_filter('posts_where', 'annov_modify_list_where');
-	$post_status = $wp_query->get('post_status');
-	
-	// Only want to display published if displaying all items, or if displaying published items
-	if (empty($post_status) || $post_status == 'publish' || $post_status == 'all') {
-//		$where = str_replace("$wpdb->postmeta.meta_key = '_anno_author_$user_id'", "$wpdb->postmeta.meta_key = '_anno_author_$user_id' 
-//			OR $wpdb->posts.post_status = 'publish'", $where);
-	}
-
-	return $where;
-}
 
 /**
  * Only list any media this user has uploaded AND
@@ -118,16 +84,11 @@ function annonv_media_parent_in_where($where) {
 	// Grab all posts this user is associated with
 	$authored_posts = anno_get_authored_posts(false, array('article'));
 	
-	// Grab all published posts
-	//$published_posts = anno_get_published_posts('any');
-
-	$parent_ids = $authored_posts; //array_merge($authored_posts, $published_posts);
-	$parent_ids = array_unique($parent_ids);
-	
+	$parent_ids = array_unique($authored_posts);
 
 	if (is_array($parent_ids) && !empty($parent_ids)) {
 		global $wpdb;
-		// Grab all attachments which are children of published posts OR articles the user is associated with
+		// Grab all attachments which are children of articles the user is associated with
 		$where = "AND $wpdb->posts.post_type = 'attachment' 
 		AND ($wpdb->posts.post_status = 'inherit')
 		AND $wpdb->posts.post_parent IN (".implode(',', $parent_ids).")";
@@ -138,11 +99,6 @@ function annonv_media_parent_in_where($where) {
 	}
 	return $where;
 }
-function test() {
-	
-	
-}
-add_action('init', 'test');
 
 /**
  * Filter to adjust counts for article listing page
@@ -156,16 +112,12 @@ function annov_article_view_counts($views) {
 	unset($views['mine']);
 	$types = array(
 		array('status' =>  NULL),
-		// Publish should show all published, not just for this user, default
-		array( 'status' => 'publish' ),
+		array('status' => 'publish'),
 		array('status' => 'draft'),
 		array('status' => 'pending'),
 		array('status' => 'trash')
 	);
 	foreach( $types as $type ) {
-		if ($type['status'] == NULL) {
-			add_filter('posts_where', 'annov_modify_list_where');
-		}
 		$query = new WP_Query(array(
 			'post_type'   => 'article',
 			'post_status' => $type['status'],
@@ -183,19 +135,16 @@ function annov_article_view_counts($views) {
 			),
 		));
 
-		if ($type['status'] == NULL) {
-			$pub_posts = array(); //anno_get_published_posts(array('article'));
-			$posts = array_unique(array_merge($pub_posts, $query->posts));
-			
+		if ($type['status'] == NULL) {			
 		    $class = (empty($post_status) || $post_status == 'all') ? ' class="current"' : '';
 		    $views['all'] = sprintf(__('<a href="%s"'. $class .'>All <span class="count">(%d)</span></a>', 'anno'),
 		        admin_url('edit.php?post_type=article'),
-		        count($posts));
+		        count($query->posts));
 		}
 		elseif ($type['status'] == 'publish') {
 			if (!empty($query->posts)) {
 			    $class = $post_status == 'publish' ? ' class="current"' : '';
-			    $views['publish'] = sprintf(__('<a href="%s"'. $class .'>PubDraft'. ((sizeof($query->posts) > 1) ? "s" : "") .' <span class="count">(%d)</span></a>', 'anno'),
+			    $views['publish'] = sprintf(__('<a href="%s"'. $class .'>Published'. ((sizeof($query->posts) > 1) ? "s" : "") .' <span class="count">(%d)</span></a>', 'anno'),
 			        admin_url('edit.php?post_status=publish&post_type=article'), count($query->posts));
 			}
 			else {
