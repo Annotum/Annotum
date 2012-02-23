@@ -924,18 +924,8 @@ function anno_viewable_article_count($user_id = false) {
 		}
 		// The user is not an editor, nor an admin, so only count published posts and ones they are an author/co-author on.
 		else {
-			// Disable caches (meta, term)
-			$published_count_query = new WP_Query(array(
-				'post_status' => 'publish',
-				'fields' => 'ids',
-				'post_type' => 'article',
-				'posts_per_page' => -1,
-				'cache_results' => false,
-			));
-			
 			$author_posts = anno_get_authored_posts($user->ID);
 						
-			//$count += !empty($published_count_query->posts) ? count($published_count_query->posts) : 0;
 			$count += count($author_posts);
 			
 			wp_reset_query();
