@@ -375,6 +375,12 @@ function anno_settings($settings) {
 					'type' => 'radio',
 					'options' => $yn_options,
 				),
+				'listing_filter' => array(
+					'label' => _x('Enable article and media list page filter', 'options label', 'anno'),
+					'name' => 'workflow_settings[listing_filter]',
+					'type' => 'radio',
+					'options' => $yn_options,
+				),
 			),
 		),
 		'anno_journal' => array(
@@ -494,6 +500,7 @@ function anno_defaults($defaults) {
 		'workflow' => 0,
 		'author_reviewer' => 0,
 		'notifications' => 0,
+		'listing_filter' => 0,
 	);
 	return $defaults;
 }
@@ -790,6 +797,145 @@ Password: %s
 }
 
 /**
+ * Get published post ids for a given post type
+ *
+ * @param array $posts_types 
+ * @return array of post ids that are published for the posts types defined
+ */
+function anno_get_published_posts($post_types = array('article')) {
+	$posts = array();
+		
+	// author will always be stored in post_meta
+	$query = new WP_Query(array(
+		'fields' => 'ids',
+		'post_type' => $post_types,
+		'post_status' => array('publish'),
+		'cache_results' => false,
+		'posts_per_page' => -1,
+	));
+	
+	if (isset($query->posts) && is_array($query->posts)) {
+		$posts = $query->posts;
+	}
+	
+	wp_reset_query();
+	
+	return $posts;
+}
+
+/**
+ * Get a list of posts a user is the author or co-author on
+ *
+ * @param int $user_id User id to look up, else uses current user id
+ * @param array $post_type Post types to find posts for, defaults to article
+ * @param array $post_stati Post statuses to look up 
+ * @return array Empty array or array of post ids
+ * @author Evan Anderson
+ */
+function anno_get_owned_posts($user_id = false, $post_types = array('article'), $post_statuses = array('draft', 'pending', 'private', 'future')) {
+	$posts = array();
+	
+	if (empty($user_id)) {
+		$user_id = get_current_user_id();
+	}
+	
+	// author will always be stored in post_meta
+	$query = new WP_Query(array(
+		'fields' => 'ids',
+		'post_type' => $post_types,
+		'post_status' => $post_statuses,
+		'cache_results' => false,
+		'posts_per_page' => -1,
+		'author' => $user_id,
+	));
+	
+	if (isset($query->posts) && is_array($query->posts)) {
+		$posts = $query->posts;
+	}
+	
+	wp_reset_query();
+	
+	return $posts;
+}
+
+
+/**
+ * Get a list of posts a user is the author or co-author on
+ *
+ * @param int $user_id User id to look up, else uses current user id
+ * @param array $post_type Post types to find posts for, defaults to article
+ * @param array $post_stati Post statuses to look up 
+ * @return array Empty array or array of post ids
+ * @author Evan Anderson
+ */
+function anno_get_authored_posts($user_id = false, $post_types = array('article'), $post_statuses = array('draft', 'pending', 'private', 'publish', 'future')) {
+	$posts = array();
+	
+	if (empty($user_id)) {
+		$user_id = get_current_user_id();
+	}
+	
+	// author will always be stored in post_meta
+	$query = new WP_Query(array(
+		'fields' => 'ids',
+		'post_type' => $post_types,
+		'post_status' => $post_statuses,
+		'cache_results' => false,
+		'posts_per_page' => -1,
+		'meta_query' => array(
+			'relation' => 'OR',
+			array(
+				'key' => '_anno_author_'.$user_id,
+			),
+			array(
+				'key' => '_anno_reviewer_'.$user_id,
+			),
+		),
+	));
+	
+	if (isset($query->posts) && is_array($query->posts)) {
+		$posts = $query->posts;
+	}
+	
+	wp_reset_query();
+	
+	return $posts;
+}
+
+/**
+ * Get count of available articles that a user can see/edit
+ * 
+ * @param int $user_id ID of the user to count for, otherwise uses current user
+ * @return object|int Object if user is admin or editor of all the states and counts. Single int count otherwise
+ */
+function anno_viewable_article_count($user_id = false) {	
+	$count = 0;
+	
+	if (empty($user_id)) {
+		$user = wp_get_current_user();
+	}
+	else{
+		$user = get_user_by('id', (int) $user_id);
+	}
+	
+	if ($user) {
+		if ($user->has_cap('editor') || $user->has_cap('administrator')) {
+			return wp_count_posts('article', 'readable');
+		}
+		// The user is not an editor, nor an admin, so only count published posts and ones they are an author/co-author on.
+		else {
+			$author_posts = anno_get_authored_posts($user->ID);
+						
+			$count += count($author_posts);
+			
+			wp_reset_query();
+		}
+	}
+	
+	return $count;
+}
+
+/**
  * Output general stats in dashboard widget
  *
  * @return void
@@ -816,14 +962,20 @@ function anno_activity_information() {
 		),
 	);
 	
-	$num_posts = wp_count_posts( $article_post_type, 'readable' );
+	$num_posts = anno_viewable_article_count();
 	
-	// Get the absolute total of $num_posts
-	$total_records = array_sum( (array) $num_posts );
-
-	// Subtract post types that are not included in the admin all list.
-	foreach (get_post_stati(array('show_in_admin_all_list' => false)) as $state) {
-		$total_records -= $num_posts->$state;
+	if (!is_int($num_posts)) {
+	
+		// Get the absolute total of $num_posts
+		$total_records = array_sum( (array) $num_posts );
+		
+		// Subtract post types that are not included in the admin all list.
+		foreach (get_post_stati(array('show_in_admin_all_list' => false)) as $state) {
+			$total_records -= $num_posts->$state;
+		}
+	}
+	else {
+		$total_records = $num_posts;
 	}
 	
 	// Default
@@ -1027,6 +1179,7 @@ function anno_current_user_can_edit() {
 
 // Remove autop, inserts unnecessary br tags in the nicely formatted HTML
 // Carlthewebmaster 15-Dec-11 - but only for Articles
+		global $post_type;
 		if ($post_type == 'article') {
 			remove_filter('the_content','wpautop');
 		}

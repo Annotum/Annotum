@@ -38,7 +38,7 @@ $wp_query = new WP_Query(array(
 				$user->$property = get_user_meta($user->ID, $key, true);
 			}
 			?>
-				<h2 class="section-title"><span>Author Profile</span></h2>
+				<h2 class="section-title"><span><?php _e('Author Profile', 'anno'); ?></span></h2>
 				<div class="author-header">
 					<?php echo get_avatar($user->user_email, 140); ?>
 					<h2 class="author-name"><?php echo anno_format_name(esc_html($user->prefix), esc_html($user->first_name), esc_html($user->last_name), esc_html($user->suffix)); ?></h2>
@@ -56,7 +56,7 @@ $wp_query = new WP_Query(array(
 		endif;
 		
 		?>
-		<h2 class="section-title"><span>Recent Posts</span></h2>	
+		<h2 class="section-title"><span><?php _e('Recent Posts', 'anno'); ?></span></h2>	
 		<?php
 		cfct_loop();
 		cfct_misc('nav-posts');

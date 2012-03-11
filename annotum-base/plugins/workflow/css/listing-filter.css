@@ -1,0 +1,4 @@
+td.title.column-title span.attach a.hide-if-no-js,
+td.parent.column-parent a.hide-if-no-js{
+	display: none !important;
+}

@@ -19,7 +19,7 @@
 function annowf_get_option($key, $default = false) {
 	$option = cfct_get_option('workflow_settings');
 
-	if (is_null($option[$key])) {
+	if (!isset($option[$key])) {
 		return $default;
 	}
 	else {
@@ -61,6 +61,10 @@ function annowf_setup() {
 		include_once(ANNO_PLUGIN_PATH.'/workflow/internal-comments/internal-comments.php');
 		include_once(ANNO_PLUGIN_PATH.'/workflow/publishing-meta-box.php');
 		include_once(ANNO_PLUGIN_PATH.'/workflow/notification.php');
+		
+		if (annowf_get_option('listing_filter')) {
+			include_once(ANNO_PLUGIN_PATH.'/workflow/viewable.php');
+		}
 	}
 }
 add_action('after_setup_theme', 'annowf_setup');
