@@ -109,5 +109,58 @@ function annowf_has_clone($post_id) {
 }
 
 
+/**
+ * Disable the title input visuall
+ */
+function annowf_clone_admin_js() {
+	global $post;
+	// jQuery already loaded
+?>
+<script type="text/javascript">
+	(function($) { 
+		$(function() {
+	   $('input#title').prop('disabled', true);
+	  });
+	})(jQuery);
+</script>
+<?php	
+}
+
+/**
+ * Load JS hook if a user cannot edit the title
+ */
+function annowf_clone_prevent_title_edit() {
+	global $post;
+	if (!anno_user_can('administrator') && annowf_is_clone($post->ID)) {
+		add_action('admin_head', 'annowf_clone_admin_js');
+	}	
+}
+add_action('admin_head', 'annowf_clone_prevent_title_edit', 0);
+
+
+/**
+ * Prevent any insert cloned posts from changing the title,
+ * Unless a user is an admin
+ *
+ * @param array $data 
+ * @param array $postarr 
+ */
+function annowf_clone_prevent_title_save($data, $postarr) {
+	if (
+		!anno_user_can('administrator') 
+		&& isset($postarr['ID']) 
+		&& annowf_is_clone($postarr['ID']) 
+		&& $data['post_type'] == 'article'
+	) {
+		// Reset data to the old 
+		$old_post = get_post($postarr['ID']);
+		if ($old_post) {
+			$data['post_title'] = $old_post->post_title;
+		}
+	}
+	
+	return $data;
+}
+add_action('wp_insert_post_data', 'annowf_clone_prevent_title_save', 10, 2);
 
 ?>
