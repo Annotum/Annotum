@@ -766,7 +766,7 @@ function annowf_clone_post($orig_id) {
 	$new_post = array(
 		'post_author' => $current_user->ID,
 		'post_status' => 'draft',
-		'post_title' => sprintf(_x('Cloned: %s', 'Cloned article title prepend', 'anno'), $post->post_title),
+		'post_title' => $post->post_title,
 		'post_content_filtered' => $post->post_content_filtered,
 		'post_content' => $post->post_content,
 		'post_excerpt' => $post->post_excerpt,
