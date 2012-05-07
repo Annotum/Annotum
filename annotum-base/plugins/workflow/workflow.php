@@ -701,53 +701,6 @@ function annowf_user_search() {
 }
 add_action('wp_ajax_anno-user-search', 'annowf_user_search');
 
-
-/**
- * Clones a post and inserts it into the DB. Maintains all post properties (no post_meta). Also
- * saves the association on both posts.
- *
- * @param int $orig_id The original ID of the post to clone from
- * @return int|bool The newly created (clone) post ID. false if post failed to insert.
- * @todo Clone post-meta
- */
-function annowf_clone_post($orig_id) {
-	global $current_user;
-
-	$post = get_post($orig_id);	
-	if (empty($post)) {
-		return false;
-	}
-	
-	// Form the new cloned post
-	$new_post = array(
-		'post_author' => $current_user->ID,
-		'post_status' => 'draft',
-		'post_title' => $post->post_title,
-		'post_content_filtered' => $post->post_content_filtered,
-		'post_content' => $post->post_content,
-		'post_excerpt' => $post->post_excerpt,
-		'post_type' => $post->post_type,
-		'post_parent' => $post->post_parent,
-	);
-	remove_filter('wp_insert_post_data', 'anno_insert_post_data', null, 2);
-	$new_id = wp_insert_post($new_post);
-	add_filter('wp_insert_post_data', 'anno_insert_post_data', null, 2);
-
-	// Add to clone/cloned post meta
-	if ($new_id) {
-		$posts_cloned = get_post_meta($orig_id, '_anno_posts_cloned', true);
-		if (!is_array($posts_cloned)) {
-			$posts_cloned = array($new_id);
-		}
-		else {
-			$posts_cloned[] = $new_id;
-		}
-		update_post_meta($orig_id, '_anno_posts_cloned', $posts_cloned);
-		update_post_meta($new_id, '_anno_cloned_from', $orig_id);
-	}
-	return $new_id;
-}
-
 /**
  * Custom meta Box For Author select.
  */
