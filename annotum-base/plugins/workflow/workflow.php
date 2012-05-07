@@ -67,13 +67,6 @@ function annowf_meta_boxes() {
 	global $annowf_states;
 	add_meta_box('submitdiv', _x('Status:', 'Meta box title', 'anno').' '. esc_html($annowf_states[$post_state]), 'annowf_status_meta_box', 'article', 'side', 'high');
 
-	// Clone data meta box. Only display if something has been cloned from this post, or it is a clone itself.
-	$posts_cloned = get_post_meta($post->ID, '_anno_posts_cloned', true);
-	$cloned_from = get_post_meta($post->ID, '_anno_cloned_from', true);
-	if (!empty($posts_cloned) || !empty($cloned_from)) {
-		add_meta_box('anno-cloned', _x('Versions', 'Meta box title', 'anno'), 'annowf_cloned_meta_box', 'article', 'side', 'low');
-	}
-
 	if (anno_user_can('view_reviewers')) {
 		add_meta_box('anno-reviewers', _x('Reviewers', 'Meta box title', 'anno'), 'annowf_reviewers_meta_box', 'article', 'side', 'low');
 	}
@@ -708,43 +701,6 @@ function annowf_user_search() {
 }
 add_action('wp_ajax_anno-user-search', 'annowf_user_search');
 
-/**
- * Metabox for posts that have been cloned from this post
- * @todo check for trash/deleted
- */ 
-function annowf_cloned_meta_box($post) {
-	$cloned_from = get_post_meta($post->ID, '_anno_cloned_from', true);
-	$cloned_from_post = get_post($cloned_from_post);
-	if (!$cloned_from_post) {
-		return;
-	}
-?>
-	<dl class="anno-versions">
-<?php
-	if (!empty($cloned_from)) {
-		$cloned_post = get_post($cloned_from);
-?>
-		<dt><?php echo _x('Cloned From', 'Cloned meta box text', 'anno'); ?></dt>
-		<dd><?php echo '<a href="'.esc_url(get_edit_post_link($cloned_from)).'">'.esc_html($cloned_post->post_title).'</a>'; ?></dd>
-<?php	
-	}
-	
-	$posts_cloned = get_post_meta($post->ID, '_anno_posts_cloned', true);
-	if (!empty($posts_cloned) && is_array($posts_cloned)) {
-?>
-		<dt><?php echo _x('Clones', 'Cloned meta box text', 'anno'); ?></dt>
-<?php
-		foreach ($posts_cloned as $cloned_post_id) {
-			$cloned_post = get_post($cloned_post_id);
-			if (!empty($cloned_post)) {
-				echo '<dd><a href="'.esc_url(get_edit_post_link($cloned_post_id)).'">'.esc_html($cloned_post->post_title).'</a></dd>';
-			}
-		}
-	}
-?>
-	</dl>
-<?php
-}
 
 /**
  * Clones a post and inserts it into the DB. Maintains all post properties (no post_meta). Also
