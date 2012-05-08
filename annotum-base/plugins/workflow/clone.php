@@ -243,24 +243,24 @@ function annowf_clone_post_meta($orig_post_id, $new_post_id) {
 	
 	//@TODO Author keys
 	
-	$meta_keys = array(
-		'_anno_appendices', 
-		'_anno_appendices_html',
- 		'_anno_acknowledgements',
-		'_anno_funding', 
-		'_anno_subtitle', 
-		'_anno_author_order', 
-		'_anno_doi', // @TODO do we really want to clone this?
-		'_anno_references',
+	$clone_meta_keys = array(
+		'_anno_appendices' => 1, 
+		'_anno_appendices_html' => 1,
+ 		'_anno_acknowledgements' => 1,
+		'_anno_funding' => 1, 
+		'_anno_subtitle' => 1, 
+		'_anno_author_order' => 1, 
+		'_anno_doi' => 1, // @TODO do we really want to clone this?
+		'_anno_references' => 1,
 	);
 	// _post_state => draft applied on insert in annowf_clone_post()
 
 	// Single query instead of looping through and using get_post_meta
 	$meta_data = get_metadata('post', $orig_post_id);
 	
-	foreach ($meta_keys as $meta_key) {
-		if (isset($orig_data[$meta_key][0])) {
-			update_post_meta($new_post_id, $meta_key, $orig_data[$meta_key][0]);
+	foreach ($meta_data as $meta_key => $meta_value) {
+		if (isset($clone_meta_keys[$meta_key]) || strpos($meta_key, '_anno_author_') !== false) {
+			update_post_meta($new_post_id, $meta_key, maybe_unserialize($meta_value[0]));
 		}
 	}
 	
@@ -343,12 +343,12 @@ function annowf_clone_post_attachments($orig_post_id, $new_post_id) {
 			);
 			
 			$meta_data = get_metadata('post', $new_post_id);
-			
+			$replacement_meta = array();
 			
 			foreach ($content_remap as $old_url => $new_url) {
 				foreach ($replacement_meta_keys as $meta_key) {
-					if (isset($meta_data[$meta_key])) {
-						$meta_data[$meta_key] = str_replace($old_url, $new_url, $meta_data[$meta_key]);
+					if (isset($meta_data[$meta_key][0])) {
+						$replacement_meta[$meta_key] = str_replace($old_url, $new_url, maybe_unserialize($meta_data[$meta_key][0]));
 					}
 				}
 					
@@ -364,8 +364,8 @@ function annowf_clone_post_attachments($orig_post_id, $new_post_id) {
 			
 			// Update meta
 			foreach ($replacement_meta_keys as $meta_key) {
-				if (isset($meta_data[$meta_key][0])) {
-					update_post_meta($new_post_id, $meta_key, $meta_data[$meta_key][0]);
+				if (isset($replacement_meta[$meta_key])) {
+					update_post_meta($new_post_id, $meta_key, $replacement_meta[$meta_key]);
 				}
 			}
 			
