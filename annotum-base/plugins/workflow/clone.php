@@ -237,9 +237,11 @@ function annowf_clone_post($orig_id) {
  * @return bool false if one of the posts do not exist, true otherwise
  */
 function annowf_clone_post_meta($orig_post_id, $new_post_id) {
-	if (!get_post($orig_post_id) || !get_post($new_id)) {
+	if (!get_post($orig_post_id) || !get_post($new_post_id)) {
 		return false;
 	}
+	
+	//@TODO Author keys
 	
 	$meta_keys = array(
 		'_anno_appendices', 
@@ -254,11 +256,11 @@ function annowf_clone_post_meta($orig_post_id, $new_post_id) {
 	// _post_state => draft applied on insert in annowf_clone_post()
 
 	// Single query instead of looping through and using get_post_meta
-	$orig_data = get_metadata('post', $old_id);
+	$meta_data = get_metadata('post', $orig_post_id);
 	
 	foreach ($meta_keys as $meta_key) {
-		if (isset($orig_data[$meta_key])) {
-			update_post_meta($new_post_id, $meta_key, $orig_data[$meta_key]);
+		if (isset($orig_data[$meta_key][0])) {
+			update_post_meta($new_post_id, $meta_key, $orig_data[$meta_key][0]);
 		}
 	}
 	
@@ -276,7 +278,7 @@ function annowf_clone_post_meta($orig_post_id, $new_post_id) {
 function annowf_clone_post_attachments($orig_post_id, $new_post_id) {
 	// Used later for content remapping
 	$new_post = get_post($new_post_id);
-	if (!get_post($orig_post_id) || $new_post) {
+	if (!get_post($orig_post_id) || !$new_post) {
 		return false;
 	}
 		
@@ -286,6 +288,7 @@ function annowf_clone_post_attachments($orig_post_id, $new_post_id) {
 		'posts_per_page' => -1,
 		'post_type' => 'attachment',
 		'post_parent' => $orig_post_id,
+		'post_status' => 'inherit',
 	));
 	
 	if (!empty($query->posts) && is_array($query->posts)) {
@@ -293,7 +296,8 @@ function annowf_clone_post_attachments($orig_post_id, $new_post_id) {
 		
 		foreach ($query->posts as $attachment) {
 			// Get the file
-			$orig_file = @file_get_contents(get_attached_file($attachment->ID, true));
+			$orig_file_path = get_attached_file($attachment->ID, true);
+			$orig_file = @file_get_contents($orig_file_path);
 			if ($orig_file) {
 				$attachment_array = (array) $attachment;
 				$attachment_array['post_parent'] = $new_post_id;
@@ -301,11 +305,14 @@ function annowf_clone_post_attachments($orig_post_id, $new_post_id) {
 				unset($attachment_array['ID']);
 
 				// Put the new file in the directory
-				$new_file = wp_upload_bits($attachment->post_title, null, $orig_file);
+				$new_file = wp_upload_bits(basename($orig_file_path), null, $orig_file);
 				if (isset($new_file['file'])) {
+
 					$new_attachment_id = wp_insert_attachment($attachment_array, $new_file['file']);
 					
 					if (!is_wp_error($new_attachment_id) && !empty($new_attachment_id)) {
+						// Generate sizes
+						wp_update_attachment_metadata($new_attachment_id, wp_generate_attachment_metadata($new_attachment_id, $new_file['file']));
 						// New post should have cloned thumbnail ID
 						if ($attachment->ID == $thumb_id) {
 							update_post_meta($new_post_id, '_thumbnail_id', $new_attachment_id);
@@ -313,8 +320,12 @@ function annowf_clone_post_attachments($orig_post_id, $new_post_id) {
 						
 						// Generate all relevant URLs, store old urls => new urls
 						foreach (get_intermediate_image_sizes() as $size) {
-							$old_url = str_replace(' ', '%20', wp_get_attachment_image_src($attachment->ID, $size));
-							$new_url = str_replace(' ', '%20', wp_get_attachment_image_src($new_attachment_id, $size));
+							$old_data = wp_get_attachment_image_src($attachment->ID, $size);
+							$old_url = str_replace(' ', '%20', $old_data[0]);
+							
+							$new_data = wp_get_attachment_image_src($new_attachment_id, $size);
+							$new_url = str_replace(' ', '%20', $new_data[0]);
+
 							$content_remap[$old_url] = $new_url;
 						}
 					}
@@ -334,7 +345,7 @@ function annowf_clone_post_attachments($orig_post_id, $new_post_id) {
 			$meta_data = get_metadata('post', $new_post_id);
 			
 			
-			foreach ($content_map as $old_url => $new_url) {
+			foreach ($content_remap as $old_url => $new_url) {
 				foreach ($replacement_meta_keys as $meta_key) {
 					if (isset($meta_data[$meta_key])) {
 						$meta_data[$meta_key] = str_replace($old_url, $new_url, $meta_data[$meta_key]);
@@ -347,12 +358,14 @@ function annowf_clone_post_attachments($orig_post_id, $new_post_id) {
 			}
 			
 			// Update post
+			remove_filter('wp_insert_post_data', 'anno_insert_post_data', null, 2);
 			wp_update_post($new_post);
+			add_filter('wp_insert_post_data', 'anno_insert_post_data', null, 2);
 			
 			// Update meta
 			foreach ($replacement_meta_keys as $meta_key) {
-				if (isset($meta_data[$meta_key])) {
-					update_post_meta($new_post_id, $meta_key, $meta_data[$meta_key]);
+				if (isset($meta_data[$meta_key][0])) {
+					update_post_meta($new_post_id, $meta_key, $meta_data[$meta_key][0]);
 				}
 			}
 			
