@@ -259,7 +259,7 @@ function annowf_clone_post_meta($orig_post_id, $new_post_id) {
 	$meta_data = get_metadata('post', $orig_post_id);
 	
 	foreach ($meta_data as $meta_key => $meta_value) {
-		if (isset($clone_meta_keys[$meta_key]) || strpos($meta_key, '_anno_author_') !== false) {]
+		if (isset($clone_meta_keys[$meta_key]) || strpos($meta_key, '_anno_author_') !== false) {
 			// get_metadata returns and array of arrays. In no instance should there be an array with
 			// more than one element (multiple rows with the same meta_key in db)
 			update_post_meta($new_post_id, $meta_key, maybe_unserialize($meta_value[0]));
