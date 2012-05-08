@@ -173,14 +173,7 @@ add_action('wp_insert_post_data', 'annowf_clone_prevent_title_save', 10, 2);
  * @todo Clone post-meta
  */
 function annowf_clone_post($orig_id) {
-	global $current_user;
-	// Revisions
-	// 
-	
-	$meta_ignore_keys = array(
-			
-	);
-	
+	global $current_user;	
 
 	$post = get_post($orig_id);	
 	if (empty($post)) {
@@ -228,15 +221,49 @@ function annowf_clone_post($orig_id) {
 		}
 		update_post_meta($orig_id, '_anno_posts_cloned', $posts_cloned);
 		update_post_meta($new_id, '_anno_cloned_from', $orig_id);
+		
+//		annowf_clone_post_meta($orig_id, $new_id);
+//		annowf_clone_post_attachments($orig_id, $new_id)	
 	}
-	
-	
-	
-	// Create cloned images here too
-	// Featured image association
-	// Image source replacement
-	// @TODO
 	
 	return $new_id;
 }
+
+/**
+ * Clone relevant post meta
+ *
+ * @param int $orig_id 
+ * @param int $new_id 
+ */
+function annowf_clone_post_meta($orig_id, $new_id) {
+	$meta_keys = array(
+		'_anno_appendices', 
+		'_anno_appendices_html',
+		'_anno_appendices', 
+		'_anno_funding', 
+		'_anno_subtitle', 
+		'_anno_author_order', 
+		'_anno_doi', // @TODO do we really want to clone this?
+		'_anno_references',
+	)
+
+	// _post_state => draft
+	
+}
+
+/**
+ * Clone attachments, account for potentially new thumbnail id
+ * and content with potential of image should update too
+ *
+ * @param int $orig_id 
+ * @param int $new_id 
+ */
+function annowf_clone_post_attachments($orig_id, $new_id) {
+	// Check for thumbnail id, update it when cloned
+	// Replace content, appendices, appendices_html, _anno_funding, _anno_subtitle, 
+	
+	
+	
+}
+
 ?>
