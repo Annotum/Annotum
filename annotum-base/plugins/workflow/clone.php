@@ -246,7 +246,7 @@ function annowf_clone_post_meta($orig_post_id, $new_post_id) {
 	$clone_meta_keys = array(
 		'_anno_appendices' => 1, 
 		'_anno_appendices_html' => 1,
- 		'_anno_acknowledgements' => 1,
+		'_anno_acknowledgements' => 1,
 		'_anno_funding' => 1, 
 		'_anno_subtitle' => 1, 
 		'_anno_author_order' => 1, 
@@ -259,7 +259,9 @@ function annowf_clone_post_meta($orig_post_id, $new_post_id) {
 	$meta_data = get_metadata('post', $orig_post_id);
 	
 	foreach ($meta_data as $meta_key => $meta_value) {
-		if (isset($clone_meta_keys[$meta_key]) || strpos($meta_key, '_anno_author_') !== false) {
+		if (isset($clone_meta_keys[$meta_key]) || strpos($meta_key, '_anno_author_') !== false) {]
+			// get_metadata returns and array of arrays. In no instance should there be an array with
+			// more than one element (multiple rows with the same meta_key in db)
 			update_post_meta($new_post_id, $meta_key, maybe_unserialize($meta_value[0]));
 		}
 	}
@@ -348,6 +350,8 @@ function annowf_clone_post_attachments($orig_post_id, $new_post_id) {
 			foreach ($content_remap as $old_url => $new_url) {
 				foreach ($replacement_meta_keys as $meta_key) {
 					if (isset($meta_data[$meta_key][0])) {
+						// get_metadata returns and array of arrays. In no instance should there be an array with
+						// more than one element (multiple rows with the same meta_key in db)
 						$replacement_meta[$meta_key] = str_replace($old_url, $new_url, maybe_unserialize($meta_data[$meta_key][0]));
 					}
 				}
