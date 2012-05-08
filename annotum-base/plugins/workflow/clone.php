@@ -130,8 +130,8 @@ function annowf_clone_admin_js() {
  * Load JS hook if a user cannot edit the title
  */
 function annowf_clone_prevent_title_edit() {
-	global $post;
-	if (!anno_user_can('administrator') && annowf_is_clone($post->ID)) {
+	global $post, $pagenow;
+	if ($pagenow == 'post.php' && !anno_user_can('administrator') && annowf_is_clone($post->ID) && $post->post_type == 'article') {
 		add_action('admin_head', 'annowf_clone_admin_js');
 	}	
 }
@@ -174,13 +174,19 @@ add_action('wp_insert_post_data', 'annowf_clone_prevent_title_save', 10, 2);
  */
 function annowf_clone_post($orig_id) {
 	global $current_user;
+	// Revisions
+	// 
+	
+	$meta_ignore_keys = array(
+			
+	);
+	
 
 	$post = get_post($orig_id);	
 	if (empty($post)) {
 		return false;
 	}
-	
-	
+		
 	$article_tags = wp_get_object_terms($orig_id, 'article_tag');
 	// Need the slugs for non-heirarchical, no params to return the slug
 	$ti_article_tags = array();
