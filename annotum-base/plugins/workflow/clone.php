@@ -222,8 +222,8 @@ function annowf_clone_post($orig_id) {
 		update_post_meta($orig_id, '_anno_posts_cloned', $posts_cloned);
 		update_post_meta($new_id, '_anno_cloned_from', $orig_id);
 		
-//		annowf_clone_post_meta($orig_id, $new_id);
-//		annowf_clone_post_attachments($orig_id, $new_id)	
+		annowf_clone_post_meta($orig_id, $new_id);
+		annowf_clone_post_attachments($orig_id, $new_id);
 	}
 	
 	return $new_id;
@@ -232,38 +232,134 @@ function annowf_clone_post($orig_id) {
 /**
  * Clone relevant post meta
  *
- * @param int $orig_id 
- * @param int $new_id 
+ * @param int $orig_post_id 
+ * @param int $new_post_id 
+ * @return bool false if one of the posts do not exist, true otherwise
  */
-function annowf_clone_post_meta($orig_id, $new_id) {
+function annowf_clone_post_meta($orig_post_id, $new_post_id) {
+	if (!get_post($orig_post_id) || !get_post($new_id)) {
+		return false;
+	}
+	
 	$meta_keys = array(
 		'_anno_appendices', 
 		'_anno_appendices_html',
-		'_anno_appendices', 
+ 		'_anno_acknowledgements',
 		'_anno_funding', 
 		'_anno_subtitle', 
 		'_anno_author_order', 
 		'_anno_doi', // @TODO do we really want to clone this?
 		'_anno_references',
-	)
+	);
+	// _post_state => draft applied on insert in annowf_clone_post()
 
-	// _post_state => draft
+	// Single query instead of looping through and using get_post_meta
+	$orig_data = get_metadata('post', $old_id);
 	
+	foreach ($meta_keys as $meta_key) {
+		if (isset($orig_data[$meta_key])) {
+			update_post_meta($new_post_id, $meta_key, $orig_data[$meta_key]);
+		}
+	}
+	
+	return true;
 }
 
 /**
  * Clone attachments, account for potentially new thumbnail id
  * and content with potential of image should update too
  *
- * @param int $orig_id 
- * @param int $new_id 
+ * @param int $orig_post_id 
+ * @param int $new_post_id 
+ * @return bool false if one of the posts do not exist, true otherwise
  */
-function annowf_clone_post_attachments($orig_id, $new_id) {
-	// Check for thumbnail id, update it when cloned
-	// Replace content, appendices, appendices_html, _anno_funding, _anno_subtitle, 
+function annowf_clone_post_attachments($orig_post_id, $new_post_id) {
+	// Used later for content remapping
+	$new_post = get_post($new_post_id);
+	if (!get_post($orig_post_id) || $new_post) {
+		return false;
+	}
+		
+	$thumb_id = get_post_meta($new_post_id, '_thumbnail_id', true);
 	
+	$query = new WP_Query(array(
+		'posts_per_page' => -1,
+		'post_type' => 'attachment',
+		'post_parent' => $orig_post_id,
+	));
 	
+	if (!empty($query->posts) && is_array($query->posts)) {
+		$content_remap = array();
+		
+		foreach ($query->posts as $attachment) {
+			// Get the file
+			$orig_file = @file_get_contents(get_attached_file($attachment->ID, true));
+			if ($orig_file) {
+				$attachment_array = (array) $attachment;
+				$attachment_array['post_parent'] = $new_post_id;
+				// New attachment, unset ID
+				unset($attachment_array['ID']);
+
+				// Put the new file in the directory
+				$new_file = wp_upload_bits($attachment->post_title, null, $orig_file);
+				if (isset($new_file['file'])) {
+					$new_attachment_id = wp_insert_attachment($attachment_array, $new_file['file']);
+					
+					if (!is_wp_error($new_attachment_id) && !empty($new_attachment_id)) {
+						// New post should have cloned thumbnail ID
+						if ($attachment->ID == $thumb_id) {
+							update_post_meta($new_post_id, '_thumbnail_id', $new_attachment_id);
+						}
+						
+						// Generate all relevant URLs, store old urls => new urls
+						foreach (get_intermediate_image_sizes() as $size) {
+							$old_url = str_replace(' ', '%20', wp_get_attachment_image_src($attachment->ID, $size));
+							$new_url = str_replace(' ', '%20', wp_get_attachment_image_src($new_attachment_id, $size));
+							$content_remap[$old_url] = $new_url;
+						}
+					}
+				}
+			}
+		}
+
+		// Replace post_content, post_content_filtered, post_excerpt, meta
+		if (!empty($content_remap)) {
+			$replacement_meta_keys = array(
+		 		'_anno_appendices',
+				'_anno_appendices_html',
+		 		'_anno_funding',
+				'_anno_acknowledgements', 
+			);
+			
+			$meta_data = get_metadata('post', $new_post_id);
+			
+			
+			foreach ($content_map as $old_url => $new_url) {
+				foreach ($replacement_meta_keys as $meta_key) {
+					if (isset($meta_data[$meta_key])) {
+						$meta_data[$meta_key] = str_replace($old_url, $new_url, $meta_data[$meta_key]);
+					}
+				}
+					
+				$new_post->post_content = str_replace($old_url, $new_url, $new_post->post_content);
+				$new_post->post_content_filtered = str_replace($old_url, $new_url, $new_post->post_content_filtered);
+				$new_post->post_excerpt = str_replace($old_url, $new_url, $new_post->post_excerpt);
+			}
+			
+			// Update post
+			wp_update_post($new_post);
+			
+			// Update meta
+			foreach ($replacement_meta_keys as $meta_key) {
+				if (isset($meta_data[$meta_key])) {
+					update_post_meta($new_post_id, $meta_key, $meta_data[$meta_key]);
+				}
+			}
+			
+		}	
+	}	
 	
+	return true;
 }
 
 ?>
