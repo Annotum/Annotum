@@ -384,7 +384,7 @@ class Anno_XML_Download {
 		
 		// Related Articles
 		$related_xml = '';
-		$related_articles = anno_clone_get_ancestors($article->ID);
+		$related_articles = annowf_clone_get_ancestors($article->ID);
 		if (!empty($related_articles) && is_array($related_articles)) {
 			foreach ($related_articles as $related_article_id) {
 				$related_article = get_post($related_article_id);
@@ -392,7 +392,7 @@ class Anno_XML_Download {
 					$related_xml .= '<related-article related-article-type="companion" xlink:href="'.esc_attr(get_permalink($related_article_id)).'" ';
 					
 					$related_doi = get_post_meta($related_article_id, '_anno_doi', true);
-					error_log('rdoi '.$related_doi. ' '.$related_article_id);		
+
 					if (!empty($related_doi)) {
 						$related_xml .= 'elocation-id="'.esc_attr($related_doi).'" ';
 					}

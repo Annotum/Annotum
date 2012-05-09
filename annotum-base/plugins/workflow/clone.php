@@ -39,9 +39,12 @@ function annowf_clone_meta_box_setup() {
 	
 	// Clone data meta box. Only display if something has been cloned from this post, or it is a clone itself.
 	// Pass these in as callback args to prevent another 2 get_post_meta calls
+
 	$clones = annowf_get_clones($post->ID);
-	$cloned_from = annwf_get_cloned_from($post->ID);
-	if (!empty($posts_cloned) || !empty($cloned_from)) {
+	$cloned_from = annowf_get_cloned_from($post->ID);
+	
+	if (!empty($clones) || !empty($cloned_from)) {
+
 		add_meta_box('anno-cloned', _x('Versions', 'Meta box title', 'anno'), 'annowf_cloned_meta_box', 'article', 'side', 'low', array('cloned_from' => $cloned_from, 'clones' => $clones));
 	}
 }
@@ -395,7 +398,7 @@ function annowf_clone_post_attachments($orig_post_id, $new_post_id) {
 /**
  * Modify home query to only pull the latest posts
  */
-function anno_clone_home_filter($query) {
+function annowf_clone_home_filter($query) {
 	remove_filter('pre_get_posts', 'anno_clone_home_filter');
 	// Get all posts that are published and have the _anno_cloned_from meta
 	if ($query->is_front_page() && $query->is_main_query()) {
@@ -415,7 +418,7 @@ function anno_clone_home_filter($query) {
 		));
 	
 		if (!empty($clones->posts)) {
-			$exclude_ids = anno_get_cloned_from($clones->posts);
+			$exclude_ids = annowf_get_cloned_from($clones->posts);
 			if (!empty($exclude_ids)) {
  				$query->set('post__not_in', $exclude_ids);
 			}
@@ -423,7 +426,7 @@ function anno_clone_home_filter($query) {
 	}
 	
 }
-add_filter('pre_get_posts', 'anno_clone_home_filter');
+add_filter('pre_get_posts', 'annowf_clone_home_filter');
 
 /**
  * Get all posts that a set of IDs are cloned from
@@ -431,7 +434,7 @@ add_filter('pre_get_posts', 'anno_clone_home_filter');
  * @param array $post_ids Array of post_ids
  * @return array Array of post ids that this set of posts is cloned from
  */
-function anno_get_cloned_from($post_ids) {
+function annowf_get_cloned_from($post_ids) {
 	if (is_array($post_ids) && !empty($post_ids)) {
 		global $wpdb;
 		$post_ids_prepared = array();
@@ -461,16 +464,90 @@ function anno_get_cloned_from($post_ids) {
  * @param int $post_id 
  * @return array Array of post ids in the clone line
  */
-function anno_clone_get_ancestors($post_id) {
+function annowf_clone_get_ancestors($post_id) {
 	$ancestors = array();
 	do {
-		$cloned_from = $post_id = get_post_meta($post_id, '_anno_cloned_from', true);
+		$cloned_from = $post_id = annwf_get_cloned_from($post_id);
 		if (!empty($cloned_from)) {
 			$ancestors[] = $cloned_from;
 		}
 	} while (!empty($cloned_from));
-	error_log(print_r($ancestors,1));
 	return $ancestors;	
+}
+
+/**
+ * Gets all subsequent child clones
+ * Since this method's inception, all clones are linear
+ * so it does not travel outside of the first clone's path
+ *
+ * @param int $post_id 
+ * @return array Array of post IDs
+ */
+function annowf_clone_get_children($post_id) {
+	$children = array();
+	do {
+		$child_array = annowf_get_clones($post_id);
+		if (!empty($child_array) && is_array($child_array)) {
+			$children[] = $post_id = $child_array[0];
+		}
+	} while (!empty($child_array));
+	return $children;
+}
+
+function annowf_clone_get_family($post_id) {
+	$ancestors = annowf_clone_get_ancestors($post_id);
+	$children = annowf_clone_get_children($post_id);
+	
+	return array_unique(array_merge($ancestors, $children));
+}
+
+/**
+ * Provide a dropdown of major revisions of an article
+ */
+function annowf_get_clone_dropdown($post_id) {
+	$family_ids = annowf_clone_get_family($post_id);
+	$markup = '';
+	$inside = '';
+	
+	if (!empty($family_ids) && is_array($family_ids)) {
+
+		// Only get articles that are published in the set of family ids
+		$query = new WP_Query(array(
+			'post__in' => $family_ids,
+			'post_status' => 'publish',
+			'posts_per_page' => -1,
+			'post_type' => 'article',
+		));
+
+		if (!empty($query->posts)) {
+			foreach ($query->posts as $post) {
+				$inside .= '<option value="'.esc_attr(get_permalink($post->ID)).'">'.esc_html(mysql2date(get_option('date_format'), $post->post_date)).'</option>';
+			}
+		}
+		wp_reset_query();
+	}
+
+	if (!empty($inside)) {
+		$markup = '
+	<select id="anno-revision-selector">
+		<option>'.__('Revisions', 'anno').'</option>
+		'.$inside.'
+	</select>
+	<script type="text/javascript">
+	/* <![CDATA[ */
+		var dropdown = document.getElementById("anno-revision-selector");
+		function annoOnRevisionChange() {
+			if ( !!dropdown.options[dropdown.selectedIndex].value ) {
+				alert(dropdown.options[dropdown.selectedIndex].value);
+				location.href = dropdown.options[dropdown.selectedIndex].value;
+			}
+		}
+		dropdown.onchange = annoOnRevisionChange;
+	/* ]]> */
+	</script>';
+	}
+	
+	return $markup;
 }
 
 ?>
