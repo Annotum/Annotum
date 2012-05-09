@@ -379,4 +379,60 @@ function annowf_clone_post_attachments($orig_post_id, $new_post_id) {
 	return true;
 }
 
+/**
+ * Modify home query to only pull the latest posts
+ */
+function anno_clone_home_filter($query) {
+	remove_filter('pre_get_posts', 'anno_clone_home_filter');
+	// Get all posts that are published and have the _anno_cloned_from meta
+	if ($query->is_front_page() && $query->is_main_query()) {
+		$clones = new WP_Query(array(
+			'posts_per_page' => -1,
+			'post_type' => 'article',
+			'post_status' => 'publish',
+			'meta_query' => array(
+				'key' => '_anno_cloned_from',
+				'value' => 0,
+				'compare' => '!=',
+			),
+			'fields' => 'ids',
+			// So the next step is hopefully all cached,
+			'update_post_meta_cache' => true,
+			
+		));
+	
+		if (!empty($clones->posts)) {
+			$exclude_ids = anno_get_cloned_from($clones->posts);
+ 			$query->set('post__not_in', $exclude_ids);
+		}
+	}
+	
+}
+add_filter('pre_get_posts', 'anno_clone_home_filter');
+
+/**
+ * Get all posts that a set of IDs are cloned from
+ */
+function anno_get_cloned_from($post_ids) {
+	if (is_array($post_ids) && !empty($post_ids)) {
+		global $wpdb;
+		$post_ids_prepared = array();
+		foreach ($post_ids as $post_id) {
+			$post_ids_prepared[] = $wpdb->prepare('%d', $post_id);
+		}
+		if (!empty($post_ids_prepared)) {
+			$query = "
+				SELECT `meta_value` 
+				FROM $wpdb->postmeta 
+				WHERE `meta_key` = '_anno_cloned_from' 
+				AND `post_id` IN (".implode(',', $post_ids_prepared).")
+			";
+			
+			$exclude_ids = $wpdb->get_col($query);
+			return $exclude_ids;
+		}
+	}
+	return false;
+}
+
 ?>
