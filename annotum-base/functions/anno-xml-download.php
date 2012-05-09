@@ -382,6 +382,36 @@ class Anno_XML_Download {
 			</contrib-group>';
 		}
 		
+		// Related Articles
+		$related_xml = '';
+		$related_articles = anno_clone_get_ancestors($article->ID);
+		if (!empty($related_articles) && is_array($related_articles)) {
+			foreach ($related_articles as $related_article_id) {
+				$related_article = get_post($related_article_id);
+				if (!empty($related_article) && $related_article->post_status == 'publish') {
+					$related_xml .= '<related-article related-article-type="companion" xlink:href="'.esc_attr(get_permalink($related_article_id)).'" ';
+					
+					$related_doi = get_post_meta($related_article_id, '_anno_doi', true);
+					error_log('rdoi '.$related_doi. ' '.$related_article_id);		
+					if (!empty($related_doi)) {
+						$related_xml .= 'elocation-id="'.esc_attr($related_doi).'" ';
+					}
+					
+					// Queried for above
+					if (!empty($journal_id)) {
+						$related_xml .= 'journal_id="'.esc_attr($journal_id).'" ';
+					}
+
+					// Queried for above					
+					if (!empty($journal_id_type)) {
+						$related_xml .= 'journal_id_type="'.esc_attr($journal_id_type).'" ';
+					}
+					
+					$related_xml .= ' />';
+				}
+			}
+		}	
+		
 			return 
 '<?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE article PUBLIC "-//NLM//DTD Journal Publishing DTD v3.0 20080202//EN" "journalpublishing3.dtd">
@@ -415,6 +445,7 @@ class Anno_XML_Download {
 '			'.$abstract_xml.'
 			'.$tag_xml.'
 			'.$funding_xml.'
+			'.$related_xml.'
 		</article-meta>
 	</front>';
 	}

@@ -455,4 +455,22 @@ function anno_get_cloned_from($post_ids) {
 	return array();
 }
 
+/**
+ * Gets ancestors this post has been cloned from
+ *
+ * @param int $post_id 
+ * @return array Array of post ids in the clone line
+ */
+function anno_clone_get_ancestors($post_id) {
+	$ancestors = array();
+	do {
+		$cloned_from = $post_id = get_post_meta($post_id, '_anno_cloned_from', true);
+		if (!empty($cloned_from)) {
+			$ancestors[] = $cloned_from;
+		}
+	} while (!empty($cloned_from));
+	error_log(print_r($ancestors,1));
+	return $ancestors;	
+}
+
 ?>
