@@ -727,14 +727,14 @@ function annowf_author_meta_box($post) {
  * Admin request handler. Handles backend permission enforcement, cloning.
  */ 
 function annowf_admin_request_handler() {
-	global $anno_post_save;
+	global $anno_post_save, $post;
 	
 	// Cloning. This must come before the enforcing of capabilities below.
 	if (isset($_POST['publish']) && $_POST['publish'] == $anno_post_save['clone']) {
-		if (!anno_user_can('clone_post')) {
+		$post_id = anno_get_post_id();
+		if (!anno_user_can('clone_post') || annowf_has_clone($post_id)) {
 			wp_die(_x('You are not allowed to clone this post.', 'Cloned article error message', 'anno'));
 		}
-		$post_id = anno_get_post_id();
 		$new_id = annowf_clone_post($post_id);
 		if (!empty($new_id)) {
 			$url = add_query_arg('message', 11, get_edit_post_link($new_id, 'url'));

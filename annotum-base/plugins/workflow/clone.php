@@ -92,8 +92,12 @@ function annowf_cloned_meta_box($post, $metabox) {
  */
 function annowf_is_clone($post_id) {
 	$parent = annwf_get_cloned_from($post_id);
-	// *NOTE* This does not check existance of post
-	return is_numeric($parent) && $parent != 0;	
+	$is_clone = false;
+	$post = get_post(intval($parent));
+	if (empty($post)) {
+		$is_clone =-true;
+	}
+	return $is_clone;
 }
 
 /**
@@ -104,8 +108,17 @@ function annowf_is_clone($post_id) {
  */
 function annowf_has_clone($post_id) {
 	$clones = annowf_get_clones($post_id);
-	// *NOTE* Does not check existance of posts
-	return !empty($clones) && is_array($clones);
+	$has_clone = false;
+	if (is_array($clones)) {
+		foreach ($clones as $clone_id) {
+			$cloned_post = get_post(intval($clone_id));
+			if (!empty($cloned_post)) {
+				$has_clone = true;
+			}
+		}
+	}
+
+	return $has_clone;
 }
 
 
@@ -403,7 +416,9 @@ function anno_clone_home_filter($query) {
 	
 		if (!empty($clones->posts)) {
 			$exclude_ids = anno_get_cloned_from($clones->posts);
- 			$query->set('post__not_in', $exclude_ids);
+			if (!empty($exclude_ids)) {
+ 				$query->set('post__not_in', $exclude_ids);
+			}
 		}
 	}
 	
@@ -412,6 +427,9 @@ add_filter('pre_get_posts', 'anno_clone_home_filter');
 
 /**
  * Get all posts that a set of IDs are cloned from
+ * 
+ * @param array $post_ids Array of post_ids
+ * @return array Array of post ids that this set of posts is cloned from
  */
 function anno_get_cloned_from($post_ids) {
 	if (is_array($post_ids) && !empty($post_ids)) {
@@ -429,10 +447,12 @@ function anno_get_cloned_from($post_ids) {
 			";
 			
 			$exclude_ids = $wpdb->get_col($query);
-			return $exclude_ids;
+			if (is_array($exclude_ids)) {
+				return $exclude_ids;
+			}
 		}
 	}
-	return false;
+	return array();
 }
 
 ?>
