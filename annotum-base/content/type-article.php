@@ -34,7 +34,7 @@ if (CFCT_DEBUG) { cfct_banner(__FILE__); }
 				if (!empty($markup)) {
 		?>
 			<div class="sec sec-revisions">
-				<span class="title"><span><?php _e('Revsions', 'anno'); ?></span></span>
+				<span class="title"><span><?php _e('Revisions', 'anno'); ?></span></span>
 				<?php _e('This article is either a revised version or has previous revisions', 'anno'); ?>
 				<?php echo $markup; ?>
 			</div>
