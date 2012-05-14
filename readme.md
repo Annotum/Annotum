@@ -84,6 +84,10 @@ Annotum introduces various filters for further customization
 - `anno_user_meta` defines additional user meta information to store. This data is stored in an array using the array key as the meta key and the value as the label
 - `anno_profile_fields_title` Defines the heading text on the profile edit page for additional meta fields
 - `anno_user_meta_display` Defines which meta (from anno_user_meta) will be displayed in the hover card in the authors section of an article
+- `anno_valid_dtd_elements` Filter for valid dtd elements in the tinyMCE editor
+- `annowf_notification_recipients` Determines recipients of a notification
+- `annowf_notfication` A filter for notifications with the ability to customize notification subject and bodies, 
+
 
 ## Debugging
 
