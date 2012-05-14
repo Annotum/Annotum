@@ -81,7 +81,6 @@ add_action('edit_user_profile_update', 'anno_profile_updat');
  * Only stores on publish and does not overwrite existing.
  */ 
 function anno_users_snapshot($post_id, $post) {
-	//@TODO leverage anno_user_meta global to take advantage of filtered fields
 	if ($post->post_status == 'publish' && $post->post_type == 'article') {
 		$authors = anno_get_authors($post->ID);
 		$author_meta = get_post_meta($post_id, '_anno_author_snapshot', true);
@@ -95,18 +94,26 @@ function anno_users_snapshot($post_id, $post) {
 			}
 			$author = get_userdata($author_id);
 			if ($author) {
+				global $anno_user_meta;
 				$author_meta[$author->ID] = array(
 					'id' => $author->ID,
 					'surname' => $author->last_name,
 					'given_names' => $author->first_name,
-					'prefix' => get_user_meta($author->ID, '_anno_prefix', true),
-					'suffix' => get_user_meta($author->ID, '_anno_suffix', true),
-					'degrees' => get_user_meta($author->ID, '_anno_degrees', true),
-					'affiliation' => get_user_meta($author->ID, '_anno_affiliation', true),
 					'bio' => $author->user_description,
 					'email' => $author->user_email,
 					'link' => $author->user_url,
 				);
+				// Leverage anno_user_meta global
+				if (is_array($anno_user_meta) && !empty($anno_user_meta)) {
+					foreach ($anno_user_meta as $key => $label) {
+						// Remove anno prefix if present
+						if (strpos($key, '_anno_') === 0) {
+							$key = substr($key, 6);
+						}
+						$author_meta[$author->ID][$key] = get_user_meta($author->ID, $key, true);
+					}
+				}
+				
 			}
 			else {
 				delete_post_meta($post->ID, '_anno_author_'.$author_id);
