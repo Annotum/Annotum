@@ -176,6 +176,7 @@ class Anno_Template {
 	public function get_contributors_list($post_id = null) {
 		$out = '';
 		$post_id = $this->utils->post_id_for_sure($post_id);
+		global $anno_user_meta;
 
 		$authors = get_post_meta($post_id, '_anno_author_snapshot', true);
 		$author_is_id = false;
@@ -207,12 +208,16 @@ class Anno_Template {
 				$author_data['display_name'] = $author_wp_data->display_name;
 				$author_data['link'] = $author_wp_data->user_url;
 				$author_data['bio'] = $author_wp_data->user_description;
-				// @TODO probably worth while to store all this data in a single meta entry
-				$author_data['prefix'] = get_user_meta($author_id, '_anno_prefix', true);
-				$author_data['suffix'] = get_user_meta($author_id, '_anno_suffix', true);
-				$author_data['degrees'] = get_user_meta($author_id, '_anno_degrees', true);
-				$author_data['affiliation'] = get_user_meta($author_id, '_anno_affiliation', true);
-				// Lookup user meta here
+				
+				// Load in additional Annotum User Meta
+				if (is_array($anno_user_meta) && !empty($anno_user_meta)) {
+					foreach ($anno_user_meta as $key => $label) {
+						if (strpos($key, '_anno_') === 0) {
+							$sanitized_key = substr($key, 6);
+						}
+						$author_data[$sanitized_key] = get_user_meta($author_id, $key, true);						
+					}
+				}
 			}
 			else {
 				$author_id = $author['id'];
@@ -236,8 +241,8 @@ class Anno_Template {
 				$author_data['display_name'] = empty($author_wp_data) ? '' : $author_wp_data->display_name;
 			}
 			
-			// We use a user's website if there isn't a user with associated id (imported user snapshots)
-			// We also check to see if this is a string ID or int val id, knol_id vs wp_id
+			// Use a user's website if there isn't a user object with associated id (imported user snapshots)
+			// Also check to see if this is a string ID or int val id, knol_id vs wp_id
 			if ($author_id == (string) intval($author_id)) {
 				$posts_url = get_author_posts_url($author_id);
 				$posts_url = $posts_url == home_url('/author/') ? $author_data['link'] : $posts_url;
@@ -273,19 +278,39 @@ class Anno_Template {
 			// Note
 			$note = $author_data['bio'] ? '<span class="group note">' . esc_html($author_data['bio']) . '</span>' : '';
 			
-			// Affiliation
-			$affiliation = $author_data['affiliation'] ? '<span class="group affiliation">'.__('Affiliation:', 'anno').' '. esc_html($author_data['affiliation']).'</span>' : '';
+			// Which (additional) user meta to display, and in what order, some fields are not filterable
+			// Must match keys in $anno_user_meta global in order to properly pull the label
+			$extra_meta_display = apply_filters('anno_user_meta_display', array(
+				'_anno_affiliation',
+				'_anno_institution',
+				'_anno_department',
+				'_anno_country',
+				'_anno_state',
+				'_anno_city',
+			));
+
+			$extra = '';
+			foreach ($extra_meta_display as $key) {
+				if (strpos($key, '_anno_') === 0) {
+					$sanitized_key = substr($key, 6);
+				}
+				
+				if (!empty($author_data[$sanitized_key])) {
+					$label = isset($anno_user_meta[$key]) ? $anno_user_meta[$key].': ' : ucwords($sanitized_key).': ';	
+					$extra .= '<span class="'.esc_attr('group '.$sanitized_key).'">'.esc_html($label.$author_data[$sanitized_key]).'</span>';
+				}								
+			}
 
 			$card = '
 	<li>
 		<div class="author vcard">
 			'.$fn;
 
-		if ($website || $note || $affiliation) {
+		if ($website || $note || $extra) {
 			$card .= '
 			<span class="extra">
 				<span class="extra-in">
-					'.$affiliation.'
+					'.$extra.'
 					'.$website.'
 					'.$note.'
 				</span>
