@@ -551,30 +551,22 @@ class Anno_Header_Image {
 	 * make the current WP header image implementation simpler to work with.
 	 */
 	public function add_custom_image_header() {
-		/* All four of these constants are required for WordPress to activate the
-		custom header functionality.*/
-		// This constant is optional. If you get rid of it, be sure to set the one below.
-		define('NO_HEADER_TEXT', true);
-		// define('HEADER_TEXTCOLOR', '');
-		
-		// Make sure the header textcolor is defined, or WP Core complains
-		if (!defined('HEADER_TEXTCOLOR')) {
-			define('HEADER_TEXTCOLOR', '');
-		}
-		
-		// These constants are required
-		define('HEADER_IMAGE', $this->default_image_path); // %s is the template dir uri
-		define('HEADER_IMAGE_WIDTH', $this->dimensions[0]); // use width and height appropriate for your theme
-		define('HEADER_IMAGE_HEIGHT', $this->dimensions[1]);
-		
-		/* The callbacks are non-optional but may be empty. They both execute at wp_head and are
-		useful for adding ad-hoc styles */
-		add_custom_image_header(array($this, 'head_callback'), array($this, 'admin_head_callback'));
+
+		add_theme_support( 'custom-header', array(
+			'header-text' => false,
+			'width' => $this->dimensions[0],
+			'height' => $this->dimensions[1],
+			'default-text-color' => '',
+			'default-image' => '',
+			'random-default' => false,
+			'wp-head-callback' => array($this, 'head_callback'),
+			'admin-head-callback' => array($this, 'admin_head_callback'),
+			'admin-preview-callback' => '',
+		));
 	}
 	
-	public function head_callback() {
+	public function head_callback() {}
 		
-	}
 	public function admin_head_callback() {
 		echo '<style type="text/css" media="screen">
 	.appearance_page_custom-header #headimg {
