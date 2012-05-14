@@ -141,7 +141,6 @@ function anno_user_required_fields() {
 	return apply_filters('anno_user_required_fields', array(
 		'first_name' => __('First Name', 'anno'),
 		'last_name' => __('Last Name', 'anno'),
-		'_anno_city' => __('City', 'anno'),
 	));
 }
 
