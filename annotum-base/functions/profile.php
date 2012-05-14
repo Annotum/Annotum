@@ -108,9 +108,9 @@ function anno_users_snapshot($post_id, $post) {
 					foreach ($anno_user_meta as $key => $label) {
 						// Remove anno prefix if present
 						if (strpos($key, '_anno_') === 0) {
-							$key = substr($key, 6);
+							$sanitized_key = substr($key, 6);
 						}
-						$author_meta[$author->ID][$key] = get_user_meta($author->ID, $key, true);
+						$author_meta[$author->ID][$sanitized_key] = get_user_meta($author->ID, $key, true);
 					}
 				}
 				
@@ -123,6 +123,85 @@ function anno_users_snapshot($post_id, $post) {
 	}
 }
 add_action('wp_insert_post', 'anno_users_snapshot', 10, 2);
+
+/**
+ * List of required fields for new user signup
+ * @note multisite currently not supported
+ */
+function anno_user_required_fields() {
+	// key => label
+	// keys should be user fields and/or the same fields from $anno_user_meta
+	return apply_filters('anno_user_required_fields', array(
+		'first_name' => __('First Name', 'anno'),
+		'last_name' => __('Last Name', 'anno'),
+	));
+}
+
+/**
+ * Output additional fields on signup screen
+ * @note multisite currently not supported
+ */
+function anno_register_form(){
+	$required_fields = anno_user_required_fields();
+	if (is_array($required_fields) && !empty($required_fields)) {
+		foreach ($required_fields as $key => $label) {
+			$input_val = isset($_POST[$key]) ? $_POST[$key] : '';
+?>
+			<p>
+				<label for="<?php echo esc_attr($key) ?>"><?php echo esc_html($label); ?><br />
+					<input id="<?php echo esc_attr($key) ?>" class="input" type="text" tabindex="20" size="25" value="<?php echo esc_attr($input_val); ?>" name="<?php echo esc_attr($key) ?>"/>
+				</label>
+			</p>
+<?php 
+		}
+	}
+}
+add_action('register_form','anno_register_form');
+
+/**
+ * Validate required fields on signup
+ * @note multisite currently not supported
+ */
+function anno_user_register_validation($login, $email, $errors) {
+	$required_fields = anno_user_required_fields();
+	if (is_array($required_fields) && !empty($required_fields)) {
+		foreach ($required_fields as $key => $label) {
+			if (empty($_POST[$key])) {
+				$errors->add('empty_'.$key, sprintf(__('<strong>ERROR</strong>: Please enter your %s.', 'anno'), $label));
+			}
+		}
+	}
+}
+add_action('register_post','anno_user_register_validation', 10, 3);
+
+/**
+ * Insert additional fields into DB when a user signs up
+ * @note multisite currently not supported
+ */
+function anno_user_register($user_id)  {
+	$userdata = array();
+	$update = false;
+	
+	foreach ($variable as $key => $value) {
+		if ($key == 'first_name' || $key == 'last_name') {
+			$userdata[$key] = $_POST[$key];
+			$update = true;
+		}
+		else {
+			// @TODO WP may make the keys a little
+			// more friendly to filter into the wp_insert_post process
+			// @see _get_additional_user_keys and _wp_get_user_contactmethods
+			$val = isset($_POST[$key]) ? $_POST[$key] : '';
+			update_user_meta($user_id, $key, $val);
+		}
+	}
+	
+	if ($update) {
+		$userdata['ID'] = $user_id;
+		wp_update_user($userdata);
+	}
+}
+add_action('user_register', 'register_extra_fields');
 
 
 ?>
