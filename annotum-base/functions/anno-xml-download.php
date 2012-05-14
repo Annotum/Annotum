@@ -389,7 +389,7 @@ class Anno_XML_Download {
 			foreach ($related_articles as $related_article_id) {
 				$related_article = get_post($related_article_id);
 				if (!empty($related_article) && $related_article->post_status == 'publish') {
-					$related_xml .= '<related-article related-article-type="companion" xlink:href="'.esc_attr(get_permalink($related_article_id)).'" ';
+					$related_xml .= '<related-article id="'.esc_attr('a'.$related_article->ID).'" related-article-type="companion" ext-link-type="uri" xlink:href="'.esc_attr(get_permalink($related_article_id)).'" ';
 					
 					$related_doi = get_post_meta($related_article_id, '_anno_doi', true);
 
