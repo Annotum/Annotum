@@ -65,15 +65,22 @@ function anno_profile_update($user_id) {
 	global $anno_user_meta;
 	// anno_profile_update to ensure that we're updating from the user profile edit page
 	if (is_array($anno_user_meta) && !empty($anno_user_meta) && isset($_POST['anno_profile_update'])) {
+		$required_fields = anno_user_required_fields();
 		foreach ($anno_user_meta as $key => $label) {
-			// Set null value for clearing
-			$value = isset($_POST[$key]) ? $_POST[$key] : '';
-			update_user_meta($user_id, $key, $value);
+			$value = isset($_POST[$key]) ? trim($_POST[$key]) : '';
+			if (isset($required_fields[$key])) {
+				if (!empty($value)) {
+					update_user_meta($user_id, $key, $value);
+				}
+			}
+			else {
+				update_user_meta($user_id, $key, $value);
+			}			
 		}
 	}
 }
 add_action('personal_options_update', 'anno_profile_update');
-add_action('edit_user_profile_update', 'anno_profile_updat');
+add_action('edit_user_profile_update', 'anno_profile_update');
 
 
 /**
@@ -134,6 +141,7 @@ function anno_user_required_fields() {
 	return apply_filters('anno_user_required_fields', array(
 		'first_name' => __('First Name', 'anno'),
 		'last_name' => __('Last Name', 'anno'),
+		'_anno_city' => __('City', 'anno'),
 	));
 }
 
@@ -203,5 +211,21 @@ function anno_user_register($user_id)  {
 }
 add_action('user_register', 'register_extra_fields');
 
+
+/**
+ * Enforce fields on profile update
+ */
+function anno_user_profile_update_validation($errors) {
+	$required_fields = anno_user_required_fields();
+	if (is_array($required_fields) && !empty($required_fields)) {
+		foreach ($required_fields as $key => $label) {
+			$val = isset($_POST[$key]) ? trim($_POST[$key]) : '';
+			if (empty($val)) {
+				$errors->add('empty_'.$key, sprintf(__('<strong>ERROR</strong>: Please enter %s.', 'anno'), $label));
+			}
+		}
+	}
+}
+add_action('user_profile_update_errors', 'anno_user_profile_update_validation');
 
 ?>
