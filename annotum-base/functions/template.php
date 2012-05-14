@@ -215,6 +215,7 @@ class Anno_Template {
 						if (strpos($key, '_anno_') === 0) {
 							$sanitized_key = substr($key, 6);
 						}
+						// Sanitized key for legacy data support
 						$author_data[$sanitized_key] = get_user_meta($author_id, $key, true);						
 					}
 				}
