@@ -256,9 +256,7 @@ function annowf_clone_post_meta($orig_post_id, $new_post_id) {
 	if (!get_post($orig_post_id) || !get_post($new_post_id)) {
 		return false;
 	}
-	
-	//@TODO Author keys
-	
+		
 	$clone_meta_keys = array(
 		'_anno_appendices' => 1, 
 		'_anno_appendices_html' => 1,
@@ -266,7 +264,6 @@ function annowf_clone_post_meta($orig_post_id, $new_post_id) {
 		'_anno_funding' => 1, 
 		'_anno_subtitle' => 1, 
 		'_anno_author_order' => 1, 
-		'_anno_doi' => 1, // @TODO do we really want to clone this?
 		'_anno_references' => 1,
 	);
 	// _post_state => draft applied on insert in annowf_clone_post()
@@ -411,12 +408,10 @@ function annowf_clone_home_filter($query) {
 				'value' => 0,
 				'compare' => '!=',
 			),
-			'fields' => 'ids',
-			// So the next step is hopefully all cached,
-			'update_post_meta_cache' => true,
-			
+			'fields' => 'ids',			
 		));
 	
+		// Exclude any clones
 		if (!empty($clones->posts)) {
 			$exclude_ids = annowf_get_cloned_from($clones->posts);
 			if (!empty($exclude_ids)) {
