@@ -533,7 +533,6 @@ function annowf_get_clone_dropdown($post_id) {
 		var dropdown = document.getElementById("anno-revision-selector");
 		function annoOnRevisionChange() {
 			if ( !!dropdown.options[dropdown.selectedIndex].value ) {
-				alert(dropdown.options[dropdown.selectedIndex].value);
 				location.href = dropdown.options[dropdown.selectedIndex].value;
 			}
 		}
