@@ -297,7 +297,7 @@ function annowf_clone_post_attachments($orig_post_id, $new_post_id) {
 		return false;
 	}
 		
-	$thumb_id = get_post_meta($new_post_id, '_thumbnail_id', true);
+	$thumb_id = get_post_meta($orig_post_id, '_thumbnail_id', true);
 	
 	$query = new WP_Query(array(
 		'posts_per_page' => -1,
@@ -315,8 +315,9 @@ function annowf_clone_post_attachments($orig_post_id, $new_post_id) {
 			$orig_file = @file_get_contents($orig_file_path);
 			if ($orig_file) {
 				$attachment_array = (array) $attachment;
+				$attachment_id = $attachment->ID;
 				$attachment_array['post_parent'] = $new_post_id;
-				// New attachment, unset ID
+				// New attachment, unset ID to prevent updating the current
 				unset($attachment_array['ID']);
 
 				// Put the new file in the directory
@@ -329,8 +330,8 @@ function annowf_clone_post_attachments($orig_post_id, $new_post_id) {
 						// Generate sizes
 						wp_update_attachment_metadata($new_attachment_id, wp_generate_attachment_metadata($new_attachment_id, $new_file['file']));
 						// New post should have cloned thumbnail ID
-						if ($attachment->ID == $thumb_id) {
-							update_post_meta($new_post_id, '_thumbnail_id', $new_attachment_id);
+						if ($attachment_id == $thumb_id) {
+							$thumb_id = $new_attachment_id;
 						}
 						
 						// Generate all relevant URLs, store old urls => new urls
@@ -346,6 +347,10 @@ function annowf_clone_post_attachments($orig_post_id, $new_post_id) {
 					}
 				}
 			}
+		}
+		
+		if (!empty($new_post_id)) {
+			update_post_meta($new_post_id, '_thumbnail_id', $thumb_id);
 		}
 
 		// Replace post_content, post_content_filtered, post_excerpt, meta
