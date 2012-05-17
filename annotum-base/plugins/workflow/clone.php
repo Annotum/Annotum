@@ -26,7 +26,7 @@ function annowf_get_clones($post_id) {
  * @param int $post_id 
  * @return int|bool False if no parent found, post ID otherwise
  */
-function annwf_get_cloned_from($post_id) {
+function annowf_get_cloned_from_id($post_id) {
 	return get_post_meta($post_id, '_anno_cloned_from', true);
 }
 
@@ -41,7 +41,7 @@ function annowf_clone_meta_box_setup() {
 	// Pass these in as callback args to prevent another 2 get_post_meta calls
 
 	$clones = annowf_get_clones($post->ID);
-	$cloned_from = annowf_get_cloned_from($post->ID);
+	$cloned_from = annowf_get_cloned_from_id($post->ID);
 	
 	if (!empty($clones) || !empty($cloned_from)) {
 
@@ -94,11 +94,11 @@ function annowf_cloned_meta_box($post, $metabox) {
  * @return bool
  */
 function annowf_is_clone($post_id) {
-	$parent = annwf_get_cloned_from($post_id);
+	$parent = annowf_get_cloned_from_id($post_id);
 	$is_clone = false;
 	$post = get_post(intval($parent));
-	if (empty($post)) {
-		$is_clone =-true;
+	if (!empty($post)) {
+		$is_clone = true;
 	}
 	return $is_clone;
 }
@@ -462,7 +462,7 @@ function annowf_get_cloned_from($post_ids) {
 function annowf_clone_get_ancestors($post_id) {
 	$ancestors = array();
 	do {
-		$cloned_from = $post_id = annwf_get_cloned_from($post_id);
+		$cloned_from = $post_id = annowf_get_cloned_from($post_id);
 		if (!empty($cloned_from)) {
 			$ancestors[] = $cloned_from;
 		}
