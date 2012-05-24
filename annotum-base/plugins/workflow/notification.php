@@ -43,8 +43,9 @@ function annowf_send_notification($type, $post = null, $comment = null, $recipie
 	if ($key = array_search($admin_email, $recipients)) {
 		unset($recipients[$key]);
 	}
+	$headers = array('BCC: '.implode(', ', array_unique($recipients)));
 
- 	return @wp_mail(array_unique($recipients), $notification['subject'], $notification['body']);
+ 	return @wp_mail(null, $notification['subject'], $notification['body'], $headers);
 }
 
 /**
