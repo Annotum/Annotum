@@ -29,10 +29,9 @@ $anno_user_meta = apply_filters('anno_user_meta', array(
 /**
  * User profile markup for Annotum specific items
  */ 
-function anno_profile_fields() {
+function anno_profile_fields($user) {
 	global $anno_user_meta;
 	if (is_array($anno_user_meta) && !empty($anno_user_meta)) {
-		$current_user = wp_get_current_user();
 ?>
 		<?php echo apply_filters('anno_profile_fields_title', __('<h3>Miscellaneous</h3>', 'anno')); ?>
 		<table class="form-table">
@@ -40,7 +39,7 @@ function anno_profile_fields() {
 				
 <?php
 		foreach ($anno_user_meta as $key => $label) {
-			$meta_val = get_user_meta($current_user->ID, $key, true);
+			$meta_val = get_user_meta($user->ID, $key, true);
 ?>
 				<tr>
 					<th><label for="<?php echo esc_attr($key); ?>"><?php echo esc_html($label); ?></label></th>
