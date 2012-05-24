@@ -182,6 +182,7 @@ class Anno_Template {
 		$author_is_id = false;
 		if (empty($authors) || !is_array($authors)) {
 			$authors = $this->get_author_ids($post_id);
+			// Legacy data support
 			$author_is_id = true;
 		}
 		
@@ -231,15 +232,21 @@ class Anno_Template {
 				
 				$author_data['first_name'] = $author['given_names'];
 				$author_data['last_name'] = $author['surname'];
-				$author_data['prefix'] = $author['prefix'];
-				$author_data['suffix'] = $author['suffix'];
-				$author_data['degrees'] = $author['degrees'];
-				$author_data['affiliation'] = $author['affiliation'];
 				$author_data['bio'] = $author['bio'];
 				$author_data['link'] = $author['link'];
 				// $author_data['email'] = $author['email'];
 				// We may have an imported user here, in which case, they don't necessarily have a WP user ID and author_wp_data == false
 				$author_data['display_name'] = empty($author_wp_data) ? '' : $author_wp_data->display_name;
+				
+				if (is_array($anno_user_meta) && !empty($anno_user_meta)) {
+					foreach ($anno_user_meta as $key => $label) {
+						if (strpos($key, '_anno_') === 0) {
+							$sanitized_key = substr($key, 6);
+						}
+						// Sanitized key for legacy data support
+						$author_data[$sanitized_key] = $author[$sanitized_key];
+					}
+				}
 			}
 			
 			// Use a user's website if there isn't a user object with associated id (imported user snapshots)
