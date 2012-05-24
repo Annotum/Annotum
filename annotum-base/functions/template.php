@@ -244,7 +244,9 @@ class Anno_Template {
 							$sanitized_key = substr($key, 6);
 						}
 						// Sanitized key for legacy data support
-						$author_data[$sanitized_key] = $author[$sanitized_key];
+						if (!empty($author[$sanitized_key])) {
+							$author_data[$sanitized_key] = $author[$sanitized_key];
+						}
 					}
 				}
 			}
