@@ -467,7 +467,7 @@ function annowf_get_cloned_from($post_ids) {
 function annowf_clone_get_ancestors($post_id) {
 	$ancestors = array();
 	do {
-		$cloned_from = $post_id = annowf_get_cloned_from($post_id);
+		$cloned_from = $post_id = annowf_get_cloned_from_id($post_id);
 		if (!empty($cloned_from)) {
 			$ancestors[] = $cloned_from;
 		}
