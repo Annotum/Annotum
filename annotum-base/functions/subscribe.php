@@ -44,4 +44,42 @@ function anno_subscribe_update($user_id) {
 add_action('edit_user_profile_update', 'anno_subscribe_update');
 add_action('personal_options_update', 'anno_subscribe_update');
 
+
+/**
+ * Send new article notification when a post transitions to the publish state from a none published state
+ * @todo add filters to readme
+ */
+function anno_send_subscription_notification($new_status, $old_status, $post) {
+	if ($new_status == 'publish' && $old_status != 'publish' && $post->post_type == 'article') {
+		$query = new WP_User_Query(array(
+			'meta_key' => '_anno_subscribe',
+			'meta_value' => '1',
+			'meta_compare' => '=',
+		));
+		if (is_array($query->results) && !empty($query->results)) {
+			$recipients = array();
+			foreach ($query->results as $user) {
+				$recipients[] = $user->user_email;				
+			}
+			$blogname = get_option('blogname');
+
+
+			$subscription_subject = apply_filters('anno_subscription_notification_subject', sprintf(__('A new article has been published on %s', 'anno'), $blogname));
+			$subscription_body = apply_filters('anno_subscription_notification_body', sprintf(_x('
+%s was published on %s
+
+%s
+%s
+
+You may view this article in its entirety at the following link: %s
+
+You are receiving these notifications because you opted in. If you would like to no longer receive these notifications, please visit your profile at %s and update your settings.
+
+', 'order of replacement: Post title, blog name, post title, post excerpt, post permalink, profile url', 'anno'), $post->post_title, $blogname, $post->post_title, $post->post_excerpt, get_permalink($post->ID), admin_url('profile.php')));
+			$headers = array('BCC: ' .implode(',', $recipients));
+			@wp_mail(null, $subscription_subject, $subscription_body, $headers);
+		}
+	}
+}
+add_action('transition_post_status', 'anno_send_subscription_notification', 10, 3);
 ?>
