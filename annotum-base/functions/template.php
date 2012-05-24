@@ -260,19 +260,19 @@ class Anno_Template {
 			}
 			$prefix_markup = empty($author_data['prefix']) ? '' : '<span class="name-prefix">'.esc_html($author_data['prefix']).'</span> ';
 			$suffix_markup = empty($author_data['suffix']) ? '' : ' <span class="name-suffix">'.esc_html($author_data['suffix']).'</span>';
-			$degree_markup = empty($author_data['degrees']) ? '' : ' <span class="name-degress">'.esc_html($author_data['degrees']).'</span>';			
+	
 			
 			if ($author_data['first_name'] && $author_data['last_name']) {
 				$fn = empty($posts_url) ? '<span class="name">' : '<a href="'.esc_url($posts_url).'" class="url name">';				
 
-				$fn .= $prefix_markup.'<span class="given-name">'.esc_html($author_data['first_name']).'</span> <span class="family-name">'.esc_html($author_data['last_name']).'</span>'.$suffix_markup.$degree_markup;
+				$fn .= $prefix_markup.'<span class="given-name">'.esc_html($author_data['first_name']).'</span> <span class="family-name">'.esc_html($author_data['last_name']).'</span>'.$suffix_markup;
 
 				$fn .= empty($posts_url) ? '</span>' : '</a>';
 			}
 			else {
 				$fn = $posts_url ? '<a href="'.esc_url($posts_url).'" class="url fn">' : '<span class="fn">';
 
-				$fn .= $prefix_markup.esc_html($author_data['display_name']).$suffix_markup.$degree_markup;
+				$fn .= $prefix_markup.esc_html($author_data['display_name']).$suffix_markup;
 
 				$fn .= $posts_url ? '</a>' : '</span>';
 			}
@@ -290,6 +290,7 @@ class Anno_Template {
 			// Must match keys in $anno_user_meta global in order to properly pull the label
 			$extra_meta_display = apply_filters('anno_user_meta_display', array(
 				'_anno_affiliation',
+				'_anno_degrees',
 				'_anno_institution',
 				'_anno_department',
 				'_anno_country',
