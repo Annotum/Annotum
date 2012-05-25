@@ -118,7 +118,7 @@ form.search .type-submit{background:url(../img/sprite-y.8bit.png) 0 -100px no-re
 .author-header .avatar{left:0;position:absolute;top:5px;}
 .author-header .author-name{display:block;font-size:18px;font-weight:normal;}
 .author-header .author-link a{font:italic normal 14px Georgia, serif;}
-.author-header .author-link,.author-header .author-degrees,.author-header .author-affiliations{margin-bottom:7px;}
+.author-header .author-link,.author-header .author-meta{margin-bottom:7px;}
 .author-header .author-bio{line-height:1.29;}
 .article-full .header{margin-bottom:20px;}
 .article-full .header .entry-title a{color:#000;}

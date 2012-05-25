@@ -226,4 +226,13 @@ function anno_user_profile_update_validation($errors) {
 }
 add_action('user_profile_update_errors', 'anno_user_profile_update_validation');
 
+/**
+ * Sanitize meta key to use around the site
+ * @param string
+ * @todo log filter
+ */ 
+function anno_sanitize_meta_key($meta_key) {
+	$meta_key = str_replace('_anno_', '', $meta_key);
+	return apply_filters('anno_sanitize_meta_key', $meta_key);
+}
 ?>
