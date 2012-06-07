@@ -193,7 +193,7 @@ class Anno_Template {
 				'prefix' => '',
 				'suffix' => '',
 				'degrees' => '',
-				'affiliation' => '',
+				'institution' => '',
 			 	'bio' => '',
 				// Stored in snapshot but not used here			
 				// 'email' => '',
@@ -278,26 +278,15 @@ class Anno_Template {
 
 				$fn .= $posts_url ? '</a>' : '</span>';
 			}
-
-			// Website
-			$trimmed_url = substr($author_data['link'], 0, 20);
-			$trimmed_url = $trimmed_url != $author_data['link'] ? esc_html($trimmed_url) . '&hellip;' : esc_html($author_data['link']);
-
-			$website = $author_data['link'] ? '<span class="group">'.__('Website:', 'anno').' <a class="url" href="'.esc_url($author_data['link']).'">'.$trimmed_url.'</a></span>' : '';
-
-			// Note
-			$note = $author_data['bio'] ? '<span class="group note">' . esc_html($author_data['bio']) . '</span>' : '';
-			
+	
 			// Which (additional) user meta to display, and in what order, some fields are not filterable
 			// Must match keys in $anno_user_meta global in order to properly pull the label
 			$extra_meta_display = apply_filters('anno_user_meta_display', array(
-				'_anno_affiliation',
-				'_anno_degrees',
 				'_anno_institution',
 				'_anno_department',
-				'_anno_country',
 				'_anno_state',
 				'_anno_city',
+				'_anno_country',
 			));
 
 			$extra = '';
@@ -312,18 +301,35 @@ class Anno_Template {
 				}								
 			}
 
+			$extra = array();
+			if (!empty($author_data['department'])) {
+				$extra[] = esc_html($author_data['department']);
+			}
+			if (!empty($author_data['institution'])) {
+				$extra[] = esc_html($author_data['institution']);
+			}
+			if (!empty($author_data['city'])) {
+				$extra[] = esc_html($author_data['city']);
+			}
+			if (!empty($author_data['state'])) {
+				$extra[] = esc_html($author_data['state']);
+			}
+			if (!empty($author_data['country'])) {
+				$extra[] = esc_html($author_data['country']);
+			}
+			$extra = implode(', ', $extra);
+			$extra .= !empty($extra) ? '.' : '';
+
 			$card = '
 	<li>
 		<div class="author vcard">
 			'.$fn;
 
-		if ($website || $note || $extra) {
+		if (!empty($extra)) {
 			$card .= '
 			<span class="extra">
 				<span class="extra-in">
 					'.$extra.'
-					'.$website.'
-					'.$note.'
 				</span>
 			</span>';
 		}
@@ -335,7 +341,7 @@ class Anno_Template {
 			$out .= $card;
 		}
 
-		return $out;
+		return apply_filters('anno_author_html', $out, $authors);
 	}
 	
 	/**

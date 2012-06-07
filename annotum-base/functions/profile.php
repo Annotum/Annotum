@@ -18,7 +18,6 @@ $anno_user_meta = apply_filters('anno_user_meta', array(
 	'_anno_prefix' => _x('Name Prefix', 'form label', 'anno'),
 	'_anno_suffix' => _x('Name Suffix', 'form label', 'anno'),
 	'_anno_degrees' => _x('Degrees', 'form label', 'anno'),
-	'_anno_affiliation' => _x('Affiliation', 'form label', 'anno'),
 	'_anno_institution' => _x('Institution', 'form label', 'anno'),
 	'_anno_department' => _x('Department', 'form label', 'anno'),
 	'_anno_country' => _x('Country', 'form label', 'anno'),

@@ -353,15 +353,18 @@ class Anno_XML_Download {
 //						$author_xml .= '
 //						<email>'.esc_html($author['email']).'</email>';
 //					}
-
-					if (isset($author['degrees']) && !empty($author['degrees'])) {
+				
+					// Affiliation legacy support
+					if ($author['affiliation'] || $author['institution']) {
 						$author_xml .= '
-						<degrees>'.esc_html($author['degrees']).'</degrees>';
-					}
-					
-					if (isset($author['affiliation']) && !empty($author['affitliation'])) {
-						$author_xml .= '
-						<affiliation>'.esc_html($author['affiliation']).'</affiliation>';
+							<aff>';
+							if (!empty($author['affiliation'])) {
+								$author_xml .= esc_html($author['affiliation']);
+							}
+							if (!empty($author['institution'])) {
+								$author_xml .= '<institution>'.esc_html($author['institution']).'</institution>';
+							}
+						$author_xml .= '</aff>';
 					}
 					
 					if (isset($author['bio']) && !empty($author['bio'])) {
@@ -603,18 +606,21 @@ private function xml_back($article) {
 //				<email>'.esc_html($user->user_email).'</email>';
 //			}
 			
-			$degrees = get_user_meta($user->ID, '_anno_degrees', true);
-			if (!empty($degrees)) {
-				$author_xml .= '
-					<degrees>'.esc_html($degrees).'</degrees>';
-			}
-
+			// Affiliation legacy support
 			$affiliation = get_user_meta($user->ID, '_anno_affiliation', true);
-			if (!empty($affilitation)) {
+			$institution = get_user_meta($user->ID, '_anno_institution', true);
+			if (!empty($affiliation) || !empty($institution)) {
 				$author_xml .= '
-					<aff>'.esc_html($user->last_name).'</aff>';
+					<aff>';
+					if (!empty($affiliation)) {
+						$author_xml .= esc_html($affiliation);
+					}
+					if (!empty($institution)) {
+						$author_xml .= '<institution>'.esc_html($institution).'</institution>';
+					}
+				$author_xml .= '</aff>';
 			}
-
+			
 			$bio = $user->user_description;
 			if (!empty($bio)) {
 				$author_xml .= '
