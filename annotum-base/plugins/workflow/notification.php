@@ -59,21 +59,18 @@ function annowf_notification_recipients($type, $post) {
 	$recipients = array();
 	switch ($type) {
 		case 'submitted':
-			$recipients = array_merge($recipients, annowf_get_role_emails('editor', $post));
 		case 'in_review':
 		case 're_review':
+			$recipients = array_merge($recipients, annowf_get_role_emails('editor', $post));		
 			$recipients = array_merge($recipients, annowf_get_role_emails('author', $post));	
 			$recipients = array_merge($recipients, annowf_get_role_emails('administrator', $post));
 			$recipients = array_merge($recipients, annowf_get_role_emails('reviewer', $post));
 			break;
 		case 'published':
-			$recipients = array_merge($recipients, annowf_get_role_emails('author', $post));	
-			$recipients = array_merge($recipients, annowf_get_role_emails('editor', $post));
-			$recipients = array_merge($recipients, annowf_get_role_emails('administrator', $post));
-			break;
 		case 'revisions':
 		case 'rejected':
 		case 'approved':
+			$recipients = array_merge($recipients, annowf_get_role_emails('editor', $post));
 			$recipients = array_merge($recipients, annowf_get_role_emails('author', $post));
 			$recipients = array_merge($recipients, annowf_get_role_emails('administrator', $post));
 			break;
@@ -84,7 +81,7 @@ function annowf_notification_recipients($type, $post) {
 			break;
 		case 'review_comment':
 		case 'review_recommendation':
-			$recipients = array($recipients, annowf_get_role_emails('editor', $post));
+			$recipients = array_merge($recipients, annowf_get_role_emails('editor', $post));
 			$recipients = array_merge($recipients, annowf_get_role_emails('administrator', $post));
 			break;
 		//Some cases intentionally left blank, should be passed to annowf_send_notification in recipients param.
