@@ -510,7 +510,8 @@ function annowf_get_clone_dropdown($post_id) {
 	$inside = '';
 	
 	if (!empty($family_ids) && is_array($family_ids)) {
-
+		// Only add this id if there are other revisions
+		$family_ids[] = $post_id;
 		// Only get articles that are published in the set of family ids
 		$query = new WP_Query(array(
 			'post__in' => $family_ids,
@@ -520,8 +521,11 @@ function annowf_get_clone_dropdown($post_id) {
 		));
 
 		if (!empty($query->posts)) {
+			$i = 1;
 			foreach ($query->posts as $post) {
-				$inside .= '<option value="'.esc_attr(get_permalink($post->ID)).'">'.esc_html(mysql2date(get_option('date_format'), $post->post_date)).'</option>';
+				
+				$inside .= '<option value="'.esc_attr(get_permalink($post->ID)).'"'.selected($post->ID, $post_id, false).'>'.esc_html(sprintf(_x('Edition %d - ', 'revision number', 'anno'), $i).mysql2date(get_option('date_format'), $post->post_date)).'</option>';
+				$i++;
 			}
 		}
 		wp_reset_query();
@@ -530,8 +534,9 @@ function annowf_get_clone_dropdown($post_id) {
 	if (!empty($inside)) {
 		$markup = '
 	<select id="anno-revision-selector">
-		<option>'.__('Revisions', 'anno').'</option>
+		<optgroup label="'.__('Revisions', 'anno').'">
 		'.$inside.'
+		</optgroup>
 	</select>
 	<script type="text/javascript">
 	/* <![CDATA[ */
