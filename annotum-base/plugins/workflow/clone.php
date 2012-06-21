@@ -525,7 +525,7 @@ function annowf_get_clone_dropdown($post_id) {
 			foreach ($query->posts as $post) {
 				
 				$inside .= '<option value="'.esc_attr(get_permalink($post->ID)).'"'.selected($post->ID, $post_id, false).'>'.esc_html(sprintf(_x('Edition %d - ', 'revision number', 'anno'), $i).mysql2date(get_option('date_format'), $post->post_date)).'</option>';
-				$i++;
+				$i--;
 			}
 		}
 		wp_reset_query();
