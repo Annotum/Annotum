@@ -1434,6 +1434,7 @@ class Kipling_DTD_Parser {
 			'suffix' => isset($author_meta['suffix']) ? $author_meta['suffix'] : '',
 			'degrees' => isset($author_meta['degrees']) ? $author_meta['degrees'] : '',
 			'affiliation' => isset($author_meta['affiliation']) ? $author_meta['affiliation'] : '',
+			'institution' => isset($author_meta['institution']) ? $author_meta['institution'] : '',
 			'bio' => isset($author_meta['bio']) ? $author_meta['bio'] : '',
 			'email' => $author['author_email'],
 			'link' => $author['author_url'],
@@ -1470,6 +1471,7 @@ class Kipling_DTD_Parser {
 			$email = pq('> email', $contributor)->text();
 
 			$author_meta['affiliation'] = $affiliation = pq('> aff', $contributor)->text();
+			$author_meta['institution'] = $institution = pq('> aff > institution', $contributor)->text();
 			$author_meta['bio'] = pq('> bio', $contributor)->text();
 			$author_meta['ext-link'] = pq('> ext-link', $contributor)->attr('xlink::href');								
 			$author_meta['uri'] = pq('> uri', $contributor)->text();
@@ -1515,7 +1517,7 @@ class Kipling_DTD_Parser {
 				// Use three most likely items to generate ID
 				$contrib_group = pq('contrib-group', $collab)->text();
 				$affiliation = pq('> aff', $collab)->text();
-				$institution = pq('> institution', $collab)->text();
+				$institution = pq('> aff > institution', $collab)->text();
 				
 				$author['author_id'] = sanitize_title($contrib_group.$affiliation.$institution);
 				$author['author_display_name'] = !empty($contrib_group) ? $contrib_group : $institution;
@@ -1523,6 +1525,7 @@ class Kipling_DTD_Parser {
 				// Meta info - Bio, email etc.. gathered later
 				$collab_meta = array();
 				$collab_meta['affiliation'] = $affiliation;
+				$collab_meta['institution'] = $institution;
 				$collab_meta['bio'] = pq('> bio', $collab)->text();
 				$collab_meta['ext-link'] = pq('> ext-link', $collab)->text();								
 				$collab_meta['uri'] = pq('> uri', $collab)->text();

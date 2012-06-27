@@ -45,10 +45,14 @@ $wp_query = new WP_Query(array(
 					<div class="author-link">
 						<a href="<?php echo esc_html($user->user_url); ?>"><?php echo esc_html($user->user_url); ?></a>
 					</div>
-		
-					<p class="author-degrees"><?php echo esc_html($user->degrees) ?></p>
-					<p class="author-affiliations"><?php echo esc_html($user->affiliation); ?></p>
-					<p class="author-bio"><?php echo esc_html($user->description); ?></p>
+					<?php
+						foreach ($anno_user_meta as $key => $label) {
+							if (!empty($user->$key) && !in_array($key, array('_anno_prefix', '_anno_suffix'))) {
+								echo '<p class="author-meta '.esc_attr('author-'.anno_sanitize_meta_key($key)).'">'.esc_html($label).': '.$user->$key.'</p>';
+							}
+						}
+					?>
+					<p class="author-meta author-bio"><?php echo esc_html($user->description); ?></p>
 				</div><!-- .author-header -->
 			
 			<?php 

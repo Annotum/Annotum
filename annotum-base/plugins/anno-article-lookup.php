@@ -450,8 +450,16 @@ function anno_doi_article_deposit($article_id, $user_id) {
 			if (!empty($author['suffix'])) {
 				$author_xml .= '<suffix>'.esc_html($author['suffix']).'</suffix>';
 			}
-			if (!empty($author['affiliation'])) {
-				$author_xml .= '<affiliation>'.esc_html($author['affiliation']).'</affiliation>';
+			if (!empty($author['affiliation']) || !empty($author['institution'])) {
+				$author_xml .= '
+					<aff>';
+					if (!empty($author['affiliation'])) {
+						$author_xml .= esc_html($author['affiliation']);
+					}
+					if (!empty($author['institution'])) {
+						$author_xml .= '<institution>'.esc_html($author['institution']).'</institution>';
+					}
+				$author_xml .= '</aff>';
 			}
 			$author_xml .= '</person_name>';
 			$i++;
