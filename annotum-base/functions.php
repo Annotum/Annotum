@@ -30,6 +30,7 @@ include_once(CFCT_PATH.'functions/tinymce-upload/tinymce-uploader.php');
 include_once(CFCT_PATH.'functions/tinymce-upload/image-popup.php');
 include_once(CFCT_PATH.'functions/phpquery/phpquery.php');
 include_once(CFCT_PATH.'functions/anno-xml-download.php');
+include_once(CFCT_PATH.'functions/subscribe.php');
 
 function anno_setup() {
 	$path = trailingslashit(TEMPLATEPATH);

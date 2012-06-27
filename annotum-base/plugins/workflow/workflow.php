@@ -214,6 +214,19 @@ function annowf_transistion_state($post_id, $post, $post_before) {
 			// Send notifications, but not for published to draft state
 			if (anno_workflow_enabled('notifications') && !($old_state == 'published' && $new_state == 'draft')) {
 				annowf_send_notification($notification_type, $post);
+				// Dont send notification if re-review,
+				// reviwers get personalized email
+				if ($notification_type != 're_review') {
+					$reviewer_ids = anno_get_reviewers($post->ID);
+					if (!empty($reviewer_ids)) {
+						foreach ($reviewer_ids as $reviewer_id) {
+							$reviewer = get_user_by('id', $reviewer_id);
+							if (!empty($reviewer) && !is_wp_error($reviewer)) {
+								annowf_send_notification('reviewer_update', $post, null, array($reviewer->user_email), $reviewer, array('status' => $notification_type));
+							}
+						}
+					}
+				}
 			}
 		}
 		
