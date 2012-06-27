@@ -446,6 +446,11 @@ function anno_settings($settings) {
 					'name' => 'registrant_code',
 					'type' => 'text',
 				),
+				'doi_prefix' => array(
+					'label' => _x('DOI Prefix', 'options label', 'anno'),
+					'name' => 'doi_prefix',
+					'type' => 'text',
+				),
 			),
 		),
 	);
