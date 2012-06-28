@@ -358,11 +358,12 @@ class Anno_Template {
 		if ($cache !== false && $this->enable_caches !== false) {
 			return $cache;
 		}
-		
+	
 		/* Otherwise, let's build a cache and return it */
 
 		$site = strip_tags(get_bloginfo('name'));
 		$permalink = get_permalink();
+		$post_date = get_the_date('Y M j');
 		$last_modified = get_the_modified_date('Y M j');
 
 		$title = get_the_title($post_id);
@@ -376,7 +377,7 @@ class Anno_Template {
 		if (empty($contributors) || !is_array($contributors)) {
 			$contributors = $this->get_author_ids($post_id);
 			$contributor_is_id = true;
-		}		
+		}
 
 		$names = array();
 		foreach ($contributors as $contributor) {
@@ -415,17 +416,40 @@ class Anno_Template {
 		}
 		$authors = implode(', ', $names);
 
-		$version = count(wp_get_post_revisions($post_id));
-		if ($version === 0) {
-			$version = 1;
+		$family_ids = annowf_clone_get_family($post_id);
+		$version = 1;
+		if (!empty($family_ids) && is_array($family_ids)) {
+			// Only add this id if there are other revisions
+			$family_ids[] = $post_id;
+			// Only get articles that are published in the set of family ids
+			$query = new WP_Query(array(
+				'post__in' => $family_ids,
+				'post_status' => 'publish',
+				'posts_per_page' => -1,
+				'post_type' => 'article',
+				'fields' => 'ids',
+				'cache' => false,
+				'order' => 'ASC'
+			));
+			if (!empty($query->posts)) {
+				$i = 1;
+				foreach ($query->posts as $query_post_id) {
+					if ($query_post_id == $post_id) {
+						$version = $i;
+					}
+					$i++;
+				}
+			}
 		}
 
+
 		$citation = sprintf(
-			_x('%1$s. %2$s [Internet]. Version %3$s. %4$s. %5$s. Available from: %6$s.', 'Citation format', 'anno'),
+			_x('%1$s. %2$s [Internet]. Version %3$s. %4$s. %5$s [last modified: %6$s]. Available from: %7$s.', 'Citation format', 'anno'),
 			$authors,
 			$title,
 			$version,
 			$site,
+			$post_date,
 			$last_modified,
 			$permalink
 		);
