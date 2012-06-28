@@ -359,7 +359,7 @@ class Anno_Template {
 		$cache_key = 'anno_citation_html_'.$post_id;
 		
 		/* Do we already have this cached? Let's return that. */
-		$cache = get_transient($cache_key);
+		$cache = false;//get_transient($cache_key);
 		if ($cache !== false && $this->enable_caches !== false) {
 			return $cache;
 		}
@@ -422,7 +422,7 @@ class Anno_Template {
 		$authors = implode(', ', $names);
 
 		$family_ids = annowf_clone_get_family($post_id);
-		$version = 1;
+		$edition = 1;
 		if (!empty($family_ids) && is_array($family_ids)) {
 			// Only add this id if there are other revisions
 			$family_ids[] = $post_id;
@@ -440,23 +440,30 @@ class Anno_Template {
 				$i = 1;
 				foreach ($query->posts as $query_post_id) {
 					if ($query_post_id == $post_id) {
-						$version = $i;
+						$edition = $i;
 					}
 					$i++;
 				}
 			}
 		}
 
+		$doi = get_post_meta($post_id, '_anno_doi', true);
+		$doi_str = '';
+		if (!empty($doi)) {
+			// Intentionally not i18n, doi is not translatable and inserted into another i18n
+			$doi_str = 'doi: '.$doi.'.';
+		}
 
 		$citation = sprintf(
-			_x('%1$s. %2$s [Internet]. Version %3$s. %4$s. %5$s [last modified: %6$s]. Available from: %7$s.', 'Citation format', 'anno'),
-			$authors,
-			$title,
-			$version,
-			$site,
-			$post_date,
-			$last_modified,
-			$permalink
+			_x('%1$s. %2$s [Internet]. %4$s. %5$s [last modified: %6$s]. Edition %3$s. %8$s Available from: %7$s.', 'Citation format', 'anno'),
+			$authors, // 1
+			$title, // 2
+			$edition, // 3
+			$site, // 4
+			$post_date, // 5
+			$last_modified, // 6
+			$permalink, // 7 
+			$doi_str // 8
 		);
 		
 		set_transient($cache_key, $citation, 60*60); // Cache for 1 hour.

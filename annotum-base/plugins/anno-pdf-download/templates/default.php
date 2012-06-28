@@ -6,26 +6,10 @@
 	<title><?php wp_title( '-', true, 'right' ); echo esc_html( get_bloginfo('name') ); ?></title>
 
 	<link rel="stylesheet" id="anno-pdf-css"  href="<?php echo esc_url(trailingslashit(get_template_directory_uri()).'assets/main/css/pdf.css?ver=1.1'); ?>" type="text/css" media="all">
-	<style type="text/css">
-
-	#header,
-	#footer {
-	  position: fixed;
-	  left: 0;
-		right: 0;
-		color: #aaa;
-		font-size: 0.9em;
-	}
-
-	#header {
-	  top: 0;
-		border-bottom: 0.1pt solid #aaa;
-	}
-	</style>
 </head>
 
 <body <?php body_class(); ?>>
-	
+	<?php /*
 	<div id="header">
 	  <table>
 	    <tr>
@@ -34,6 +18,8 @@
 	    </tr>
 	  </table>
 	</div>
+	*/
+	?>
 	<div id="main" class="act">
 		<div class="in">
 		
