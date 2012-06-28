@@ -297,11 +297,32 @@ div.tools-bar {
 #wpadminbar {
 	display:none;
 }
-.article-full {background: none;}
-.appendix h1 {text-transform:uppercase;}
-.authors a {display: inline;}
-#main-body,#masthead-body{float:left;margin-right:30px;width:770px;}
-#institutions, #institutions strong {font-size: 12px; margin-top: 10px;}
-#header {width: 100%; text-align: right;}
-#table-footer {width: 100%;}
-#table-footer td {width: 50%; text-align: left;}
+.article-full {
+	background: none;
+}
+.appendix h1 {
+	text-transform:uppercase;
+}
+.authors a {
+	display: inline;
+}
+#main-body,
+#masthead-body{
+	float:left;
+	margin-right:30px;
+	width:770px;
+}
+#institutions,
+#institutions strong {
+	font-size:12px;
+	margin-top:10px;}
+#header{
+	width:100%;
+	text-align:right;
+}
+a.reflink {
+	color:#444;
+	text-decoration:none;
+	font-weight:bold;
+	vertical-align:text-top;
+}
