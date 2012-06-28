@@ -186,7 +186,7 @@ class Anno_Template {
 			$author_is_id = true;
 		}
 		$authors_data_arr = array();
-		foreach ($authors as $author_key => $author) {
+		foreach ($authors as $author) {
 			$author_data = array(
 				'first_name' => '',
 				'last_name' => '',
@@ -251,7 +251,7 @@ class Anno_Template {
 				}
 			}
 
-			$author_data['id' ] = $author_id;
+			$author_data['id'] = $author_id;
 			
 			// Use a user's website if there isn't a user object with associated id (imported user snapshots)
 			// Also check to see if this is a string ID or int val id, knol_id vs wp_id
