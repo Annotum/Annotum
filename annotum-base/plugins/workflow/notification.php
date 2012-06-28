@@ -59,12 +59,12 @@ function annowf_notification_recipients($type, $post) {
 	$recipients = array();
 	switch ($type) {
 		case 'submitted':
-		case 'in_review':
 		case 're_review':
+			$recipients = array_merge($recipients, annowf_get_role_emails('reviewer', $post));
+		case 'in_review':
 			$recipients = array_merge($recipients, annowf_get_role_emails('editor', $post));		
 			$recipients = array_merge($recipients, annowf_get_role_emails('author', $post));	
 			$recipients = array_merge($recipients, annowf_get_role_emails('administrator', $post));
-			$recipients = array_merge($recipients, annowf_get_role_emails('reviewer', $post));
 			break;
 		case 'published':
 		case 'revisions':
