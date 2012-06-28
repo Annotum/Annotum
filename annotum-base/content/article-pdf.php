@@ -29,9 +29,9 @@ if (CFCT_DEBUG) { cfct_banner(__FILE__); }
 				
 		<div class="sec sec-authors">
 			<span class="title"><span><?php _e('Authors', 'anno'); ?></span></span>
-			<ul class="authors nav">
+			<span class="authors nav">
 				<?php anno_the_authors(); ?>
-			</ul>
+			</span>
 		</div>
 		<div class="sec sec-citation">
 			<span class="title"><span><?php _e('Citation', 'anno'); ?></span></span>

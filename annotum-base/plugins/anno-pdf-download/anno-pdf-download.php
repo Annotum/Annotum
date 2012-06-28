@@ -197,10 +197,11 @@ class Anno_PDF_Download {
 		setup_postdata($post);
 		
 		// Output the template
+		add_filter('anno_author_html', array($this, 'author_html'), 10, 2);
 		ob_start();
 		include $this->template_path;
 		$this->html = ob_get_clean();
-		
+		remove_filter('anno_author_html', array($this, 'author_html'), 10, 2);
 		// Reset our global $post
 		wp_reset_postdata();
 		
@@ -347,6 +348,72 @@ class Anno_PDF_Download {
 		if ($this->debug) {
 			error_log($msg);
 		}
+	}
+
+	/**
+	 * Filter author html to be appropriate for PDF output
+	 *
+	 * @param string $html Default HTML
+	 * @param array $authors Authors data array
+	 **/
+	public function author_html($html, $authors) {
+		$out = '';
+		$author_markup_arr = array();
+		$institutions = array();
+		foreach ($authors as $author_data) {
+			// Use a user's website if there isn't a user object with associated id (imported user snapshots)
+			// Also check to see if this is a string ID or int val id, knol_id vs wp_id
+			if ($author_data['id'] == intval($author_data['id'])) {
+				$posts_url = get_author_posts_url($author_data['id']);
+				$posts_url = $posts_url == home_url('/author/') ? $author_data['link'] : $posts_url;
+			}
+			else {
+				$posts_url = '';
+			}
+			$prefix_markup = empty($author_data['prefix']) ? '' : esc_html($author_data['prefix'].' ');
+			$suffix_markup = empty($author_data['suffix']) ? '' : esc_html(' '.$author_data['suffix']);
+
+			if ($author_data['first_name'] && $author_data['last_name']) {
+				$fn = empty($posts_url) ? '<span class="name">' : '<a href="'.esc_url($posts_url).'" class="name">';				
+
+				$fn .= $prefix_markup.esc_html($author_data['first_name']).' '.esc_html($author_data['last_name']).$suffix_markup;
+
+				$fn .= $posts_url ? '</a>' : '</span>';
+			}
+			else {
+				$fn = $posts_url ? '<a href="'.esc_url($posts_url).'" class="name">' : '<span class="name">';
+
+				$fn .= $prefix_markup.esc_html($author_data['display_name']).$suffix_markup;
+
+				$fn .= $posts_url ? '</a>' : '</span>';
+			}
+			if (!empty($author_data['institution'])) {
+				if ($key = array_search($author_data['institution'], $institutions)) {
+					// Already in there
+					$fn .= '<sup>'.esc_html($key + 1).'</sup>';
+				}
+				else {
+					$institutions[] = $author_data['institution'];
+					$fn .= '<sup>'.count($institutions).'</sup>';
+				}
+			}
+
+			$author_markup_arr[] = $fn;
+		}
+		
+		$institutions_out = '';
+		if (!empty($institutions)) {
+			$institutions_arr = array();
+			foreach ($institutions as $key => $value) {
+				$institutions_arr[] = '<strong>'.($key + 1).'</strong> '.esc_html($value);
+			}
+			$institutions_out = '<div id="institutions">'.implode(', ', $institutions_arr).'</div>';
+		}
+
+		$authors_out = implode(', ', $author_markup_arr);
+		return $authors_out.$institutions_out;
+
+		 
 	}
 }
 Anno_PDF_Download::i()->add_actions();

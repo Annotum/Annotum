@@ -273,6 +273,8 @@ html.ie7 .authors .extra{top:15px;}
 .widget-recent-posts .panel ul,.widget-recent-posts .panel ol{list-style:none;}
 .ui-tabs-hide{display:none !important;}
 .sec{margin-bottom:25px;padding-left:15px;padding-right:15px;}
+.authors a {display: inline;}
+#institutions, #institutions strong {font-size: 12px; margin-top: 10px;}
 
 /* Explicit Rules for our PDF */
 body {

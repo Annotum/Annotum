@@ -185,8 +185,8 @@ class Anno_Template {
 			// Legacy data support
 			$author_is_id = true;
 		}
-		
-		foreach ($authors as $author) {
+		$authors_data_arr = array();
+		foreach ($authors as $author_key => $author) {
 			$author_data = array(
 				'first_name' => '',
 				'last_name' => '',
@@ -250,6 +250,8 @@ class Anno_Template {
 					}
 				}
 			}
+
+			$author_data['id' ] = $author_id;
 			
 			// Use a user's website if there isn't a user object with associated id (imported user snapshots)
 			// Also check to see if this is a string ID or int val id, knol_id vs wp_id
@@ -325,23 +327,26 @@ class Anno_Template {
 		<div class="author vcard">
 			'.$fn;
 
-		if (!empty($extra)) {
-			$card .= '
+			if (!empty($extra)) {
+				$card .= '
 			<span class="extra">
 				<span class="extra-in">
 					'.$extra.'
 				</span>
 			</span>';
-		}
+			}
 
-		$card .= '
+			$card .= '
 		</div>
 	</li>';
 
 			$out .= $card;
+			$authors_data_arr[] = $author_data;
+			// Set authors to sanitized author_data for filter
+		//	$authors[$key] = $author_data;
 		}
 
-		return apply_filters('anno_author_html', $out, $authors);
+		return apply_filters('anno_author_html', $out, $authors_data_arr);
 	}
 	
 	/**
