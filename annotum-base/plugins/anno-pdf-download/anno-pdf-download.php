@@ -57,7 +57,7 @@ class Anno_PDF_Download {
 		define("DOMPDF_DEFAULT_PAPER_SIZE", "letter");
 		//define("DOMPDF_DEFAULT_FONT", "serif");
 		//define("DOMPDF_DPI", 72);
-		//define("DOMPDF_ENABLE_PHP", true);
+		define("DOMPDF_ENABLE_PHP", true);
 		define("DOMPDF_ENABLE_REMOTE", true);
 		//define("DOMPDF_ENABLE_CSS_FLOAT", true);
 		//define("DOMPDF_ENABLE_JAVASCRIPT", false);
@@ -414,6 +414,43 @@ class Anno_PDF_Download {
 		return $authors_out.$institutions_out;
 
 		 
+	}
+
+	/**
+	 * Header markup for pdfs
+	**/
+	public static function header_markup() {
+		$header_img = get_header_image();
+		if (empty($header_img)) {
+			$journal_name = cfct_get_option('journal_name');
+			$out = empty($journal_name) ? '' : $journal_name.'. ';
+			$section_name = get_bloginfo('name');
+			$out .= empty($section_name) ? '' : $section_name.'.';
+		}
+		else {
+			$out = '<img src="'.esc_url($header_img).'" />';
+		}
+		return $out;
+	}
+
+	/**
+	 * Footer markup for pdfs
+	**/ 
+	public static function footer_markup() {
+		// DOMpdf markup 
+		// @see http://code.google.com/p/dompdf/wiki/Usage
+		$out = '
+		<script type="text/php"> 
+			if (isset($pdf)) {
+				$font = Font_Metrics::get_font("helvetica", "normal");
+			    $size = 11;
+			    $y = $pdf->get_height() - 30;
+			    $x = $pdf->get_width() - 305 - Font_Metrics::get_text_width("1/1", $font, $size);
+			    $pdf->page_text($x, $y, "{PAGE_NUM}", $font, $size);
+			    $pdf->page_text(25, $y, get_bloginfo(\'name\'), $font, $size);
+			}
+		</script>';
+		return $out;
 	}
 }
 Anno_PDF_Download::i()->add_actions();

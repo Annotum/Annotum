@@ -63,15 +63,10 @@ dl.kv dd{margin-bottom:8px;}
 .table figcaption{display:block;font-weight:bold;margin-bottom:5px;}
 .act .in{zoom:1;margin-left:auto;margin-right:auto;position:relative;width:960px;}
 .act .in:after{clear:both;}
-#header{background:#000;color:#fff;position:relative;z-index:2;zoom:1;}
-#header .header-body{background:#006b94;position:relative;}
-#header .header-body a,#site-nav a{color:#fff;}
-#header .navigation{background:#006b94;}
 #masthead{background:#006b94;}
 #main{padding-top:35px;}
 #main-body,#masthead-body{float:left;margin-right:30px;width:630px;}
 #masthead-body{overflow:hidden;}
-#main-body,#main-sidebar{padding-bottom:50px;}
 #main-sidebar,#masthead-sidebar{float:left;overflow:hidden;width:300px;}
 #site-name{font-size:36px;font-weight:normal;line-height:1.2;padding:35px 0 8px 0;text-shadow:rgba(0, 0, 0, 0.8) 0 1px 0;}
 #site-nav{background:#66a6bf;font-weight:bold;font-size:14px;height:34px;}
@@ -276,21 +271,9 @@ html.ie7 .authors .extra{top:15px;}
 
 /* Explicit Rules for our PDF */
 
-#header,
-#footer {
-  position: fixed;
-  left: 0;
-	right: 0;
-	color: #aaa;
-	font-size: 0.9em;
-}
-
-#header {
-  top: 0;
-	border-bottom: 0.1pt solid #aaa;
-}
 body {
 	margin: 20px;
+	margin-bottom: 40px;
 }
 .sub,
 .sup{
@@ -314,6 +297,11 @@ div.tools-bar {
 #wpadminbar {
 	display:none;
 }
+.article-full {background: none;}
 .appendix h1 {text-transform:uppercase;}
 .authors a {display: inline;}
+#main-body,#masthead-body{float:left;margin-right:30px;width:770px;}
 #institutions, #institutions strong {font-size: 12px; margin-top: 10px;}
+#header {width: 100%; text-align: right;}
+#table-footer {width: 100%;}
+#table-footer td {width: 50%; text-align: left;}

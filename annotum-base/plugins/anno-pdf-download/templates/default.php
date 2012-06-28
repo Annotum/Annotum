@@ -9,17 +9,9 @@
 </head>
 
 <body <?php body_class(); ?>>
-	<?php /*
 	<div id="header">
-	  <table>
-	    <tr>
-	      <td>Example document</td>
-	      <td style="text-align: right;">Author</td>
-	    </tr>
-	  </table>
+		<?php echo Anno_PDF_Download::header_markup(); ?>
 	</div>
-	*/
-	?>
 	<div id="main" class="act">
 		<div class="in">
 		
@@ -31,6 +23,6 @@
 
 		</div><!-- .in -->
 	</div><!-- #main -->
-	<?php wp_footer(); ?>
+	<?php echo Anno_PDF_Download::footer_markup(); ?>
 </body>
 </html>
