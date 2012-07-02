@@ -359,7 +359,7 @@ class Anno_Template {
 		$cache_key = 'anno_citation_html_'.$post_id;
 		
 		/* Do we already have this cached? Let's return that. */
-		$cache = false;//get_transient($cache_key);
+		$cache = get_transient($cache_key);
 		if ($cache !== false && $this->enable_caches !== false) {
 			return $cache;
 		}
