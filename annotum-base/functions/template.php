@@ -342,8 +342,6 @@ class Anno_Template {
 
 			$out .= $card;
 			$authors_data_arr[] = $author_data;
-			// Set authors to sanitized author_data for filter
-		//	$authors[$key] = $author_data;
 		}
 
 		return apply_filters('anno_author_html', $out, $authors_data_arr);

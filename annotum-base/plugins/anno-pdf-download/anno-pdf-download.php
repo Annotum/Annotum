@@ -388,13 +388,22 @@ class Anno_PDF_Download {
 				$fn .= $posts_url ? '</a>' : '</span>';
 			}
 			if (!empty($author_data['institution'])) {
-				if ($key = array_search($author_data['institution'], $institutions)) {
-					// Already in there
-					$fn .= '<sup>'.esc_html($key + 1).'</sup>';
+				$new = true;
+				// Loop instead of foreach for case comparison
+				foreach ($institutions as $institution) {
+					if (strcasecmp($author_data['institution'], $institution) === 0) {
+						$new = false;
+						break;
+					}
 				}
-				else {
+
+				if ($new) {
 					$institutions[] = $author_data['institution'];
 					$fn .= '<sup>'.count($institutions).'</sup>';
+				}
+				else {
+					// Already in there
+					$fn .= '<sup>'.esc_html($key + 1).'</sup>';					
 				}
 			}
 
