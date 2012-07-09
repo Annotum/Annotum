@@ -1,16 +1,16 @@
-(function(){ 
+(function(){
     tinymce.create('tinymce.plugins.annoReferences', {
  
         init : function(ed, url){
-			var disabled = true;	
+			var disabled = true;
 	
-            ed.addCommand('Anno_References', function(){	
-               	ed.windowManager.open({
+			ed.addCommand('Anno_References', function(){
+				ed.windowManager.open({
 					id : 'anno-popup-references',
 					width : 500,
-					height : "auto",
+					height : 'auto',
 					wpDialog : true,
-					title : 'Insert References',
+					title : 'Insert References'
 				}, {
 					plugin_url : url // Plugin absolute URL
 				});
@@ -30,7 +30,7 @@
 					}
 				}
 			});
-    	},
+		},
 
         getInfo : function() {
             return {
@@ -39,7 +39,7 @@
                 authorurl: 'http://crowdfavorite.com/',
                 infourl: 'http://annotum.wordpress.com/',
                 version: "0.1"
-			}; 
+			};
         }
     });
 
@@ -73,7 +73,7 @@ jQuery(document).ready( function($) {
 		var ref_id = $(this).attr('id').replace('reference-action-cancel-', '');
 		$('#reference-form-' + ref_id).slideToggle();
 		return false;
-	});	
+	});
 	
 	$('.reference-edit-actions .save').live('click', function() {
 		var ref_id = $(this).attr('id').replace('reference-action-save-', '');

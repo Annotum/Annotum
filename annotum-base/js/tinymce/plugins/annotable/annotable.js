@@ -19,7 +19,6 @@ var annoTable;
 			inputs.dialog = $('#anno-popup-table');
 			inputs.submit = $('#anno-table-submit');
 
-
 			inputs.dialog.keydown( annoTable.keydown );
 			inputs.dialog.keyup( annoTable.keyup );
 			inputs.submit.click( function(e){
