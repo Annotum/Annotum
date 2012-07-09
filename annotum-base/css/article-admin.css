@@ -488,3 +488,14 @@ table tr td.anno-mce-popup-footer {
 .anno-mce-popup {
 	overflow-x: hidden !important;
 }
+
+#edit-equation-img {
+	border: 1px solid #CCC;
+	margin-left: -7px;
+	margin-top: -10px;
+	cursor: pointer;
+}
+
+#edit-equation-img:hover {
+	border: 1px solid #666;
+}

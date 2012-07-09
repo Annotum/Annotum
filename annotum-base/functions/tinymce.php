@@ -244,7 +244,7 @@ add_filter('wp_default_editor', 'anno_force_richedit');
 
 class Anno_tinyMCE {
 	function Anno_tinyMCE() {	
-		add_filter("mce_external_plugins", array(&$this, 'plugins'));
+		add_filter('mce_external_plugins', array(&$this, 'plugins'));
 		add_filter('mce_buttons', array(&$this, 'mce_buttons'));
 		add_filter('mce_buttons_2', array(&$this, 'mce_buttons_2'));
 	}
@@ -292,7 +292,10 @@ class Anno_tinyMCE {
 			
 			$plugins['fullscreen'] = trailingslashit(get_bloginfo('template_directory')).'js/tinymce/plugins/fullscreen/editor_plugin.js';
 
-			$plugins['annoPaste'] = trailingslashit(get_bloginfo('template_directory')).'js/tinymce/plugins/annopaste/editor_plugin.js';		
+			$plugins['annoPaste'] = trailingslashit(get_bloginfo('template_directory')).'js/tinymce/plugins/annopaste/editor_plugin.js';
+
+			$plugins['annoequationedit'] = trailingslashit(get_bloginfo('template_directory')).'js/tinymce/plugins/annoequationedit/editor_plugin_src.js';
+
 		}
 		return $plugins;
 	}
@@ -678,6 +681,24 @@ function anno_popup_equations() {
 <?php
 }
 
+function anno_popup_eq_editor() {
+?>
+<div id="anno-popup-eq-editor" class="anno-mce-popup">
+	<form id="anno-tinymce-eq-edit-form" class="" tabindex="-1">
+		<div class="anno-mce-popup-fields">
+			<div class="equation-edit-details">
+				<label for="anno-eq-edit">
+					<textarea id="anno-eq-edit"></textarea>
+				</label>
+			</div>
+		</div>
+		<div class="anno-mce-popup-footer">
+			<?php _anno_popup_submit_button('anno-eq-edit-insert', _x('Edit', 'button value', 'anno')) ?>
+		</div>
+	</form>
+</div>
+<?php
+}
 /**
  * Markup for insertion/save buttons in popup dialogs for the tinyMCE
  */
@@ -737,6 +758,9 @@ function anno_preload_dialogs($init) {
 	<?php anno_popup_tips(); ?>
 	</div>
 	
+	<div style="display:none;">
+	<?php anno_popup_eq_editor(); ?>
+	</div>
 <?php
 	}
 }
