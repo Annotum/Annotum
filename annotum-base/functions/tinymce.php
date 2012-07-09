@@ -294,7 +294,7 @@ class Anno_tinyMCE {
 
 			$plugins['annoPaste'] = trailingslashit(get_bloginfo('template_directory')).'js/tinymce/plugins/annopaste/editor_plugin.js';
 
-			$plugins['annoequationedit'] = trailingslashit(get_bloginfo('template_directory')).'js/tinymce/plugins/annoequationedit/editor_plugin_src.js';
+			$plugins['annoequationedit'] = trailingslashit(get_bloginfo('template_directory')).'js/tinymce/plugins/annoequationedit/editor_plugin.js';
 
 		}
 		return $plugins;
@@ -681,24 +681,6 @@ function anno_popup_equations() {
 <?php
 }
 
-function anno_popup_eq_editor() {
-?>
-<div id="anno-popup-eq-editor" class="anno-mce-popup">
-	<form id="anno-tinymce-eq-edit-form" class="" tabindex="-1">
-		<div class="anno-mce-popup-fields">
-			<div class="equation-edit-details">
-				<label for="anno-eq-edit">
-					<textarea id="anno-eq-edit"></textarea>
-				</label>
-			</div>
-		</div>
-		<div class="anno-mce-popup-footer">
-			<?php _anno_popup_submit_button('anno-eq-edit-insert', _x('Edit', 'button value', 'anno')) ?>
-		</div>
-	</form>
-</div>
-<?php
-}
 /**
  * Markup for insertion/save buttons in popup dialogs for the tinyMCE
  */
@@ -756,10 +738,6 @@ function anno_preload_dialogs($init) {
 	
 	<div style="display:none;">
 	<?php anno_popup_tips(); ?>
-	</div>
-	
-	<div style="display:none;">
-	<?php anno_popup_eq_editor(); ?>
 	</div>
 <?php
 	}
