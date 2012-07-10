@@ -67,7 +67,8 @@
 						img_w: target.clientWidth,
 						img_h: target.clientHeight
 					};
-					console.log('test');
+					
+					// This must remain wp_editbtns in order to utilize default WP js
 					ed.plugins.wordpress._showButtons(target, 'wp_editbtns');
 				}
 			});
@@ -77,6 +78,7 @@
 		_createButtons : function() {
 			var t = this, ed = tinyMCE.activeEditor, DOM = tinymce.DOM, editButton;
 
+			// This must remain wp_editbtns in order to utilize default WP js
 			DOM.remove('wp_editbtns');
 
 			DOM.add(document.body, 'div', {
@@ -101,11 +103,11 @@
 
 		getInfo : function() {
 			return {
-				longname : 'Edit Image',
-				author : 'WordPress',
-				authorurl : 'http://wordpress.org',
-				infourl : '',
-				version : "1.0"
+				longname : 'Annotum Equation Editor',
+				author : 'Crowd Favorite',
+				authorurl : 'http://crowdfavorite.com',
+				infourl : 'http://annotum.org',
+				version : '1.0'
 			};
 		}
 	});
