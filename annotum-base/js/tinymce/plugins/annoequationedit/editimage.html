@@ -5,23 +5,18 @@
 <title></title>
 
 <link rel="stylesheet" href="css/editimage.css?ver=349-20592" type="text/css" media="all" />
-<script type="text/javascript" src="js/editimage.dev.js?ver=349-20592"></script>
+<script type="text/javascript" src="js/popup.js"></script>
 <base target="_self" />
 </head>
 
-<body id="media-upload" style="display:none;">
+<body>
 <script type="text/javascript">
 if ( 'rtl' == tinyMCEPopup.editor.getParam('directionality','') )
 	document.body.className += ' rtl';
 </script>
-
-<div id="img-edit">
-<form class="media-upload-form" action="" onsubmit="wpImage.update();">
-	
-	<textarea id="equation"></textarea>	
-
-</form>
-</div>
+	<form>
+		<textarea id="equation"></textarea>	
+	</form>
 
 </body>
 </html>
