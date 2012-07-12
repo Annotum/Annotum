@@ -240,7 +240,7 @@ Excerpt: %s
 %s
 
 %s
-%s', 'Email notification body', 'anno'), $single_user, $title, implode($author_names), $excerpt, $edit_link, $reviewer_instructions, $footer),
+%s', 'Email notification body', 'anno'), $single_user, $title, implode(', ', $author_names), $excerpt, $edit_link, $reviewer_instructions, $footer),
 			);
 			break;
 		case 'co_author_added':
@@ -317,7 +317,7 @@ You left a review of : %s
 
 Thank you for your contribution, at this time the review process is completed, you will be notified of any further updates to this article.
 
-%s', 'Email notification body', 'anno'), $title, implode(',', $author_names), $status, $edit_link, $anno_review_options[(int)$review_key], $footer),
+%s', 'Email notification body', 'anno'), $title, implode(', ', $author_names), $status, $edit_link, $anno_review_options[(int)$review_key], $footer),
 			);
 			break;
 		default:
