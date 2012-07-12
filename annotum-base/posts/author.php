@@ -12,20 +12,25 @@
 if (__FILE__ == $_SERVER['SCRIPT_FILENAME']) { die(); }
 if (CFCT_DEBUG) { cfct_banner(__FILE__); }
 
-$author = esc_attr(get_query_var('author_name'));
-$user = get_user_by('login', $author);
+$author = esc_attr(get_query_var('author'));
+$user = get_user_by('id', $author);
 
 get_header();
 
+// Override 
 global $wp_query;
-$wp_query = new WP_Query(array(
-	'post_type' => array('article', 'post'),
-	'meta_query' => array(
-		array( 
-			'key' => '_anno_author_'.$user->ID,
+// A second query because we wanted is_author to be true all the way up to here
+// Though the query should not force a lookup on post_author, but rather post meta described below
+if ($user) {
+	$wp_query = new WP_Query(array(
+		'post_type' => array('article', 'post'),
+		'meta_query' => array(
+			array( 
+				'key' => '_anno_author_'.$user->ID,
+			),
 		),
-	),
-));
+	));
+}
 
 ?>
 <div id="main-body" class="clearfix">
