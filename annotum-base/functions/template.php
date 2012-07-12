@@ -357,7 +357,7 @@ class Anno_Template {
 		$cache_key = 'anno_citation_html_'.$post_id;
 		
 		/* Do we already have this cached? Let's return that. */
-		$cache = get_transient($cache_key);
+		$cache = false;//get_transient($cache_key);
 		if ($cache !== false && $this->enable_caches !== false) {
 			return $cache;
 		}
@@ -412,11 +412,10 @@ class Anno_Template {
 				$first_words = explode(' ', $first);
 				foreach ($first_words as $word) {
 					if (is_string($word)) {
-						$first_formatted .= $word{0}.' ';
+						$first_formatted .= $word{0};
 					}
 				}
 
-				$first_formatted = trim($first_formatted);
 				$name = sprintf(_x('%2$s %1$s', 'last name and first letter of firstname(s) as a textarea-safe string', 'anno'), $first_formatted, $last);
 			}
 			else {
