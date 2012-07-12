@@ -326,3 +326,7 @@ a.reflink {
 	font-weight:bold;
 	vertical-align:text-top;
 }
+a {
+	color: #444 !important;
+	text-decoration:none !important;
+}
