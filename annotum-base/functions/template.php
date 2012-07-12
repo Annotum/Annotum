@@ -407,7 +407,16 @@ class Anno_Template {
 			}
 			
 			if ($first && $last) {
-				$name = sprintf(_x('%1$s %2$s', 'First and last name as a textarea-safe string', 'anno'), $first, $last);
+				$first_formatted = '';
+				$first_words = explode(' ', $first);
+				foreach ($first_words as $word) {
+					if (is_string($word)) {
+						$first_formatted .= $word{0};
+					}
+					
+				}
+
+				$name = sprintf(_x('%2$s %1$s', 'last name and first letter of firstname(s) as a textarea-safe string', 'anno'), $first_formatted, $last);
 			}
 			else {
 				$name = $display_name;
@@ -453,15 +462,14 @@ class Anno_Template {
 		}
 
 		$citation = sprintf(
-			_x('%1$s. %2$s [Internet]. %4$s. %5$s [last modified: %6$s]. Edition %3$s. %8$s Available from: %7$s.', 'Citation format', 'anno'),
+			_x('%1$s. %2$s. %4$s. %5$s [last modified: %6$s]. Edition %3$s. %7$s', 'Citation format', 'anno'),
 			$authors, // 1
 			$title, // 2
 			$edition, // 3
 			$site, // 4
 			$post_date, // 5
 			$last_modified, // 6
-			$permalink, // 7 
-			$doi_str // 8
+			$doi_str // 7 note this already has the trailing .
 		);
 		
 		set_transient($cache_key, $citation, 60*60); // Cache for 1 hour.
