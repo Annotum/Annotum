@@ -1192,4 +1192,3 @@ function anno_current_user_can_edit() {
 
 // Remove this filter which strips links from articles.
 remove_filter( 'content_save_pre', 'balanceTags', 50 );
-?>
