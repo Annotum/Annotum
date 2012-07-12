@@ -28,13 +28,11 @@ if (CFCT_DEBUG) { cfct_banner(__FILE__); }
 		</div>
 				
 		<div class="sec sec-authors">
-			<span class="title"><span><?php _e('Authors', 'anno'); ?></span></span>
 			<span class="authors nav">
 				<?php anno_the_authors(); ?>
 			</span>
 		</div>
 		<div class="sec sec-citation">
-			<span class="title"><span><?php _e('Citation', 'anno'); ?></span></span>
 			<?php anno_the_citation(); ?>
 		</div>
 	</header>
