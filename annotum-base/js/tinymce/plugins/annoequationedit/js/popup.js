@@ -1,5 +1,4 @@
 var tinymce = null, tinyMCEPopup, tinyMCE, annoEqEdit;
-
 tinyMCEPopup = {
 	init: function() {
 		var t = this, w, ti;
@@ -32,7 +31,7 @@ tinyMCEPopup = {
 		function close() {
 			t.editor.windowManager.close(window);
 			tinymce = tinyMCE = t.editor = t.params = t.dom = t.dom.doc = null; // Cleanup
-		};
+		}
 
 		if (tinymce.isOpera)
 			t.getWin().setTimeout(close, 0);
@@ -58,7 +57,7 @@ tinyMCEPopup = {
 		if ( tinymce.isIE )
 			t.editor.selection.moveToBookmark(t.editor.windowManager.bookmark);
 	}
-}
+};
 tinyMCEPopup.init();
 
 annoEqEdit = {
@@ -95,6 +94,7 @@ annoEqEdit = {
 		h = document.body.innerHTML;
 		document.body.innerHTML = ed.translate(h);
 		window.setTimeout( function(){annoEqEdit.setup();}, 500 );
+
 	},
 
 	setup : function() {
@@ -106,9 +106,10 @@ annoEqEdit = {
 
 		tinyMCEPopup.restoreSelection();
 		el = ed.selection.getNode();
+
 		if (el.nodeName != 'IMG')
 			return;
-
+ 
 		url = ed.dom.getAttrib(el, 'src');
 		
 		if (url != null && url.match(/^http(s)?:\/\/chart\.googleapis\.com/)) {
@@ -123,14 +124,19 @@ annoEqEdit = {
 			}
 			else {
 				ta.value = decodeURIComponent(tex[1]);
+				if (tinyMCE.isIE) {
+					ta.focus();
+				}
 			}
 		}
+
+
 		return;
 
 	}
 
 };
 
-window.onload = function(){annoEqEdit.init();}
+window.onload = function(){annoEqEdit.init();};
 annoEqEdit.preInit();
 
