@@ -196,6 +196,7 @@ function anno_internal_comments_reviewer_comments() {
 		} 
 	?>
 	</select>
+	<input id="reviewer-review-submit" type="button" class="button-secondary" value="<?php _ex('Submit', 'button label', 'anno'); ?>" />
 	<span class="review-notice"></span>
 </div>
 
