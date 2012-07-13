@@ -177,7 +177,6 @@ function anno_load_editor($content, $editor_id, $settings = array()) {
 		'media_buttons' => false,
 		'tinymce' => array(
 			'remove_linebreaks' => false,
-			'content_css' => trailingslashit(get_bloginfo('template_directory')).'css/tinymce.css',
 			'extended_valid_elements' => implode(',', $extended_valid_elements),
 			'custom_elements' => implode(',', $custom_elements),
 			'valid_children' => implode(',', $valid_children),

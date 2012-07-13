@@ -1,5 +1,6 @@
 
 (function() {
+	var bookmarkIE;
 	tinymce.create('tinymce.plugins.annoEquationEdit', {
 		url: '',
 		editor: {},
@@ -13,15 +14,21 @@
 
 			// Register the command so that it can be invoked by using tinyMCE.activeEditor.execCommand('...');
 			ed.addCommand('annoEquationEdit', function() {
-				var el = ed.selection.getNode(), vp, H, W, cls = ed.dom.getAttrib(el, 'class'), src = el.getAttribute('src');
 
+				//Editor loses selection when clicking on an external item
+				if (tinyMCE.isIE){
+					ed.selection.moveToBookmark(bookmarkIE);
+				}
+
+				var el = ed.selection.getNode(), vp, H, W, cls = ed.dom.getAttrib(el, 'class'), src = el.getAttribute('src');
+				
 				if ( cls.indexOf('mceItem') != -1 || el.nodeName != 'IMG')
 					return;
 
 				if (src == null || !src.match(/^http(s)?:\/\/chart\.googleapis\.com/)) {
 					return;
 				}
-
+				
 				ed.windowManager.open({
 					file: url + '/editimage.html',
 					width: 480,
@@ -29,6 +36,7 @@
 					inline: true,
 					title: 'Equation'
 				});
+				
 			});
 
 			ed.onInit.add(function(ed) {
@@ -95,8 +103,12 @@
 			});
 
 			tinymce.dom.Event.add(editButton, 'mousedown', function(e) {
-				var ed = tinyMCE.activeEditor;
+				var ed = tinyMCE.activeEditor, el = ed.selection.getNode();
 				ed.windowManager.bookmark = ed.selection.getBookmark('simple');
+				if (tinyMCE.isIE){
+					//Editor loses selection when clicking on an external item in IE
+					bookmarkIE = ed.selection.getBookmark(1);
+				}
 				ed.execCommand('annoEquationEdit');
 			});
 		},
