@@ -44,9 +44,9 @@ jQuery(document).ready(function($) {
 		});
 	
 		return false;
-	})
-	
-	$('select#anno-review').change(function() {
+	});
+
+	$('input#reviewer-review-submit').on('click', function() {
 		var value = $('select#anno-review option:selected').val();
 		var nonce = $('#_ajax_nonce-review').val();
 		
