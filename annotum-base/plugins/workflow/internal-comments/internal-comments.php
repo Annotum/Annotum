@@ -134,7 +134,7 @@ function anno_internal_comment_table_row($cur_comment) {
 			echo '
 			</div>
 			<p class="comment-content">'.
-				$comment->comment_content
+				wpautop($comment->comment_content, 1)
 			.'</p>';
 			
 			$actions = array();
@@ -452,7 +452,7 @@ function anno_internal_comments_get_comment_root($comment) {
 	if (is_numeric($comment)) {
 		$comment = get_comment($comment);
 	}
-	if ($commment !== false) {
+	if ($comment !== false) {
 		while($comment->comment_parent != 0) {
 			$comment = get_comment($comment->comment_parent);
 		}
