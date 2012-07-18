@@ -145,7 +145,7 @@ Author(s): %s
 Excerpt: %s
 %s
 
-%s', 'Email notification body', 'anno'), $title, implode(',', $author_names), $excerpt, $edit_link, $footer)	
+%s', 'Email notification body', 'anno'), $title, implode(', ', $author_names), $excerpt, $edit_link, $footer)	
 			);
 			break;
 		// Status change to: in_review from submitted
