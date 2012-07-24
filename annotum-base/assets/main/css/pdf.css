@@ -297,6 +297,12 @@ div.tools-bar {
 #wpadminbar {
 	display:none;
 }
+<<<<<<< HEAD
+=======
+
+.appendix h1 {text-transform:uppercase;}
+
+>>>>>>> Updating domPDF to 0.6, forcing page breaks before figures
 .article-full {
 	background: none;
 }
@@ -329,4 +335,12 @@ a.reflink {
 a {
 	color: #444 !important;
 	text-decoration:none !important;
+<<<<<<< HEAD
 }
+=======
+}
+
+.figure {
+	page-break-before: always;
+}
+>>>>>>> Updating domPDF to 0.6, forcing page breaks before figures
