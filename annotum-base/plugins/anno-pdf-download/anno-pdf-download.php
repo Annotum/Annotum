@@ -50,7 +50,7 @@ class Anno_PDF_Download {
 		// Define various DOMPDF Settings (typically defined in dompdf_config.custom.inc.php)
 		//define("DOMPDF_TEMP_DIR", "/tmp");
 		//define("DOMPDF_CHROOT", DOMPDF_DIR);
-		//define("DOMPDF_UNICODE_ENABLED", false);
+		define("DOMPDF_UNICODE_ENABLED", false);
 		//define("TTF2AFM", "C:/Program Files (x86)/GnuWin32/bin/ttf2pt1.exe");
 		//define("DOMPDF_PDF_BACKEND", "PDFLib");
 		define("DOMPDF_DEFAULT_MEDIA_TYPE", "print");
@@ -70,7 +70,7 @@ class Anno_PDF_Download {
 		//define("DEBUG_LAYOUT_INLINE", false);
 		//define("DOMPDF_FONT_HEIGHT_RATIO", 1.0);
 		//define("DEBUG_LAYOUT_PADDINGBOX", false);
-		//define("DOMPDF_LOG_OUTPUT_FILE", DOMPDF_FONT_DIR."log.htm");	
+		//define("DOMPDF_LOG_OUTPUT_FILE", DOMPDF_FONT_DIR."log.htm");
 	}
 	
 	
@@ -198,15 +198,14 @@ class Anno_PDF_Download {
 		
 		// Output the template
 		ob_start();
+		remove_filter('the_content','wpautop');
 		include $this->template_path;
 		$this->html = ob_get_clean();
 		
 		// Reset our global $post
 		wp_reset_postdata();
-		
 		// Replace the HTML5 tags with HTML4
 		$this->html = $this->html4ify($this->html);
-		
 		return !empty($this->html);
 	}
 	

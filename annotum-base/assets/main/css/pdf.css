@@ -300,4 +300,43 @@ div.tools-bar {
 #wpadminbar {
 	display:none;
 }
+
 .appendix h1 {text-transform:uppercase;}
+
+.article-full {
+	background: none;
+}
+.appendix h1 {
+	text-transform:uppercase;
+}
+.authors a {
+	display: inline;
+}
+#main-body,
+#masthead-body{
+	float:left;
+	margin-right:30px;
+	width:770px;
+}
+#institutions,
+#institutions strong {
+	font-size:12px;
+	margin-top:10px;}
+#header{
+	width:100%;
+	text-align:right;
+}
+a.reflink {
+	color:#444;
+	text-decoration:none;
+	font-weight:bold;
+	vertical-align:text-top;
+}
+a {
+	color: #444 !important;
+	text-decoration:none !important;
+}
+
+.figure {
+	page-break-before: always;
+}
