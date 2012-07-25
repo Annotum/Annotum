@@ -450,7 +450,7 @@ class Anno_PDF_Download {
 		$out = '
 		<script type="text/php"> 
 			if (isset($pdf)) {
-				$font = Font_Metrics::get_font("helvetica", "normal");
+				$font = Font_Metrics::get_font("liberation", "normal");
 			    $size = 11;
 			    $y = $pdf->get_height() - 30;
 			    $x = $pdf->get_width() - 305 - Font_Metrics::get_text_width("1/1", $font, $size);
