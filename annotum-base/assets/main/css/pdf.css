@@ -197,7 +197,7 @@ a {
 	color: #444 !important;
 	text-decoration:none !important;
 }
-
+.table:first-child,
 .figure {
 	page-break-before: always;
 }
