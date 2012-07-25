@@ -338,6 +338,6 @@ a {
 	page-break-before: always;
 }
 
-p,body {
-	font-family: liberation,Arial,Helvetica,sans-serif !important;
+p,body,.references li {
+	font: 13px/13px; font-family: dejavusans,Arial,Helvetica,sans-serif !important;
 }
