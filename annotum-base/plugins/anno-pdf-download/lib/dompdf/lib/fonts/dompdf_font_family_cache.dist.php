@@ -71,10 +71,10 @@
   ),
   'dejavu sans' => 
   array (
-    'bold' => DOMPDF_FONT_DIR . 'DejaVuSans-Bold',
-    'bold_italic' => DOMPDF_FONT_DIR . 'DejaVuSans-BoldOblique',
-    'italic' => DOMPDF_FONT_DIR . 'DejaVuSans-Oblique',
     'normal' => DOMPDF_FONT_DIR . 'DejaVuSans',
+    'bold' => DOMPDF_FONT_DIR . 'DejaVuSans-Bold',
+    'italic' => DOMPDF_FONT_DIR . 'DejaVuSans-Oblique',
+    'bold_italic' => DOMPDF_FONT_DIR . 'DejaVuSans-BoldOblique',
   ),
   'dejavu sans light' => 
   array (
@@ -107,5 +107,19 @@
     'bold_italic' => DOMPDF_FONT_DIR . 'DejaVuSerifCondensed-BoldItalic',
     'italic' => DOMPDF_FONT_DIR . 'DejaVuSerifCondensed-Italic',
     'normal' => DOMPDF_FONT_DIR . 'DejaVuSerifCondensed',
+  ),
+  'dejavusans' => 
+  array (
+    'normal' => DOMPDF_FONT_DIR . 'DejaVuSans',
+    'bold' => DOMPDF_FONT_DIR . 'DejaVuSans-Bold',
+    'italic' => DOMPDF_FONT_DIR . 'DejaVuSans-Oblique',
+    'bold_italic' => DOMPDF_FONT_DIR . 'DejaVuSans-BoldOblique',
+  ),
+  'liberation' => 
+  array (
+    'normal' => DOMPDF_FONT_DIR . 'LiberationSans-Regular',
+    'bold' => DOMPDF_FONT_DIR . 'LiberationSans-Bold',
+    'italic' => DOMPDF_FONT_DIR . 'LiberationSans-Italic',
+    'bold_italic' => DOMPDF_FONT_DIR . 'LiberationSans-BoldItalic',
   ),
 ) ?>
