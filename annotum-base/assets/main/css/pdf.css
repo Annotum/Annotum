@@ -1,5 +1,5 @@
 /* This file is much liek the main.css, but lacks a few CSS rules that the PDF generator didn't like */
-html,body,div,span,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,abbr,address,cite,code,del,dfn,em,img,ins,kbd,q,samp,small,strong,sub,sup,var,b,i,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td,article,aside,canvas,details,figcaption,figure,footer,header,hgroup,menu,nav,section,summary,time,mark,audio,video{margin:0;padding:0;border:0;font-size:100%;vertical-align:baseline;}
+html,body,div,span,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,abbr,address,cite,del,dfn,em,img,ins,kbd,q,samp,small,strong,sub,sup,var,b,i,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td,article,aside,canvas,details,figcaption,figure,footer,header,hgroup,menu,nav,section,summary,time,mark,audio,video{margin:0;padding:0;border:0;font-size:100%;vertical-align:baseline;}
 nav ol,nav ul{list-style-type:none;}
 article,aside,details,figcaption,figure,footer,header,hgroup,menu,nav,section{display:block;}
 blockquote,q{quotes:none;}
@@ -297,12 +297,9 @@ div.tools-bar {
 #wpadminbar {
 	display:none;
 }
-<<<<<<< HEAD
-=======
 
 .appendix h1 {text-transform:uppercase;}
 
->>>>>>> Updating domPDF to 0.6, forcing page breaks before figures
 .article-full {
 	background: none;
 }
@@ -335,12 +332,12 @@ a.reflink {
 a {
 	color: #444 !important;
 	text-decoration:none !important;
-<<<<<<< HEAD
-}
-=======
 }
 
 .figure {
 	page-break-before: always;
 }
->>>>>>> Updating domPDF to 0.6, forcing page breaks before figures
+
+p,body {
+	font-family: liberation,Arial,Helvetica,sans-serif !important;
+}
