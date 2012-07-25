@@ -201,9 +201,10 @@ a {
 .figure {
 	page-break-before: always;
 }
+/** #454444 vs #444444 to account for bug in domPDF on color swapping **/
 html,body,div,span,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,abbr,address,cite,del,dfn,em,img,ins,kbd,q,samp,small,strong,sub,sup,var,b,i,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td,article,aside,canvas,details,figcaption,figure,footer,header,hgroup,menu,nav,section,summary,time,mark,audio,video {
 	font-family: dejavusans; 
-	color: #444444 !important;
+	color: #454444 !important;
 }
 
 dl.kv dt,
