@@ -1,6 +1,6 @@
 /* This file is much liek the main.css, but lacks a few CSS rules that the PDF generator didn't like */
 html,body{font-size: 13px;}
-html,body,div,span,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,abbr,address,cite,del,dfn,em,img,ins,kbd,q,samp,small,strong,sub,sup,var,b,i,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td,article,aside,canvas,details,figcaption,figure,footer,header,hgroup,menu,nav,section,summary,time,mark,audio,video{margin:0;padding:0;border:0;vertical-align:baseline;}
+html,body,div,span,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,abbr,address,cite,del,dfn,em,img,ins,kbd,q,samp,small,strong,var,b,i,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td,article,aside,canvas,details,figcaption,figure,footer,header,hgroup,menu,nav,section,summary,time,mark,audio,video{margin:0;padding:0;border:0;vertical-align:baseline;}
 nav ol,nav ul{list-style-type:none;}
 article,aside,details,figcaption,figure,footer,header,hgroup,menu,nav,section{display:block;}
 blockquote,q{quotes:none;}
@@ -19,7 +19,7 @@ nav ul,nav li{margin:0;list-style:none;list-style-image:none;list-style-type:non
 small{font-size:85%;}
 strong,th{font-weight:bold;}
 td{vertical-align:top;}
-sub,sup{font-size:75%;line-height:0;position:relative;}
+
 sup{top:-0.5em;}
 sub{bottom:-0.25em;}
 pre{white-space:pre;white-space:pre-wrap;word-wrap:break-word;}
