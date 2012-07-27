@@ -205,12 +205,46 @@ class Anno_PDF_Download {
 		remove_filter('anno_author_html', array($this, 'author_html'), 10, 2);
 		// Reset our global $post
 		wp_reset_postdata();
+		
 		// Replace the HTML5 tags with HTML4
-		$this->html = $this->html4ify($this->html);
+		$this->html = $this->htmlcleanup($this->html);
 		return !empty($this->html);
 	}
 	
+
+	/**
+	 * Cleans up tags for better domPDF rendering
+	 *
+	 * @param string $html 
+	 * @return string - replaced HTML
+	 */
+	private function htmlcleanup($html) {
+		$html = $this->html4ify($html);
+		$html = $this->fixtags($html);
+
+		return $html;
+	}
 	
+	/**
+	 * Replaces tags with others using regex for improved rendering in domPDF
+	 *
+	 * @param string $html 
+	 * @return string - replaced HTML
+	 */
+	private function fixtags($html) {
+		// Pattern => replacemant
+		$replacements = array(
+			'/(<td.*?>)/i' => '${1}<p>', // Addresses http://code.google.com/p/dompdf/issues/detail?id=238
+			'/(<\/td>)/i' => '</p>${1}',
+		);
+
+		foreach ($replacements as $pattern => $replacement) {
+			$html = preg_replace($pattern, $replacement, $html);
+		}
+
+		return $html;
+	}
+
 	/**
 	 * Replaces the HTML5 elements defined in the $replacements array
 	 * with an HTML4 element.
@@ -232,8 +266,8 @@ class Anno_PDF_Download {
 			//'<sup'			=> '<span class="sup"',
 			//'</sup'			=> '</span',
 
-			'<sub'			=> '<span class="sub"',
-			'</sub'			=> '</span',
+			//'<sub'			=> '<span class="sub"',
+			//'</sub'			=> '</span',
 
 			'<figure'		=> '<div',
 			'</figure' 		=> '</div',
