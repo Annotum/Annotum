@@ -141,6 +141,13 @@ function anno_load_editor($content, $editor_id, $settings = array()) {
 		'para',
 		'paste',
 		'uri',
+		// Support for isBlock being case sensitive and nodeName returning capitalized version
+		// tinymce 5.x+ no longer supports tinymce.html.Schema modifiction in plugin init (old way)
+		'PARA',
+		'CAP',
+		'LABEL',
+		'LIST',
+		'LIST-ITEM',
 	);
 	
 	$formats_as_children = implode('|', $formats);
