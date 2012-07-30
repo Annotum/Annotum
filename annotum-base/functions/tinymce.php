@@ -141,6 +141,12 @@ function anno_load_editor($content, $editor_id, $settings = array()) {
 		'para',
 		'paste',
 		'uri',
+		// Support for isBlock being case sensitive and nodeName returning capitalized version
+		'PARA',
+		'CAP',
+		'LABEL',
+		'LIST',
+		'LIST-ITEM',
 	);
 	
 	$formats_as_children = implode('|', $formats);

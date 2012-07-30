@@ -152,8 +152,6 @@
 	tinymce.create('tinymce.plugins.annoLists', {
 		init: function(ed, url) {
 
-			tinymce.html.Schema.blockElementsMap['LIST-ITEM'] = {};
-			
 			var enterDownInEmptyList = false;
 
 			function isTriggerKey(e) {
