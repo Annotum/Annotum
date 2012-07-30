@@ -9,10 +9,6 @@
 (function() {
 	tinymce.create('tinymce.plugins.annoParagraphs', {		
 		init : function(ed, url) {
-			// Define Cap, Label, and PARA as block level elements
-			tinymce.html.Schema.blockElementsMap['CAP'] = {};
-			tinymce.html.Schema.blockElementsMap['LABEL'] = {};
-			tinymce.html.Schema.blockElementsMap['PARA'] = {};
 			
 			var t = this;
 			t.editor = ed;
