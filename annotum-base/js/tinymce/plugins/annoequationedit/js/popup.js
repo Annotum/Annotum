@@ -1,3 +1,8 @@
+/*
+ * Load data from tinyMCE into the equation edit form
+ * Requires jQuery and Closure TexPane (js/equation-editor-compiled.js)
+ */
+
 var tinymce = null, tinyMCEPopup, tinyMCE, annoEqEdit;
 tinyMCEPopup = {
 	init: function() {
@@ -92,17 +97,14 @@ annoEqEdit = {
 		var ed = tinyMCEPopup.editor, h;
 
 		h = document.body.innerHTML;
-		document.body.innerHTML = ed.translate(h);
+		//document.body.innerHTML = ed.translate(h);
 		window.setTimeout( function(){annoEqEdit.setup();}, 500 );
 
 	},
 
 	setup : function() {
 		var t = this, el, f = document.forms[0], ed = tinyMCEPopup.editor,
-			dom = tinyMCEPopup.dom, src, ta, regexS, regex, tex;
-
-		document.dir = tinyMCEPopup.editor.getParam('directionality','');
-
+			dom = tinyMCEPopup.dom, src, ta, regexS, regex, tex, texPane = new goog.ui.annotum.equation.TexPane();
 
 		tinyMCEPopup.restoreSelection();
 		el = ed.selection.getNode();
@@ -112,22 +114,17 @@ annoEqEdit = {
  
 		url = ed.dom.getAttrib(el, 'src');
 		
-		if (url != null && url.match(/^http(s)?:\/\/chart\.googleapis\.com/)) {
-			ta = t.I('equation');
-
+		if (url !== null && url.match(/^http(s)?:\/\/chart\.googleapis\.com/)) {
 			// Based on code from  http://stackoverflow.com/questions/901115/get-query-string-values-in-javascript
 			regexS = "[\\?&]" + 'chl' + "=([^&#]*)";
 			regex = new RegExp(regexS);
 			tex = regex.exec(url);
-			if (tex == null) {
-				return;
-			}
-			else {
-				ta.value = decodeURIComponent(tex[1]);
-				if (tinyMCE.isIE) {
-					ta.focus();
-				}
-			}
+
+			// @TODO hide entire form prior to rendering, show after rendered submit button etc...
+			texPane.render();
+			$(".annotum-eq-wrapper").prependTo("#anno-popup-equations .anno-mce-popup-fields");
+			texPane.texEditor.setVisible(!0);
+			texPane.texEditor.setEquation(decodeURIComponent(tex[1]));
 		}
 
 
