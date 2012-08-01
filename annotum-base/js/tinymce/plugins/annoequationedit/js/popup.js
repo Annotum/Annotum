@@ -130,6 +130,34 @@ annoEqEdit = {
 
 		return;
 
+	},
+
+	update : function() {
+		var t = this;
+		var form = document.forms[0]; // form
+		var ed = tinyMCEPopup.editor;
+		var el; // image in editor
+		var src = $('.ee-preview-container img').prop('src'); // New image source
+
+		// Grab the image
+		tinyMCEPopup.restoreSelection();
+		el = ed.selection.getNode();
+
+		if (el.nodeName != 'IMG') {
+			return;
+		}
+
+		// @TODO
+		/*
+		if (form.img_src.value === '') {
+			t.remove();
+			return;
+		}
+		*/ 
+
+		el.src = src;
+		tinyMCEPopup.close();
+		return;
 	}
 
 };

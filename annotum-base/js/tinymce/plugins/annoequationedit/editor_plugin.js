@@ -32,7 +32,7 @@
 				ed.windowManager.open({
 					file: url + '/editimage.html',
 					width: 480,
-					height: 200,
+					height: 600,
 					inline: true,
 					title: 'Equation'
 				});
