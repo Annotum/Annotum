@@ -202,6 +202,7 @@ function anno_load_editor($content, $editor_id, $settings = array()) {
 			'force_p_newlines' => true,
 			'force_br_newlines' => false,
 			'content_css' => trailingslashit(get_bloginfo('template_directory')).'css/tinymce.css',
+			'object_resizing' => false
 		),
 	);
 	// Remove WP specific tinyMCE edit image plugin.
