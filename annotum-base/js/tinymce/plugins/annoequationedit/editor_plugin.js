@@ -6,7 +6,7 @@
 		editor: {},
 
 		init: function(ed, url) {
-			var t = this, mouse = {};
+			var t = this, mouse = {}, height, figure;
 
 			t.url = url;
 			t.editor = ed;
@@ -29,12 +29,21 @@
 					return;
 				}
 				
+				// Different sizes based on whether or not editing a figure
+				figure = ed.dom.getParent(el, 'fig');
+				if (figure === null) {
+					height = 320;
+				}
+				else {
+					height = 540;
+				}
+
 				ed.windowManager.open({
 					file: url + '/editimage.html',
 					width: 480,
-					height: 600,
+					height: height,
 					inline: true,
-					title: 'Equation'
+					title: ed.getLang('annoequationedit.title')
 				});
 				
 			});
