@@ -1,4 +1,4 @@
-
+/** Based on the wp_editimage plugin for WordpPress **/
 (function() {
 	var bookmarkIE;
 	tinymce.create('tinymce.plugins.annoEquationEdit', {
@@ -37,7 +37,7 @@
 				else {
 					height = 560;
 				}
-
+ 
 				ed.windowManager.open({
 					file: url + '/editimage.html',
 					width: 480,
@@ -58,22 +58,41 @@
 				});
 			});
 
+			// Handle all cases where we want the buttons to go away e`
+			ed.onInit.add(function(ed) {
+				tinymce.dom.Event.add(ed.getWin(), 'scroll', function(e) {
+					t._hideButtons();
+				});
+				tinymce.dom.Event.add(ed.getBody(), 'dragstart', function(e) {
+					t._hideButtons();
+				});
+			});
+
+			ed.onBeforeExecCommand.add(function(ed, cmd, ui, val) {
+				t._hideButtons();
+			});
+
+			ed.onSaveContent.add(function(ed, o) {
+				t._hideButtons();
+			});
+
 			// show editimage buttons
 			ed.onMouseDown.add(function(ed, e) {
 				var target = e.target, src;
-
 				if ( target.nodeName != 'IMG' ) {
 					if ( target.firstChild && target.firstChild.nodeName == 'IMG' && target.childNodes.length == 1 )
 						target = target.firstChild;
-					else
+					else {
+						t._hideButtons();
 						return;
+					}
 				}
 
 				src = target.getAttribute('src');
 
 				// Only show edit button on google chart api images
 				if (src == null || !src.match(/^http(s)?:\/\/chart\.googleapis\.com/)) {
-					ed.plugins.wordpress._hideButtons();
+					t._hideButtons();
 					return;
 				}
 
@@ -86,15 +105,49 @@
 					};
 					
 					// This must remain wp_editbtns in order to utilize default WP js
-					ed.plugins.wordpress._showButtons(target, 'wp_editbtns');
+					t._showButtons(target, 'wp_editbtns', ed);
 				}
 			});
 		},
 
+		_hideButtons : function() {
+			if ( !this.mceTout )
+				return;
+
+			if ( document.getElementById('wp_editbtns') )
+				tinymce.DOM.hide('wp_editbtns');
+
+			if ( document.getElementById('wp_gallerybtns') )
+				tinymce.DOM.hide('wp_gallerybtns');
+
+			clearTimeout(this.mceTout);
+			this.mceTout = 0;
+		},
+
+		_showButtons : function(n, id, ed) {
+			var t = this, p1, p2, vp, DOM = tinymce.DOM, X, Y;
+
+			vp = ed.dom.getViewPort(ed.getWin());
+			p1 = DOM.getPos(ed.getContentAreaContainer());
+			p2 = ed.dom.getPos(n);
+
+			X = Math.max(p2.x - vp.x, 0) + p1.x;
+			Y = Math.max(p2.y - vp.y, 0) + p1.y;
+
+			DOM.setStyles(id, {
+				'top' : Y+5+'px',
+				'left' : X+5+'px',
+				'display' : 'block',
+			});
+
+			if ( this.mceTout )
+				clearTimeout(this.mceTout);
+			
+			this.mceTout = setTimeout( function(){t._hideButtons();}, 5000 );
+		},
 
 		_createButtons : function() {
 			var t = this, ed = tinyMCE.activeEditor, DOM = tinymce.DOM, editButton;
-
 			// This must remain wp_editbtns in order to utilize default WP js
 			DOM.remove('wp_editbtns');
 
