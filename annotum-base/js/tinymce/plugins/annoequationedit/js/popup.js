@@ -182,7 +182,7 @@ annoEqEdit = {
 			return;
 		}
 
-		if (src == '') {
+		if (src == '' || src === undefined) {
 			t.remove();
 			return;
 		}
