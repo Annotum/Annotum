@@ -7,7 +7,8 @@ if ( ! class_exists( '_WP_Editors' ) )
 	require( ABSPATH . WPINC . '/class-wp-editor.php' );
 
 function annoequationedit_translation() {
-
+	$translated = '';
+	
 	$annoequationedit = array(
 		'title' => __('Equation Editor', 'anno'),
 		'alt_text' => __('Alt Text', 'anno'),
