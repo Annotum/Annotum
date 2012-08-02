@@ -30,6 +30,7 @@ legend {
 }
 
 input, textarea {
+	font:12px/1.4 sans-serif;
 	border: 1px solid #DFDFDF;
 	border-radius: 3px;
 	-moz-border-radius : 3px;
@@ -52,8 +53,19 @@ textarea {
 
 input[type="submit"],
 input[type="button"] {
+	border: 1px solid #bbb;
+	background-origin: padding-box;
+	border-radius: 11px;
+	-moz-border-radius: 11px;
+	box-sizing: content-box;
+	min-width: 100px;
 	width: auto;
+	color: #464646;
 	cursor: pointer;
+	margin: 0;
+	padding: 0;
+	height: 20px;
+	text-shadow: white 0px 1px 0px;
 }
 
 #actions {
@@ -150,5 +162,9 @@ input[type="button"] {
 .ee-menu-palette-item {
 	background-image: url(//ssl.gstatic.com/editor/ee-palettes.gif);
 }
-
-
+.anno-popover-footer {
+	background: none repeat scroll 0 0 #EEEEEE;
+    padding: 10px 0;
+    text-align: center;
+    width: 100%;
+}

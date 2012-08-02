@@ -32,10 +32,10 @@
 				// Different sizes based on whether or not editing a figure
 				figure = ed.dom.getParent(el, 'fig');
 				if (figure === null) {
-					height = 320;
+					height = 330;
 				}
 				else {
-					height = 540;
+					height = 560;
 				}
 
 				ed.windowManager.open({
