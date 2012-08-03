@@ -11,7 +11,6 @@ table{border-collapse:collapse;border-spacing:0;}
 hr{display:block;height:1px;border:0;border-top:1px solid #ccc;margin:1em 0;padding:0;}
 pre,code,kbd,samp{font-family:monospace,sans-serif;}
 html{-webkit-text-size-adjust:100%;-ms-text-size-adjust:100%;}
-body{}
 a{color:#006b94;text-decoration:none;}
 a:hover{text-decoration:underline;}
 a:hover,a:active{outline:none;}
@@ -140,7 +139,7 @@ html.ie7 .authors .extra{top:15px;}
 
 body {
 	margin: 20px;
-	margin-bottom: 40px;
+	margin-bottom: 20px;
 }
 
 caption{
@@ -167,7 +166,9 @@ div.tools-bar {
 	display:none;
 }
 
-.appendix h1 {text-transform:uppercase;}
+.appendix h1 {
+	text-transform:uppercase;
+}
 
 .article-full {
 	background: none;
@@ -178,10 +179,13 @@ div.tools-bar {
 .authors a {
 	display: inline;
 }
+#main,
 #main-body,
 #masthead-body{
 	float:left;
 	margin-right:30px;
+	margin-bottom: 0px;
+	padding-bottom: 0px;
 	width:770px;
 }
 #institutions,
@@ -202,14 +206,22 @@ a {
 	color: #444 !important;
 	text-decoration:none !important;
 }
+
+/** #454444 vs #444444 to account for bug in domPDF on color swapping **/
+html,body,div,span,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,abbr,address,cite,del,dfn,em,img,ins,kbd,q,samp,small,strong,sub,sup,var,b,i,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td,article,aside,canvas,details,figcaption,figure,footer,header,hgroup,menu,nav,section,summary,time,mark,audio,video {
+	page-break-before: avoid;
+	font-family: dejavusans; 
+	color: #454444 !important;
+	page-break-inside: avoid;
+}
+
+div {
+	margin: 0 !important;
+}
 .table:first-child,
 .figure {
 	page-break-before: always;
-}
-/** #454444 vs #444444 to account for bug in domPDF on color swapping **/
-html,body,div,span,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,abbr,address,cite,del,dfn,em,img,ins,kbd,q,samp,small,strong,sub,sup,var,b,i,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td,article,aside,canvas,details,figcaption,figure,footer,header,hgroup,menu,nav,section,summary,time,mark,audio,video {
-	font-family: dejavusans; 
-	color: #454444 !important;
+	margin-bottom: 10px !important;
 }
 
 dl.kv dt,
@@ -233,3 +245,4 @@ dl.kv dt,
 #footer .in,
 .quote,
 .figure{border-color:#444;}
+
