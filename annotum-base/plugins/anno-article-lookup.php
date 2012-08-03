@@ -624,15 +624,20 @@ add_action('wp_ajax_anno-doi-deposit', 'anno_doi_deposit_ajax');
  * @param int $post_id
  * @param bool $generate_new_doi whether or not to force a new DOI generation
  * 
- * @return string DOI for this article
+ * @return mixed DOI for this article/false if a valid article id is not passed in.
  */
 function anno_get_doi($post_id, $generate_new_doi = false) {
 	if ($generate_new_doi) {
-		$doi_prefix = cfct_get_option('doi_prefix');
-		$doi_prefix .= empty($doi_prefix) ? '' : '.';
-		$registrant_code = cfct_get_option('registrant_code');
-		$doi = '10.'.$registrant_code.'/'.$doi_prefix.uniqid('', false);
-		update_post_meta($post_id, '_anno_doi', $doi);
+		$post = get_post($post_id);
+		$doi = false;
+		if ($post) {
+			$doi_prefix = cfct_get_option('doi_prefix');
+			$doi_prefix .= empty($doi_prefix) ? '' : '.';
+			$registrant_code = cfct_get_option('registrant_code');
+			error_log($post->guid);
+			$doi = '10.'.$registrant_code.'/'.$doi_prefix.md5($post->guid);
+			update_post_meta($post_id, '_anno_doi', $doi);
+		}
 	}
 	else {
 		$doi = get_post_meta($post_id, '_anno_doi', true);
