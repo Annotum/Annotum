@@ -196,9 +196,11 @@ annoEqEdit = {
 			'data-mce-src' : src
 		});
 
-		if (t.isFig) {
+		// IE Does a poor job at storing the property
+		if (t.isFig || (tinymce.isIE && t.isFigure())) {
 			// Update alt and description
 			mediaEl = ed.dom.getNext(el, 'media');
+
 			if (mediaEl !== undefined) {
 				mediaEl.setAttribute('xlink:href', src);
 
