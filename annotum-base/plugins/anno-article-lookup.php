@@ -634,7 +634,6 @@ function anno_get_doi($post_id, $generate_new_doi = false) {
 			$doi_prefix = cfct_get_option('doi_prefix');
 			$doi_prefix .= empty($doi_prefix) ? '' : '.';
 			$registrant_code = cfct_get_option('registrant_code');
-			error_log($post->guid);
 			$doi = '10.'.$registrant_code.'/'.$doi_prefix.md5($post->guid);
 			update_post_meta($post_id, '_anno_doi', $doi);
 		}
