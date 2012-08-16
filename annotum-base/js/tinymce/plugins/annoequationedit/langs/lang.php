@@ -12,7 +12,7 @@ function annoequationedit_translation() {
 	$annoequationedit = array(
 		'title' => __('Equation Editor', 'anno'),
 		'alt_text' => __('Alt Text', 'anno'),
-		'description' => __('Delete Image', 'anno'),
+		'description' => __('Description', 'anno'),
 		'update' => __('Update', 'anno'),
 		'cancel' => __('Cancel', 'anno'),
 		'fig_meta' => __('Figure Meta', 'anno'),
