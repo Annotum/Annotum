@@ -18,9 +18,10 @@
  * @param stdObj $comment WP Comment object
  * @param array $recipients Array of email addresses to send the notification to. This will merge with predetermined values.
  * @param mixed $single_user (id or WP User Object) User in which the notification directly refers to such as the User which was added as a reviewer. 
+ * @param $data array of supporting data for notifications
  * @return bool true if mail sent successfully, false otherwise.
  */
-function annowf_send_notification($type, $post = null, $comment = null, $recipients = null, $single_user = null) {
+function annowf_send_notification($type, $post = null, $comment = null, $recipients = null, $single_user = null, $data = false) {
 	// Ensure that workflow notifications are enabled. This is also enforced prior to calls to annowf_send_notification
 	if (!anno_workflow_enabled('notifications')) {
 		return false;
@@ -29,7 +30,7 @@ function annowf_send_notification($type, $post = null, $comment = null, $recipie
 		return false;
 	}
 	
-	$notification = annowf_notification_message($type, $post, $comment, $single_user);
+	$notification = annowf_notification_message($type, $post, $comment, $single_user, $data);
 	if (is_null($recipients) || !is_array($recipients)) {
 		$recipients = annowf_notification_recipients($type, $post);
 	}
@@ -37,14 +38,14 @@ function annowf_send_notification($type, $post = null, $comment = null, $recipie
 		$recipients = array_merge($recipients, annowf_notification_recipients($type, $post));
 	}
 	$recipients = apply_filters('annowf_notification_recipients', array_unique($recipients), $type, $post);
-
 	// Sitewide admin should never recieve any workflow notifications.
 	$admin_email = get_option('admin_email');
 	if ($key = array_search($admin_email, $recipients)) {
 		unset($recipients[$key]);
 	}
+	$headers = array('BCC: '.implode(', ', array_unique($recipients)));
 
- 	return @wp_mail(array_unique($recipients), $notification['subject'], $notification['body']);
+ 	return @wp_mail(null, $notification['subject'], $notification['body'], $headers);
 }
 
 /**
@@ -58,25 +59,29 @@ function annowf_notification_recipients($type, $post) {
 	$recipients = array();
 	switch ($type) {
 		case 'submitted':
-			$recipients = array_merge($recipients, annowf_get_role_emails('editor', $post));
-		case 'in_review':
 		case 're_review':
+			$recipients = array_merge($recipients, annowf_get_role_emails('reviewer', $post));
+		case 'in_review':
+			$recipients = array_merge($recipients, annowf_get_role_emails('editor', $post));		
 			$recipients = array_merge($recipients, annowf_get_role_emails('author', $post));	
 			$recipients = array_merge($recipients, annowf_get_role_emails('administrator', $post));
 			break;
 		case 'published':
-			$recipients = array_merge($recipients, annowf_get_role_emails('editor', $post));
 		case 'revisions':
 		case 'rejected':
 		case 'approved':
+			$recipients = array_merge($recipients, annowf_get_role_emails('editor', $post));
+			$recipients = array_merge($recipients, annowf_get_role_emails('author', $post));
+			$recipients = array_merge($recipients, annowf_get_role_emails('administrator', $post));
+			break;
 		case 'general_comment':
 			$recipients = array_merge($recipients, annowf_get_role_emails('author', $post));
-			$recipients = array_merge($recipients, annowf_get_role_emails('reviewer', $post));
 			$recipients = array_merge($recipients, annowf_get_role_emails('administrator', $post));	
+			$recipients = array_merge($recipients, annowf_get_role_emails('reviewer', $post));
 			break;
 		case 'review_comment':
 		case 'review_recommendation':
-			$recipients = array($recipients, annowf_get_role_emails('editor', $post));
+			$recipients = array_merge($recipients, annowf_get_role_emails('editor', $post));
 			$recipients = array_merge($recipients, annowf_get_role_emails('administrator', $post));
 			break;
 		//Some cases intentionally left blank, should be passed to annowf_send_notification in recipients param.
@@ -95,7 +100,7 @@ function annowf_notification_recipients($type, $post) {
  * @param mixed $single_user (id or object) User in which the notification directly refers to such as the User in which was added as a reviewer. 
  * @return array Array consisting of email title and body
  */
-function annowf_notification_message($type, $post, $comment, $single_user = null) {
+function annowf_notification_message($type, $post, $comment, $single_user = null, $data = false) {
 	$footer = get_option('blogname').' '.home_url();
 	
 	$author = get_userdata($post->post_author);
@@ -235,7 +240,7 @@ Excerpt: %s
 %s
 
 %s
-%s', 'Email notification body', 'anno'), $single_user, $title, implode($author_names), $excerpt, $edit_link, $reviewer_instructions, $footer),
+%s', 'Email notification body', 'anno'), $single_user, $title, implode(', ', $author_names), $excerpt, $edit_link, $reviewer_instructions, $footer),
 			);
 			break;
 		case 'co_author_added':
@@ -268,10 +273,10 @@ Excerpt: %s
 					$action_text = sprintf(_x('%s has reviewed %s and has accepted the article for publication.', 'Email review action text', 'anno'), $single_user, $title);
 					break;
 				case 2:
-					$action_text = sprintf(_x('%s has reviewed %s and has rejected the article for publication.', 'Email review action text', 'anno'), $single_user, $title);
+					$action_text = sprintf(_x('%s has reviewed %s and has requested revisions be made to the article prior to publication.', 'Email review action text', 'anno'), $single_user, $title);						
 					break;
 				case 3:
-					$action_text = sprintf(_x('%s has reviewed %s and has requested revisions be made to the article prior to publication.', 'Email review action text', 'anno'), $single_user, $title);					
+					$action_text = sprintf(_x('%s has reviewed %s and has rejected the article for publication.', 'Email review action text', 'anno'), $single_user, $title);
 					break;
 				default:
 					$action_text = '';
@@ -285,6 +290,34 @@ Excerpt: %s
 %s
 
 %s', 'Email notification body', 'anno'), $action_text, $edit_link, $footer),
+			);
+			break;
+		case 'reviewer_update':		
+				// Get review
+				$reviewer = get_user_by('id', $single_user_id);
+				
+				global $anno_review_options;
+				$review_key = annowf_get_user_review($post->ID, $single_user_id);
+				if ($data['status'] == 'revisions') {
+					$status = _x('requested to make revisions', 'Email notification status', 'anno');
+				}
+				else {
+					global $annowf_states;
+					// approved, published, rejected
+					$status = $annowf_states[$data['status']];
+				}
+				$notification = array(
+					'subject' => sprintf(_x('An article you reviewed, %s, has been %s', 'Email notification subject', 'anno'), $title, $status),
+					'body' => sprintf(_x(
+'%s by %s has been %s
+%s
+--------------------
+You left a review of : %s
+--------------------
+
+Thank you for your contribution, at this time the review process is completed, you will be notified of any further updates to this article.
+
+%s', 'Email notification body', 'anno'), $title, implode(', ', $author_names), $status, $edit_link, $anno_review_options[(int)$review_key], $footer),
 			);
 			break;
 		default:
@@ -323,8 +356,7 @@ Excerpt: %s
 			default:
 				break;
 		}
-	}
-	
+	}	
 	return apply_filters('annowf_notfication', $notification, $type, $post, $comment);
 }
 ?>

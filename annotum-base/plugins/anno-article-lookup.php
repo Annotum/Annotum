@@ -450,8 +450,16 @@ function anno_doi_article_deposit($article_id, $user_id) {
 			if (!empty($author['suffix'])) {
 				$author_xml .= '<suffix>'.esc_html($author['suffix']).'</suffix>';
 			}
-			if (!empty($author['affiliation'])) {
-				$author_xml .= '<affiliation>'.esc_html($author['affiliation']).'</affiliation>';
+			if (!empty($author['affiliation']) || !empty($author['institution'])) {
+				$author_xml .= '
+					<aff>';
+					if (!empty($author['affiliation'])) {
+						$author_xml .= esc_html($author['affiliation']);
+					}
+					if (!empty($author['institution'])) {
+						$author_xml .= '<institution>'.esc_html($author['institution']).'</institution>';
+					}
+				$author_xml .= '</aff>';
 			}
 			$author_xml .= '</person_name>';
 			$i++;
@@ -620,16 +628,16 @@ add_action('wp_ajax_anno-doi-deposit', 'anno_doi_deposit_ajax');
  */
 function anno_get_doi($post_id, $generate_new_doi = false) {
 	if ($generate_new_doi) {
+		$doi_prefix = cfct_get_option('doi_prefix');
+		$doi_prefix .= empty($doi_prefix) ? '' : '.';
 		$registrant_code = cfct_get_option('registrant_code');
-		$doi = '10.'.$registrant_code.'/'.uniqid('', false);
+		$doi = '10.'.$registrant_code.'/'.$doi_prefix.uniqid('', false);
 		update_post_meta($post_id, '_anno_doi', $doi);
 	}
 	else {
 		$doi = get_post_meta($post_id, '_anno_doi', true);
 		if (empty($doi)) {
-			$registrant_code = cfct_get_option('registrant_code');
-			$doi = '10.'.$registrant_code.'/'.uniqid('', false);
-			update_post_meta($post_id, '_anno_doi', $doi);
+			$doi = anno_get_doi($post_id, true);
 		}
 	}
 	

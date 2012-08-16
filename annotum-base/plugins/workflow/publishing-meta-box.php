@@ -450,22 +450,23 @@ function annowf_minor_action_save_markup() {
  * Clone button markup used in many major actions for various states
  */
 function annowf_major_action_clone_markup($position = 'center') {
-	global $anno_post_save;
-	if ($position == 'center') {
-		$class = 'center-wrap';
-	}
-	else {
-		$class = 'float-right';
-	}
+	global $anno_post_save, $post;
+	if (!annowf_has_clone($post->ID)) {
+		if ($position == 'center') {
+			$class = 'center-wrap';
+		}
+		else {
+			$class = 'float-right';
+		}
 ?>
-	<div id="clone-action" class="major <?php echo $class ?>">
-		<?php submit_button($anno_post_save['clone'], 'primary', 'publish', false, array( 'tabindex' => '5', 'accesskey' => 'p' )); ?>
-	</div>
-
+		<div id="clone-action" class="major <?php echo $class ?>">
+			<?php submit_button($anno_post_save['clone'], 'primary', 'publish', false, array( 'tabindex' => '5', 'accesskey' => 'p' )); ?>
+		</div>
 <?php 
+	}
 	if ($position != 'center') {		
 ?>	
-		<div class="clear"></div>
+			<div class="clear"></div>
 <?php 
 	}
 }

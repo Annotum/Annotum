@@ -1,5 +1,5 @@
 (function() {
-	tinymce.create('tinymce.plugins.annoLink', {		
+	tinymce.create('tinymce.plugins.annoLink', {
 		init : function(ed, url) {
 			this.editor = ed;
 			
@@ -26,7 +26,7 @@
 			
 			// Register the command so that it can be invoked by using tinyMCE.activeEditor.execCommand('mceExample');
 			ed.addCommand('Anno_Link', function() {
-				var se = ed.selection;			
+				var se = ed.selection;
 				
 				if (se.isCollapsed() && !ed.dom.getParent(se.getNode(), 'EXT-LINK'))
 					return;
@@ -36,7 +36,7 @@
 					width : 480,
 					height : 'auto',
 					wpDialog : true,
-					title : ed.getLang('advlink.link_desc'),
+					title : ed.getLang('advlink.link_desc')
 				}, {
 					plugin_url : url // Plugin absolute URL
 				});
@@ -70,8 +70,8 @@
 				longname : 'Annotum Link Dialog',
 				author : 'Crowd Favorite',
 				authorurl : 'http://crowdfavorite.com',
-				infourl : '',
-				version : "1.0"
+				infourl : 'http://annotum.org',
+				version : '1.0'
 			};
 		}
 	});

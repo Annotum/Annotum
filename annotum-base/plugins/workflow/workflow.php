@@ -67,13 +67,6 @@ function annowf_meta_boxes() {
 	global $annowf_states;
 	add_meta_box('submitdiv', _x('Status:', 'Meta box title', 'anno').' '. esc_html($annowf_states[$post_state]), 'annowf_status_meta_box', 'article', 'side', 'high');
 
-	// Clone data meta box. Only display if something has been cloned from this post, or it is a clone itself.
-	$posts_cloned = get_post_meta($post->ID, '_anno_posts_cloned', true);
-	$cloned_from = get_post_meta($post->ID, '_anno_cloned_from', true);
-	if (!empty($posts_cloned) || !empty($cloned_from)) {
-		add_meta_box('anno-cloned', _x('Versions', 'Meta box title', 'anno'), 'annowf_cloned_meta_box', 'article', 'side', 'low');
-	}
-
 	if (anno_user_can('view_reviewers')) {
 		add_meta_box('anno-reviewers', _x('Reviewers', 'Meta box title', 'anno'), 'annowf_reviewers_meta_box', 'article', 'side', 'low');
 	}
@@ -221,6 +214,19 @@ function annowf_transistion_state($post_id, $post, $post_before) {
 			// Send notifications, but not for published to draft state
 			if (anno_workflow_enabled('notifications') && !($old_state == 'published' && $new_state == 'draft')) {
 				annowf_send_notification($notification_type, $post);
+				// Dont send notification if re-review,
+				// reviwers get personalized email
+				if ($notification_type != 're_review') {
+					$reviewer_ids = anno_get_reviewers($post->ID);
+					if (!empty($reviewer_ids)) {
+						foreach ($reviewer_ids as $reviewer_id) {
+							$reviewer = get_user_by('id', $reviewer_id);
+							if (!empty($reviewer) && !is_wp_error($reviewer)) {
+								annowf_send_notification('reviewer_update', $post, null, array($reviewer->user_email), $reviewer, array('status' => $notification_type));
+							}
+						}
+					}
+				}
 			}
 		}
 		
@@ -709,90 +715,6 @@ function annowf_user_search() {
 add_action('wp_ajax_anno-user-search', 'annowf_user_search');
 
 /**
- * Metabox for posts that have been cloned from this post
- * @todo check for trash/deleted
- */ 
-function annowf_cloned_meta_box($post) {
-	$cloned_from = get_post_meta($post->ID, '_anno_cloned_from', true);
-	$cloned_from_post = get_post($cloned_from_post);
-	if (!$cloned_from_post) {
-		return;
-	}
-?>
-	<dl class="anno-versions">
-<?php
-	if (!empty($cloned_from)) {
-		$cloned_post = get_post($cloned_from);
-?>
-		<dt><?php echo _x('Cloned From', 'Cloned meta box text', 'anno'); ?></dt>
-		<dd><?php echo '<a href="'.esc_url(get_edit_post_link($cloned_from)).'">'.esc_html($cloned_post->post_title).'</a>'; ?></dd>
-<?php	
-	}
-	
-	$posts_cloned = get_post_meta($post->ID, '_anno_posts_cloned', true);
-	if (!empty($posts_cloned) && is_array($posts_cloned)) {
-?>
-		<dt><?php echo _x('Clones', 'Cloned meta box text', 'anno'); ?></dt>
-<?php
-		foreach ($posts_cloned as $cloned_post_id) {
-			$cloned_post = get_post($cloned_post_id);
-			if (!empty($cloned_post)) {
-				echo '<dd><a href="'.esc_url(get_edit_post_link($cloned_post_id)).'">'.esc_html($cloned_post->post_title).'</a></dd>';
-			}
-		}
-	}
-?>
-	</dl>
-<?php
-}
-
-/**
- * Clones a post and inserts it into the DB. Maintains all post properties (no post_meta). Also
- * saves the association on both posts.
- *
- * @param int $orig_id The original ID of the post to clone from
- * @return int|bool The newly created (clone) post ID. false if post failed to insert.
- * @todo Clone post-meta
- */
-function annowf_clone_post($orig_id) {
-	global $current_user;
-
-	$post = get_post($orig_id);	
-	if (empty($post)) {
-		return false;
-	}
-	
-	// Form the new cloned post
-	$new_post = array(
-		'post_author' => $current_user->ID,
-		'post_status' => 'draft',
-		'post_title' => sprintf(_x('Cloned: %s', 'Cloned article title prepend', 'anno'), $post->post_title),
-		'post_content_filtered' => $post->post_content_filtered,
-		'post_content' => $post->post_content,
-		'post_excerpt' => $post->post_excerpt,
-		'post_type' => $post->post_type,
-		'post_parent' => $post->post_parent,
-	);
-	remove_filter('wp_insert_post_data', 'anno_insert_post_data', null, 2);
-	$new_id = wp_insert_post($new_post);
-	add_filter('wp_insert_post_data', 'anno_insert_post_data', null, 2);
-
-	// Add to clone/cloned post meta
-	if ($new_id) {
-		$posts_cloned = get_post_meta($orig_id, '_anno_posts_cloned', true);
-		if (!is_array($posts_cloned)) {
-			$posts_cloned = array($new_id);
-		}
-		else {
-			$posts_cloned[] = $new_id;
-		}
-		update_post_meta($orig_id, '_anno_posts_cloned', $posts_cloned);
-		update_post_meta($new_id, '_anno_cloned_from', $orig_id);
-	}
-	return $new_id;
-}
-
-/**
  * Custom meta Box For Author select.
  */
 function annowf_author_meta_box($post) {
@@ -818,14 +740,14 @@ function annowf_author_meta_box($post) {
  * Admin request handler. Handles backend permission enforcement, cloning.
  */ 
 function annowf_admin_request_handler() {
-	global $anno_post_save;
+	global $anno_post_save, $post;
 	
 	// Cloning. This must come before the enforcing of capabilities below.
 	if (isset($_POST['publish']) && $_POST['publish'] == $anno_post_save['clone']) {
-		if (!anno_user_can('clone_post')) {
+		$post_id = anno_get_post_id();
+		if (!anno_user_can('clone_post') || annowf_has_clone($post_id)) {
 			wp_die(_x('You are not allowed to clone this post.', 'Cloned article error message', 'anno'));
 		}
-		$post_id = anno_get_post_id();
 		$new_id = annowf_clone_post($post_id);
 		if (!empty($new_id)) {
 			$url = add_query_arg('message', 11, get_edit_post_link($new_id, 'url'));
