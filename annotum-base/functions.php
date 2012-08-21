@@ -30,6 +30,7 @@ include_once(CFCT_PATH.'functions/tinymce-upload/tinymce-uploader.php');
 include_once(CFCT_PATH.'functions/tinymce-upload/image-popup.php');
 include_once(CFCT_PATH.'functions/phpquery/phpquery.php');
 include_once(CFCT_PATH.'functions/anno-xml-download.php');
+include_once(CFCT_PATH.'functions/subscribe.php');
 
 function anno_setup() {
 	$path = trailingslashit(TEMPLATEPATH);
@@ -444,6 +445,11 @@ function anno_settings($settings) {
 				'registrant_code' => array(
 					'label' => _x('Registrant Code', 'options label', 'anno'),
 					'name' => 'registrant_code',
+					'type' => 'text',
+				),
+				'doi_prefix' => array(
+					'label' => _x('DOI Prefix', 'options label', 'anno'),
+					'name' => 'doi_prefix',
 					'type' => 'text',
 				),
 			),

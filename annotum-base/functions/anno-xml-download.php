@@ -353,15 +353,18 @@ class Anno_XML_Download {
 //						$author_xml .= '
 //						<email>'.esc_html($author['email']).'</email>';
 //					}
-
-					if (isset($author['degrees']) && !empty($author['degrees'])) {
+				
+					// Affiliation legacy support
+					if ($author['affiliation'] || $author['institution']) {
 						$author_xml .= '
-						<degrees>'.esc_html($author['degrees']).'</degrees>';
-					}
-					
-					if (isset($author['affiliation']) && !empty($author['affitliation'])) {
-						$author_xml .= '
-						<affiliation>'.esc_html($author['affiliation']).'</affiliation>';
+							<aff>';
+							if (!empty($author['affiliation'])) {
+								$author_xml .= esc_html($author['affiliation']);
+							}
+							if (!empty($author['institution'])) {
+								$author_xml .= '<institution>'.esc_html($author['institution']).'</institution>';
+							}
+						$author_xml .= '</aff>';
 					}
 					
 					if (isset($author['bio']) && !empty($author['bio'])) {
@@ -381,6 +384,36 @@ class Anno_XML_Download {
 			$author_xml .= '
 			</contrib-group>';
 		}
+		
+		// Related Articles
+		$related_xml = '';
+		$related_articles = annowf_clone_get_ancestors($article->ID);
+		if (!empty($related_articles) && is_array($related_articles)) {
+			foreach ($related_articles as $related_article_id) {
+				$related_article = get_post($related_article_id);
+				if (!empty($related_article) && $related_article->post_status == 'publish') {
+					$related_xml .= '<related-article id="'.esc_attr('a'.$related_article->ID).'" related-article-type="companion" ext-link-type="uri" xlink:href="'.esc_attr(get_permalink($related_article_id)).'" ';
+					
+					$related_doi = get_post_meta($related_article_id, '_anno_doi', true);
+
+					if (!empty($related_doi)) {
+						$related_xml .= 'elocation-id="'.esc_attr($related_doi).'" ';
+					}
+					
+					// Queried for above
+					if (!empty($journal_id)) {
+						$related_xml .= 'journal_id="'.esc_attr($journal_id).'" ';
+					}
+
+					// Queried for above					
+					if (!empty($journal_id_type)) {
+						$related_xml .= 'journal_id_type="'.esc_attr($journal_id_type).'" ';
+					}
+					
+					$related_xml .= ' />';
+				}
+			}
+		}	
 		
 			return 
 '<?xml version="1.0" encoding="UTF-8"?>
@@ -415,6 +448,7 @@ class Anno_XML_Download {
 '			'.$abstract_xml.'
 			'.$tag_xml.'
 			'.$funding_xml.'
+			'.$related_xml.'
 		</article-meta>
 	</front>';
 	}
@@ -603,18 +637,21 @@ private function xml_back($article) {
 //				<email>'.esc_html($user->user_email).'</email>';
 //			}
 			
-			$degrees = get_user_meta($user->ID, '_anno_degrees', true);
-			if (!empty($degrees)) {
-				$author_xml .= '
-					<degrees>'.esc_html($degrees).'</degrees>';
-			}
-
+			// Affiliation legacy support
 			$affiliation = get_user_meta($user->ID, '_anno_affiliation', true);
-			if (!empty($affilitation)) {
+			$institution = get_user_meta($user->ID, '_anno_institution', true);
+			if (!empty($affiliation) || !empty($institution)) {
 				$author_xml .= '
-					<aff>'.esc_html($user->last_name).'</aff>';
+					<aff>';
+					if (!empty($affiliation)) {
+						$author_xml .= esc_html($affiliation);
+					}
+					if (!empty($institution)) {
+						$author_xml .= '<institution>'.esc_html($institution).'</institution>';
+					}
+				$author_xml .= '</aff>';
 			}
-
+			
 			$bio = $user->user_description;
 			if (!empty($bio)) {
 				$author_xml .= '
