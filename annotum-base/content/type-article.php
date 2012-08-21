@@ -42,7 +42,7 @@ if (CFCT_DEBUG) { cfct_banner(__FILE__); }
 		
 		?>
 		<div class="sec sec-authors">
-			<span class="title"><span><?php _e('Authors', 'anno'); ?></span></span>
+			<span class="title"><span><?php echo _n( 'Author', 'Authors', anno_num_authors(get_the_ID()), 'anno' ) ?></span></span>
 			<ul class="authors nav">
 				<?php anno_the_authors(); ?>
 			</ul>

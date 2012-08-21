@@ -1192,4 +1192,18 @@ function anno_current_user_can_edit() {
 
 // Remove this filter which strips links from articles.
 remove_filter( 'content_save_pre', 'balanceTags', 50 );
-?>
+
+/**
+ * Get the number of authors for an article via the snapshot.
+ * @param int post_id ID of the post to get the number from 
+ * @return Number of authors, 1 if no snapshot found (default WP)
+ **/
+function anno_num_authors($post_id) {
+	$authors = get_post_meta($post_id, '_anno_author_snapshot', true);
+	if (is_array($authors)) {
+		return count($authors);
+	}
+
+	// Default WP, only one author
+	return 1;
+}
