@@ -691,30 +691,6 @@ function annowf_get_round($post_id) {
 }
 
 /**
- * Typeahead user search AJAX handler. Based on code in WP Core 3.1.2
- * note this searches the entire users table - on multisite you can add existing users from other blogs to this one.
- */ 
-function annowf_user_search() {
-	global $wpdb;
-	$s = stripslashes($_GET['q']);
-
-	$s = trim( $s );
-	if ( strlen( $s ) < 2 )
-		die; // require 2 chars for matching
-
-	$results = $wpdb->get_col($wpdb->prepare("
-		SELECT user_login
-		FROM $wpdb->users
-		WHERE user_login LIKE %s",
-		'%'.like_escape($s).'%'
-	));
-
-	echo join($results, "\n");
-	die;
-}
-add_action('wp_ajax_anno-user-search', 'annowf_user_search');
-
-/**
  * Custom meta Box For Author select.
  */
 function annowf_author_meta_box($post) {

@@ -488,3 +488,70 @@ table tr td.anno-mce-popup-footer {
 .anno-mce-popup {
 	overflow-x: hidden !important;
 }
+
+/** Snapshot manager **/
+#intro{display:none;}
+#bio #content{width:100%;min-height:60px}
+.pop-admin-help{display:inline;color:#999999}
+.carousel-wrapper{
+background: #F9F9F9;
+border-radius: 6px;
+-webkit-border-radius: 6px;
+-moz-border-radius: 6px;
+-khtml-border-radius: 6px;
+margin: 12px 0;
+}
+fieldset.snapshot-item {
+	background: #FFFFFF;
+	border: 1px solid #DFDFDF;
+	border-radius: 6px;
+	-webkit-border-radius: 6px;
+	-moz-border-radius: 6px;
+	-khtml-border-radius: 6px;
+	margin-top: 10px;
+}
+fieldset.snapshot-item h4 {
+	background: #F1F1F1;
+	border-bottom: 1px solid #DFDFDF;
+	font-size: 11px;
+	margin: 0;
+	padding: 5px 8px 8px;
+	cursor: move;
+}
+.snapshot-datum {
+	clear: both;
+}
+.snapshot-datum label {
+	float: left;
+	width: 218px;
+}
+
+.snapshot-datum input,
+.snapshot-datum textarea{
+	border-radius: 3px;
+	-webkit-border-radius: 3px;
+	-moz-border-radius: 3px;
+	-khtml-border-radius: 3px;
+	width: 65%;
+}
+.snapshot-datum textarea {
+	height: 55px;
+}
+.snapshot-handlediv {
+	float: right;
+ 	width: 27px;
+ 	height: 27px;
+ 	font-size: 20px;
+ 	text-align: center;
+ 	margin-top: 5px;
+ 	color: #b7b7b7;
+ 	cursor: pointer;
+ }
+#snapshot-status {
+	margin-left: 3px;
+}
+.snapshot-actions {
+	margin-top: 10px;
+	padding-top: 10px;
+	border-top: 1px solid #DFDFDF;
+}

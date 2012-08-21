@@ -31,6 +31,7 @@ include_once(CFCT_PATH.'functions/tinymce-upload/image-popup.php');
 include_once(CFCT_PATH.'functions/phpquery/phpquery.php');
 include_once(CFCT_PATH.'functions/anno-xml-download.php');
 include_once(CFCT_PATH.'functions/subscribe.php');
+include_once(CFCT_PATH.'functions/snapshot.php');
 
 function anno_setup() {
 	$path = trailingslashit(TEMPLATEPATH);
@@ -117,23 +118,6 @@ function anno_assets() {
 	cfct_template_file('assets', 'load');
 }
 add_action('wp_enqueue_scripts', 'anno_assets');
-
-/**
- * Enqueue our custom JS on the edit post page (currently used
- * for TinyMCE trigger usage during article save)
- *
- * @return void
- */
-function anno_edit_post_assets($hook_suffix) {
-	if ($hook_suffix == 'post.php' || $hook_suffix == 'post-new.php') {
-		global $post_type;
-		if ($post_type == 'article') {
-			wp_enqueue_script('anno-article-admin', get_template_directory_uri().'/js/article-admin.js');
-		}
-	}
-}
-add_action('admin_enqueue_scripts', 'anno_edit_post_assets');
-
 
 /**
  * Bring in our main.css on the dashboard page.  Should be cached
@@ -1192,4 +1176,61 @@ function anno_current_user_can_edit() {
 
 // Remove this filter which strips links from articles.
 remove_filter( 'content_save_pre', 'balanceTags', 50 );
+
+/**
+ * Typeahead user search AJAX handler. Based on code in WP Core 3.1.2
+ * note this searches the entire users table - on multisite you can add existing users from other blogs to this one.
+ */ 
+function anno_user_search() {
+	global $wpdb;
+	$s = stripslashes($_GET['q']);
+
+	$s = trim( $s );
+	if ( strlen( $s ) < 2 )
+		die; // require 2 chars for matching
+
+	$results = $wpdb->get_col($wpdb->prepare("
+		SELECT user_login
+		FROM $wpdb->users
+		WHERE user_login LIKE %s",
+		'%'.like_escape($s).'%'
+	));
+
+	echo join($results, "\n");
+	die;
+}
+add_action('wp_ajax_anno-user-search', 'anno_user_search');
+
+/**
+ * Enqueue the custom JS on the edit post page (currently used
+ * for TinyMCE trigger usage during article save)
+ *
+ * @return void
+ */
+function anno_edit_post_assets($hook_suffix) {
+	if ($hook_suffix == 'post.php' || $hook_suffix == 'post-new.php') {
+		global $post;
+		$main =  trailingslashit(get_bloginfo('template_directory')) . 'assets/main/';
+		if ($post->post_type == 'article') {
+			wp_enqueue_script('anno-article-admin', $main.'js/article-admin.js', array('jquery-ui-sortable'), ANNO_VER);
+			if ($post->post_status == 'publish') {
+				wp_enqueue_script('anno-article-admin-snapshot', $main.'js/article-admin-snapshot.js', array('jquery', 'jquery-ui-sortable'), ANNO_VER);
+			}
+		}
+	}
+}
+add_action('admin_enqueue_scripts', 'anno_edit_post_assets');
+
+/**
+ * Print styles for article post type.
+ */ 
+function anno_article_admin_print_styles() {
+	global $post;
+	if ((isset($post->post_type) && $post->post_type == 'article') || (isset($_GET['anno_action']) && $_GET['anno_action'] == 'image_popup')) {
+		$main =  trailingslashit(get_bloginfo('template_directory')) . 'assets/main/';
+		wp_enqueue_style('article-admin', $main.'css/article-admin.css', array(), ANNO_VER);
+		wp_enqueue_style('article-admin-tinymce-ui', $main.'css/tinymce-ui.css', array(), ANNO_VER);
+	}
+}
+add_action('admin_print_styles', 'anno_article_admin_print_styles');
 ?>
