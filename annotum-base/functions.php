@@ -114,7 +114,8 @@ function anno_admin_settings_menu_form_title() {
  * Run at 'wp' hook so we have access to conditional functions, like is_single(), etc.
  */
 function anno_assets() {
-	cfct_template_file('assets', 'load');
+	// Do not load with cfct_template as it will use the child them only if load.php exists there
+	include_once(CFCT_PATH.'assets/load.php');
 }
 add_action('wp_enqueue_scripts', 'anno_assets');
 
@@ -1192,4 +1193,18 @@ function anno_current_user_can_edit() {
 
 // Remove this filter which strips links from articles.
 remove_filter( 'content_save_pre', 'balanceTags', 50 );
-?>
+
+/**
+ * Get the number of authors for an article via the snapshot.
+ * @param int post_id ID of the post to get the number from 
+ * @return Number of authors, 1 if no snapshot found (default WP)
+ **/
+function anno_num_authors($post_id) {
+	$authors = get_post_meta($post_id, '_anno_author_snapshot', true);
+	if (is_array($authors)) {
+		return count($authors);
+	}
+
+	// Default WP, only one author
+	return 1;
+}
