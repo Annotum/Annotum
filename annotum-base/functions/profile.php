@@ -24,6 +24,25 @@ $anno_user_meta = apply_filters('anno_user_meta', array(
 	'_anno_country' => _x('Country', 'form label', 'anno'),
 ));
 
+function anno_sanitize_user_meta_keys($meta_array) {
+	$sanitize_keys_meta = array();
+	foreach ($meta_array as $key => $value) {
+		$sanitized_key = null;
+		if (strpos($key, '_anno_') === 0) {
+			$sanitized_key = substr($key, 6);
+		}
+
+		if ($sanitized_key) {
+			$sanitize_keys_meta[$sanitized_key] = $value;
+		}
+		else {
+			$sanitize_keys_meta[$key] = $value;
+		}
+	}
+
+	return $sanitize_keys_meta;
+}
+
 /**
  * User profile markup for Annotum specific items
  */ 
@@ -78,55 +97,6 @@ function anno_profile_update($user_id) {
 }
 add_action('personal_options_update', 'anno_profile_update');
 add_action('edit_user_profile_update', 'anno_profile_update');
-
-
-/**
- * Takes a snapshot of author/co-authors user data and stores it in post data
- * Only stores on publish and does not overwrite existing.
- */ 
-function anno_users_snapshot($post_id, $post) {
-	if ($post->post_status == 'publish' && $post->post_type == 'article') {
-		$authors = anno_get_authors($post->ID);
-		$author_meta = get_post_meta($post_id, '_anno_author_snapshot', true);
-		if (!is_array($author_meta)) {
-			$author_meta = array();
-		}
-		
-		foreach ($authors as $author_id) {
-			if (array_key_exists($author_id, $author_meta)) {
-				continue;
-			}
-			$author = get_userdata($author_id);
-			if ($author) {
-				global $anno_user_meta;
-				$author_meta[$author->ID] = array(
-					'id' => $author->ID,
-					'surname' => $author->last_name,
-					'given_names' => $author->first_name,
-					'bio' => $author->user_description,
-					'email' => $author->user_email,
-					'link' => $author->user_url,
-				);
-				// Leverage anno_user_meta global
-				if (is_array($anno_user_meta) && !empty($anno_user_meta)) {
-					foreach ($anno_user_meta as $key => $label) {
-						// Remove anno prefix if present
-						if (strpos($key, '_anno_') === 0) {
-							$sanitized_key = substr($key, 6);
-						}
-						$author_meta[$author->ID][$sanitized_key] = get_user_meta($author->ID, $key, true);
-					}
-				}
-				
-			}
-			else {
-				delete_post_meta($post->ID, '_anno_author_'.$author_id);
-			}
-		}
-		update_post_meta($post_id, '_anno_author_snapshot', $author_meta);
-	}
-}
-add_action('wp_insert_post', 'anno_users_snapshot', 10, 2);
 
 /**
  * List of required fields for new user signup

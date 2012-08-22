@@ -38,6 +38,10 @@ if ( is_singular() ) {
 	wp_enqueue_script( 'comment-reply' );
 }
 
+if (is_admin()) {
+	wp_enqueue_script('jquery-ui-sortable');
+}
+
 /**
  * Enqueue and add CSS and JS assets.
  * Hook into 'wp' action when conditional checks like is_single() are available.
@@ -58,4 +62,3 @@ function anno_css3_pie() {
 <?php
 }
 add_action('wp_head', 'anno_css3_pie', 8);
-?>

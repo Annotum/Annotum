@@ -239,16 +239,13 @@ class Anno_Template {
 				$author_data['display_name'] = empty($author_wp_data) ? '' : $author_wp_data->display_name;
 				
 				if (is_array($anno_user_meta) && !empty($anno_user_meta)) {
-					foreach ($anno_user_meta as $key => $label) {
-						if (strpos($key, '_anno_') === 0) {
-							$sanitized_key = substr($key, 6);
-						}
-						// Sanitized key for legacy data support
-						if (!empty($author[$sanitized_key])) {
+					$sanitized_key_meta = anno_sanitize_user_meta_keys($anno_user_meta);
+					foreach ($sanitized_key_meta as $sanitized_key => $label) {
+							if (!empty($author[$sanitized_key])) {
 							$author_data[$sanitized_key] = $author[$sanitized_key];
 						}
 					}
-				}
+				}				
 			}
 			
 			// Use a user's website if there isn't a user object with associated id (imported user snapshots)

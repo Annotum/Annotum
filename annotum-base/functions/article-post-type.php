@@ -275,18 +275,6 @@ function anno_is_appendix_empty($appendix_content) {
 }
 
 /**
- * Print styles for article post type.
- */ 
-function anno_article_admin_print_styles() {
-	global $post;
-	if ((isset($post->post_type) && $post->post_type == 'article') || (isset($_GET['anno_action']) && $_GET['anno_action'] == 'image_popup')) {
-		wp_enqueue_style('article-admin', trailingslashit(get_bloginfo('template_directory')).'/css/article-admin.css');
-		wp_enqueue_style('article-admin-tinymce-ui', trailingslashit(get_bloginfo('template_directory')).'/css/tinymce-ui.css');
-	}
-}
-add_action('admin_print_styles', 'anno_article_admin_print_styles');
-
-/**
  * Converts a post with the article post-type to the post post-type
  * 
  * @param int $post_id The ID of the post to convert
