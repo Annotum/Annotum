@@ -168,7 +168,7 @@ function anno_references_meta_box($post) {
  */
 function anno_abstract_meta_box($post) {
 ?>
-	<textarea class="anno-meta" name="excerpt"><?php echo esc_html($post->post_excerpt); ?></textarea>
+	<textarea class="anno-meta anno-meta-abstract" rows="8" name="excerpt"><?php echo esc_html($post->post_excerpt); ?></textarea>
 <?php
 }
 
@@ -178,7 +178,7 @@ function anno_abstract_meta_box($post) {
 function anno_funding_meta_box($post) {
 	$html = get_post_meta($post->ID, '_anno_funding', true);
 ?>
-	<textarea class="anno-meta" name="anno_funding"><?php echo esc_textarea($html); ?></textarea>
+	<textarea class="anno-meta anno-meta-funding" name="anno_funding"><?php echo esc_textarea($html); ?></textarea>
 <?php
 }
 
@@ -188,7 +188,7 @@ function anno_funding_meta_box($post) {
 function anno_acknowledgements_meta_box($post) {
 	$html = get_post_meta($post->ID, '_anno_acknowledgements', true);
 ?>
-	<textarea id="guy" class="anno-meta" name="anno_acknowledgements"><?php echo esc_textarea($html); ?></textarea>
+	<textarea id="guy" class="anno-meta anno-meta-acknowledgements" name="anno_acknowledgements"><?php echo esc_textarea($html); ?></textarea>
 <?php
 }
 
