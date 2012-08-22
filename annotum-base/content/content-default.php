@@ -36,9 +36,9 @@ if (CFCT_DEBUG) { cfct_banner(__FILE__); }
 			</div>
 		</div><!-- .tools-bar -->
 		<div class="sec sec-authors">
-			<span class="title"><span><?php _e('Authors', 'anno'); ?></span></span>
+			<span class="title"><span><?php _e('Author', 'anno'); ?></span></span>
 			<ul class="authors nav">
-				<?php anno_the_authors(); ?>
+				<?php the_author_link(); ?>
 			</ul>
 		</div>
 	</header>
