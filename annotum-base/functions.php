@@ -114,7 +114,8 @@ function anno_admin_settings_menu_form_title() {
  * Run at 'wp' hook so we have access to conditional functions, like is_single(), etc.
  */
 function anno_assets() {
-	cfct_template_file('assets', 'load');
+	// Do not load with cfct_template as it will use the child them only if load.php exists there
+	include_once(CFCT_PATH.'assets/load.php');
 }
 add_action('wp_enqueue_scripts', 'anno_assets');
 
