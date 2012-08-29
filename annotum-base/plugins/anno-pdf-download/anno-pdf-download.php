@@ -247,6 +247,9 @@ class Anno_PDF_Download {
 
 			'<section'		=> '<div',
 			'</section'		=> '</div',
+
+			'<sec'		=> '<div',
+			'</sec'		=> '</div',
 			
 			'<mark'			=> '<span',
 			'</mark'		=> '</span',
