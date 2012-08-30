@@ -1698,7 +1698,8 @@ function anno_xml_to_html_iterate_table($table) {
 	
 	// Replace our table-wrap with our built-out HTML
 	$html = '<figure class="table">';
-	$html .= empty($figcaption) ? '' : '<figcaption>'.$figcaption.'</figcaption>';
+	// PDF generation requires a figcaption element, even if its empty! Doesnt change html view.
+	$html .= '<figcaption>'.$figcaption.'</figcaption>';
 	$html .= '<table>';
 	$html .= empty($table_caption) ? '' : '<caption>'.$table_caption.'</caption>';
 	$html .= $table->children('table:first')->html();

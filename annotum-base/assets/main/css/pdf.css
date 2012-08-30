@@ -218,7 +218,7 @@ html,body,div,span,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,abbr,address
 div {
 	margin: 0 !important;
 }
-.table:first-child,
+.table .figcaption,
 .figure {
 	page-break-before: always;
 	margin-bottom: 10px !important;
