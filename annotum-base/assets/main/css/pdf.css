@@ -330,3 +330,43 @@ a {
 	color: #444 !important;
 	text-decoration:none !important;
 }
+
+/** #454444 vs #444444 to account for bug in domPDF on color swapping **/
+html,body,div,span,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,abbr,address,cite,del,dfn,em,img,ins,kbd,q,samp,small,strong,sub,sup,var,b,i,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td,article,aside,canvas,details,figcaption,figure,footer,header,hgroup,menu,nav,section,summary,time,mark,audio,video {
+	page-break-before: avoid;
+	font-family: dejavusans; 
+	color: #454444 !important;
+	page-break-inside: avoid;
+}
+
+div {
+	margin: 0 !important;t
+}
+.table .figcaption,
+.figure {
+	page-break-before: always;
+	margin-bottom: 10px !important;
+}
+
+dl.kv dt,
+.author-header .author-link a,
+.article-full .header .entry-title .title,
+.article-full .header .entry-title .subtitle,
+.article-full .header .meta,
+.callout-item .title,
+.teaser .title,
+.page-title,
+.content blockquote {
+	font-family: dejavu-serif !important;
+}
+
+/** Fixes bug in domPDF which doesnt correct font color if the border comes before it on a page **/
+#footer .in,
+.content table .caption,
+.content table,
+.content table th,
+.content table td,
+#footer .in,
+.quote,
+.figure{border-color:#444;}
+

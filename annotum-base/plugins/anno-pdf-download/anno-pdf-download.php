@@ -221,41 +221,41 @@ class Anno_PDF_Download {
 	 */
 	private function html4ify($html) {
 		$replacements = array(
-			'<article' 		=> '<div',
-			'</article'		=> '</div',
+			'<article' => '<div',
+			'</article'	=> '</div',
 
-			'<header' 		=> '<div',
-			'</header' 		=> '</div',
+			'<header' => '<div',
+			'</header' => '</div',
 
-			'<footer' 		=> '<div',
-			'</footer' 		=> '</div',
+			'<footer' => '<div',
+			'</footer' => '</div',
 
-			'<sup'			=> '<span class="sup"',
-			'</sup'			=> '</span',
+			'<sup' => '<span class="sup"',
+			'</sup'	=> '</span',
 
-			'<sub'			=> '<span class="sub"',
-			'</sub'			=> '</span',
+			'<sub' => '<span class="sub"',
+			'</sub'	=> '</span',
 
-			'<figure'		=> '<div',
-			'</figure' 		=> '</div',
+			'<figure' => '<div',
+			'</figure' => '</div',
 
-			'<figcaption' 	=> '<div class="figcaption"',
-			'</figcaption' 	=> '</div',
+			'<figcaption' => '<div class="figcaption"',
+			'</figcaption' => '</div',
 			
-			'<caption' 		=> '<div class="caption"',
-			'</caption' 	=> '</div',
+			//'<caption' => '<div class="caption"',
+			//'</caption'	=> '</div',
 
-			'<section'		=> '<div',
-			'</section'		=> '</div',
+			'<section' => '<div',
+			'</section'	=> '</div',
 
-			'<sec'		=> '<div',
-			'</sec'		=> '</div',
+			'<sec' => '<div',
+			'</sec' => '</div',
 			
-			'<mark'			=> '<span',
-			'</mark'		=> '</span',
+			'<mark'	=> '<span',
+			'</mark' => '</span',
 			
-			'<time'			=> '<span',
-			'</time'		=> '</span',
+			'<time' => '<span',
+			'</time' => '</span',
 		);
 		return str_replace(array_keys($replacements), array_values($replacements), $html);
 	}
