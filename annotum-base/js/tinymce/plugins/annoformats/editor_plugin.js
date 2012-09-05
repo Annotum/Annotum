@@ -12,25 +12,35 @@
 				tinymce.activeEditor.formatter.toggle('preformat');
             });
 
+            ed.addCommand('Anno_Insert_Section', function() {
+				t.insertSection();
+            });
+
 			ed.addButton('annopreformat', {
 				title : 'Preformat',
 				//ed.getLang('advanced.references_desc'),
-				cmd : 'Anno_Preformat',
+				cmd : 'Anno_Preformat'
 			});
 			
 			ed.addButton('annomonospace', {
 				title : 'Monospace',
 				//ed.getLang('advanced.references_desc'),
-				cmd : 'Anno_Monospace',
+				cmd : 'Anno_Monospace'
 			});
 	
+			ed.addButton('annoinsertsection', {
+				title : 'Insert Section',
+				//ed.getLang('advanced.references_desc'),
+				cmd : 'Anno_Insert_Section'
+			});
+
 			// Add node change function which updates format dropdown
 			ed.onInit.add(function() {
 				ed.onNodeChange.add(t._nodeChanged, t);
-			});	
-		},      
+			});
+		},
 		
-		// Update format dropdown on change		
+		// Update format dropdown on change
 		_nodeChanged : function (ed, cm) {
 			if (c = cm.get('annoformatselect')) {
 				var parent = ed.dom.getParent(ed.selection.getNode(), 'HEADING, PARA, SEC'), selVal;
@@ -124,12 +134,12 @@
 						range.collapse(0);
 						sel.setRng(range);
 					}
-				};
+				}
 				
 				// Create the list box
-			    var listbox = cm.createListBox('annoformatselect', {
-			         title : 'Format',
-			         onselect : function(v) {
+				var listbox = cm.createListBox('annoformatselect', {
+					title : 'Format',
+					onselect : function(v) {
 						var resetIsIE = false;
 						// Trick tinyMCE into thinking we're not in IE, and preform as exptected
 						// Range Dom errors occur otherwise.
@@ -144,17 +154,34 @@
 						if (resetIsIE) {
 							tinymce.isIE = true;
 						}
-			         }
-			    });        
+					}
+				});
 
-			    // Add some values to the list box
-			    listbox.add('Heading', 'heading');
-			    listbox.add('Paragraph', 'para');
-			    listbox.add('Section', 'sec');
+				// Add some values to the list box
+				listbox.add('Heading', 'heading');
+				listbox.add('Paragraph', 'para');
+				listbox.add('Section', 'sec');
 
-			    // Return the new listbox instance
-			    return listbox;
+				// Return the new listbox instance
+				return listbox;
 				
+			}
+		},
+		insertSection : function () {
+			var ed = this.editor, node = ed.selection.getNode(), dom = ed.dom;
+
+			// @TODO get top evel node body or section, if section insert after if body insert at end, move to selection.
+			ed.undoManager.beforeChange();
+			newElement = newSec();
+			dom.insertAfter(newElement, node);
+			ed.undoManager.add();
+		
+			// Create a new sec element with a title
+			function newSec() {
+				var sec = dom.create('sec', null);
+				dom.add(sec, 'heading', null, '&nbsp');
+				dom.add(sec, 'para');
+				return sec;
 			}
 		},
         getInfo : function() {
