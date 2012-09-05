@@ -9,18 +9,20 @@
 </head>
 
 <body <?php body_class(); ?>>
-	
+	<div id="header">
+		<?php echo Anno_PDF_Download::header_markup(); ?>
+	</div>
 	<div id="main" class="act">
 		<div class="in">
 		
 			<div id="main-body" class="clearfix">
 				
-				<?php cfct_template_file('content', 'type-article'); ?>
+				<?php cfct_template_file('content', 'article-pdf'); ?>
 				
 			</div><!-- #main-content -->
 
 		</div><!-- .in -->
 	</div><!-- #main -->
-	<?php wp_footer(); ?>
+	<?php echo Anno_PDF_Download::footer_markup(); ?>
 </body>
 </html>

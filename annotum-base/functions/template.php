@@ -185,7 +185,7 @@ class Anno_Template {
 			// Legacy data support
 			$author_is_id = true;
 		}
-		
+		$authors_data_arr = array();
 		foreach ($authors as $author) {
 			$author_data = array(
 				'first_name' => '',
@@ -247,6 +247,8 @@ class Anno_Template {
 					}
 				}				
 			}
+
+			$author_data['id'] = $author_id;
 			
 			// Use a user's website if there isn't a user object with associated id (imported user snapshots)
 			// Also check to see if this is a string ID or int val id, knol_id vs wp_id
@@ -322,23 +324,24 @@ class Anno_Template {
 		<div class="author vcard">
 			'.$fn;
 
-		if (!empty($extra)) {
-			$card .= '
+			if (!empty($extra)) {
+				$card .= '
 			<span class="extra">
 				<span class="extra-in">
 					'.$extra.'
 				</span>
 			</span>';
-		}
+			}
 
-		$card .= '
+			$card .= '
 		</div>
 	</li>';
 
 			$out .= $card;
+			$authors_data_arr[] = $author_data;
 		}
 
-		return apply_filters('anno_author_html', $out, $authors);
+		return apply_filters('anno_author_html', $out, $authors_data_arr);
 	}
 	
 	/**
@@ -355,11 +358,12 @@ class Anno_Template {
 		if ($cache !== false && $this->enable_caches !== false) {
 			return $cache;
 		}
-		
+	
 		/* Otherwise, let's build a cache and return it */
 
 		$site = strip_tags(get_bloginfo('name'));
 		$permalink = get_permalink();
+		$post_date = get_the_date('Y M j');
 		$last_modified = get_the_modified_date('Y M j');
 
 		$title = get_the_title($post_id);
@@ -373,7 +377,7 @@ class Anno_Template {
 		if (empty($contributors) || !is_array($contributors)) {
 			$contributors = $this->get_author_ids($post_id);
 			$contributor_is_id = true;
-		}		
+		}
 
 		$names = array();
 		foreach ($contributors as $contributor) {
@@ -400,7 +404,16 @@ class Anno_Template {
 			}
 			
 			if ($first && $last) {
-				$name = sprintf(_x('%1$s %2$s', 'First and last name as a textarea-safe string', 'anno'), $first, $last);
+
+				$first_formatted = '';
+				$first_words = explode(' ', $first);
+				foreach ($first_words as $word) {
+					if (is_string($word)) {
+						$first_formatted .= $word{0};
+					}
+				}
+
+				$name = sprintf(_x('%2$s %1$s', 'last name and first letter of firstname(s) as a textarea-safe string', 'anno'), $first_formatted, $last);
 			}
 			else {
 				$name = $display_name;
@@ -412,19 +425,48 @@ class Anno_Template {
 		}
 		$authors = implode(', ', $names);
 
-		$version = count(wp_get_post_revisions($post_id));
-		if ($version === 0) {
-			$version = 1;
+		$family_ids = annowf_clone_get_family($post_id);
+		$edition = 1;
+		if (!empty($family_ids) && is_array($family_ids)) {
+			// Only add this id if there are other revisions
+			$family_ids[] = $post_id;
+			// Only get articles that are published in the set of family ids
+			$query = new WP_Query(array(
+				'post__in' => $family_ids,
+				'post_status' => 'publish',
+				'posts_per_page' => -1,
+				'post_type' => 'article',
+				'fields' => 'ids',
+				'cache' => false,
+				'order' => 'ASC'
+			));
+			if (!empty($query->posts)) {
+				$i = 1;
+				foreach ($query->posts as $query_post_id) {
+					if ($query_post_id == $post_id) {
+						$edition = $i;
+					}
+					$i++;
+				}
+			}
+		}
+
+		$doi = get_post_meta($post_id, '_anno_doi', true);
+		$doi_str = '';
+		if (!empty($doi)) {
+			// Intentionally not i18n, doi is not translatable and inserted into another i18n
+			$doi_str = 'doi: '.$doi.'.';
 		}
 
 		$citation = sprintf(
-			_x('%1$s. %2$s [Internet]. Version %3$s. %4$s. %5$s. Available from: %6$s.', 'Citation format', 'anno'),
-			$authors,
-			$title,
-			$version,
-			$site,
-			$last_modified,
-			$permalink
+			_x('%1$s. %2$s. %4$s. %5$s [last modified: %6$s]. Edition %3$s. %7$s', 'Citation format', 'anno'),
+			$authors, // 1
+			$title, // 2
+			$edition, // 3
+			$site, // 4
+			$post_date, // 5
+			$last_modified, // 6
+			$doi_str // 7 note this already has the trailing .
 		);
 		
 		set_transient($cache_key, $citation, 60*60); // Cache for 1 hour.

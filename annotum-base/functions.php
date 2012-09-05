@@ -1249,4 +1249,4 @@ function anno_article_admin_print_styles() {
 	}
 }
 add_action('admin_print_styles', 'anno_article_admin_print_styles');
-?>
+

@@ -50,14 +50,14 @@ class Anno_PDF_Download {
 		// Define various DOMPDF Settings (typically defined in dompdf_config.custom.inc.php)
 		//define("DOMPDF_TEMP_DIR", "/tmp");
 		//define("DOMPDF_CHROOT", DOMPDF_DIR);
-		//define("DOMPDF_UNICODE_ENABLED", false);
+		define("DOMPDF_UNICODE_ENABLED", true);
 		//define("TTF2AFM", "C:/Program Files (x86)/GnuWin32/bin/ttf2pt1.exe");
 		//define("DOMPDF_PDF_BACKEND", "PDFLib");
 		define("DOMPDF_DEFAULT_MEDIA_TYPE", "print");
 		define("DOMPDF_DEFAULT_PAPER_SIZE", "letter");
 		//define("DOMPDF_DEFAULT_FONT", "serif");
 		//define("DOMPDF_DPI", 72);
-		//define("DOMPDF_ENABLE_PHP", true);
+		define("DOMPDF_ENABLE_PHP", true);
 		define("DOMPDF_ENABLE_REMOTE", true);
 		//define("DOMPDF_ENABLE_CSS_FLOAT", true);
 		//define("DOMPDF_ENABLE_JAVASCRIPT", false);
@@ -70,7 +70,7 @@ class Anno_PDF_Download {
 		//define("DEBUG_LAYOUT_INLINE", false);
 		//define("DOMPDF_FONT_HEIGHT_RATIO", 1.0);
 		//define("DEBUG_LAYOUT_PADDINGBOX", false);
-		//define("DOMPDF_LOG_OUTPUT_FILE", DOMPDF_FONT_DIR."log.htm");	
+		//define("DOMPDF_LOG_OUTPUT_FILE", DOMPDF_FONT_DIR."log.htm");
 	}
 	
 	
@@ -197,20 +197,54 @@ class Anno_PDF_Download {
 		setup_postdata($post);
 		
 		// Output the template
+		add_filter('anno_author_html', array($this, 'author_html'), 10, 2);
 		ob_start();
+		remove_filter('the_content','wpautop');
 		include $this->template_path;
 		$this->html = ob_get_clean();
-		
+		remove_filter('anno_author_html', array($this, 'author_html'), 10, 2);
 		// Reset our global $post
 		wp_reset_postdata();
 		
 		// Replace the HTML5 tags with HTML4
-		$this->html = $this->html4ify($this->html);
-		
+		$this->html = $this->htmlcleanup($this->html);
 		return !empty($this->html);
 	}
 	
+
+	/**
+	 * Cleans up tags for better domPDF rendering
+	 *
+	 * @param string $html 
+	 * @return string - replaced HTML
+	 */
+	private function htmlcleanup($html) {
+		$html = $this->html4ify($html);
+		$html = $this->fixtags($html);
+
+		return $html;
+	}
 	
+	/**
+	 * Replaces tags with others using regex for improved rendering in domPDF
+	 *
+	 * @param string $html 
+	 * @return string - replaced HTML
+	 */
+	private function fixtags($html) {
+		// Pattern => replacemant
+		$replacements = array(
+			'/(<td.*?>)/i' => '${1}<p>', // Addresses http://code.google.com/p/dompdf/issues/detail?id=238
+			'/(<\/td>)/i' => '</p>${1}',
+		);
+
+		foreach ($replacements as $pattern => $replacement) {
+			$html = preg_replace($pattern, $replacement, $html);
+		}
+
+		return $html;
+	}
+
 	/**
 	 * Replaces the HTML5 elements defined in the $replacements array
 	 * with an HTML4 element.
@@ -229,11 +263,11 @@ class Anno_PDF_Download {
 			'<footer' 		=> '<div',
 			'</footer' 		=> '</div',
 
-			'<sup'			=> '<span class="sup"',
-			'</sup'			=> '</span',
+			//'<sup'			=> '<span class="sup"',
+			//'</sup'			=> '</span',
 
-			'<sub'			=> '<span class="sub"',
-			'</sub'			=> '</span',
+			//'<sub'			=> '<span class="sub"',
+			//'</sub'			=> '</span',
 
 			'<figure'		=> '<div',
 			'</figure' 		=> '</div',
@@ -241,8 +275,8 @@ class Anno_PDF_Download {
 			'<figcaption' 	=> '<div class="figcaption"',
 			'</figcaption' 	=> '</div',
 			
-			'<caption' 		=> '<div class="caption"',
-			'</caption' 	=> '</div',
+			//'<caption' 		=> '<div class="caption"',
+			//'</caption' 	=> '</div',
 
 			'<section'		=> '<div',
 			'</section'		=> '</div',
@@ -347,6 +381,118 @@ class Anno_PDF_Download {
 		if ($this->debug) {
 			error_log($msg);
 		}
+	}
+
+	/**
+	 * Filter author html to be appropriate for PDF output
+	 *
+	 * @param string $html Default HTML
+	 * @param array $authors Authors data array
+	 **/
+	public function author_html($html, $authors) {
+		$out = '';
+		$author_markup_arr = array();
+		$institutions = array();
+		foreach ($authors as $author_data) {
+			// Use a user's website if there isn't a user object with associated id (imported user snapshots)
+			// Also check to see if this is a string ID or int val id, knol_id vs wp_id
+			if ($author_data['id'] == intval($author_data['id'])) {
+				$posts_url = get_author_posts_url($author_data['id']);
+				$posts_url = $posts_url == home_url('/author/') ? $author_data['link'] : $posts_url;
+			}
+			else {
+				$posts_url = '';
+			}
+			$prefix_markup = empty($author_data['prefix']) ? '' : esc_html($author_data['prefix'].' ');
+			$suffix_markup = empty($author_data['suffix']) ? '' : esc_html(' '.$author_data['suffix']);
+
+			if ($author_data['first_name'] && $author_data['last_name']) {
+				$fn = empty($posts_url) ? '<span class="name">' : '<a href="'.esc_url($posts_url).'" class="name">';				
+
+				$fn .= $prefix_markup.esc_html($author_data['first_name']).' '.esc_html($author_data['last_name']).$suffix_markup;
+
+				$fn .= $posts_url ? '</a>' : '</span>';
+			}
+			else {
+				$fn = $posts_url ? '<a href="'.esc_url($posts_url).'" class="name">' : '<span class="name">';
+
+				$fn .= $prefix_markup.esc_html($author_data['display_name']).$suffix_markup;
+
+				$fn .= $posts_url ? '</a>' : '</span>';
+			}
+			if (!empty($author_data['institution'])) {
+				$new = true;
+				// Loop instead of foreach for case comparison
+				foreach ($institutions as $key => $institution) {
+					if (strcasecmp($author_data['institution'], $institution) === 0) {
+						$new = false;
+						break;
+					}
+				}
+
+				if ($new) {
+					$institutions[] = $author_data['institution'];
+					$fn .= '<sup>'.count($institutions).'</sup>';
+				}
+				else {
+					// Already in there
+					$fn .= '<sup>'.esc_html($key + 1).'</sup>';					
+				}
+			}
+
+			$author_markup_arr[] = $fn;
+		}
+		
+		$institutions_out = '';
+		if (!empty($institutions)) {
+			$institutions_arr = array();
+			foreach ($institutions as $key => $value) {
+				$institutions_arr[] = '<strong>'.($key + 1).'</strong> '.esc_html($value);
+			}
+			$institutions_out = '<div id="institutions">'.implode(', ', $institutions_arr).'</div>';
+		}
+
+		$authors_out = implode(', ', $author_markup_arr);
+		return $authors_out.$institutions_out;
+
+		 
+	}
+
+	/**
+	 * Header markup for pdfs
+	**/
+	public static function header_markup() {
+		$header_img = get_header_image();
+		if (empty($header_img)) {
+			$journal_name = cfct_get_option('journal_name');
+			$out = empty($journal_name) ? '' : $journal_name.'. ';
+			$section_name = get_bloginfo('name');
+			$out .= empty($section_name) ? '' : $section_name.'.';
+		}
+		else {
+			$out = '<img src="'.esc_url($header_img).'" />';
+		}
+		return $out;
+	}
+
+	/**
+	 * Footer markup for pdfs
+	**/ 
+	public static function footer_markup() {
+		// DOMpdf markup 
+		// @see http://code.google.com/p/dompdf/wiki/Usage
+		$out = '
+		<script type="text/php"> 
+			if (isset($pdf)) {
+				$font = Font_Metrics::get_font("liberation", "normal");
+			    $size = 11;
+			    $y = $pdf->get_height() - 30;
+			    $x = $pdf->get_width() - 305 - Font_Metrics::get_text_width("1/1", $font, $size);
+			    $pdf->page_text($x, $y, "{PAGE_NUM}", $font, $size);
+			    $pdf->page_text(25, $y, get_bloginfo(\'name\'), $font, $size);
+			}
+		</script>';
+		return $out;
 	}
 }
 Anno_PDF_Download::i()->add_actions();
