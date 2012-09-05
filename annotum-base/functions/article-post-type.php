@@ -98,7 +98,7 @@ add_filter('post_updated_messages', 'anno_post_updated_messages');
 /**
  * Add DTD Meta Boxes
  */ 
-function anno_article_meta_boxes() {
+function anno_article_meta_boxes($article) {
 	add_meta_box('subtitle', _x('Subtitle', 'Meta box title', 'anno'), 'anno_subtitle_meta_box', 'article', 'normal', 'high');
 	add_meta_box('abstract', _x('Abstract', 'Meta box title', 'anno'), 'anno_abstract_meta_box', 'article', 'normal', 'high');
 	add_meta_box('body', _x('Body', 'Meta box title', 'anno'), 'anno_body_meta_box', 'article', 'normal', 'high');
@@ -110,7 +110,10 @@ function anno_article_meta_boxes() {
 
 	if (current_user_can('editor') || current_user_can('administrator')) {
 		add_meta_box('convert', _x('Convert To Post', 'Meta box title', 'anno'), 'anno_convert_meta_box', 'article', 'side', 'low');
-		add_meta_box('doi-deposit', _x('DOI Deposit', 'Meta box title', 'anno'), 'anno_deposit_doi_meta_box', 'article', 'side', 'low');
+		// Dont load the DOI meta box on brand new articles, guid has not been generated yet to generate the DOI
+		if ($article->post_status != 'auto-draft') {
+			add_meta_box('doi-deposit', _x('DOI Deposit', 'Meta box title', 'anno'), 'anno_deposit_doi_meta_box', 'article', 'side', 'low');
+		}
 	}
 }
 add_action('add_meta_boxes_article', 'anno_article_meta_boxes');
