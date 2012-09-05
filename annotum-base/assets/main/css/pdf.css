@@ -224,6 +224,16 @@ div {
 	margin-bottom: 10px !important;
 }
 
+table {
+	margin-bottom: 50px !important;
+}
+
+td p {
+	line-height: 10px;
+	margin-top: 5px;
+	margin-bottom: 5px !important;
+}
+
 dl.kv dt,
 .author-header .author-link a,
 .article-full .header .entry-title .title,
