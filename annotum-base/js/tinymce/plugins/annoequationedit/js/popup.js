@@ -127,22 +127,21 @@ annoEqEdit = {
 			$('.annotum-eq-wrapper').prependTo('#anno-popup-equations .anno-mce-popup-fields');
 			texPane.texEditor.setVisible(!0);
 			texPane.texEditor.setEquation(decodeURIComponent(tex[1]));
-
-
 		}
 
 		// Figure specific
-		if (t.isFig) {
+		if (t.isFig || (tinymce.isIE && t.isFigure())) {
 			mediaEl = ed.dom.getNext(el, 'media');
 			if (mediaEl !== undefined) {
 				altEl = mediaEl.getElementsByTagName('alt-text');
 				descriptionEl = mediaEl.getElementsByTagName('long-desc');
 
 				if (altEl !== undefined) {
-					form.alt.value = altEl[0].textContent;
+					// Really this should be innerText, but its not supported in IE8
+					form.alt.value = altEl[0].innerHTML;
 				}
 				if (descriptionEl !== undefined) {
-					form.description.value = descriptionEl[0].textContent;
+					form.description.value = descriptionEl[0].innerHTML;
 				}
 			}
 
