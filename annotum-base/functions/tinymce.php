@@ -184,7 +184,6 @@ function anno_load_editor($content, $editor_id, $settings = array()) {
 		'media_buttons' => false,
 		'tinymce' => array(
 			'remove_linebreaks' => false,
-			'content_css' => trailingslashit(get_bloginfo('template_directory')).'css/tinymce.css',
 			'extended_valid_elements' => implode(',', $extended_valid_elements),
 			'custom_elements' => implode(',', $custom_elements),
 			'valid_children' => implode(',', $valid_children),
@@ -202,7 +201,8 @@ function anno_load_editor($content, $editor_id, $settings = array()) {
 			'verify_html' => true,
 			'force_p_newlines' => true,
 			'force_br_newlines' => false,
-			'content_css' => trailingslashit(get_bloginfo('template_directory')).'css/tinymce.css',
+			'content_css' => trailingslashit(get_bloginfo('template_directory')).'assets/main/css/tinymce.css',
+			'object_resizing' => false
 		),
 	);
 	// Remove WP specific tinyMCE edit image plugin.
@@ -247,6 +247,7 @@ class Anno_tinyMCE {
 		add_filter("mce_external_plugins", array(&$this, 'plugins'));
 		add_filter('mce_buttons', array(&$this, 'mce_buttons'));
 		add_filter('mce_buttons_2', array(&$this, 'mce_buttons_2'));
+		add_filter('mce_external_languages', array(&$this, 'external_languages'));
 	}
 	
 	function mce_buttons($buttons) {
@@ -265,36 +266,47 @@ class Anno_tinyMCE {
 	
 	function plugins($plugins) {
 		if ($this->is_article()) {
-			$plugins['annoLink_base'] = trailingslashit(get_bloginfo('template_directory')).'js/tinymce/plugins/annolink/annolink.js';
-			$plugins['annoLink']  =  trailingslashit(get_bloginfo('template_directory')).'js/tinymce/plugins/annolink/editor_plugin.js';
+			$plugins_dir = trailingslashit(get_bloginfo('template_directory')).'js/tinymce/plugins/';
+
+			$plugins['annoLink_base'] = $plugins_dir.'annolink/annolink.js';
+			$plugins['annoLink']  =  $plugins_dir.'annolink/editor_plugin.js';
 				
-			$plugins['annoReferences_base'] = trailingslashit(get_bloginfo('template_directory')).'js/tinymce/plugins/annoreferences/annoreferences.js';
-			$plugins['annoReferences']  =  trailingslashit(get_bloginfo('template_directory')).'js/tinymce/plugins/annoreferences/editor_plugin.js';
+			$plugins['annoReferences_base'] = $plugins_dir.'annoreferences/annoreferences.js';
+			$plugins['annoReferences']  =  $plugins_dir.'annoreferences/editor_plugin.js';
 
-			$plugins['annoImages_base'] = trailingslashit(get_bloginfo('template_directory')).'js/tinymce/plugins/annoimages/annoimages.js';
-			$plugins['annoImages']  =  trailingslashit(get_bloginfo('template_directory')).'js/tinymce/plugins/annoimages/editor_plugin.js';
+			$plugins['annoImages_base'] = $plugins_dir.'annoimages/annoimages.js';
+			$plugins['annoImages']  =  $plugins_dir.'annoimages/editor_plugin.js';
 		
-			$plugins['annoTable'] = trailingslashit(get_bloginfo('template_directory')).'js/tinymce/plugins/annotable/editor_plugin.js';
-			$plugins['annoTable_base'] = trailingslashit(get_bloginfo('template_directory')).'js/tinymce/plugins/annotable/annotable.js';
+			$plugins['annoTable'] = $plugins_dir.'annotable/editor_plugin.js';
+			$plugins['annoTable_base'] = $plugins_dir.'annotable/annotable.js';
 			
-			$plugins['annoQuote'] = trailingslashit(get_bloginfo('template_directory')).'js/tinymce/plugins/annoquote/editor_plugin.js';
-			$plugins['annoQuote_base'] = trailingslashit(get_bloginfo('template_directory')).'js/tinymce/plugins/annoquote/annoquote.js';
+			$plugins['annoQuote'] = $plugins_dir.'annoquote/editor_plugin.js';
+			$plugins['annoQuote_base'] = $plugins_dir.'annoquote/annoquote.js';
 		
-			$plugins['annoLists'] = trailingslashit(get_bloginfo('template_directory')).'js/tinymce/plugins/annolists/editor_plugin.js';
+			$plugins['annoLists'] = $plugins_dir.'annolists/editor_plugin.js';
 		
-			$plugins['annoParagraphs'] = trailingslashit(get_bloginfo('template_directory')).'js/tinymce/plugins/annoparagraphs/editor_plugin.js';
+			$plugins['annoParagraphs'] = $plugins_dir.'annoparagraphs/editor_plugin.js';
 	
-			$plugins['annoTips'] = trailingslashit(get_bloginfo('template_directory')).'js/tinymce/plugins/annotips/editor_plugin.js';
+			$plugins['annoTips'] = $plugins_dir.'annotips/editor_plugin.js';
 			
-			$plugins['annoFormats'] = trailingslashit(get_bloginfo('template_directory')).'js/tinymce/plugins/annoformats/editor_plugin.js';
+			$plugins['annoFormats'] = $plugins_dir.'annoformats/editor_plugin.js';
 			
-			$plugins['annoEquations'] = trailingslashit(get_bloginfo('template_directory')).'js/tinymce/plugins/annoequations/editor_plugin.js';
+			$plugins['annoEquations'] = $plugins_dir.'annoequations/editor_plugin.js';
 			
-			$plugins['fullscreen'] = trailingslashit(get_bloginfo('template_directory')).'js/tinymce/plugins/fullscreen/editor_plugin.js';
+			$plugins['fullscreen'] = $plugins_dir.'fullscreen/editor_plugin.js';
 
-			$plugins['annoPaste'] = trailingslashit(get_bloginfo('template_directory')).'js/tinymce/plugins/annopaste/editor_plugin.js';		
+			$plugins['annoPaste'] = $plugins_dir.'annopaste/editor_plugin.js';
+
+			$plugins['annoequationedit'] = $plugins_dir.'annoequationedit/editor_plugin.js';	
 		}
 		return $plugins;
+	}
+
+	function external_languages($langs) {
+		$plugins_dir = trailingslashit(get_template_directory()).'js/tinymce/plugins/';
+		return array_merge($langs, array(
+			'annoequationedit' => $plugins_dir.'annoequationedit/langs/lang.php',
+		));
 	}
 	
 	/**
