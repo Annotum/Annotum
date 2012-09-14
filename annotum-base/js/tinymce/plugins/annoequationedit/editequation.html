@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en-US">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title></title>
+
+<link rel="stylesheet" href="css/editequation.css" type="text/css" media="all" />
+
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+<script type="text/javascript" src="js/equation-editor-compiled.js"></script>
+<script type="text/javascript" src="js/popup.js"></script>
+<base target="_self" />
+
+</head>
+
+<body>
+	<form class="hidden" action="" onsubmit="annoEqEdit.update();">
+		<div id="anno-popup-equations">
+			<div class="anno-mce-popup-fields">
+			</div>
+		</div>
+		
+		<fieldset id="figuremeta">
+			<legend>{#annoequationedit.fig_meta}</legend>
+			<div class="equation-edit-details">
+				<div id="alt-wrapper">
+					<label for="alt">
+						<span>{#annoequationedit.alt_text}</span>
+						<input name="alt" type="text" id="alt">
+					</label>
+				</div>
+				<div id="description-wrapper" class="hidden">
+					<label for="description">
+						<span>{#annoequationedit.description}</span>
+						<textarea name="description" id="description"></textarea>
+					</label>
+				</div>
+			</div>
+		</fieldset>
+
+		<div id="actions">
+			<input type="submit" id="saveimg" class="button" value="{#annoequationedit.update}" />
+			<input type="button" class="button" id="cancel" name="cancel" value="{#annoequationedit.cancel}" onclick="tinyMCEPopup.close();" />
+		</div>
+	</form>
+</body>
+</html>
