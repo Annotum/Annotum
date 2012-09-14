@@ -133,9 +133,9 @@
 			Y = Math.max(p2.y - vp.y, 0) + p1.y;
 
 			DOM.setStyles(id, {
-				'top' : Y+5+'px',
-				'left' : X+5+'px',
-				'display' : 'block',
+				'top' : Y+'px',
+				'left' : X+'px',
+				'display' : 'block'
 			});
 
 			if ( this.mceTout )
