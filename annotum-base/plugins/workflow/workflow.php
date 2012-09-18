@@ -229,18 +229,21 @@ function annowf_transistion_state($post_id, $post, $post_before) {
 				}
 			}
 		}
-		
-		// Author has changed, add original author as co-author, remove new author from co-authors
+}
+add_action('post_updated', 'annowf_transistion_state', 10, 3);
+
+function annowf_switch_authors($post_id, $post, $post_before) {
+	// Author has changed, add original author as co-author, remove new author from co-authors
 		if ($post->post_author !== $post_before->post_author) {
-			annowf_add_user_to_post('author', $post_before->post_author, $post->ID);
-			annowf_remove_user_from_post('author', $post->post_author, $post->ID);
+			anno_add_user_to_post('author', $post_before->post_author, $post->ID);
+			anno_remove_user_from_post('author', $post->post_author, $post->ID);
 			if (anno_workflow_enabled('notifications')) {
 				annowf_send_notification('primary_author', $post, null, array(anno_user_email($post->post_author)));
 			}
 		}
 	}
 }
-add_action('post_updated', 'annowf_transistion_state', 10, 3);
+add_action('post_updated', 'annowf_switch_authors', '10, 3');
 
 /**
  * Store revisions in the audit log.
@@ -563,7 +566,7 @@ function annowf_add_user($type) {
 			else if (in_array($user->ID, $reviewers)) {
 				$html = sprintf(_x('Cannot add %s as %s. User is already a reviewer', 'Adding user error message for article meta box', 'anno'), $user->user_login, $type_string);
 			}
-			else if (annowf_add_user_to_post($type, $user->ID, absint($_POST['post_id']))) {
+			else if (anno_add_user_to_post($type, $user->ID, absint($_POST['post_id']))) {
 				$message = 'success';
 				ob_start();
 					annowf_user_li_markup($user, $type);
@@ -640,7 +643,7 @@ function annowf_remove_user($type) {
 	check_ajax_referer('anno_manage_'.$type, '_ajax_nonce-manage-'.$type);
 	$response['message'] = 'error';
 	if (isset($_POST['user_id']) && isset($_POST['post_id'])) {
-		if (annowf_remove_user_from_post($type, absint($_POST['user_id']), absint($_POST['post_id']))) {
+		if (anno_remove_user_from_post($type, absint($_POST['user_id']), absint($_POST['post_id']))) {
 			$response['message'] = 'success';
 		}
 	}
@@ -706,7 +709,7 @@ function annowf_author_meta_box($post) {
 		wp_dropdown_users(array(
 			'include' => implode(',', $authors),
 			'name' => 'post_author_override',
-			'selected' => empty($post->ID) ? $user_ID : $post->post_author,
+			'selected' => $post->post_author,
 			'include_selected' => true
 		));
 	}

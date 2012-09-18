@@ -24,7 +24,6 @@ function anno_snapshot_allowed_keys() {
 	);
 	$allowed_keys += anno_sanitize_user_meta_keys($anno_user_meta);
 	return $allowed_keys;
-
 }
 
 /**
@@ -40,12 +39,6 @@ function anno_snapshot_meta_box($post) {
 	$allowed_keys = anno_snapshot_allowed_keys();
 ?>
 <input type="hidden" name="anno_snapshot_edit_save" value="1" />
-<script type="text/javascript">
-	jQuery(function($){
-		
-
-	});
-</script>
 
 <?php
 	echo '
@@ -205,12 +198,49 @@ add_action('wp_ajax_anno-add-user-snapshot', 'anno_snapshot_add_user');
 /**
  * Save manual snapshot edited data
  */ 
-function anno_snapshot_edit_save($post_id) {
-	if (isset($_POST['anno_snapshot_edit_save'])) {
-		update_post_meta($post_id, '_anno_author_snapshot', $_POST['anno_snapshot']);
+function anno_snapshot_edit_save($data, $postarr) {
+	if (isset($_POST['anno_snapshot_edit_save']) && !empty($postarr['post_ID'])) {
+		//remove_action('wp_insert_post', 'anno_users_snapshot', 10, 2);
+		$post_id = $postarr['post_ID'];
+
+		$authors = empty($_POST['anno_snapshot']) ? array() : $_POST['anno_snapshot'];
+		update_post_meta($post_id, '_anno_author_snapshot', $authors);
+
+		// Delete all anno authors meta, it will be reassigned in the next step, no built in WP methods to do this in a single query
+		$anno_author_ids = anno_get_authors($post_id);
+
+		foreach ($anno_author_ids as $key => $id) {
+			$anno_author_ids[$key] = '_anno_author_'.$id;
+			$formats[] = '%s';
+		}
+
+		global $wpdb;
+
+		$sql = "DELETE FROM $wpdb->postmeta WHERE `post_id` = %d AND `meta_key` LIKE '_anno_author_%%' AND `meta_key` NOT IN ('_anno_author_snapshot', '_anno_author_order')";
+		
+		$sql = $wpdb->prepare($sql, $post_id, $anno_author_ids);
+		$wpdb->query($sql);
+
+		delete_post_meta($post_id, '_anno_author_order');
+
+		// Add the users back into the meta
+
+		foreach ($authors as $id => $author_data) {
+			// This also updates _anno_author_order
+			anno_add_user_to_post('author', $id, $post_id);
+		}
+
+		// Check if primary author has been removed (WP Owner) assign to current user, do not add them to the snapshot
+		if (!in_array($data['post_author'], array_keys($authors))) {
+			// Do not re-add the old author
+			remove_action('post_updated', 'annowf_switch_authors', '10, 3');
+			$data['post_author'] = get_current_user_id();
+		}
 	}
+	
+	return $data;
 }
-add_action('wp_insert_post', 'anno_snapshot_edit_save');
+add_filter('wp_insert_post_data', 'anno_snapshot_edit_save', 1, 2);
 
 /**
  * Takes a snapshot of author/co-authors user data and stores it in post data
