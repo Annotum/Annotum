@@ -615,7 +615,6 @@ function anno_get_post_users($post_id, $type) {
 	if ($type == 'reviewer' || $type == 'author') {
 		$type = '_anno_'.$type.'_order';
 	}
-
 	$users = get_post_meta($post_id, $type, true);
 
 	if (!is_array($users)) {
@@ -1249,4 +1248,75 @@ function anno_article_admin_print_styles() {
 	}
 }
 add_action('admin_print_styles', 'anno_article_admin_print_styles');
+
+
+/**
+ * Adds a user to a given post with a given role
+ *
+ * @param string $type Type of user to add. Can be the meta_key.
+ * @param int $user_id ID of the user being added to the post
+ * @param int $post_id ID of the post to add the user to. Loads from global if nothing is passed.
+ * @return bool True if successfully added or already a user associated with the post, false otherwise
+ */
+function anno_add_user_to_post($type, $user_id, $post_id) {
+	$type = str_replace('-', '_', $type);
+	if ($type == 'co_author') {
+		$type = 'author';
+	}
+
+	if ($type == 'reviewer' || $type == 'author') {
+		$order = '_anno_'.$type.'_order';
+		$type = '_anno_'.$type.'_'.$user_id;
+	}
+	else {
+		return false;
+	}
+
+	$users = get_post_meta($post_id, $order, true);
+	if (!is_array($users)) {
+		update_post_meta($post_id, $order, array($user_id));
+		return add_post_meta($post_id, $type, $user_id, true);
+	}
+	else if (!in_array($user_id, $users)) {
+		$users[] = $user_id;
+		update_post_meta($post_id, $order, array_unique($users));
+		return add_post_meta($post_id, $type, $user_id, true);
+	}
+
+	return true;
+}
+
+/**
+ * Removes a user from a given post with a given role
+ *
+ * @param string $type Type of user to remove. Can be the meta_key.
+ * @param int $user_id ID of the user being removed to the post
+ * @param int $post_id ID of the post to remove the user from. Loads from global if nothing is passed.
+ * @return bool True if successfully removed, false otherwise
+ */
+function anno_remove_user_from_post($type, $user_id, $post_id) {
+	$type = str_replace('-', '_', $type);
+	if ($type == 'co_author') {
+		$type = 'author';
+	}
+
+	if ($type == 'reviewer' || $type == 'author') {
+		$order = '_anno_'.$type.'_order';
+		$type = '_anno_'.$type.'_'.$user_id;
+	}
+	else {
+		return false;
+	}
+
+	$users = get_post_meta($post_id, $order, true);
+	if (is_array($users)) {
+		$key = array_search($user_id, $users);
+		if ($key !== false) {
+			unset($users[$key]);
+			update_post_meta($post_id, $order, array_unique($users));
+		}
+	}
+
+	return delete_post_meta($post_id, $type, $user_id);
+}
 
