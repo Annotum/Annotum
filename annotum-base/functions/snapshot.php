@@ -215,10 +215,11 @@ function anno_snapshot_edit_save($data, $postarr) {
 		}
 
 		global $wpdb;
+		array_unshift($anno_author_ids, $post_id);
 
 		$sql = "DELETE FROM $wpdb->postmeta WHERE `post_id` = %d AND `meta_key` LIKE '_anno_author_%%' AND `meta_key` NOT IN ('_anno_author_snapshot', '_anno_author_order')";
 		
-		$sql = $wpdb->prepare($sql, $post_id, $anno_author_ids);
+		$sql = $wpdb->prepare($sql, $anno_author_ids);
 		$wpdb->query($sql);
 
 		delete_post_meta($post_id, '_anno_author_order');
