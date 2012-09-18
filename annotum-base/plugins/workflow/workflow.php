@@ -58,7 +58,6 @@ function annowf_meta_boxes() {
 		remove_meta_box('commentstatusdiv', 'article', 'normal');
 	}
 
-	
 	// Custom author select box. Only displays co-authors in the dropdown.
 
 	add_meta_box('authordiv', _x('Author', 'Meta box title', 'anno'), 'annowf_author_meta_box', 'article', 'side', 'low');
@@ -70,7 +69,9 @@ function annowf_meta_boxes() {
 	if (anno_user_can('view_reviewers')) {
 		add_meta_box('anno-reviewers', _x('Reviewers', 'Meta box title', 'anno'), 'annowf_reviewers_meta_box', 'article', 'side', 'low');
 	}
-	add_meta_box('anno-co-authors', _x('Co-Authors', 'Meta box title', 'anno'), 'annowf_co_authors_meta_box', 'article', 'side', 'low');
+	if ($post->post_status != 'publish') {
+		add_meta_box('anno-co-authors', _x('Co-Authors', 'Meta box title', 'anno'), 'annowf_co_authors_meta_box', 'article', 'side', 'low');
+	}
 }
 add_action('add_meta_boxes_article', 'annowf_meta_boxes');
 
