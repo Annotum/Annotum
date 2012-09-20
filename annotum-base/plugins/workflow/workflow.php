@@ -229,18 +229,21 @@ function annowf_transistion_state($post_id, $post, $post_before) {
 				}
 			}
 		}
-		
-		// Author has changed, add original author as co-author, remove new author from co-authors
-		if ($post->post_author !== $post_before->post_author) {
-			annowf_add_user_to_post('author', $post_before->post_author, $post->ID);
-			annowf_remove_user_from_post('author', $post->post_author, $post->ID);
-			if (anno_workflow_enabled('notifications')) {
-				annowf_send_notification('primary_author', $post, null, array(anno_user_email($post->post_author)));
-			}
-		}
 	}
 }
 add_action('post_updated', 'annowf_transistion_state', 10, 3);
+
+function annowf_switch_authors($post_id, $post, $post_before) {
+	// Author has changed, add original author as co-author, remove new author from co-authors
+	if ($post->post_author !== $post_before->post_author) {
+		anno_add_user_to_post('author', $post_before->post_author, $post->ID);
+		anno_remove_user_from_post('author', $post->post_author, $post->ID);
+		if (anno_workflow_enabled('notifications')) {
+			annowf_send_notification('primary_author', $post, null, array(anno_user_email($post->post_author)));
+		}
+	}
+}
+add_action('post_updated', 'annowf_switch_authors', 10, 3);
 
 /**
  * Store revisions in the audit log.
