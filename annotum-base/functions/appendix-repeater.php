@@ -46,7 +46,9 @@ function anno_appendices_meta_box($post) {
 				}
 				function deleteAnnoAppendix'.'(del_el) {
 					if(confirm(\''._x('Are you sure you want to delete this?', 'JS popup confirmation', 'anno').'\')) {
-						jQuery(del_el).parent().remove();
+						var fieldset = jQuery(del_el).parent();
+						tinyMCE.execCommand(\'mceRemoveControl\',false, fieldset.data(\'editor\'));
+						fieldset.remove();
 					}
 				}
 			</script>';
@@ -79,12 +81,12 @@ $html = '';
 	}
 	
 	ob_start();
-	anno_load_editor(anno_process_editor_content($content), esc_attr('appendix-').$index, array('textarea_name' => esc_attr('anno_appendix['.$index.']')));
+	anno_load_editor(anno_process_editor_content($content), esc_attr('appendix-'.$index), array('textarea_name' => esc_attr('anno_appendix['.$index.']')));
 	$editor_markup = ob_get_contents();
 	ob_end_clean();
 		
 	$html .='
-<fieldset id="'.esc_attr('anno_appendix_'.$index).'" class="appendix-wrapper">
+<fieldset id="'.esc_attr('anno_appendix_'.$index).'" class="appendix-wrapper" data-editor="'.esc_attr('appendix-'.$index).'">
 	<h4>
 	'._x('Appendix', 'meta box title', 'anno').' '.esc_html($index).' - <a href="#" onclick="deleteAnnoAppendix(jQuery(this).parent()); return false;" class="delete">'._x('delete', 'Meta box delete repeater link', 'anno').'</a>
 	</h4>
