@@ -77,13 +77,13 @@
 		},
 		
 		insertPara : function(e) {
-			var t = this, ed = t.editor, dom = ed.dom, d = ed.getDoc(), se = ed.settings, s = ed.selection.getSel(), r = s.getRangeAt(0), b = d.body;
+			var t = this, ed = t.editor, dom = ed.dom, d = ed.getDoc(), se = ed.settings, s = ed.selection.getSel(), r = ed.selection.getRng(), b = d.body;
 			var rb, ra, dir, sn, so, en, eo, sb, eb, bn, bef, aft, sc, ec, n, vp = dom.getViewPort(ed.getWin()), y, ch, car;
 			var TRUE = true, FALSE = false, newElement, node = ed.selection.getNode();
 			ed.undoManager.beforeChange();
 			// Override default tinyMCE element.
 			se.element = 'para';
-			if (e.ctrlKey || /(BODY|HTML|HEADING|SEC)/.test(node.nodeName)) {
+			if (e.ctrlKey || /(BODY|HTML|HEADING|SEC)/.test(node.nodeName.toUpperCase())) {
 				function insertNewBlock(node) {
 					var newElement, parentNode;
 					if (dom.getParent(node, 'PARA') !== null) {
@@ -91,14 +91,14 @@
 					}
 
 					// If we're not in a section already, or this node is a section, insert a new section block
-					if ((!(parentNode = dom.getParent(node, 'SEC')) || node.nodeName == 'SEC') && e.ctrlKey) {
+					if ((!(parentNode = dom.getParent(node, 'SEC')) || node.nodeName.toUpperCase() == 'SEC') && e.ctrlKey) {
 						newElement = newSec();
 					}
 					else {
 						newElement = dom.create('PARA');
 					}
 					// If we're not trying to insert a new section and we're in a section node, just return insert a paragraph at the cursor
-					if (node.nodeName == 'SEC' && !e.ctrlKey) {
+					if (node.nodeName.toUpperCase() == 'SEC' && !e.ctrlKey) {
 						// Inefficient mechanism to insert node at selection then select it, but tinyMCE offers no other method currently
 						
 						// Set an ID so it can be searched for later
@@ -126,10 +126,10 @@
 				
 				// Just insert a new paragraph if the ctrl key isn't held and the carat is in a para tag
 				// Or, various tags should create paragraphs, not enter a br (when the ctrl key is held).
-				if (/(DISP-FORMULA|TABLE-WRAP|FIG|DISP-QUOTE|HEADING)/.test(node.nodeName)) {
+				if (/(DISP-FORMULA|TABLE-WRAP|FIG|DISP-QUOTE|HEADING)/.test(node.nodeName.toUpperCase())) {
 					newElement = insertNewBlock(node);
 				}
-				else if (/(BODY|HTML)/.test(node.nodeName)) {
+				else if (/(BODY|HTML)/.test(node.nodeName.toUpperCase())) {
 					secElement = dom.add(node, 'sec');
 					newElement = dom.add(secElement, 'heading', null, '&nbsp');
 					dom.add(secElement, 'para');
@@ -148,7 +148,7 @@
 				}
 				
 				// Set new element as the first title tag, so we can select it
-				if (newElement.nodeName == 'SEC') {
+				if (newElement.nodeName.toLowerCase() == 'sec') {
 					var eleArray = dom.select(' > heading', newElement);
 					if (eleArray.length > 0) {
 						newElement = eleArray[0];
@@ -156,8 +156,15 @@
 				}
 				
 				// Move caret to the freshly created item
-				r = d.createRange();
-				r.selectNodeContents(newElement);
+				if (d.createRange) {     // all browsers, except IE before version 9
+					r = d.createRange();
+					r.selectNodeContents(newElement);
+				}
+				else { // IE < 9
+					r = d.selection.createRange();
+					r.moveToElementText(newElement);
+				}
+
 				r.collapse(1);
 				ed.selection.setRng(r);
 				ed.undoManager.add();
@@ -185,8 +192,8 @@
 			eo = dir ? s.focusOffset : s.anchorOffset;
 
 			// If selection is in empty table cell
-			if (sn === en && /^(TD|TH|CAP)$/.test(sn.nodeName)) {
-				if (sn.firstChild && sn.firstChild.nodeName == 'BR')
+			if (sn === en && /^(TD|TH|CAP)$/.test(sn.nodeName.toUpperCase())) {
+				if (sn.firstChild && sn.firstChild.nodeName.toLowerCase() == 'br')
 					dom.remove(sn.firstChild); // Remove BR
 
 				// Create two new block elements
@@ -247,10 +254,10 @@
 			}
 
 			// Never use body as start or end node
-			sn = sn.nodeName == "HTML" ? d.body : sn; // Fix for Opera bug: https://bugs.opera.com/show_bug.cgi?id=273224&comments=yes
-			sn = sn.nodeName == "BODY" ? sn.firstChild : sn;
-			en = en.nodeName == "HTML" ? d.body : en; // Fix for Opera bug: https://bugs.opera.com/show_bug.cgi?id=273224&comments=yes
-			en = en.nodeName == "BODY" ? en.firstChild : en;
+			sn = sn.nodeName.toUpperCase() == "HTML" ? d.body : sn; // Fix for Opera bug: https://bugs.opera.com/show_bug.cgi?id=273224&comments=yes
+			sn = sn.nodeName.toUpperCase() == "BODY" ? sn.firstChild : sn;
+			en = en.nodeName.toUpperCase() == "HTML" ? d.body : en; // Fix for Opera bug: https://bugs.opera.com/show_bug.cgi?id=273224&comments=yes
+			en = en.nodeName.toUpperCase() == "BODY" ? en.firstChild : en;
 
 			// Get start and end blocks
 			sb = t.getParentBlock(sn);
@@ -259,7 +266,7 @@
 			
 			// Return inside list use default browser behavior
 			if (n = dom.getParent(sb, 'list-item,pre')) {
-				if (n.nodeName == 'LIST-ITEM') {
+				if (n.nodeName.toUpperCase() == 'LIST-ITEM') {
 					return annoListBreak(ed.selection, dom, n);
 				}
 				ed.undoManager.add();
@@ -281,27 +288,27 @@
 				return TRUE;
 			};
 			
-			if (!/^(PARA|BODY|HTML)$/.test(bn)) {
+			if (!/^(PARA|BODY|HTML)$/.test(bn.toUpperCase())) {
 				insertBr(ed);
 				ed.undoManager.add();
 				return FALSE;
 			}	
 
 			// If caption or absolute layers then always generate new blocks within
-			if (sb && (sb.nodeName == 'CAP' || /absolute|relative|fixed/gi.test(dom.getStyle(sb, 'position', 1)))) {
+			if (sb && (sb.nodeName.toUpperCase() == 'CAP' || /absolute|relative|fixed/gi.test(dom.getStyle(sb, 'position', 1)))) {
 				bn = se.element;
 				sb = null;
 			}
 			
 			// Use P instead
-			if (/(TD|TABLE|TH|CAP)/.test(bn) || (sb && bn == "DIV" && /left|right/gi.test(dom.getStyle(sb, 'float', 1)))) {
+			if (/(TD|TABLE|TH|CAP)/.test(bn.toUpperCase()) || (sb && bn.toUpperCase() == "DIV" && /left|right/gi.test(dom.getStyle(sb, 'float', 1)))) {
 				bn = se.element;
 				sb = eb = null;
 			}
 
 			// Setup new before and after blocks
-			bef = (sb && sb.nodeName == bn) ? sb.cloneNode(0) : ed.dom.create(bn);
-			aft = (eb && eb.nodeName == bn) ? eb.cloneNode(0) : ed.dom.create(bn);
+			bef = (sb && sb.nodeName.toUpperCase() == bn) ? sb.cloneNode(0) : ed.dom.create(bn);
+			aft = (eb && eb.nodeName.toUpperCase() == bn) ? eb.cloneNode(0) : ed.dom.create(bn);
 
 			// Remove id from after clone
 			aft.removeAttribute('id');
@@ -328,7 +335,7 @@
 			} while ((n = n.nextSibling ? n.nextSibling : n.parentNode));
 
 			// Place first chop part into before block element
-			if (sc.nodeName == bn)
+			if (sc.nodeName.toUpperCase() == bn)
 				rb.setStart(sc, 0);
 			else
 				rb.setStartBefore(sc);
@@ -347,16 +354,16 @@
 			// Create range around everything
 			r = d.createRange();
 
-			if (!sc.previousSibling && sc.parentNode.nodeName == bn) {
+			if (!sc.previousSibling && sc.parentNode.nodeName.toUpperCase() == bn) {
 				r.setStartBefore(sc.parentNode);
 			} else {
-				if (rb.startContainer.nodeName == bn && rb.startOffset == 0)
+				if (rb.startContainer.nodeName.toUpperCase() == bn && rb.startOffset == 0)
 					r.setStartBefore(rb.startContainer);
 				else
 					r.setStart(rb.startContainer, rb.startOffset);
 			}
 
-			if (!ec.nextSibling && ec.parentNode.nodeName == bn)
+			if (!ec.nextSibling && ec.parentNode.nodeName.toUpperCase() == bn)
 				r.setEndAfter(ec.parentNode);
 			else
 				r.setEnd(ra.endContainer, ra.endOffset);
@@ -365,10 +372,10 @@
 			r.deleteContents();
 
 			// Never wrap blocks in blocks
-			if (bef.firstChild && bef.firstChild.nodeName == bn)
+			if (bef.firstChild && bef.firstChild.nodeName.toUpperCase() == bn)
 				bef.innerHTML = bef.firstChild.innerHTML;
 
-			if (aft.firstChild && aft.firstChild.nodeName == bn)
+			if (aft.firstChild && aft.firstChild.nodeName.toUpperCase() == bn)
 				aft.innerHTML = aft.firstChild.innerHTML;
 
 
@@ -382,7 +389,7 @@
 					n = en;
 					do {
 						// We only want style specific elements
-						if (/^(SPAN|STRONG|B|EM|I|FONT|STRIKE|U)$/.test(n.nodeName)) {
+						if (/^(SPAN|STRONG|B|EM|I|FONT|STRIKE|U)$/.test(n.nodeName.toUpperCase())) {
 							nn = n.cloneNode(FALSE);
 							dom.setAttrib(nn, 'id', ''); // Remove ID since it needs to be unique
 							nl.push(nn);
