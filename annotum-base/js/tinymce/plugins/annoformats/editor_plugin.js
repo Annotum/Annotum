@@ -28,7 +28,7 @@
 				cmd : 'Anno_Monospace'
 			});
 	
-			ed.addButton('annoinsertsection', {
+			ed.addButton('annosection', {
 				title : 'Insert Section',
 				//ed.getLang('advanced.references_desc'),
 				cmd : 'Anno_Insert_Section'
@@ -82,7 +82,7 @@
 						}
 
 						return newNode;
-					};
+					}
 					
 					// Determines whether or not the immediate parent supports the new format type
 					function canApplyFormat(node, newFormat) {
@@ -168,12 +168,41 @@
 			}
 		},
 		insertSection : function () {
-			var ed = this.editor, node = ed.selection.getNode(), dom = ed.dom;
-
-			// @TODO get top evel node body or section, if section insert after if body insert at end, move to selection.
+			var ed = this.editor, doc = ed.getDoc(), node = ed.selection.getNode(), dom = ed.dom, parent = ed.dom.getParent(node, 'SEC, BODY'), range, elYPos, vpHeight = dom.getViewPort(ed.getWin()).h;
+	
 			ed.undoManager.beforeChange();
+
 			newElement = newSec();
-			dom.insertAfter(newElement, node);
+			if (parent.nodeName.toUpperCase()() == 'BODY') {
+				parent.appendChild(newElement);
+			}
+			else {
+				dom.insertAfter(newElement, parent);
+			}
+
+			var eleArray = dom.select(' > heading', newElement);
+			if (eleArray.length > 0) {
+				newElement = eleArray[0];
+			}
+
+			if (doc.createRange) {     // all browsers, except IE before version 9
+                range = doc.createRange();
+                range.selectNodeContents(newElement);
+            }
+            else { // IE < 9
+                range = doc.selection.createRange();
+                range.moveToElementText(newElement);
+            }
+
+			range.collapse(1);
+			ed.selection.setRng(range);
+
+			elYPos = dom.getPos(newElement).y;
+			// Scroll to new section
+			if (elYPos > vpHeight) {
+					ed.getWin().scrollTo(0, elYPos);
+			}
+
 			ed.undoManager.add();
 		
 			// Create a new sec element with a title
@@ -190,7 +219,7 @@
                 author: 'Crowd Favorite',
                 authorurl: 'http://crowdfavorite.com/',
                 infourl: 'http://annotum.wordpress.com/',
-                version: "0.1"
+                version: "0.2"
 			};
         }
     });
