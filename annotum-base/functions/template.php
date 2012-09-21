@@ -230,10 +230,10 @@ class Anno_Template {
 					$author_wp_data = false;
 				}
 				
-				$author_data['first_name'] = $author['given_names'];
-				$author_data['last_name'] = $author['surname'];
-				$author_data['bio'] = $author['bio'];
-				$author_data['link'] = $author['link'];
+				$author_data['first_name'] = isset($author['given_names']) ? $author['given_names'] : '';
+				$author_data['last_name'] = isset($author['surname']) ? $author['given_names'] : '';
+				$author_data['bio'] = isset($author['bio']) ? $author['given_names'] : '';
+				$author_data['link'] = isset($author['link']) ? $author['given_names'] : '';
 				// $author_data['email'] = $author['email'];
 				// We may have an imported user here, in which case, they don't necessarily have a WP user ID and author_wp_data == false
 				$author_data['display_name'] = empty($author_wp_data) ? '' : $author_wp_data->display_name;
