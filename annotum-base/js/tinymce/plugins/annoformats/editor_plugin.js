@@ -173,7 +173,7 @@
 			ed.undoManager.beforeChange();
 
 			newElement = newSec();
-			if (parent.nodeName.toUpperCase()() == 'BODY') {
+			if (parent.nodeName.toUpperCase() == 'BODY') {
 				parent.appendChild(newElement);
 			}
 			else {

@@ -273,6 +273,7 @@ border:0; margin:0; padding:0; white-space:nowrap; text-decoration:none; font-we
 .wp_themeSkin span.mce_annopastetext,
 .wp_themeSkin span.mce_annopasteword,
 .wp_themeSkin span.mce_annoequations,
+.wp_themeSkin span.mce_annosection,
 
 .wp_themeSkin .mce_forecolorpicker,
 .wp_themeSkin .mceSplitButton .mce_spellchecker span.mce_spellchecker,
@@ -474,6 +475,10 @@ border:0; margin:0; padding:0; white-space:nowrap; text-decoration:none; font-we
 .wp_themeSkin .mceSplitButtonActive span.mce_forecolor {background-position:-321px -2px}
 
 .wp_themeSkin .mce_forecolorpicker {background-position:-320px -20px}
+
+.wp_themeSkin span.mce_annosection {background-position:-660px -20px}
+.wp_themeSkin .mceButtonEnabled:hover span.mce_annosection,
+.wp_themeSkin .mceButtonActive span.mce_annosection {background-position:-660px 0}
 
 /* Plugins in WP */
 .wp_themeSkin span.mce_fullscreen {background-position:-240px -20px}
