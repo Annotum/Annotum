@@ -290,8 +290,8 @@ class Anno_PDF_Download {
 			'<time' => '<span',
 			'</time' => '</span',
 
-			'<em' => '<span style="font-style: italic;"',
-			'</em>' => '</span>',
+			'<em' => '<div style="font-style: italic;"',
+			'</em>' => '</div>',
 		);
 		return str_replace(array_keys($replacements), array_values($replacements), $html);
 	}
