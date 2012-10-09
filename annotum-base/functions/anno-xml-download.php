@@ -486,7 +486,7 @@ class Anno_XML_Download {
 				if (!empty($appendix)) {
 					$xml .='
 				<app id="app'.($appendix_key + 1).'">
-					<title>'.sprintf(_x('Appendix %s', 'xml appendix title', 'anno'), anno_index_alpha($appendix_key)).'</title>'
+					<title>'.sprintf(_x('Appendix %s', 'xml appendix title', 'anno'), $appendix_key + 1).'</title>'
 					.$appendix.'
 				</app>';
 				}
