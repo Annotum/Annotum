@@ -17,10 +17,10 @@ add_action('add_meta_boxes_article', 'anno_snapshot_add_meta_box', 1);
 function anno_snapshot_allowed_keys() {
 	global $anno_user_meta;
 	$allowed_keys = array(
-		'id' => _('ID', 'anno'),
+		'id' => __('ID', 'anno'),
 		'bio' => __('Bio', 'anno'),
-		'surname' => _('Surname', 'anno'),
-		'given_names' => _('Given Names', 'anno'),
+		'surname' => __('Surname', 'anno'),
+		'given_names' => __('Given Names', 'anno'),
 	);
 	$allowed_keys += anno_sanitize_user_meta_keys($anno_user_meta);
 	return $allowed_keys;
