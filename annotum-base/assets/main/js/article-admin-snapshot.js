@@ -1,8 +1,10 @@
 (function($) {
-	$('#snapshot-wrapper').sortable({
-		axis:'y',
-		items:'fieldset',
-		containment : 'parent'
+	$(document).ready(function() {
+		$('#snapshot-wrapper').sortable({
+			axis:'y',
+			items:'fieldset',
+			containment : 'parent'
+		});
 	});
 
 	$(document).on('click', '.snapshot-item h4, .snapshot-handlediv', function() {
@@ -26,14 +28,7 @@
 		}
 	}
 
-	$(document).on('click', '.snapshot-remove', function(e) {
-		e.preventDefault();
-		e.stopPropagation();
-		$(this).closest('.snapshot-item').fadeOut(function() {
-			$(this).remove();
-		});
-	});
-
+	
 	// Update the handle name when the name changes in the snapshot data
 	$(document).on('blur', '.snapshot-surname,.snapshot-given_names,.snapshot-prefix,.snapshot-suffix', function() {
 		var id = $(this).data('id');
@@ -43,7 +38,7 @@
 		if (title == '') {
 			title = id;
 		}
-		$('#snapshot-handle-' + id).html(title);
+		$('#snapshot-handle-' + id +' .snapshot-title').html(title);
 	});
 
 	function anno_snapshot_add(user) {
