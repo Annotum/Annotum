@@ -78,7 +78,7 @@ function anno_snapshot_user_markup($user_data, $allowed_keys) {
 $markup = '
 	<fieldset class="snapshot-item">
 		<div class="snapshot-handlediv" title="'.__('Click to toggle', 'anno').'">+</div>
-		<h4 id="'.esc_attr('snapshot-handle-'.$uid).'">'.$title.' - <a href="#" class="snapshot-remove">'.__('remove', 'anno').'</a></h4>
+		<h4 id="'.esc_attr('snapshot-handle-'.$uid).'"><span class="snapshot-title">'.$title.'</span> - <a href="#" class="snapshot-remove">'.__('remove', 'anno').'</a></h4>
 		<div class="inside hidden">';
 
 	foreach ($user_data as $key => $value) {
