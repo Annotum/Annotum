@@ -140,7 +140,8 @@ annoEqEdit = {
 					// Really this should be innerText, but its not supported in IE8
 					form.alt.value = altEl[0].innerHTML;
 				}
-				if (descriptionEl !== undefined) {
+				// BR is auto inserted when the description is initially empty, not the cleanest, but quickest way to handle this case.
+				if (descriptionEl !== undefined && descriptionEl[0].innerHTML != '<br>') {
 					form.description.value = descriptionEl[0].innerHTML;
 				}
 			}
