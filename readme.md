@@ -10,7 +10,7 @@ All features are packaged within the theme. Once the theme is activated, many se
 
 If you host your own Annotum-powered site using WordPress, the following are the minimum requirements necessary:
 
-- WordPress version 3.3
+- WordPress version 3.3-3.5
 - PHP 5.2.4 (including libxml 2.6.29 or higher)
 
 ## Installation
