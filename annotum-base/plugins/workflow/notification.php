@@ -315,7 +315,7 @@ Excerpt: %s
 You left a review of : %s
 --------------------
 
-Thank you for your contribution, at this time the review process is completed, you will be notified of any further updates to this article.
+Thank you for your contribution. At this time the review process is completed; you will be notified of any further updates to this article.
 
 %s', 'Email notification body', 'anno'), $title, implode(', ', $author_names), $status, $edit_link, $anno_review_options[(int)$review_key], $footer),
 			);

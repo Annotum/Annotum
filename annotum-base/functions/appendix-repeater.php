@@ -38,7 +38,7 @@ function anno_appendices_meta_box($post) {
 					} else {
 						next_element_index = 1;
 					}
-					insert_element = \''.str_replace(PHP_EOL,'',trim(anno_appendix_box_content())).'\';
+					insert_element = \''.str_replace(array("\r\n", "\r", "\n"),'',trim(anno_appendix_box_content())).'\';
 					insert_element = insert_element.replace(/'.'###INDEX###'.'/g, next_element_index);
 					jQuery(insert_element).appendTo(\'#'.'anno_appendices'.'\');
 					tinyMCE.execCommand(\'mceAddControl\', false, \'appendix-\' + next_element_index );
