@@ -156,7 +156,7 @@ function anno_user_register($user_id)  {
 	$userdata = array();
 	$update = false;
 	
-	foreach ($variable as $key => $value) {
+	foreach ($userdata as $key => $value) {
 		if ($key == 'first_name' || $key == 'last_name') {
 			$userdata[$key] = $_POST[$key];
 			$update = true;
@@ -175,7 +175,7 @@ function anno_user_register($user_id)  {
 		wp_update_user($userdata);
 	}
 }
-add_action('user_register', 'register_extra_fields');
+add_action('user_register', 'anno_user_register');
 
 
 /**
