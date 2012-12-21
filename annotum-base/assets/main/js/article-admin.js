@@ -21,6 +21,38 @@ jQuery(document).ready(function($){
 		$('body').bind('afterPreWpautop', function(event, o) {
 			o.data = o.unfiltered;
 		});
+
+		// TinyMCE doesn't handle being moved in the DOM.  Destroy the
+		// editor instances at the start of a sort and recreate 
+		// them afterwards.
+		var _triggerAllEditors = function(event, creatingEditor) {
+			var postbox, textarea;
+
+			postbox = $(event.target);
+			textarea = postbox.find('textarea.wp-editor-area');
+
+			textarea.each(function(index, element) {
+				var editor;
+				editor = tinyMCE.EditorManager.get(element.id);
+				if (creatingEditor) {
+					if (!editor) {
+						tinyMCE.execCommand('mceAddControl', true, element.id);
+					}
+				}
+				else {
+					if (editor) {
+						editor.save();						
+						tinyMCE.execCommand('mceRemoveControl', true, element.id);
+					}	
+				} 
+			});
+
+		};
+		$('#poststuff').on('sortstart', function(event) {
+			_triggerAllEditors(event, false);
+		}).on('sortstop', function(event) {
+			_triggerAllEditors(event, true);
+		});
 	}
 	
 	anno_reset_doi_status = function() {

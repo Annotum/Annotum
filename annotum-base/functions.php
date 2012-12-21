@@ -1138,6 +1138,9 @@ function anno_js_post_id($hook_suffix) {
 ?>
 <script type="text/javascript">var ANNO_POST_ID = <?php echo esc_js($post->ID); ?>;</script>
 <?php 
+		// Popups don't load in iframes, so this needs to be loaded on every edit page
+		// This was previously done in  < WP 3.5 but now 3.5 conditionally loads it for the media popup
+		wp_enqueue_script( 'media-upload' );
 	}
 }
 add_action('admin_enqueue_scripts', 'anno_js_post_id', 0);

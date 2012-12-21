@@ -10,7 +10,7 @@ All features are packaged within the theme. Once the theme is activated, many se
 
 If you host your own Annotum-powered site using WordPress, the following are the minimum requirements necessary:
 
-- WordPress version 3.3
+- WordPress version 3.3-3.5 (3.5 recommended)
 - PHP 5.2.4 (including libxml 2.6.29 or higher)
 
 ## Installation
@@ -23,6 +23,15 @@ To check out the Annotum theme code to an existing WordPress installation:
     > Note: for read-only access, use `git clone git://github.com/Annotum/Annotum.git annotum`. If you wish read-write access please let us know at info at annotum.org.
 3. Or, if you prefer to use subversion: `svn co https://username@svn.github.com/Annotum/Annotum.git annotum`
 4. That's it! Log in to your WordPress administrator dashboard, navigate to `Appearance > Themes` and Activate the theme
+
+You can also install a pre-packaged version of Annotum: 
+
+- Into an existing WordPress site using a distribution from the Annotum [download page](https://github.com/Annotum/Annotum/wiki/Downloads)
+- As a self-contained, complete application "stack", using a [stand-alone installer](https://github.com/Annotum/Annotum/wiki/Annotum-stand-alone-installers) (Windows or OSX)
+- Via SSH, by following the [bare bones](https://github.com/Annotum/Annotum/wiki/Annotum-Bare-Bones-Installation-Instructions) installation instructions
+
+   > IMPORTANT: The annotum distribution .zip file is over 8Mb.  You may need to modify your PHP.ini values for `upload_max_filesize` and `post_max_size` to upload the theme directly.
+
 
 ### Annotum in Your Language
 

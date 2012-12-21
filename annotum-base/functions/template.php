@@ -424,8 +424,14 @@ class Anno_Template {
 			}
 		}
 		$authors = implode(', ', $names);
+		
+		if (function_exists('annowf_clone_get_family')) {
+			$family_ids = annowf_clone_get_family($post_id);
+		}
+		else {
+			$family_ids = array();
+		}
 
-		$family_ids = annowf_clone_get_family($post_id);
 		$edition = 1;
 		if (!empty($family_ids) && is_array($family_ids)) {
 			// Only add this id if there are other revisions

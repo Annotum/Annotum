@@ -386,7 +386,7 @@ function anno_deposit_doi_meta_box($post) {
 	if (empty($crossref_login) || empty($crossref_password) || empty($crossref_registrant)) {
 		$deposit_enabled = false;
 		$deposit_value = _x('CrossRef Credentials Required', 'disabled DOI lookup message', 'anno');
-		$depost_id = 'doi-deposit-disabled';
+		$deposit_id = 'doi-deposit-disabled';
 	}
 	else {
 		$deposit_enabled = true;
