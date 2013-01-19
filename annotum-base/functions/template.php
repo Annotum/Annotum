@@ -815,4 +815,3 @@ function anno_email_link($text = null, $attr = array()) {
 	$template = Anno_Keeper::retrieve('template');
 	echo $template->get_email_link($attr);
 }
-?>
