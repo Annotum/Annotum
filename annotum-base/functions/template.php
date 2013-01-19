@@ -231,7 +231,7 @@ class Anno_Template {
 				}
 				
 				$author_data['first_name'] = isset($author['given_names']) ? $author['given_names'] : '';
-				$author_data['last_name'] = isset($author['surname']) ? $author['given_names'] : '';
+				$author_data['last_name'] = isset($author['surname']) ? $author['surname'] : '';
 				$author_data['bio'] = isset($author['bio']) ? $author['given_names'] : '';
 				$author_data['link'] = isset($author['link']) ? $author['given_names'] : '';
 				// $author_data['email'] = $author['email'];
@@ -816,3 +816,4 @@ function anno_email_link($text = null, $attr = array()) {
 	echo $template->get_email_link($attr);
 }
 ?>
+
