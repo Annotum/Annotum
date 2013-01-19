@@ -816,4 +816,3 @@ function anno_email_link($text = null, $attr = array()) {
 	echo $template->get_email_link($attr);
 }
 ?>
-
