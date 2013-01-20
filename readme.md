@@ -11,7 +11,7 @@ All features are packaged within the theme. Once the theme is activated, many se
 If you host your own Annotum-powered site using WordPress, the following are the minimum requirements necessary:
 
 - WordPress version 3.3-3.5 (3.5 recommended)
-- PHP 5.2.4 (including libxml 2.6.29 or higher)
+- PHP 5.2.4 (including libxml 2.6.29 or higher; openssl required for full PDF support)
 
 ## Installation
 
@@ -30,7 +30,7 @@ You can also install a pre-packaged version of Annotum:
 - As a self-contained, complete application "stack", using a [stand-alone installer](https://github.com/Annotum/Annotum/wiki/Annotum-stand-alone-installers) (Windows or OSX)
 - Via SSH, by following the [bare bones](https://github.com/Annotum/Annotum/wiki/Annotum-Bare-Bones-Installation-Instructions) installation instructions
 
-   > IMPORTANT: The annotum distribution .zip file is over 8Mb.  You may need to modify your PHP.ini values for `upload_max_filesize` and `post_max_size` to upload the theme directly.
+   > IMPORTANT: The annotum distribution .zip file is over 6Mb.  You may need to modify your PHP.ini values for `upload_max_filesize` and `post_max_size` to upload the theme directly.
 
 
 ### Annotum in Your Language
