@@ -18,7 +18,6 @@ class Anno_XML_Download {
 		/* Define what our "action" is that we'll 
 		listen for in our request handlers */
 		$this->action = 'anno_xml_download_action';
-		$this->i18n = 'anno';
 	}
 	
 	public function i() {
@@ -75,13 +74,12 @@ class Anno_XML_Download {
 	 */
 	public function request_handler() {
 		if (get_query_var('xml')) {
-			
 			// Sanitize our article ID
 			$id = get_the_ID();
 			
 			// If we don't have an Article, get out
 			if (empty($id)) {
-				wp_die(__('No article found.', $this->i18n));
+				wp_die(__('No article found.', 'anno'));
 			}
 			
 			// If we're not debugging, turn off errors
@@ -111,7 +109,7 @@ class Anno_XML_Download {
 			
 			// Ensure we have an article
 			if (empty($article)) {
-				wp_die(__('Required article first.', $this->i18n));
+				wp_die(__('Required article first.', 'anno'));
 			}
 			
 			// Get our XML ready and stored
@@ -355,7 +353,7 @@ class Anno_XML_Download {
 //					}
 				
 					// Affiliation legacy support
-					if ($author['affiliation'] || $author['institution']) {
+					if (!empty($author['affiliation']) || !empty($author['institution'])) {
 						$author_xml .= '
 							<aff>';
 							if (!empty($author['affiliation'])) {
@@ -387,7 +385,9 @@ class Anno_XML_Download {
 		
 		// Related Articles
 		$related_xml = '';
-		$related_articles = annowf_clone_get_ancestors($article->ID);
+		if(anno_workflow_enabled()){
+			$related_articles = annowf_clone_get_ancestors($article->ID);
+		}
 		if (!empty($related_articles) && is_array($related_articles)) {
 			foreach ($related_articles as $related_article_id) {
 				$related_article = get_post($related_article_id);
