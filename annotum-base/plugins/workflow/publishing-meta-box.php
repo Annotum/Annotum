@@ -17,7 +17,7 @@ function annowf_status_meta_box($post) {
 	$post_state = annowf_get_post_state($post->ID);
 ?>
 <div class="submitbox" id="submitpost">
-	<input name="post_state" type="hidden" value="<?php esc_attr_e($post_state); ?>" />
+	<input name="post_state" type="hidden" value="<?php esc_attr($post_state); ?>" />
 	<div id="minor-publishing">
 		<div id="minor-publishing-actions">
 			<?php 
@@ -77,7 +77,7 @@ function annowf_major_action_draft_markup() {
 ?>
 		<div id="publishing-action"<?php echo $wrap_class; ?>>
 			<img src="<?php echo esc_url( admin_url( 'images/wpspin_light.gif' ) ); ?>" class="ajax-loading" id="ajax-loading" alt="" />
-			<input name="original_publish" type="hidden" id="original_publish" value="<?php esc_attr_e($anno_post_save['review']); ?>" />
+			<input name="original_publish" type="hidden" id="original_publish" value="<?php esc_attr($anno_post_save['review']); ?>" />
 
 			<?php submit_button($anno_post_save['review'], 'primary', 'publish', false, array( 'tabindex' => '5', 'accesskey' => 'p' )); ?>
 		</div>
@@ -108,7 +108,7 @@ function annowf_major_action_submitted_markup() {
 		global $anno_post_save;
 ?>
 	<div id="publishing-action-approve" class="center-wrap">
-		<input name="original_publish" type="hidden" id="original_publish" value="<?php esc_attr_e($anno_post_save['approve']) ?>" />	
+		<input name="original_publish" type="hidden" id="original_publish" value="<?php esc_attr($anno_post_save['approve']) ?>" />	
 		<?php submit_button($anno_post_save['approve'], 'primary', 'publish', false, array( 'tabindex' => '5')); ?>
 		<img src="<?php echo esc_url( admin_url( 'images/wpspin_light.gif' ) ); ?>" class="ajax-loading" alt="" />
 	</div>
@@ -170,7 +170,7 @@ function annowf_major_action_in_review_markup() {
 		global $anno_post_save;
 ?>
 	<div id="publishing-action-approve" class="center-wrap">
-		<input name="original_publish" type="hidden" id="original_publish" value="<?php esc_attr_e($anno_post_save['approve']) ?>" />	
+		<input name="original_publish" type="hidden" id="original_publish" value="<?php esc_attr($anno_post_save['approve']) ?>" />	
 		<?php submit_button($anno_post_save['approve'], 'primary', 'publish', false, array( 'tabindex' => '5')); ?>
 		<img src="<?php echo esc_url( admin_url( 'images/wpspin_light.gif' ) ); ?>" class="ajax-loading" alt="" />
 	</div>
