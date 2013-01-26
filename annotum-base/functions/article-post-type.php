@@ -284,7 +284,7 @@ function anno_is_appendix_empty($appendix_content) {
  * @return void
  */ 
 function anno_article_to_post($post_id) {
-	$post = wp_get_single_post(absint($post_id), ARRAY_A);
+	$post = get_post(absint($post_id), ARRAY_A);
 	if ($post['post_type'] != 'article') {
 		return;
 	}
