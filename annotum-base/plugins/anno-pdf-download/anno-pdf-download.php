@@ -18,7 +18,6 @@ class Anno_PDF_Download {
 	static $instance;
 
 	private function __construct() {
-		$this->i18n = 'anno';
 		$this->ver = defined('ANNO_VER') ? ANNO_VER : '1.0';
 	}
 
@@ -116,7 +115,7 @@ class Anno_PDF_Download {
 			
 			// If we don't have an Article, get out
 			if (empty($id)) {
-				wp_die(__('No article found.', $this->i18n));
+				wp_die(__('No article found.', 'anno'));
 			}
 			
 			// If we're not debugging, turn off errors
@@ -373,7 +372,7 @@ class Anno_PDF_Download {
 	 * @return void
 	 */
 	private function generic_die() {
-		wp_die(__('There was an issue creating the PDF for your article, please try again later', $this->i18n));
+		wp_die(__('There was an issue creating the PDF for your article, please try again later', 'anno'));
 	}
 	
 	
