@@ -174,7 +174,7 @@ function annov_article_view_counts($views) {
 		elseif( $type['status'] == 'trash') {
 			if (!empty($query->posts)) {
 		    	$class = $wp_query->get('post_status') == 'trash' ? ' class="current"' : '';
-		    	$views['trash'] = sprintf(__('<a href="%s"'. $class .'>'.__('Trash','anno').' <span class="count">(%d)</span></a>', 'anno'),
+		    	$views['trash'] = sprintf('<a href="%s"'. $class .'>'.__('Trash','anno').' <span class="count">(%d)</span></a>',
 		        	admin_url('edit.php?post_status=trash&post_type=article'), count($query->posts));
 			}
 			else {
@@ -224,7 +224,7 @@ function annov_media_view_counts($views) {
 		$class = '';
 	}
 	
-	$views['all'] = sprintf(__('<a href="%s"'. $class .'>All <span class="count">(%d)</span></a>', 'anno'),
+	$views['all'] = sprintf('<a href="%s"'. $class .'>'.__('All','anno').' <span class="count">(%d)</span></a>',
     	admin_url('upload.php'), $all_count);
 	
 	wp_reset_query();
