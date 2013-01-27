@@ -137,14 +137,14 @@ function annov_article_view_counts($views) {
 
 		if ($type['status'] == NULL) {			
 		    $class = (empty($post_status) || $post_status == 'all') ? ' class="current"' : '';
-		    $views['all'] = sprintf(__('<a href="%s"'. $class .'>All <span class="count">(%d)</span></a>', 'anno'),
+		    $views['all'] = sprintf('<a href="%s"'. $class .'>'.__('All','anno').' <span class="count">(%d)</span></a>',
 		        admin_url('edit.php?post_type=article'),
 		        count($query->posts));
 		}
 		elseif ($type['status'] == 'publish') {
 			if (!empty($query->posts)) {
 			    $class = $post_status == 'publish' ? ' class="current"' : '';
-			    $views['publish'] = sprintf(__('<a href="%s"'. $class .'>Published'. ((sizeof($query->posts) > 1) ? "s" : "") .' <span class="count">(%d)</span></a>', 'anno'),
+			    $views['publish'] = sprintf('<a href="%s"'. $class .'>'.__('Published','anno').' <span class="count">(%d)</span></a>',
 			        admin_url('edit.php?post_status=publish&post_type=article'), count($query->posts));
 			}
 			else {
@@ -154,7 +154,7 @@ function annov_article_view_counts($views) {
 		elseif ($type['status'] == 'draft') {
 			if (!empty($query->posts)) {
 			    $class = $post_status == 'draft' ? ' class="current"' : '';
-			    $views['draft'] = sprintf(__('<a href="%s"'. $class .'>Draft'. ((sizeof($query->posts) > 1) ? "s" : "") .' <span class="count">(%d)</span></a>', 'anno'),
+			    $views['draft'] = sprintf('<a href="%s"'. $class .'>'._n('Draft','Drafts',sizeof($query->posts),'anno').' <span class="count">(%d)</span></a>',
 			        admin_url('edit.php?post_status=draft&post_type=article'), count($query->posts));
 			}
 			else {
@@ -164,7 +164,7 @@ function annov_article_view_counts($views) {
 		elseif ($type['status'] == 'pending') {
 			if (!empty($query->posts)) {
 		    	$class = $post_status == 'pending' ? ' class="current"' : '';
-		    	$views['pending'] = sprintf(__('<a href="%s"'. $class .'>Pending <span class="count">(%d)</span></a>', 'anno'),
+		    	$views['pending'] = sprintf('<a href="%s"'. $class .'>'.__('Pending','anno').' <span class="count">(%d)</span></a>',
 		        	admin_url('edit.php?post_status=pending&post_type=article'), count($query->posts));
 			}
 			else {
@@ -174,7 +174,7 @@ function annov_article_view_counts($views) {
 		elseif( $type['status'] == 'trash') {
 			if (!empty($query->posts)) {
 		    	$class = $wp_query->get('post_status') == 'trash' ? ' class="current"' : '';
-		    	$views['trash'] = sprintf(__('<a href="%s"'. $class .'>Trash <span class="count">(%d)</span></a>', 'anno'),
+		    	$views['trash'] = sprintf(__('<a href="%s"'. $class .'>'.__('Trash','anno').' <span class="count">(%d)</span></a>', 'anno'),
 		        	admin_url('edit.php?post_status=trash&post_type=article'), count($query->posts));
 			}
 			else {
@@ -263,7 +263,7 @@ function annov_media_view_counts($views) {
 			$class = '';
 		}
 	
-		$views['image'] = sprintf(__('<a href="%s"'. $class .'>Image <span class="count">(%d)</span></a>', 'anno'),
+		$views['image'] = sprintf('<a href="%s"'. $class .'>'._n('Image','Images',$image_count,'anno').' <span class="count">(%d)</span></a>',
 	    	admin_url('upload.php?post_mime_type=image'), $image_count);
 	}
 	wp_reset_query();
@@ -288,7 +288,7 @@ function annov_media_view_counts($views) {
 			$class = '';
 		}
 	
-		$views['detached'] = sprintf(__('<a href="%s"'. $class .'>Detached <span class="count">(%d)</span></a>', 'anno'),
+		$views['detached'] = sprintf('<a href="%s"'. $class .'>'.__('Detached','anno').' <span class="count">(%d)</span></a>',
 	    	admin_url('upload.php?detached=1'), $detached_count);
 	}
 	
