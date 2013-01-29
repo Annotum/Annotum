@@ -203,6 +203,7 @@ function anno_popup_images_row_edit($attachment) {
 									'thumbnail' => _x('Thumbnail', 'size label for images', 'anno'),
 									'medium' => _x('Medium', 'size label for images', 'anno'),
 									'large' => _x('Large', 'size label for images', 'anno'),
+									'full' => _x('Full Size', 'size label for images', 'anno'), 
 								);
 							
 								// For small images, we won't have any image sizes displayed.
@@ -210,7 +211,7 @@ function anno_popup_images_row_edit($attachment) {
 								foreach ($sizes as $size_key => $size_label) {
 									$downsize = image_downsize($attachment->ID, $size_key);
 									$enabled = $downsize[3];
-									if ($enabled) {
+									if ($enabled || $size_key == 'full') {
 										$img_size_url = wp_get_attachment_image_src($attachment->ID, $size_key);
 										$img_size_url = $img_size_url[0];
 										$size_displayed = true;
