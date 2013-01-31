@@ -393,7 +393,7 @@ function cfct_header_image_form() {
  */
 function cfct_admin_enqueue() {
 	if (!empty($_GET['page']) && $_GET['page'] == 'carrington-settings') {
-		$core_url = get_bloginfo('template_directory').'/carrington-core/';
+		$core_url = get_template_directory_uri().'/carrington-core/';
 		
 		wp_enqueue_script(
 			'jquery-colorpicker',

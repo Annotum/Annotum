@@ -129,7 +129,7 @@ add_action('wp_enqueue_scripts', 'anno_assets');
  */
 function anno_dashboard_assets($hook_suffix) {
 	if ($hook_suffix == 'index.php') {
-		wp_enqueue_style('anno', trailingslashit(get_bloginfo('template_directory')) .'assets/main/css/main.css', array(), ANNO_VER);
+		wp_enqueue_style('anno', trailingslashit(get_template_directory_uri()) .'assets/main/css/main.css', array(), ANNO_VER);
 	}
 }
 add_action('load-index.php', 'anno_dashboard_assets');
@@ -1228,7 +1228,7 @@ add_action('wp_ajax_anno-user-search', 'anno_user_search');
 function anno_edit_post_assets($hook_suffix) {
 	if ($hook_suffix == 'post.php' || $hook_suffix == 'post-new.php') {
 		global $post;
-		$main =  trailingslashit(get_bloginfo('template_directory')) . 'assets/main/';
+		$main =  trailingslashit(get_template_directory_uri()) . 'assets/main/';
 		if ($post->post_type == 'article') {
 			wp_enqueue_script('anno-article-admin', $main.'js/article-admin.js', array('jquery-ui-sortable'), ANNO_VER);
 			if ($post->post_status == 'publish') {
@@ -1245,7 +1245,7 @@ add_action('admin_enqueue_scripts', 'anno_edit_post_assets');
 function anno_article_admin_print_styles() {
 	global $post;
 	if ((isset($post->post_type) && $post->post_type == 'article') || (isset($_GET['anno_action']) && $_GET['anno_action'] == 'image_popup')) {
-		$main =  trailingslashit(get_bloginfo('template_directory')) . 'assets/main/';
+		$main =  trailingslashit(get_template_directory_uri()) . 'assets/main/';
 		wp_enqueue_style('article-admin', $main.'css/article-admin.css', array(), ANNO_VER);
 		wp_enqueue_style('article-admin-tinymce-ui', $main.'css/tinymce-ui.css', array(), ANNO_VER);
 	}

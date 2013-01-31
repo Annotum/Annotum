@@ -10,7 +10,7 @@
  */
 if (__FILE__ == $_SERVER['SCRIPT_FILENAME']) { die(); }
 
-$main =  trailingslashit(get_bloginfo('template_directory')) . 'assets/main/';
+$main =  trailingslashit(get_template_directory_uri()) . 'assets/main/';
 $v = ANNO_VER;
 
 // Styles
@@ -47,7 +47,7 @@ if (is_admin()) {
  * Hook into 'wp' action when conditional checks like is_single() are available.
  */
 function anno_css3_pie() {
-	$assets_root = get_bloginfo('template_url') . '/assets/main/';
+	$assets_root = get_template_directory_uri() . '/assets/main/';
 	?>
 	<!--[if lte IE 8]>
 	<style type="text/css" media="screen">

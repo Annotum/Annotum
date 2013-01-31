@@ -201,7 +201,7 @@ function anno_load_editor($content, $editor_id, $settings = array()) {
 			'verify_html' => true,
 			'force_p_newlines' => true,
 			'force_br_newlines' => false,
-			'content_css' => trailingslashit(get_bloginfo('template_directory')).'assets/main/css/tinymce.css',
+			'content_css' => trailingslashit(get_template_directory_uri()).'assets/main/css/tinymce.css',
 			'object_resizing' => false
 		),
 	);
@@ -266,7 +266,7 @@ class Anno_tinyMCE {
 	
 	function plugins($plugins) {
 		if ($this->is_article()) {
-			$plugins_dir = trailingslashit(get_bloginfo('template_directory')).'js/tinymce/plugins/';
+			$plugins_dir = trailingslashit(get_template_directory_uri()).'js/tinymce/plugins/';
 
 			$plugins['annoLink_base'] = $plugins_dir.'annolink/annolink.js';
 			$plugins['annoLink']  =  $plugins_dir.'annolink/editor_plugin.js';
@@ -2167,7 +2167,7 @@ function anno_doi_lookup_enabled() {
 function anno_tinymce_css($hook) {
 	global $post_type;
 	if ($post_type == 'article') {
-		$main = trailingslashit(get_bloginfo('template_directory'));
+		$main = trailingslashit(get_template_directory_uri());
 		wp_enqueue_style('eqeditor', $main.'js/tinymce/plugins/annoequations/equationeditor.css');
 	}
 }
@@ -2177,7 +2177,7 @@ add_action('admin_print_styles-post-new.php', 'anno_tinymce_css');
 function anno_tinymce_js() {
 	global $post_type;
 	if ($post_type == 'article') {
-		$main = trailingslashit(get_bloginfo('template_directory'));
+		$main = trailingslashit(get_template_directory_uri());
 		
 		wp_enqueue_script('closure-goog', $main.'js/tinymce/plugins/annoequations/equation-editor-compiled.js');
 	}

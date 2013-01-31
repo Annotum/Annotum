@@ -15,7 +15,7 @@ function anno_tinymce_uploader_enqueue($hook) {
 	if (isset($_GET['anno_action']) && $_GET['anno_action'] == 'image_popup' ) {
 		wp_enqueue_script('swfupload-all');
 		wp_enqueue_script('swfupload-handlers');
-		wp_enqueue_script('anno_upload_handlers', trailingslashit(get_bloginfo('template_directory')).'functions/tinymce-upload/handlers.js', array('jquery'));	
+		wp_enqueue_script('anno_upload_handlers', trailingslashit(get_template_directory_uri()).'functions/tinymce-upload/handlers.js', array('jquery'));	
 	}
 }
 add_action('admin_enqueue_scripts', 'anno_tinymce_uploader_enqueue');

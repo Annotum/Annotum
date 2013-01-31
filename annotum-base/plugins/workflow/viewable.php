@@ -302,7 +302,7 @@ function annov_media_view_counts($views) {
  */
 function annov_enqueue_css() {
 	if (!current_user_can('editor') && !current_user_can('administrator')) {
-		wp_enqueue_style('anno-listing-filter', trailingslashit(get_bloginfo('template_directory')).'plugins/workflow/css/listing-filter.css');
+		wp_enqueue_style('anno-listing-filter', trailingslashit(get_template_directory_uri()).'plugins/workflow/css/listing-filter.css');
 	}
 }
 add_action('admin_print_styles-upload.php', 'annov_enqueue_css');
@@ -312,7 +312,7 @@ add_action('admin_print_styles-upload.php', 'annov_enqueue_css');
  */
 function annov_enqueue_js() {
 	if (!current_user_can('editor') && !current_user_can('administrator')) {
-		wp_enqueue_script('anno-listing-filter', trailingslashit(get_bloginfo('template_directory')).'plugins/workflow/js/listing-filter.js', array('jquery'));
+		wp_enqueue_script('anno-listing-filter', trailingslashit(get_template_directory_uri()).'plugins/workflow/js/listing-filter.js', array('jquery'));
 	}
 }
 add_action('admin_print_scripts-upload.php', 'annov_enqueue_js');
