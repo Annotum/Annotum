@@ -40,7 +40,7 @@ add_action('admin_init', 'cfcp_admin_init');
 
 // /* Let's load some styles that will be used on all theme setting pages */
 // function cfcp_admin_css() {
-//     $cfcp_admin_styles = get_bloginfo('template_url').'/plugins/cf-colors/css/admin.css';
+//     $cfcp_admin_styles = get_template_directory_uri().'/plugins/cf-colors/css/admin.css';
 //     echo '<link rel="stylesheet" type="text/css" href="' . $cfcp_admin_styles . '" />';
 // }
 
