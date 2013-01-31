@@ -100,8 +100,8 @@ function cfct_load_plugins() {
 				include_once(CFCT_PATH.'plugins/'.$file);
 			}
 // child theme support
-			if (file_exists(STYLESHEETPATH.'/plugins/'.$file)) {
-				include_once(STYLESHEETPATH.'/plugins/'.$file);
+			if (file_exists(get_stylesheet_directory().'/plugins/'.$file)) {
+				include_once(get_stylesheet_directory().'/plugins/'.$file);
 			}
 		}
 	}
@@ -247,7 +247,7 @@ function cfct_filename($dir, $type = 'default', $keys = array()) {
 	}
 	// fallback for category, author, tag, etc.
 	// child theme path
-	$path = STYLESHEETPATH.'/'.$dir.'/'.$file.'.php';
+	$path = get_stylesheet_directory().'/'.$dir.'/'.$file.'.php';
 	// check for child theme first
 	if (!file_exists($path)) {
 		// use parent theme if no child theme file found
@@ -260,7 +260,7 @@ function cfct_filename($dir, $type = 'default', $keys = array()) {
 			case 'tag':
 			case 'taxonomy':
 				// child theme path
-				$path = STYLESHEETPATH.'/'.$dir.'/archive.php';
+				$path = get_stylesheet_directory().'/'.$dir.'/archive.php';
 				if (!file_exists($path)) {
 					// use parent theme if no child theme file found
 					$path = CFCT_PATH.$dir.'/archive.php';
@@ -313,7 +313,7 @@ function cfct_template_file($dir, $file, $data = array()) {
 		/* Check for file in the child theme first
 		var name is deliberately funny. Avoids inadvertantly
 		overwriting path variable with extract() below. */
-		$_cfct_filepath = STYLESHEETPATH.'/'.$dir.'/'.$file.'.php';
+		$_cfct_filepath = get_stylesheet_directory().'/'.$dir.'/'.$file.'.php';
 		if (!file_exists($_cfct_filepath)) {
 			$_cfct_filepath = CFCT_PATH.$dir.'/'.$file.'.php';
 		}
@@ -1064,9 +1064,9 @@ function cfct_files($path) {
 	}
 	$files = array();
 	$paths = array($path);
-	if (STYLESHEETPATH.'/' != CFCT_PATH) {
+	if (get_stylesheet_directory().'/' != CFCT_PATH) {
 		// load child theme files
-		$paths[] = STYLESHEETPATH.'/'.str_replace(CFCT_PATH, '', $path);
+		$paths[] = get_stylesheet_directory().'/'.str_replace(CFCT_PATH, '', $path);
 	}
 	foreach ($paths as $path) {
 		if (is_dir($path) && $handle = opendir($path)) {
