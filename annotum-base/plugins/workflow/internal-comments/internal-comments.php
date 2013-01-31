@@ -93,7 +93,7 @@ function anno_internal_comment_table_row($cur_comment) {
 		set_current_screen('article');
 	}
 	
-	$comment_list_table = _get_list_table('WP_Comments_List_Table');
+	$comment_list_table = _get_list_table('WP_Comments_List_Table', array('screen'=>'article'));
 ?>
 	<tr id="comment-<?php echo $comment->comment_ID; ?>" class="approved">
 		<td class="author column-author">
