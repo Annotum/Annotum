@@ -568,7 +568,7 @@ class Anno_Template {
 			'allowTransparency' => true,
 			'style' => 'width:90px;height:21px'
 		);
-		return $this->utils->to_tag('iframe', '', $default_attr, $attr);
+		return $this->utils->to_tag('iframe', '&nbsp;', $default_attr, $attr);
 	}
 	
 	public function get_email_link($text = null, $attr = array()) {
