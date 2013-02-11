@@ -17,7 +17,7 @@ function annowf_status_meta_box($post) {
 	$post_state = annowf_get_post_state($post->ID);
 ?>
 <div class="submitbox" id="submitpost">
-	<input name="post_state" type="hidden" value="<?php esc_attr($post_state); ?>" />
+	<input name="post_state" type="hidden" value="<?php echo esc_attr($post_state); ?>" />
 	<div id="minor-publishing">
 		<div id="minor-publishing-actions">
 			<?php 
@@ -77,7 +77,7 @@ function annowf_major_action_draft_markup() {
 ?>
 		<div id="publishing-action"<?php echo $wrap_class; ?>>
 			<img src="<?php echo esc_url( admin_url( 'images/wpspin_light.gif' ) ); ?>" class="ajax-loading" id="ajax-loading" alt="" />
-			<input name="original_publish" type="hidden" id="original_publish" value="<?php esc_attr($anno_post_save['review']); ?>" />
+			<input name="original_publish" type="hidden" id="original_publish" value="<?php echo esc_attr($anno_post_save['review']); ?>" />
 
 			<?php submit_button($anno_post_save['review'], 'primary', 'publish', false, array( 'tabindex' => '5', 'accesskey' => 'p' )); ?>
 		</div>
@@ -108,7 +108,7 @@ function annowf_major_action_submitted_markup() {
 		global $anno_post_save;
 ?>
 	<div id="publishing-action-approve" class="center-wrap">
-		<input name="original_publish" type="hidden" id="original_publish" value="<?php esc_attr($anno_post_save['approve']) ?>" />	
+		<input name="original_publish" type="hidden" id="original_publish" value="<?php echo esc_attr($anno_post_save['approve']) ?>" />	
 		<?php submit_button($anno_post_save['approve'], 'primary', 'publish', false, array( 'tabindex' => '5')); ?>
 		<img src="<?php echo esc_url( admin_url( 'images/wpspin_light.gif' ) ); ?>" class="ajax-loading" alt="" />
 	</div>
@@ -170,7 +170,7 @@ function annowf_major_action_in_review_markup() {
 		global $anno_post_save;
 ?>
 	<div id="publishing-action-approve" class="center-wrap">
-		<input name="original_publish" type="hidden" id="original_publish" value="<?php esc_attr($anno_post_save['approve']) ?>" />	
+		<input name="original_publish" type="hidden" id="original_publish" value="<?php echo esc_attr($anno_post_save['approve']) ?>" />	
 		<?php submit_button($anno_post_save['approve'], 'primary', 'publish', false, array( 'tabindex' => '5')); ?>
 		<img src="<?php echo esc_url( admin_url( 'images/wpspin_light.gif' ) ); ?>" class="ajax-loading" alt="" />
 	</div>
@@ -264,7 +264,7 @@ function annowf_misc_action_approved_markup() {
 		<a href="#visibility" class="edit-visibility hide-if-no-js"><?php _ex('Edit', 'verb, publising box edit visibility text', 'anno'); ?></a>
 
 		<div id="post-visibility-select" class="hide-if-js">
-			<input type="hidden" name="hidden_post_password" id="hidden-post-password" value="<?php echo esc_attr($post->post_password); ?>" />
+			<input type="hidden" name="hidden_post_password" id="hidden-post-password" value="<?php echo echo esc_attr($post->post_password); ?>" />
 		<?php if ($post_type == 'post'): ?>
 			<input type="checkbox" style="display:none" name="hidden_post_sticky" id="hidden-post-sticky" value="sticky" <?php checked(is_sticky($post->ID)); ?> />
 		<?php endif; ?>
@@ -440,7 +440,7 @@ function annowf_minor_action_save_markup() {
 			<?php submit_button( _x('Save', 'Publishing box save button text', 'anno'), 'button', 'save' ); ?>
 		</div>
 		<div id="save-action">			
-			<input <?php if ( 'private' == $post->post_status ) { ?>style="display:none"<?php } ?> type="submit" name="save" id="save-post" value="<?php esc_attr_e('Save', 'anno'); ?>" tabindex="4" class="button button-highlighted" />
+			<input <?php if ( 'private' == $post->post_status ) { ?>style="display:none"<?php } ?> type="submit" name="save" id="save-post" value="<?php echo esc_attr('Save', 'anno'); ?>" tabindex="4" class="button button-highlighted" />
 			<img src="<?php echo esc_url( admin_url( 'images/wpspin_light.gif' ) ); ?>" class="ajax-loading" id="draft-ajax-loading" alt="" />
 		</div>
 <?php 
@@ -493,5 +493,3 @@ function annowf_major_action_revert($position = 'left') {
 <?php 
 	}
 }
-
-?>
