@@ -264,7 +264,7 @@ function annowf_misc_action_approved_markup() {
 		<a href="#visibility" class="edit-visibility hide-if-no-js"><?php _ex('Edit', 'verb, publising box edit visibility text', 'anno'); ?></a>
 
 		<div id="post-visibility-select" class="hide-if-js">
-			<input type="hidden" name="hidden_post_password" id="hidden-post-password" value="<?php echo echo esc_attr($post->post_password); ?>" />
+			<input type="hidden" name="hidden_post_password" id="hidden-post-password" value="<?php echo esc_attr($post->post_password); ?>" />
 		<?php if ($post_type == 'post'): ?>
 			<input type="checkbox" style="display:none" name="hidden_post_sticky" id="hidden-post-sticky" value="sticky" <?php checked(is_sticky($post->ID)); ?> />
 		<?php endif; ?>
