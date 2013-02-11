@@ -29,7 +29,7 @@ add_action('admin_head', 'anno_image_popup_request_handler');
 
 
 function anno_image_popup_enqueue_scripts() {
-	wp_enqueue_script('img-popup', get_template_directory_uri().'/js/tinymce/plugins/annoimages/popup.js', array('jquery'));	
+	wp_enqueue_script('img-popup', trailingslashit(get_template_directory_uri()).'js/tinymce/plugins/annoimages/popup.js', array('jquery'));	
 }
 if (isset($_GET['anno_action']) && $_GET['anno_action'] == 'image_popup') {
 	add_action('admin_enqueue_scripts', 'anno_image_popup_enqueue_scripts');

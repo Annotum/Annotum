@@ -45,7 +45,7 @@ function anno_register_post_types() {
 			'taxonomies' => array(),
 			'menu_position' => 5,
 			'capability_type' => $capability_type,
-			'menu_icon' => get_template_directory_uri().'/assets/main/img/admin-menu-icon.png',
+			'menu_icon' => trailingslashit(get_template_directory_uri()).'assets/main/img/admin-menu-icon.png',
 	);
 	register_post_type('article', $args);
 }
