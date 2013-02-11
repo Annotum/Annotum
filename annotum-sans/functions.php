@@ -25,7 +25,7 @@ if (!function_exists('anno_load_plugins')) {
 }
 
 function annotum_sans_css3_pie() {
-	$assets_root = get_template_directory_uri() . '/assets/main/';
+	$assets_root = trailingslashit(get_bloginfo('stylesheet_directory')) . 'assets/main/';
 	?>
 	<!--[if lte IE 8]>
 	<style type="text/css" media="screen">
