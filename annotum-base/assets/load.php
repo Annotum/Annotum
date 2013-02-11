@@ -47,7 +47,7 @@ if (is_admin()) {
  * Hook into 'wp' action when conditional checks like is_single() are available.
  */
 function anno_css3_pie() {
-	$assets_root = get_template_directory_uri() . '/assets/main/';
+	$assets_root = trailingslashit(get_template_directory_uri()) . 'assets/main/';
 	?>
 	<!--[if lte IE 8]>
 	<style type="text/css" media="screen">
