@@ -438,7 +438,7 @@ function annowf_minor_action_save_markup() {
 		<div style="display:none;">
 			<?php submit_button( _x('Save', 'Publishing box save button text', 'anno'), 'button', 'save' ); ?>
 		</div>
-		<div id="save-action">			
+		<div id="save-action" class="left">			
 			<input <?php if ( 'private' == $post->post_status ) { ?>style="display:none"<?php } ?> type="submit" name="save" id="save-post" value="<?php echo esc_attr('Save', 'anno'); ?>" tabindex="4" class="button button-highlighted" />
 			<img src="<?php echo esc_url( admin_url( 'images/wpspin_light.gif' ) ); ?>" class="ajax-loading" id="draft-ajax-loading" alt="" />
 		</div>

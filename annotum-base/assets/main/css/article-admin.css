@@ -69,6 +69,11 @@ textarea.anno-meta {
 	width: 100%;
 }
 
+.ajax-loading {
+	margin-top: 5px;
+	margin-left: 5px;
+}
+
 /** TinyMCE Popups - override default styles
  -------------------------------------------------- */
 body .wp-dialog {
