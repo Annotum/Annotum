@@ -32,7 +32,7 @@ function annowf_status_meta_box($post) {
 			annowf_misc_action_approved_markup();
  		} 
 	?>
-	</div> <!-- #minor-publising -->
+	</div> <!-- #minor-publishing -->
 	<input type="hidden" name="hidden_post_status" id="hidden_post_status" value="<?php echo esc_attr( ('auto-draft' == $post->post_status ) ? 'draft' : $post->post_status); ?>" />
 	<div id="major-publishing-actions">
 		<?php
@@ -260,7 +260,7 @@ function annowf_misc_action_approved_markup() {
 
 	echo esc_html( $visibility_trans ); ?></span>
 	<?php if ( $can_publish ) { ?>
-		<a href="#visibility" class="edit-visibility hide-if-no-js"><?php _ex('Edit', 'verb, publising box edit visibility text', 'anno'); ?></a>
+		<a href="#visibility" class="edit-visibility hide-if-no-js"><?php _ex('Edit', 'verb, publishing box edit visibility text', 'anno'); ?></a>
 
 		<div id="post-visibility-select" class="hide-if-js">
 			<input type="hidden" name="hidden_post_password" id="hidden-post-password" value="<?php echo esc_attr($post->post_password); ?>" />
