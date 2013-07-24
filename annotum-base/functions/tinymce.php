@@ -252,20 +252,23 @@ class Anno_tinyMCE {
 	
 	function mce_buttons($buttons) {
 		if ($this->is_article()) {
-			$buttons = array('bold', 'italic', 'underline', '|', 'annoorderedlist', 'annobulletlist', '|', 'annoquote', '|', 'sup', 'sub', '|', 'charmap', '|', 'annolink', 'announlink', '|', 'annoimages', 'equation', '|', 'reference', '|', 'undo', 'redo', '|', 'wp_adv', '|', 'help', 'annotips', 'annotable', '|', 'fullscreen' );
+			$buttons = explode(',', 'save,fullscreen,undo,redo,help,code,visualaid,visualchars,visualblocks,|,txt_validate_attrs,txt_validate_noattrs');
 		}
 		return $buttons;
 	}
 	
 	function mce_buttons_2($buttons) {
 		if ($this->is_article()) {
-			$buttons = array('table', 'row_before', 'row_after', 'delete_row', 'col_before', 'col_after', 'delete_col', 'split_cells', 'merge_cells', '|', 'annopastetext', 'annopasteword', 'annolist', '|', 'annoreferences', '|', 'annosection', 'annomonospace', 'annopreformat', '|', 'annoequations', '|', 'spellchecker');
+			$buttons = explode(',', '|,bold,italic,underline,sup,sub,|');
 		}
 		return $buttons;
 	}
 	
 	function plugins($plugins) {
 		if ($this->is_article()) {
+			$textorum_dir = trailingslashit(get_template_directory_uri()).'js/textorum/dist/';
+			$plugins['textorum'] = $textorum_dir . 'textorum/editor_plugin.js';
+
 			$plugins_dir = trailingslashit(get_template_directory_uri()).'js/tinymce/plugins/';
 
 			$plugins['annoLink_base'] = $plugins_dir.'annolink/annolink.js';
