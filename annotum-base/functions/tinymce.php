@@ -1214,7 +1214,10 @@ add_filter( 'edit_post_content_filtered', 'anno_edit_post_content_filtered', 10,
  */
 function anno_to_xml($html_content) {
 	$post_id = anno_get_post_id();
-	
+	// Strip out Textorum's DOCTYPE declaration
+	$html_content = preg_replace("/^<!DOCTYPE[^>]*?>/", "", $html_content);
+
+	return $html_content;
 	// Load our phpQuery document up, so filters should be able to use the pq() function to access its elements
 	phpQuery::newDocument($html_content);
 	
@@ -1322,6 +1325,9 @@ add_action('anno_to_xml', 'anno_to_xml_replace_inline_graphics');
  * @return void
  */
 function anno_xml_to_html($xml_content) {
+	// Most translation is done by xslt - disabled broadly for now.  Some tweaking
+	// will likely be done here later.
+	return $xml_content;
 	// Unable to do this with phpQuery, break tag doesn't register as self closing element
 	$xml_content = str_replace('<break />', '<br />', $xml_content);
 
