@@ -132,8 +132,8 @@ function anno_body_meta_box($post) {
 	global $hook_suffix;
 	if (empty($post->post_content) || $hook_suffix == 'post-new.php') {		
 		$content = '<sec>
-			<heading></heading>
-			<para>&nbsp;</para>
+			<title></title>
+			<p>&#xA0;</p>
 		</sec>';
 	}
 	else {
