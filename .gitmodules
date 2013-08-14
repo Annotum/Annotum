@@ -1,0 +1,3 @@
+[submodule "annotum-base/js/textorum"]
+	path = annotum-base/js/textorum
+	url = https://github.com/Annotum/textorum.git
