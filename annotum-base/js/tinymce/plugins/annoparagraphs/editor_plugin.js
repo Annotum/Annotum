@@ -12,7 +12,9 @@
 			
 			var t = this;
 			t.editor = ed;
-
+			t.helper = ed.plugins.textorum.helper;
+			t.textorum = ed.plugins.textorum;
+			
 			ed.onKeyDown.addToTop(function(ed, e) {
 
 				// If we're not hitting the shift key, we are hitting the return key, and we're not in a list (retain new list item functionality)
@@ -83,22 +85,22 @@
 			ed.undoManager.beforeChange();
 			// Override default tinyMCE element.
 			se.element = 'para';
-			if (e.ctrlKey || /(BODY|HTML|HEADING|SEC)/.test(node.nodeName.toUpperCase())) {
+			if (e.ctrlKey || /(BODY|HTML|HEADING|SEC)/.test(t.helper.getLocalName(node).toUpperCase())) {
 				function insertNewBlock(node) {
 					var newElement, parentNode;
-					if (dom.getParent(node, 'PARA') !== null) {
-						node = dom.getParent(node, 'PARA');
+					if (dom.getParent(node, t.helper.testNameIs('p')) !== null) {
+						node = dom.getParent(node, t.helper.testNameIs('p'));
 					}
 
 					// If we're not in a section already, or this node is a section, insert a new section block
-					if ((!(parentNode = dom.getParent(node, 'SEC')) || node.nodeName.toUpperCase() == 'SEC') && e.ctrlKey) {
+					if ((!(parentNode = dom.getParent(node, t.helper.testNameIs('sec'))) || t.helper.getLocalName(node).toUpperCase() == 'SEC') && e.ctrlKey) {
 						newElement = newSec();
 					}
 					else {
-						newElement = dom.create('PARA');
+						newElement = dom.create(t.textorum.translateElement('p'), {'class': 'p', 'data-xmlel': 'p'});
 					}
 					// If we're not trying to insert a new section and we're in a section node, just return insert a paragraph at the cursor
-					if (node.nodeName.toUpperCase() == 'SEC' && !e.ctrlKey) {
+					if (t.helper.getLocalName(node).toUpperCase() == 'SEC' && !e.ctrlKey) {
 						// Inefficient mechanism to insert node at selection then select it, but tinyMCE offers no other method currently
 						
 						// Set an ID so it can be searched for later
@@ -108,7 +110,7 @@
 						// Find the newly inserted node by ID
 						newElement = dom.get('_anno_inserted');
 						// Remove ID, so this process can run again
-						dom.setAttribs(newElement, null);
+						dom.setAttrib(newElement, 'id', null);
 						
 						return newElement;
 					}
@@ -118,21 +120,21 @@
 				}
 				// Create a new sec element with a title
 				function newSec() {
-					var sec = dom.create('sec', null);
-					dom.add(sec, 'heading', null, '&nbsp');
-					dom.add(sec, 'para');
+					var sec = dom.create(t.textorum.translateElement('sec'), {'class': 'sec', 'data-xmlel': 'sec'});
+					dom.add(sec, t.textorum.translateElement('title'), {'class': 'title', 'data-xmlel': 'title'}, '&nbsp');
+					dom.add(sec, t.textorum.translateElement('p'), {'class': 'p', 'data-xmlel': 'p'}, '&nbsp');
 					return sec;
 				}
 				
 				// Just insert a new paragraph if the ctrl key isn't held and the carat is in a para tag
 				// Or, various tags should create paragraphs, not enter a br (when the ctrl key is held).
-				if (/(DISP-FORMULA|TABLE-WRAP|FIG|DISP-QUOTE|HEADING)/.test(node.nodeName.toUpperCase())) {
+				if (/(DISP-FORMULA|TABLE-WRAP|FIG|DISP-QUOTE|HEADING)/.test(t.helper.getLocalName(node).toUpperCase())) {
 					newElement = insertNewBlock(node);
 				}
-				else if (/(BODY|HTML)/.test(node.nodeName.toUpperCase())) {
-					secElement = dom.add(node, 'sec');
-					newElement = dom.add(secElement, 'heading', null, '&nbsp');
-					dom.add(secElement, 'para');
+				else if (/(BODY|HTML)/.test(t.helper.getLocalName(node).toUpperCase())) {
+					secElement = dom.add(node, t.textorum.translateElement('sec'), {'class': 'sec', 'data-xmlel': 'sec'});
+					newElement = dom.add(secElement, t.textorum.translateElement('title'), {'class': 'title', 'data-xmlel': 'title'}, '&nbsp');
+					dom.add(secElement, t.textorum.translateElement('p'), {'class': 'p', 'data-xmlel': 'p'}, '&nbsp');
 				}
 				else if (parentNode = dom.getParent(node, 'FIG')) {
 					newElement = insertNewBlock(parentNode);
@@ -140,7 +142,7 @@
 				else if (parentNode = dom.getParent(node, 'TABLE-WRAP')) {					
 					newElement = insertNewBlock(parentNode);
 				}
-				else if (parentNode = dom.getParent(node, 'SEC')) {
+				else if (parentNode = dom.getParent(node, t.helper.testNameIs('sec'))) {
 					newElement = insertNewBlock(parentNode);
 				}
 				else {
