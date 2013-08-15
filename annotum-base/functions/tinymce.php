@@ -925,7 +925,9 @@ add_action('wp_ajax_anno-img-save', 'anno_tinymce_image_save');
 function anno_process_editor_content($content) {
 	// Break to BR
 	$content = str_replace('<break />', '<br />', $content);
-	
+
+	return $content;
+
 	phpQuery::newDocument($content);
 
 	// Convert inline-graphics to <img> tags so they display

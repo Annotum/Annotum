@@ -138,7 +138,7 @@ function anno_body_meta_box($post) {
 	}
 	else {
 		// Note this is actually post_content_filtered in the db, see 'edit_post_content' filter
-		$content = $post->post_content; // anno_process_editor_content($post->post_content);
+		$content = anno_process_editor_content($post->post_content);
 	}
 	if (function_exists('wp_editor')) {
 		anno_load_editor($content, 'content', array('textarea_name' => 'content'));
