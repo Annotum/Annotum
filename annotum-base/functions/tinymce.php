@@ -935,13 +935,13 @@ function anno_process_editor_content($content) {
 	anno_replace_caption_tag($content);
 	
 	// Convert p to para
-	anno_replace_p_tag($content);
+	// anno_replace_p_tag($content);
 	
 	// Convert label to lbl
 	anno_replace_label_tag($content);
 	
 	// Convert title to heading
-	anno_replace_title_tag($content);
+	// anno_replace_title_tag($content);
 	
 	// Remove p tags wrapping list items
 	anno_remove_p_from_list_items($content);

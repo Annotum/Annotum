@@ -270,7 +270,7 @@ add_action('wp_insert_post', 'anno_article_save_post', 10, 2);
 function anno_is_appendix_empty($appendix_content) {
 	// Account for variations in how different browsers handle empty tags in tinyMCE
 	$appendix_content = str_replace(array(' ', ' ', '&nbsp', '\n', '<br>', '<br />'), '', $appendix_content);
-	if (empty($appendix_content) || $appendix_content == '<sec><heading></heading><para></para></sec>') {
+	if (empty($appendix_content) || $appendix_content == '<sec><title></title><p></p></sec>') {
 		return true;
 	}
 	
