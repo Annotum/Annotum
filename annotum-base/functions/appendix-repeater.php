@@ -76,7 +76,7 @@ $html = '';
 	if (empty($content)) {
 		$content = '<sec>
 			<title></title>
-			<p>&nbsp;</p>
+			<p></p>
 		</sec>';
 	}
 	
@@ -88,7 +88,7 @@ $html = '';
 	$html .='
 <fieldset id="'.esc_attr('anno_appendix_'.$index).'" class="appendix-wrapper" data-editor="'.esc_attr('appendix-'.$index).'">
 	<h4>
-	'._x('Appendix', 'meta box title', 'anno').' '.esc_html($index).' - <a href="#" onclick="deleteAnnoAppendix(jQuery(this).parent()); return false;" class="delete">'._x('delete', 'Meta box delete repeater link', 'anno').'</a>
+	'._x('appendix', 'meta box title', 'anno').' '.esc_html($index).' - <a href="#" onclick="deleteannoappendix(jquery(this).parent()); return false;" class="delete">'._x('delete', 'meta box delete repeater link', 'anno').'</a>
 	</h4>
 	'.$editor_markup.'
 </fieldset>';

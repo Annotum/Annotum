@@ -1170,13 +1170,6 @@ function anno_current_user_can_edit() {
 	return false;
 }
 
-// Remove autop, inserts unnecessary br tags in the nicely formatted HTML
-// Carlthewebmaster 15-Dec-11 - but only for Articles
-		global $post_type;
-		if ($post_type == 'article') {
-			remove_filter('the_content','wpautop');
-		}
-
 // Remove this filter which strips links from articles.
 remove_filter( 'content_save_pre', 'balanceTags', 50 );
 
@@ -1322,4 +1315,14 @@ function anno_remove_user_from_post($type, $user_id, $post_id) {
 
 	return delete_post_meta($post_id, $type, $user_id);
 }
+
+function anno_process_xml_content($content) {
+	if (get_post_type() == 'article') {
+		remove_filter('the_content','wpautop');
+		$content = anno_xml_to_html($content);
+		error_log($content);
+	}
+	return $content;
+}
+add_filter('the_content', 'anno_process_xml_content', 5);
 

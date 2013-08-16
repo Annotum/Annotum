@@ -1329,7 +1329,7 @@ add_action('anno_to_xml', 'anno_to_xml_replace_inline_graphics');
 function anno_xml_to_html($xml_content) {
 	// Most translation is done by xslt - disabled broadly for now.  Some tweaking
 	// will likely be done here later.
-	return $xml_content;
+	//
 	// Unable to do this with phpQuery, break tag doesn't register as self closing element
 	$xml_content = str_replace('<break />', '<br />', $xml_content);
 
