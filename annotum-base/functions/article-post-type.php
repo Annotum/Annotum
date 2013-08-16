@@ -218,7 +218,7 @@ function anno_article_save_post($post_id, $post) {
 			'anno_featured'
 		);
 		foreach ($anno_meta as $key) {
-			if (isset($_POST[$key])) {
+			if (isset($_POST[$key]) || $key == 'anno_featured') {
 				switch ($key) {			
 					case 'anno_featured':
 						if (isset($_POST['anno_featured']) && $_POST['anno_featured'] == 'on') {
