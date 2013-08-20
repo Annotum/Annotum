@@ -988,6 +988,8 @@ function anno_validate_xml_content_on_save($html_content) {
 	// Convert remaining br to break tags. Unable to do this with phpQuery, it thinks break tag should be opened and closed
 	$content = str_replace(array('<br />', '<br>'), '<break />', $content);
 
+	$content = str_replace('&nbsp;', '&#xA0;', $content);
+
 	$content = strip_tags($content, implode('', array_unique(anno_get_dtd_valid_elements())));
 	return $content;
 }
@@ -1133,7 +1135,7 @@ function anno_insert_post_data($data, $postarr) {
 	if ($postarr['post_type'] == 'article') {
 		// Get our XML content for the revision
 		$content = stripslashes($data['post_content']);
-		
+
 		// Remove non-ascii gremlins
 		$content = preg_replace('/(\xc2\xa0)/',' ', $content);
 		$content = str_replace(array("\r", "\r\n", "\n"), '', $content);
@@ -1143,7 +1145,7 @@ function anno_insert_post_data($data, $postarr) {
 		// Set formatted HTML as the_content
 		$data['post_content'] = addslashes(anno_xml_to_html($xml));
 	}
-	
+
 	return $data;
 }
 add_filter('wp_insert_post_data', 'anno_insert_post_data', null, 2);

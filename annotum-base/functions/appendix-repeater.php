@@ -76,7 +76,7 @@ $html = '';
 	if (empty($content)) {
 		$content = '<sec>
 			<title></title>
-			<p></p>
+			<p>&#xA0;</p>
 		</sec>';
 	}
 	
