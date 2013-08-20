@@ -21,8 +21,6 @@
 				if (!e.shiftKey && e.keyCode == 13) {
 					if (!t.insertPara(e)) {
 						e.preventDefault();
-
-						ed.undoManager.add();
 					}
 					t._nodeChanged(ed);
 					return false;
