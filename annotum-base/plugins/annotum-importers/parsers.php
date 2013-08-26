@@ -1607,9 +1607,15 @@ class Kipling_DTD_Parser {
 	 * @return string Formatted date string
 	 */
 	function parse_date($date) {
-		$day = pq('day', $date)->text();
-		$month = pq('month', $date)->text();
-		$year = pq('year', $date)->text();
+		$day = sprintf("%02d", pq('day', $date)->text());
+		if ($day === "00") {
+			$day = "01";
+		}
+		$month = sprintf("%02d", pq('month', $date)->text());
+		if ($month === "00") {
+			$month = "01";
+		}
+		$year = sprintf("%04d", pq('year', $date)->text());
 		
 		// Note, DTD does not detail time
 		return $year.'-'.$month.'-'.$day.' 00:00:00';
