@@ -875,7 +875,7 @@ foreach ($this->authors as $author_key => $author_data) {
 				
 				$postdata = array(
 					'import_id' => $post['post_id'], 'post_author' => $author, 'post_date' => $post['post_date'],
-					'post_date_gmt' => $post['post_date_gmt'], 'post_content' => $post['post_content'],
+					'post_date_gmt' => $post['post_date_gmt'], 'post_content' => $post['post_content_filtered'],
 					'post_excerpt' => $post['post_excerpt'], 'post_title' => $post['post_title'],
 					'post_status' => $post['status'], 'post_name' => $post['post_name'],
 					'comment_status' => $post['comment_status'], 'ping_status' => $post['ping_status'],
@@ -907,6 +907,7 @@ foreach ($this->authors as $author_key => $author_data) {
 					remove_filter('wp_insert_post_data', 'anno_insert_post_data', null, 2);
 					remove_filter('edit_post_content', 'anno_edit_post_content', 10, 2 );
 					remove_filter('edit_post_content_filtered', 'anno_edit_post_content_filtered', 10, 2 );
+          var_dump($postdata);
 					$comment_post_ID = $post_id = wp_insert_post( $postdata, true );
 				}
 
