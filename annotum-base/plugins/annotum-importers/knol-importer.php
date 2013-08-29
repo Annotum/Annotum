@@ -907,7 +907,6 @@ foreach ($this->authors as $author_key => $author_data) {
 					remove_filter('wp_insert_post_data', 'anno_insert_post_data', null, 2);
 					remove_filter('edit_post_content', 'anno_edit_post_content', 10, 2 );
 					remove_filter('edit_post_content_filtered', 'anno_edit_post_content_filtered', 10, 2 );
-          var_dump($postdata);
 					$comment_post_ID = $post_id = wp_insert_post( $postdata, true );
 				}
 
