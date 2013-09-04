@@ -43,7 +43,7 @@
 		// Update format dropdown on change
 		_nodeChanged : function (ed, cm) {
 			if (c = cm.get('annoformatselect')) {
-				var parent = ed.dom.getParent(ed.selection.getNode(), 'HEADING, PARA, SEC'), selVal;
+				var parent = ed.dom.getParent(ed.selection.getNode(), 'TITLE, P, SEC'), selVal;
 				if (parent) {
 					selVal = parent.nodeName.toLowerCase();
 				}
@@ -94,7 +94,7 @@
 					}
 
 					// Find first parent
-					var wrapper = ed.dom.getParent(sel.getNode(), 'HEADING, PARA, SEC');
+					var wrapper = ed.dom.getParent(sel.getNode(), 'TITLE, P, SEC');
 					
 					// Only continue if we can insert the new format into the parent node.
 					if (!canApplyFormat(wrapper, format) && wrapper !== null) {
@@ -158,8 +158,8 @@
 				});
 
 				// Add some values to the list box
-				listbox.add('Heading', 'heading');
-				listbox.add('Paragraph', 'para');
+				listbox.add('Heading', 'title');
+				listbox.add('Paragraph', 'p');
 				listbox.add('Section', 'sec');
 
 				// Return the new listbox instance
@@ -180,7 +180,7 @@
 				dom.insertAfter(newElement, parent);
 			}
 
-			var eleArray = dom.select(' > heading', newElement);
+			var eleArray = dom.select(' > title', newElement);
 			if (eleArray.length > 0) {
 				newElement = eleArray[0];
 			}
@@ -207,9 +207,9 @@
 		
 			// Create a new sec element with a title
 			function newSec() {
-				var sec = dom.create('sec', null);
-				dom.add(sec, 'heading', null, '&nbsp');
-				dom.add(sec, 'para');
+				var sec = dom.create(ed.plugins.textorum.translateElement('sec'), {'class': 'sec', 'data-xmlel': 'sec'});
+				dom.add(sec, ed.plugins.textorum.translateElement('title'), {'class': 'title', 'data-xmlel': 'title'}, '&nbsp');
+				dom.add(sec, ed.plugins.textorum.translateElement('p'), {'class': 'p', 'data-xmlel': 'p'}, '&nbsp');
 				return sec;
 			}
 		},
