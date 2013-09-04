@@ -83,7 +83,7 @@
 			ed.undoManager.beforeChange();
 			// Override default tinyMCE element.
 			se.element = 'para';
-			if (e.ctrlKey || /(BODY|HTML|HEADING|SEC)/.test(t.helper.getLocalName(node).toUpperCase())) {
+			if (e.ctrlKey || /(BODY|HTML|TITLE|SEC|P)/.test(t.helper.getLocalName(node).toUpperCase())) {
 				function insertNewBlock(node) {
 					var newElement, parentNode;
 					if (dom.getParent(node, t.helper.testNameIs('p')) !== null) {
@@ -95,7 +95,7 @@
 						newElement = newSec();
 					}
 					else {
-						newElement = dom.create(t.textorum.translateElement('p'), {'class': 'p', 'data-xmlel': 'p'});
+						newElement = dom.create(t.textorum.translateElement('p'), {'class': 'p', 'data-xmlel': 'p'}, '&nbsp;');
 					}
 					// If we're not trying to insert a new section and we're in a section node, just return insert a paragraph at the cursor
 					if (t.helper.getLocalName(node).toUpperCase() == 'SEC' && !e.ctrlKey) {
@@ -126,7 +126,7 @@
 				
 				// Just insert a new paragraph if the ctrl key isn't held and the carat is in a para tag
 				// Or, various tags should create paragraphs, not enter a br (when the ctrl key is held).
-				if (/(DISP-FORMULA|TABLE-WRAP|FIG|DISP-QUOTE|HEADING)/.test(t.helper.getLocalName(node).toUpperCase())) {
+				if (/(DISP-FORMULA|TABLE-WRAP|FIG|DISP-QUOTE|TITLE|P)/.test(t.helper.getLocalName(node).toUpperCase())) {
 					newElement = insertNewBlock(node);
 				}
 				else if (/(BODY|HTML)/.test(t.helper.getLocalName(node).toUpperCase())) {
@@ -149,7 +149,7 @@
 				
 				// Set new element as the first title tag, so we can select it
 				if (newElement.nodeName.toLowerCase() == 'sec') {
-					var eleArray = dom.select(' > heading', newElement);
+					var eleArray = dom.select(' > title', newElement);
 					if (eleArray.length > 0) {
 						newElement = eleArray[0];
 					}
