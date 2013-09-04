@@ -90,13 +90,13 @@
 						node = dom.getParent(node, t.helper.testNameIs('p'));
 					}
 
-					// If we're not in a section already, or this node is a section, insert a new section block
-					if ((!(parentNode = dom.getParent(node, t.helper.testNameIs('sec'))) || t.helper.getLocalName(node).toUpperCase() == 'SEC') && e.ctrlKey) {
+					if (e.ctrlKey) {
 						newElement = newSec();
 					}
 					else {
 						newElement = dom.create(t.textorum.translateElement('p'), {'class': 'p', 'data-xmlel': 'p'}, '&nbsp;');
 					}
+
 					// If we're not trying to insert a new section and we're in a section node, just return insert a paragraph at the cursor
 					if (t.helper.getLocalName(node).toUpperCase() == 'SEC' && !e.ctrlKey) {
 						// Inefficient mechanism to insert node at selection then select it, but tinyMCE offers no other method currently
