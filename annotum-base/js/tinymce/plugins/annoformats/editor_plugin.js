@@ -169,8 +169,6 @@
 		},
 		insertSection : function () {
 			var ed = this.editor, doc = ed.getDoc(), node = ed.selection.getNode(), dom = ed.dom, parent = ed.dom.getParent(node, 'SEC, BODY'), range, elYPos, vpHeight = dom.getViewPort(ed.getWin()).h;
-	
-			ed.undoManager.beforeChange();
 
 			newElement = newSec();
 			if (parent.nodeName.toUpperCase() == 'BODY') {
@@ -202,8 +200,6 @@
 			if (elYPos > vpHeight) {
 					ed.getWin().scrollTo(0, elYPos);
 			}
-
-			ed.undoManager.add();
 		
 			// Create a new sec element with a title
 			function newSec() {
