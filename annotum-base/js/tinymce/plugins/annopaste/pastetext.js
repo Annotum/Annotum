@@ -14,7 +14,7 @@ var AnnoPasteTextDialog = {
 			if (lines.length > 1) {
 				h = '';
 				tinymce.each(lines, function(row) {
-					h += '<p>' + row + '</p>';
+					h += '<div class="p" data-xmlel="p">' + row + '</div>';
 				});
 			}
 		}

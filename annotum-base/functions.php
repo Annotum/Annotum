@@ -1320,7 +1320,6 @@ function anno_process_xml_content($content) {
 	if (get_post_type() == 'article') {
 		remove_filter('the_content','wpautop');
 		$content = anno_xml_to_html($content);
-		error_log($content);
 	}
 	return $content;
 }

@@ -74,7 +74,7 @@
 			function process(o, force_rich) {
 				var dom = ed.dom, rng;
 				// Execute pre process handlers
-				t.onPreProcess.dispatch(t, o);
+				// t.onPreProcess.dispatch(t, o);
 
 				// Create DOM structure
 				o.node = dom.create('div', 0, o.content);
@@ -91,7 +91,7 @@
 				}
 
 				// Execute post process handlers
-				t.onPostProcess.dispatch(t, o);
+				// t.onPostProcess.dispatch(t, o);
 
 				// Serialize content
 				o.content = ed.serializer.serialize(o.node, {getInner : 1, forced_root_block : ''});
@@ -376,7 +376,7 @@
 				]);
 
 //				if (getParam(ed, "paste_convert_headers_to_strong")) {
-					h = h.replace(/<p [^>]*class="?MsoHeading"?[^>]*>(.*?)<\/p>/gi, '<heading>$1</heading>');
+					h = h.replace(/<p [^>]*class="?MsoHeading"?[^>]*>(.*?)<\/p>/gi, ed.dom.create(ed.plugins.textorum.translateElement('title'), {'class': 'title', 'data-xmlel': 'title'}, '$1').toString());
 //				}
 
 				if (getParam(ed, 'paste_convert_middot_lists')) {
@@ -535,8 +535,8 @@
 			]);
 			
 			process([
-				[/<h[1-9]>|<h[1-9] .*?>/gi, "<heading>"],
-				[/<\/h[1-9]>|<\/h[1-9] .*?>/gi, "</heading>"]
+				[/<h[1-9]>|<h[1-9] .*?>/gi, "<title>"],
+				[/<\/h[1-9]>|<\/h[1-9] .*?>/gi, "</>"]
 			]);
 		
 			process([
@@ -646,14 +646,9 @@
 				}
 			}
 			
-			// Replace p tags with para tags. 
-			each(dom.select('p', o.node), function(el) {
-				dom.rename(el, 'para');
-			});
-
 			// Replace blockquote tags with para tags. 
 			each(dom.select('blockquote', o.node), function(el) {
-				dom.rename(el, 'para');
+				dom.rename(el, 'p');
 			});
 
 			
@@ -723,7 +718,7 @@
 					//Wrap it!
 					tableWrap = dom.create('table-wrap');
 					dom.add(tableWrap, 'label');
-					dom.add(tableWrap, 'cap', null, '<para>&nbsp</para>');
+					dom.add(tableWrap, 'cap', null, '<div class="p" data-xmlel="p">&nbsp;</div>');
 					dom.add(tableWrap, 'table', null,  table.innerHTML);
 					dom.replace(tableWrap, table);
 				}
@@ -865,7 +860,7 @@
 
 			if ((typeof(h) === "string") && (h.length > 0)) {
 				// If HTML content with line-breaking tags, then remove all cr/lf chars because only tags will break a line
-				if (/<(?:p|br|h[1-6]|ul|ol|dl|table|t[rdh]|div|blockquote|fieldset|pre|address|center|para|list|list-item|sec|heading)[^>]*>/i.test(h)) {
+				if (/<(?:p|br|h[1-6]|ul|ol|dl|table|t[rdh]|div|blockquote|fieldset|pre|address|center|p|list|list-item|sec|title)[^>]*>/i.test(h)) {
 					process([
 						/[\n\r]+/g
 					]);
@@ -877,8 +872,8 @@
 				}
 
 				process([
-					[/<\/(?:p|h[1-6]|ul|ol|dl|table|div|blockquote|fieldset|pre|address|center|para|list|list-item|sec|heading)>/gi, "\n\n"],		// Block tags get a blank line after them
-					[/<br[^>]*>|<\/tr>/gi, "\n"],				// Single linebreak for <br /> tags and table rows
+					[/<\/(?:p|h[1-6]|ul|ol|dl|table|div|blockquote|fieldset|pre|address|center|p|list|list-item|sec|title)>/gi, "\n\n"],		// Block tags get a blank line after them
+				[/<br[^>]*>|<\/tr>/gi, "\n"],				// Single linebreak for <br /> tags and table rows
 					[/<\/t[dh]>\s*<t[dh][^>]*>/gi, "\t"],		// Table cells get tabs betweem them
 					/<[a-z!\/?][^>]*>/gi,						// Delete all remaining tags
 					[/&nbsp;/gi, " "],							// Convert non-break spaces to regular spaces (remember, *plain text*)
@@ -916,7 +911,7 @@
 				else {
 					process([
 						/^\s+|\s+$/g,
-						[/\n\n/g, "</p><p>"],
+						[/\n\n/g, '</div><div class="p" data-xmlel="p">&nbsp;</div>'],
 						[/\n/g, "<br />"]
 					]);
 				}
@@ -929,8 +924,8 @@
 				// "Para A" and "Para B".  This code solves a host of problems with the original plain text plugin and
 				// now handles styles correctly.  (Pasting plain text into a styled paragraph is supposed to make the
 				// plain text take the same style as the existing paragraph.)
-				if ((pos = h.indexOf("</p><p>")) != -1) {
-					rpos = h.lastIndexOf("</p><p>");
+				if ((pos = h.indexOf("</div><div")) != -1) {
+					rpos = h.lastIndexOf("</div><div");
 					node = sel.getNode(); 
 					breakElms = [];		// Get list of elements to break 
 
