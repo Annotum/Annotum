@@ -1,4 +1,4 @@
-/* 
+/*
 * Based on the tinyMCE core paragraph handling
 * Released under LGPL License.
 *
@@ -7,14 +7,14 @@
 */
 
 (function() {
-	tinymce.create('tinymce.plugins.annoParagraphs', {		
+	tinymce.create('tinymce.plugins.annoParagraphs', {
 		init : function(ed, url) {
-			
+
 			var t = this;
 			t.editor = ed;
 			t.helper = ed.plugins.textorum.helper;
 			t.textorum = ed.plugins.textorum;
-			
+
 			ed.onKeyDown.addToTop(function(ed, e) {
 
 				// If we're not hitting the shift key, we are hitting the return key, and we're not in a list (retain new list item functionality)
@@ -27,17 +27,17 @@
 				}
 				return true;
 			});
-			
+
 			// Disable tab for everything except lists.
 			ed.onKeyUp.addToTop(function(ed, e) {
 				if (e.keyCode == 9 && ed.dom.getParent(ed.selection.getNode(), 'LIST-ITEM') == null) {
 					e.preventDefault();
 					return false;
 				}
-				
+
 				return preventDefaultKey(ed, e);
 			});
-			
+
 			function preventDefaultKey(ed, e) {
 				var parent = ed.dom.getParent(ed.selection.getNode(), 'LIST, LIST-ITEM');
 				if (!e.shiftKey && e.keyCode == 13 && !parent) {
@@ -46,17 +46,17 @@
 				}
 				return true;
 			}
-			
+
 			ed.onKeyPress.addToTop(function(ed, e) {
 				return preventDefaultKey(ed, e);
 			});
 		},
-		
+
 		// Create a controlManager to hangle new nodes, the dispatchers for onKeyUp, onKeyPress etc.. does not get passed a CM
 		createControl : function (ed, cm) {
 			this.cm = cm;
 		},
-		
+
 		// A new node is selected programtically, not be user. onNodeChange won't work, we need to add it to keypress.
 		_nodeChanged : function (ed) {
 			if (c = this.cm.get('annoformatselect')) {
@@ -70,12 +70,12 @@
 				c.select(selVal);
 			}
 		},
-		
+
 		getParentBlock : function(n) {
 			var t = this, ed = t.editor;
 			return ed.dom.getParent(n, ed.dom.isBlock);
 		},
-		
+
 		insertPara : function(e) {
 			var t = this, ed = t.editor, dom = ed.dom, d = ed.getDoc(), se = ed.settings, s = ed.selection.getSel(), r = ed.selection.getRng(), b = d.body;
 			var rb, ra, dir, sn, so, en, eo, sb, eb, bn, bef, aft, sc, ec, n, vp = dom.getViewPort(ed.getWin()), y, ch, car;
@@ -100,7 +100,7 @@
 					// If we're not trying to insert a new section and we're in a section node, just return insert a paragraph at the cursor
 					if (t.helper.getLocalName(node).toUpperCase() == 'SEC' && !e.ctrlKey) {
 						// Inefficient mechanism to insert node at selection then select it, but tinyMCE offers no other method currently
-						
+
 						// Set an ID so it can be searched for later
 						dom.setAttribs(newElement, { id: '_anno_inserted' });
 						// Inser the node into at the current selection - note this does not return the dom node, just the node passed into it
@@ -109,7 +109,7 @@
 						newElement = dom.get('_anno_inserted');
 						// Remove ID, so this process can run again
 						dom.setAttrib(newElement, 'id', null);
-						
+
 						return newElement;
 					}
 					else {
@@ -123,7 +123,7 @@
 					dom.add(sec, t.textorum.translateElement('p'), {'class': 'p', 'data-xmlel': 'p'}, '&nbsp');
 					return sec;
 				}
-				
+
 				// Just insert a new paragraph if the ctrl key isn't held and the carat is in a para tag
 				// Or, various tags should create paragraphs, not enter a br (when the ctrl key is held).
 				if (/(DISP-FORMULA|TABLE-WRAP|FIG|DISP-QUOTE|TITLE|P)/.test(t.helper.getLocalName(node).toUpperCase())) {
@@ -137,7 +137,7 @@
 				else if (parentNode = dom.getParent(node, 'FIG')) {
 					newElement = insertNewBlock(parentNode);
 				}
-				else if (parentNode = dom.getParent(node, 'TABLE-WRAP')) {					
+				else if (parentNode = dom.getParent(node, 'TABLE-WRAP')) {
 					newElement = insertNewBlock(parentNode);
 				}
 				else if (parentNode = dom.getParent(node, t.helper.testNameIs('sec'))) {
@@ -146,7 +146,7 @@
 				else {
 					newElement = insertNewBlock(node);
 				}
-				
+
 				// Set new element as the first title tag, so we can select it
 				if (newElement.nodeName.toLowerCase() == 'sec') {
 					var eleArray = dom.select(' > title', newElement);
@@ -154,7 +154,7 @@
 						newElement = eleArray[0];
 					}
 				}
-				
+
 				// Move caret to the freshly created item
 				if (d.createRange) {     // all browsers, except IE before version 9
 					r = d.createRange();
@@ -215,7 +215,7 @@
 				ed.undoManager.add();
 				return FALSE;
 			}
-			
+
 			function insertBr(ed) {
 				var selection = ed.selection, rng = selection.getRng(), br, div = dom.create('div', null, ' '), divYPos, vpHeight = dom.getViewPort(ed.getWin()).h;
 
@@ -263,7 +263,7 @@
 			sb = t.getParentBlock(sn);
 			eb = t.getParentBlock(en);
 			bn = sb ? sb.nodeName : se.element; // Get block name to create
-			
+
 			// Return inside list use default browser behavior
 			if (n = dom.getParent(sb, 'list-item,pre')) {
 				if (n.nodeName.toUpperCase() == 'LIST-ITEM') {
@@ -272,7 +272,7 @@
 				ed.undoManager.add();
 				return TRUE;
 			}
-			
+
 			// If the list item is empty, break out of it
 			function annoListBreak(selection, dom, li) {
 				var listBlock, block;
@@ -287,19 +287,19 @@
 				ed.undoManager.add();
 				return TRUE;
 			};
-			
+
 			if (!/^(PARA|BODY|HTML)$/.test(bn.toUpperCase())) {
 				insertBr(ed);
 				ed.undoManager.add();
 				return FALSE;
-			}	
+			}
 
 			// If caption or absolute layers then always generate new blocks within
 			if (sb && (sb.nodeName.toUpperCase() == 'CAP' || /absolute|relative|fixed/gi.test(dom.getStyle(sb, 'position', 1)))) {
 				bn = se.element;
 				sb = null;
 			}
-			
+
 			// Use P instead
 			if (/(TD|TABLE|TH|CAP)/.test(bn.toUpperCase()) || (sb && bn.toUpperCase() == "DIV" && /left|right/gi.test(dom.getStyle(sb, 'float', 1)))) {
 				bn = se.element;
@@ -313,9 +313,9 @@
 			// Remove id from after clone
 			aft.removeAttribute('id');
 			// Is header and cursor is at the end, then force paragraph under
-			if (/^(HEADING)$/.test(bn) && isAtEnd(r, sb)) 
+			if (/^(HEADING)$/.test(bn) && isAtEnd(r, sb))
 				aft = ed.dom.create(se.element);
-			
+
 			// Find start chop node
 			n = sc = sn;
 			do {
@@ -384,7 +384,7 @@
 
 				e.innerHTML = '';
 
-				// Make clones of style elements 
+				// Make clones of style elements
 				if (se.keep_styles) {
 					n = en;
 					do {
@@ -409,7 +409,7 @@
 					e.innerHTML = '';
 //					e.innerHTML = isOpera ? '\u00a0' : '<br />'; // Extra space for Opera so that the caret can move there
 			};
-				
+
 			// Padd empty blocks
 			if (dom.isEmpty(bef))
 				appendStyles(bef, sn);
@@ -422,7 +422,7 @@
 			if (tinymce.isOpera && parseFloat(opera.version()) < 9.5) {
 				r.insertNode(bef);
 				r.insertNode(aft);
-			} 
+			}
 			else {
 				r.insertNode(aft);
 				r.insertNode(bef);

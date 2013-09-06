@@ -1,6 +1,6 @@
-(function(){ 	
+(function(){
     tinymce.create('tinymce.plugins.annoFormats', {
- 
+
         init : function(ed, url){
 			var t = this;
 			t.editor = ed;
@@ -21,13 +21,13 @@
 				//ed.getLang('advanced.references_desc'),
 				cmd : 'Anno_Preformat'
 			});
-			
+
 			ed.addButton('annomonospace', {
 				title : 'Monospace',
 				//ed.getLang('advanced.references_desc'),
 				cmd : 'Anno_Monospace'
 			});
-	
+
 			ed.addButton('annosection', {
 				title : 'Insert Section',
 				//ed.getLang('advanced.references_desc'),
@@ -39,7 +39,7 @@
 				ed.onNodeChange.add(t._nodeChanged, t);
 			});
 		},
-		
+
 		// Update format dropdown on change
 		_nodeChanged : function (ed, cm) {
 			if (c = cm.get('annoformatselect')) {
@@ -53,13 +53,13 @@
 				c.select(selVal);
 			}
 		},
-		
+
 		// @TODO Translation for formats
 		createControl : function(n, cm) {
 			var t = this, c, ed = t.editor;
 			var bm = this.bookmark;
 			if (n == 'annoformatselect') {
-				
+
 				function applyAnnoFormat(format) {
 					var sel = ed.selection, dom = ed.dom, range = sel.getRng(), remove = false;
 					// We don't care about the selection, just collapse
@@ -83,24 +83,24 @@
 
 						return newNode;
 					}
-					
+
 					// Determines whether or not the immediate parent supports the new format type
 					function canApplyFormat(node, newFormat) {
 						if (!node) {
 							return false;
 						}
-						
+
 						return !!ed.schema.isValidChild(node.parentNode.nodeName.toLowerCase(), newFormat.toLowerCase());
 					}
 
 					// Find first parent
 					var wrapper = ed.dom.getParent(sel.getNode(), 'TITLE, P, SEC');
-					
+
 					// Only continue if we can insert the new format into the parent node.
 					if (!canApplyFormat(wrapper, format) && wrapper !== null) {
 						return false;
 					}
-					
+
 					if (wrapper !== null) {
 						// Remove2
 						if (format.toLowerCase() === wrapper.nodeName.toLowerCase()) {
@@ -110,19 +110,19 @@
 							sel.collapse(0);
 							var bookmark = sel.getBookmark();
 
-							newNode = getNewNode(wrapper, wrapper.parentNode.nodeName);							
+							newNode = getNewNode(wrapper, wrapper.parentNode.nodeName);
 							wrapper.parentNode.replaceChild(newNode, wrapper);
 							dom.remove(newNode, true);
-						
+
 							sel.moveToBookmark(bookmark);
-							
+
 							remove = true;
 						}
 						else {
 							// convert
 							newNode = getNewNode(wrapper, format);
 							wrapper.parentNode.replaceChild(newNode, wrapper);
-						}					
+						}
 					}
 					else {
 						// Insert a new node if we don't have a valid wrapper
@@ -135,7 +135,7 @@
 						sel.setRng(range);
 					}
 				}
-				
+
 				// Create the list box
 				var listbox = cm.createListBox('annoformatselect', {
 					title : 'Format',
@@ -164,7 +164,7 @@
 
 				// Return the new listbox instance
 				return listbox;
-				
+
 			}
 		},
 		insertSection : function () {
@@ -200,7 +200,7 @@
 			if (elYPos > vpHeight) {
 					ed.getWin().scrollTo(0, elYPos);
 			}
-		
+
 			// Create a new sec element with a title
 			function newSec() {
 				var sec = dom.create(ed.plugins.textorum.translateElement('sec'), {'class': 'sec', 'data-xmlel': 'sec'});
