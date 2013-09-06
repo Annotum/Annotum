@@ -263,7 +263,7 @@ class Anno_tinyMCE {
 	
 	function mce_buttons_2($buttons) {
 		if ($this->is_article()) {
-			$buttons = explode(',', '|,bold,italic,underline,sup,sub,|,annosection,annopastetext');
+			$buttons = explode(',', '|,bold,italic,underline,sup,sub,|,annosection');
 		}
 		return $buttons;
 	}
