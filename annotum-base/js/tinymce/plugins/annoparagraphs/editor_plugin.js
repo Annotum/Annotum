@@ -82,39 +82,21 @@
 			var TRUE = true, FALSE = false, newElement, node = ed.selection.getNode();
 			ed.undoManager.beforeChange();
 			// Override default tinyMCE element.
-			se.element = 'para';
+			se.element = t.textorum.translateElement('p');
 			if (e.ctrlKey || /(BODY|HTML|TITLE|SEC|P)/.test(t.helper.getLocalName(node).toUpperCase())) {
 				function insertNewBlock(node) {
 					var newElement, parentNode;
-					if (dom.getParent(node, t.helper.testNameIs('p')) !== null) {
-						node = dom.getParent(node, t.helper.testNameIs('p'));
-					}
 
 					if (e.ctrlKey) {
 						newElement = newSec();
+						node = dom.getParent(node, t.helper.testNameIs('sec'));
 					}
 					else {
 						newElement = dom.create(t.textorum.translateElement('p'), {'class': 'p', 'data-xmlel': 'p'}, '&nbsp;');
+						node = dom.getParent(node, t.helper.testNameIs('p'));
 					}
 
-					// If we're not trying to insert a new section and we're in a section node, just return insert a paragraph at the cursor
-					if (t.helper.getLocalName(node).toUpperCase() == 'SEC' && !e.ctrlKey) {
-						// Inefficient mechanism to insert node at selection then select it, but tinyMCE offers no other method currently
-
-						// Set an ID so it can be searched for later
-						dom.setAttribs(newElement, { id: '_anno_inserted' });
-						// Inser the node into at the current selection - note this does not return the dom node, just the node passed into it
-						ed.selection.setNode(newElement);
-						// Find the newly inserted node by ID
-						newElement = dom.get('_anno_inserted');
-						// Remove ID, so this process can run again
-						dom.setAttrib(newElement, 'id', null);
-
-						return newElement;
-					}
-					else {
-						return dom.insertAfter(newElement, node);
-					}
+					return dom.insertAfter(newElement, node);
 				}
 				// Create a new sec element with a title
 				function newSec() {
