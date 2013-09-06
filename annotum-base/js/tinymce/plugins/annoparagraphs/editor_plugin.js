@@ -93,7 +93,6 @@
 					}
 					else {
 						newElement = dom.create(t.textorum.translateElement('p'), {'class': 'p', 'data-xmlel': 'p'}, '&nbsp;');
-						node = dom.getParent(node, t.helper.testNameIs('p'));
 					}
 
 					return dom.insertAfter(newElement, node);
