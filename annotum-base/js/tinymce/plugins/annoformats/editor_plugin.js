@@ -4,6 +4,9 @@
         init : function(ed, url){
 			var t = this;
 			t.editor = ed;
+			t.helper = ed.plugins.textorum.helper;
+			t.textorum = ed.plugins.textorum;
+
             ed.addCommand('Anno_Monospace', function() {
 				tinymce.activeEditor.formatter.toggle('monospace');
             });
@@ -171,12 +174,12 @@
 			var ed = this.editor, doc = ed.getDoc(), node = ed.selection.getNode(), dom = ed.dom, parent = ed.dom.getParent(node, 'SEC, BODY'), range, elYPos, vpHeight = dom.getViewPort(ed.getWin()).h;
 
 			newElement = newSec();
-			if (parent.nodeName.toUpperCase() == 'BODY') {
-				parent.appendChild(newElement);
+			targetAfter = dom.getParent(node, this.helper.testNameIs('sec'));
+			if (targetAfter == null) {
+				targetAfter = dom.getParent(node, this.helper.testNameIs('body'));
 			}
-			else {
-				dom.insertAfter(newElement, parent);
-			}
+
+			dom.insertAfter(newElement, targetAfter);
 
 			var eleArray = dom.select(' > title', newElement);
 			if (eleArray.length > 0) {
