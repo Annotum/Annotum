@@ -83,7 +83,7 @@ var annoReferences;
 				id = $(checkbox).attr('id').replace('reference-checkbox-', '');
 				text = $('label[for="reference-checkbox-' + id + '"]').html();
 				id = parseInt(id) + 1;
-				xml += '<xref ref-type="bibr" rid="ref' + id + '">' + id + '</xref>&nbsp;';
+				xml += '<span class="xref" data-xmlel="xref" ref-type="bibr" rid="ref' + id + '">' + id + '</span>&nbsp;';
 			});
 			ed.selection.collapse();
 			
