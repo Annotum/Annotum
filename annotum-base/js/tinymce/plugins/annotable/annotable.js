@@ -73,30 +73,30 @@ var annoTable;
 			label = $('input[name$="label"]', formObj).val();
 			caption = $('textarea[name$="caption"]', formObj).val();
 			
-			html += '<table-wrap><lbl>' + label + '</lbl><cap><para>' + caption + '</para></cap><table>';
-			html += '<thead>';
-			html += '<tr>';
+			html += '<div class="table-wrap" data-xmlel="table-wrap"><span class="label" data-xmlel="label">' + label + '</span><div class="caption" data-xmlel="caption"><div class="p" data-xmlel="p">' + caption + '</div></div><table class="table" data-xmlel="table">';
+			html += '<thead class="thead" data-xmlel="thead">';
+			html += '<tr class="tr" data-xmlel="tr">';
 			for (var x=0; x<cols; x++) {
 				if (!tinymce.isIE)
-					html += '<th><br data-mce-bogus="1"/></th>';
+					html += '<th class="th" data-xmlel="th"><br data-mce-bogus="1"/></th>';
 				else
-					html += '<th></th>';
+					html += '<th class="th" data-xmlel="th"></th>';
 			}
 			html += '</tr>';
-			html += '</thead>';
+			html += '</thead><tbody class="tbody" data-xmlel="tbody">';
 				
 			for (var y=1; y<rows; y++) {
-				html += "<tr>";
+				html += '<tr class="tr" data-xmlel="tr">';
 				for (var x=0; x<cols; x++) {
 					if (!tinymce.isIE)
-						html += '<td><br data-mce-bogus="1"/></td>';
+						html += '<td class="td" data-xmlel="td"><br data-mce-bogus="1"/></td>';
 					else
-						html += '<td></td>';
+						html += '<td class="td" data-xmlel="td"></td>';
 				}
-				html += "</tr>";
+				html += '</tr>';
 			}
 		
-			html += "</table></table-wrap>";
+			html += "</tbody></table></div>";
 
 			// Move table
 			if (ed.settings.fix_table_elements) {
