@@ -105,6 +105,7 @@ function anno_load_editor($content, $editor_id, $settings = array()) {
 		'uri[xlink::href]',
 		'xref[ref-type|rid]',
 		'paste',
+		'*[*]',
 	), $formats);
 	
 	$custom_elements = array(
@@ -184,6 +185,7 @@ function anno_load_editor($content, $editor_id, $settings = array()) {
 		'media_buttons' => false,
 		'tinymce' => array(
 			'remove_linebreaks' => false,
+			'valid_elements' => '*[*]',
 			'extended_valid_elements' => implode(',', $extended_valid_elements),
 			'custom_elements' => implode(',', $custom_elements),
 			'valid_children' => implode(',', $valid_children),
