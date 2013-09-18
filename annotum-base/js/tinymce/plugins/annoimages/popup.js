@@ -65,31 +65,31 @@ jQuery(document).ready( function($) {
 			// Add the URI element if there's a file_url - 
 			// something to link if the image is clicked.
 			if (file_url) {
-				fig_uri = '<uri xlink:href="' + file_url + '"></uri>';
+				fig_uri = '<span class="uri" data-xmlel="uri" xlink:href="' + file_url + '"></span>';
 			}
 			else { 
 				fig_uri = '';
 			}
 			
-			xml = '<fig>'
+			xml = '<div class="fig" data-xmlel="fig">'
 						+'<img src="' + img_url + '" />'
-						+'<lbl>' + label + '</lbl>'
-						+'<cap><para>' + caption + '</para>'
-						+ '</cap>'
-						+'<media xlink:href="' + img_url + '">'
+						+'<span class="label" data-xmlel="label">' + label + '</span>'
+						+'<div class="caption" data-xmlel="caption"><span class="p" data-xmlel="p">' + caption + '</span>'
+						+'</div>'
+						+'<span class="media" xlink:href="' + img_url + '" data-xmlel="media">'
 							+ fig_uri
-							+'<alt-text>' + alt_text + '</alt-text>'
-							+'<long-desc>' + description + '</long-desc>'
-							+'<permissions>'
-								+'<copyright-statement>' + copyright_statement + '</copyright-statement>'
-								+'<copyright-holder>' + copyright_holder + '</copyright-holder>'
-								+'<license license-type="creative-commons">'
-									+'<license-p>'+ license +'</license-p>'
-								+'</license>'
-							+'</permissions>'
-						+'</media>'
+							+'<span class="alt-text" data-xmlel="alt-text">' + alt_text + '</span>'
+							+'<span class="long-desc" data-xmlel="long-desc">' + description + '</span>'
+							+'<span class="permissions" data-xmlel="permissions">'
+								+'<span class="copyright-statement" data-xmlel="copyright-statement">' + copyright_statement + '</span>'
+								+'<span class="copyright-holder" data-xmlel="copyright-holder">' + copyright_holder + '</span>'
+								+'<div class="license" data-xmlel="license" license-type="creative-commons">'
+									+'<span class="license-p" data-xmlel="license-p">'+ license +'</span>'
+								+'</div>'
+							+'</div>'
+						+'</div>'
 						+'<div _mce_bogus="1" class="clearfix"></div>'
-					+'</fig>';
+					+'</div>';
 		}
 
 
@@ -99,6 +99,4 @@ jQuery(document).ready( function($) {
 		win.tinyMCEPopup.close();
 		return false;
 	});
-
-
 });
