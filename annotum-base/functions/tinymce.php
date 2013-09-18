@@ -265,7 +265,7 @@ class Anno_tinyMCE {
 	
 	function mce_buttons_2($buttons) {
 		if ($this->is_article()) {
-			$buttons = explode(',', 'table,row_before,row_after,delete_row,col_before,col_after,delete_col,split_cells,merge_cells,|,bold,italic,underline,sup,sub,|,annosection,|,annoreferences,|,annoimages');
+			$buttons = explode(',', 'table,row_before,row_after,delete_row,col_before,col_after,delete_col,split_cells,merge_cells,|,bold,italic,underline,sup,sub,|,annosection,|,annoreferences,|,annoimages,|,textorum-insertion');
 		}
 		return $buttons;
 	}
@@ -285,6 +285,8 @@ class Anno_tinyMCE {
 
 			$plugins['annoImages_base'] = $plugins_dir.'annoimages/annoimages.js';
 			$plugins['annoImages']  =  $plugins_dir.'annoimages/editor_plugin.js';
+
+			$plugins['textorumInsertion']  =  $plugins_dir.'textorum-insertion/editor_plugin.js';
 		
 			$plugins['annoTable'] = $plugins_dir.'annotable/editor_plugin.js';
 			$plugins['annoTable_base'] = $plugins_dir.'annotable/annotable.js';
