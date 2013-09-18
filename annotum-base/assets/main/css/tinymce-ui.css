@@ -579,7 +579,9 @@ border:0; margin:0; padding:0; white-space:nowrap; text-decoration:none; font-we
 .wp_themeSkin span.mce_del {background-position:-940px -20px}
 .wp_themeSkin span.mce_ins {background-position:-960px -20px}
 .wp_themeSkin span.mce_pagebreak {background-position:0 -40px}
-.wp_themeSkin span.mce_textorum-insertion:before {
+.wp_themeSkin span.mce_textorum-insertion-before:before,
+.wp_themeSkin span.mce_textorum-insertion-inside:before,
+.wp_themeSkin span.mce_textorum-insertion-after:before {
 	font-family:'FontAwesome';
 	font-size:18px;
 	content:"\f067";

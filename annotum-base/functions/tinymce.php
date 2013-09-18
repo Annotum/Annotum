@@ -265,7 +265,7 @@ class Anno_tinyMCE {
 	
 	function mce_buttons_2($buttons) {
 		if ($this->is_article()) {
-			$buttons = explode(',', 'table,row_before,row_after,delete_row,col_before,col_after,delete_col,split_cells,merge_cells,|,bold,italic,underline,sup,sub,|,annosection,|,annoreferences,|,annoimages,|,textorum-insertion');
+			$buttons = explode(',', 'table,row_before,row_after,delete_row,col_before,col_after,delete_col,split_cells,merge_cells,|,bold,italic,underline,sup,sub,|,annosection,|,annoreferences,|,annoimages,|,textorum-insertion-before,textorum-insertion-inside,textorum-insertion-after');
 		}
 		return $buttons;
 	}
