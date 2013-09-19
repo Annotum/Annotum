@@ -203,9 +203,9 @@ class Anno_XML_Download {
 		$abstract = $article->post_excerpt;
 		if (!empty($abstract)) {
 			$abstract_xml = '
-			<abstract>
-				<p>'.esc_html($abstract).'</p>
-			</abstract>';
+			<abstract>'
+				.esc_html($abstract).
+			'</abstract>';
 		}
 		else {
 			$abstract_xml = '';

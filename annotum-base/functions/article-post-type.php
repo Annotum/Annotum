@@ -170,9 +170,6 @@ function anno_references_meta_box($post) {
  * Abstract meta box markup (stored in excerpt)
  */
 function anno_abstract_meta_box($post) {
-	error_log(html_entity_decode($post->post_excerpt));
-	error_log($post->post_excerpt);
-
 	// FIXME: hack because excerpt comes out encoded
 	if (empty($post->post_excerpt)) {
 		$post->post_excerpt = '&lt;sec&gt;
@@ -188,8 +185,6 @@ function anno_abstract_meta_box($post) {
 		&lt;/sec&gt;';
 	}
 
-	error_log($post->post_excerpt);
-
 	anno_load_editor(anno_process_editor_content(html_entity_decode($post->post_excerpt)), "anno-abstract",
 		array(
 			'editor_class' => esc_attr('anno-meta anno-meta-abstract'),
@@ -199,6 +194,7 @@ function anno_abstract_meta_box($post) {
 	);
 }
 add_filter('get_the_excerpt', 'anno_xml_to_html');
+
 
 /**
  * Funding meta box markup
