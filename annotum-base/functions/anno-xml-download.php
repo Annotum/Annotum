@@ -204,7 +204,7 @@ class Anno_XML_Download {
 		if (!empty($abstract)) {
 			$abstract_xml = '
 			<abstract>'
-				.esc_html($abstract).
+				.$abstract.
 			'</abstract>';
 		}
 		else {
