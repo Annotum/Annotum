@@ -71,10 +71,9 @@
 				}
 				else {
 					options = editor.plugins.textorum.validator.validElementsForNode(editor.currentNode, where, "array");
-					options = options.filter(function(a) { return ignoredElements.indexOf(a) === -1; });
-
 					dropmenu.removeAll();
 					if (options.length) {
+						options = options.filter(function(a) { return ignoredElements.indexOf(a) === -1; });
 						for (var i = 0, len = options.length; i < len; i++) {
 							(function(element_name) {
 								dropmenu.add(new tinymce.ui.MenuItem('textorum-insertion-item-' + element_name ,{
