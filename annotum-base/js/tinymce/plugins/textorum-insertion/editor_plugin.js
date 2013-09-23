@@ -16,53 +16,10 @@
 					'table-wrap'
 				];
 
-			function insertElementBefore(element_name) {
-				var node = editor.dom.create(
-						editor.plugins.textorum.translateElement(element_name),
-						{'class': element_name, 'data-xmlel': element_name},
-						'&nbsp;'
-					),
-					currentNode = editor.selection.getNode();
-
-				node = currentNode.parentNode.insertBefore(node, currentNode);
-				editor.selection.select(node);
-				editor.selection.collapse();
-			}
-
-			function insertElementInside(element_name) {
-				var node = editor.dom.create(
-						editor.plugins.textorum.translateElement(element_name),
-						{'class': element_name, 'data-xmlel': element_name},
-						'&nbsp;'
-					);
-
-				node = editor.selection.getNode().appendChild(node);
-				editor.selection.select(node);
-				editor.selection.collapse();
-			}
-
-			function insertElementAfter(element_name) {
-				var node = editor.dom.create(
-						editor.plugins.textorum.translateElement(element_name),
-						{'class': element_name, 'data-xmlel': element_name},
-						'&nbsp;'
-					),
-					currentNode = editor.selection.getNode();
-
-				if (currentNode.nextSibling) {
-					node = currentNode.parentNode.insertBefore(node, parentGuest.nextSibling);
-				}
-				else {
-					node = currentNode.parentNode.appendChild(node);
-				}
-				editor.selection.select(node);
-				editor.selection.collapse();
-			}
-
 			editor.addCommand('Textorum_Insertion_Menu', function(ui, where) {
 				var options, $button;
 
-				where = where || 'inside',
+				where = where || 'inside';
 				$button = $('#'+editor.editorId).next('.mceEditor').find('.mceButton.mce_textorum-insertion-' + where);
 
 				if (dropmenuVisible) {
@@ -70,31 +27,67 @@
 					dropmenuVisible = false;
 				}
 				else {
-					options = editor.plugins.textorum.validator.validElementsForNode(editor.currentNode, where, "array");
+					options = editor.plugins.textorum.validator.validElementsForNode(editor.selection.getNode(), where, "array");
+
+					// Textorum doesn't like putting things at the top level body, so account for top level section availability
+					if (!options.length && editor.selection.getNode().className.toUpperCase() == 'SEC' && where !== 'inside') {
+						options.push('sec');
+					}
+
 					dropmenu.removeAll();
 					if (options.length) {
+						console.log("Pre-filter", options);
 						options = options.filter(function(a) { return ignoredElements.indexOf(a) === -1; });
+						console.log("Post-filter", options);
 						for (var i = 0, len = options.length; i < len; i++) {
 							(function(element_name) {
 								dropmenu.add(new tinymce.ui.MenuItem('textorum-insertion-item-' + element_name ,{
 									title: element_name,
 									onclick: function() {
+										var newNode = editor.dom.create(
+												editor.plugins.textorum.translateElement(element_name),
+												{'class': element_name, 'data-xmlel': element_name},
+												'&nbsp;'
+											),
+											currentNode = editor.selection.getNode(),
+											range, elYPos;
+
 										dropmenuVisible = false;
 										switch(where) {
 											case 'before':
-												insertElementBefore(element_name);
+												newNode = currentNode.parentNode.insertBefore(newNode, currentNode);
 												break;
 
 											case 'inside':
-												insertElementInside(element_name);
+												newNode = editor.selection.getNode().appendChild(newNode);
 												break;
 
 											case 'after':
-												insertElementAfter(element_name);
+												if (currentNode.nextSibling) {
+													newNode = currentNode.parentNode.insertBefore(newNode, currentNode.nextSibling);
+												}
+												else {
+													newNode = currentNode.parentNode.appendChild(newNode);
+												}
 												break;
+										}
 
-											default:
-												insertElementInside(element_name);
+										if (document.createRange) {     // all browsers, except IE before version 9
+											range = document.createRange();
+											range.selectNodeContents(newNode);
+										}
+										else { // IE < 9
+											range = document.selection.createRange();
+											range.moveToElementText(newNode);
+										}
+
+										range.collapse(1);
+										editor.selection.setRng(range);
+
+										elYPos = editor.dom.getPos(newNode).y;
+										// Scroll to new section
+										if (elYPos > editor.dom.getViewPort(ed.getWin()).h) {
+												editor.getWin().scrollTo(0, elYPos);
 										}
 									}
 								}));
