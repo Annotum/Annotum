@@ -89,6 +89,8 @@
 										if (elYPos > editor.dom.getViewPort(ed.getWin()).h) {
 												editor.getWin().scrollTo(0, elYPos);
 										}
+
+										editor.nodeChanged();
 									}
 								}));
 							})(options[i]);
