@@ -185,18 +185,22 @@ function anno_load_editor($content, $editor_id, $settings = array()) {
 		'media_buttons' => false,
 		'tinymce' => array(
 			'remove_linebreaks' => false,
-			'valid_elements' => '*[*]',
+			'valid_elements' => array(
+				'*[*]',
+			),
 			'extended_valid_elements' => implode(',', $extended_valid_elements),
 			'custom_elements' => implode(',', $custom_elements),
 			'valid_children' => implode(',', $valid_children),
 			//  Defines formats.
-			'formats' => '{
-					bold : {\'inline\' : \'bold\'},
-					italic : { \'inline\' : \'italic\'},
-					monospace : { \'inline\' : \'monospace\'},
-					preformat : {\'inline\' : \'preformat\'},
-					underline : { \'inline\' : \'underline\'},	
-				}',
+			'formats' => "{
+				bold : {'inline' : 'span', 'classes': 'bold', 'attributes' : {'data-xmlel' : 'bold'}},
+				italic : {'inline' : 'span', 'classes': 'italic', 'attributes' : {'data-xmlel' : 'italic'}},
+				monospace : {'inline' : 'span', 'classes': 'monospace', 'attributes' : {'data-xmlel' : 'monospace'}},
+				preformat : {'block' : 'div', 'classes': 'preformat', 'attributes' : {'data-xmlel' : 'preformat'}},
+				underline : {'inline' : 'span', 'classes': 'underline', 'attributes' : {'data-xmlel' : 'underline'}},
+				superscript : {'inline' : 'span', 'classes': 'sup', 'attributes' : {'data-xmlel' : 'sup'}},
+				subscript : {'inline' : 'span', 'classes': 'sub', 'attributes' : {'data-xmlel' : 'sub'}}
+			}",
 			'theme_advanced_blockformats' => 'Paragraph=para,Heading=heading,Section=sec',
 			'forced_root_block' => '',
 			'debug' => 'true',
@@ -265,7 +269,7 @@ class Anno_tinyMCE {
 	
 	function mce_buttons_2($buttons) {
 		if ($this->is_article()) {
-			$buttons = explode(',', 'table,row_before,row_after,delete_row,col_before,col_after,delete_col,split_cells,merge_cells,|,bold,italic,underline,sup,sub,|,annosection,|,annoreferences,|,annoimages,|,textorum-insertion-before,textorum-insertion-inside,textorum-insertion-after');
+			$buttons = explode(',', 'table,row_before,row_after,delete_row,col_before,col_after,delete_col,split_cells,merge_cells,|,bold,italic,underline,annopreformat,annomonospace,sup,sub,|,annosection,|,annoreferences,|,annoimages,|,textorum-insertion-before,textorum-insertion-inside,textorum-insertion-after');
 		}
 		return $buttons;
 	}

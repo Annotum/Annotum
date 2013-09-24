@@ -13,7 +13,13 @@
 					'inline-graphic',
 					'inline-formula',
 					'disp-formula',
-					'table-wrap'
+					'table-wrap',
+					'bold',
+					'italic',
+					'monospace',
+					'underline',
+					'sup',
+					'sub'
 				];
 
 			editor.addCommand('Textorum_Insertion_Menu', function(ui, where) {
