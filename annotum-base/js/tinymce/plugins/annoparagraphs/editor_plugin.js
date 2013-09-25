@@ -20,6 +20,7 @@
 				// If we're not hitting the shift key, we are hitting the return key, and we're not in a list (retain new list item functionality)
 				if (!e.shiftKey && e.keyCode == 13) {
 					if (!t.insertPara(e)) {
+						ed.nodeChanged();
 						e.preventDefault();
 					}
 					t._nodeChanged(ed);
