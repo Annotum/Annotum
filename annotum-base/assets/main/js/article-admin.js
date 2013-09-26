@@ -39,6 +39,7 @@ jQuery(document).ready(function($){
 				if (creatingEditor) {
 					if (!editor && is_active) {
 						tinyMCE.execCommand('mceAddControl', true, element.id);
+						jQuery('.mce_code').attr('title', 'Show Codes');
 					}
 				}
 				else {
