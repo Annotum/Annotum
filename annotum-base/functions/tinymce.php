@@ -207,11 +207,7 @@ function anno_load_editor($content, $editor_id, $settings = array()) {
 			'verify_html' => true,
 			'force_p_newlines' => true,
 			'force_br_newlines' => false,
-			'content_css' => join(',',
-				array(
-					trailingslashit(get_template_directory_uri()).'assets/main/css/tinymce.css',
-					trailingslashit(get_template_directory_uri()).'js/textorum/dist/textorum/css/plugin.css'
-			)),
+			'content_css' => trailingslashit(get_template_directory_uri()).'assets/main/css/tinymce.css',
 			'object_resizing' => false
 		),
 	);
@@ -2196,7 +2192,6 @@ function anno_tinymce_css($hook) {
 	if ($post_type == 'article') {
 		$main = trailingslashit(get_template_directory_uri());
 		wp_enqueue_style('eqeditor', $main.'js/tinymce/plugins/annoequations/equationeditor.css');
-		wp_enqueue_style('textorum', $main.'js/textorum/dist/textorum/css/editor.css', array('editor-buttons'));
 	}
 }
 add_action('admin_print_styles-post.php', 'anno_tinymce_css');
