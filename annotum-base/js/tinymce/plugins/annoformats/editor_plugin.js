@@ -204,6 +204,8 @@
 					ed.getWin().scrollTo(0, elYPos);
 			}
 
+			ed.nodeChanged();
+
 			// Create a new sec element with a title
 			function newSec() {
 				var sec = dom.create(ed.plugins.textorum.translateElement('sec'), {'class': 'sec', 'data-xmlel': 'sec'});
