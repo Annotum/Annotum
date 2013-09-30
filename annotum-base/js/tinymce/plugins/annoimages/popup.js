@@ -50,7 +50,7 @@ jQuery(document).ready( function($) {
 		
 		if (display_type == 'inline') {
 			// Inserting for tinyMCE. is converted to XML on save.
-			xml = '<img src="'+ img_url + '" class="_inline_graphic" alt="'+ alt_text + '"/>';
+			xml = '<div class="inline-graphic" data-xmlel="inline-graphic" xlink:href="'+ img_url + '"  alt-text="'+ alt_text + '"></div>';
 		}
 		else {
 			caption = $('#img-caption-' + attachment_id).val();
@@ -65,7 +65,7 @@ jQuery(document).ready( function($) {
 			// Add the URI element if there's a file_url - 
 			// something to link if the image is clicked.
 			if (file_url) {
-				fig_uri = '<span class="uri" data-xmlel="uri" xlink:href="' + file_url + '"></span>';
+				fig_uri = '<div class="uri" data-xmlel="uri" xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="' + file_url + '"></div>';
 			}
 			else { 
 				fig_uri = '';
@@ -73,14 +73,14 @@ jQuery(document).ready( function($) {
 			
 			xml = '<div class="fig" data-xmlel="fig">'
 						+'<img src="' + img_url + '" />'
-						+'<span class="label" data-xmlel="label">' + label + '</span>'
+						+'<div class="label" data-xmlel="label">' + label + '</div>'
 						+'<div class="caption" data-xmlel="caption"><span class="p" data-xmlel="p">' + caption + '</span>'
 						+'</div>'
-						+'<span class="media" xlink:href="' + img_url + '" data-xmlel="media">'
+						+'<div class="media" xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="' + img_url + '" data-xmlel="media">'
 							+ fig_uri
 							+'<span class="alt-text" data-xmlel="alt-text">' + alt_text + '</span>'
 							+'<span class="long-desc" data-xmlel="long-desc">' + description + '</span>'
-							+'<span class="permissions" data-xmlel="permissions">'
+							+'<div class="permissions" data-xmlel="permissions">'
 								+'<span class="copyright-statement" data-xmlel="copyright-statement">' + copyright_statement + '</span>'
 								+'<span class="copyright-holder" data-xmlel="copyright-holder">' + copyright_holder + '</span>'
 								+'<div class="license" data-xmlel="license" license-type="creative-commons">'

@@ -9,10 +9,10 @@ body {
 }
 
 /* visual wrapper for elements */
-h1,h2,h3,h4,h5,h6,p,div[data-xmlel="title"],div[data-xmlel="sec"],caption,div[data-xmlel="cap"],
-div[data-xmlel="fig"], div[data-xmlel="fig"] div[data-xmlel="label"], div[data-xmlel="fig"] div[data-xmlel="long-desc"], div[data-xmlel="fig"] div[data-xmlel="license-p"],
+h1,h2,h3,h4,h5,h6,p,div[data-xmlel="title"],div[data-xmlel="sec"],caption,div[data-xmlel="caption"],
+div[data-xmlel="fig"], div[data-xmlel="fig"] div[data-xmlel="label"], div[data-xmlel="fig"] div[data-xmlel="long-desc"], div[data-xmlel="fig"],
 div[data-xmlel="fig"] div[data-xmlel="copyright-statement"], div[data-xmlel="fig"] div[data-xmlel="copyright-holder"],
-div[data-xmlel="table-wrap"], div[data-xmlel="table-wrap"] div[data-xmlel="label"], div[data-xmlel="disp-quote"], div[data-xmlel="preformat"], div[data-xmlel="p"] {
+div[data-xmlel="table-wrap"], div[data-xmlel="table-wrap"] div[data-xmlel="label"], div[data-xmlel="disp-quote"], div[data-xmlel="preformat"], div[data-xmlel="p"], div[data-xmlel="permissions"], div[data-xmlel="license"] {
 	border: 1px solid #DFDFDF;
 	background-color: #fff;
 	display: block;
@@ -93,7 +93,7 @@ div[data-xmlel="list-item"] {
 div[data-xmlel="disp-quote"] {
 	font-style: italic;
 }
-div[data-xmlel="disp-quote"] permissions {
+div[data-xmlel="disp-quote"] div[data-xmlel="permissions"] {
 	font-style: normal;
 	display: none;
 }
@@ -129,7 +129,7 @@ div[data-xmlel="table-wrap"] {
 div[data-xmlel="table-wrap"] div[data-xmlel="label"] {
 	font-weight: bold;
 }
-div[data-xmlel="table-wrap"] div[data-xmlel="label"], div[data-xmlel="table-wrap"] div[data-xmlel="cap"] {
+div[data-xmlel="table-wrap"] div[data-xmlel="label"], div[data-xmlel="table-wrap"] div[data-xmlel="caption"] {
 	display: block;
 	border: 1px solid #dfdfdf;
 	margin: 4px 0;
@@ -165,14 +165,14 @@ div[data-xmlel="fig"] div[data-xmlel="label"] {
 	font-weight:bold;
 	min-width: 250px;
 }
-div[data-xmlel="fig"] div[data-xmlel="cap"] {
+div[data-xmlel="fig"] div[data-xmlel="caption"] {
 	min-width: 250px;
 }
 div[data-xmlel="fig"] div[data-xmlel="long-desc"],
 div[data-xmlel="fig"] div[data-xmlel="copyright-statement"],
 div[data-xmlel="fig"] div[data-xmlel="copyright-holder"],
 div[data-xmlel="fig"] div[data-xmlel="license-p"],
-div[data-xmlel="fig"] div[data-xmlel="cap"],
+div[data-xmlel="fig"] div[data-xmlel="caption"],
 div[data-xmlel="fig"] div[data-xmlel="label"] {
 	display: block;
 	margin: 0 0 4px;
@@ -188,7 +188,7 @@ div[data-xmlel="fig"] div[data-xmlel="license-p"] {
 
 /** bg image labels
  -------------------------------------------------- */
-div[data-xmlel="cap"],
+div[data-xmlel="caption"],
 div[data-xmlel="disp-quote"],
 div[data-xmlel="fig"],
 div[data-xmlel="fig"] div[data-xmlel="label"],
@@ -203,7 +203,7 @@ div[data-xmlel="table-wrap"] div[data-xmlel="label"] {
 	padding-top: 9px;
 }
 
-div[data-xmlel="cap"] {
+div[data-xmlel="caption"] {
 	background-image: url(../img/tinymce/caption.gif);
 }
 div[data-xmlel="disp-quote"] {
