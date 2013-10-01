@@ -1148,8 +1148,8 @@ function anno_insert_post_data($data, $postarr) {
 		$data['post_content_filtered'] = addslashes($xml);
 		// Set formatted HTML as the_content
 		$data['post_content'] = addslashes(anno_xml_to_html($xml));
-		
-		$data['post_excerpt'] = addslashes(anno_validate_xml_content_on_save($data['post_excerpt']));
+
+		$data['post_excerpt'] = anno_validate_xml_content_on_save($data['post_excerpt']);
 	}
 
 	return $data;

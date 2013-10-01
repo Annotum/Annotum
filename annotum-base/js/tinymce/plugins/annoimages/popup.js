@@ -50,7 +50,7 @@ jQuery(document).ready( function($) {
 		
 		if (display_type == 'inline') {
 			// Inserting for tinyMCE. is converted to XML on save.
-			xml = '<div class="inline-graphic" data-xmlel="inline-graphic" xlink:href="'+ img_url + '"  alt-text="'+ alt_text + '"></div>';
+			xml = '<span class="inline-graphic" data-xmlel="inline-graphic" xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="'+ img_url + '"  alt-text="'+ alt_text + '"></span>';
 		}
 		else {
 			caption = $('#img-caption-' + attachment_id).val();
@@ -72,9 +72,9 @@ jQuery(document).ready( function($) {
 			}
 			
 			xml = '<div class="fig" data-xmlel="fig">'
-						+'<img src="' + img_url + '" />'
 						+'<div class="label" data-xmlel="label">' + label + '</div>'
-						+'<div class="caption" data-xmlel="caption"><span class="p" data-xmlel="p">' + caption + '</span>'
+						+'<div class="caption" data-xmlel="caption">'
+							+'<span class="p" data-xmlel="p">' + caption + '</span>'
 						+'</div>'
 						+'<div class="media" xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="' + img_url + '" data-xmlel="media">'
 							+ fig_uri
@@ -92,8 +92,8 @@ jQuery(document).ready( function($) {
 					+'</div>';
 		}
 
-
 		var win = window.dialogArguments || opener || parent || top;
+		xml = win.tinymce.activeEditor.plugins.textorum.applyFilters('after_loadFromText', xml);
 		win.tinyMCEPopup.restoreSelection();
 		win.send_to_editor(xml);
 		win.tinyMCEPopup.close();

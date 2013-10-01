@@ -50,13 +50,10 @@ span[data-xmlel="xref"] {
 	width: 20px;
 }
 span[data-xmlel="xref"]:before {
-
 }
 span[data-xmlel="xref"]:after {
-
 }
 span[data-xmlel="inline-graphic"] {
-	display: none;
 }
 span[data-xmlel="monospace"],
 div[data-xmlel="preformat"] {

@@ -121,9 +121,18 @@
 			});
 
 			editor.onNodeChange.add(function(ed, cm, e) {
+				var options = editor.plugins.textorum.validator.validElementsForNode(editor.selection.getNode(), "inside", "array");
+
 				if (dropmenuVisible && !dropmenuJustClicked) {
 					dropmenu.hideMenu();
 					dropmenuVisible = false;
+				}
+
+				if (options.indexOf('inline-graphic') === -1 || options.indexOf('fig') === -1) {
+					cm.get('annoimages').setDisabled(true);
+				}
+				else {
+					cm.get('annoimages').setDisabled(false);
 				}
 			});
 

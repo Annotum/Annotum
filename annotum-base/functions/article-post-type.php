@@ -178,7 +178,6 @@ function anno_abstract_meta_box($post) {
 		&lt;/sec&gt;';
 	}
 	else if (html_entity_decode($post->post_excerpt) == $post->post_excerpt) {
-		error_log("yes");
 		$post->post_excerpt = '&lt;sec&gt;
 			&lt;title&gt;&lt;/title&gt;
 			&lt;p&gt;'.$post->post_excerpt.'&lt;/p&gt;
