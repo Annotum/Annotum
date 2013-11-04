@@ -10,6 +10,7 @@
 				ignoredElements = [
 					'media',
 					'xref',
+					'disp-quote',
 					'inline-graphic',
 					'inline-formula',
 					'disp-formula',
@@ -133,6 +134,13 @@
 				}
 				else {
 					cm.get('annoimages').setDisabled(false);
+				}
+
+				if (options.indexOf('disp-quote') === -1) {
+					cm.get('annoquote').setDisabled(true);
+				}
+				else {
+					cm.get('annoquote').setDisabled(false);
 				}
 			});
 
