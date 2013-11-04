@@ -34,16 +34,16 @@ var annoQuote;
 			holder = $('input[name$="holder"]', form).val();
 			license = $('input[name$="license"]', form).val();
 						
-			xml = '<disp-quote>' + quote 
-					+'<attrib>' + attribution +  '</attrib>'
-					+'<permissions>'
-						+'<copyright-statement>' + statement +  '</copyright-statement>'
-						+'<copyright-holder>' + holder +  '</copyright-holder>'
-						+'<license license-type="creative-commons">'
-							+'<license-p>' + license +  '</license-p>'
-						+'</license>'
-					+'</permissions>'
-				+'</disp-quote>';
+			xml = '<div class="disp-quote" data-xmlel="disp-quote">' + quote
+					+'<div class="attrib" data-xmlel="attrib">' + attribution +  '</div>'
+					+'<div class="permissions" data-xmlel="permissions">'
+						+'<span class="copyright-statement" data-xmlel="copyright-statement">' + statement + '</span>'
+						+'<span class="copyright-holder" data-xmlel="copyright-holder">' + holder + '</span>'
+						+'<div class="license" data-xmlel="license" license-type="creative-commons">'
+							+'<span class="license-p" data-xmlel="license-p">'+ license +'</span>'
+						+'</div>'
+					+'</div>'
+				+'</div>';
 
 			tinyMCEPopup.execCommand('mceInsertContent', false, xml);
 			form[0].reset();
