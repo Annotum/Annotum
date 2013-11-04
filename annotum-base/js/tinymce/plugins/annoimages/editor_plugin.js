@@ -22,7 +22,7 @@
 				title : 'Insert Image',
 				cmd : 'Anno_Images'
 			});
-			
+
 			ed.addShortcut('alt+shift+a', ed.getLang('advanced.link_desc'), 'Anno_Images');
 
 			ed.plugins.textorum.addFilter('after_loadFromText', function(value) {

@@ -3,7 +3,7 @@ var annoReferences;
 (function($){
 	var inputs = {}, ed;
 
-	annoReferences = {	
+	annoReferences = {
 		keySensitivity: 100,
 		textarea : function() { return edCanvas; },
 
@@ -11,12 +11,12 @@ var annoReferences;
 
 			inputs.dialog = $('#anno-popup-references');
 			inputs.submit = $('#anno-references-submit');
-			
+
 			inputs.checkboxes = $('#anno-popup-references input');
-			
+
 			// Bind event handlers
 			inputs.dialog.keyup( annoReferences.keyup );
-			
+
 			inputs.submit.click( function(e){
 				annoReferences.update();
 				e.preventDefault();
@@ -37,7 +37,7 @@ var annoReferences;
 					annoReferences.range.select();
 				}
 			}
-		
+
 			$('.anno-reference-edit').hide();
 		},
 
@@ -51,11 +51,11 @@ var annoReferences;
 			}
 		},
 
-		
+
 		getCheckboxes : function() {
 			return $('#anno-popup-references input[type=checkbox]:checked');
 		},
-		
+
 		isMCE : function() {
 			return tinyMCEPopup && ( ed = tinyMCEPopup.editor ) && ! ed.isHidden();
 		},
@@ -63,18 +63,18 @@ var annoReferences;
 		close : function() {
 			tinyMCEPopup.close();
 		},
-		
+
 		update : function() {
 			var ed = tinyMCEPopup.editor;
 			var xml = '', checkboxes, id, text, validNodes, node;
 			validNodes = ['BODY', 'LABEL', 'CAP', 'LICENSE-P', 'PARA', 'TD', 'TH'];
-			
+
 			tinyMCEPopup.restoreSelection();
-			
+
 			node = ed.selection.getNode();
-			
+
 			// If we're in the middle of a link or something similar, we want to insert the references after the element
-			
+
 			if (!ed.dom.isBlock(node) && $.inArray(node.nodeName, validNodes) == -1 ) {
 				ed.selection.select(node);
 			}
@@ -86,9 +86,9 @@ var annoReferences;
 				xml += '<span class="xref" data-xmlel="xref" ref-type="bibr" rid="ref' + id + '">' + id + '</span>&nbsp;';
 			});
 			ed.selection.collapse();
-			
+
 			ed.execCommand('mceInsertContent', null, xml);
-			
+
 			annoReferences.close();
 		},
 
@@ -108,5 +108,5 @@ var annoReferences;
 			event.preventDefault();
 		},
 	}
-	$(document).ready( annoReferences.init );	
+	$(document).ready( annoReferences.init );
 })(jQuery);

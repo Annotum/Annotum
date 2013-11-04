@@ -26,7 +26,7 @@ var annoTable;
 				annoTable.update();
 				e.preventDefault();
 			});
-			
+
 			$('#anno-table-cancel').click(annoTable.close);
 
 			inputs.dialog.bind('wpdialogbeforeopen', annoTable.beforeOpen);
@@ -63,16 +63,16 @@ var annoTable;
 		update : function() {
 			var ed = tinyMCEPopup.editor,
 				e, b, html = '';
-				
+
 			var formObj = $('#anno-tinymce-table-form');
-			
+
 			tinyMCEPopup.restoreSelection();
-					
+
 			cols = $('input[name$="cols"]', formObj).val();
 			rows = $('input[name$="rows"]', formObj).val();
 			label = $('input[name$="label"]', formObj).val();
 			caption = $('textarea[name$="caption"]', formObj).val();
-			
+
 			html += '<div class="table-wrap" data-xmlel="table-wrap"><span class="label" data-xmlel="label">' + label + '</span><div class="caption" data-xmlel="caption"><div class="p" data-xmlel="p">' + caption + '</div></div><table class="table" data-xmlel="table">';
 			html += '<thead class="thead" data-xmlel="thead">';
 			html += '<tr class="tr" data-xmlel="tr">';
@@ -84,7 +84,7 @@ var annoTable;
 			}
 			html += '</tr>';
 			html += '</thead><tbody class="tbody" data-xmlel="tbody">';
-				
+
 			for (var y=1; y<rows; y++) {
 				html += '<tr class="tr" data-xmlel="tr">';
 				for (var x=0; x<cols; x++) {
@@ -95,7 +95,7 @@ var annoTable;
 				}
 				html += '</tr>';
 			}
-		
+
 			html += "</tbody></table></div>";
 
 			// Move table

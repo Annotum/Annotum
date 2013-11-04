@@ -1,10 +1,10 @@
-(function(){ 
+(function(){
     tinymce.create('tinymce.plugins.annoReferences', {
- 
+
         init : function(ed, url){
-			var disabled = true;	
-	
-            ed.addCommand('Anno_References', function(){	
+			var disabled = true;
+
+            ed.addCommand('Anno_References', function(){
                	ed.windowManager.open({
 					id : 'anno-popup-references',
 					width : 500,
@@ -20,7 +20,7 @@
 				//ed.getLang('advanced.references_desc'),
 				cmd : 'Anno_References'
 			});
-			
+
 			ed.onKeyUp.add(function(ed, e) {
 				// When we delete, check to see if reference is empty
 				if (e.keyCode == 8 || e.keyCode == 46) {
@@ -39,7 +39,7 @@
                 authorurl: 'http://crowdfavorite.com/',
                 infourl: 'http://annotum.wordpress.com/',
                 version: "0.1"
-			}; 
+			};
         }
     });
 
@@ -47,7 +47,7 @@
 })();
 
 jQuery(document).ready( function($) {
-		
+
 	$('.reference-actions .delete').live('click', function() {
 		var ref_id = $(this).attr('id').replace('reference-action-delete-', '');
 		var post_data = {ref_id : ref_id, post_id : ANNO_POST_ID, action : 'anno-reference-delete'};
@@ -62,31 +62,31 @@ jQuery(document).ready( function($) {
 		}, 'json');
 		return false;
 	});
-	
+
 	$('.reference-actions .edit').live('click', function() {
 		var ref_id = $(this).attr('id').replace('reference-action-edit-', '');
 		$('#reference-form-' + ref_id).slideToggle();
 		return false;
 	});
-	
+
 	$('.reference-edit-actions .cancel').live('click', function() {
 		var ref_id = $(this).attr('id').replace('reference-action-cancel-', '');
 		$('#reference-form-' + ref_id).slideToggle();
 		return false;
-	});	
-	
+	});
+
 	$('.reference-edit-actions .save').live('click', function() {
 		var ref_id = $(this).attr('id').replace('reference-action-save-', '');
 		var form = $('#reference-form-' + ref_id);
 		form.submit();
 		return false;
 	});
-	
+
 	$('#anno-references-new').click(function() {
 		$('#reference-form-new').slideDown();
 		return false;
 	});
-	
+
 	$('#anno-popup-references form').submit(function() {
 		var form = $(this);
 		var ref_id = $('input[name="ref_id"]', this).val();
@@ -113,7 +113,7 @@ jQuery(document).ready( function($) {
 		}, 'json');
 		return false;
 	});
-	
+
 	$('input[name="import_pubmed"]').live('click', function(e) {
 		e.preventDefault();
 		var ref_id = $(this).attr('id').replace('pmid-import-', '');
@@ -122,7 +122,7 @@ jQuery(document).ready( function($) {
 		var error_div = $('#lookup-error-' + ref_id);
 		data['_ajax_nonce-import-pubmed'] = $('#_ajax_nonce-import-pubmed').val();
 		var siblings = $(this).siblings('.ajax-loading');
-		
+
 		siblings.css('visibility', 'visible');
 		error_div.hide().html('');
 		$.post(ajaxurl, data, function(d) {
@@ -135,7 +135,7 @@ jQuery(document).ready( function($) {
 			}
 		}, 'json');
 	});
-	
+
 	$('input[name="import_doi"]').live('click', function(e) {
 		e.preventDefault();
 		var ref_id = $(this).attr('id').replace('doi-import-', '');
@@ -143,10 +143,10 @@ jQuery(document).ready( function($) {
 		var data = {action: 'anno-import-doi', doi: id};
 		data['_ajax_nonce-import-doi'] = $('#_ajax_nonce-import-doi').val();
 		var error_div = $('#lookup-error-' + ref_id);
-		
+
 		var siblings = $(this).siblings('.ajax-loading');
 		siblings.css('visibility', 'visible');
-		
+
 		error_div.html('').hide();
 		$.post(ajaxurl, data, function(d) {
 			siblings.css('visibility', 'hidden');
@@ -158,5 +158,5 @@ jQuery(document).ready( function($) {
 			}
 		}, 'json');
 	});
-	
+
 });

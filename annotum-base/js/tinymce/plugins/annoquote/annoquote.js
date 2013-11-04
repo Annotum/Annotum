@@ -3,14 +3,14 @@ var annoQuote;
 (function($){
 	var inputs = {}, ed;
 
-	annoQuote = {	
+	annoQuote = {
 		keySensitivity: 100,
 		textarea: function() { return edCanvas; },
 
 		init : function() {
 			inputs.dialog = $('#anno-popup-quote');
 			inputs.submit = $('#anno-quote-submit');
-		
+
 			// Bind event handlers
 			inputs.dialog.keydown( annoQuote.keydown );
 			inputs.dialog.keyup( annoQuote.keyup );
@@ -18,7 +18,7 @@ var annoQuote;
 				annoQuote.update();
 				e.preventDefault();
 			});
-			
+
 			$('#anno-quote-cancel').click(annoQuote.close);
 		},
 
@@ -26,14 +26,14 @@ var annoQuote;
 			var display_type, caption, label, copyright_statement, copyright_holder, license, url, xml;
 			var ed = tinyMCEPopup.editor;
 			ed.selection.collapse(0);
-								
+
 			form = $('#anno-popup-quote-form');
 			quote = $('input[name$="text"]', form).val();
 			attribution = $('input[name$="attribution"]', form).val();
 			statement = $('input[name$="statement"]', form).val();
 			holder = $('input[name$="holder"]', form).val();
 			license = $('input[name$="license"]', form).val();
-						
+
 			xml = '<div class="disp-quote" data-xmlel="disp-quote">' + quote
 					+'<div class="attrib" data-xmlel="attrib">' + attribution +  '</div>'
 					+'<div class="permissions" data-xmlel="permissions">'
@@ -47,8 +47,8 @@ var annoQuote;
 
 			tinyMCEPopup.execCommand('mceInsertContent', false, xml);
 			form[0].reset();
-			
-			
+
+
 			tinyMCEPopup.close();
 		},
 

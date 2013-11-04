@@ -133,7 +133,7 @@
 
 		function deleteTable() {
 			var rng = dom.createRng();
-			
+
 			rng.setStartAfter(table);
 			rng.setEndAfter(table);
 
@@ -330,7 +330,7 @@
 										startCell.removeChild(node);
 								});
 							}
-							
+
 							// Remove cell
 							dom.remove(cell);
 						}
@@ -1087,7 +1087,7 @@
 
 					if (!ed.dom.select('td.mceSelected,th.mceSelected').length) {
 						return false;
-					} 
+					}
 					else {
 						grid.merge();
 					}
