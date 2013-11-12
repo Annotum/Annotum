@@ -84,7 +84,7 @@
 			ed.undoManager.beforeChange();
 			// Override default tinyMCE element.
 			se.element = t.textorum.translateElement('p');
-			if (e.ctrlKey || /(BODY|HTML|TITLE|SEC|P)/.test(t.helper.getLocalName(node).toUpperCase())) {
+			if (e.ctrlKey || /^(BODY|HTML|TITLE|SEC|P)$/.test(t.helper.getLocalName(node).toUpperCase())) {
 				function insertNewBlock(node) {
 					var newElement, parentNode;
 
@@ -108,10 +108,10 @@
 
 				// Just insert a new paragraph if the ctrl key isn't held and the carat is in a para tag
 				// Or, various tags should create paragraphs, not enter a br (when the ctrl key is held).
-				if (/(DISP-FORMULA|TABLE-WRAP|FIG|DISP-QUOTE|TITLE|P)/.test(t.helper.getLocalName(node).toUpperCase())) {
+				if (/^(DISP-FORMULA|TABLE-WRAP|FIG|DISP-QUOTE|TITLE|P)$/.test(t.helper.getLocalName(node).toUpperCase())) {
 					newElement = insertNewBlock(node);
 				}
-				else if (/(BODY|HTML)/.test(t.helper.getLocalName(node).toUpperCase())) {
+				else if (/^(BODY|HTML)$/.test(t.helper.getLocalName(node).toUpperCase())) {
 					secElement = dom.add(node, t.textorum.translateElement('sec'), {'class': 'sec', 'data-xmlel': 'sec'});
 					newElement = dom.add(secElement, t.textorum.translateElement('title'), {'class': 'title', 'data-xmlel': 'title'}, '&nbsp');
 					dom.add(secElement, t.textorum.translateElement('p'), {'class': 'p', 'data-xmlel': 'p'}, '&nbsp');
@@ -283,7 +283,7 @@
 			}
 
 			// Use P instead
-			if (/(TD|TABLE|TH|CAP)/.test(bn.toUpperCase()) || (sb && bn.toUpperCase() == "DIV" && /left|right/gi.test(dom.getStyle(sb, 'float', 1)))) {
+			if (/^(TD|TABLE|TH|CAP)$/.test(bn.toUpperCase()) || (sb && bn.toUpperCase() == "DIV" && /left|right/gi.test(dom.getStyle(sb, 'float', 1)))) {
 				bn = se.element;
 				sb = eb = null;
 			}
@@ -301,7 +301,7 @@
 			// Find start chop node
 			n = sc = sn;
 			do {
-				if (n == b || n.nodeType == 9 || dom.isBlock(n) || /(TD|TABLE|TH|CAP)/.test(n.nodeName))
+				if (n == b || n.nodeType == 9 || dom.isBlock(n) || /^(TD|TABLE|TH|CAP)$/.test(n.nodeName))
 					break;
 
 				sc = n;
@@ -310,7 +310,7 @@
 			// Find end chop node
 			n = ec = en;
 			do {
-				if (n == b || n.nodeType == 9 || dom.isBlock(n) || /(TD|TABLE|TH|CAP)/.test(n.nodeName))
+				if (n == b || n.nodeType == 9 || dom.isBlock(n) || /^(TD|TABLE|TH|CAP)$/.test(n.nodeName))
 					break;
 
 				ec = n;
