@@ -187,6 +187,10 @@ div[data-xmlel="fig"] div[data-xmlel="license-p"] {
 	font-size: 10px;
 }
 
+div[data-xmlel="media"] {
+	display:none;
+}
+
 
 /** bg image labels
  -------------------------------------------------- */
