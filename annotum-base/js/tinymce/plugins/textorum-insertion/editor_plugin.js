@@ -43,9 +43,7 @@
 
 					dropmenu.removeAll();
 					if (options.length) {
-						console.log("Pre-filter", options);
 						options = options.filter(function(a) { return ignoredElements.indexOf(a) === -1; });
-						console.log("Post-filter", options);
 						for (var i = 0, len = options.length; i < len; i++) {
 							(function(element_name) {
 								dropmenu.add(new tinymce.ui.MenuItem('textorum-insertion-item-' + element_name ,{
@@ -54,7 +52,7 @@
 										var newNode = editor.dom.create(
 												editor.plugins.textorum.translateElement(element_name),
 												{'class': element_name, 'data-xmlel': element_name},
-												'&nbsp;'
+												'&#xA0;'
 											),
 											currentNode = editor.selection.getNode(),
 											range, elYPos;

@@ -93,7 +93,7 @@
 						node = dom.getParent(node, t.helper.testNameIs('sec'));
 					}
 					else {
-						newElement = dom.create(t.textorum.translateElement('p'), {'class': 'p', 'data-xmlel': 'p'}, '&nbsp;');
+						newElement = dom.create(t.textorum.translateElement('p'), {'class': 'p', 'data-xmlel': 'p'}, '&#xA0;');
 					}
 
 					return dom.insertAfter(newElement, node);
@@ -101,8 +101,8 @@
 				// Create a new sec element with a title
 				function newSec() {
 					var sec = dom.create(t.textorum.translateElement('sec'), {'class': 'sec', 'data-xmlel': 'sec'});
-					dom.add(sec, t.textorum.translateElement('title'), {'class': 'title', 'data-xmlel': 'title'}, '&nbsp');
-					dom.add(sec, t.textorum.translateElement('p'), {'class': 'p', 'data-xmlel': 'p'}, '&nbsp');
+					dom.add(sec, t.textorum.translateElement('title'), {'class': 'title', 'data-xmlel': 'title'}, '&#xA0;');
+					dom.add(sec, t.textorum.translateElement('p'), {'class': 'p', 'data-xmlel': 'p'}, '&#xA0;');
 					return sec;
 				}
 
@@ -113,8 +113,8 @@
 				}
 				else if (/^(BODY|HTML)$/.test(t.helper.getLocalName(node).toUpperCase())) {
 					secElement = dom.add(node, t.textorum.translateElement('sec'), {'class': 'sec', 'data-xmlel': 'sec'});
-					newElement = dom.add(secElement, t.textorum.translateElement('title'), {'class': 'title', 'data-xmlel': 'title'}, '&nbsp');
-					dom.add(secElement, t.textorum.translateElement('p'), {'class': 'p', 'data-xmlel': 'p'}, '&nbsp');
+					newElement = dom.add(secElement, t.textorum.translateElement('title'), {'class': 'title', 'data-xmlel': 'title'}, '&#xA0;');
+					dom.add(secElement, t.textorum.translateElement('p'), {'class': 'p', 'data-xmlel': 'p'}, '&#xA0;');
 				}
 				else if (parentNode = dom.getParent(node, 'FIG')) {
 					newElement = insertNewBlock(parentNode);

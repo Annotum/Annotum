@@ -163,7 +163,7 @@
 
 					// Add something to the inner node
 					if (curNode)
-						curNode.innerHTML = tinymce.isIE ? '&nbsp;' : '<br data-mce-bogus="1" />';
+						curNode.innerHTML = tinymce.isIE ? '&#xA0;' : '<br data-mce-bogus="1" />';
 
 					return false;
 				}

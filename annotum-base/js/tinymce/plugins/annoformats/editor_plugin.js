@@ -209,8 +209,8 @@
 			// Create a new sec element with a title
 			function newSec() {
 				var sec = dom.create(ed.plugins.textorum.translateElement('sec'), {'class': 'sec', 'data-xmlel': 'sec'});
-				dom.add(sec, ed.plugins.textorum.translateElement('title'), {'class': 'title', 'data-xmlel': 'title'}, '&nbsp');
-				dom.add(sec, ed.plugins.textorum.translateElement('p'), {'class': 'p', 'data-xmlel': 'p'}, '&nbsp');
+				dom.add(sec, ed.plugins.textorum.translateElement('title'), {'class': 'title', 'data-xmlel': 'title'}, '&#xA0;');
+				dom.add(sec, ed.plugins.textorum.translateElement('p'), {'class': 'p', 'data-xmlel': 'p'}, '&#xA0;');
 				return sec;
 			}
 		},

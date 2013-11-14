@@ -1526,6 +1526,7 @@ function anno_xml_to_html_replace_sec($orig_xml) {
 }
 add_action('anno_xml_to_html', 'anno_xml_to_html_replace_sec');
 
+
 /**
  * Change XML <title> tags to HTML5 <h2> tags
  * Run at priority 9 so we change the titles before global title changes happen.

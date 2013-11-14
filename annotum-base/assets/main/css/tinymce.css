@@ -108,6 +108,11 @@ table.mceitemtable {
 	border-spacing: 0px;
 	border-collapse: collapse;
 }
+table.mceitemtable td:empty,
+table.mceitemtable th:empty  {
+	width:20px;
+	height:20px;
+}
 table.mceitemtable td,
 table.mceitemtable th  {
 	border: 1px solid #999;
