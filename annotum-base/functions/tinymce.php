@@ -339,6 +339,8 @@ function anno_tiny_mce_before_init($init_array) {
 	
 	//show Kitchen Sink by default
 	$init_array['wordpress_adv_hidden'] = false;
+
+	$init_array['setup'] = 'function(ed) { ed.onInit.add(function(ed) { jQuery("#" + ed.id).siblings(".mceEditor").find(".mce_code").attr("title", "Show Codes") }); }';
 	
 	return $init_array;
 }
