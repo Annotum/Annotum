@@ -162,6 +162,19 @@
 			});
 
 			editor.addShortcut('ctrl+enter', 'Insert Element', 'Textorum_Insertion');
+
+			editor.addShortcut('ctrl+z', '', function() {
+				editor.execCommand('Undo', false);
+			});
+
+			tinyMCE.Editor.prototype.execCommand = (function(_super) {
+				return function() {
+					console.log('execCommand Called');
+					console.log(this);
+					console.log(arguments[0], arguments[1], arguments[2], arguments[3]);
+					return _super.apply(this, arguments);
+				};
+			})(tinyMCE.Editor.prototype.execCommand);
 		},
 		getInfo : function() {
 			return {
