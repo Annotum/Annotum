@@ -129,8 +129,10 @@
 
 				if (options.indexOf('inline-graphic') === -1 || options.indexOf('fig') === -1) {
 					cm.get('annoimages').setDisabled(true);
+					cm.get('annoequation').setDisabled(true);
 				}
 				else {
+					cm.get('annoimages').setDisabled(false);
 					cm.get('annoimages').setDisabled(false);
 				}
 
