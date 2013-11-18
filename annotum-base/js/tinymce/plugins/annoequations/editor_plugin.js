@@ -19,7 +19,8 @@
 				//ed.getLang('advanced.references_desc'),
 				cmd : 'Anno_Equations',
 			});
-    	},
+
+		},
 
         getInfo : function() {
             return {
@@ -58,7 +59,7 @@
 			if (url) {
 				if (display_type == 'inline') {
 					// Inserting for tinyMCE. is converted to XML on save.
-					xml = '<img src="'+ url + '" class="_inline_graphic" alt="'+ alt_text + '"/>';
+					xml = '<span class="inline-graphic" data-xmlel="inline-graphic" xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="'+ url + '"  alt-text="'+ alt_text + '"></span>';
 				}
 				else {
 					caption = $('#equation-caption').val();
@@ -67,18 +68,19 @@
 					description = $('#equation-description', form).val();
 					description = description == '' ? '<br />' : description;
 
-					xml = '<fig>'
-								+'<img src="' + url + '" />'
-								+'<lbl>' + label + '</lbl>'
-								+'<cap><para>' + caption + '</para></cap>'
-								+'<media xlink:href="' + url + '">'
-									+'<alt-text>' + alt_text + '</alt-text>'
-									+'<long-desc>' + description + '</long-desc>'
-								+'</media>'
-							+'</fig>'
-							+'<div _mce_bogus="1" class="clearfix"></div>';
-				}	
+					xml = '<div class="fig" data-xmlel="fig">'
+								+'<div class="label" data-xmlel="label">' + label + '</div>'
+								+'<div class="caption" data-xmlel="caption">'
+									+'<span class="p" data-xmlel="p">' + caption + '</span>'
+								+'</div>'
+								+'<div class="media" xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="' + url + '" data-xmlel="media">'
+									+'<span class="alt-text" data-xmlel="alt-text">' + alt_text + '</span>'
+									+'<span class="long-desc" data-xmlel="long-desc">' + description + '</span>'
+								+'</div>'
+							+'</div>';
+				}
 				tinyMCEPopup.restoreSelection();
+				xml = win.tinymce.activeEditor.plugins.textorum.applyFilters('after_loadFromText', xml);
 				win.send_to_editor(xml);
 			}
 
