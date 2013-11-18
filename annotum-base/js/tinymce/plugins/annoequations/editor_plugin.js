@@ -59,7 +59,7 @@
 			if (url) {
 				if (display_type == 'inline') {
 					// Inserting for tinyMCE. is converted to XML on save.
-					xml = '<span class="inline-graphic" data-xmlel="inline-graphic" xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="'+ url + '"  alt-text="'+ alt_text + '"></span>';
+					xml = '<span class="inline-graphic" data-xmlel="inline-graphic" xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="'+ url + '"  alt-text="'+ alt_text + '"></span><span> &nbsp;</span>';
 				}
 				else {
 					caption = $('#equation-caption').val();
@@ -77,10 +77,11 @@
 									+'<span class="alt-text" data-xmlel="alt-text">' + alt_text + '</span>'
 									+'<span class="long-desc" data-xmlel="long-desc">' + description + '</span>'
 								+'</div>'
+								+'<div _mce_bogus="1" class="clearfix"></div>'
 							+'</div>';
 				}
-				tinyMCEPopup.restoreSelection();
 				xml = win.tinymce.activeEditor.plugins.textorum.applyFilters('after_loadFromText', xml);
+				win.tinyMCEPopup.restoreSelection();
 				win.send_to_editor(xml);
 			}
 

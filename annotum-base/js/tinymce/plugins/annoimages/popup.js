@@ -50,7 +50,7 @@ jQuery(document).ready( function($) {
 
 		if (display_type == 'inline') {
 			// Inserting for tinyMCE. is converted to XML on save.
-			xml = '<span class="inline-graphic" data-xmlel="inline-graphic" xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="'+ img_url + '"  alt-text="'+ alt_text + '"></span>';
+			xml = '<span class="inline-graphic" data-xmlel="inline-graphic" xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="'+ img_url + '"  alt-text="'+ alt_text + '"></span><span> &nbsp;</span>';
 		}
 		else {
 			caption = $('#img-caption-' + attachment_id).val();
