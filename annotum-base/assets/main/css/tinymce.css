@@ -21,6 +21,18 @@ div[data-xmlel="table-wrap"], div[data-xmlel="table-wrap"] div[data-xmlel="label
 	padding: 4px 8px;
 }
 
+.sec .sec .title {
+	background-color: #e6f2f5;
+}
+
+.sec .sec .sec .title {
+	background-color: #fcefdc;
+}
+
+.sec .sec .sec .sec .title {
+	background-color: #f5f9df;
+}
+
 /** basic XML element styles
  -------------------------------------------------- */
 div[data-xmlel="title"] {
