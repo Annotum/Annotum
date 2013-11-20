@@ -1522,6 +1522,7 @@ function anno_xml_to_html_replace_sec($orig_xml) {
 			// Replace sections
 			$sec->replaceWith('<section class="sec">'.$sec->html().'</section>');
 		}
+		anno_xml_to_html_replace_sec($orig_xml);
 	}
 }
 add_action('anno_xml_to_html', 'anno_xml_to_html_replace_sec');
