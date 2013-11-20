@@ -57,6 +57,17 @@
 											currentNode = editor.selection.getNode(),
 											range, elYPos;
 
+										if (element_name == 'sec') {
+											newNode.innerHTML = '';
+											newNode.appendChild(
+												editor.dom.create(
+													editor.plugins.textorum.translateElement('title'),
+													{'class': 'title', 'data-xmlel': 'title'},
+													'&#xA0;'
+												)
+											);
+										}
+
 										dropmenuVisible = false;
 										switch(where) {
 											case 'before':
@@ -79,7 +90,12 @@
 
 										if (document.createRange) {     // all browsers, except IE before version 9
 											range = document.createRange();
-											range.selectNodeContents(newNode);
+											if (element_name == 'sec') {
+												range.selectNodeContents(newNode.firstChild);
+											}
+											else {
+												range.selectNodeContents(newNode);
+											}
 										}
 										else { // IE < 9
 											range = document.selection.createRange();
