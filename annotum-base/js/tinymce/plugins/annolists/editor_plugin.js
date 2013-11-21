@@ -45,9 +45,9 @@
 		if (nested) {
 			wrapItem = dom.create(
 				tinyMCE.activeEditor.plugins.textorum.translateElement('list-item'),
-				{'class': 'list-item', 'data-xmlel': 'list-item', 'style': 'list-style-type: none;'},
-				'&#xA0;'
+				{'class': 'list-item', 'data-xmlel': 'list-item', 'style': 'list-style-type: none;'}
 			);
+			dom.add(wrapItem, ed.plugins.textorum.translateElement('p'), {'class': 'p', 'data-xmlel': 'p'}, '&#xA0;');
 			dom.split(element, nested);
 			dom.insertAfter(wrapItem, nested);
 			wrapItem.appendChild(nested);
@@ -343,9 +343,9 @@
 					// Put the list around the element.
 					li = dom.create(
 						tinyMCE.activeEditor.plugins.textorum.translateElement('list-item'),
-						{'class': 'list-item', 'data-xmlel': 'list-item'},
-						'&#xA0;'
+						{'class': 'list-item', 'data-xmlel': 'list-item'}
 					);
+					dom.add(li, ed.plugins.textorum.translateElement('p'), {'class': 'p', 'data-xmlel': 'p'}, '&#xA0;');
 					dom.insertAfter(li, element);
 					li.appendChild(element);
 					element = li;
@@ -373,9 +373,9 @@
 				} else {
 					li = dom.create(
 						tinyMCE.activeEditor.plugins.textorum.translateElement('list-item'),
-						{'class': 'list-item', 'data-xmlel': 'list-item'},
-						'&#xA0;'
+						{'class': 'list-item', 'data-xmlel': 'list-item'}
 					);
+					dom.add(li, ed.plugins.textorum.translateElement('p'), {'class': 'p', 'data-xmlel': 'p'}, '&#xA0;');
 					//Title
 					start.parentNode.insertBefore(li, start);
 				}
@@ -551,9 +551,9 @@
 			function createWrapItem(element) {
 				var wrapItem = dom.create(
 					ed.plugins.textorum.translateElement('list-item'),
-					{'class': 'list-item', 'data-xmlel': 'list-item'},
-					'&#xA0;'
+					{'class': 'list-item', 'data-xmlel': 'list-item'}
 				);
+				dom.add(wrapItem, ed.plugins.textorum.translateElement('p'), {'class': 'p', 'data-xmlel': 'p'}, '&#xA0;');
 				dom.insertAfter(wrapItem, element);
 				return wrapItem;
 			}
