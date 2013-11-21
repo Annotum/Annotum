@@ -32,7 +32,7 @@
 	}
 	
 	function isList(e) {
-		return e && e.tagName === 'LIST';
+		return e && e.className.toUpperCase() === 'LIST';
 	}
 	
 	function splitNestedLists(element, dom) {
@@ -43,7 +43,11 @@
 			tmp = skipWhitespaceNodesBackwards(nested.previousSibling);
 		}
 		if (nested) {
-			wrapItem = dom.create('LIST-ITEM', { style: 'list-style-type: none;'});
+			wrapItem = dom.create(
+				tinyMCE.activeEditor.plugins.textorum.translateElement('list-item'),
+				{'class': 'list-item', 'data-xmlel': 'list-item', 'style': 'list-style-type: none;'},
+				'&#xA0;'
+			);
 			dom.split(element, nested);
 			dom.insertAfter(wrapItem, nested);
 			wrapItem.appendChild(nested);
@@ -80,7 +84,7 @@
 		if (canMerge(e1, e2, !!differentStylesMasterElement, mergeParagraphs)) {
 			return merge(e1, e2, differentStylesMasterElement);
 		} 
-		else if (e1 && e1.tagName === 'LIST-ITEM' && isList(e2)) {
+		else if (e1 && e1.className.toUpperCase() === 'LIST-ITEM' && isList(e2)) {
 			// Fix invalidly nested lists.
 			e1.appendChild(e2);
 		}
@@ -93,13 +97,13 @@
 		if (!e1 || !e2) {
 			return false;
 		} 
-		else if (e1.tagName === 'LIST-ITEM' && e2.tagName === 'LIST-ITEM') {
+		else if (e1.className.toUpperCase() === 'LIST-ITEM' && e2.className.toUpperCase() === 'LIST-ITEM') {
 			return containsOnlyAList(e2);
 		} 
 		else if (isList(e1)) {
 			return (dom.getAttrib(e2, 'list-type') === dom.getAttrib(e1, 'list-type'));
 		} 
-		else if (mergeParagraphs && e1.tagName === 'PARA' && e2.tagName === 'PARA') {
+		else if (mergeParagraphs && e1.className.toUpperCase() === 'P' && e2.className.toUpperCase() === 'P') {
 			return true;
 		} 
 		else {
@@ -121,7 +125,7 @@
 		var lastOriginal = skipWhitespaceNodesBackwards(e1.lastChild), firstNew = skipWhitespaceNodesForwards(e2.firstChild);
 		var dom = tinymce.activeEditor.dom;
 		
-		if (e1.tagName === 'PARA') {
+		if (e1.className.toUpperCase() === 'P') {
 			e1.appendChild(e1.ownerDocument.createElement('br'));
 		}
 		while (e2.firstChild) {
@@ -164,11 +168,11 @@
 					n = sel.getStart();
 
 					// Get start will return BR if the LI only contains a BR
-					if (n.tagName == 'BR' && n.parentNode.tagName == 'LIST-ITEM')
+					if (n.tagName == 'BR' && n.parentNode.className.toUpperCase() == 'LIST-ITEM')
 						n = n.parentNode;
 
 					// Check for empty LI or a LI with just one BR since Gecko and WebKit uses BR elements to place the caret
-					enterDownInEmptyList = sel.isCollapsed() && n && n.tagName === 'LIST-ITEM' && (n.childNodes.length === 0 || (n.firstChild.nodeName == 'BR' && n.childNodes.length === 1));
+					enterDownInEmptyList = sel.isCollapsed() && n && n.className.toUpperCase() === 'LIST-ITEM' && (n.childNodes.length === 0 || (n.firstChild.nodeName == 'BR' && n.childNodes.length === 1));
 					return enterDownInEmptyList;
 				}
 			};
@@ -194,7 +198,7 @@
 						if (!child)
 							break;
 
-						if (child.tagName === 'LIST-ITEM')
+						if (child.className.toUpperCase() === 'LIST-ITEM')
 							li = child;
 					} while (child = child.nextSibling);
 
@@ -207,10 +211,10 @@
 				}
 
 				var ul;
-				if (n.parentNode.previousSibling.tagName === 'LIST') {
+				if (n.parentNode.previousSibling.className.toUpperCase() === 'LIST') {
 					ul = n.parentNode.previousSibling;
 				}
-				else if (n.parentNode.previousSibling.previousSibling.tagName === 'LIST') {
+				else if (n.parentNode.previousSibling.previousSibling.className.toUpperCase() === 'LIST') {
 					ul = n.parentNode.previousSibling.previousSibling;
 				}
 				else {
@@ -231,7 +235,7 @@
 
 				// copy the image an its text to the list item
 				var clone = n.parentNode.cloneNode(true);
-				if (clone.tagName === 'PARA' || clone.tagName === 'DIV')
+				if (clone.className.toUpperCase() === 'P')
 					addChildren(clone, li);
 				else
 					li.appendChild(clone);
@@ -280,10 +284,10 @@
 						ed.execCommand('AnnoInsertUnorderedList');
 					}
 					n = ed.selection.getStart();
-					if (n && n.tagName === 'LIST-ITEM') {
+					if (n && n.className.toUpperCase() === 'LIST-ITEM') {
 						// Fix the caret position on IE since it jumps back up to the previous list item.
 						n = ed.dom.getParent(n, 'list').nextSibling;
-						if (n && n.tagName === 'PARA') {
+						if (n && n.className.toUpperCase() === 'P') {
 							if (!n.firstChild) {
 								n.appendChild(ed.getDoc().createTextNode(''));
 							}
@@ -312,14 +316,19 @@
 			}
 			
 			function makeList(element) {
-				var listAttr = {};
-				listAttr['list-type'] = targetListType;
-				var list = dom.create('list', listAttr), li;
+				var list = dom.create(
+						tinyMCE.activeEditor.plugins.textorum.translateElement('list'),
+						{
+							'list-type': targetListType,
+							'class': 'list',
+							'data-xmlel': 'list'
+						}
+					), li;
 
-				if (element.tagName === 'LIST-ITEM') {
+				if (element.className.toUpperCase() === 'LIST-ITEM') {
 					// No change required.
 				} 
-				else if (element.tagName === 'PARA' || element.tagName === 'DIV' || element.tagName === 'BODY') {
+				else if (element.className.toUpperCase() === 'P' || element.tagName === 'BODY') {
 					processBrs(element, function(startSection, br, previousBR) {
 						doWrapList(startSection, br, element.tagName === 'BODY' ? null : startSection.parentNode);
 						li = startSection.parentNode;
@@ -332,7 +341,11 @@
 				} 
 				else {
 					// Put the list around the element.
-					li = dom.create('LIST-ITEM');
+					li = dom.create(
+						tinyMCE.activeEditor.plugins.textorum.translateElement('list-item'),
+						{'class': 'list-item', 'data-xmlel': 'list-item'},
+						'&#xA0;'
+					);
 					dom.insertAfter(li, element);
 					li.appendChild(element);
 					element = li;
@@ -355,9 +368,14 @@
 					start.parentNode.insertBefore(li, start);
 					while (li.firstChild) dom.remove(li.firstChild);
 					//Title
-					li = dom.rename(li, 'LIST-ITEM');
+					li.setAttribute('class', 'list-item');
+					li.setAttribute('data-xmlel', 'list-item');
 				} else {
-					li = dom.create('LIST-ITEM');
+					li = dom.create(
+						tinyMCE.activeEditor.plugins.textorum.translateElement('list-item'),
+						{'class': 'list-item', 'data-xmlel': 'list-item'},
+						'&#xA0;'
+					);
 					//Title
 					start.parentNode.insertBefore(li, start);
 				}
@@ -465,8 +483,9 @@
 				applied.push(element);
 				
 				// If the list is already contained in a p tag, dont wrap in another.
-				if (dom.getParent(element, 'PARA') == null) {
-					element = dom.rename(element, 'para');
+				if (dom.getParent(element, '.p') == null) {
+					element.setAttribute('class', 'p');
+					element.setAttribute('data-xmlel', 'p');
 				}
 				else {
 					dom.setOuterHTML(element, element.innerHTML);
@@ -498,10 +517,10 @@
 			each(selectedBlocks, function(e) {
 				e = findItemToOperateOn(e, dom);
 				
-				if (dom.getAttrib(e, 'list-type') === oppositeListType || (e.tagName === 'LIST-ITEM' && dom.getAttrib(e.parentNode, 'list-type') === oppositeListType)) {
+				if (dom.getAttrib(e, 'list-type') === oppositeListType || (e.className.toUpperCase() === 'LIST-ITEM' && dom.getAttrib(e.parentNode, 'list-type') === oppositeListType)) {
 					hasOppositeType = true;
 				}
-				else if (dom.getAttrib(e, 'list-type') === targetListType || (e.tagName === 'LIST-ITEM' && dom.getAttrib(e.parentNode, 'list-type') === targetListType)) {
+				else if (dom.getAttrib(e, 'list-type') === targetListType || (e.className.toUpperCase() === 'LIST-ITEM' && dom.getAttrib(e.parentNode, 'list-type') === targetListType)) {
 					hasSameType = true;
 				}
 				else {
@@ -512,13 +531,8 @@
 			if (hasNonList || hasOppositeType || selectedBlocks.length === 0) {
 				actions = {
 					'LIST-ITEM': changeList,
-					'H1': makeList,
-					'H2': makeList,
-					'H3': makeList,
-					'H4': makeList,
-					'H5': makeList,
-					'H6': makeList,
-					'PARA': makeList,
+					'TITLE': makeList,
+					'P': makeList,
 					'BODY': makeList,
 					'DIV': selectedBlocks.length > 1 ? makeList : wrapList,
 					defaultAction: wrapList
@@ -535,7 +549,11 @@
 			var ed = this.ed, dom = ed.dom, indented = [];
 
 			function createWrapItem(element) {
-				var wrapItem = dom.create('list-item');
+				var wrapItem = dom.create(
+					ed.plugins.textorum.translateElement('list-item'),
+					{'class': 'list-item', 'data-xmlel': 'list-item'},
+					'&#xA0;'
+				);
 				dom.insertAfter(wrapItem, element);
 				return wrapItem;
 			}
@@ -544,10 +562,15 @@
 				var wrapItem = createWrapItem(element),
 					list = dom.getParent(element, 'list'),
 					listType = dom.getAttrib(list, 'list-type'),
-					attrs = {},
 					wrapList;
-				attrs['list-type'] = listType;
-				wrapList = dom.create('list', attrs);
+				wrapList = dom.create(
+					ed.plugins.textorum.translateElement('list'),
+					{
+						'list-type': listType,
+						'class': 'list',
+						'data-xmlel': 'list'
+					}
+				);
 				wrapItem.appendChild(wrapList);
 				return wrapList;
 			}
@@ -587,7 +610,7 @@
 					element = splitNestedLists(element, dom);
 					listElement = element.parentNode;
 					targetParent = element.parentNode.parentNode;
-					if (targetParent.tagName === 'PARA') {
+					if (targetParent.className.toUpperCase() === 'P') {
 						dom.split(targetParent, element.parentNode);
 					} else {
 						dom.split(listElement, element);
@@ -595,7 +618,8 @@
 							// Nested list, need to split the LI and go back out to the OL/UL element.
 							dom.split(targetParent, element);
 						} else if (!dom.is(targetParent, 'ol,ul')) {
-							dom.rename(element, 'para');
+							element.setAttribute('class', 'p');
+							element.setAttribute('data-xmlel', 'p');
 						}
 					}
 					outdented.push(element);
@@ -619,7 +643,7 @@
 					return;
 				}
 				element = findItemToOperateOn(element, dom);
-				var action = actions[element.tagName];
+				var action = actions[element.className.toUpperCase()];
 				if (!action) {
 					action = actions.defaultAction;
 				}
