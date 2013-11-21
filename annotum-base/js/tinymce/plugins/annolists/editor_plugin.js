@@ -145,7 +145,7 @@
 	function findItemToOperateOn(e, dom) {
 		var item;
 		if (!dom.is(e, 'list-item,list')) {
-			item = dom.getParent(e, 'LIST-ITEM');
+			item = dom.getParent(e, '.list-item');
 			if (item) {
 				e = item;
 			}
@@ -286,7 +286,7 @@
 					n = ed.selection.getStart();
 					if (n && n.className.toUpperCase() === 'LIST-ITEM') {
 						// Fix the caret position on IE since it jumps back up to the previous list item.
-						n = ed.dom.getParent(n, 'list').nextSibling;
+						n = ed.dom.getParent(n, '.list').nextSibling;
 						if (n && n.className.toUpperCase() === 'P') {
 							if (!n.firstChild) {
 								n.appendChild(ed.getDoc().createTextNode(''));
@@ -392,7 +392,7 @@
 
 			function processBrs(element, callback) {
 				var startSection, previousBR, END_TO_START = 3, START_TO_END = 1,
-					breakElements = 'br,list,para,p,div,h1,h2,h3,h4,h5,h6,table,blockquote,address,pre,form,center,dl';
+					breakElements = 'br,.list,.p,.title,table,.disp-quote,.pre,dl';
 				function isAnyPartSelected(start, end) {
 					var r = dom.createRng(), sel;
 					bookmark.keep = true;
@@ -560,8 +560,8 @@
 
 			function createWrapList(element) {
 				var wrapItem = createWrapItem(element),
-					list = dom.getParent(element, 'list'),
-					listType = dom.getAttrib(list, 'list-type'),
+					list = dom.getParent(element, '.list'),
+					listType = dom.getAttrib(list, '.list-type'),
 					wrapList;
 				wrapList = dom.create(
 					ed.plugins.textorum.translateElement('list'),

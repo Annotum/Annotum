@@ -17,7 +17,7 @@
 
 			// Disable tab for everything except lists.
 			ed.onKeyUp.addToTop(function(ed, e) {
-				if (e.keyCode == 9 && ed.dom.getParent(ed.selection.getNode(), 'LIST-ITEM') == null) {
+				if (e.keyCode == 9 && ed.dom.getParent(ed.selection.getNode(), '.list-item') == null) {
 					e.preventDefault();
 					return false;
 				}
@@ -26,7 +26,7 @@
 			});
 
 			function preventDefaultKey(ed, e) {
-				var parent = ed.dom.getParent(ed.selection.getNode(), 'LIST, LIST-ITEM');
+				var parent = ed.dom.getParent(ed.selection.getNode(), '.list, .list-item');
 				if (!e.shiftKey && e.keyCode == 13 && !parent) {
 					e.preventDefault();
 					return false;
@@ -47,7 +47,7 @@
 		// A new node is selected programtically, not be user. onNodeChange won't work, we need to add it to keypress.
 		_nodeChanged : function (ed) {
 			if (c = this.cm.get('annoformatselect')) {
-				var parent = ed.dom.getParent(ed.selection.getNode(), 'HEADING, PARA, SEC'), selVal;
+				var parent = ed.dom.getParent(ed.selection.getNode(), '.title, .p, .sec'), selVal;
 				if (parent) {
 					selVal = parent.nodeName.toLowerCase();
 				}
@@ -93,17 +93,17 @@
 
 				// Just insert a new paragraph if the ctrl key isn't held and the carat is in a para tag
 				// Or, various tags should create paragraphs, not enter a br (when the ctrl key is held).
-				if (/^(DISP-FORMULA|TABLE-WRAP|FIG|DISP-QUOTE|TITLE|P)$/.test(t.helper.getLocalName(node).toUpperCase())) {
+				if (/^(DISP-FORMULA|TABLE-WRAP|FIG|DISP-QUOTE|TITLE|P)$/.test(node.className.toUpperCase())) {
 					newElement = insertNewBlock(node);
 				}
 				else if (/^(BODY|HTML)$/.test(t.helper.getLocalName(node).toUpperCase())) {
 					secElement = dom.add(node, t.textorum.translateElement('sec'), {'class': 'sec', 'data-xmlel': 'sec'});
 					newElement = dom.add(secElement, t.textorum.translateElement('title'), {'class': 'title', 'data-xmlel': 'title'}, '&#xA0;');
 				}
-				else if (parentNode = dom.getParent(node, 'FIG')) {
+				else if (parentNode = dom.getParent(node, '.fig')) {
 					newElement = insertNewBlock(parentNode);
 				}
-				else if (parentNode = dom.getParent(node, 'TABLE-WRAP')) {
+				else if (parentNode = dom.getParent(node, '.table-wrap')) {
 					newElement = insertNewBlock(parentNode);
 				}
 				else if (parentNode = dom.getParent(node, t.helper.testNameIs('sec'))) {
@@ -228,11 +228,11 @@
 			// Get start and end blocks
 			sb = t.getParentBlock(sn);
 			eb = t.getParentBlock(en);
-			bn = sb ? sb.nodeName : se.element; // Get block name to create
+			bn = sb ? sb.className : se.element.className; // Get block name to create
 
 			// Return inside list use default browser behavior
-			if (n = dom.getParent(sb, 'list-item,pre')) {
-				if (n.nodeName.toUpperCase() == 'LIST-ITEM') {
+			if (n = dom.getParent(sb, '.list-item, .pre')) {
+				if (n.className.toUpperCase() == 'LIST-ITEM') {
 					return annoListBreak(ed.selection, dom, n);
 				}
 				ed.undoManager.add();
@@ -243,8 +243,8 @@
 			function annoListBreak(selection, dom, li) {
 				var listBlock, block;
 				if (dom.isEmpty(li) || li.innerHTML == '<br>') {
-					listBlock = dom.getParent(li, 'list');
-					if (!dom.getParent(listBlock.parentNode, 'list')) {
+					listBlock = dom.getParent(li, '.list');
+					if (!dom.getParent(listBlock.parentNode, '.list')) {
 						dom.split(listBlock, li);
 					}
 					ed.undoManager.add();
@@ -254,7 +254,7 @@
 				return TRUE;
 			};
 
-			if (!/^(PARA|BODY|HTML)$/.test(bn.toUpperCase())) {
+			if (!/^(P|BODY|HTML)$/.test(bn.toUpperCase())) {
 				insertBr(ed);
 				ed.undoManager.add();
 				return FALSE;
