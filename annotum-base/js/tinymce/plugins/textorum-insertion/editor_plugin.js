@@ -57,15 +57,47 @@
 											currentNode = editor.selection.getNode(),
 											range, elYPos;
 
-										if (element_name == 'sec') {
-											newNode.innerHTML = '';
-											newNode.appendChild(
-												editor.dom.create(
-													editor.plugins.textorum.translateElement('title'),
-													{'class': 'title', 'data-xmlel': 'title'},
-													'&#xA0;'
-												)
-											);
+										// Add additionally required child elements
+										switch (element_name) {
+											case 'sec':
+												newNode.innerHTML = '';
+												newNode.appendChild(
+													editor.dom.create(
+														editor.plugins.textorum.translateElement('title'),
+														{'class': 'title', 'data-xmlel': 'title'},
+														'&#xA0;'
+													)
+												);
+												break;
+											case 'fig':
+												var cap;
+												newNode.innerHTML = '';
+												cap = editor.dom.create(
+													editor.plugins.textorum.translateElement('caption'),
+													{'class': 'caption', 'data-xmlel': 'caption'}
+												);
+
+												cap.appendChild(
+													editor.dom.create(
+														editor.plugins.textorum.translateElement('p'),
+														{'class': 'p', 'data-xmlel': 'p'},
+														'&#xA0;'
+													)
+												);
+
+												newNode.appendChild(cap);
+
+												// Insert title last for purpose of cursor position
+												newNode.insertBefore(
+													editor.dom.create(
+														editor.plugins.textorum.translateElement('label'),
+														{'class': 'title', 'data-xmlel': 'title'},
+														'&#xA0;'
+													),
+													cap
+												);
+
+												break;
 										}
 
 										dropmenuVisible = false;
