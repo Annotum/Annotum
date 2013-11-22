@@ -15,20 +15,6 @@
 			t.helper = ed.plugins.textorum.helper;
 			t.textorum = ed.plugins.textorum;
 
-			ed.onKeyDown.addToTop(function(ed, e) {
-
-				// If we're not hitting the shift key, we are hitting the return key, and we're not in a list (retain new list item functionality)
-				if (!e.shiftKey && e.keyCode == 13) {
-					if (!t.insertPara(e)) {
-						ed.nodeChanged();
-						e.preventDefault();
-					}
-					t._nodeChanged(ed);
-					return false;
-				}
-				return true;
-			});
-
 			// Disable tab for everything except lists.
 			ed.onKeyUp.addToTop(function(ed, e) {
 				if (e.keyCode == 9 && ed.dom.getParent(ed.selection.getNode(), 'LIST-ITEM') == null) {
