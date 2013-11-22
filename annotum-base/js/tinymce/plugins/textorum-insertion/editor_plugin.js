@@ -122,16 +122,12 @@
 
 										if (document.createRange) {     // all browsers, except IE before version 9
 											range = document.createRange();
-											if (element_name == 'sec') {
+											if (newNode.firstChild) {
 												range.selectNodeContents(newNode.firstChild);
 											}
 											else {
 												range.selectNodeContents(newNode);
 											}
-										}
-										else { // IE < 9
-											range = document.selection.createRange();
-											range.moveToElementText(newNode);
 										}
 
 										range.collapse(1);
