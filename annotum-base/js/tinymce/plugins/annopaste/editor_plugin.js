@@ -53,7 +53,7 @@
 			// Register optional preprocess handler
 			t.onPreProcess.add(function(pl, o) {
 				ed.execCallback('paste_preprocess', pl, o);
-			}); 
+			});
 
 			// Register optional postprocess
 			t.onPostProcess.add(function(pl, o) {
@@ -143,7 +143,7 @@
 			// is done it grabs that contents and processes that
 			function grabContent(e) {
 				var n, or, rng, oldRng, sel = ed.selection, dom = ed.dom, body = ed.getBody(), posY, textContent;
-				
+
 				// Check if browser supports direct plaintext access
 				if (e.clipboardData || dom.doc.dataTransfer) {
 					textContent = (e.clipboardData || dom.doc.dataTransfer).getData('Text');
@@ -285,7 +285,7 @@
 				}
 			}
 
-			// Check if we should use the new auto process method			
+			// Check if we should use the new auto process method
 			if (getParam(ed, 'paste_auto_cleanup_on_paste')) {
 				// Is it's Opera or older FF use key handler
 				if (tinymce.isOpera || /Firefox\/2/.test(navigator.userAgent)) {
@@ -343,11 +343,11 @@
 					// Remove or replace
 					if (v.constructor == RegExp)
 						h = h.replace(v, '');
-					else 
-						h = h.replace(v[0], v[1]);						
+					else
+						h = h.replace(v[0], v[1]);
 				});
 			}
-			
+
 			if (ed.settings.paste_enable_default_filters == false) {
 				return;
 			}
@@ -526,19 +526,19 @@
 					]);
 				}
 			}
-			
+
 			// Replace html lists with list tags defined by the DTD.
-			
+
 			process([
 				[/<ul>|<ul .*?>/gi, "<list list-type=\"bullet\">"],
 				[/<\/ul>|<\/ul .*?>/gi, "</list>"]
 			]);
-			
+
 			process([
 				[/<h[1-9]>|<h[1-9] .*?>/gi, "<title>"],
 				[/<\/h[1-9]>|<\/h[1-9] .*?>/gi, "</>"]
 			]);
-		
+
 			process([
 				[/<ol>|<ol .*?>/gi, "<list list-type=\"order\">"],
 				[/<\/ol>|<\/ol .*?>/gi, "</list>"]
@@ -548,7 +548,7 @@
 				[/<li>|<li .*?>/gi, "<list-item>"],
 				[/<\/li>|<\/li .*?>/gi, "</list-item>"]
 			]);
-			
+
 			// Replace formatting with formatting tags defined by the DTD.
 			process([
 				[/<(b|strong)>/gi, "<bold>"],
@@ -564,7 +564,7 @@
 				[/<i>/gi, "<italic>"],
 				[/<\/i>/gi, "</italic>"]
 			]);
-		
+
 			process([
 				[/<u>/gi, "<underline>"],
 				[/<\/u>/gi, "</underline>"]
@@ -573,8 +573,8 @@
 			process([
 				// Copy paste from Java like Open Office will produce this junk on FF
 				[/Version:[\d.]+\nStartHTML:\d+\nEndHTML:\d+\nStartFragment:\d+\nEndFragment:\d+/gi, '']
-			]);	
-			
+			]);
+
 			// Class attribute options are: leave all as-is ("none"), remove all ("all"), or remove only those starting with mso ("mso").
 			// Note:-  paste_strip_class_attributes: "none", verify_css_classes: true is also a good variation.
 			stripClass = getParam(ed, "paste_strip_class_attributes");
@@ -603,7 +603,7 @@
 			if (getParam(ed, "paste_remove_spans")) {
 				h = h.replace(/<\/?span[^>]*>/gi, "");
 			}
-			
+
 			o.content = h;
 		},
 
@@ -614,14 +614,14 @@
 			var t = this, ed = t.editor, dom = ed.dom, styleProps;
 			if (ed.settings.paste_enable_default_filters == false) {
 				return;
-			}	
-			
+			}
+
 			function removeAttributes(el) {
 				if (!!el) {
 			    	var curIndex = 0;
-					var whitelist = ['colspan', 'list-type']; 
+					var whitelist = ['colspan', 'list-type'];
 					var initialLength = el.attributes.length;
-					var whiteListCheck = false; 
+					var whiteListCheck = false;
 
 					for (var i = 0; i < initialLength; i++) {
 						var attr = el.attributes.item(curIndex);
@@ -631,7 +631,7 @@
 								// We know that there is an item at curIndex we want to keep, proceed to the next
 								curIndex++;
 								break;
-							}   
+							}
 						}
 						if(!whiteListCheck) {
 							el.removeAttribute(attr.nodeName);
@@ -639,19 +639,19 @@
 					}
 				}
 			}
-			
+
 			if (o.wordContent) {
 				if (getParam(ed, "paste_convert_middot_lists")) {
 					t._convertLists(pl, o);
 				}
 			}
-			
-			// Replace blockquote tags with para tags. 
+
+			// Replace blockquote tags with para tags.
 			each(dom.select('blockquote', o.node), function(el) {
 				dom.rename(el, 'p');
 			});
 
-			
+
 			each(dom.select('a', o.node), function(a) {
 				if (!a.href || a.href.indexOf('#_Toc') != -1)
 					dom.remove(a, 1);
@@ -697,9 +697,9 @@
 			// Remove unwanted attributes. Colspan, list-type are the only one we care about.
 			// @todo Allow paste from other articles
 			each(dom.select('*', o.node), removeAttributes);
-			
+
 		},
-		
+
 		// Tables are expected to be wrapped with specific elements according to the DTD.
 		_wrapTables : function(pl, o) {
 			var dom = pl.editor.dom, listElm, li, lastMargin = -1, margin, levels = [], lastType, html;
@@ -712,7 +712,7 @@
 			    }
 				return !!parEl;
 			}
-					
+
 			each(dom.select('table', o.node), function(table) {
 				if (!hasTableWrap(table)) {
 					//Wrap it!
@@ -748,7 +748,7 @@
 				// Detect ordered lists 1., a. or ixv.
 				if (/^__MCE_ITEM__\s*\w+\.\s*\u00a0+/.test(val))
 					type = 'order';
-					
+
 				// Check if node value matches the list pattern: o&nbsp;&nbsp;
 				if (type) {
 					margin = parseFloat(p.style.marginLeft || 0);
@@ -802,7 +802,7 @@
 				} else
 					listElm = lastMargin = 0; // End list element
 			});
-		
+
 			// Remove any left over makers
 			html = o.node.innerHTML;
 			if (html.indexOf('__MCE_ITEM__') != -1)
@@ -819,14 +819,14 @@
 				ed.getDoc().execCommand('Delete', false, null);
 
 			ed.execCommand('mceInsertContent', false, h, {skip_undo : skip_undo});
-			
-			// Sometimes, pasted content will come wrapped in a div - in tinyMCE core. 
+
+			// Sometimes, pasted content will come wrapped in a div - in tinyMCE core.
 			var rng = ed.selection.getRng();
 			ed.dom.remove(ed.dom.select('div'), true);
-		
+
 			// Remove bookmark spans
 			ed.dom.remove(ed.dom.select('span'), true);
-			
+
 			ed.selection.setRng(rng);
 		},
 
@@ -926,8 +926,8 @@
 				// plain text take the same style as the existing paragraph.)
 				if ((pos = h.indexOf("</div><div")) != -1) {
 					rpos = h.lastIndexOf("</div><div");
-					node = sel.getNode(); 
-					breakElms = [];		// Get list of elements to break 
+					node = sel.getNode();
+					breakElms = [];		// Get list of elements to break
 
 					do {
 						if (node.nodeType == 1) {
@@ -1002,7 +1002,7 @@
 					inline: 1,
 				});
 			});
-			
+
 			if (getParam(ed, 'paste_text_use_dialog')) {
 				ed.addCommand('AnnomcePasteText', function() {
 					ed.windowManager.open({
