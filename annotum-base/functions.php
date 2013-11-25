@@ -1319,7 +1319,8 @@ function anno_remove_user_from_post($type, $user_id, $post_id) {
 function anno_process_xml_content($content) {
 	if (get_post_type() == 'article') {
 		remove_filter('the_content','wpautop');
-		$content = anno_xml_to_html($content);
+		$post = get_post();
+		$content = anno_xml_to_html($post->post_content_filtered);
 	}
 	return $content;
 }

@@ -1453,7 +1453,7 @@ function anno_xml_to_html_replace_figures($orig_xml) {
 			$fig = pq($fig);
 
 			// Grab our media element in the fig
-			$media = pq($fig->children('media'));
+			$media = $fig->find('media');
 
 			// Get some img tag properties. Check for lower versions of libxml which do not support : in attributes
 			if (version_compare(LIBXML_DOTTED_VERSION, '2.6.29', '<')) {
