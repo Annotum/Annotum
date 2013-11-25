@@ -14,9 +14,9 @@
 			paste_enable_default_filters : true,
 			paste_block_drop : false,
 			paste_retain_style_properties : 'none',
-			paste_strip_class_attributes : 'all',
+			paste_strip_class_attributes : false,
 			paste_remove_spans : false,
-			paste_remove_styles : false,
+			paste_remove_styles : true,
 			paste_remove_styles_if_webkit : true,
 			paste_convert_middot_lists : true,
 			paste_text_use_dialog : false,
@@ -74,7 +74,7 @@
 			function process(o, force_rich) {
 				var dom = ed.dom, rng;
 				// Execute pre process handlers
-				// t.onPreProcess.dispatch(t, o);
+				//t.onPreProcess.dispatch(t, o);
 
 				// Create DOM structure
 				o.node = dom.create('div', 0, o.content);
@@ -91,7 +91,7 @@
 				}
 
 				// Execute post process handlers
-				// t.onPostProcess.dispatch(t, o);
+				//t.onPostProcess.dispatch(t, o);
 
 				// Serialize content
 				o.content = ed.serializer.serialize(o.node, {getInner : 1, forced_root_block : ''});
@@ -264,7 +264,7 @@
 							});
 						} else {
 							// Found WebKit weirdness so force the content into plain text mode
-							h = '<preformat>' + dom.encode(textContent).replace(/\r?\n/g, '<br />') + '</preformat>';
+							h = '<div class="preformat" data-xmlel="preformat">' + dom.encode(textContent).replace(/\r?\n/g, '<br />') + '</div>';
 						}
 
 						// Remove the nodes
@@ -527,47 +527,25 @@
 				}
 			}
 
-			// Replace html lists with list tags defined by the DTD.
-
-			process([
-				[/<ul>|<ul .*?>/gi, "<list list-type=\"bullet\">"],
-				[/<\/ul>|<\/ul .*?>/gi, "</list>"]
-			]);
-
-			process([
-				[/<h[1-9]>|<h[1-9] .*?>/gi, "<title>"],
-				[/<\/h[1-9]>|<\/h[1-9] .*?>/gi, "</>"]
-			]);
-
-			process([
-				[/<ol>|<ol .*?>/gi, "<list list-type=\"order\">"],
-				[/<\/ol>|<\/ol .*?>/gi, "</list>"]
-			]);
-
-			process([
-				[/<li>|<li .*?>/gi, "<list-item>"],
-				[/<\/li>|<\/li .*?>/gi, "</list-item>"]
-			]);
-
 			// Replace formatting with formatting tags defined by the DTD.
 			process([
-				[/<(b|strong)>/gi, "<bold>"],
-				[/<(\/strong|\/b)>/gi, "</bold>"]
+				[/<(b|strong)>/gi, '<span class="bold" data-xmlel="bold">'],
+				[/<(\/strong|\/b)>/gi, '</span>']
 			]);
 
 			process([
-				[/<pre>/gi, "<preformat>"],
-				[/<\/pre>/gi, "</preformat>"]
+				[/<pre>/gi, '<div class="preformat" data-xmlel="preformat">'],
+				[/<\/pre>/gi, '</div>']
 			]);
 
 			process([
-				[/<i>/gi, "<italic>"],
-				[/<\/i>/gi, "</italic>"]
+				[/<i>/gi, '<span class="italic" data-xmlel="italic">'],
+				[/<\/i>/gi, "</span>"]
 			]);
 
 			process([
-				[/<u>/gi, "<underline>"],
-				[/<\/u>/gi, "</underline>"]
+				[/<u>/gi, '<span class="underline" data-xmlel="underline">'],
+				[/<\/u>/gi, "</span>"]
 			]);
 
 			process([
@@ -618,14 +596,14 @@
 
 			function removeAttributes(el) {
 				if (!!el) {
-			    	var curIndex = 0;
+					var curIndex = 0;
 					var whitelist = ['colspan', 'list-type'];
 					var initialLength = el.attributes.length;
 					var whiteListCheck = false;
 
 					for (var i = 0; i < initialLength; i++) {
 						var attr = el.attributes.item(curIndex);
-						 for(var j = 0; j < whitelist.length; j++) {
+						for(var j = 0; j < whitelist.length; j++) {
 							if(attr.nodeName === whitelist[j]) {
 								whiteListCheck = true;
 								// We know that there is an item at curIndex we want to keep, proceed to the next
@@ -704,12 +682,12 @@
 		_wrapTables : function(pl, o) {
 			var dom = pl.editor.dom, listElm, li, lastMargin = -1, margin, levels = [], lastType, html;
 			function hasTableWrap(el) {
-			    var parEl = el.parentNode;
-			    var count = 1;
-			    while(!!parEl && parEl.nodeName != 'TABLE-WRAP') {
-			        parEl = parEl.parentNode;
-			        count++;
-			    }
+				var parEl = el.parentNode;
+				var count = 1;
+				while(!!parEl && parEl.nodeName != 'TABLE-WRAP') {
+					parEl = parEl.parentNode;
+					count++;
+				}
 				return !!parEl;
 			}
 
@@ -819,15 +797,6 @@
 				ed.getDoc().execCommand('Delete', false, null);
 
 			ed.execCommand('mceInsertContent', false, h, {skip_undo : skip_undo});
-
-			// Sometimes, pasted content will come wrapped in a div - in tinyMCE core.
-			var rng = ed.selection.getRng();
-			ed.dom.remove(ed.dom.select('div'), true);
-
-			// Remove bookmark spans
-			ed.dom.remove(ed.dom.select('span'), true);
-
-			ed.selection.setRng(rng);
 		},
 
 		/**
