@@ -258,7 +258,7 @@ class Anno_tinyMCE {
 
 	function mce_buttons($buttons) {
 		if ($this->is_article()) {
-			$buttons = explode(',', 'save,fullscreen,undo,redo,help,code,visualaid,visualchars,visualblocks,|,txt_validate_attrs,txt_validate_noattrs,|,textorum-insertion-before,textorum-insertion-inside,textorum-insertion-after,|,annopasteword,annopastetext');
+			$buttons = explode(',', 'save,fullscreen,undo,redo,help,code,visualaid,visualchars,visualblocks,|,txt_validate_attrs,txt_validate_noattrs,|,textorum-insertion-before,textorum-insertion-inside,textorum-insertion-after,|,annopastetext');
 		}
 		return $buttons;
 	}
