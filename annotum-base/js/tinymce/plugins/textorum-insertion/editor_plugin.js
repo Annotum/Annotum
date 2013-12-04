@@ -27,29 +27,36 @@
 			// Key Bindings
 			//
 			ed.onKeyDown.addToTop(function(ed, e) {
-				var target;
+				var target, listItemParent;
 
 				// Enter
 				if (!e.shiftKey && e.keyCode == 13) {
+					tinymce.dom.Event.cancel(e);
+
+					listItemParent = ed.dom.getParent(ed.selection.getNode(), '.list-item');
 
 					// Ctrl + Enter
 					if (e.ctrlKey) {
 						// Check for parent p
-						target = ed.dom.getParent(ed.selection.getNode().parentNode, '.p');
-						if (target) {
-							return !self.insertElement('p', 'after', target);
+						parentP = ed.dom.getParent(ed.selection.getNode().parentNode, '.p');
+						if (parentP) {
+							return !self.insertElement('p', 'after', parentP);
 						}
 						else {
 							return !self.insertElement('sec', 'after', ed.dom.getParent(ed.selection.getNode(), '.sec'));
 						}
 					}
 					else {
-						return !self.insertElement('p', 'after');
+						if (listItemParent) {
+							return !self.insertElement('list-item', 'after', listItemParent);
+						}
+						else {
+							return !self.insertElement('p', 'after');
+						}
 					}
 				}
 				return true;
 			});
-
 
 			editor.addCommand('Textorum_Insertion_Menu', function(ui, where) {
 				var options, $button;
@@ -66,18 +73,43 @@
 					options = self.getValidElements(editor.selection.getNode(), where);
 
 					dropmenu.removeAll();
+
 					if (options.length) {
 						options = options.filter(function(a) { return ignoredElements.indexOf(a) === -1; });
-						for (var i = 0, len = options.length; i < len; i++) {
-							(function(element_name) {
-								dropmenu.add(new tinymce.ui.MenuItem('textorum-insertion-item-' + element_name ,{
-									title: element_name,
-									onclick: function() {
-										self.insertElement(element_name, where);
-									}
-								}));
-							})(options[i]);
-						}
+						tinymce.each(options, function(element_name) {
+							switch (element_name) {
+								case 'list':
+									dropmenu.add({ title: 'list (bulleted)', onclick: function() {
+										self.insertElement(element_name, where, null, {
+											'list-type': 'bullet'
+										});
+									}});
+
+									dropmenu.add({ title: 'list (ordered)', onclick: function() {
+										self.insertElement(element_name, where, null, {
+											'list-type': 'order'
+										});
+									}});
+
+									break;
+
+								default:
+									dropmenu.add(new tinymce.ui.MenuItem('textorum-insertion-item-' + element_name ,{
+										title: element_name,
+										onclick: function() {
+											if (element_name == 'list') {
+												self.insertElement(element_name, where, null, {
+													'list-type': 'bullet'
+												});
+											}
+											else {
+												self.insertElement(element_name, where);
+											}
+										}
+									}));
+									break;
+							}
+						});
 					}
 					else {
 						dropmenu.add(new tinymce.ui.MenuItem('textorum-insertion-item-none', {
@@ -144,11 +176,11 @@
 			editor.addShortcut('ctrl+enter', 'Insert Element', 'Textorum_Insertion');
 		},
 
-		insertElement: function(element_name, where, target) {
+		insertElement: function(element_name, where, target, attrs) {
 			var editor = tinyMCE.activeEditor,
 				newNode = editor.dom.create(
 					editor.plugins.textorum.translateElement(element_name),
-					{'class': element_name, 'data-xmlel': element_name},
+					tinymce.extend({'class': element_name, 'data-xmlel': element_name}, attrs),
 					'&#xA0;'
 				),
 				range, elYPos, options;
@@ -164,6 +196,7 @@
 
 			// Add additionally required child elements
 			switch (element_name) {
+
 				case 'sec':
 					newNode.innerHTML = '';
 					newNode.appendChild(
@@ -174,42 +207,61 @@
 						)
 					);
 					break;
+
 				case 'fig':
+					(function() {
+						var cap = editor.dom.create(
+							editor.plugins.textorum.translateElement('caption'),
+							{'class': 'caption', 'data-xmlel': 'caption'}
+						);
+
+						newNode.innerHTML = '';
+						newNode.appendChild(
+							editor.dom.create(
+								editor.plugins.textorum.translateElement('label'),
+								{'class': 'label', 'data-xmlel': 'label'},
+								'&#xA0;'
+							)
+						);
+
+						cap.appendChild(
+							editor.dom.create(
+								editor.plugins.textorum.translateElement('p'),
+								{'class': 'p', 'data-xmlel': 'p'},
+								'&#xA0;'
+							)
+						);
+
+						newNode.appendChild(cap);
+					})();
+					break;
+
+				case 'list':
+					newNode.innerHTML = "";
+					this.insertElement('list-item', 'inside', newNode);
+					break;
+
+				case 'list-item':
 					newNode.innerHTML = '';
 					newNode.appendChild(
-						editor.dom.create(
-							editor.plugins.textorum.translateElement('label'),
-							{'class': 'title', 'data-xmlel': 'title'},
-							'&#xA0;'
-						)
-					);
-
-					var cap = editor.dom.create(
-						editor.plugins.textorum.translateElement('caption'),
-						{'class': 'caption', 'data-xmlel': 'caption'}
-					);
-
-					cap.appendChild(
 						editor.dom.create(
 							editor.plugins.textorum.translateElement('p'),
 							{'class': 'p', 'data-xmlel': 'p'},
 							'&#xA0;'
 						)
 					);
-
-					newNode.appendChild(cap);
-
 					break;
 			}
 
 			dropmenuVisible = false;
+
 			switch(where) {
 				case 'before':
 					newNode = target.parentNode.insertBefore(newNode, target);
 					break;
 
 				case 'inside':
-					newNode = editor.selection.getNode().appendChild(newNode);
+					newNode = target.appendChild(newNode);
 					break;
 
 				case 'after':
@@ -221,6 +273,8 @@
 					}
 					break;
 			}
+
+			console.log(newNode);
 
 			if (document.createRange) {     // all browsers, except IE before version 9
 				range = document.createRange();

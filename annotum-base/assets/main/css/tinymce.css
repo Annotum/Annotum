@@ -80,21 +80,38 @@ div[data-xmlel="preformat"] {
 div[data-xmlel="list"] {
 	display: block;
 }
-div[data-xmlel="list"][list-type=bullet] div[data-xmlel="list-item"]:before,
-ul div[data-xmlel="list-item"]:before {
+
+/* Clear normal p styling for list-items */
+div[data-xmlel="list-item"] div[data-xmlel="p"] {
+	border: none;
+	background-color: #fff;
+	display: inline-block;
+	margin: 0px;
+	min-height: 0px;
+	padding: 0px;
+	padding-top: 0px;
+	padding-left: 15px;
+	background-image: none;
+}
+
+div[data-xmlel="list-item"]:before {
+	position:absolute;
+}
+
+div[data-xmlel="list"][list-type=bullet] > div[data-xmlel="list-item"]:before {
 	content: "\2022 ";
 }
 div[data-xmlel="list"][list-type=order] {
 	counter-reset: item;
 }
-div[data-xmlel="list"][list-type=order] div[data-xmlel="list-item"]:before,
-ol div[data-xmlel="list-item"]:before {
+div[data-xmlel="list"][list-type=order] > div[data-xmlel="list-item"]:before {
 	content: counter(item) ". ";
 	counter-increment: item;
 }
 div[data-xmlel="list-item"] {
 	display: block;
 	margin-left: 10px;
+	margin-bottom: 2px;
 }
 
 /** quotes

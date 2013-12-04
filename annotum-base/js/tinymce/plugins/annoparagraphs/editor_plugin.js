@@ -17,7 +17,9 @@
 
 			// Disable tab for everything except lists.
 			ed.onKeyUp.addToTop(function(ed, e) {
-				if (e.keyCode == 9 && ed.dom.getParent(ed.selection.getNode(), '.list-item') == null) {
+				var inAList = !!ed.dom.getParent(ed.selection.getNode(), '.list, .list-item');
+				if (e.keyCode == 9 && !inAList) {
+					console.log()
 					e.preventDefault();
 					return false;
 				}

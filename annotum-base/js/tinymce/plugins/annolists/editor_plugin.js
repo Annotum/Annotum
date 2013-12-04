@@ -47,7 +47,13 @@
 				tinyMCE.activeEditor.plugins.textorum.translateElement('list-item'),
 				{'class': 'list-item', 'data-xmlel': 'list-item', 'style': 'list-style-type: none;'}
 			);
-			dom.add(wrapItem, ed.plugins.textorum.translateElement('p'), {'class': 'p', 'data-xmlel': 'p'}, '&#xA0;');
+
+			dom.add(wrapItem, dom.create(
+				ed.plugins.textorum.translateElement('p'),
+				{'class': 'p', 'data-xmlel': 'p'},
+				'&#xA0;'
+			));
+
 			dom.split(element, nested);
 			dom.insertAfter(wrapItem, nested);
 			wrapItem.appendChild(nested);
@@ -163,18 +169,14 @@
 			};
 
 			function isEnterInEmptyListItem(ed, e) {
-				var sel = ed.selection, n;
+				var node = ed.selection.getNode(),
+					listItemParent = ed.dom.getParent(node, '.list-item');
+
 				if (e.keyCode === 13) {
-					n = sel.getStart();
-
-					// Get start will return BR if the LI only contains a BR
-					if (n.tagName == 'BR' && n.parentNode.className.toUpperCase() == 'LIST-ITEM')
-						n = n.parentNode;
-
-					// Check for empty LI or a LI with just one BR since Gecko and WebKit uses BR elements to place the caret
-					enterDownInEmptyList = sel.isCollapsed() && n && n.className.toUpperCase() === 'LIST-ITEM' && (n.childNodes.length === 0 || (n.firstChild.nodeName == 'BR' && n.childNodes.length === 1));
-					return enterDownInEmptyList;
+					return listItemParent && node.isEmpty();
 				}
+
+				return false;
 			};
 
 			function cancelKeys(ed, e) {
@@ -316,6 +318,7 @@
 			}
 
 			function makeList(element) {
+				console.log("Make List", element);
 				var list = dom.create(
 						tinyMCE.activeEditor.plugins.textorum.translateElement('list'),
 						{
@@ -345,11 +348,20 @@
 						tinyMCE.activeEditor.plugins.textorum.translateElement('list-item'),
 						{'class': 'list-item', 'data-xmlel': 'list-item'}
 					);
-					dom.add(li, ed.plugins.textorum.translateElement('p'), {'class': 'p', 'data-xmlel': 'p'}, '&#xA0;');
+
+					dom.add(li, dom.create(
+						ed.plugins.textorum.translateElement('p'),
+						{'class': 'p', 'data-xmlel': 'p'},
+						'&#xA0;'
+					));
+
 					dom.insertAfter(li, element);
 					li.appendChild(element);
 					element = li;
 				}
+
+				console.log("The Element", element);
+				console.log("The List", list);
 
 				dom.insertAfter(list, element);
 				list.appendChild(element);
@@ -375,7 +387,13 @@
 						tinyMCE.activeEditor.plugins.textorum.translateElement('list-item'),
 						{'class': 'list-item', 'data-xmlel': 'list-item'}
 					);
-					dom.add(li, ed.plugins.textorum.translateElement('p'), {'class': 'p', 'data-xmlel': 'p'}, '&#xA0;');
+
+					dom.add(li, dom.create(
+						ed.plugins.textorum.translateElement('p'),
+						{'class': 'p', 'data-xmlel': 'p'},
+						'&#xA0;'
+					));
+
 					//Title
 					start.parentNode.insertBefore(li, start);
 				}
@@ -387,6 +405,7 @@
 				if (li.childNodes.length === 0) {
 					li.innerHTML = '<br _mce_bogus="1" />';
 				}
+				console.log("doWrapList");
 				makeList(li);
 			}
 
@@ -463,6 +482,7 @@
 
 				if (dom.getAttrib(element.parentNode, 'list-type') === oppositeListType) {
 					dom.split(element.parentNode, element);
+					console.log("changeList");
 					makeList(element);
 				}
 				applied.push(element);
@@ -553,7 +573,13 @@
 					ed.plugins.textorum.translateElement('list-item'),
 					{'class': 'list-item', 'data-xmlel': 'list-item'}
 				);
-				dom.add(wrapItem, ed.plugins.textorum.translateElement('p'), {'class': 'p', 'data-xmlel': 'p'}, '&#xA0;');
+
+				dom.add(wrapItem, dom.create(
+					ed.plugins.textorum.translateElement('p'),
+					{'class': 'p', 'data-xmlel': 'p'},
+					'&#xA0;'
+				));
+
 				dom.insertAfter(wrapItem, element);
 				return wrapItem;
 			}
@@ -562,15 +588,21 @@
 				var wrapItem = createWrapItem(element),
 					list = dom.getParent(element, '.list'),
 					listType = dom.getAttrib(list, '.list-type'),
-					wrapList;
-				wrapList = dom.create(
-					ed.plugins.textorum.translateElement('list'),
-					{
-						'list-type': listType,
-						'class': 'list',
-						'data-xmlel': 'list'
-					}
-				);
+					wrapList = dom.create(
+						ed.plugins.textorum.translateElement('list'),
+						{
+							'list-type': listType,
+							'class': 'list',
+							'data-xmlel': 'list'
+						}
+					);
+
+				dom.add(wrapItem, dom.create(
+					ed.plugins.textorum.translateElement('p'),
+					{'class': 'p', 'data-xmlel': 'p'},
+					'&#xA0;'
+				));
+
 				wrapItem.appendChild(wrapList);
 				return wrapList;
 			}
