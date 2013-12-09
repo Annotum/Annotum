@@ -791,12 +791,37 @@
 		 * Inserts the specified contents at the caret position.
 		 */
 		_insert : function(h, skip_undo) {
-			var ed = this.editor, r = ed.selection.getRng();
+			var ed = this.editor, r = ed.selection.getRng(), target, dummy;
 			// First delete the contents seems to work better on WebKit when the selection spans multiple list items or multiple table cells.
-			if (!ed.selection.isCollapsed() && r.startContainer != r.endContainer)
+			if (!ed.selection.isCollapsed() && r.startContainer != r.endContainer) {
 				ed.getDoc().execCommand('Delete', false, null);
+			}
 
-			ed.execCommand('mceInsertContent', false, h, {skip_undo : skip_undo});
+			if (/<div[^>]*data-xmlel="p"[^>]*>/i.test(h)) { // contains p tags
+
+				// Change selection to target the first parent node that allows for
+				// `p` tags
+				target = ed.dom.getParent(ed.selection.getNode(), function(node) {
+					return ed.plugins.textorum.validator.validElementsForNode(node, "inside", "array").indexOf('p') !== -1;
+				});
+
+				if (!target) {
+					alert("No valid target for a paragraphed (multi-lined) paste");
+					return;
+				}
+
+				dummy = document.createElement('div');
+				dummy.innerHTML = h;
+
+				tinymce.each(dummy.childNodes, function(node) {
+					if (node && node.className && node.className.toUpperCase() === 'P') {
+						ed.dom.add(target, node);
+					}
+				});
+			}
+			else {
+				ed.execCommand('mceInsertContent', false, h, {skip_undo : skip_undo});
+			}
 		},
 
 		/**
