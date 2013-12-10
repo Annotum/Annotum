@@ -1226,6 +1226,10 @@ function anno_edit_post_assets($hook_suffix) {
 			wp_enqueue_script('anno-article-admin', $main.'js/article-admin.js', array('jquery-ui-sortable'), ANNO_VER);
 			if ($post->post_status == 'publish') {
 				wp_enqueue_script('anno-article-admin-snapshot', $main.'js/article-admin-snapshot.js', array('jquery', 'jquery-ui-sortable'), ANNO_VER);
+				$i10n = array(
+					'removeConfirmation' => __('Remove this author?', 'anno'),
+				);
+				wp_localize_script('anno-article-admin-snapshot', 'annoAAS', $i10n);
 			}
 		}
 	}
