@@ -103,12 +103,16 @@ body .wp-dialog .ui-dialog-title {
 	text-align: left;
 }
 body .wp-dialog .ui-dialog-titlebar-close,
-body .wp-dialog .ui-dialog-titlebar-close:hover {
+body .wp-dialog .ui-dialog-titlebar-close:hover,
+body .wp-dialog .ui-dialog-titlebar-close:focus {
 	background: url(../img/tinymce/tb-close.png) 0 0 no-repeat;
 	height: 15px;
 	right: 10px;
 	top: 16px;
 	width: 15px;
+}
+body .wp-dialog .ui-dialog-titlebar-close:before {
+	content: "";
 }
 body .ui-widget-overlay {
 	opacity: .75;
