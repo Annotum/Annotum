@@ -107,7 +107,7 @@ body .wp-dialog .ui-dialog-titlebar-close:hover {
 	background: url(../img/tinymce/tb-close.png) 0 0 no-repeat;
 	height: 15px;
 	right: 10px;
-	top: 6px;
+	top: 16px;
 	width: 15px;
 }
 body .ui-widget-overlay {
@@ -155,7 +155,7 @@ body .ui-widget-overlay {
 	margin: 0;
 }
 .anno-mce-popup input[type="button"],
-.anno-mce-popup input[type="submit"] {	
+.anno-mce-popup input[type="submit"] {
 	width: auto;
 	cursor: pointer;
 	min-width: 100px;
