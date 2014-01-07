@@ -32,6 +32,7 @@ include_once(CFCT_PATH.'functions/phpquery/phpquery.php');
 include_once(CFCT_PATH.'functions/anno-xml-download.php');
 include_once(CFCT_PATH.'functions/subscribe.php');
 include_once(CFCT_PATH.'functions/snapshot.php');
+include_once(CFCT_PATH.'functions/media-editor/media-editor.php');
 
 function anno_setup() {
 	$path = trailingslashit(TEMPLATEPATH);
