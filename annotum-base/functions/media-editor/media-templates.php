@@ -14,6 +14,15 @@ if (__FILE__ == $_SERVER['SCRIPT_FILENAME']) { die(); }
 <script type="text/html" id="tmpl-anno-attachment-display-settings">
 <div class="setting">
 	<h3><?php _e('Attachment Display Settings', 'anno'); ?></h3>
+	<span><?php _e('Display Type', 'anno'); ?></span>
+	<label>
+		<span><?php _e('Inline', 'anno'); ?></span>
+		<input type="radio" name="displaytype" data-setting="displaytype" value="inline">
+	</label>
+	<label>
+		<span><?php _e('Figure', 'anno'); ?></span>
+		<input type="radio" name="displaytype" data-setting="displaytype" value="figure">
+	</label>
 	<label>
 		<span><?php _e('Link To', 'anno'); ?></span>
 		<select class="link-to" data-setting="link"

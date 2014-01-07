@@ -139,7 +139,7 @@ function anno_body_meta_box($post) {
 	else {
 		$content = $post->post_content;
 	}
-
+	media_buttons('content');
 	if (function_exists('wp_editor')) {
 		anno_load_editor(anno_process_editor_content($content), 'content', array('textarea_name' => 'content'));
 	}
