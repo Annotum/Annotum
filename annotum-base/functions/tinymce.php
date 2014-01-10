@@ -303,7 +303,6 @@ class Anno_tinyMCE {
 			$plugins['annoReferences_base'] = $plugins_dir.'annoreferences/annoreferences.js';
 			$plugins['annoReferences']  =  $plugins_dir.'annoreferences/editor_plugin.js';
 
-			$plugins['annoImages_base'] = $plugins_dir.'annoimages/annoimages.js';
 			$plugins['annoImages']  =  $plugins_dir.'annoimages/editor_plugin.js';
 
 
