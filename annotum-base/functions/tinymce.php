@@ -766,10 +766,6 @@ function anno_preload_dialogs($init) {
 	</div>
 
 	<div style="display:none;">
-	<?php anno_popup_images(); ?>
-	</div>
-
-	<div style="display:none;">
 	<?php anno_popup_quote(); ?>
 	</div>
 

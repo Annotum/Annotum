@@ -14,16 +14,19 @@ if (__FILE__ == $_SERVER['SCRIPT_FILENAME']) { die(); }
 <script type="text/html" id="tmpl-anno-attachment-display-settings">
 <div class="setting">
 	<h3><?php _e('Attachment Display Settings', 'anno'); ?></h3>
-	<span><?php _e('Display Type', 'anno'); ?></span>
+	<# if ( 'undefined' !== typeof data.sizes ) { #>
 	<label>
-		<span><?php _e('Inline', 'anno'); ?></span>
-		<input type="radio" name="displaytype" data-setting="displaytype" value="inline">
+		<span><?php _e('Display Type', 'anno'); ?></span>
+		<select name="displaytype" data-setting="displaytype">
+			<option value="inline"><?php _e('Inline Image', 'anno'); ?></option>
+			<option value="figure"><?php _e('Figure', 'anno'); ?></option>
+		</select>
 	</label>
-	<label>
-		<span><?php _e('Figure', 'anno'); ?></span>
-		<input type="radio" name="displaytype" data-setting="displaytype" value="figure">
-	</label>
-	<label>
+	<# } #>
+	<label
+	<# if ( 'undefined' !== typeof data.sizes ) { #>
+		class="anno-link-to js-link-to"
+	<# } #>>
 		<span><?php _e('Link To', 'anno'); ?></span>
 		<select class="link-to" data-setting="link"
 		<# if ( data.userSettings && ! data.model.canEmbed ) { #>
@@ -156,6 +159,7 @@ if (__FILE__ == $_SERVER['SCRIPT_FILENAME']) { die(); }
 			<span><?php _e('Description', 'anno'); ?></span>
 			<textarea {{ maybeReadOnly }}>{{ data.description }}</textarea>
 		</label>
+<# if ( 'undefined' !== typeof data.sizes ) { #>
 	<label class="setting" data-setting="label">
 		<span><?php _e('Label', 'anno'); ?></span>
 		<input type="text" value="{{ data.annoLabel }}" />
@@ -175,4 +179,5 @@ if (__FILE__ == $_SERVER['SCRIPT_FILENAME']) { die(); }
 		<input type="text" value="{{ data.annoCpyHolder }}" />
 	</label>
 </div>
+<# } #>
 </script>

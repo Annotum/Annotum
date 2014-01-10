@@ -11,7 +11,6 @@
 if (__FILE__ == $_SERVER['SCRIPT_FILENAME']) { die(); }
 
 //@TODO conditionally use on article post type
-
 function anno_media_enqueue() {
 	wp_enqueue_script(
 		'annotum-media',
@@ -82,60 +81,81 @@ add_action('wp_ajax_save-attachment', 'anno_ajax_save_attachment', 0);
 
 function anno_media_send_to_editor($html, $id, $attachment) {
 	$html = '';
-	if (!isset($attachment['display'])) {
-		$attachment['display'] = 'inline';
+
+	$attachment_object = get_post($id);
+	if (!$attachment_object) {
+		return '';
 	}
 
-	$img_data = wp_get_attachment_image_src($id, $attachment['image-size']);
-	$img_url = is_array($img_data) && isset($img_data[0]) ? $img_data[0] : '';
-
-	if (trim($attachment['display']) == 'figure') {
-		$meta = array(
-			'label' => '_anno_attachment_image_label',
-			'copyright_statement' => '_anno_attachment_image_copyright_statement',
-			'copyright_holder' => '_anno_attachment_image_copyright_holder',
-			'license' => '_anno_attachment_image_license',
-
-		);
-		foreach ($meta as $key => $meta_key) {
-			$attachment[$key] = get_post_meta($id, $meta_key, true);
-		}
-
-		if (!empty($attachment['url'])) {
-			$fig_uri = '<div class="uri" data-xmlel="uri" xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="'.$attachment['url'].'"></div>';
-		}
-		else {
-			$fig_uri = '';
-		}
-
-		$html = '
-<div class="fig" data-xmlel="fig">
-	<div class="label" data-xmlel="label">'.$attachment['label'].'</div>
-	<div class="caption" data-xmlel="caption">
-		<span class="p" data-xmlel="p">'.$attachment['post_excerpt'].'</span>
-	</div>
-	<div class="media" xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="'.$img_url.'" data-xmlel="media">
-		'.$fig_uri.'
-		<span class="alt-text" data-xmlel="alt-text">'.$attachment['image_alt'].'</span>
-		<span class="long-desc" data-xmlel="long-desc">'.$attachment['post_content'].'</span>
-		<div class="permissions" data-xmlel="permissions">
-			<span class="copyright-statement" data-xmlel="copyright-statement">'.$attachment['copyright_statement'].'</span>
-			<span class="copyright-holder" data-xmlel="copyright-holder">'.$attachment['copyright_holder'].'</span>
-			<div class="license" data-xmlel="license" license-type="creative-commons">
-				<span class="license-p" data-xmlel="license-p">'.$attachment['license'].'</span>
-			</div>
-		</div>
-	</div>
-	<div _mce_bogus="1" class="clearfix"></div>
-</div>';
-
+	// Attachment is not an image, insert it as a link
+	if (!wp_attachment_is_image($id)) {
+		//@TODO NEEDS TO BE CONVERTED TO THE TEXTORUM EXPECTED TAG
+		$html = '<ext-link ext-link-type="uri" xlink:href="'.esc_url($attachment['url']).'">'.$attachment['post_title'].'</ext-link>';
 	}
 	else {
-		$html = '<span class="inline-graphic" data-xmlel="inline-graphic" xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="'.$img_url.'" alt-text="'.$attachment['image_alt'].'"></span><span> &nbsp;</span>';
+
+		if (!isset($attachment['display'])) {
+			$attachment['display'] = 'inline';
+		}
+
+		$img_data = wp_get_attachment_image_src($id, $attachment['image-size']);
+		$img_url = is_array($img_data) && isset($img_data[0]) ? $img_data[0] : '';
+
+		if (trim($attachment['display']) == 'figure') {
+			$meta = array(
+				'label' => '_anno_attachment_image_label',
+				'copyright_statement' => '_anno_attachment_image_copyright_statement',
+				'copyright_holder' => '_anno_attachment_image_copyright_holder',
+				'license' => '_anno_attachment_image_license',
+
+			);
+			foreach ($meta as $key => $meta_key) {
+				$attachment[$key] = get_post_meta($id, $meta_key, true);
+			}
+
+			if (!empty($attachment['url'])) {
+				$fig_uri = '<div class="uri" data-xmlel="uri" xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="'.$attachment['url'].'"></div>';
+			}
+			else {
+				$fig_uri = '';
+			}
+
+			$html = '
+
+	<div class="fig" data-xmlel="fig">
+		<img src="'.$img_url.'" data-mce-src="'.$img_url.' alt="'.$attachment['image_alt'].'" />
+		<div class="label" data-xmlel="label">'.$attachment['label'].'</div>
+		<div class="caption" data-xmlel="caption">
+			<span class="p" data-xmlel="p">'.$attachment['post_excerpt'].'</span>
+		</div>
+		<div class="media" xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="'.$img_url.'" data-xmlel="media">
+			'.$fig_uri.'
+			<span class="alt-text" data-xmlel="alt-text">'.$attachment['image_alt'].'</span>
+			<span class="long-desc" data-xmlel="long-desc">'.$attachment['post_content'].'</span>
+			<div class="permissions" data-xmlel="permissions">
+				<span class="copyright-statement" data-xmlel="copyright-statement">'.$attachment['copyright_statement'].'</span>
+				<span class="copyright-holder" data-xmlel="copyright-holder">'.$attachment['copyright_holder'].'</span>
+				<div class="license" data-xmlel="license" license-type="creative-commons">
+					<span class="license-p" data-xmlel="license-p">'.$attachment['license'].'</span>
+				</div>
+			</div>
+		</div>
+		<div _mce_bogus="1" class="clearfix"></div>
+	</div>';
+
+		}
+		else {
+			$html = '<span class="inline-graphic" data-xmlel="inline-graphic" xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="'.$img_url.'" alt-text="'.$attachment['image_alt'].'"><img src="'.$img_url.'" data-mce-src="'.$img_url.' alt="'.$attachment['image_alt'].'" /></span><span> &nbsp;</span>';
+		}
 	}
 
 	return $html;
 }
 add_filter('media_send_to_editor', 'anno_media_send_to_editor', 10, 3);
 
-
+function anno_media_filter_items($args) {
+	$post_id = $_REQUEST['post_id'];
+	$args['post_parent'] = $post_id;
+	return $args;
+}
+add_filter('ajax_query_attachments_args', 'anno_media_filter_items');

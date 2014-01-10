@@ -30,7 +30,23 @@ include_once(CFCT_PATH.'functions/phpquery/phpquery.php');
 include_once(CFCT_PATH.'functions/anno-xml-download.php');
 include_once(CFCT_PATH.'functions/subscribe.php');
 include_once(CFCT_PATH.'functions/snapshot.php');
-include_once(CFCT_PATH.'functions/media-editor/media-editor.php');
+
+
+function anno_include_media_edit() {
+	global $pagenow, $post_type;
+	if (
+		is_admin()
+		&& (
+			($pagenow == 'post.php' && get_post_type($_REQUEST['post']) == 'article')
+			|| ($pagenow == 'post-new.php' && $_REQUEST['post_type'] == 'article')
+			)
+		)
+	{
+		global $post;
+		include_once(CFCT_PATH.'functions/media-editor/media-editor.php');
+	}
+}
+add_action('admin_init', 'anno_include_media_edit');
 
 function anno_setup() {
 	$path = trailingslashit(TEMPLATEPATH);

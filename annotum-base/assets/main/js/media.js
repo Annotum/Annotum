@@ -10,8 +10,20 @@ var wpActiveEditor;
 			wpActiveEditor = $(this).data('editor');
 		});
 
+		// Conditinally display link to select box
+		$(document).on('change', 'select[name="displaytype"]', function(e) {
+			if ( $(this).val() == 'inline') {
+				$('.js-link-to').hide();
+			}
+			else {
+				$('.js-link-to').show();
+			}
+
+		})
+
 		var media = wp.media;
-		if (!media || !media.view || !media.view.Settings.AttachmentDisplay) {
+		console.log(media.view);
+		if (!media || !media.view || media.view['Settings'] == undefined || media.view.Settings['AttachmentDisplay'] == undefined ){
 			return;
 		}
 
@@ -25,6 +37,25 @@ var wpActiveEditor;
 		var AttachmentDetails = media.view.Attachment.Details;
 		media.view.Attachment.Details = AttachmentDetails.extend({
 			template:  media.template('anno-attachment-details')
+		});
+
+		var Menu = media.view.Menu;
+		media.view.Menu = Menu.extend({
+			visibility: function() {
+				var region = this.region,
+					view = this.controller[ region ].get(),
+					views = this.views.get(),
+					hide = ! views || views.length < 2;
+
+
+				if ( this === view ) {
+					this.controller.$el.toggleClass( 'hide-' + region, hide );
+				}
+				// Never show the menu.
+				if (region == 'menu') {
+					this.controller.$el.addClass('hide-menu');
+				}
+			}
 		});
 
 		// Override default send. Add in the display type
@@ -79,7 +110,7 @@ var wpActiveEditor;
 				});
 			},
 
-			link: function( embed ) {
+			link: function( embed ) {u
 				return wp.media.post( 'send-link-to-editor', {
 					nonce:   wp.media.view.settings.nonce.sendToEditor,
 					src:     embed.linkUrl,
