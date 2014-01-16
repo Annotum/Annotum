@@ -12,7 +12,7 @@
 
 /**
  * Set acceptable custom tags for wp_kses
- */ 
+ */
 $allowedposttags = array_merge($allowedposttags, array(
 	'alt-text' => array(),
 	'attrib' => array(),
@@ -20,7 +20,7 @@ $allowedposttags = array_merge($allowedposttags, array(
 	'cap' => array(),
 	'copyright-statement' => array(),
 	'copyright-holder' => array(),
-	'disp-quote' => array(),	
+	'disp-quote' => array(),
 	'ext-link' => array(
 		'type' => array(),
 		'xlink:href' => array(),
@@ -66,7 +66,7 @@ $allowedposttags = array_merge($allowedposttags, array(
 
 /**
  * Load the editor and corresponding textarea the WP 3.3 way
- */ 
+ */
 function anno_load_editor($content, $editor_id, $settings = array()) {
 	$formats = array(
 		'bold',
@@ -77,7 +77,7 @@ function anno_load_editor($content, $editor_id, $settings = array()) {
 		'sub',
 		'underline',
 	);
-	
+
 	$extended_valid_elements = array_merge(array(
 		'alt-text',
 		'attrib',
@@ -106,7 +106,7 @@ function anno_load_editor($content, $editor_id, $settings = array()) {
 		'xref[ref-type|rid]',
 		'paste',
 	), $formats);
-	
+
 	$custom_elements = array(
 		'~bold',
 		'~italic',
@@ -149,7 +149,7 @@ function anno_load_editor($content, $editor_id, $settings = array()) {
 		'LIST',
 		'LIST-ITEM',
 	);
-	
+
 	$formats_as_children = implode('|', $formats);
 
 	// Note the various html elements not defined by the DTD
@@ -178,7 +178,7 @@ function anno_load_editor($content, $editor_id, $settings = array()) {
 		'para['.$formats_as_children.'|media|img|permissions|license|list|list-item|disp-formula|disp-quote|fig|cap|table-wrap|table-wrap-foot|table|h2|xref|img|table|ext-link|paste|div|span|div|span|a|br]',
 		'sec[sec|heading|media|img|permissions|license|list|list-item|disp-formula|disp-quote|fig|cap|table-wrap|table-wrap-foot|para|h2|div|span|preformat|br]',
 	);
-	
+
 	$default_settings = array(
 		'wpautop' => false,
 		'media_buttons' => false,
@@ -193,7 +193,7 @@ function anno_load_editor($content, $editor_id, $settings = array()) {
 					italic : { \'inline\' : \'italic\'},
 					monospace : { \'inline\' : \'monospace\'},
 					preformat : {\'inline\' : \'preformat\'},
-					underline : { \'inline\' : \'underline\'},	
+					underline : { \'inline\' : \'underline\'},
 				}',
 			'theme_advanced_blockformats' => 'Paragraph=para,Heading=heading,Section=sec',
 			'forced_root_block' => '',
@@ -214,8 +214,8 @@ function anno_load_editor($content, $editor_id, $settings = array()) {
 }
 
 /**
- * Remove filters on editor content 
- * 
+ * Remove filters on editor content
+ *
  */
 function anno_remove_editor_content_filters($editor_markup) {
 	global $post_type;
@@ -230,9 +230,9 @@ function anno_remove_editor_content_filters($editor_markup) {
 add_filter('the_editor', 'anno_remove_editor_content_filters');
 
 /**
- * Force rich editor for article post type. 
+ * Force rich editor for article post type.
  * This overrides user settings and preferences based on other post types
- */ 
+ */
 function anno_force_richedit($editor_type) {
 	global $post_type;
 	if ($post_type == 'article') {
@@ -243,61 +243,60 @@ function anno_force_richedit($editor_type) {
 add_filter('wp_default_editor', 'anno_force_richedit');
 
 class Anno_tinyMCE {
-	function Anno_tinyMCE() {	
+	function Anno_tinyMCE() {
 		add_filter("mce_external_plugins", array(&$this, 'plugins'));
 		add_filter('mce_buttons', array(&$this, 'mce_buttons'));
 		add_filter('mce_buttons_2', array(&$this, 'mce_buttons_2'));
 		add_filter('mce_external_languages', array(&$this, 'external_languages'));
 	}
-	
+
 	function mce_buttons($buttons) {
 		if ($this->is_article()) {
 			$buttons = array('bold', 'italic', 'underline', '|', 'annoorderedlist', 'annobulletlist', '|', 'annoquote', '|', 'sup', 'sub', '|', 'charmap', '|', 'annolink', 'announlink', '|', 'annoimages', 'equation', '|', 'reference', '|', 'undo', 'redo', '|', 'wp_adv', '|', 'help', 'annotips', 'annotable', '|', 'fullscreen' );
 		}
 		return $buttons;
 	}
-	
+
 	function mce_buttons_2($buttons) {
 		if ($this->is_article()) {
 			$buttons = array('table', 'row_before', 'row_after', 'delete_row', 'col_before', 'col_after', 'delete_col', 'split_cells', 'merge_cells', '|', 'annopastetext', 'annopasteword', 'annolist', '|', 'annoreferences', '|', 'annosection', 'annomonospace', 'annopreformat', '|', 'annoequations', '|', 'spellchecker');
 		}
 		return $buttons;
 	}
-	
+
 	function plugins($plugins) {
 		if ($this->is_article()) {
 			$plugins_dir = trailingslashit(get_template_directory_uri()).'js/tinymce/plugins/';
 
 			$plugins['annoLink_base'] = $plugins_dir.'annolink/annolink.js';
 			$plugins['annoLink']  =  $plugins_dir.'annolink/editor_plugin.js';
-				
+
 			$plugins['annoReferences_base'] = $plugins_dir.'annoreferences/annoreferences.js';
 			$plugins['annoReferences']  =  $plugins_dir.'annoreferences/editor_plugin.js';
 
-			$plugins['annoImages_base'] = $plugins_dir.'annoimages/annoimages.js';
 			$plugins['annoImages']  =  $plugins_dir.'annoimages/editor_plugin.js';
-		
+
 			$plugins['annoTable'] = $plugins_dir.'annotable/editor_plugin.js';
 			$plugins['annoTable_base'] = $plugins_dir.'annotable/annotable.js';
-			
+
 			$plugins['annoQuote'] = $plugins_dir.'annoquote/editor_plugin.js';
 			$plugins['annoQuote_base'] = $plugins_dir.'annoquote/annoquote.js';
-		
+
 			$plugins['annoLists'] = $plugins_dir.'annolists/editor_plugin.js';
-		
+
 			$plugins['annoParagraphs'] = $plugins_dir.'annoparagraphs/editor_plugin.js';
-	
+
 			$plugins['annoTips'] = $plugins_dir.'annotips/editor_plugin.js';
-			
+
 			$plugins['annoFormats'] = $plugins_dir.'annoformats/editor_plugin.js';
-			
+
 			$plugins['annoEquations'] = $plugins_dir.'annoequations/editor_plugin.js';
-			
+
 			$plugins['fullscreen'] = $plugins_dir.'fullscreen/editor_plugin.js';
 
 			$plugins['annoPaste'] = $plugins_dir.'annopaste/editor_plugin.js';
 
-			$plugins['annoequationedit'] = $plugins_dir.'annoequationedit/editor_plugin.js';	
+			$plugins['annoequationedit'] = $plugins_dir.'annoequationedit/editor_plugin.js';
 		}
 		return $plugins;
 	}
@@ -308,10 +307,10 @@ class Anno_tinyMCE {
 			'annoequationedit' => $plugins_dir.'annoequationedit/langs/lang.php',
 		));
 	}
-	
+
 	/**
 	 * Returns whether or not the current post (post_type) is an article
-	 */ 
+	 */
 	private function is_article() {
 		global $post_type;
 		return $post_type == 'article';
@@ -325,10 +324,10 @@ function anno_tiny_mce_before_init($init_array) {
 		$init_array['plugins'] = str_replace('wpeditimage,', '', $init_array['plugins']);
 		$init_array['plugins'] = str_replace('wpeditimage', '', $init_array['plugins']);
 	};
-	
+
 	//show Kitchen Sink by default
 	$init_array['wordpress_adv_hidden'] = false;
-	
+
 	return $init_array;
 }
 
@@ -419,7 +418,7 @@ function anno_popup_table() {
 			</div>
 		</form>
 	</div>
-<?php 
+<?php
 }
 
 
@@ -456,17 +455,17 @@ function anno_popup_references_row_display($reference_key, $reference) {
 		</td>
 	</tr>
 	</table>
-<?php 
+<?php
 }
 
 /**
  * Row edit markup for references display in the popup Dialog for tinyMCE.
- * 
+ *
  * @param int $reference_key Key of the reference
  * @param array $reference Array of reference data
  * @param int $post_id ID of the post
  * @param bool $doi_enabled Determines if the DOI lookup should be enabled. Passed as parameter to prevent lookup on every row display
- * 
+ *
  * @return void
  */
 function anno_popup_references_row_edit($reference_key, $reference, $post_id, $doi_enabled = false) {
@@ -515,14 +514,14 @@ function anno_popup_references_row_edit($reference_key, $reference, $post_id, $d
 							<input type="hidden" name="action" value="anno-reference-save" />
 							<?php wp_nonce_field('anno_save_reference', '_ajax_nonce-save-reference'); ?>
 						</div>
-<?php endif; ?>						
+<?php endif; ?>
 						<div class="clearfix"></div>
 					</form>
 				</div>
 			</td>
 		</tr>
 	</table>
-<?php 
+<?php
 }
 
 /**
@@ -532,7 +531,7 @@ function anno_popup_references_row_edit($reference_key, $reference, $post_id, $d
  * @param array $reference Array of reference data
  * @param int $post_id ID of the post
  * @param bool $doi_enabled Determines if the DOI lookup should be enabled. Passed as parameter to prevent lookup on every row display
- * 
+ *
  * @return void
  */
 function anno_popup_reference_row($reference_key, $reference, $post_id, $doi_enabled = false) {
@@ -552,7 +551,7 @@ function anno_popup_reference_row($reference_key, $reference, $post_id, $doi_ena
 function anno_popup_references() {
 	global $post;
 	$references = get_post_meta($post->ID, '_anno_references', true);
-	
+
 ?>
 	<div id="anno-popup-references" class="anno-mce-popup">
 		<div class="anno-mce-popup-fields">
@@ -574,7 +573,7 @@ function anno_popup_references() {
 			foreach ($reference_keys as $key_val) {
 				$reference[$key_val] = isset($reference[$key_val]) ? $reference[$key_val] : '';
 			}
-			
+
 			anno_popup_reference_row($reference_key, $reference, $post->ID, $doi_enabled);
 		}
 	}
@@ -589,9 +588,9 @@ function anno_popup_references() {
 							<?php _anno_popup_submit_button('anno-references-new', _x('New Reference', 'button value', 'anno')); ?>
 						</td>
 					</tr>
-<?php endif; ?>					
+<?php endif; ?>
 				</tbody>
-			</table>	
+			</table>
 		</div>
 		<div class="anno-mce-popup-footer">
 			<?php _anno_popup_submit_button('anno-references-submit', _x('Insert Reference(s)', 'button value', 'anno')); ?>
@@ -638,7 +637,7 @@ function anno_popup_quote() {
 		</div>
 	</form>
 </div>
-	
+
 <?php
 }
 
@@ -649,7 +648,7 @@ function anno_popup_equations() {
 ?>
 <div id="anno-popup-equations" class="anno-mce-popup">
 	<form id="anno-tinymce-equations-form" class="" tabindex="-1">
-		<div class="anno-mce-popup-fields">			
+		<div class="anno-mce-popup-fields">
 			<div class="equation-edit-details">
 				<label for="equation-alttext">
 					<div><?php _ex('Alt Text', 'input label', 'anno'); ?></div>
@@ -712,7 +711,7 @@ function anno_popup_tips() {
 
 /**
  * Markup for the tinyMCE dialog popups
- */ 
+ */
 function anno_preload_dialogs($init) {
 	global $pagenow, $post_type;
 	if (($pagenow == 'post-new.php' || $pagenow == 'post.php') && $post_type == 'article') {
@@ -720,7 +719,7 @@ function anno_preload_dialogs($init) {
 	<div style="display:none;">
 	<?php anno_popup_link(); ?>
 	</div>
-	
+
 	<div style="display:none;">
 	<?php anno_popup_paste(); ?>
 	</div>
@@ -732,23 +731,19 @@ function anno_preload_dialogs($init) {
 	<div style="display:none;">
 	<?php anno_popup_table(); ?>
 	</div>
-	
-	<div style="display:none;">
-	<?php anno_popup_images(); ?>
-	</div>
-	
+
 	<div style="display:none;">
 	<?php anno_popup_quote(); ?>
 	</div>
-	
+
 	<div style="display:none;">
 	<?php anno_popup_equations(); ?>
 	</div>
-	
+
 	<div style="display:none;">
 	<?php anno_popup_tips(); ?>
 	</div>
-	
+
 <?php
 	}
 }
@@ -757,14 +752,14 @@ add_action('after_wp_tiny_mce', 'anno_preload_dialogs', 10, 1 );
 
 /**
  * Ajax Handler for creating/updating references
- */ 
+ */
 function anno_tinymce_reference_save() {
 	check_ajax_referer('anno_save_reference', '_ajax_nonce-save-reference');
 
 	$success = true;
 	$response = array();
 	$messages = array();
-	
+
 	if (!isset($_POST['post_id'])) {
 		$message = _x('Could not evaluate Article ID please try again.', 'error message', 'anno');
 		$success = false;
@@ -777,7 +772,7 @@ function anno_tinymce_reference_save() {
 		$message = _x('Could not evaluate Reference ID please try again.', 'error message', 'anno');
 		$success = false;
 	}
-	
+
 	if ($success) {
 		$reference = anno_insert_reference($_POST);
 		if (!$reference) {
@@ -795,10 +790,10 @@ function anno_tinymce_reference_save() {
 			$message =  _x('Reference Saved.', 'success message', 'anno');
 		}
 	}
-	
+
 	$response['message'] = $success ? 'success' : 'error';
 	$response['text'] = $message;
-		
+
 	echo json_encode($response);
 	die();
 }
@@ -812,17 +807,17 @@ function anno_tinymce_reference_delete() {
 add_action('wp_ajax_anno-reference-delete', 'anno_tinymce_reference_delete');
 
 /**
- * Updates or creates a new reference for a given post. 
+ * Updates or creates a new reference for a given post.
  * New posts should be passed in without a 'ref_id' key, or with 'new' as a value
- * 
+ *
  * @param array $ref_array Array of reference data
  * @return mixed bool|Array array of the updated/created reference false otherwise
- */ 
+ */
 function anno_insert_reference($ref_array) {
 	if (!isset($ref_array['post_id']) || !isset($ref_array['text'])) {
 		return false;
 	}
-		
+
 	$ref_args = array(
 		'doi' => isset($ref_array['doi']) ? $ref_array['doi'] : '',
 		'pmid' => isset($ref_array['pmid']) ? $ref_array['pmid'] : '',
@@ -830,9 +825,9 @@ function anno_insert_reference($ref_array) {
 		'figures' => isset($ref_array['figures']) ? $ref_array['figures'] : '',
 		'url' => isset($ref_array['url']) ? $ref_array['url'] : '',
 	);
-	
+
 	$references = get_post_meta(absint($ref_array['post_id']), '_anno_references', true);
-	
+
 	// Do new item
 	if (!isset($ref_array['ref_id']) || $ref_array['ref_id'] == 'new') {
 		$references[] = $ref_args;
@@ -846,10 +841,10 @@ function anno_insert_reference($ref_array) {
 	else {
 		return false;
 	}
-	
+
 	// @TODO Reset our array keys in case any have become offset account for in post_content
 	update_post_meta(absint($ref_array['post_id']), '_anno_references', $references);
-	
+
 	return $ref_args;
 }
 
@@ -860,7 +855,7 @@ function anno_delete_reference($post_id, $ref_id) {
 		// @TODO Reset our array keys in case any have become offset account for in post_content
 		update_post_meta($post_id, '_anno_references', $references);
 		return true;
-	} 
+	}
 	return false;
 }
 
@@ -902,46 +897,46 @@ function anno_tinymce_image_save() {
 			}
 		}
 	}
-	
+
 	die();
 }
 add_action('wp_ajax_anno-img-save', 'anno_tinymce_image_save');
 
 /**
- * Prior to outputting the value of the textarea, convert a couple 
- * entities that wouldn't be able to be seen, into HTML.  This is 
+ * Prior to outputting the value of the textarea, convert a couple
+ * entities that wouldn't be able to be seen, into HTML.  This is
  * done on the fly, so that the XML stored in the DB is correct.
  *
- * @param string $content 
+ * @param string $content
  * @return void
  */
 function anno_process_editor_content($content) {
 	// Break to BR
 	$content = str_replace('<break />', '<br />', $content);
-	
+
 	phpQuery::newDocument($content);
 
 	// Convert inline-graphics to <img> tags so they display
 	anno_xml_to_html_replace_inline_graphics($content);
-	
+
 	// Convert caption to cap
 	anno_replace_caption_tag($content);
-	
+
 	// Convert p to para
 	anno_replace_p_tag($content);
-	
+
 	// Convert label to lbl
 	anno_replace_label_tag($content);
-	
+
 	// Convert title to heading
 	anno_replace_title_tag($content);
-	
+
 	// Remove p tags wrapping list items
 	anno_remove_p_from_list_items($content);
-	
+
 	// Remove p tags from disp-quotes
 	anno_remove_p_from_disp_quote_items($content);
-		
+
 	// We need a clearfix for floated images.
 	$figs = pq('fig');
 	foreach ($figs as $fig) {
@@ -957,11 +952,11 @@ function anno_process_editor_content($content) {
 			$img_src = $fig->find('media')->attr('xlink:href');
 		}
 		$fig->prepend('<img src="'.$img_src.'" />');
-		
+
 		// _mce_bogus stripped by tinyMCE on save
 		$fig->append('<div _mce_bogus="1" class="clearfix"></div>');
 	}
-	
+
 	return phpQuery::getDocument();
 }
 
@@ -969,13 +964,13 @@ function anno_process_editor_content($content) {
 /**
  * Validates the XML to only allow tags defined in the DTD
  *
- * @param string $html_content 
+ * @param string $html_content
  * @return string - DTD valid XML
  */
 function anno_validate_xml_content_on_save($html_content) {
 	// Strip all tags not defined by DTD
 	$content = anno_to_xml($html_content);
-	
+
 	// Convert remaining br to break tags. Unable to do this with phpQuery, it thinks break tag should be opened and closed
 	$content = str_replace(array('<br />', '<br>'), '<break />', $content);
 
@@ -994,13 +989,13 @@ function anno_get_dtd_valid_elements() {
 		'<sub>',
 		'<monospace>',
 		'<underline>',
-		
+
 		// Inlines
 		'<named-content>',
 		'<ext-link>',
 		'<inline-graphic>',
 			'<alt-text>',
-		
+
 		// Paragraph-level
 		'<media>',
 			'<uri>',
@@ -1075,7 +1070,7 @@ function anno_get_dtd_valid_elements() {
 					'<license>',
 						'<license-p>',
 							'<xref>',
-					
+
 		'<preformat>',
 		'<article>',
 			'<sec>',
@@ -1124,7 +1119,7 @@ function anno_insert_post_data($data, $postarr) {
 	if ($postarr['post_type'] == 'article') {
 		// Get our XML content for the revision
 		$content = stripslashes($data['post_content']);
-		
+
 		// Remove non-ascii gremlins
 		$content = preg_replace('/(\xc2\xa0)/',' ', $content);
 		$content = str_replace(array("\r", "\r\n", "\n"), '', $content);
@@ -1134,14 +1129,14 @@ function anno_insert_post_data($data, $postarr) {
 		// Set formatted HTML as the_content
 		$data['post_content'] = addslashes(anno_xml_to_html($xml));
 	}
-	
+
 	return $data;
 }
 add_filter('wp_insert_post_data', 'anno_insert_post_data', null, 2);
 
 /**
  * Don't process incoming content from revisions, its already in the forms expected
- */ 
+ */
 function anno_remove_insert_filter_for_restore() {
 	remove_filter('wp_insert_post_data', 'anno_insert_post_data', null, 2);
 }
@@ -1149,16 +1144,16 @@ add_action('admin_action_restore', 'anno_remove_insert_filter_for_restore');
 
 /**
  * Allow post_content_filtered to be managed by revisions
- */ 
+ */
 function anno_post_revision_fields($fields) {
-	$fields['post_content_filtered'] = _x('Post Content Filtered', 'Title for revision management', 'anno');  	
-	return $fields;	  	
+	$fields['post_content_filtered'] = _x('Post Content Filtered', 'Title for revision management', 'anno');
+	return $fields;
 }
 add_filter( '_wp_post_revision_fields', 'anno_post_revision_fields');
 
 /**
  * Only maintain line breaks on certain tags (title, td, th)
- */ 
+ */
 function anno_handle_br($xml) {
 	$tags = pq('br');
 	$save = pq('title > br, td > br, th > br');
@@ -1196,38 +1191,38 @@ add_filter( 'edit_post_content_filtered', 'anno_edit_post_content_filtered', 10,
 
 /**
  * Utility function to convert our HTML into XML
- * By default, this doesn't do anything by itself, but it runs the 
- * 'anno_to_xml' action to allow various actions to change 
+ * By default, this doesn't do anything by itself, but it runs the
+ * 'anno_to_xml' action to allow various actions to change
  * small specific portions of the HTML
  *
  * @see anno_xml_to_html_replace_bold() for simple example on usage
- * 
- * @param string $xml_content 
+ *
+ * @param string $xml_content
  * @return void
  */
 function anno_to_xml($html_content) {
 	$post_id = anno_get_post_id();
-	
+
 	// Load our phpQuery document up, so filters should be able to use the pq() function to access its elements
 	phpQuery::newDocument($html_content);
-	
+
 	// Let our various actions alter the document into XML
 	do_action('anno_to_xml', $html_content);
-	
+
 	$imported = get_post_meta($post_id, '_anno_knol_import', true);
 	if ($imported) {
 		do_action('anno_to_xml_imported', $html_content);
 	}
-	
+
 	// Return the newly formed HTML
 	return phpQuery::getDocument()->__toString();
 }
 
 /**
- * Change HTML formatting to XML defined by the DTD. 
+ * Change HTML formatting to XML defined by the DTD.
  * Knol imported content comes with b, em etc... tags
- * 
- * @param string $orig_html 
+ *
+ * @param string $orig_html
  * @return void
  */
 function anno_to_xml_replace_formatting($orig_markup) {
@@ -1238,10 +1233,10 @@ function anno_to_xml_replace_formatting($orig_markup) {
 		'i' => 'italic',
 		'u' => 'underline',
 	);
-	
+
 	foreach ($formats as $html => $kipling_xml) {
 		anno_convert_tag($html, $kipling_xml);
-	}	
+	}
 }
 add_action('anno_to_xml', 'anno_to_xml_replace_formatting');
 
@@ -1278,7 +1273,7 @@ function anno_to_xml_import_replace_links($orig_markup) {
 		$a_tag = pq($a_tag);
 		$link_content = $a_tag->html();
 		$link_url = $a_tag->attr('href');
-			
+
 		$xml = '<ext-link ext-link-type="uri" xlink:href="'.$link_url.'" >'.$link_content.'</ext-link>';
 		$a_tag->replaceWith($xml);
 	}
@@ -1305,13 +1300,13 @@ add_action('anno_to_xml', 'anno_to_xml_replace_inline_graphics');
 
 /**
  * Utility function to convert our XML into HTML
- * By default, this doesn't do anything by itself, but it runs the 
- * 'anno_xml_to_html' action to allow various actions to change 
+ * By default, this doesn't do anything by itself, but it runs the
+ * 'anno_xml_to_html' action to allow various actions to change
  * small specific portions of the XML
  *
  * @see anno_xml_to_html_replace_bold() for simple example on usage
- * 
- * @param string $xml_content 
+ *
+ * @param string $xml_content
  * @return void
  */
 function anno_xml_to_html($xml_content) {
@@ -1320,10 +1315,10 @@ function anno_xml_to_html($xml_content) {
 
 	// Load our phpQuery document up, so filters should be able to use the pq() function to access its elements
 	phpQuery::newDocument($xml_content);
-	
+
 	// Let our various actions alter the document into HTML
 	do_action('anno_xml_to_html', $xml_content);
-	
+
 	// Return the newly formed HTML
 	return phpQuery::getDocument()->__toString();
 }
@@ -1332,7 +1327,7 @@ function anno_xml_to_html($xml_content) {
 /**
  * Loop over each formatting tag and do the proper HTML replacement
  *
- * @param string $orig_xml 
+ * @param string $orig_xml
  * @return void
  */
 function anno_xml_to_html_replace_formatting($orig_xml) {
@@ -1371,10 +1366,10 @@ function anno_xml_to_html_replace_formatting($orig_xml) {
 		foreach ($nodes as $node) {
 			// Get our HTML information from the mapping array
 			extract($html_info);
-			
+
 			// Build our class string if we need to
 			$class = empty($class) ? '' : ' class="'.$class.'"';
-			
+
 			$pq_node = pq($node); // Create a phpQuery object from the node
 			$pq_node->replaceWith('<'.$tag.$class.'>'.$pq_node->html().'</'.$tag.'>');
 		}
@@ -1398,10 +1393,10 @@ function anno_xml_to_html_replace_inline_graphics($orig_xml) {
 		else {
 			$img_src = $img->attr('xlink:href');
 		}
-		
+
 		if (!empty($img_src)) {
 			$alt_text = $img->children('alt-text:first')->html();
-			
+
 			$html = '<img src="'.$img_src.'" class="_inline_graphic" alt="'.$alt_text.'" />';
 			$img->replaceWith($html);
 		}
@@ -1419,11 +1414,11 @@ add_action('anno_xml_to_html', 'anno_xml_to_html_replace_inline_graphics');
 function anno_xml_to_html_replace_figures($orig_xml) {
 	$tpl = new Anno_Template_Utils();
 	$figs = pq('fig');
-	
+
 	$count = 0;
 	if (count($figs)) {
 		foreach ($figs as $fig) {
-		
+
 			// Get a phpQuery obj
 			$fig = pq($fig);
 
@@ -1441,7 +1436,7 @@ function anno_xml_to_html_replace_figures($orig_xml) {
 			$title = $media->children('long-desc')->html();
 			$uri = pq($media->children('uri'));
 			$uri_href = $uri->attr('xlink:href');
-			
+
 			// Build our img tag
 			$img_tag = $tpl->to_tag('img', null, array(
 				'src' => $img_src,
@@ -1449,7 +1444,7 @@ function anno_xml_to_html_replace_figures($orig_xml) {
 				'alt' => $alt,
 				'class' => 'photo'
 			));
-			
+
 			// add start and end a tags if we have a uri to which to link the image
 			if (!empty($uri_href)) {
 				$linked_img_tag_start = '<a href="'.$uri_href.'">';
@@ -1459,26 +1454,26 @@ function anno_xml_to_html_replace_figures($orig_xml) {
 				$linked_img_tag_start = '';
 				$linked_img_tag_end = '';
 			}
-			
+
 			$label = $fig->children('label')->html();
 			$label = ($label ? sprintf(__('Fig. %d', 'anno'), ++$count).': '.strip_tags($label) : '');
 			$label_tag = $tpl->to_tag('h2', $label, array('class' => 'label'));
-			
+
 			$cap = $fig->children('caption')->html();
 			$cap_tag = $tpl->to_tag('div', $cap, array('class' => 'fn'));
-			
+
 			$permissions = $fig->find('permissions');
 			$permissions_tag = anno_convert_permissions_to_html($permissions);
 			$permissions->remove();
-			
+
 			$figcaption = $tpl->to_tag('figcaption', $label_tag.$cap_tag.$permissions_tag);
-		
+
 			$html = '
 				<figure class="figure hmedia clearfix">
 					'.$linked_img_tag_start.$img_tag.$linked_img_tag_end.'
 					'.$figcaption.'
 				</figure>';
-			
+
 			// Replace our figure with valid HTML
 			$fig->replaceWith($html);
 		}
@@ -1493,7 +1488,7 @@ function anno_xml_to_html_replace_sec($orig_xml) {
 	$sections = pq('sec');
 	if (count($sections)) {
 		foreach ($sections as $sec) {
-			$sec = pq($sec);			
+			$sec = pq($sec);
 			// Replace sections
 			$sec->replaceWith('<section class="sec">'.$sec->html().'</section>');
 		}
@@ -1519,7 +1514,7 @@ add_action('anno_xml_to_html', 'anno_xml_to_html_replace_title', 9);
 
 /**
  * Change the XML <list> elements to proper HTML
- * 
+ *
  * @param string $orig_xml
  * @return void
  */
@@ -1531,12 +1526,12 @@ function anno_xml_to_html_replace_lists($orig_xml) {
 			'<p>',
 				'<xref>',
 			'<list>', // allow nested lists
-			
+
 	<figure>
 		<figcaption>
 		<ul/ol>
 			<li>
-	
+
 	*/
 	$lists = pq('list');
 	while(count($lists)) {
@@ -1553,7 +1548,7 @@ function anno_xml_to_html_replace_lists($orig_xml) {
 
 		// Now that we have the title, get rid of the element
 		$pq_list->find('title:first')->remove();
-		
+
 		// Replace our list with our built-out HTML
 		$html = '';
 		$html .= '<figure class="list">';
@@ -1563,7 +1558,7 @@ function anno_xml_to_html_replace_lists($orig_xml) {
 		// Remove wrapping p tags that are maintained in XML
 		$html = str_replace(array('<p>', '</p>'), '', $html);
 		$pq_list->replaceWith($html);
-		
+
 		// Update lists to double check for remaining lists in the document
 		$lists = pq('list');
 	}
@@ -1573,7 +1568,7 @@ add_action('anno_xml_to_html', 'anno_xml_to_html_replace_lists');
 
 /**
  * Do stuff to the list elements
- * 
+ *
  * @param pq obj $list
  * @param bool $child Whether or not this list is a child of another list (replace now vs with wrapping 'figure')
  * @return void
@@ -1591,7 +1586,7 @@ function anno_xml_to_html_iterate_list($list, $child = false) {
 			anno_xml_to_html_iterate_list_item($pq_item);
 		}
 	}
-	
+
 	if ($child) {
 		$list->replaceWith('<'.$list_type.'>'.$list->html().'</'.$list_type.'>');
 	}
@@ -1599,7 +1594,7 @@ function anno_xml_to_html_iterate_list($list, $child = false) {
 
 /**
  * Set the list items' HTML wrapper
-  * @param pqObj $item 
+  * @param pqObj $item
  * @return void
  */
 function anno_xml_to_html_iterate_list_item($item) {
@@ -1618,7 +1613,7 @@ function anno_xml_to_html_iterate_list_item($item) {
 /**
  * Replace the XML tables with proper HTML
  *
- * @param string $orig_xml 
+ * @param string $orig_xml
  * @return void
  */
 function anno_xml_to_html_replace_tables($orig_xml) {
@@ -1650,7 +1645,7 @@ function anno_xml_to_html_replace_tables($orig_xml) {
 			'<license>',
 				'<license-p>',
 					'<xref>',
-			
+
 	<figure class="table">
 		<figcaption>Lemurs vs Other Things</figcaption>
 		<table>
@@ -1676,7 +1671,7 @@ add_action('anno_xml_to_html', 'anno_xml_to_html_replace_tables');
 
 /**
  * Do stuff to the table-wrap elements
- * 
+ *
  * @param pq obj $table
  * @return void
  */
@@ -1684,13 +1679,13 @@ function anno_xml_to_html_iterate_table($table) {
 	// Get table title & caption'
 	$figcaption = $table->children('label:first')->html();
 	$table_caption = $table->children('caption:first')->html();
-	
+
 	// Now that we have the title and caption, get rid of the elements
 	$table->children('lbl:first')->remove();
 	$table->children('caption:first')->remove();
-	
+
 	$inner_table = $table->children('table');
-	
+
 	// Loop over our table header
 	$theads = $inner_table->children('thead');
 
@@ -1699,7 +1694,7 @@ function anno_xml_to_html_iterate_table($table) {
 			anno_xml_to_html_iterate_table_head(pq($thead));
 		}
 	}
-	
+
 	// Loop over our table body
 	$tbodies = $inner_table->children('tbody');
 	if (count($tbodies)) {
@@ -1707,7 +1702,7 @@ function anno_xml_to_html_iterate_table($table) {
 			anno_xml_to_html_iterate_table_body(pq($tbody));
 		}
 	}
-	
+
 	// Replace our table-wrap with our built-out HTML
 	$html = '<figure class="table">';
 	// PDF generation requires a figcaption element, even if its empty! Doesnt change html view.
@@ -1723,7 +1718,7 @@ function anno_xml_to_html_iterate_table($table) {
 
 /**
  * Do stuff to the thead elements
- * 
+ *
  * @param pq obj $thead
  * @return void
  */
@@ -1740,7 +1735,7 @@ function anno_xml_to_html_iterate_table_head($thead) {
 
 /**
  * Do stuff to the thead->tr elements
- * 
+ *
  * @param pq obj $trow
  * @return void
  */
@@ -1755,27 +1750,27 @@ function anno_xml_to_html_iterate_table_head_row($trow) {
 
 /**
  * Do stuff to the thead->tr->th elements
- * 
+ *
  * Replace <br>s with <break>
  * the rest of it's HTML the same
  *
- * @param pq obj $th 
+ * @param pq obj $th
  * @return void
  */
 function anno_xml_to_html_iterate_table_head_row_th($th) {
-	// Nothing to do here right now...just a stub function 
+	// Nothing to do here right now...just a stub function
 }
 
 
 /**
- * Iterate of elements of the tbody.  Not doing anything right now, just 
+ * Iterate of elements of the tbody.  Not doing anything right now, just
  * here for when we need it.
  *
- * @param pq obj $tbody 
+ * @param pq obj $tbody
  * @return void
  */
 function anno_xml_to_html_iterate_table_body($tbody) {
-	// Nothing to do here right now...just a stub function 
+	// Nothing to do here right now...just a stub function
 }
 
 /**
@@ -1828,7 +1823,7 @@ add_action('anno_xml_to_html', 'anno_xml_to_html_replace_external_links');
 function anno_xml_to_html_replace_dispquotes($orig_xml) {
 	$quotes = pq('disp-quote');
 	$tpl = new Anno_Template_Utils();
-	
+
 	foreach ($quotes as $quote) {
 		$quote = pq($quote);
 
@@ -1841,13 +1836,13 @@ function anno_xml_to_html_replace_dispquotes($orig_xml) {
 		$quote_text = pq('p', $quote)->text();
 
 		$blockquote_tag = $tpl->to_tag('blockquote', esc_html($quote_text));
-		
+
 		$permissions = $quote->find('permissions');
 		$permissions_tag = anno_convert_permissions_to_html($permissions);
 		$permissions->remove();
-		
+
 		$quote_tag = $tpl->to_tag('div', $blockquote_tag.$attrib_tag.$permissions_tag, array('class' => 'quote'));
-		
+
 		// Do the actual HTML replacement
 		$quote->replaceWith($quote_tag);
 	}
@@ -1856,7 +1851,7 @@ add_action('anno_xml_to_html', 'anno_xml_to_html_replace_dispquotes');
 
 /**
  * Swap preformat tags with pre tag.
- * 
+ *
  * @param phpQueryObject $xml (unused, required by add_action)
  * @return void
  */
@@ -1869,21 +1864,21 @@ add_action('anno_xml_to_html', 'anno_xml_to_html_preformat_tag');
  * Convert permissions block to html
  *
  * @param phpQueryObject $permissions_pq_obj
- * @return void 
+ * @return void
  */
 function anno_convert_permissions_to_html($permissions_pq_obj) {
 	$permissions = pq($permissions_pq_obj);
 	$tpl = new Anno_Template_Utils();
 	$clauses = array();
 	$clause_tag = '';
-	
+
 	foreach ($permissions as $permission) {
 		$permission = pq($permission);
-		
+
 		$statement = $permission->find('copyright-statement')->text();
 		$holder = $permission->find('copyright-holder')->text();
 		$license = $permission->find('license > license-p')->text();
-		
+
 		$copyright = '';
 		if ($statement && $holder) {
 			$copyright = sprintf(
@@ -1909,67 +1904,67 @@ function anno_convert_permissions_to_html($permissions_pq_obj) {
 
 		$clauses[] = sprintf('%1$s'."\n".'%2$s', $copyright, $license);
 	}
-	
+
 	$clauses = implode(' ', $clauses);
 	$clause_tag .= $tpl->to_tag('small', $clauses, array('class' => 'license'));
-	
+
 	return $clause_tag;
 }
 
 /**
  * Convert all tags that have been loaded in the phpQuery Document to a new type
  * Assumes a phpQuery object has been loaded. Modifies this object.
- * 
+ *
  * @param string $old_tag Old tag to convert from
- * @param string $new_tag New tag to convert to 
+ * @param string $new_tag New tag to convert to
  * @param phpQueryObj $context context to search for tag within
  * @return void.
- */ 
+ */
 function anno_convert_tag($old_tag, $new_tag, $context = null) {
 	$tags = pq($old_tag);
 	// Not the most efficient, phpQuery has no way to return elements that are inserted
 	while(count($tags)) {
 		foreach ($tags as $tag) {
-			$tag = $tag_before = pq($tag);					
+			$tag = $tag_before = pq($tag);
 			$tag_html = $tag->html();
-			// $tag in memory is still tag from above, replaceWith created a new element, inserted into the document and then removed $tag from the document. 
+			// $tag in memory is still tag from above, replaceWith created a new element, inserted into the document and then removed $tag from the document.
 			$tag->replaceWith('<'.$new_tag.'>'.$tag_html.'</'.$new_tag.'>');
 		}
 		$tags = pq($old_tag);
 	}
-}	
+}
 
 /**
  * Utilize RegEx to find the values of attributes given a specific element.
  * Bug libxml2 2.6.28 and previous with regards to selecting attributes with colons in their name
- * 
+ *
  * @param phpQueryObject $element Element to preform the search on
  * @param string $element_name Name of the element to search for
  * @param string $attribute_name Name of the attribute to search for
  * @return string Value of the attribute for a given element, empty string otherwise
- * 
- */ 
+ *
+ */
 function anno_get_attribute_value_regex($element, $element_name, $attribute_name) {
 	$outer_html = $element->markupOuter();
 
 	// We only want to match everything in the media tag. Non greedy RegEx.
 	if (preg_match('/<'.$element_name.' .*?>/', $outer_html, $element_match)) {
 		// $media_match[0] should now just contain the opening media tag and its attribute
-		// Match on attribute name where wrapping quotes can be any combination of ', ", or lack there of 
+		// Match on attribute name where wrapping quotes can be any combination of ', ", or lack there of
 		if (preg_match('/ '.$attribute_name.'=["\']?((?:.(?!["\']?\s+(?:\S+)=|[>"\']))+.)["\']?/', $element_match[0], $attribute_match)) {
 			// $matches[1] should match data contained in parenthesis above
 			if (isset($attribute_match[1])) {
 				return $attribute_match[1];
 			}
 		}
-	}	
+	}
 	return '';
 }
 
 /**
  * Convert caption tag to cap tag for display in editor
  * Browsers strip caption tags not wrapped in <table> tags.
- * 
+ *
  * @param phpQueryObject $xml
  * @return void
  */
@@ -1980,7 +1975,7 @@ function anno_replace_caption_tag($xml) {
 /**
  * Convert p tag to para tag for display in editor
  * Browsers auto close <p> tag when it encounters another block level element.
- * 
+ *
  * @param phpQueryObject $xml
  * @return void
  */
@@ -1991,7 +1986,7 @@ function anno_replace_p_tag($xml) {
 /**
  * Convert label tag to lbl tag for display in editor
  * Firefox has issues selecting inside a label tag when it is in a textarea
- * 
+ *
  * @param phpQueryObject $xml
  * @return void
  */
@@ -2001,8 +1996,8 @@ function anno_replace_label_tag($xml) {
 
 
 /**
- * Swap para tags with p tag. P tag has issues with embedded block level elements 
- * 
+ * Swap para tags with p tag. P tag has issues with embedded block level elements
+ *
  * @param phpQueryObject $xml (unused, required by add_action)
  * @return void
  */
@@ -2013,7 +2008,7 @@ add_action('anno_to_xml', 'anno_to_xml_para_tag');
 
 /**
  * Swap lbl tags with label tag.
- * 
+ *
  * @param phpQueryObject $xml (unused, required by add_action)
  * @return void
  */
@@ -2023,10 +2018,10 @@ function anno_to_xml_lbl_tag($xml) {
 add_action('anno_to_xml', 'anno_to_xml_lbl_tag');
 
 /**
- * Format caption content and converts cap tags to caption to 
+ * Format caption content and converts cap tags to caption to
  * match the DTD when saving editor content.
- * Browsers strip caption tags not wrapped in <table> tags. 
- * 
+ * Browsers strip caption tags not wrapped in <table> tags.
+ *
  * @param phpQueryObject $xml (unused, required by add_action)
  * @return void
  */
@@ -2035,7 +2030,7 @@ function anno_to_xml_cap_tag($xml) {
 	foreach ($cap_tags as $cap_tag) {
 		// wpautop the Caption tags so there is no straggling text not wrapped in p
 		$cap_tag = pq($cap_tag);
-		
+
 		$tag_html = wpautop($cap_tag->html());
 		// Also need to convert cap to caption tags
 		$cap_tag->replaceWith('<caption>'.$tag_html.'</caption>');
@@ -2046,7 +2041,7 @@ add_action('anno_to_xml', 'anno_to_xml_cap_tag');
 /**
  * Convert heading tags to title to match the DTD when saving editor content.
  * Browsers convert title content to html entities.
- * 
+ *
  * @param phpQueryObject $xml
  * @return void
  */
@@ -2058,7 +2053,7 @@ add_action('anno_to_xml', 'anno_to_xml_heading_tag');
 /**
  * Convert title tag to heading tag for display in editor
  * Browsers convert title content to html entities.
- * 
+ *
  * @param phpQueryObject $xml
  * @return void
  */
@@ -2067,20 +2062,20 @@ function anno_replace_title_tag($xml) {
 }
 
 /**
- * Remove p tags which wrap list item content so the editor can handle the 
+ * Remove p tags which wrap list item content so the editor can handle the
  * unconventional xml structure as html.
- * 
+ *
  * @param phpQueryObject $xml
  * @return void
- */ 
+ */
 function anno_remove_p_from_list_items($xml) {
 	anno_remove_p_from_items('list-item');
 }
 
 /**
- * Remove p tags which wrap disp-quote item content so the editor can handle the 
+ * Remove p tags which wrap disp-quote item content so the editor can handle the
  * unconventional xml structure as html.
- * 
+ *
  * @param phpQueryObject $xml
  * @return void
  */
@@ -2090,11 +2085,11 @@ function anno_remove_p_from_disp_quote_items($xml) {
 
 /**
  * Remove p tags from items stored in the phpQuery document based on name.
- * 
+ *
  * @param string $tag_name Tag name to remove the p tags from
- * @return void 
- */ 
-function anno_remove_p_from_items($tag_name, $context = null) {	
+ * @return void
+ */
+function anno_remove_p_from_items($tag_name, $context = null) {
 	$p_tags = pq($tag_name.' > para');
 	while(count($p_tags)) {
 		foreach ($p_tags as $p_tag) {
@@ -2108,7 +2103,7 @@ function anno_remove_p_from_items($tag_name, $context = null) {
 
 /**
  * Add p tags which wrap list item content for valid XML on post save
- * 
+ *
  * @param phpQueryObject $xml
  * @return void
  */
@@ -2123,7 +2118,7 @@ add_action('anno_to_xml', 'anno_to_xml_list_item_p');
 
 /**
  * Add p tags to disp-quote content
- * 
+ *
  * @param phpQueryObject $xml not used
  * @return void
  */
@@ -2131,21 +2126,21 @@ function anno_to_xml_disp_quote_p($xml) {
 	$quotes = pq('disp-quote');
 	foreach ($quotes as $quote) {
 		$quote = pq($quote);
-		
+
 		$attribution = $quote->find('attrib');
 		$permissions = $quote->find('permissions');
-		
+
 		$attribution_markup = $attribution->htmlOuter();
 		$permissions_markup = $permissions->htmlOuter();
-		
+
 		// Remove attribution and permissions so they don't get included in wpautop
 		$attribution->remove();
 		$permissions->remove();
-				
+
 		// wpautop the content
 		$quote_content = wpautop($quote->html());
 		$quote->html($quote_content);
-		
+
 		// "We can rebuild him, we have the technology"
 		$quote->append($attribution_markup);
 		$quote->append($permissions_markup);
@@ -2155,9 +2150,9 @@ add_action('anno_to_xml', 'anno_to_xml_disp_quote_p');
 
 /**
  * Determines whether or not a DOI lookup is feasible with the credentials given
- * 
+ *
  * @return bool
- */ 
+ */
 function anno_doi_lookup_enabled() {
 	// A login (optional password) is required for DOI lookup.
 	$crossref_login = cfct_get_option('crossref_login');
@@ -2178,7 +2173,7 @@ function anno_tinymce_js() {
 	global $post_type;
 	if ($post_type == 'article') {
 		$main = trailingslashit(get_template_directory_uri());
-		
+
 		wp_enqueue_script('closure-goog', $main.'js/tinymce/plugins/annoequations/equation-editor-compiled.js');
 	}
 }
@@ -2187,7 +2182,7 @@ add_action('admin_print_scripts-post-new.php', 'anno_tinymce_js');
 
 /**
  * Remove specific filters for non-admins for saving content properly
- */ 
+ */
 function anno_remove_kses_from_content() {
 	// If we don't remove these, WP treats <list-item> as <list> for non-admin users
 	remove_filter('content_save_pre', 'wp_filter_post_kses');

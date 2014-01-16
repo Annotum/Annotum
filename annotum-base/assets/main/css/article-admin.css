@@ -564,3 +564,14 @@ fieldset.snapshot-item h4 {
 	padding-top: 10px;
 	border-top: 1px solid #DFDFDF;
 }
+
+/** Media Editor **/
+.attachments-browser .media-toolbar-primary {
+	float: left;
+}
+.attachments-browser .media-toolbar-secondary {
+	display: none;
+}
+.attachment-display-settings label.anno-link-to {
+	display: none;
+}
