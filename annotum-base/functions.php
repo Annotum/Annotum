@@ -42,9 +42,10 @@ function anno_include_media_edit() {
 			)
 		)
 	{
-		global $post;
 		include_once(CFCT_PATH.'functions/media-editor/media-editor.php');
 	}
+	// Loaded for media functions has conditional checks withing the functions
+	include_once(CFCT_PATH.'functions/media-editor/media-ajax.php');
 }
 add_action('admin_init', 'anno_include_media_edit');
 
@@ -1342,3 +1343,6 @@ function anno_remove_user_from_post($type, $user_id, $post_id) {
 	return delete_post_meta($post_id, $type, $user_id);
 }
 
+function anno_is_article($post_id) {
+	return get_post_type($post_id) == 'article';
+}
