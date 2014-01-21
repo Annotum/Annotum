@@ -22,7 +22,6 @@ var wpActiveEditor;
 		})
 
 		var media = wp.media;
-		console.log(media.view);
 		if (!media || !media.view || media.view['Settings'] == undefined || media.view.Settings['AttachmentDisplay'] == undefined ){
 			return;
 		}
