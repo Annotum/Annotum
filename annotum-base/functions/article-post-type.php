@@ -140,7 +140,6 @@ function anno_body_meta_box($post) {
 		$content = $post->post_content;
 	}
 	?>
-<a href="#" data-name="test" class="js-cfct-select-image-single">test</a><ul class="js-cfct-images-name"></ul>
 	<?php
 	if (function_exists('wp_editor')) {
 		anno_load_editor(anno_process_editor_content($content), 'content', array('textarea_name' => 'content'));
