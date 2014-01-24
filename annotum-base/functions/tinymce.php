@@ -259,14 +259,14 @@ class Anno_tinyMCE {
 
 	function mce_buttons($buttons) {
 		if ($this->is_article()) {
-			$buttons = explode(',', 'save,fullscreen,undo,redo,help,code,visualaid,visualchars,visualblocks,|,txt_validate_attrs,txt_validate_noattrs,|,textorum-insertion-before,textorum-insertion-inside,textorum-insertion-after,|,annopastetext');
+			$buttons = explode(',', 'save,fullscreen,undo,redo,help,visualaid,visualchars,visualblocks,|,txt_validate_attrs,txt_validate_noattrs,|,textorum-insertion-before,textorum-insertion-inside,textorum-insertion-after,|,annopastetext');
 		}
 		return $buttons;
 	}
 
 	function mce_buttons_2($buttons) {
 		if ($this->is_article()) {
-			$buttons = explode(',', 'annoorderedlist,annobulletlist,bold,italic,underline,annopreformat,annomonospace,sup,sub,charmap,|,annosection,|,annoreferences,|,annoimages,|,annoquote,annoequations');
+			$buttons = explode(',', 'code,annoorderedlist,annobulletlist,bold,italic,underline,annopreformat,annomonospace,sup,sub,charmap,|,annosection,|,annoreferences,|,annoimages,|,annoquote,annoequations');
 		}
 		return $buttons;
 	}
