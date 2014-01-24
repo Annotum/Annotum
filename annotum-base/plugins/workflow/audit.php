@@ -12,19 +12,19 @@
 
 /**
  * Saves an event in post meta to be used when outputting an audit log.
- * 
+ *
  * @param int $post_id ID of the post that the event occurred for
  * @param int $actor_id ID of the user that created the event
  * @param int $event_id ID of the event corresponding to an events array. See $event_array in function annowf_audit_log
  * @param array $data Any data associated with the event.
  * @return bool True if the event was saved, false otherwise
- */ 
+ */
 function annowf_save_audit_item($post_id, $actor_id, $event_id, $data = array()) {
 	$num_items = get_post_meta($post_id, '_anno_audit_count', true);
 	if (empty($num_items)) {
 		$num_items = 0;
 	}
-	
+
 	$audit_item = array(
 		'actor' => $actor_id,
 		'event' => $event_id,
@@ -41,19 +41,19 @@ function annowf_save_audit_item($post_id, $actor_id, $event_id, $data = array())
 
 /**
  * Displays an audit log of events for a given post.
- * 
+ *
  * @param int $post_id The ID of the post to display the log for.
  * @return void
- */ 
+ */
 function annowf_audit_log($post) {
 	$post_id = $post->ID;
 	$html = '';
 	$num_items = get_post_meta($post_id, '_anno_audit_count', true);
 	$items = array();
-	for ($i = 1; $i <= $num_items; $i++) { 
+	for ($i = 1; $i <= $num_items; $i++) {
 		$items[] = get_post_meta($post_id, '_anno_audit_item_'.$i, true);
 	}
-	
+
 	if (empty($items)) {
 		return $html;
 	}
@@ -79,7 +79,7 @@ function annowf_audit_log($post) {
 			$edit_url = anno_edit_user_url($actor->ID);
 			$html .= '<strong><a href="'.$edit_url.'">'.$actor->user_login.'</a></strong> ';
 		}
-		
+
 		if (!empty($item['event'])) {
 			$event = absint($item['event']);
 			$event_html = '';
@@ -134,7 +134,7 @@ function annowf_audit_log($post) {
 				default:
 					break;
 			}
-			
+
 			if (empty($event_html)) {
 				$event_html = $event_array[$event];
 			}
@@ -142,7 +142,7 @@ function annowf_audit_log($post) {
 			$html .= $event_html;
 		}
 
-		
+
 		if (!empty($item['time']) && is_numeric($item['time'])) {
 			$html = date(_x('j F, Y @ H:i', 'audit log date format', 'anno'), absint($item['time'])).' - '.$html;
 		}
@@ -152,7 +152,7 @@ function annowf_audit_log($post) {
 }
 
 /**
- * Hooks into cf-revision-manager plugin. Defines post meta to be saved with revisions. 
+ * Hooks into cf-revision-manager plugin. Defines post meta to be saved with revisions.
  */
 function annowf_registered_post_meta_items() {
 	if (function_exists('cfr_register_metadata')) {
@@ -162,60 +162,21 @@ function annowf_registered_post_meta_items() {
 			'_anno_subtitle',
 			'_anno_appendices',
 			'_anno_doi',
-			'_anno_author_snapshot', 
+			'_anno_author_snapshot',
 			'_anno_references',
 		);
-		
+
 		foreach ($workflow_meta_keys as $meta_key) {
-			cfr_register_metadata($meta_key, 'annowf_meta_revision_display');
+			cfr_register_metadata($meta_key);
 		}
 	}
 }
 add_action('init', 'annowf_registered_post_meta_items');
 
-/**
- * Display callback for post meta in revisions
- * 
- * @param string $meta_value 
- * @return string HTML markup
- */ 
-function annowf_meta_revision_display($meta_value) {
-	$html = '';
-	if (is_array($meta_value)) {
-		$html = annowf_meta_array_walk_display($meta_value, 0);
-	}
-	else {
-		$html = '<div>'.esc_html($meta_value).'</div>';
-	}
-	
-	return $html;
-}
-
-/**
- * Walk an array for display in revisions.
- * 
- * @param array $array Array to be walked
- * @param int $margin amount to indent by
- * @return string HTML markup
- */ 
-function annowf_meta_array_walk_display($array, $margin) {
-	foreach ($array as $key => $value) {
-		$html = '<div style="'.esc_attr('margin-left:'.$margin.'px').'"><strong>'.$key.'</strong> => ';
-		
-		if (is_array($value)) {
-			$html .= annowf_meta_array_walk_display($value, $margin + 30);
-		}
-		else {
-			$html .= esc_html($value);
-		}
-	}
-
-	return $html.'</div>';
-}
 
 /**
  * Styling for post-meta in revisions
- */ 
+ */
 function annowf_revisions_css() {
 ?>
 <style type="text/css">
