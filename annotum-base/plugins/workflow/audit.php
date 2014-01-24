@@ -168,11 +168,19 @@ function annowf_registered_post_meta_items() {
 
 		foreach ($workflow_meta_keys as $meta_key) {
 			cfr_register_metadata($meta_key);
+			add_filter('cfrm_compare_header_'.$meta_key, 'annowf_meta_compare_display', 10, 2);
 		}
 	}
 }
 add_action('init', 'annowf_registered_post_meta_items');
 
+add_filter('cfrm_compare_header', '__return_false');
+
+function annowf_meta_compare_display($html, $key) {
+	$html = '';
+	$html = ucwords(str_replace('_', ' ', substr($key, 6)));
+	return $html;
+}
 
 /**
  * Styling for post-meta in revisions
