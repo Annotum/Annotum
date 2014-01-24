@@ -1,0 +1,3 @@
+[submodule "annotum-base/plugins/cf-revision-manager"]
+	path = annotum-base/plugins/cf-revision-manager
+	url = git@github.com:crowdfavorite/wp-revision-manager.git
