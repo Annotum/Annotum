@@ -156,7 +156,7 @@
 				function buttonDisable(buttonName, tf) {
 					var button = cm.get(buttonName);
 					if (typeof button !== 'undefined') {
-						button.setDisabled(button, tf);
+						button.setDisabled(tf);
 					}
 				}
 			});
