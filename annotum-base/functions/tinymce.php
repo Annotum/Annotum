@@ -266,7 +266,7 @@ class Anno_tinyMCE {
 
 	function mce_buttons_2($buttons) {
 		if ($this->is_article()) {
-			$buttons = explode(',', 'annoorderedlist,annobulletlist,bold,italic,underline,annopreformat,annomonospace,sup,sub,charmap,|,annosection,annosubsection,|,annoreferences,|,annoimages,|,annoquote,annoequations');
+			$buttons = explode(',', 'annoorderedlist,annobulletlist,bold,italic,underline,annopreformat,annomonospace,sup,sub,charmap,|,annosection,|,annoreferences,|,annoimages,|,annoquote,annoequations');
 		}
 		return $buttons;
 	}
