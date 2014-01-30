@@ -251,29 +251,40 @@ add_filter('wp_default_editor', 'anno_force_richedit');
 class Anno_tinyMCE {
 	function Anno_tinyMCE() {
 		add_filter("mce_external_plugins", array(&$this, 'plugins'));
-		add_filter('mce_buttons', array(&$this, 'mce_buttons'));
-		add_filter('mce_buttons_2', array(&$this, 'mce_buttons_2'));
-		add_filter('mce_buttons_3', array(&$this, 'mce_buttons_3'));
+		add_filter('mce_buttons', array(&$this, 'mce_buttons'), 10, 2);
+		add_filter('mce_buttons_2', array(&$this, 'mce_buttons_2'), 10, 2);
+		add_filter('mce_buttons_3', array(&$this, 'mce_buttons_3'), 10, 2);
 		add_filter('mce_external_languages', array(&$this, 'external_languages'));
 	}
 
-	function mce_buttons($buttons) {
+	function mce_buttons($buttons, $ed_id) {
+
 		if ($this->is_article()) {
 			$buttons = explode(',', 'save,fullscreen,undo,redo,|,annopastetext,|,code');
 		}
 		return $buttons;
 	}
 
-	function mce_buttons_2($buttons) {
+	function mce_buttons_2($buttons, $ed_id) {
 		if ($this->is_article()) {
-			$buttons = explode(',', 'annoorderedlist,annobulletlist,bold,italic,underline,annopreformat,annomonospace,sup,sub,charmap,|,annosection,|,annoreferences,|,annoimages,|,annoquote,annoequations');
+			if ($ed_id == 'anno-abstract') {
+				$buttons = array('bold,italic,underline,sub,sup,charmap');
+			}
+			else {
+				$buttons = explode(',', 'annoorderedlist,annobulletlist,bold,italic,underline,annopreformat,annomonospace,sup,sub,charmap,|,annosection,annosubsection,mysplitbutton,|,annoreferences,|,annoimages,|,annoquote,annoequations');
+			}
 		}
 		return $buttons;
 	}
 
-	function mce_buttons_3($buttons) {
+	function mce_buttons_3($buttons, $ed_id) {
 		if ($this->is_article()) {
-			$buttons = explode(',', 'table,row_before,row_after,delete_row,col_before,col_after,delete_col,split_cells,merge_cells');
+			if ($ed_id == 'anno-abstract') {
+				$buttons = array();
+			}
+			else {
+				$buttons = explode(',', 'table,row_before,row_after,delete_row,col_before,col_after,delete_col,split_cells,merge_cells');
+			}
 		}
 		return $buttons;
 	}

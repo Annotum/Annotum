@@ -138,19 +138,26 @@
 				}
 
 				if (options.indexOf('inline-graphic') === -1 || options.indexOf('fig') === -1) {
-					cm.get('annoimages').setDisabled(true);
-					cm.get('annoequations').setDisabled(true);
+					buttonDisable('annoimages', true);
+					buttonDisable('annoequations', true);
 				}
 				else {
-					cm.get('annoimages').setDisabled(false);
-					cm.get('annoequations').setDisabled(false);
+					buttonDisable('annoimages', false);
+					buttonDisable('annoequations', false);
 				}
 
 				if (options.indexOf('disp-quote') === -1) {
-					cm.get('annoquote').setDisabled(true);
+					buttonDisable('annoquote', true);
 				}
 				else {
-					cm.get('annoquote').setDisabled(false);
+					buttonDisable('annoquote', false);
+				}
+
+				function buttonDisable(buttonName, tf) {
+					var button = cm.get(buttonName);
+					if (typeof button !== 'undefined') {
+						button.setDisabled(button, tf);
+					}
 				}
 			});
 
