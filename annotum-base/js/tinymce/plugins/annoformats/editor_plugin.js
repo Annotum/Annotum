@@ -1,23 +1,27 @@
 (function(){
-    tinymce.create('tinymce.plugins.annoFormats', {
+	tinymce.create('tinymce.plugins.annoFormats', {
 
-        init : function(ed, url){
+		init : function(ed, url){
 			var t = this;
 			t.editor = ed;
 			t.helper = ed.plugins.textorum.helper;
 			t.textorum = ed.plugins.textorum;
 
-            ed.addCommand('Anno_Monospace', function() {
+			ed.addCommand('Anno_Monospace', function() {
 				tinymce.activeEditor.formatter.toggle('monospace');
-            });
+			});
 
-            ed.addCommand('Anno_Preformat', function() {
+			ed.addCommand('Anno_Preformat', function() {
 				tinymce.activeEditor.formatter.toggle('preformat');
-            });
+			});
 
-            ed.addCommand('Anno_Insert_Section', function() {
+			ed.addCommand('Anno_Insert_Section', function() {
 				t.insertSection();
-            });
+			});
+
+			ed.addCommand('Anno_Insert_Subsection', function() {
+				t.insertSubsection();
+			})
 
 			ed.addButton('annopreformat', {
 				title : 'Preformat',
@@ -36,6 +40,11 @@
 				//ed.getLang('advanced.references_desc'),
 				cmd : 'Anno_Insert_Section'
 			});
+
+			ed.addButton('annosubsection', {
+				title: 'Insert Subsection',
+				cmd: 'Anno_Insert_Subsection'
+			})
 
 			// Add node change function which updates format dropdown
 			ed.onInit.add(function() {
@@ -170,30 +179,45 @@
 
 			}
 		},
-		insertSection : function () {
+		_insertSection: function(isSubsection) {
 			var ed = this.editor, doc = ed.getDoc(), node = ed.selection.getNode(), dom = ed.dom, parent = ed.dom.getParent(node, 'SEC, BODY'), range, elYPos, vpHeight = dom.getViewPort(ed.getWin()).h;
+			var curNodeName = this.helper.getLocalName(node), target, newElement = newSec(), eleArray;
 
-			newElement = newSec();
-			targetAfter = dom.getParent(node, this.helper.testNameIs('sec'));
-			if (targetAfter == null) {
-				targetAfter = dom.getParent(node, this.helper.testNameIs('body'));
+			isSubsection = typeof isSubsection !== 'undefined' ? isSubsection : false;
+
+			// If In sec and insert sub section or we're in the body, use insert into
+			if ((curNodeName == 'sec' && isSubsection) || curNodeName == 'body') {
+				dom.add(node, newElement);
+			}
+			else {
+				// Special case, current node is section and not inserting sub section
+				if (curNodeName == 'sec') {
+					target = node;
+				}
+				else {
+					target = dom.getParent(node, this.helper.testNameIs('sec'));
+					if (isSubsection && target !== null) {
+						target = target.lastChild;
+					}
+				}
+				if (target !== null) {
+					dom.insertAfter(newElement, target);
+				}
 			}
 
-			dom.insertAfter(newElement, targetAfter);
-
-			var eleArray = dom.select(' > title', newElement);
+			eleArray = dom.select(' > title', newElement);
 			if (eleArray.length > 0) {
 				newElement = eleArray[0];
 			}
 
-			if (doc.createRange) {     // all browsers, except IE before version 9
-                range = doc.createRange();
-                range.selectNodeContents(newElement);
-            }
-            else { // IE < 9
-                range = doc.selection.createRange();
-                range.moveToElementText(newElement);
-            }
+			if (doc.createRange) { // all browsers, except IE before version 9
+				range = doc.createRange();
+				range.selectNodeContents(newElement);
+			}
+			else { // IE < 9
+				range = doc.selection.createRange();
+				range.moveToElementText(newElement);
+			}
 
 			range.collapse(1);
 			ed.selection.setRng(range);
@@ -213,17 +237,25 @@
 				dom.add(sec, ed.plugins.textorum.translateElement('p'), {'class': 'p', 'data-xmlel': 'p'}, '&#xA0;');
 				return sec;
 			}
-		},
-        getInfo : function() {
-            return {
-                longname: 'Annotum Formats',
-                author: 'Crowd Favorite',
-                authorurl: 'http://crowdfavorite.com/',
-                infourl: 'http://annotum.wordpress.com/',
-                version: "0.2"
-			};
-        }
-    });
 
-    tinymce.PluginManager.add('annoFormats', tinymce.plugins.annoFormats);
+		},
+		insertSection : function () {
+			this._insertSection(false);
+
+		},
+		insertSubsection : function () {
+			this._insertSection(true);
+		},
+		getInfo : function() {
+			return {
+				longname: 'Annotum Formats',
+				author: 'Crowd Favorite',
+				authorurl: 'http://crowdfavorite.com/',
+				infourl: 'http://annotum.wordpress.com/',
+				version: "0.2"
+			};
+		}
+	});
+
+	tinymce.PluginManager.add('annoFormats', tinymce.plugins.annoFormats);
 })();
