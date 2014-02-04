@@ -170,11 +170,17 @@ function annowf_registered_post_meta_items() {
 			cfr_register_metadata($meta_key);
 			add_filter('cfrm_compare_header_'.$meta_key, 'annowf_meta_compare_display', 10, 2);
 		}
+		add_filter('cfrm_selector', 'annowf_cfrm_selector');
+
 	}
 }
 add_action('init', 'annowf_registered_post_meta_items');
 
 add_filter('cfrm_compare_header', '__return_false');
+
+function annowf_cfrm_selector($selector) {
+	return '[name^="anno_"]:not([name^="anno_snapshot"], [name^="anno_appendix"])';
+}
 
 function annowf_meta_compare_display($html, $key) {
 	$html = '';

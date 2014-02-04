@@ -277,6 +277,7 @@ class Anno_tinyMCE {
 		return $buttons;
 	}
 
+
 	function mce_buttons_3($buttons, $ed_id) {
 		if ($this->is_article()) {
 			if ($ed_id == 'anno-abstract') {
@@ -305,6 +306,7 @@ class Anno_tinyMCE {
 			$plugins['annoImages_base'] = $plugins_dir.'annoimages/annoimages.js';
 			$plugins['annoImages']  =  $plugins_dir.'annoimages/editor_plugin.js';
 
+
 			$plugins['textorumInsertion']  =  $plugins_dir.'textorum-insertion/editor_plugin.js';
 
 			$plugins['annoTable'] = $plugins_dir.'annotable/editor_plugin.js';
@@ -313,12 +315,15 @@ class Anno_tinyMCE {
 			$plugins['annoQuote'] = $plugins_dir.'annoquote/editor_plugin.js';
 			$plugins['annoQuote_base'] = $plugins_dir.'annoquote/annoquote.js';
 
-			$plugins['annoTips'] = $plugins_dir.'annotips/editor_plugin.js';
+			$plugins['annoLists'] = $plugins_dir.'annolists/editor_plugin.js';
 
-			$plugins['annoEquations'] = $plugins_dir.'annoequations/editor_plugin.js';
+			$plugins['annoParagraphs'] = $plugins_dir.'annoparagraphs/editor_plugin.js';
+
+			$plugins['annoTips'] = $plugins_dir.'annotips/editor_plugin.js';
 
 			$plugins['annoFormats'] = $plugins_dir.'annoformats/editor_plugin.js';
 
+			$plugins['annoEquations'] = $plugins_dir.'annoequations/editor_plugin.js';
 			$plugins['fullscreen'] = $plugins_dir.'fullscreen/editor_plugin.js';
 
 			$plugins['annoPaste'] = $plugins_dir.'annopaste/editor_plugin.js';
@@ -1153,7 +1158,10 @@ function anno_insert_post_data($data, $postarr) {
 		return $data;
 	}
 
-	if ($postarr['post_type'] == 'article') {
+	if (
+		$postarr['post_type'] == 'article'
+		|| (defined('DOING_AUTOSAVE') && DOING_AUTOSAVE && get_post_type($postarr['post_parent']) == 'article')
+	) {
 		// Get our XML content for the revision
 		$content = stripslashes($data['post_content']);
 
@@ -1168,7 +1176,6 @@ function anno_insert_post_data($data, $postarr) {
 
 		$data['post_excerpt'] = anno_validate_xml_content_on_save($data['post_excerpt']);
 	}
-
 	return $data;
 }
 add_filter('wp_insert_post_data', 'anno_insert_post_data', null, 2);
