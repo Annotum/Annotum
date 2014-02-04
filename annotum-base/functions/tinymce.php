@@ -1116,7 +1116,10 @@ function anno_insert_post_data($data, $postarr) {
 		return $data;
 	}
 
-	if ($postarr['post_type'] == 'article') {
+	if (
+		$postarr['post_type'] == 'article'
+		|| (defined('DOING_AUTOSAVE') && DOING_AUTOSAVE && get_post_type($postarr['post_parent']) == 'article')
+	) {
 		// Get our XML content for the revision
 		$content = stripslashes($data['post_content']);
 
@@ -1129,7 +1132,12 @@ function anno_insert_post_data($data, $postarr) {
 		// Set formatted HTML as the_content
 		$data['post_content'] = addslashes(anno_xml_to_html($xml));
 	}
+<<<<<<< HEAD
 
+||||||| merged common ancestors
+	
+=======
+>>>>>>> Adding latest and greatest revision manager to support autosaves, also fixing lots of whitespace
 	return $data;
 }
 add_filter('wp_insert_post_data', 'anno_insert_post_data', null, 2);
