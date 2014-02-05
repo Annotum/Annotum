@@ -267,7 +267,7 @@ class Anno_tinyMCE {
 
 	function mce_buttons_2($buttons, $ed_id) {
 		if ($this->is_article()) {
-			if ($ed_id == 'anno-abstract') {
+			if ($ed_id == 'excerpt') {
 				$buttons = array('bold,italic,underline,sub,sup,charmap');
 			}
 			else {
@@ -280,7 +280,7 @@ class Anno_tinyMCE {
 
 	function mce_buttons_3($buttons, $ed_id) {
 		if ($this->is_article()) {
-			if ($ed_id == 'anno-abstract') {
+			if ($ed_id == 'excerpt') {
 				$buttons = array();
 			}
 			else {
