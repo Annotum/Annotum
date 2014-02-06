@@ -155,7 +155,7 @@ body .ui-widget-overlay {
 	margin: 0;
 }
 .anno-mce-popup input[type="button"],
-.anno-mce-popup input[type="submit"] {	
+.anno-mce-popup input[type="submit"] {
 	width: auto;
 	cursor: pointer;
 	min-width: 100px;
@@ -559,4 +559,27 @@ fieldset.snapshot-item h4 {
 	margin-top: 10px;
 	padding-top: 10px;
 	border-top: 1px solid #DFDFDF;
+}
+
+/** Media Editor **/
+.attachments-browser .media-toolbar-primary {
+	float: left;
+}
+.attachments-browser .media-toolbar-secondary {
+	display: none;
+}
+.attachment-display-settings label.anno-link-to {
+	display: none;
+}
+	/** make this greater than the tinyMCE fullscreen z-index **/
+div.media-modal {
+	z-index: 200002;
+}
+div.media-modal-backdrop {
+	z-index: 200001;
+}
+
+/** Publish Box **/
+.submitbox #minor-publishing-actions {
+	padding: 10px 10px;
 }
