@@ -582,3 +582,8 @@ div.media-modal {
 div.media-modal-backdrop {
 	z-index: 200001;
 }
+
+/** Publish Box **/
+.submitbox #minor-publishing-actions {
+	padding: 10px 10px;
+}
