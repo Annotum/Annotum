@@ -260,7 +260,7 @@ class Anno_tinyMCE {
 	function mce_buttons($buttons, $ed_id) {
 
 		if ($this->is_article()) {
-			$buttons = explode(',', 'save,fullscreen,undo,redo,|,annopastetext,|,code');
+			$buttons = explode(',', 'annotree,fullscreen,undo,redo,|,annopastetext,|,code');
 		}
 		return $buttons;
 	}
@@ -305,7 +305,6 @@ class Anno_tinyMCE {
 
 			$plugins['annoImages']  =  $plugins_dir.'annoimages/editor_plugin.js';
 
-
 			$plugins['textorumInsertion']  =  $plugins_dir.'textorum-insertion/editor_plugin.js';
 
 			$plugins['annoTable'] = $plugins_dir.'annotable/editor_plugin.js';
@@ -324,6 +323,8 @@ class Anno_tinyMCE {
 			// $plugins['fullscreen'] = $plugins_dir.'fullscreen/editor_plugin.js';
 
 			$plugins['annoPaste'] = $plugins_dir.'annopaste/editor_plugin.js';
+			$plugins['annoTree'] = $plugins_dir.'annotree/editor_plugin.js';
+
 		}
 		return $plugins;
 	}
@@ -2232,4 +2233,3 @@ function anno_remove_kses_from_content() {
 }
 add_action('init', 'anno_remove_kses_from_content');
 
-?>

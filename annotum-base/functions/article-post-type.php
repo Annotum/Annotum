@@ -108,6 +108,8 @@ function anno_article_meta_boxes($article) {
 	//add_meta_box('appendices', _x('Appendices', 'Meta box title', 'anno'), 'anno_appendices_meta_box', 'article', 'normal', 'high');
 	add_meta_box('featured', _x('Featured', 'Meta box title', 'anno'), 'anno_featured_meta_box', 'article', 'side', 'default');
 
+	add_meta_box('fancytree', _x('Fancytree', 'Meta box title', 'anno'), 'anno_fancytree_meta_box', 'article', 'normal', 'default');
+
 	if (current_user_can('editor') || current_user_can('administrator')) {
 		add_meta_box('convert', _x('Convert To Post', 'Meta box title', 'anno'), 'anno_convert_meta_box', 'article', 'side', 'low');
 		// Dont load the DOI meta box on brand new articles, guid has not been generated yet to generate the DOI
@@ -422,4 +424,11 @@ function anno_deposit_doi_meta_box($post) {
 	<!-- <input id="<?php echo $deposit_id; ?>" type="button" value="<?php _ex('Deposit', 'doi deposit button label', 'anno'); ?>"<?php disabled($deposit_enabled, false, true); ?> /> -->
 <?php
 }
+
+function anno_fancytree_meta_box($post) {
+
 ?>
+<div id="tree">
+</div>
+<?php
+}

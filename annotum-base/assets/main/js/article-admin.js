@@ -2,7 +2,7 @@ jQuery(document).ready(function($){
 
 	// Type-ahead
 	$('.user-input').suggest( 'admin-ajax.php?action=anno-user-search', { delay: 200, minchars: 2, multiple: false} );
-	
+
 	/**
 	* Reset the o.data that's been modified (stripped "<p>" tags for example)
 	* back to the o.unfiltered property that was set inside the editor.js
@@ -15,7 +15,7 @@ jQuery(document).ready(function($){
 	* just the line that's removing the <p> tags.  It depends on how structured and
 	* safe the content will be going in.
 	*/
-	
+
 	// Only bind if post_type is article
 	if ($("#post_type").val() == 'article') {
 		$('body').bind('afterPreWpautop', function(event, o) {
@@ -23,7 +23,7 @@ jQuery(document).ready(function($){
 		});
 
 		// TinyMCE doesn't handle being moved in the DOM.  Destroy the
-		// editor instances at the start of a sort and recreate 
+		// editor instances at the start of a sort and recreate
 		// them afterwards.
 		var _triggerAllEditors = function(event, creatingEditor) {
 			var postbox, textarea;
@@ -43,10 +43,10 @@ jQuery(document).ready(function($){
 				}
 				else {
 					if (editor && is_active) {
-						editor.save();						
+						editor.save();
 						tinyMCE.execCommand('mceRemoveControl', true, element.id);
-					}	
-				} 
+					}
+				}
 			});
 
 		};
@@ -56,11 +56,11 @@ jQuery(document).ready(function($){
 			_triggerAllEditors(event, true);
 		});
 	}
-	
+
 	anno_reset_doi_status = function() {
 		$('#doi-status').hide().removeClass();
 	};
-	
+
 	/**
 	* Deposit DOI data
 	*/
@@ -68,7 +68,7 @@ jQuery(document).ready(function($){
 		var data = {action: 'anno-doi-deposit', article_id: ANNO_POST_ID};
 		// Nonce
 		data['_ajax_nonce-doi-deposit'] = $('#_ajax_nonce-doi-deposit').val();
-		
+
 		anno_reset_doi_status();
 
 		$.post(ajaxurl, data, function(d) {
@@ -81,7 +81,7 @@ jQuery(document).ready(function($){
 		}, 'json');
 		return false;
 	});
-		
+
 	/**
 	* DOI regeneration
 	*/
@@ -89,9 +89,9 @@ jQuery(document).ready(function($){
 		var data = {action: 'anno-doi-regenerate', article_id: ANNO_POST_ID};
 		// Nonce
 		data['_ajax_nonce-doi-regenerate'] = $('#_ajax_nonce-doi-regenerate').val();
-	
+
 		anno_reset_doi_status();
-		
+
 		$.post(ajaxurl, data, function(d) {
 			if (d.doi) {
 				$('#doi.meta-doi-input').val(d.doi);
@@ -100,7 +100,7 @@ jQuery(document).ready(function($){
 		}, 'json');
 		return false;
 	});
-	
+
 	// We already hide with JS, lets remove the html/visual switch buttons
 	$('.wp-switch-editor').remove();
 	$('.wp-editor-tools').remove();
