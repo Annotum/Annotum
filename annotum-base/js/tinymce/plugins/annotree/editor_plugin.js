@@ -39,7 +39,12 @@
 					activate: function(event, data) {
 						// Select the node which matches the key
 						// Key is set as the id of the node.
-						t.ed.selection.select(t.ed.dom.select('#' + data.node.key)[0])
+						var node = t.ed.selection.select(t.ed.dom.select('#' + data.node.key)[0])
+						tinymce.execCommand('mceFocus', false, 'content');
+						console.log(node.offsetTop);
+						console.log(tinymce.DOM.getViewPort(tinymce.activeEditor.getWin()).y);
+						tinymce.DOM.getViewPort(tinymce.activeEditor.getWin()).y = node.offsetTop;
+						//node.scrollIntoView();
 					}
 				});
 			}
