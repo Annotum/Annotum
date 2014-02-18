@@ -15,6 +15,24 @@
 				title : 'Annotum Tree View',
 				cmd : 'Anno_Tree'
 			});
+
+
+			ed.onNodeChange.add(function(ed, object) {
+				t.mapNode();
+			});
+
+			jQuery("#tree").fancytree({
+				keyboard : false,
+				source: ['test'],
+				activate: function(event, data) {
+					// Select the node which matches the key
+					// Key is set as the id of the node.
+					var node = t.ed.selection.select(t.ed.dom.select('#' + data.node.key)[0])
+					tinymce.execCommand('mceFocus', false, 'content');
+					// @TODO Scroll to the highlighted node, but only in tinymce.
+				}
+			});
+			this.tree = jQuery("#tree").fancytree("getTree");
 		},
 
 		getInfo : function() {
@@ -33,20 +51,9 @@
 				//var test = this.visitDFs(root);
 				var json = {};
 				this.generateTree(root, json);
-				jQuery	("#tree").fancytree({
-					keyboard : false,
-					source: [json],
-					activate: function(event, data) {
-						// Select the node which matches the key
-						// Key is set as the id of the node.
-						var node = t.ed.selection.select(t.ed.dom.select('#' + data.node.key)[0])
-						tinymce.execCommand('mceFocus', false, 'content');
-						console.log(node.offsetTop);
-						console.log(tinymce.DOM.getViewPort(tinymce.activeEditor.getWin()).y);
-						tinymce.DOM.getViewPort(tinymce.activeEditor.getWin()).y = node.offsetTop;
-						//node.scrollIntoView();
-					}
-				});
+
+				this.tree.reload([json]);
+
 			}
 		},
 		isValidNode : function(node) {
@@ -72,6 +79,7 @@
 			return className;
 		},
 		generateTree : function(node, object) {
+			var curTreeObj = null;
 			var childNodes = node.childNodes;
 			var textorumType = this.getValidClass(node);
 			// Generate title
@@ -79,6 +87,10 @@
 
 			// Set the key so we can access the editor element
 			object.key = node.id;
+			curTreeObj = this.tree.getNodeByKey(object.key)
+			if (curTreeObj != null && curTreeObj.isExpanded()) {
+				object.expanded = true;
+			}
 
 			// Check if child nodes exist
 			if (!!childNodes && childNodes.length) {
