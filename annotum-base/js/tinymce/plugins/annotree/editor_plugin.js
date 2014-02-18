@@ -6,7 +6,7 @@
 			t.treeViewTags = ['body', 'sec', 'p', 'fig', 'table-wrap'];
 			t.processesableTags = ['body', 'sec', 'p', 'fig', 'table-wrap', 'title', 'label'];
 			t.titleEls = {sec: 'title', 'table-wrap': 'label', fig: 'label'};
-			t.tree = [];
+
 
 			ed.addCommand('Anno_Tree', function(){
 				t.mapNode();
@@ -27,23 +27,13 @@
 					// @TODO Scroll to the highlighted node, but only in tinymce.
 				}
 			});
-			this.tree = jQuery('#anno-tree-' + this.ed.id).fancytree('getTree');
+			t.tree = jQuery('#anno-tree-' + this.ed.id).fancytree('getTree');
 
 			ed.onNodeChange.add(function(ed, object) {
 				if (!(t.tree instanceof jQuery)) {
 					t.mapNode();
 				}
 			});
-		},
-
-		getInfo : function() {
-			return {
-				longname: 'Annotum Treeview',
-				author: 'Crowd Favorite',
-				authorurl: 'http://crowdfavorite.com/',
-				infourl: 'http://annotum.wordpress.com/',
-				version: "0.1"
-			};
 		},
 		mapNode : function() {
 			var root = this.ed.dom.getRoot();
@@ -142,7 +132,16 @@
 			}
 
 			return title;
-		}
+		},
+		getInfo : function() {
+			return {
+				longname: 'Annotum Treeview',
+				author: 'Crowd Favorite',
+				authorurl: 'http://crowdfavorite.com/',
+				infourl: 'http://annotum.wordpress.com/',
+				version: "0.1"
+			};
+		},
 	});
 
 	tinymce.PluginManager.add('annoTree', tinymce.plugins.annoTree);
