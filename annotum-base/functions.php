@@ -33,12 +33,12 @@ include_once(CFCT_PATH.'functions/snapshot.php');
 
 
 function anno_include_media_edit() {
-	global $pagenow, $post_type;
+	global $pagenow;
 	if (
 		is_admin()
 		&& (
-			($pagenow == 'post.php' && get_post_type($_REQUEST['post']) == 'article')
-			|| ($pagenow == 'post-new.php' && $_REQUEST['post_type'] == 'article')
+			($pagenow == 'post.php' && isset($_REQUEST['post']) && get_post_type($_REQUEST['post']) == 'article')
+			|| ($pagenow == 'post-new.php' && isset($_REQUEST['post_type']) && $_REQUEST['post_type'] == 'article')
 			)
 		)
 	{
