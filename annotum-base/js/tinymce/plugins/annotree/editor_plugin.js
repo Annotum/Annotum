@@ -3,19 +3,23 @@
 		init : function(ed, url){
 			var t = this;
 			t.ed = ed;
+			// Which tags to put into the tree
 			t.treeViewTags = ['body', 'sec', 'p', 'fig', 'table-wrap'];
+			// Which tags should be processed. Non treeViewTags are used to generate titles
 			t.processesableTags = ['body', 'sec', 'p', 'fig', 'table-wrap', 'title', 'label'];
+			// Where to grab the title for each block element (p is special case)
 			t.titleEls = {sec: 'title', 'table-wrap': 'label', fig: 'label'};
-
 
 			ed.addCommand('Anno_Tree', function(){
 				t.mapNode();
 			});
+
 			ed.addButton('annotree', {
 				title : 'Annotum Tree View',
 				cmd : 'Anno_Tree'
 			});
 
+			// Initializing the fancytree for this editor specifically
 			jQuery('#anno-tree-' + this.ed.id).fancytree({
 				keyboard : false,
 				source: ['test'],
@@ -29,13 +33,15 @@
 			});
 			t.tree = jQuery('#anno-tree-' + this.ed.id).fancytree('getTree');
 
+			// Regenerate the tree on node change if this editor has a tree view
 			ed.onNodeChange.add(function(ed, object) {
 				if (!(t.tree instanceof jQuery)) {
-					t.mapNode();
+					t.mapNodes();
 				}
 			});
 		},
-		mapNode : function() {
+		// Generats a tree and updates the Dom with the new tree
+		mapNodes : function() {
 			var root = this.ed.dom.getRoot();
 			var t = this;
 			if (this.isValidNode(root.firstChild)) {
@@ -44,9 +50,9 @@
 				this.generateTree(root, json);
 
 				this.tree.reload([json]);
-
 			}
 		},
+		// Checks if a node can be processed
 		isValidNode : function(node) {
 			var isValid = false;
 			if (this.getValidClass(node) != false) {
@@ -54,12 +60,15 @@
 			}
 			return isValid;
 		},
+		// Gets a class from valid tags
 		getValidClass : function(node) {
 			return this._getValidClass(node, this.processesableTags);
 		},
+		// Checks if a node is in the list of nodes to displa in a tree
 		isTreeViewNode : function(node) {
 			return this._getValidClass(node, this.treeViewTags);
 		},
+		// Checks if a node has a processeable element class
 		_getValidClass : function(node, classes) {
 			var className = false
 			for (var i in classes) {
@@ -69,6 +78,11 @@
 			}
 			return className;
 		},
+		/*
+		 * Walks through the staring at a node and generates a tree with JSON
+		 *
+		 * @return JSON tree representation
+		 */
 		generateTree : function(node, object) {
 			var curTreeObj = null;
 			var childNodes = node.childNodes;
@@ -88,7 +102,7 @@
 				// If child nodes exists create array of them
 				object.children = [];
 				for (var i = 0; i < childNodes.length; i++) {
-					// Only care about children when this item is a section or body
+					// Only care about children when this item is a section, body or p tag
 					if (textorumType == 'sec' || textorumType == 'p' || node.nodeName == 'BODY') {
 						if (this.isTreeViewNode(childNodes[i])) {
 							object.children.push({});
@@ -98,6 +112,7 @@
 				}
 			}
 		},
+		// Generate a title for a node
 		generateTitle : function(node) {
 			if (!node) {
 				return false;
@@ -107,8 +122,7 @@
 			var childNode;
 			var annotumType = this.getValidClass(node);
 			if (!!this.titleEls[annotumType]) {
-				// If node is a section, grab the first title node then the first text node in that title node, truncate by x characters
-
+				// If node is a section, grab the first title node then the first text node in that title node
 				childNode = jQuery(node).children('.'+this.titleEls[annotumType]);
 				if (this.getValidClass(childNode[0]) == this.titleEls[annotumType]) {
 					title = childNode[0].innerText || childNode[0].textContent || '';
@@ -116,7 +130,7 @@
 			}
 			// Special case for paragraphs
 			else if (annotumType == 'p') {
-				// Remove all block level elements
+				// Remove all block elements and get the text of the remainder
 				title = jQuery(node).clone().children().remove('div').end().text();
 			}
 
