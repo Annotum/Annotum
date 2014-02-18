@@ -428,7 +428,7 @@ function anno_deposit_doi_meta_box($post) {
 function anno_fancytree_meta_box($post) {
 
 ?>
-<div id="tree">
+<div id="anno-tree-content">
 </div>
 <?php
 }

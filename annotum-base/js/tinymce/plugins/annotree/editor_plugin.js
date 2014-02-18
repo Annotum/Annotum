@@ -16,12 +16,7 @@
 				cmd : 'Anno_Tree'
 			});
 
-
-			ed.onNodeChange.add(function(ed, object) {
-				t.mapNode();
-			});
-
-			jQuery("#tree").fancytree({
+			jQuery('#anno-tree-' + this.ed.id).fancytree({
 				keyboard : false,
 				source: ['test'],
 				activate: function(event, data) {
@@ -32,7 +27,13 @@
 					// @TODO Scroll to the highlighted node, but only in tinymce.
 				}
 			});
-			this.tree = jQuery("#tree").fancytree("getTree");
+			this.tree = jQuery('#anno-tree-' + this.ed.id).fancytree('getTree');
+
+			ed.onNodeChange.add(function(ed, object) {
+				if (!(t.tree instanceof jQuery)) {
+					t.mapNode();
+				}
+			});
 		},
 
 		getInfo : function() {
