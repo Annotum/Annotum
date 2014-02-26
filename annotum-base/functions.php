@@ -30,6 +30,7 @@ include_once(CFCT_PATH.'functions/phpquery/phpquery.php');
 include_once(CFCT_PATH.'functions/anno-xml-download.php');
 include_once(CFCT_PATH.'functions/subscribe.php');
 include_once(CFCT_PATH.'functions/snapshot.php');
+include_once(CFCT_PATH.'functions/anno-validation.php');
 
 
 function anno_include_media_edit() {

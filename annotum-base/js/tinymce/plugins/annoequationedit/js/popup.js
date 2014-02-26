@@ -41,7 +41,7 @@ tinyMCEPopup = {
 		if (tinymce.isOpera)
 			t.getWin().setTimeout(close, 0);
 		else
-			close();
+		close();
 	},
 
 	execCommand : function(cmd, ui, val, a) {
@@ -113,9 +113,9 @@ annoEqEdit = {
 
 		if (el.nodeName != 'IMG')
 			return;
- 
+
 		url = ed.dom.getAttrib(el, 'src');
-		
+
 		if (url !== null && url.match(/^http(s)?:\/\/chart\.googleapis\.com/)) {
 			// Based on code from  http://stackoverflow.com/questions/901115/get-query-string-values-in-javascript
 			regexS = "[\\?&]" + 'chl' + "=([^&#]*)";
@@ -156,7 +156,7 @@ annoEqEdit = {
 				form.alt.value = altText;
 			}
 		}
-		
+
 		// Show the form now its ready and populated with data
 		form.className = form.className.replace('hidden', '');
 		return;
@@ -244,12 +244,12 @@ annoEqEdit = {
 		tinyMCEPopup.execCommand('mceBeginUndoLevel');
 
 		tinyMCEPopup.restoreSelection();
-		
+
 		el = ed.selection.getNode();
 		if (el.nodeName != 'IMG') {
 			return;
 		}
-		
+
 		tinyMCEPopup.execCommand('mceBeginUndoLevel');
 
 		if (this.isFigure()) {

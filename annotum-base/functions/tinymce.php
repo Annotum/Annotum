@@ -260,7 +260,7 @@ class Anno_tinyMCE {
 	function mce_buttons($buttons, $ed_id) {
 
 		if ($this->is_article()) {
-			$buttons = explode(',', 'save,fullscreen,undo,redo,|,annopastetext,|,code');
+			$buttons = explode(',', 'save,fullscreen,undo,redo,|,annopastetext,|,code,annosource');
 		}
 		return $buttons;
 	}
@@ -324,6 +324,7 @@ class Anno_tinyMCE {
 			// $plugins['fullscreen'] = $plugins_dir.'fullscreen/editor_plugin.js';
 
 			$plugins['annoPaste'] = $plugins_dir.'annopaste/editor_plugin.js';
+			$plugins['annoSource'] = $plugins_dir.'annosource/editor_plugin.js';
 		}
 		return $plugins;
 	}
