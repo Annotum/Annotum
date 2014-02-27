@@ -62,7 +62,7 @@ var annosource;
 		_validate : function (content) {
 			var t = this;
 			content = '<article>'+content+'</article>';
-			jQuery.post('http://annotum.dev/wp/wp-admin/admin-ajax.php',
+			jQuery.post(ajaxurl,
 				{
 					content: content,
 					action: 'anno_validate'
