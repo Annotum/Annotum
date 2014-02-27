@@ -6,11 +6,10 @@ var annosource;
 	annoSource = {
 		init : function() {
 			var t = this;
-
+			t.widgets = [];
 			inputs.dialog = $('#anno-popup-source');
 			//inputs.dialog.bind('wpdialogrefresh', annoSource.refresh);
-			//inputs.dialog.bind('wpdialogclose', annoSource.onClose);
-			//this.editorVal = tinymce.EditorManager.activeEditor.getContent({source_view : true});
+			inputs.dialog.bind('wpdialogclose', annoSource.onClose);
 
 			t.codemirror = CodeMirror.fromTextArea(document.getElementById('htmlSource'), {
 				lineNumbers: true,
@@ -34,10 +33,25 @@ var annosource;
 			inputs.dialog.bind('wpdialogbeforeopen', annoSource.beforeOpen);
 		},
 		beforeOpen : function () {
-			annoSource.ed = tinyMCEPopup.editor;
-			annoSource.editorVal = annoSource.ed.getContent({source_view : true});
+			annoSource.editor = tinyMCEPopup.editor;
+			annoSource.editorVal = annoSource.editor.getContent({source_view : true});
 			annoSource.codemirror.setValue(annoSource.editorVal);
 			annoSource._validate('');
+		},
+		onClose : function () {
+			var t = annoSource;
+		// Cleanup
+			// Remove validation errors
+			$('#validation-errors').html('');
+
+			// Loop through the widgets, removing them
+			for (var i = t.widgets.length - 1; i >= 0; i--) {
+				t.widgets[i].clear();
+			};
+
+		// Insert code back into the editor
+			t.editor.setContent(t.codemirror.getValue(), {source_view : true});
+
 		},
 		_getEditorVal : function () {
 			return  t.ed = tinyMCEPopup.editor;
@@ -51,9 +65,7 @@ var annosource;
 					action: 'anno_validate'
 				},
 				function (data) {
-					var errors = data.errors;
-					var insertEl, msg;
-					var $errorUL = jQuery('#validation-errors');
+					var widget, errors = data.errors, insertEl, msg, $errorUL = $('#validation-errors');
 					for (var i = 0; i <= errors.length - 1; i++) {
 						insertEl = document.createElement('a');
 						jQuery(insertEl).text(errors[i].fullMessage).data('col', errors[i].column).data('line', errors[i].line).attr('href', '#');
@@ -63,7 +75,8 @@ var annosource;
 						msg.className = 'cm-error';
 						$(msg).data('col', errors[i].column).data('line', errors[i].line);
 						msg.appendChild(document.createTextNode(errors[i].fullMessage));
-						t.codemirror.addLineWidget(errors[i].line, msg, {coverGutter: false, noHScroll: true, above: false, handleMouseEvents: true});
+						widget = t.codemirror.addLineWidget(errors[i].line, msg, {coverGutter: false, noHScroll: true, above: false, handleMouseEvents: true});
+						t.widgets.push(widget);
 					};
 				},
 				'json'

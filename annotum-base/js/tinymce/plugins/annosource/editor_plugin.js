@@ -9,10 +9,19 @@
 
 			// Register the command so that it can be invoked by using tinyMCE.activeEditor.execCommand('mceExample');
 			ed.addCommand('Anno_Source', function() {
+				var height =  Math.max(
+					document.body.scrollHeight, document.documentElement.scrollHeight,
+					document.body.offsetHeight, document.documentElement.offsetHeight,
+					document.body.clientHeight, document.documentElement.clientHeight
+				);
+
+				height = (height > 1080) ? 1080 : height;
+				console.log(height);
+
 				ed.windowManager.open({
 					id : 'anno-popup-source',
-					width : 720,
-					height : 580,
+					width : 800,
+					height : height - 200,
 					wpDialog : true,
 					title : 'Source Editor and Validation',
 					resizable : true,
