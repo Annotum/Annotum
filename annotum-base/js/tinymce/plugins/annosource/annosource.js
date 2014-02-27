@@ -8,17 +8,23 @@ var annosource;
 			var t = this;
 			t.widgets = [];
 			inputs.dialog = $('#anno-popup-source');
+			inputs.validate = $('#anno-source-validate');
+
 			//inputs.dialog.bind('wpdialogrefresh', annoSource.refresh);
 			inputs.dialog.bind('wpdialogclose', annoSource.onClose);
 
 			t.codemirror = CodeMirror.fromTextArea(document.getElementById('htmlSource'), {
 				lineNumbers: true,
-
+				//theme: 'elegant'
 			});
 
 			// Prevents CodeMirror from bugging out during show/hide/resize process
 			$('body').on('click', '.mce_annosource', function(e) {
+				e.preventDefault();
 				t.codemirror.refresh();
+			}).
+			on('click', '#anno-source-validate', function(e) {
+				t.validate();
 			});
 
 
@@ -36,29 +42,26 @@ var annosource;
 			annoSource.editor = tinyMCEPopup.editor;
 			annoSource.editorVal = annoSource.editor.getContent({source_view : true});
 			annoSource.codemirror.setValue(annoSource.editorVal);
-			annoSource._validate('');
+			annoSource._validate(annoSource.editorVal);
 		},
 		onClose : function () {
 			var t = annoSource;
-		// Cleanup
-			// Remove validation errors
-			$('#validation-errors').html('');
-
-			// Loop through the widgets, removing them
-			for (var i = t.widgets.length - 1; i >= 0; i--) {
-				t.widgets[i].clear();
-			};
-
+			t._cleanup();
 		// Insert code back into the editor
 			t.editor.setContent(t.codemirror.getValue(), {source_view : true});
 
 		},
+
 		_getEditorVal : function () {
 			return  t.ed = tinyMCEPopup.editor;
 		},
+		validate : function() {
+			this._cleanup();
+			this._validate(this.codemirror.getValue());
+		},
 		_validate : function (content) {
 			var t = this;
-			content = '<article>'+this.editorVal+'</article>';
+			content = '<article>'+content+'</article>';
 			jQuery.post('http://annotum.dev/wp/wp-admin/admin-ajax.php',
 				{
 					content: content,
@@ -82,6 +85,18 @@ var annosource;
 				'json'
 			);
 		},
+		_cleanup : function() {
+			// Use t here as this gets called from an event callback.
+			var t = this;
+
+			// Remove validation errors
+			$('#validation-errors').html('');
+
+			// Loop through the widgets, removing them
+			for (var i = t.widgets.length - 1; i >= 0; i--) {
+				t.widgets[i].clear();
+			};
+		}
 	};
 
 

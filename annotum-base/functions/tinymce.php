@@ -740,6 +740,7 @@ function anno_popup_tips() {
 function anno_source_editor() {
 ?>
 <div id="anno-popup-source" class="anno-mce-popup">
+	<a href="#" class="button" id="anno-source-validate">Re-Validate</a>
 	<ul id="validation-errors"></ul>
 	<textarea name="htmlSource" id="htmlSource" value=""></textarea>
 </div>

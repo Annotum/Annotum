@@ -2,10 +2,7 @@
 	tinymce.create('tinymce.plugins.annoSource', {
 		init : function(ed, url) {
 			var t = this;
-			var disabled = true;
 			t.url = url;
-
-
 
 			// Register the command so that it can be invoked by using tinyMCE.activeEditor.execCommand('mceExample');
 			ed.addCommand('Anno_Source', function() {
@@ -16,7 +13,6 @@
 				);
 
 				height = (height > 1080) ? 1080 : height;
-				console.log(height);
 
 				ed.windowManager.open({
 					id : 'anno-popup-source',
@@ -25,9 +21,9 @@
 					wpDialog : true,
 					title : 'Source Editor and Validation',
 					resizable : true,
-					inline : true,
+					inline : true
 				}, {
-					plugin_url : url // Plugin absolute URL//theme_url : t.url
+					plugin_url : url
 				});
 			});
 
