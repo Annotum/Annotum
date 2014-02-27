@@ -24,6 +24,7 @@ var annosource;
 				t.codemirror.refresh();
 			}).
 			on('click', '#anno-source-validate', function(e) {
+				e.preventDefault();
 				t.validate();
 			});
 
