@@ -5,18 +5,20 @@
 			var disabled = true;
 			t.url = url;
 
+
+
 			// Register the command so that it can be invoked by using tinyMCE.activeEditor.execCommand('mceExample');
 			ed.addCommand('Anno_Source', function() {
-				console.log(t.url);
 				ed.windowManager.open({
-					url : t.url + '/source_editor.html',
-					width : parseInt(ed.getParam("theme_advanced_source_editor_width", 720)),
-					height : parseInt(ed.getParam("theme_advanced_source_editor_height", 580)),
-					inline : true,
+					id : 'anno-popup-source',
+					width : 720,
+					height : 580,
+					wpDialog : true,
+					title : 'Source Editor and Validation',
 					resizable : true,
-					maximizable : true
+					inline : true,
 				}, {
-					theme_url : t.url
+					plugin_url : url // Plugin absolute URL//theme_url : t.url
 				});
 			});
 
@@ -26,7 +28,6 @@
 				title : 'Anno Source',
 				cmd : 'Anno_Source'
 			});
-
 		},
 		getInfo : function() {
 			return {

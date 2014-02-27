@@ -325,6 +325,8 @@ class Anno_tinyMCE {
 
 			$plugins['annoPaste'] = $plugins_dir.'annopaste/editor_plugin.js';
 			$plugins['annoSource'] = $plugins_dir.'annosource/editor_plugin.js';
+			$plugins['annoSource_base'] = $plugins_dir.'annosource/annosource.js';
+
 		}
 		return $plugins;
 	}
@@ -735,6 +737,15 @@ function anno_popup_tips() {
 <?php
 }
 
+function anno_source_editor() {
+?>
+<div id="anno-popup-source" class="anno-mce-popup">
+	<ul id="validation-errors"></ul>
+	<textarea name="htmlSource" id="htmlSource" value=""></textarea>
+</div>
+<?php
+}
+
 /**
  * Markup for the tinyMCE dialog popups
  */
@@ -769,6 +780,11 @@ function anno_preload_dialogs($init) {
 	<div style="display:none;">
 	<?php anno_popup_tips(); ?>
 	</div>
+
+	<div style="display:none;">
+	<?php anno_source_editor(); ?>
+	</div>
+
 
 <?php
 	}
