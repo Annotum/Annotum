@@ -9,6 +9,8 @@ var annosource;
 			t.widgets = [];
 			inputs.dialog = $('#anno-popup-source');
 			inputs.validate = $('#anno-source-validate');
+			inputs.insert = $('#anno-source-insert');
+			inputs.close = $('#anno-source-close');
 
 			//inputs.dialog.bind('wpdialogrefresh', annoSource.refresh);
 			inputs.dialog.bind('wpdialogclose', annoSource.onClose);
@@ -22,10 +24,20 @@ var annosource;
 			$('body').on('click', '.mce_annosource', function(e) {
 				e.preventDefault();
 				t.codemirror.refresh();
-			}).
-			on('click', '#anno-source-validate', function(e) {
+			});
+			inputs.validate.on('click', function(e) {
 				e.preventDefault();
 				t.validate();
+			});
+			inputs.insert.on('click', function(e) {
+				e.preventDefault();
+				tinyMCEPopup.close();
+			});
+			inputs.close.on('click', function(e) {
+				e.preventDefault();
+				inputs.dialog.unbind('wpdialogclose', annoSource.onClose);
+				tinyMCEPopup.close();
+				t._cleanup();
 			});
 
 
@@ -87,15 +99,11 @@ var annosource;
 			);
 		},
 		_cleanup : function() {
-			// Use t here as this gets called from an event callback.
-			var t = this;
-
-			// Remove validation errors
 			$('#validation-errors').html('');
 
 			// Loop through the widgets, removing them
-			for (var i = t.widgets.length - 1; i >= 0; i--) {
-				t.widgets[i].clear();
+			for (var i = this.widgets.length - 1; i >= 0; i--) {
+				this.widgets[i].clear();
 			};
 		}
 	};
