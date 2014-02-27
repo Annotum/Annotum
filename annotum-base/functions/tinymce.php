@@ -260,7 +260,7 @@ class Anno_tinyMCE {
 	function mce_buttons($buttons, $ed_id) {
 
 		if ($this->is_article()) {
-			$buttons = explode(',', 'save,fullscreen,undo,redo,|,annopastetext,|,code,annosource');
+			$buttons = explode(',', 'save,fullscreen,undo,redo,|,annopastetext,|,annosource');
 		}
 		return $buttons;
 	}
