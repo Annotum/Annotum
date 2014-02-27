@@ -15,6 +15,7 @@ annoSource = {
 
 
 		$('body').on('click', '#errors a, .cm-error', function(e) {
+			t.codemirror.refresh();
 			e.preventDefault();
 			t.codemirror.focus();
 			t.codemirror.setCursor($(this).data('line'), $(this).data('col'));
@@ -43,7 +44,7 @@ annoSource = {
 					msg.className = 'cm-error';
 					$(msg).data('col', errors[i].column).data('line', errors[i].line);
 					msg.appendChild(document.createTextNode(errors[i].fullMessage));
-					t.codemirror.addLineWidget(errors[i].line, msg, {coverGutter: false, noHScroll: true, above: true, handleMouseEvents: true});
+					t.codemirror.addLineWidget(errors[i].line, msg, {coverGutter: false, noHScroll: true, above: false, handleMouseEvents: true});
 				};
 			},
 			'json'
@@ -55,6 +56,7 @@ annoSource = {
 	$(function(){
 		annoSource.init();
 		annoSource._validate();
+
 
 		/*$('body').on('click', '#errors a', function(e) {
 			e.preventDefault();
