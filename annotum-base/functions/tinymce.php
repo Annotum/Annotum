@@ -743,7 +743,7 @@ function anno_source_editor() {
 	<a href="#" class="button" id="anno-source-validate"><?php _e('Validate', 'anno'); ?></a>
 	<a href="#" class="button" id="anno-source-insert"><?php _e('Insert', 'anno'); ?></a>
 	<a href="#" class="button" id="anno-source-close"><?php _e('Close Without Inserting', 'anno'); ?></a>
-	<ul id="validation-errors"></ul>
+	<ul id="validation-status"></ul>
 	<textarea name="htmlSource" id="htmlSource" value=""></textarea>
 </div>
 <?php

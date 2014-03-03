@@ -27,13 +27,13 @@ function anno_ajax_validate() {
 	$response = array();
 	define('XML_PARSE_BIG_LINES', 4194304);
 	if (isset($_POST['content'])) {
-		$content = $_POST['content'];
+		$content = wp_unslash($_POST['content']);
 		$doc = new DOMDocument();
 		libxml_use_internal_errors(true);
 		$doc->loadxml($content);
 
 
-		if (!$doc->relaxNGValidate(get_template_directory().'/js/textorum/schema/kipling-jp3.srng')) {
+		if (!$doc->relaxNGValidate(get_template_directory().'/js/textorum/schema/kipling-jp3.rng')) {
 			$response['status'] = 'error';
 			$errors = libxml_get_errors();
 			if (is_array($errors)) {

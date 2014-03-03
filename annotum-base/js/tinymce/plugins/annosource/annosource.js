@@ -1,7 +1,7 @@
 var annosource;
 
 (function($){
-	var inputs = {}, ed;
+	var inputs = {};
 
 	annoSource = {
 		init : function() {
@@ -11,6 +11,7 @@ var annosource;
 			inputs.validate = $('#anno-source-validate');
 			inputs.insert = $('#anno-source-insert');
 			inputs.close = $('#anno-source-close');
+			t.validationStatusID = '#validation-status';
 
 			//inputs.dialog.bind('wpdialogrefresh', annoSource.refresh);
 			inputs.dialog.bind('wpdialogclose', annoSource.onClose);
@@ -40,8 +41,7 @@ var annosource;
 				t._cleanup();
 			});
 
-
-			$('body').on('click', '#validation-errors a, .cm-error', function(e) {
+			$('body').on('click', t.validationStatusID + ' a, .cm-error', function(e) {
 				t.codemirror.refresh();
 				e.preventDefault();
 				t.codemirror.focus();
@@ -54,19 +54,17 @@ var annosource;
 		beforeOpen : function () {
 			annoSource.editor = tinyMCEPopup.editor;
 			annoSource.editorVal = annoSource.editor.getContent({source_view : true});
+			annoSource.editorVal = annoSource.editorVal.replace(/^<!DOCTYPE[^>]*?>/, '');
 			annoSource.codemirror.setValue(annoSource.editorVal);
 			annoSource._validate(annoSource.editorVal);
 		},
 		onClose : function () {
 			var t = annoSource;
 			t._cleanup();
-		// Insert code back into the editor
-			t.editor.setContent(t.codemirror.getValue(), {source_view : true});
+			// Insert code back into the editor,
+			// Add doctype back in
+			t.editor.setContent('<!DOCTYPE sec SYSTEM "http://dtd.nlm.nih.gov/publishing/3.0/journalpublishing3.dtd">' + t.codemirror.getValue(), {source_view : true});
 
-		},
-
-		_getEditorVal : function () {
-			return  t.ed = tinyMCEPopup.editor;
 		},
 		validate : function() {
 			this._cleanup();
@@ -74,32 +72,38 @@ var annosource;
 		},
 		_validate : function (content) {
 			var t = this;
-			content = '<article>'+content+'</article>';
-			jQuery.post(ajaxurl,
+			content = '<body>'+content+'</body>';
+			$.post(ajaxurl,
 				{
 					content: content,
 					action: 'anno_validate'
 				},
 				function (data) {
-					var widget, errors = data.errors, insertEl, msg, $errorUL = $('#validation-errors');
-					for (var i = 0; i <= errors.length - 1; i++) {
-						insertEl = document.createElement('a');
-						jQuery(insertEl).text(errors[i].fullMessage).data('col', errors[i].column).data('line', errors[i].line).attr('href', '#');
-						$errorUL.append($(insertEl).wrap('<li></li>').parent());
+					var widget, errors = data.errors, insertEl, msg, $statusUL = $(t.validationStatusID);
+					if (data.status == 'error') {
+						for (var i = 0; i <= errors.length - 1; i++) {
+							insertEl = document.createElement('a');
+							$(insertEl).text(errors[i].fullMessage).data('col', errors[i].column).data('line', errors[i].line).attr('href', '#');
+							$statusUL.append($(insertEl).wrap('<li></li>').parent());
 
-						msg = document.createElement("a");
-						msg.className = 'cm-error';
-						$(msg).data('col', errors[i].column).data('line', errors[i].line);
-						msg.appendChild(document.createTextNode(errors[i].fullMessage));
-						widget = t.codemirror.addLineWidget(errors[i].line, msg, {coverGutter: false, noHScroll: true, above: false, handleMouseEvents: true});
-						t.widgets.push(widget);
-					};
+							msg = document.createElement("a");
+							msg.className = 'cm-error';
+							$(msg).data('col', errors[i].column).data('line', errors[i].line);
+							msg.appendChild(document.createTextNode(errors[i].fullMessage));
+							widget = t.codemirror.addLineWidget(errors[i].line, msg, {coverGutter: false, noHScroll: true, above: false, handleMouseEvents: true});
+							t.widgets.push(widget);
+						};
+					}
+					else {
+						insertEl = document.createElement('li');
+						$(insertEl).text('Validation Successful');
+					}
 				},
 				'json'
 			);
 		},
 		_cleanup : function() {
-			$('#validation-errors').html('');
+			$(this.validationStatusID).html('');
 
 			// Loop through the widgets, removing them
 			for (var i = this.widgets.length - 1; i >= 0; i--) {
@@ -107,7 +111,6 @@ var annosource;
 			};
 		}
 	};
-
 
 	$(function(){
 		annoSource.init();
