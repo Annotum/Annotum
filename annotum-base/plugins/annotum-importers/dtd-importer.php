@@ -8,9 +8,16 @@
  * Copyright 2008-2011 Crowd Favorite, Ltd. All rights reserved. <http://crowdfavorite.com>
  * Released under the GPL license
  * http://www.opensource.org/licenses/gpl-license.php
- * 
+ *
  * Based on code found in WordPress Importer plugin
  */
+
+function dtd_importer_enqueue() {
+	if (isset($_REQUEST['import']) && $_REQUEST['import'] == 'kipling_dtd_xml') {
+		wp_enqueue_style('anno-importer', trailingslashit(get_template_directory_uri()) . 'plugins/annotum-importers/importer.css');
+	}
+}
+add_action('admin_print_styles', 'dtd_importer_enqueue');
 
 function add_xml_import_link_to_admin_menu() {
 	/**
@@ -32,15 +39,15 @@ if ( !class_exists('Knol_Import')) {
 }
 
 if (!class_exists('DTD_Importer')) {
-	class DTD_Import extends Knol_Import {
+class DTD_Import extends Knol_Import {
 
 	var $import_slug = 'kipling_dtd_xml';
-	
+
 	// Author meta data is stored here. We don't get this data from Knols
 	var $authors_meta = array();
-			
+
 	function DTD_Import() { /* Nothing */ }
-	
+
 	/**
 	 * Parses the XML file and prepares us for the task of processing parsed data
 	 *
@@ -62,6 +69,17 @@ if (!class_exists('DTD_Importer')) {
 			$this->footer();
 			die();
 		}
+		// Validation error likely
+		if (isset($import_data['status']) && $import_data['status'] == 'error') {
+			echo '<h3>'.__('There were the following errors while trying to validate your XML. Please correct them and try again.', 'anno').'</h3>';
+			foreach ($import_data['errors'] as $error) {
+				$error_lines[] = $error['line'];
+				echo '<div class="error">'.$error['fullMessage'].'.</div>';
+			}
+			$this->output_XML($import_data['content'], $error_lines);
+			$this->footer();
+			die();
+		}
 
 		$this->version = $import_data['version'];
 		$this->get_authors_from_import( $import_data );
@@ -76,7 +94,7 @@ if (!class_exists('DTD_Importer')) {
 
 		do_action( 'import_start' );
 	}
-	
+
 	/**
 	 * Retrieve authors and author meta from parse XML file. Process meta data.
 	 *
@@ -91,13 +109,13 @@ if (!class_exists('DTD_Importer')) {
 		if (!empty($import_data['authors_meta'])) {
 			$this->authors_meta = $import_data['authors_meta'];
 			$this->process_user_meta();
-		}	
+		}
 	}
 
 	/**
 	 * Process post meta for created users
-	 * 
-	 */ 
+	 *
+	 */
 	function process_user_meta() {
 		// Only perform on newly created users
 		foreach ($this->created_users as $old_id => $wp_id) {
@@ -138,9 +156,8 @@ if (!class_exists('DTD_Importer')) {
 	}
 
 	// Close div.wrap
-	function footer() {	
+	function footer() {
 		echo '</div>';
-		
 	}
 
 	/**
@@ -152,6 +169,23 @@ if (!class_exists('DTD_Importer')) {
 		echo '<p>'.__( 'Choose a Kipling DTD XML (.xml) file to upload, then click Upload file and import.', 'anno' ).'</p>';
 		wp_import_upload_form( 'admin.php?import=kipling_dtd_xml&amp;step=1' );
 		echo '</div>';
+	}
+
+	function output_XML($xml, $error_lines = array()) {
+		$xml_lines = explode("\n", $xml);
+		$line_number = 0;
+		foreach ($xml_lines as $xml_line) {
+			if ($line_number == 0) {
+				$line_number++;
+				continue;
+			}
+			$class = 'dtd-importer-xml-line';
+			if (in_array($line_number - 1, $error_lines)) {
+				$class .= ' dtdt-importer-line-error';
+			}
+			echo '<div class="'.$class.'"><span class="dtd-importer-line-number">'.$line_number.'.</span>'.esc_html($xml_line).'</div>';
+			$line_number++;
+		}
 	}
 }
 }

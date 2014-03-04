@@ -1,0 +1,10 @@
+.dtd-importer-xml-line {
+	font-family: courier, sans-serif;
+}
+.dtdt-importer-line-error {
+	background-color: #FFCCCC;
+}
+.dtd-importer-line-number {
+	margin-right: 10px;
+	min-width: 20px;
+}
