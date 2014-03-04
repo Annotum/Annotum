@@ -2,12 +2,12 @@
 <!-- Annotum JP3 subset DTD -->
 <!--
   7/6/2011 - BECK added inline-formula to %inlines;
-  			 BECK added supplementary-material to %para-level-objects
-  			 BECK added %inlines to title
+         BECK added supplementary-material to %para-level-objects
+         BECK added %inlines to title
 
 
   9/1/2011 - BECK changed model of <bio> to p+
-  			  BECK made email optional (0 or 1) in contrib
+          BECK made email optional (0 or 1) in contrib
 
   12/8/2012 - BECK added charents from JATS
 
@@ -1121,18 +1121,18 @@
   <define name="media">
     <element name="media">
       <ref name="media.attlist"/>
-        <optional>
-          <ref name="alt-text"/>
-        </optional>
-        <optional>
-          <ref name="long-desc"/>
-        </optional>
-        <zeroOrMore>
-          <ref name="uri"/>
-        </zeroOrMore>
-        <optional>
-          <ref name="permissions"/>
-        </optional>
+      <optional>
+        <ref name="alt-text"/>
+      </optional>
+      <optional>
+        <ref name="long-desc"/>
+      </optional>
+      <zeroOrMore>
+        <ref name="uri"/>
+      </zeroOrMore>
+      <optional>
+        <ref name="permissions"/>
+      </optional>
     </element>
   </define>
   <define name="media.attlist" combine="interleave">

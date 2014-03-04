@@ -64,7 +64,6 @@ var annosource;
 			// Insert code back into the editor,
 			// Add doctype back in
 			t.editor.setContent('<!DOCTYPE sec SYSTEM "http://dtd.nlm.nih.gov/publishing/3.0/journalpublishing3.dtd">' + t.codemirror.getValue(), {source_view : true});
-
 		},
 		validate : function() {
 			this._cleanup();
@@ -94,9 +93,10 @@ var annosource;
 							t.widgets.push(widget);
 						};
 					}
-					else {
+					else if (data.status == 'success') {
 						insertEl = document.createElement('li');
-						$(insertEl).text('Validation Successful');
+						$(insertEl).text(data.message);
+						$statusUL.append($(insertEl));
 					}
 				},
 				'json'

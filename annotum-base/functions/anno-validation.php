@@ -33,7 +33,7 @@ function anno_ajax_validate() {
 		$doc->loadxml($content);
 
 
-		if (!$doc->relaxNGValidate(get_template_directory().'/js/textorum/schema/kipling-jp3.rng')) {
+		if (!$doc->relaxNGValidate(trailingslashit(get_template_directory()).'functions/schema/kipling-jp3-partial.rng')) {
 			$response['status'] = 'error';
 			$errors = libxml_get_errors();
 			if (is_array($errors)) {
@@ -50,6 +50,7 @@ function anno_ajax_validate() {
 		}
 		else {
 			$response['status'] = 'success';
+			$response['message'] = __('Validation Successful', 'anno');
 		}
 	}
 	error_log(print_r($response,1));
