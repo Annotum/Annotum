@@ -1,7 +1,6 @@
 var annosource;
 
 (function($){
-
 	var inputs = {};
 
 	annoSource = {
@@ -57,42 +56,18 @@ var annosource;
 
 			inputs.dialog.bind('wpdialogbeforeopen', annoSource.beforeOpen);
 		},
-		insertAlert : function(e, result) {
-			var t = annoSource;
-			$(document).off('annoValidation', t.insertAlert);
-			if (result == 'error') {
-				if (confirm('There are validation errors still. Are you sure you want to insert this content?')) { //@TODO i18n
-					tinyMCEPopup.close();
-					// onClose triggers cleanup
-				}
-			}
-			else {
-				tinyMCEPopup.close();
-				// onClose triggers cleanup
-			}
-		},
-		beforeOpen : function () {
-			var t = annoSource;
-			t.editor = tinyMCEPopup.editor;
-			t.editorVal = t.editor.getContent({source_view : true});
-			t.editorVal = t.editorVal.replace(/^<!DOCTYPE[^>]*?>/, '');
-			t.codemirror.setValue(t.editorVal);
-			t._validate(t.editorVal);
-		},
-		onClose : function () {
-			var t = annoSource;
-			t._cleanup();
-			// Insert code back into the editor,
-			// Add doctype back in
-			t.editor.setContent('<!DOCTYPE sec SYSTEM "http://dtd.nlm.nih.gov/publishing/3.0/journalpublishing3.dtd">' + t.codemirror.getValue(), {source_view : true});
-		},
 		validate : function() {
 			this._cleanup();
 			this._validate(this.codemirror.getValue());
 		},
 		_validate : function (content) {
 			var t = this;
-			content = '<body>'+content+'</body>';
+			if (t.editor.id == 'content') {
+				content = '<body>'+content+'</body>';
+			}
+			else {
+				content = '<abstract>'+content+'</abstract>';
+			}
 			$.post(ajaxurl,
 				{
 					content: content,
@@ -137,6 +112,36 @@ var annosource;
 			for (var i = this.widgets.length - 1; i >= 0; i--) {
 				this.widgets[i].clear();
 			};
+		},
+		// * Event Callbacks ***************
+		insertAlert : function(e, result) {
+			var t = annoSource;
+			$(document).off('annoValidation', t.insertAlert);
+			if (result == 'error') {
+				if (confirm('There are validation errors still. Are you sure you want to insert this content?')) { //@TODO i18n
+					tinyMCEPopup.close();
+					// onClose triggers cleanup
+				}
+			}
+			else {
+				tinyMCEPopup.close();
+				// onClose triggers cleanup
+			}
+		},
+		beforeOpen : function () {
+			var t = annoSource;
+			t.editor = tinyMCEPopup.editor;
+			t.editorVal = t.editor.getContent({source_view : true});
+			t.editorVal = t.editorVal.replace(/^<!DOCTYPE[^>]*?>/, '');
+			t.codemirror.setValue(t.editorVal);
+			t._validate(t.editorVal);
+		},
+		onClose : function () {
+			var t = annoSource;
+			t._cleanup();
+			// Insert code back into the editor,
+			// Add doctype back in
+			t.editor.setContent('<!DOCTYPE sec SYSTEM "http://dtd.nlm.nih.gov/publishing/3.0/journalpublishing3.dtd">' + t.codemirror.getValue(), {source_view : true});
 		}
 	};
 
