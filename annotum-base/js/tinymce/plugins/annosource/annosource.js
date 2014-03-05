@@ -77,7 +77,6 @@ var annosource;
 					var widget, errors = data.errors, insertEl, msg, $statusUL = $(t.validationStatusID);
 					if (data.status == 'error') {
 						for (var i = 0; i <= errors.length - 1; i++) {
-
 							// Insert error at top of editor
 							insertEl = document.createElement('a');
 							$(insertEl).text(errors[i].fullMessage).data('col', errors[i].column).data('line', errors[i].line).attr('href', '#');
@@ -91,8 +90,8 @@ var annosource;
 							widget = t.codemirror.addLineWidget(errors[i].line, msg, {coverGutter: false, noHScroll: true, above: false, handleMouseEvents: true});
 							t.widgets.push(widget);
 
-							$.event.trigger('annoValidation', ['error']);
 						};
+						$.event.trigger('annoValidation', ['error']);
 					}
 					else if (data.status == 'success') {
 						insertEl = document.createElement('li');
