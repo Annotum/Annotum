@@ -29,7 +29,8 @@ function anno_validate($content, $schema) {
 					// -1 here as the index starts at 0 but display starts at 1
 					'line' => $libxml_error->line - 1,
 					'column' => $libxml_error->column,
-					'message' => str_replace('\n', '', $libxml_error->message)
+					'message' => str_replace('\n', '', $libxml_error->message),
+					'level' => $libxml_error->level,
 				);
 			}
 		}

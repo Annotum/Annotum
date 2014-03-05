@@ -74,9 +74,17 @@ var annosource;
 					action: 'anno_validate'
 				},
 				function (data) {
-					var widget, errors = data.errors, insertEl, msg, $statusUL = $(t.validationStatusID);
+					var widget, errors = data.errors, insertEl, msg, $statusUL = $(t.validationStatusID), eventStatus = 'success';
 					if (data.status == 'error') {
+						// Just an error status, inserting into the editor will not break it.
+						eventStatus = 'error';
 						for (var i = 0; i <= errors.length - 1; i++) {
+							if (errors[i].level == 3) {
+								// Status is fatal, inserting it into the editor
+								// will completely break it
+								eventStatus = 'fatal';
+							}
+
 							// Insert error at top of editor
 							insertEl = document.createElement('a');
 							$(insertEl).text(errors[i].fullMessage).data('col', errors[i].column).data('line', errors[i].line).attr('href', '#');
@@ -91,14 +99,14 @@ var annosource;
 							t.widgets.push(widget);
 
 						};
-						$.event.trigger('annoValidation', ['error']);
+						$.event.trigger('annoValidation', [eventStatus]);
 					}
 					else if (data.status == 'success') {
 						insertEl = document.createElement('li');
 						$(insertEl).text(data.message);
 						$statusUL.append($(insertEl));
 
-						$.event.trigger('annoValidation', ['success']);
+						$.event.trigger('annoValidation', [eventStatus]);
 					}
 				},
 				'json'
@@ -121,6 +129,9 @@ var annosource;
 					tinyMCEPopup.close();
 					// onClose triggers cleanup
 				}
+			}
+			else if (result == 'fatal') {
+				alert('The structure of the XML is broken. Please fix this and try again');
 			}
 			else {
 				tinyMCEPopup.close();
