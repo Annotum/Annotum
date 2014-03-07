@@ -13,6 +13,8 @@ var annosource;
 			inputs.close = $('#anno-source-close');
 			t.validationStatusID = '#validation-status';
 
+			t.validator = window.annoValidation;
+
 			//inputs.dialog.bind('wpdialogrefresh', annoSource.refresh);
 			inputs.dialog.bind('wpdialogclose', annoSource.onClose);
 
@@ -30,13 +32,15 @@ var annosource;
 			// Re-evaluate the current xml
 			inputs.validate.on('click', function(e) {
 				e.preventDefault();
+				$(document).on('annoValidation', t.processValidation);
 				t.validate();
 			});
 
 			// Insert the current XML back into the dom
 			inputs.insert.on('click', function(e) {
 				e.preventDefault();
-				$(document).on('annoValidation', annoSource.insertAlert);
+				$(document).on('annoValidation', t.processValidation);
+				$(document).on('annoValidation', t.insertAlert);
 				t.validate();
 			});
 
@@ -56,61 +60,23 @@ var annosource;
 
 			inputs.dialog.bind('wpdialogbeforeopen', annoSource.beforeOpen);
 		},
-		validate : function() {
+		validate : function(content) {
+			if (!content) {
+				content = this._getContent();
+			}
 			this._cleanup();
-			this._validate(this.codemirror.getValue());
+			content = this._prepContent(content);
+			this.validator.validate(content);
 		},
-		_validate : function (content) {
-			var t = this;
-			if (t.editor.id == 'content') {
+		// * Internal Helper Functions ***************
+		_prepContent : function (content) {
+			if (this.editor.id == 'content') {
 				content = '<body>'+content+'</body>';
 			}
 			else {
 				content = '<abstract>'+content+'</abstract>';
 			}
-			$.post(ajaxurl,
-				{
-					content: content,
-					action: 'anno_validate'
-				},
-				function (data) {
-					var widget, errors = data.errors, insertEl, msg, $statusUL = $(t.validationStatusID), eventStatus = 'success';
-					if (data.status == 'error') {
-						// Just an error status, inserting into the editor will not break it.
-						eventStatus = 'error';
-						for (var i = 0; i <= errors.length - 1; i++) {
-							if (errors[i].level == 3) {
-								// Status is fatal, inserting it into the editor
-								// will completely break it
-								eventStatus = 'fatal';
-							}
-
-							// Insert error at top of editor
-							insertEl = document.createElement('a');
-							$(insertEl).text(errors[i].fullMessage).data('col', errors[i].column).data('line', errors[i].line).attr('href', '#');
-							$statusUL.append($(insertEl).wrap('<li></li>').parent());
-
-							// Insert error directly into the editor itself
-							msg = document.createElement("a");
-							msg.className = 'cm-error';
-							$(msg).data('col', errors[i].column).data('line', errors[i].line);
-							msg.appendChild(document.createTextNode(errors[i].fullMessage));
-							widget = t.codemirror.addLineWidget(errors[i].line, msg, {coverGutter: false, noHScroll: true, above: false, handleMouseEvents: true});
-							t.widgets.push(widget);
-
-						};
-						$.event.trigger('annoValidation', [eventStatus]);
-					}
-					else if (data.status == 'success') {
-						insertEl = document.createElement('li');
-						$(insertEl).text(data.message);
-						$statusUL.append($(insertEl));
-
-						$.event.trigger('annoValidation', [eventStatus]);
-					}
-				},
-				'json'
-			);
+			return content;
 		},
 		_cleanup : function() {
 			$(this.validationStatusID).html('');
@@ -120,31 +86,60 @@ var annosource;
 				this.widgets[i].clear();
 			};
 		},
+		_getContent : function() {
+			return this.codemirror.getValue();
+		},
 		// * Event Callbacks ***************
-		insertAlert : function(e, result) {
-			var t = annoSource;
+		processValidation : function(e, data) {
+			var t = annoSource, widget, errors = data.errors, insertEl, msg, $statusUL = $(t.validationStatusID);
+			$(document).off('annoValidation', t.processValidation);
+			if (data.status == 'error' || data.status == 'fatal') {
+				for (var i = 0; i <= errors.length - 1; i++) {
+					// Insert error at top of editor
+					insertEl = document.createElement('a');
+					$(insertEl).text(errors[i].fullMessage).data('col', errors[i].column).data('line', errors[i].line).attr('href', '#');
+					$statusUL.append($(insertEl).wrap('<li></li>').parent());
+
+					// Insert error directly into the editor itself
+					msg = document.createElement("a");
+					msg.className = 'cm-error';
+					$(msg).data('col', errors[i].column).data('line', errors[i].line);
+					msg.appendChild(document.createTextNode(errors[i].fullMessage));
+					widget = t.codemirror.addLineWidget(errors[i].line, msg, {coverGutter: false, noHScroll: true, above: false, handleMouseEvents: true});
+					t.widgets.push(widget);
+
+				};
+			}
+			else if (data.status == 'success') {
+				insertEl = document.createElement('li');
+				$(insertEl).text(data.message);
+				$statusUL.append($(insertEl));
+			}
+		},
+		insertAlert : function(e, data) {
+			var t = annoSource, status = data.status;
 			$(document).off('annoValidation', t.insertAlert);
-			if (result == 'error') {
+			if (status == 'error') {
 				if (confirm('There are validation errors still. Are you sure you want to insert this content?')) { //@TODO i18n
-					tinyMCEPopup.close();
 					// onClose triggers cleanup
+					tinyMCEPopup.close();
 				}
 			}
-			else if (result == 'fatal') {
+			else if (status == 'fatal') {
 				alert('The structure of the XML is broken. Please fix this and try again');
 			}
 			else {
-				tinyMCEPopup.close();
 				// onClose triggers cleanup
+				tinyMCEPopup.close();
 			}
 		},
 		beforeOpen : function () {
 			var t = annoSource;
 			t.editor = tinyMCEPopup.editor;
-			t.editorVal = t.editor.getContent({source_view : true});
-			t.editorVal = t.editorVal.replace(/^<!DOCTYPE[^>]*?>/, '');
+			t.editorVal = t.editor.getContent({source_view : true}).replace(/^<!DOCTYPE[^>]*?>/, '');
 			t.codemirror.setValue(t.editorVal);
-			t._validate(t.editorVal);
+			$(document).on('annoValidation', t.processValidation);
+			t.validate(t.editorVal);
 		},
 		onClose : function () {
 			var t = annoSource;

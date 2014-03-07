@@ -60,3 +60,49 @@ function anno_ajax_validate() {
 	die();
 }
 add_action('wp_ajax_anno_validate', 'anno_ajax_validate');
+
+function anno_validate_on_save($post_id, $post) {
+	remove_action('save_post_article', 'anno_validate_on_save', 999, 2);
+	$error = false;
+	$schema = trailingslashit(get_template_directory()).'functions/schema/kipling-jp3-partial.rng';
+
+
+	$body_content = '<body>'.$post->post_content_filtered.'</body>';
+	$body_validation = anno_validate($body_content, $schema);
+
+	$abstract_content = '<abstract>'.$post->post_excerpt.'</abstract>';
+	$abstract_validation = anno_validate($abstract_content, $schema);
+
+	if (isset($body_validation['status']) && $body_validaiton['status'] == 'error') {
+
+
+		$error = true;
+	}
+	if (isset($abstract_validation['status']) && $abstract_validation['status'] == 'error') {
+
+		$error = true;
+	}
+
+	if ($error) {
+		$post->post_status = 'draft';
+		if (anno_workflow_enabled()) {
+			$status = 'pending';
+			update_post_meta($post_id, '_post_state', 'approved');
+		}
+		else {
+			$status = 'draft';
+		}
+
+		remove_action('post_updated', 'annowf_transistion_state', 10, 3);
+		remove_action('add_post_meta', 'anno_save_appendices_xml_as_html', 10, 3);
+		remove_filter('wp_insert_post_data', 'anno_insert_post_data', null, 2);
+		remove_filter('wp_insert_post_data', 'annowf_insert_post_data', 10, 2);
+		wp_update_post(array('ID' => $post_id, 'post_status' => 'draft'));
+	}
+
+	// Validate
+	// Alert user that there is invalid XML
+	// If this is publish post status, convert to draft.
+
+}
+add_action('save_post_article', 'anno_validate_on_save', 999, 2);
