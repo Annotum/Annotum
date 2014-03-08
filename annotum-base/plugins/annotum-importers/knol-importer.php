@@ -874,8 +874,12 @@ foreach ($this->authors as $author_key => $author_data) {
 					$author = (int) get_current_user_id();
 				
 				$postdata = array(
-					'import_id' => $post['post_id'], 'post_author' => $author, 'post_date' => $post['post_date'],
-					'post_date_gmt' => $post['post_date_gmt'], 'post_content' => $post['post_content'],
+					'import_id' => $post['post_id'], 'post_author' => $author,
+				       	'post_date' => date('Y-m-d H:i:s', strtotime($post['post_date'])),
+				       	'post_date_gmt' => date('Y-m-d H:i:s', strtotime($post['post_date_gmt'])),
+					// 'post_date' => $post['post_date'],
+					// 'post_date_gmt' => $post['post_date_gmt'],
+				       	'post_content' => $post['post_content'],
 					'post_excerpt' => $post['post_excerpt'], 'post_title' => $post['post_title'],
 					'post_status' => $post['status'], 'post_name' => $post['post_name'],
 					'comment_status' => $post['comment_status'], 'ping_status' => $post['ping_status'],
