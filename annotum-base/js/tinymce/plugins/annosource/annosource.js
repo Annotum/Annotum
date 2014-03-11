@@ -7,16 +7,17 @@ var annosource;
 		init : function() {
 			var t = this;
 			t.widgets = [];
-			inputs.dialog = $('#anno-popup-source');
-			inputs.validate = $('#anno-source-validate');
-			inputs.insert = $('#anno-source-insert');
-			inputs.close = $('#anno-source-close');
+			inputs.$dialog = $('#anno-popup-source');
+			inputs.$validate = $('#anno-source-validate');
+			inputs.$insert = $('#anno-source-insert');
+			inputs.$close = $('#anno-source-close');
+			inputs.$all = $('.js-source-button');
 			t.validationStatusID = '#validation-status';
 
 			t.validator = window.annoValidation;
 
 			//inputs.dialog.bind('wpdialogrefresh', annoSource.refresh);
-			inputs.dialog.bind('wpdialogclose', annoSource.onClose);
+			inputs.$dialog.bind('wpdialogclose', annoSource.onClose);
 
 			t.codemirror = CodeMirror.fromTextArea(document.getElementById('htmlSource'), {
 				lineNumbers: true,
@@ -30,22 +31,28 @@ var annosource;
 			});
 
 			// Re-evaluate the current xml
-			inputs.validate.on('click', function(e) {
+			inputs.$validate.on('click', function(e) {
 				e.preventDefault();
+				inputs.$all.prop('disabled', true);
 				$(document).on('annoValidation', t.processValidation);
-				t.validate();
+				t.validate().then(function(){
+					inputs.$all.prop('disabled', false);
+				});
 			});
 
 			// Insert the current XML back into the dom
-			inputs.insert.on('click', function(e) {
+			inputs.$insert.on('click', function(e) {
 				e.preventDefault();
 				$(document).on('annoValidation', t.processValidation);
 				$(document).on('annoValidation', t.insertAlert);
-				t.validate();
+				inputs.$all.prop('disabled', true);
+				t.validate().then(function(){
+					inputs.$all.prop('disabled', false);
+				});
 			});
 
 			// Close the xml editor without inserting content
-			inputs.close.on('click', function(e) {
+			inputs.$close.on('click', function(e) {
 				e.preventDefault();
 				inputs.dialog.unbind('wpdialogclose', annoSource.onClose);
 				tinyMCEPopup.close();
@@ -58,7 +65,7 @@ var annosource;
 				t.codemirror.setCursor($(this).data('line'), $(this).data('col'));
 			});
 
-			inputs.dialog.bind('wpdialogbeforeopen', annoSource.beforeOpen);
+			inputs.$dialog.bind('wpdialogbeforeopen', annoSource.beforeOpen);
 		},
 		validate : function(content) {
 			if (!content) {
@@ -66,7 +73,8 @@ var annosource;
 			}
 			this._cleanup();
 			content = this._prepContent(content);
-			this.validator.validate(content);
+			// Returns a promise
+			return this.validator.validate(content);
 		},
 		// * Internal Helper Functions ***************
 		_prepContent : function (content) {

@@ -740,9 +740,9 @@ function anno_popup_tips() {
 function anno_source_editor() {
 ?>
 <div id="anno-popup-source" class="anno-mce-popup">
-	<a href="#" class="button" id="anno-source-validate"><?php _e('Validate', 'anno'); ?></a>
-	<a href="#" class="button" id="anno-source-insert"><?php _e('Insert', 'anno'); ?></a>
-	<a href="#" class="button" id="anno-source-close"><?php _e('Close Without Inserting', 'anno'); ?></a>
+	<input type="button" id="anno-source-validate" class="button js-source-button js-source-validate" value="<?php _e('Validate', 'anno'); ?>" />
+	<input type="button" id="anno-source-insert" class="button js-source-button js-source-insert" value="<?php _e('Insert', 'anno'); ?>" />
+	<input type="button" id="anno-source-close" class="button js-source-button js-source-close" value="<?php _e('Close Without Inserting', 'anno'); ?>" />
 	<ul id="validation-status"></ul>
 	<textarea name="htmlSource" id="htmlSource" value=""></textarea>
 </div>
