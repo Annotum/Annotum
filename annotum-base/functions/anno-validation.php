@@ -17,6 +17,7 @@ function anno_validate($content, $schema) {
 	define('XML_PARSE_BIG_LINES', 4194304); //@TODO incorporate this
 	$doc = new DOMDocument();
 	libxml_use_internal_errors(true);
+	libxml_clear_errors();
 	$doc->loadxml($content);
 
 	if (!$doc->relaxNGValidate($schema)) {
@@ -60,6 +61,43 @@ function anno_ajax_validate() {
 	die();
 }
 add_action('wp_ajax_anno_validate', 'anno_ajax_validate');
+
+
+function anno_ajax_validate_all() {
+	$response = array('body' => array(), 'abstract' => array());
+
+	if (isset($_POST['body'])) {
+		$body = wp_unslash($_POST['body']);
+		$schema = trailingslashit(get_template_directory()).'functions/schema/kipling-jp3-partial.rng';
+		$response['body'] = anno_validate($body, $schema);
+
+		if ($response['body']['status'] == 'success') {
+			$response['body']['status'] = 'success';
+			$response['body']['message'] = __('Validation Successful', 'anno');
+		}
+		else {
+			$response['status'] = 'error';
+		}
+	}
+
+	if (isset($_POST['abstract'])) {
+		$abstract = wp_unslash($_POST['abstract']);
+		$schema = trailingslashit(get_template_directory()).'functions/schema/kipling-jp3-partial.rng';
+		$response['abstract'] = anno_validate($abstract, $schema);
+
+		if ($response['abstract']['status'] == 'success') {
+			$response['abstract']['status'] = 'success';
+			$response['abstract']['message'] = __('Validation Successful', 'anno');
+		}
+		else {
+			$response['status'] = 'error';
+		}
+	}
+
+	echo json_encode($response);
+	die();
+}
+add_action('wp_ajax_anno_validate_all', 'anno_ajax_validate_all');
 
 function anno_validate_on_save($post_id, $post) {
 	remove_action('save_post_article', 'anno_validate_on_save', 999, 2);

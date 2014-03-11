@@ -1,7 +1,8 @@
 (function($) {
 	var annoValidation = {
 		validate : function (content) {
-			$.post(ajaxurl,
+			var promise;
+			promise = $.post(ajaxurl,
 				{
 					content: content,
 					action: 'anno_validate'
@@ -22,6 +23,24 @@
 				},
 				'json'
 			);
+
+			return promise;
+		},
+		validateAll : function(body, abstract) {
+			var promise;
+			promise = $.post(ajaxurl,
+				{
+					body: body,
+					abstract : abstract,
+					action: 'anno_validate_all'
+				},
+				function (data) {
+					$.event.trigger('annoValidationAll', [data]);
+				},
+				'json'
+			);
+
+			return promise;
 		}
 	}
 	window.annoValidation = annoValidation;

@@ -105,7 +105,45 @@ jQuery(document).ready(function($){
 	$('.wp-switch-editor').remove();
 	$('.wp-editor-tools').remove();
 
-	// Validation alerts
+	// Validation alerts on save
+	$(function(){
+		$('.js-validation-button').on('click', annoProcessSave);
+
+		function annoProcessSave(e) {
+			e.preventDefault();
+			var excerpt = tinyMCE.editors['excerpt'].getContent(),
+			content = tinyMCE.editors['content'].getContent(),
+			$t = $(this);
+
+			excerpt = '<abstract>' + excerpt.replace(/^<!DOCTYPE[^>]*?>/, '') + '</abstract>';
+			content = '<body>' + content.replace(/^<!DOCTYPE[^>]*?>/, '') + '</body>';
+
+			$(document).on('annoValidationAll', annoValidateSave);
+			window.annoValidation.validateAll(content, excerpt).then(function(){
+				$('.js-validation-button').off('click', annoProcessSave);
+				$t.trigger('click');
+			});
+
+		}
+
+		function annoValidateSave(e, data) {
+			var msg = null;
+			$(document).off('annoValidationAll', annoValidateSave);
+			if (data.status == 'error') {
+				if (data.body.status == 'error' && data.abstract.status == 'error') {
+					msg = annoArticle.validationBothMsg;
+				}
+				else if (data.body.status == 'error') {
+					msg = annoArticle.validationBodyMsg;
+				}
+				else if (data.abstract.status == 'error') {
+					msg = annoArticle.validationAbstractMsg;
+				}
+
+				alert(msg);
+			}
+		}
+	});
 
 
 });
