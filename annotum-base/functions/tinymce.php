@@ -268,7 +268,7 @@ class Anno_tinyMCE {
 	function mce_buttons_2($buttons, $ed_id) {
 		if ($this->is_article()) {
 			if ($ed_id == 'excerpt') {
-				$buttons = array('bold,italic,underline,sub,sup,charmap');
+				$buttons = array('bold,italic,underline,sup,sub,charmap');
 			}
 			else {
 				$buttons = explode(',', 'annoorderedlist,annobulletlist,bold,italic,underline,annopreformat,annomonospace,sup,sub,charmap,|,annosection,annosubsection,mysplitbutton,|,annoreferences,|,annoimages,|,annoquote,annoequations');
