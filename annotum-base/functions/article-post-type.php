@@ -401,4 +401,12 @@ function anno_deposit_doi_meta_box($post) {
 	<!-- <input id="<?php echo $deposit_id; ?>" type="button" value="<?php _ex('Deposit', 'doi deposit button label', 'anno'); ?>"<?php disabled($deposit_enabled, false, true); ?> /> -->
 <?php
 }
-?>
+
+function anno_admin_comment_filter($query) {
+	if (anno_is_article_edit()) {
+		if (empty($query->query_vars['type'])) {
+			$query->query_vars['type'] = 'comment';
+		}
+	}
+}
+add_action('pre_get_comments', 'anno_admin_comment_filter');

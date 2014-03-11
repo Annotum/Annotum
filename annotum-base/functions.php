@@ -34,14 +34,7 @@ include_once(CFCT_PATH.'functions/media-editor/media-editor.php');
 
 function anno_include_media_edit() {
 	global $pagenow;
-	if (
-		is_admin()
-		&& (
-			($pagenow == 'post.php' && isset($_REQUEST['post']) && get_post_type($_REQUEST['post']) == 'article')
-			|| ($pagenow == 'post-new.php' && isset($_REQUEST['post_type']) && $_REQUEST['post_type'] == 'article')
-			)
-		)
-	{
+	if (anno_is_article_edit()) {
 		include_once(CFCT_PATH.'functions/media-editor/media-editor.php');
 	}
 	// Loaded for media functions has conditional checks withing the functions
@@ -1345,4 +1338,19 @@ function anno_remove_user_from_post($type, $user_id, $post_id) {
 
 function anno_is_article($post_id) {
 	return get_post_type($post_id) == 'article';
+}
+
+function anno_is_article_edit() {
+	global $pagenow;
+	if (
+		is_admin()
+		&& (
+			($pagenow == 'post.php' && isset($_REQUEST['post']) && get_post_type($_REQUEST['post']) == 'article')
+			|| ($pagenow == 'post-new.php' && isset($_REQUEST['post_type']) && $_REQUEST['post_type'] == 'article')
+			)
+		)
+	{
+		return true;
+	}
+	return false;
 }
