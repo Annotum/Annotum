@@ -12,7 +12,7 @@
 
 /**
  * Callback for publish meta box. Heavily based on code from the WP Core 3.1.2
- */ 
+ */
 function annowf_status_meta_box($post) {
 	$post_state = annowf_get_post_state($post->ID);
 ?>
@@ -20,23 +20,23 @@ function annowf_status_meta_box($post) {
 	<input name="post_state" type="hidden" value="<?php echo esc_attr($post_state); ?>" />
 	<div id="minor-publishing">
 		<div id="minor-publishing-actions">
-			<?php 
+			<?php
 				if (function_exists('annowf_minor_action_'.$post_state.'_markup')) {
 					call_user_func('annowf_minor_action_'.$post_state.'_markup');
 				}
 			?>
 		</div> <!-- #minor-publishing-actions -->
 
-	<?php 
-		if ($post_state == 'approved' && anno_user_can('alter_post_state')) { 
+	<?php
+		if ($post_state == 'approved' && anno_user_can('alter_post_state')) {
 			annowf_misc_action_approved_markup();
- 		} 
+ 		}
 	?>
 	</div> <!-- #minor-publising -->
 	<input type="hidden" name="hidden_post_status" id="hidden_post_status" value="<?php echo esc_attr( ('auto-draft' == $post->post_status ) ? 'draft' : $post->post_status); ?>" />
 	<div id="major-publishing-actions">
 		<?php
-			do_action('post_submitbox_start'); 
+			do_action('post_submitbox_start');
 			if (function_exists('annowf_major_action_'.$post_state.'_markup')) {
 				call_user_func('annowf_major_action_'.$post_state.'_markup');
 			}
@@ -78,10 +78,10 @@ function annowf_major_action_draft_markup() {
 		<div id="publishing-action"<?php echo $wrap_class; ?>>
 			<img src="<?php echo esc_url( admin_url( 'images/wpspin_light.gif' ) ); ?>" class="ajax-loading" id="ajax-loading" alt="" />
 			<input name="original_publish" type="hidden" id="original_publish" value="<?php echo esc_attr($anno_post_save['review']); ?>" />
-			<?php submit_button($anno_post_save['review'], 'primary', 'publish', false, array( 'tabindex' => '5', 'accesskey' => 'p' )); ?>
+			<?php submit_button($anno_post_save['review'], 'primary', 'publish', false, array( 'tabindex' => '5', 'accesskey' => 'p', 'class' => 'js-validate-button' )); ?>
 		</div>
 		<div class="clear"></div>
-<?php 
+<?php
 }
 
 /**
@@ -107,19 +107,19 @@ function annowf_major_action_submitted_markup() {
 		global $anno_post_save;
 ?>
 	<div id="publishing-action-approve" class="center-wrap">
-		<input name="original_publish" type="hidden" id="original_publish" value="<?php echo esc_attr($anno_post_save['approve']) ?>" />	
-		<?php submit_button($anno_post_save['approve'], 'primary', 'publish', false, array( 'tabindex' => '5')); ?>
+		<input name="original_publish" type="hidden" id="original_publish" value="<?php echo esc_attr($anno_post_save['approve']) ?>" />
+		<?php submit_button($anno_post_save['approve'], 'primary', 'publish', false, array( 'tabindex' => '5', 'class' => 'js-validate-button')); ?>
 		<img src="<?php echo esc_url( admin_url( 'images/wpspin_light.gif' ) ); ?>" class="ajax-loading" alt="" />
 	</div>
 	<div id="publishing-action-revision" class="center-wrap">
-		<?php submit_button($anno_post_save['revisions'], 'primary', 'publish', false, array( 'tabindex' => '6' )); ?>
+		<?php submit_button($anno_post_save['revisions'], 'primary', 'publish', false, array( 'tabindex' => '6', 'class' => 'js-validate-button' )); ?>
 		<img src="<?php echo esc_url( admin_url( 'images/wpspin_light.gif' ) ); ?>" class="ajax-loading" />
 	</div>
 	<div id="publishing-action-reject" class="center-wrap">
-		<?php submit_button($anno_post_save['reject'], 'primary', 'publish', false, array( 'tabindex' => '7' )); ?>
+		<?php submit_button($anno_post_save['reject'], 'primary', 'publish', false, array( 'tabindex' => '7', 'class' => 'js-validate-button' )); ?>
 		<img src="<?php echo esc_url( admin_url( 'images/wpspin_light.gif' ) ); ?>" class="ajax-loading" />
 	</div>
-	
+
 <?php
 	}
 	else {
@@ -142,7 +142,7 @@ function annowf_minor_action_in_review_markup() {
 			if (!is_array($round_reviewed)) {
 				$round_reviewed = array();
 			}
-			$round_reviewed = count($round_reviewed);		
+			$round_reviewed = count($round_reviewed);
 			$reviewers = count(anno_get_reviewers($post->ID));
 ?>
 			<p class="status-text">
@@ -154,8 +154,8 @@ function annowf_minor_action_in_review_markup() {
 ?>
 			<p class="status-text">
 <?php
- 			_ex('Submitted - In Review', 'Publishing box meta text', 'anno'); 
-	}	
+ 			_ex('Submitted - In Review', 'Publishing box meta text', 'anno');
+	}
 ?>
 		</p>
 <?php
@@ -164,24 +164,24 @@ function annowf_minor_action_in_review_markup() {
 /**
  * In Review state markup for major actions.
  */
-function annowf_major_action_in_review_markup() {	
+function annowf_major_action_in_review_markup() {
 	if (anno_user_can('alter_post_state')) {
 		global $anno_post_save;
 ?>
 	<div id="publishing-action-approve" class="center-wrap">
-		<input name="original_publish" type="hidden" id="original_publish" value="<?php echo esc_attr($anno_post_save['approve']) ?>" />	
-		<?php submit_button($anno_post_save['approve'], 'primary', 'publish', false, array( 'tabindex' => '5')); ?>
+		<input name="original_publish" type="hidden" id="original_publish" value="<?php echo esc_attr($anno_post_save['approve']) ?>" />
+		<?php submit_button($anno_post_save['approve'], 'primary', 'publish', false, array( 'tabindex' => '5', 'class' => 'js-validate-button')); ?>
 		<img src="<?php echo esc_url( admin_url( 'images/wpspin_light.gif' ) ); ?>" class="ajax-loading" alt="" />
 	</div>
 	<div id="publishing-action-revision" class="center-wrap">
-		<?php submit_button($anno_post_save['revisions'], 'primary', 'publish', false, array( 'tabindex' => '6' )); ?>
+		<?php submit_button($anno_post_save['revisions'], 'primary', 'publish', false, array( 'tabindex' => '6' , 'class' => 'js-validate-button')); ?>
 		<img src="<?php echo esc_url( admin_url( 'images/wpspin_light.gif' ) ); ?>" class="ajax-loading" />
 	</div>
 	<div id="publishing-action-reject" class="center-wrap">
-		<?php submit_button($anno_post_save['reject'], 'primary', 'publish', false, array( 'tabindex' => '7' )); ?>
+		<?php submit_button($anno_post_save['reject'], 'primary', 'publish', false, array( 'tabindex' => '7', 'class' => 'js-validate-button' )); ?>
 		<img src="<?php echo esc_url( admin_url( 'images/wpspin_light.gif' ) ); ?>" class="ajax-loading" />
 	</div>
-	
+
 <?php
 	}
 	else {
@@ -213,14 +213,14 @@ function annowf_minor_action_approved_markup() {
 function annowf_major_action_approved_markup() {
 	if (anno_user_can('alter_post_state')) {
 		global $anno_post_save;
-		annowf_major_action_revert(); 
+		annowf_major_action_revert();
 ?>
 	<div id="publishing-action" class="float-right">
-		<img src="<?php echo esc_url( admin_url( 'images/wpspin_light.gif' ) ); ?>" class="ajax-loading" id="ajax-loading" alt="" />	
-		<?php submit_button($anno_post_save['publish'], 'primary', 'publish', false, array( 'tabindex' => '5')); ?>
+		<img src="<?php echo esc_url( admin_url( 'images/wpspin_light.gif' ) ); ?>" class="ajax-loading" id="ajax-loading" alt="" />
+		<?php submit_button($anno_post_save['publish'], 'primary', 'publish', false, array( 'tabindex' => '5', 'class' => 'js-validate-button')); ?>
 	</div>
 	<div class="clear"></div>
-<?php	
+<?php
 	}
 	else {
 		annowf_major_action_preview_markup();
@@ -244,11 +244,11 @@ function annowf_misc_action_approved_markup() {
 		$post->post_password = '';
 		$visibility = 'private';
 		$visibility_trans = _x('Private', 'Publishing box visibility text', 'anno');
-	} 
+	}
 	elseif ( !empty( $post->post_password ) ) {
 		$visibility = 'password';
 		$visibility_trans = _x('Password protected', 'Publishing box visibility text', 'anno');
-	} 
+	}
 	elseif ( $post_type == 'post' && is_sticky( $post->ID ) ) {
 		$visibility = 'public';
 		$visibility_trans = _x('Public, Sticky', 'Publishing box visibility text', 'anno' );
@@ -316,7 +316,7 @@ function annowf_misc_action_approved_markup() {
 
 	<?php do_action('post_submitbox_misc_actions'); ?>
 
-</div>	
+</div>
 <?php
 }
 
@@ -398,12 +398,12 @@ function annowf_minor_action_preview_markup() {
 		<input type="hidden" name="wp-preview" id="wp-preview" value="" />
 	</div> <!-- #preview-action -->
 	<div class="clear"></div>
-<?php 
+<?php
 }
 
 /**
  * Preview button markup used in many major actions for various states
- */ 
+ */
 function annowf_major_action_preview_markup() {
 ?>
 	<div id="preview-action" class="major center-wrap">
@@ -412,7 +412,7 @@ function annowf_major_action_preview_markup() {
 	if ( 'publish' == $post->post_status ) {
 		$preview_link = esc_url( get_permalink( $post->ID ) );
 		$preview_button = _x('Preview Changes', 'Publising box preview button text', 'anno');
-	} 
+	}
 	else {
 		$preview_link = get_permalink( $post->ID );
 		if ( is_ssl() )
@@ -425,7 +425,7 @@ function annowf_major_action_preview_markup() {
 		<input type="hidden" name="wp-preview" id="wp-preview" value="" />
 	</div> <!-- #preview-action -->
 	<div class="clear"></div>
-<?php 	
+<?php
 }
 
 /**
@@ -436,13 +436,13 @@ function annowf_minor_action_save_markup() {
 	global $post;
 ?>
 		<div style="display:none;">
-			<?php submit_button( _x('Save', 'Publishing box save button text', 'anno'), 'button', 'save' ); ?>
+			<?php submit_button( _x('Save', 'Publishing box save button text', 'anno'), 'button', 'save', array('class' => 'js-validate-button') ); ?>
 		</div>
-		<div id="save-action" class="left">			
-			<input <?php if ( 'private' == $post->post_status ) { ?>style="display:none"<?php } ?> type="submit" name="save" id="save-post" value="<?php echo esc_attr('Save', 'anno'); ?>" tabindex="4" class="button button-highlighted" />
+		<div id="save-action" class="left">
+			<input <?php if ( 'private' == $post->post_status ) { ?>style="display:none"<?php } ?> type="submit" name="save" id="save-post" value="<?php echo esc_attr('Save', 'anno'); ?>" tabindex="4" class="button button-highlighted js-validation-button" />
 			<img src="<?php echo esc_url( admin_url( 'images/wpspin_light.gif' ) ); ?>" class="ajax-loading" id="draft-ajax-loading" alt="" />
 		</div>
-<?php 
+<?php
 }
 
 /**
@@ -461,18 +461,18 @@ function annowf_major_action_clone_markup($position = 'center') {
 		<div id="clone-action" class="major <?php echo $class ?>">
 			<?php submit_button($anno_post_save['clone'], 'primary', 'publish', false, array( 'tabindex' => '5', 'accesskey' => 'p' )); ?>
 		</div>
-<?php 
+<?php
 	}
-	if ($position != 'center') {		
-?>	
+	if ($position != 'center') {
+?>
 			<div class="clear"></div>
-<?php 
+<?php
 	}
 }
 
 /**
  * Revert to draft markup, used for accidental state transitions
- */ 
+ */
 function annowf_major_action_revert($position = 'left') {
 	global $anno_post_save;
 	if ($position == 'center') {
@@ -483,12 +483,12 @@ function annowf_major_action_revert($position = 'left') {
 	}
 ?>
 	<div id="revert-action" class="major <?php echo $class ?>">
-		<?php submit_button($anno_post_save['revert'], 'primary', 'revert', false, array( 'tabindex' => '5', 'accesskey' => 'p' )); ?>
+		<?php submit_button($anno_post_save['revert'], 'primary', 'revert', false, array( 'tabindex' => '5', 'accesskey' => 'p', 'class' => 'js-validate-button' )); ?>
 	</div>
-<?php 
-	if ($position == 'center') {		
-?>	
+<?php
+	if ($position == 'center') {
+?>
 		<div class="clear"></div>
-<?php 
+<?php
 	}
 }
