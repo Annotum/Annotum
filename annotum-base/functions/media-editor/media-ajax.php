@@ -24,7 +24,7 @@ function anno_media_send_to_editor($html, $id, $attachment) {
 	// Attachment is not an image, insert it as a link
 	if (!wp_attachment_is_image($id)) {
 		//@TODO NEEDS TO BE CONVERTED TO THE TEXTORUM EXPECTED TAG
-		$html = '<ext-link ext-link-type="uri" xlink:href="'.esc_url($attachment['url']).'">'.$attachment['post_title'].'</ext-link>';
+		$html = '<span class="ext-link" xmlns:xlink="http://www.w3.org/1999/xlink" data-xmlel="ext-link" ext-link-type="uri" xlink:href="'.esc_url($attachment['url']).'">'.$attachment['post_title'].'</span>&nbsp;';
 	}
 	else {
 
