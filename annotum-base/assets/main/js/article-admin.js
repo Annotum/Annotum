@@ -107,8 +107,16 @@ jQuery(document).ready(function($){
 
 	// Validation alerts on save
 	$(function(){
-		$('.js-validation-button').on('click', annoProcessSave);
+		var $saveButton = $('.js-validation-button, #publish, #save-post');
 
+		$saveButton.on('click', annoProcessSave);
+
+		// So validation occurs on click and doesnt go through submitting
+		$('form#post').on('submit', annoPreventDefault);
+
+		function annoPreventDefault(e) {
+			e.preventDefault();
+		}
 		function annoProcessSave(e) {
 			e.preventDefault();
 			var excerpt = tinyMCE.editors['excerpt'].getContent(),
@@ -119,16 +127,25 @@ jQuery(document).ready(function($){
 			content = '<body>' + content.replace(/^<!DOCTYPE[^>]*?>/, '') + '</body>';
 
 			$(document).on('annoValidationAll', annoValidateSave);
+
 			window.annoValidation.validateAll(content, excerpt).then(function(){
-				$('.js-validation-button').off('click', annoProcessSave);
-				$t.trigger('click');
+				if ($t.is('a')) {
+					$saveButton.off('click', annoProcessSave);
+					$t.trigger('click');
+				}
+				else {
+					$('form#post').off('submit', annoPreventDefault);
+					$('form#post').submit();
+				}
 			});
 
 		}
 
 		function annoValidateSave(e, data) {
 			var msg = null;
+
 			$(document).off('annoValidationAll', annoValidateSave);
+			console.log(data);
 			if (data.status == 'error') {
 				if (data.body.status == 'error' && data.abstract.status == 'error') {
 					msg = annoArticle.validationBothMsg;
