@@ -109,12 +109,12 @@ var annosource;
 					$statusUL.append($(insertEl).wrap('<li></li>').parent());
 
 					// Insert error directly into the editor itself
-					msg = document.createElement("a");
-					msg.className = 'cm-error';
-					$(msg).data('col', errors[i].column).data('line', errors[i].line);
-					msg.appendChild(document.createTextNode(errors[i].fullMessage));
-					widget = t.codemirror.addLineWidget(errors[i].line, msg, {coverGutter: false, noHScroll: true, above: false, handleMouseEvents: true});
-					t.widgets.push(widget);
+					// msg = document.createElement("a");
+					// msg.className = 'cm-error';
+					// $(msg).data('col', errors[i].column).data('line', errors[i].line);
+					// msg.appendChild(document.createTextNode(errors[i].fullMessage));
+					// widget = t.codemirror.addLineWidget(errors[i].line, msg, {coverGutter: false, noHScroll: true, above: false, handleMouseEvents: true});
+					// t.widgets.push(widget);
 
 				};
 			}
