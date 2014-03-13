@@ -582,3 +582,32 @@ div.media-modal-backdrop {
 .submitbox #minor-publishing-actions {
 	padding: 10px 10px;
 }
+
+/** Tree View
+ -------------------------------------------------- */
+.tree-pop-up {
+	background-color: #dde7e8;
+	border: 1px solid #aaaead;
+	-webkit-box-shadow: 2px 2px 3px 0 rgba(0,0,0,.2);
+	box-shadow: 2px 2px 3px 0 rgba(0,0,0,.2);
+	font-family: sans-serif;
+	font-size: 12px;
+	line-height: 2.4;
+	padding: 5px;
+	width: 235px;
+}
+
+	.tree-pop-up ul {
+		list-style: none;
+		margin: 0;
+		padding-left: 8px;
+	}
+
+	.section-title {
+		background-color: #93c0cc;
+		line-height: 1;
+		margin-bottom: 10px;
+		padding: 6px 8px;
+		text-transform: uppercase;
+	}
+
