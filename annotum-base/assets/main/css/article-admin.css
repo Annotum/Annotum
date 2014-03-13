@@ -100,13 +100,14 @@ body .wp-dialog .ui-dialog-title {
 	padding: 0;
 	text-align: left;
 }
-body .wp-dialog .ui-dialog-titlebar-close,
-body .wp-dialog .ui-dialog-titlebar-close:hover {
-	background: url(../img/tinymce/tb-close.png) 0 0 no-repeat;
-	height: 15px;
-	right: 10px;
-	top: 6px;
-	width: 15px;
+body .ui-dialog-titlebar-close:before{
+	content: 'X';
+	font-size: 15px;
+	speak: none;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+	color: #999;
+	padding-left: 12px;
 }
 body .ui-widget-overlay {
 	opacity: .75;
