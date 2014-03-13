@@ -1,9 +1,7 @@
 .wp-switch-editor {
 	display: none !important;
 }
-.wp-editor-tools {
-	display: none !important;
-}
+
 
 select#article-category {
 	width: 90%;

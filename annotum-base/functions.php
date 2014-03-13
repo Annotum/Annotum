@@ -26,12 +26,29 @@ include_once(CFCT_PATH.'functions/template.php');
 include_once(CFCT_PATH.'functions/widgets.php');
 include_once(CFCT_PATH.'functions/profile.php');
 include_once(CFCT_PATH.'functions/tinymce.php');
-include_once(CFCT_PATH.'functions/tinymce-upload/tinymce-uploader.php');
-include_once(CFCT_PATH.'functions/tinymce-upload/image-popup.php');
 include_once(CFCT_PATH.'functions/phpquery/phpquery.php');
 include_once(CFCT_PATH.'functions/anno-xml-download.php');
 include_once(CFCT_PATH.'functions/subscribe.php');
 include_once(CFCT_PATH.'functions/snapshot.php');
+
+
+function anno_include_media_edit() {
+	global $pagenow;
+	if (
+		is_admin()
+		&& (
+			($pagenow == 'post.php' && isset($_REQUEST['post']) && get_post_type($_REQUEST['post']) == 'article')
+			|| ($pagenow == 'post-new.php' && isset($_REQUEST['post_type']) && $_REQUEST['post_type'] == 'article')
+			)
+		)
+	{
+		include_once(CFCT_PATH.'functions/media-editor/media-editor.php');
+	}
+	// Loaded for media functions has conditional checks withing the functions
+	include_once(CFCT_PATH.'functions/media-editor/media-ajax.php');
+}
+add_action('admin_init', 'anno_include_media_edit');
+
 
 function anno_setup() {
 	$path = trailingslashit(TEMPLATEPATH);
@@ -1330,3 +1347,6 @@ function anno_process_xml_content($content) {
 }
 add_filter('the_content', 'anno_process_xml_content', 5);
 
+function anno_is_article($post_id) {
+	return get_post_type($post_id) == 'article';
+}
