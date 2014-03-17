@@ -603,11 +603,64 @@ div.media-modal-backdrop {
 		padding-left: 8px;
 	}
 
+		.tree-pop-up ul ul {
+			padding-left: 0;
+		}
+
 	.section-title {
 		background-color: #93c0cc;
+		font-size: 12px;
+		font-weight: normal;
 		line-height: 1;
-		margin-bottom: 10px;
+		margin: 0 0 6px;
 		padding: 6px 8px;
 		text-transform: uppercase;
 	}
 
+@font-face {
+  font-family: "annotum-textorum";
+  src:url("../fonts/annotum-textorum.eot");
+  src:url("../fonts/annotum-textorum.eot?#iefix") format("embedded-opentype"),
+    url("../fonts/annotum-textorum.woff") format("woff"),
+    url("../fonts/annotum-textorum.ttf") format("truetype"),
+    url("../fonts/annotum-textorum.svg#annotum-textorum") format("svg");
+  font-weight: normal;
+  font-style: normal;
+}
+
+.icon {
+	padding-left: 20px;
+	position: relative;
+}
+
+.icon:before {
+  font-family: "annotum-textorum";
+  content: attr(data-icon);
+  font-size: 16px;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  left: 0;
+  line-height: 1.2;
+  position: absolute;
+  speak: none;
+  text-transform: none;
+  top: 6px;
+  width: 20px;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.folder:before {
+  content: "\e000";
+}
+.fig:before {
+  content: "\e001";
+}
+.table:before {
+  content: "\e002";
+}
+.para:before {
+  content: "\e003";
+  top: 5px;
+}
