@@ -1250,7 +1250,7 @@ function anno_article_admin_print_styles() {
 		$main =  trailingslashit(get_template_directory_uri()) . 'assets/main/';
 		wp_enqueue_style('article-admin', $main.'css/article-admin.css', array(), ANNO_VER);
 		wp_enqueue_style('article-admin-tinymce-ui', $main.'css/tinymce-ui.css', array(), ANNO_VER);
-		wp_enqueue_style('fancytree', $main.'css/fancytree-skin/ui.fancytree.min.css', array(), 'v2.0.0-6');
+		//wp_enqueue_style('fancytree', $main.'css/fancytree-skin/ui.fancytree.min.css', array(), 'v2.0.0-6');
 	}
 }
 add_action('admin_print_styles', 'anno_article_admin_print_styles');

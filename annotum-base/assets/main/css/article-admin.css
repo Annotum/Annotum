@@ -588,26 +588,39 @@ div.media-modal-backdrop {
 	border: 1px solid #aaaead;
 	-webkit-box-shadow: 2px 2px 3px 0 rgba(0,0,0,.2);
 	box-shadow: 2px 2px 3px 0 rgba(0,0,0,.2);
+	display:none;
 	font-family: sans-serif;
 	font-size: 12px;
 	line-height: 2.4;
 	padding: 5px;
+	position: absolute;
+	right: -246px;
+	top: 0;
 	width: 235px;
-	display:none;
 }
 
-	.tree-pop-up ul {
-		list-style: none;
+/*	.tree-pop-up span {
+		margin-left: 8px;
+	}*/
+	.fancytree-container {
 		margin: 0;
-		padding-left: 8px;
 	}
 
-		.tree-pop-up ul ul {
-			padding-left: 0;
+	.fancytree-container ul {
+		margin-left: 8px;
+	}
+
+		.fancytree-container ul ul {
+			margin-left: 20px;
 		}
 
-	.section-title {
+/*		.tree-pop-up span span {
+			margin-left: 0;
+		}*/
+
+	.sec.icon {
 		background-color: #93c0cc;
+		display: block;
 		font-size: 12px;
 		font-weight: normal;
 		line-height: 1;
@@ -644,7 +657,7 @@ div.media-modal-backdrop {
   position: absolute;
   speak: none;
   text-transform: none;
-  top: 6px;
+  top: 0;
   width: 20px;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -661,5 +674,5 @@ div.media-modal-backdrop {
 }
 .para:before {
   content: "\e003";
-  top: 5px;
+  top: -2px;
 }
