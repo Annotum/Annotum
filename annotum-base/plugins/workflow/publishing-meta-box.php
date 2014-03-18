@@ -78,7 +78,7 @@ function annowf_major_action_draft_markup() {
 		<div id="publishing-action"<?php echo $wrap_class; ?>>
 			<img src="<?php echo esc_url( admin_url( 'images/wpspin_light.gif' ) ); ?>" class="ajax-loading" id="ajax-loading" alt="" />
 			<input name="original_publish" type="hidden" id="original_publish" value="<?php echo esc_attr($anno_post_save['review']); ?>" />
-			<?php submit_button($anno_post_save['review'], 'primary', 'publish', false, array( 'tabindex' => '5', 'accesskey' => 'p', 'class' => 'js-validate-button' )); ?>
+			<?php submit_button($anno_post_save['review'], 'primary js-validation-button', 'publish', null, array('id' => 'review', 'tabindex' => '5' )); ?>
 		</div>
 		<div class="clear"></div>
 <?php
@@ -108,15 +108,15 @@ function annowf_major_action_submitted_markup() {
 ?>
 	<div id="publishing-action-approve" class="center-wrap">
 		<input name="original_publish" type="hidden" id="original_publish" value="<?php echo esc_attr($anno_post_save['approve']) ?>" />
-		<?php submit_button($anno_post_save['approve'], 'primary', 'publish', false, array( 'tabindex' => '5', 'class' => 'js-validate-button')); ?>
+		<?php submit_button($anno_post_save['approve'], 'primary js-validation-button', 'publish', null, array('id' => 'approve', 'tabindex' => '5' )); ?>
 		<img src="<?php echo esc_url( admin_url( 'images/wpspin_light.gif' ) ); ?>" class="ajax-loading" alt="" />
 	</div>
 	<div id="publishing-action-revision" class="center-wrap">
-		<?php submit_button($anno_post_save['revisions'], 'primary', 'publish', false, array( 'tabindex' => '6', 'class' => 'js-validate-button' )); ?>
+		<?php submit_button($anno_post_save['revisions'], 'primary js-validation-button','publish', null, array('id' => 'revisions', 'tabindex' => '6' )); ?>
 		<img src="<?php echo esc_url( admin_url( 'images/wpspin_light.gif' ) ); ?>" class="ajax-loading" />
 	</div>
 	<div id="publishing-action-reject" class="center-wrap">
-		<?php submit_button($anno_post_save['reject'], 'primary', 'publish', false, array( 'tabindex' => '7', 'class' => 'js-validate-button' )); ?>
+		<?php submit_button($anno_post_save['reject'], 'primary js-submit-button', 'publish', null, array('id' => 'reject', 'tabindex' => '7' )); ?>
 		<img src="<?php echo esc_url( admin_url( 'images/wpspin_light.gif' ) ); ?>" class="ajax-loading" />
 	</div>
 
@@ -170,15 +170,15 @@ function annowf_major_action_in_review_markup() {
 ?>
 	<div id="publishing-action-approve" class="center-wrap">
 		<input name="original_publish" type="hidden" id="original_publish" value="<?php echo esc_attr($anno_post_save['approve']) ?>" />
-		<?php submit_button($anno_post_save['approve'], 'primary', 'publish', false, array( 'tabindex' => '5', 'class' => 'js-validate-button')); ?>
+		<?php submit_button($anno_post_save['approve'], 'primary js-validation-button', 'publish', null, array('id' => 'approve', 'tabindex' => '5' )); ?>
 		<img src="<?php echo esc_url( admin_url( 'images/wpspin_light.gif' ) ); ?>" class="ajax-loading" alt="" />
 	</div>
 	<div id="publishing-action-revision" class="center-wrap">
-		<?php submit_button($anno_post_save['revisions'], 'primary', 'publish', false, array( 'tabindex' => '6' , 'class' => 'js-validate-button')); ?>
+		<?php submit_button($anno_post_save['revisions'], 'primary js-validation-button', 'publish', null, array('id' => 'revisions', 'tabindex' => '6' )); ?>
 		<img src="<?php echo esc_url( admin_url( 'images/wpspin_light.gif' ) ); ?>" class="ajax-loading" />
 	</div>
 	<div id="publishing-action-reject" class="center-wrap">
-		<?php submit_button($anno_post_save['reject'], 'primary', 'publish', false, array( 'tabindex' => '7', 'class' => 'js-validate-button' )); ?>
+		<?php submit_button($anno_post_save['reject'], 'primary js-submit-button', 'publish', null, array('id' => 'reject', 'tabindex' => '7' )); ?>
 		<img src="<?php echo esc_url( admin_url( 'images/wpspin_light.gif' ) ); ?>" class="ajax-loading" />
 	</div>
 
@@ -217,7 +217,7 @@ function annowf_major_action_approved_markup() {
 ?>
 	<div id="publishing-action" class="float-right">
 		<img src="<?php echo esc_url( admin_url( 'images/wpspin_light.gif' ) ); ?>" class="ajax-loading" id="ajax-loading" alt="" />
-		<?php submit_button($anno_post_save['publish'], 'primary', 'publish', false, array( 'tabindex' => '5', 'class' => 'js-validate-button')); ?>
+		<?php submit_button($anno_post_save['publish'], 'primary js-validation-button', 'publish', null, array('id' => 'publish', 'tabindex' => '5' )); ?>
 	</div>
 	<div class="clear"></div>
 <?php
@@ -436,7 +436,7 @@ function annowf_minor_action_save_markup() {
 	global $post;
 ?>
 		<div style="display:none;">
-			<?php submit_button( _x('Save', 'Publishing box save button text', 'anno'), 'button', 'save', array('class' => 'js-validate-button') ); ?>
+			<?php submit_button( _x('Save', 'Publishing box save button text', 'anno'), 'button js-validation-button', 'save' ); ?>
 		</div>
 		<div id="save-action" class="left">
 			<input <?php if ( 'private' == $post->post_status ) { ?>style="display:none"<?php } ?> type="submit" name="save" id="save-post" value="<?php echo esc_attr('Save', 'anno'); ?>" tabindex="4" class="button button-highlighted js-validation-button" />
@@ -459,7 +459,7 @@ function annowf_major_action_clone_markup($position = 'center') {
 		}
 ?>
 		<div id="clone-action" class="major <?php echo $class ?>">
-			<?php submit_button($anno_post_save['clone'], 'primary', 'publish', false, array( 'tabindex' => '5', 'accesskey' => 'p' )); ?>
+			<?php submit_button($anno_post_save['clone'], 'primary js-submit-button', 'publish', null, array('id' => 'clone', 'tabindex' => '5', 'accesskey' => 'p' )); ?>
 		</div>
 <?php
 	}
@@ -483,7 +483,8 @@ function annowf_major_action_revert($position = 'left') {
 	}
 ?>
 	<div id="revert-action" class="major <?php echo $class ?>">
-		<?php submit_button($anno_post_save['revert'], 'primary', 'revert', false, array( 'tabindex' => '5', 'accesskey' => 'p', 'class' => 'js-validate-button' )); ?>
+		<?php submit_button($anno_post_save['revert'], 'primary js-submit-button', 'publish', null, array( 'id' => 'revert', 'tabindex' => '5' )); ?>
+
 	</div>
 <?php
 	if ($position == 'center') {

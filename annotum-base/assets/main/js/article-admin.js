@@ -35,7 +35,6 @@ jQuery(document).ready(function($){
 				var editor, is_active;
 				editor = tinyMCE.EditorManager.get(element.id);
 				is_active = $(this).parents('.tmce-active').length;
-				console.log("moving textarea", element);
 				if (creatingEditor) {
 					if (!editor && is_active) {
 						tinyMCE.execCommand('mceAddControl', true, element.id);
@@ -108,17 +107,28 @@ jQuery(document).ready(function($){
 	// Validation alerts on save
 	$(function(){
 		var $saveButton = $('.js-validation-button, #publish, #save-post');
+		var $submitButton = $('.js-submit-button');
 
 		$saveButton.on('click', annoProcessSave);
 
 		// So validation occurs on click and doesnt go through submitting
 		$('form#post').on('submit', annoPreventDefault);
 
+		$submitButton.on('click', function(e) {
+			$('form#post').off('submit', annoPreventDefault);
+			$submitbutton.off('click');
+			// State change requires value and name from button pressed
+			$(e.target).click();
+		});
+
 		function annoPreventDefault(e) {
 			e.preventDefault();
 		}
 		function annoProcessSave(e) {
+			var clicker = e.target;
+			$saveButton.off('click', annoProcessSave);
 			e.preventDefault();
+
 			var excerpt = tinyMCE.editors['excerpt'].getContent(),
 			content = tinyMCE.editors['content'].getContent(),
 			$t = $(this);
@@ -134,8 +144,9 @@ jQuery(document).ready(function($){
 					$t.trigger('click');
 				}
 				else {
+					// State change requires value and name from button pressed
 					$('form#post').off('submit', annoPreventDefault);
-					$('form#post').submit();
+					$(clicker).click();
 				}
 			});
 
@@ -145,7 +156,6 @@ jQuery(document).ready(function($){
 			var msg = null;
 
 			$(document).off('annoValidationAll', annoValidateSave);
-			console.log(data);
 			if (data.status == 'error') {
 				if (data.body.status == 'error' && data.abstract.status == 'error') {
 					msg = annoArticle.validationBothMsg;

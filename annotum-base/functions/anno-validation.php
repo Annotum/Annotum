@@ -112,16 +112,13 @@ function anno_validate_on_save($post_id, $post) {
 	$abstract_validation = anno_validate($abstract_content, $schema);
 
 	if (isset($body_validation['status']) && $body_validaiton['status'] == 'error') {
-
-
 		$error = true;
 	}
 	if (isset($abstract_validation['status']) && $abstract_validation['status'] == 'error') {
-
 		$error = true;
 	}
 
-	if ($error) {
+	if ($error && $post->post_status == 'publish') {
 		$post->post_status = 'draft';
 		if (anno_workflow_enabled()) {
 			$status = 'pending';
@@ -137,10 +134,6 @@ function anno_validate_on_save($post_id, $post) {
 		remove_filter('wp_insert_post_data', 'annowf_insert_post_data', 10, 2);
 		wp_update_post(array('ID' => $post_id, 'post_status' => 'draft'));
 	}
-
-	// Validate
-	// Alert user that there is invalid XML
-	// If this is publish post status, convert to draft.
 
 }
 add_action('save_post_article', 'anno_validate_on_save', 999, 2);
