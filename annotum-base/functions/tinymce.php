@@ -260,7 +260,11 @@ class Anno_tinyMCE {
 	function mce_buttons($buttons, $ed_id) {
 
 		if ($this->is_article()) {
-			$buttons = explode(',', 'annotree,fullscreen,undo,redo,|,annopastetext,|,code');
+			$buttons = explode(',', 'fullscreen,undo,redo,|,annopastetext,|,code');
+			if ($ed_id != 'excerpt') {
+				$buttons[] = '|';
+				$buttons[] = 'annotree';
+			}
 		}
 		return $buttons;
 	}
