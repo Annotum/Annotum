@@ -593,6 +593,7 @@ div.media-modal-backdrop {
 	line-height: 2.4;
 	padding: 5px;
 	width: 235px;
+	display:none;
 }
 
 	.tree-pop-up ul {

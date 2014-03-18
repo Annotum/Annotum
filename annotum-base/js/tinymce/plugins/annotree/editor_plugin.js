@@ -11,6 +11,7 @@
 			t.titleEls = {sec: 'title', 'table-wrap': 'label', fig: 'label'};
 
 			ed.addCommand('Anno_Tree', function(){
+				jQuery('#anno-tree-' + t.ed.id).toggle();
 				t.mapNode();
 			});
 
@@ -92,9 +93,25 @@
 
 			// Set the key so we can access the editor element
 			object.key = node.id;
+			object.extraClasses = "icon sec";
 			curTreeObj = this.tree.getNodeByKey(object.key)
 			if (curTreeObj != null && curTreeObj.isExpanded()) {
 				object.expanded = true;
+			}
+
+			switch (textorumType) {
+				case 'p':
+					object.extraClasses = 'icon para';
+					break;
+				case 'sec':
+					object.extraClasses = 'icon folder';
+					break;
+				case 'fig':
+					object.extraClasses = 'icon fig';
+					break;
+				case 'table-wrap':
+					object.extraClasses = 'icon table';
+					break;
 			}
 
 			// Check if child nodes exist

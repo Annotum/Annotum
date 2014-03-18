@@ -150,7 +150,33 @@ function anno_body_meta_box($post) {
 		echo '<p style="padding:0 10px;">'.sprintf(_x('The Annotum editor requires at least WordPress 3.3. It appears you are using WordPress %s. ', 'WordPress version error message', 'anno'), get_bloginfo('version')).'</p>';
 	}
 ?>
+<aside class="tree-pop-up">
+		<h2 class="section-title">Abstract</h2>
+		<h2 class="section-title">Article</h2>
+		<ul class="sections">
+			<li class="icon folder">Introduction
+				<ul class="section-elements">
+					<li class="icon para">Nullam quis risus eget...</li>
+					<li class="icon para">Lorem ipsum dolor...</li>
+				</ul>
+			</li>
+			<li class="icon folder">Materials
+				<ul class="section-elements">
+					<li class="icon para">Nullam quis risus eget...
+						<ul class="section-elements-p2">
+							<li class="icon fig">Figure</li>
+							<li class="icon table">Table</li>
+						</ul>
+					</li>
+					<li class="icon folder">Subsection Title</li>
+				</ul>
+			</li>
+			<li class="icon folder">Results</li>
+		</ul>
+	</aside>
 
+<aside id="anno-tree-content" class="tree-pop-up">
+</aside>
 <?php
 }
 
@@ -428,7 +454,5 @@ function anno_deposit_doi_meta_box($post) {
 function anno_fancytree_meta_box($post) {
 
 ?>
-<div id="anno-tree-content">
-</div>
 <?php
 }
