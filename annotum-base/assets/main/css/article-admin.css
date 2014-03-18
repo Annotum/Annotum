@@ -659,7 +659,6 @@ div.media-modal-backdrop {
   top: -2px;
 }
 
-
 .sec.icon {
 	background-color: #93c0cc;
 	display: block;
@@ -669,4 +668,8 @@ div.media-modal-backdrop {
 	margin: 0 0 6px;
 	padding: 6px 8px;
 	text-transform: uppercase;
+}
+
+.fancytree-node {
+	cursor: pointer;
 }

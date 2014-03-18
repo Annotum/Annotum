@@ -150,9 +150,8 @@ function anno_body_meta_box($post) {
 		echo '<p style="padding:0 10px;">'.sprintf(_x('The Annotum editor requires at least WordPress 3.3. It appears you are using WordPress %s. ', 'WordPress version error message', 'anno'), get_bloginfo('version')).'</p>';
 	}
 ?>
-<aside class="tree-pop-up">
-		<h2 class="section-title">Abstract</h2>
-		<h2 class="section-title">Article</h2>
+<aside style="display:none;">
+
 		<ul class="sections">
 			<li class="icon folder">Introduction
 				<ul class="section-elements">
@@ -175,7 +174,11 @@ function anno_body_meta_box($post) {
 		</ul>
 	</aside>
 
-<aside id="anno-tree-content" class="tree-pop-up">
+<aside class="tree-pop-up">
+	<div id="anno-tree-excerpt">
+	</div>
+	<div id="anno-tree-content">
+	</div>
 </aside>
 <?php
 }

@@ -11,8 +11,8 @@
 			t.titleEls = {sec: 'title', 'table-wrap': 'label', fig: 'label'};
 
 			ed.addCommand('Anno_Tree', function(){
-				jQuery('#anno-tree-' + t.ed.id).toggle();
-				t.mapNode();
+				jQuery('.tree-pop-up').toggle();
+				t.mapNodes();
 			});
 
 			ed.addButton('annotree', {
@@ -23,6 +23,7 @@
 			// Initializing the fancytree for this editor specifically
 			jQuery('#anno-tree-' + this.ed.id).fancytree({
 				keyboard : false,
+				minExpandLevel : 10,
 				source: ['test'],
 				activate: function(event, data) {
 					// Select the node which matches the key
@@ -85,7 +86,7 @@
 		 * @return JSON tree representation
 		 */
 		generateTree : function(node, object) {
-			var curTreeObj = null;
+			//var curTreeObj = null;
 			var childNodes = node.childNodes;
 			var textorumType = this.getValidClass(node);
 			// Generate title
@@ -93,11 +94,8 @@
 
 			// Set the key so we can access the editor element
 			object.key = node.id;
-			object.extraClasses = "icon sec";
-			curTreeObj = this.tree.getNodeByKey(object.key)
-			if (curTreeObj != null && curTreeObj.isExpanded()) {
-				object.expanded = true;
-			}
+			//curTreeObj = this.tree.getNodeByKey(object.key)
+			object.expanded = true;
 
 			switch (textorumType) {
 				case 'p':
@@ -111,6 +109,9 @@
 					break;
 				case 'table-wrap':
 					object.extraClasses = 'icon table';
+					break;
+				default:
+					object.extraClasses = 'icon sec';
 					break;
 			}
 
@@ -149,6 +150,14 @@
 			else if (annotumType == 'p') {
 				// Remove all block elements and get the text of the remainder
 				title = jQuery(node).clone().children().remove('div').end().text();
+			}
+			else if (node.nodeName == 'BODY') {
+				if (this.ed.id == 'content') {
+					title = 'Article';
+				}
+				else if (this.ed.id == 'excerpt') {
+					title = 'Abstract';
+				}
 			}
 
 			if (annotumType && !title.trim()) {
