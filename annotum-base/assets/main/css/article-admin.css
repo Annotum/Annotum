@@ -599,35 +599,17 @@ div.media-modal-backdrop {
 	width: 235px;
 }
 
-/*	.tree-pop-up span {
-		margin-left: 8px;
-	}*/
 	.fancytree-container {
 		margin: 0;
 	}
 
-	.fancytree-container ul {
-		margin-left: 8px;
-	}
-
-		.fancytree-container ul ul {
-			margin-left: 20px;
+		.fancytree-container ul {
+			margin-left: 8px;
 		}
 
-/*		.tree-pop-up span span {
-			margin-left: 0;
-		}*/
-
-	.sec.icon {
-		background-color: #93c0cc;
-		display: block;
-		font-size: 12px;
-		font-weight: normal;
-		line-height: 1;
-		margin: 0 0 6px;
-		padding: 6px 8px;
-		text-transform: uppercase;
-	}
+			.fancytree-container ul ul {
+				margin-left: 20px;
+			}
 
 @font-face {
   font-family: "annotum-textorum";
@@ -675,4 +657,16 @@ div.media-modal-backdrop {
 .para:before {
   content: "\e003";
   top: -2px;
+}
+
+
+.sec.icon {
+	background-color: #93c0cc;
+	display: block;
+	font-size: 12px;
+	font-weight: normal;
+	line-height: 1;
+	margin: 0 0 6px;
+	padding: 6px 8px;
+	text-transform: uppercase;
 }
