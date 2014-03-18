@@ -587,7 +587,7 @@ border:0; margin:0; padding:0; white-space:nowrap; text-decoration:none; font-we
 .wp_themeSkin span.mce_textorum-insertion-before:before { content:"\f053"; }
 .wp_themeSkin span.mce_textorum-insertion-inside:before { content:"\f067"; }
 .wp_themeSkin span.mce_textorum-insertion-after:before { content:"\f054"; }
-
+.wp_themeSkin span.mce_annosource:before {content: '\f0f6';}
 
 /* border */
 .wp_themeSkin .mceExternalToolbar,
