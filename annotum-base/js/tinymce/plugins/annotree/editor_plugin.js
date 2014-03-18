@@ -25,12 +25,17 @@
 				keyboard : false,
 				minExpandLevel : 10,
 				source: ['test'],
-				activate: function(event, data) {
-					// Select the node which matches the key
-					// Key is set as the id of the node.
-					var node = t.ed.selection.select(t.ed.dom.select('#' + data.node.key)[0])
-					tinymce.execCommand('mceFocus', false, 'content');
-					// @TODO Scroll to the highlighted node, but only in tinymce.
+				click: function(event, data) {
+					var nodeID = t.getNodeIDFromKey(data.node.key);
+					var edID = t.getEdIDFromKey(data.node.key);
+					var selectedEd = tinymce.get(edID);
+					// Allow the area to be reselected and thus refocused
+
+					var node = selectedEd.selection.select(selectedEd.dom.select('#' + nodeID)[0]);
+
+					tinymce.execCommand('mceFocus', false, edID);
+					jQuery('body, html').scrollTop(jQuery('#' + edID + '-meta-box').position().top);
+					jQuery('#' + edID + '_ifr').contents().scrollTop(jQuery(node).position().top);
 				}
 			});
 			t.tree = jQuery('#anno-tree-' + this.ed.id).fancytree('getTree');
@@ -80,6 +85,19 @@
 			}
 			return className;
 		},
+		getNodeIDFromKey : function(key) {
+			return this._patternIDMatch(key, new RegExp(/node-id-([^ ]+)/));
+		},
+		getEdIDFromKey : function(key) {
+			return this._patternIDMatch(key, new RegExp(/ed-id-([^ ]+)/));
+		},
+		_patternIDMatch : function (str, pattern) {
+			var match = str.match(pattern);
+			if (match !== null) {
+				return match[1];
+			}
+			return '';
+		},
 		/*
 		 * Walks through the staring at a node and generates a tree with JSON
 		 *
@@ -93,7 +111,7 @@
 			object.title = this.generateTitle(node);
 
 			// Set the key so we can access the editor element
-			object.key = node.id;
+			object.key = 'node-id-' + node.id  + ' ed-id-' + this.ed.id;
 			//curTreeObj = this.tree.getNodeByKey(object.key)
 			object.expanded = true;
 
