@@ -29,8 +29,6 @@
 					var nodeID = t.getNodeIDFromKey(data.node.key);
 					var edID = t.getEdIDFromKey(data.node.key);
 					var selectedEd = tinymce.get(edID);
-					// Allow the area to be reselected and thus refocused
-
 					var node = selectedEd.selection.select(selectedEd.dom.select('#' + nodeID)[0]);
 
 					tinymce.execCommand('mceFocus', false, edID);
