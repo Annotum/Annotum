@@ -54,9 +54,7 @@ var annosource;
 			// Close the xml editor without inserting content
 			inputs.$close.on('click', function(e) {
 				e.preventDefault();
-				inputs.dialog.unbind('wpdialogclose', annoSource.onClose);
 				tinyMCEPopup.close();
-				t._cleanup();
 			});
 
 			$('body').on('click', t.validationStatusID + ' a, .cm-error', function(e) {
@@ -75,6 +73,9 @@ var annosource;
 			content = this._prepContent(content);
 			// Returns a promise
 			return this.validator.validate(content);
+		},
+		insertContent : function() {
+			this.editor.setContent('<!DOCTYPE sec SYSTEM "http://dtd.nlm.nih.gov/publishing/3.0/journalpublishing3.dtd">' + this.codemirror.getValue(), {source_view : true});
 		},
 		// * Internal Helper Functions ***************
 		_prepContent : function (content) {
@@ -130,6 +131,7 @@ var annosource;
 			if (status == 'error') {
 				if (confirm('There are validation errors still. Are you sure you want to insert this content?')) { //@TODO i18n
 					// onClose triggers cleanup
+					t.insertContent();
 					tinyMCEPopup.close();
 				}
 			}
@@ -138,6 +140,7 @@ var annosource;
 			}
 			else {
 				// onClose triggers cleanup
+				t.insertContent();
 				tinyMCEPopup.close();
 			}
 		},
@@ -154,7 +157,7 @@ var annosource;
 			t._cleanup();
 			// Insert code back into the editor,
 			// Add doctype back in
-			t.editor.setContent('<!DOCTYPE sec SYSTEM "http://dtd.nlm.nih.gov/publishing/3.0/journalpublishing3.dtd">' + t.codemirror.getValue(), {source_view : true});
+			//t.editor.setContent('<!DOCTYPE sec SYSTEM "http://dtd.nlm.nih.gov/publishing/3.0/journalpublishing3.dtd">' + t.codemirror.getValue(), {source_view : true});
 		}
 	};
 
