@@ -75,7 +75,10 @@ var annosource;
 			return this.validator.validate(content);
 		},
 		insertContent : function() {
-			this.editor.setContent('<!DOCTYPE sec SYSTEM "http://dtd.nlm.nih.gov/publishing/3.0/journalpublishing3.dtd">' + this.codemirror.getValue(), {source_view : true});
+			this.editor.setContent('<!DOCTYPE sec SYSTEM "http://dtd.nlm.nih.gov/publishing/3.0/journalpublishing3.dtd"><body>' + this.codemirror.getValue().trim() + '</body>', {source_view : true});
+			// Slightly hacky, but Textorum needs the content to be wrapped by a single element
+			// Remove it after insertion.
+			jQuery(this.editor.dom.select('div.body')[0].firstChild).unwrap();
 		},
 		// * Internal Helper Functions ***************
 		_prepContent : function (content) {
@@ -89,11 +92,6 @@ var annosource;
 		},
 		_cleanup : function() {
 			$(this.validationStatusID).html('');
-
-			// Loop through the widgets, removing them
-			for (var i = this.widgets.length - 1; i >= 0; i--) {
-				this.widgets[i].clear();
-			};
 		},
 		_getContent : function() {
 			return this.codemirror.getValue();
@@ -108,15 +106,6 @@ var annosource;
 					insertEl = document.createElement('a');
 					$(insertEl).text(errors[i].fullMessage).data('col', errors[i].column).data('line', errors[i].line).attr('href', '#');
 					$statusUL.append($(insertEl).wrap('<li></li>').parent());
-
-					// Insert error directly into the editor itself
-					// msg = document.createElement("a");
-					// msg.className = 'cm-error';
-					// $(msg).data('col', errors[i].column).data('line', errors[i].line);
-					// msg.appendChild(document.createTextNode(errors[i].fullMessage));
-					// widget = t.codemirror.addLineWidget(errors[i].line, msg, {coverGutter: false, noHScroll: true, above: false, handleMouseEvents: true});
-					// t.widgets.push(widget);
-
 				};
 			}
 			else if (data.status == 'success') {
@@ -155,9 +144,6 @@ var annosource;
 		onClose : function () {
 			var t = annoSource;
 			t._cleanup();
-			// Insert code back into the editor,
-			// Add doctype back in
-			//t.editor.setContent('<!DOCTYPE sec SYSTEM "http://dtd.nlm.nih.gov/publishing/3.0/journalpublishing3.dtd">' + t.codemirror.getValue(), {source_view : true});
 		}
 	};
 
