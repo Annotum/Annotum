@@ -52,11 +52,6 @@ textarea.anno-meta {
 	border-bottom: 1px solid #DFDFDF;
 }
 
-#body .wp_themeSkin .mceStatusbar a.mceResize,
-#appendices .wp_themeSkin .mceStatusbar a.mceResize {
-	top: -2px;
-}
-
 #doi-deposit {
 	text-align: center;
 }
