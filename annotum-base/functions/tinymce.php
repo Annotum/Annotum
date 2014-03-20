@@ -776,7 +776,7 @@ function anno_preload_dialogs($init) {
 
 	<aside id="anno-tree-fullscreen-wrapper" class="hidden js-mce_fullscreen-tree-pop-up tree-pop-up" >
 		<div id="anno-tree-mce_fullscreen">
-	</div>
+	</aside>
 	<script type="text/javascript">
 		jQuery('#anno-tree-fullscreen-wrapper').appendTo('body');
 	</script>
