@@ -24,6 +24,13 @@
 					'sub'
 				];
 
+			// Addresses Chrome 33 issue where fonts didnt displace unless repainted.
+			jQuery.each(jQuery('.mceIcon'), function(index, el) {
+				var $el = jQuery(el);
+				var opacity = $el.css('opacity');
+				$el.animate({opacity: opacity}, 1);
+			})
+
 			// Key Bindings
 			//
 			ed.onKeyDown.addToTop(function(ed, e) {
