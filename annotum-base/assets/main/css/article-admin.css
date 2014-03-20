@@ -583,7 +583,6 @@ div.media-modal-backdrop {
 	border: 1px solid #aaaead;
 	-webkit-box-shadow: 2px 2px 3px 0 rgba(0,0,0,.2);
 	box-shadow: 2px 2px 3px 0 rgba(0,0,0,.2);
-	display:none;
 	font-family: sans-serif;
 	font-size: 12px;
 	line-height: 2.4;
@@ -667,4 +666,13 @@ div.media-modal-backdrop {
 
 .fancytree-node {
 	cursor: pointer;
+}
+
+#anno-tree-fullscreen-wrapper {
+	position: absolute;
+	right: 0;
+	top: 0;
+	width: 235px;
+	z-index: 200001;
+	height: 100%;
 }

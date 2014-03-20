@@ -774,11 +774,18 @@ function anno_preload_dialogs($init) {
 	<?php anno_popup_tips(); ?>
 	</div>
 
+	<aside id="anno-tree-fullscreen-wrapper" class="hidden js-mce_fullscreen-tree-pop-up tree-pop-up" >
+		<div id="anno-tree-mce_fullscreen">
+	</div>
+	<script type="text/javascript">
+		jQuery('#anno-tree-fullscreen-wrapper').appendTo('body');
+	</script>
+
+</div>
 <?php
 	}
 }
 add_action('after_wp_tiny_mce', 'anno_preload_dialogs', 10, 1 );
-
 
 /**
  * Ajax Handler for creating/updating references

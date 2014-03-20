@@ -11,7 +11,10 @@
 			t.titleEls = {sec: 'title', 'table-wrap': 'label', fig: 'label'};
 
 			ed.addCommand('Anno_Tree', function(){
-				jQuery('.tree-pop-up').toggle();
+				jQuery('.js-' + t.ed.id + '-tree-pop-up').toggle();
+				if (t.ed.id == 'mce_fullscreen') {
+					t.toggleFullscreen();
+				}
 				t.mapNodes();
 			});
 
@@ -20,30 +23,36 @@
 				cmd : 'Anno_Tree'
 			});
 
+
 			// Initializing the fancytree for this editor specifically
 			jQuery('#anno-tree-' + this.ed.id).fancytree({
 				keyboard : false,
 				minExpandLevel : 10,
-				source: ['test'],
+				source: [''],
 				click: function(event, data) {
 					var nodeID = t.getNodeIDFromKey(data.node.key);
 					var edID = t.getEdIDFromKey(data.node.key);
 					var selectedEd = tinymce.get(edID);
 					var node = selectedEd.selection.select(selectedEd.dom.select('#' + nodeID)[0]);
+					var $metaBox = jQuery('#' + edID + '-meta-box');
 
 					tinymce.execCommand('mceFocus', false, edID);
-					jQuery('body, html').scrollTop(jQuery('#' + edID + '-meta-box').position().top);
+					if ($metaBox.length) {
+						jQuery('body, html').scrollTop($metaBox.position().top);
+					}
 					jQuery('#' + edID + '_ifr').contents().scrollTop(jQuery(node).position().top);
 				}
 			});
 			t.tree = jQuery('#anno-tree-' + this.ed.id).fancytree('getTree');
 
 			// Regenerate the tree on node change if this editor has a tree view
+			// This  fires on initial load as well as nodes change with content loading
 			ed.onNodeChange.add(function(ed, object) {
 				if (!(t.tree instanceof jQuery)) {
 					t.mapNodes();
 				}
 			});
+
 		},
 		// Generats a tree and updates the Dom with the new tree
 		mapNodes : function() {
@@ -53,7 +62,6 @@
 				//var test = this.visitDFs(root);
 				var json = {};
 				this.generateTree(root, json);
-
 				this.tree.reload([json]);
 			}
 		},
@@ -95,6 +103,26 @@
 				return match[1];
 			}
 			return '';
+		},
+		// Special things need to happen for the full screen editor
+		toggleFullscreen : function () {
+			var $wrapper = jQuery('.js-' + this.ed.id + '-tree-pop-up');
+			if ($wrapper.is(":hidden")) {
+				$wrapper.hide();
+				jQuery('#mce_fullscreen_container, #mce_fullscreen_tbl').css({
+					'padding-right' :  '0px',
+					'min-width' : '600px',
+					'width' : '100%'
+				});
+			}
+			else {
+				$wrapper.show();
+				jQuery('#mce_fullscreen_container, #mce_fullscreen_tbl').css({
+					'padding-right' :  '235px',
+					'min-width' : '600px',
+					'width' : '100%'
+				});
+			}
 		},
 		/*
 		 * Walks through the staring at a node and generates a tree with JSON
@@ -168,7 +196,7 @@
 				title = jQuery(node).clone().children().remove('div').end().text();
 			}
 			else if (node.nodeName == 'BODY') {
-				if (this.ed.id == 'content') {
+				if (this.ed.id == 'content' || this.ed.id == 'mce_fullscreen') {
 					title = 'Article';
 				}
 				else if (this.ed.id == 'excerpt') {

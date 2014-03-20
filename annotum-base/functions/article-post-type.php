@@ -151,7 +151,7 @@ function anno_body_meta_box($post) {
 	}
 ?>
 
-<aside class="tree-pop-up">
+<aside class="js-content-tree-pop-up tree-pop-up hidden">
 	<div id="anno-tree-excerpt">
 	</div>
 	<div id="anno-tree-content">
