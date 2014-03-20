@@ -53,7 +53,17 @@
 				}
 			});
 
+			ed.onBeforeExecCommand.add(function(ed, cmd, ui, val, o) {
+				var DOM = tinymce.DOM, n, DL, DIV, cls, a, align;
+				if ( 'mceFullScreen' == cmd ) {
+					// This plugin is loaded after the WP plugin which adds the media button, safe to remove it here.
+					if ( 'mce_fullscreen' != ed.id && DOM.select('a.thickbox').length ) {
+						ed.settings.theme_advanced_buttons1 = ed.settings.theme_advanced_buttons1.replace(',|,add_media', '');
+					}
+				}
+			});
 		},
+
 		// Generats a tree and updates the Dom with the new tree
 		mapNodes : function() {
 			var root = this.ed.dom.getRoot();
