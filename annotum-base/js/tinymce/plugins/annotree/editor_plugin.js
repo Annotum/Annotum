@@ -18,6 +18,8 @@
 				jQuery('.js-' + t.ed.id + '-tree-pop-up').toggle();
 				if (t.ed.id == 'mce_fullscreen') {
 					t.toggleFullscreen();
+					// Toggle treeview for non fullscreen
+					jQuery('.js-content-tree-pop-up').hide();
 				}
 				t.mapNodes();
 			});
