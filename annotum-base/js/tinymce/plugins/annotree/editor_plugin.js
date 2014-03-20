@@ -2,6 +2,10 @@
 	tinymce.create('tinymce.plugins.annoTree', {
 		init : function(ed, url){
 			var t = this;
+			t.els = {};
+			t.els.$fullscreenTree = jQuery('.js-mce_fullscreen-tree-pop-up');
+
+
 			t.ed = ed;
 			// Which tags to put into the tree
 			t.treeViewTags = ['body', 'sec', 'p', 'fig', 'table-wrap'];
@@ -60,8 +64,15 @@
 					if ( 'mce_fullscreen' != ed.id && DOM.select('a.thickbox').length ) {
 						ed.settings.theme_advanced_buttons1 = ed.settings.theme_advanced_buttons1.replace(',|,add_media', '');
 					}
+
+					// Closing full screen mode, force hiding of media bar.
+					if (ed.getParam('fullscreen_is_enabled')) {
+						t.els.$fullscreenTree.hide();
+					}
+
 				}
 			});
+
 		},
 
 		// Generats a tree and updates the Dom with the new tree
@@ -116,9 +127,8 @@
 		},
 		// Special things need to happen for the full screen editor
 		toggleFullscreen : function () {
-			var $wrapper = jQuery('.js-' + this.ed.id + '-tree-pop-up');
-			if ($wrapper.is(":hidden")) {
-				$wrapper.hide();
+			if (this.els.$fullscreenTree.is(":hidden")) {
+				this.els.$fullscreenTree.hide();
 				jQuery('#mce_fullscreen_container, #mce_fullscreen_tbl').css({
 					'padding-right' :  '0px',
 					'min-width' : '600px',
@@ -126,7 +136,7 @@
 				});
 			}
 			else {
-				$wrapper.show();
+				this.els.$fullscreenTree.show();
 				jQuery('#mce_fullscreen_container, #mce_fullscreen_tbl').css({
 					'padding-right' :  '235px',
 					'min-width' : '600px',
