@@ -591,6 +591,8 @@ div.media-modal-backdrop {
 	right: -246px;
 	top: 0;
 	width: 235px;
+	overflow-y: scroll;
+
 }
 
 	.fancytree-container {
