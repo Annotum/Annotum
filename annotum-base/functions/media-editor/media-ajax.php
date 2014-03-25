@@ -63,9 +63,9 @@ function anno_media_send_to_editor($html, $id, $attachment) {
 			<span class="p" data-xmlel="p">'.$attachment['post_excerpt'].'</span>
 		</div>
 		<div class="media" xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="'.$img_url.'" data-xmlel="media">
-			'.$fig_uri.'
 			<span class="alt-text" data-xmlel="alt-text">'.$attachment['image_alt'].'</span>
 			<span class="long-desc" data-xmlel="long-desc">'.$attachment['post_content'].'</span>
+			'.$fig_uri.'
 			<div class="permissions" data-xmlel="permissions">
 				<span class="copyright-statement" data-xmlel="copyright-statement">'.$attachment['copyright_statement'].'</span>
 				<span class="copyright-holder" data-xmlel="copyright-holder">'.$attachment['copyright_holder'].'</span>
