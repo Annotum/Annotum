@@ -16,12 +16,10 @@ var annosource;
 
 			t.validator = window.annoValidation;
 
-			//inputs.dialog.bind('wpdialogrefresh', annoSource.refresh);
 			inputs.$dialog.bind('wpdialogclose', annoSource.onClose);
 
 			t.codemirror = CodeMirror.fromTextArea(document.getElementById('htmlSource'), {
 				lineNumbers: true,
-				//theme: 'elegant'
 			});
 
 			// Prevents CodeMirror from bugging out during show/hide/resize process
