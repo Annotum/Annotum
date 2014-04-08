@@ -19,27 +19,3 @@ function anno_media_enqueue() {
 	);
 }
 add_action('admin_enqueue_scripts', 'anno_media_enqueue');
-
-
-function anno_media_templates() {
-	include_once('media-templates.php');
-}
-add_action('print_media_templates', 'anno_media_templates');
-
-// Setup the Backbone object so we can access via
-// media templates with data.property
-function anno_prepare_attachment_for_js($response, $attachment) {
-	$meta_keys = array(
-		'annoLabel' => '_anno_attachment_image_label',
-		'annoCpyStatement' => '_anno_attachment_image_copyright_statement',
-		'annoCpyHolder' => '_anno_attachment_image_copyright_holder',
-		'annoLicense' => '_anno_attachment_image_license',
-	);
-
-	foreach ($meta_keys as $key => $meta_key) {
-		$response[$key] = get_post_meta($attachment->ID, $meta_key, true);
-	}
-	$response['annoDspType'] = 'inline';
-	return $response;
-}
-add_filter('wp_prepare_attachment_for_js', 'anno_prepare_attachment_for_js', 10 , 2);
