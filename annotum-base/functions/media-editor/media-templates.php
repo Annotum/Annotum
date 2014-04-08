@@ -18,8 +18,8 @@ if (__FILE__ == $_SERVER['SCRIPT_FILENAME']) { die(); }
 	<label>
 		<span><?php _e('Display Type', 'anno'); ?></span>
 		<select name="displaytype" data-setting="displaytype">
-			<option value="inline"><?php _e('Inline Image', 'anno'); ?></option>
 			<option value="figure"><?php _e('Figure', 'anno'); ?></option>
+			<option value="inline"><?php _e('Inline Image', 'anno'); ?></option>
 		</select>
 	</label>
 	<# } #>
@@ -161,7 +161,7 @@ if (__FILE__ == $_SERVER['SCRIPT_FILENAME']) { die(); }
 		</label>
 <# if ( 'undefined' !== typeof data.sizes ) { #>
 	<label class="setting" data-setting="label">
-		<span><?php _e('Label', 'anno'); ?></span>
+		<span><?php _e('Figure Label', 'anno'); ?></span>
 		<input type="text" value="{{ data.annoLabel }}" />
 	</label>
 <div class="setting">

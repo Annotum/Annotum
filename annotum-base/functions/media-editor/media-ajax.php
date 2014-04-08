@@ -149,7 +149,7 @@ function anno_prepare_attachment_for_js($response, $attachment) {
 	foreach ($meta_keys as $key => $meta_key) {
 		$response[$key] = get_post_meta($attachment->ID, $meta_key, true);
 	}
-	$response['annoDspType'] = 'inline';
+	$response['annoDspType'] = 'figure';
 	return $response;
 }
 add_filter('wp_prepare_attachment_for_js', 'anno_prepare_attachment_for_js', 10 , 2);

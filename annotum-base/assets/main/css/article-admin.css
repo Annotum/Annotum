@@ -567,9 +567,7 @@ fieldset.snapshot-item h4 {
 .attachments-browser .media-toolbar-secondary {
 	display: none;
 }
-.attachment-display-settings label.anno-link-to {
-	display: none;
-}
+
 	/** make this greater than the tinyMCE fullscreen z-index **/
 div.media-modal {
 	z-index: 200002;
