@@ -1,11 +1,16 @@
-.references ol {
-	margin-left: 2em;
+.references ul {
+	margin-left: 0;
+	list-style-type: none;
 }
 .references li {
 	margin-bottom: 10px;
 }
-.references ol a {
-	font-size: 10px;
-	line-height: 1;
-	text-transform: uppercase;
+.references li:before {
+	content:attr(data-refid) '.';
+	margin-right:5px;
+}
+.references ul a{
+	font-size:10px;
+	line-height:1;
+	text-transform:uppercase;
 }
