@@ -591,9 +591,34 @@ div.media-modal-backdrop {
 	right: -246px;
 	top: 0;
 	width: 235px;
-	overflow-y: auto;
-
+	/*overflow-y: auto;*/
 }
+
+	#anno-tree-close {
+		background-color: #000;
+		-webkit-box-shadow: 2px 2px 3px 0 rgba(0,0,0,.2);
+		box-shadow: 2px 2px 3px 0 rgba(0,0,0,.2);
+		color: #fff;
+		cursor: pointer;
+		height: 24px;
+		position: absolute;
+		right: -15px;
+		top: -15px;
+		width: 24px;
+		z-index: 1;
+	}
+
+		#anno-tree-close:before {
+			content: '\f00d';
+			font-family: FontAwesome;
+			height: 24px;
+			left: 0;
+			line-height: 24px;
+			position: absolute;
+			text-align: center;
+			top: 0;
+			width: 24px;
+		}
 
 	.fancytree-container {
 		margin: 0;
