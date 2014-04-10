@@ -29,7 +29,7 @@ function anno_media_send_to_editor($html, $id, $attachment) {
 	else {
 
 		if (!isset($attachment['display'])) {
-			$attachment['display'] = 'inline';
+			$attachment['display'] = 'figure';
 		}
 
 		$img_data = wp_get_attachment_image_src($id, $attachment['image-size']);

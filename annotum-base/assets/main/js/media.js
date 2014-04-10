@@ -79,6 +79,7 @@ var wpActiveEditor;
 					options.url = props.linkUrl;
 
 				if ( 'image' === attachment.type ) {
+
 					html = wp.media.string.image( props );
 					// Only unique part to annotum is the displaytype... seems lke there should be
 					// a better way.
@@ -93,6 +94,7 @@ var wpActiveEditor;
 							options[ option ] = props[ prop ];
 						}
 					});
+
 				} else if ( 'video' === attachment.type ) {
 					html = wp.media.string.video( props, attachment );
 				} else if ( 'audio' === attachment.type ) {

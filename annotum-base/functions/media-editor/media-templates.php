@@ -15,10 +15,10 @@ if (__FILE__ == $_SERVER['SCRIPT_FILENAME']) { die(); }
 <div class="setting">
 	<h3><?php _e('Attachment Display Settings', 'anno'); ?></h3>
 	<# if ( 'undefined' !== typeof data.sizes ) { #>
-	<label>
+	<label data-setting="displaytype">
 		<span><?php _e('Display Type', 'anno'); ?></span>
-		<select name="displaytype" data-setting="displaytype">
-			<option value="figure"><?php _e('Figure', 'anno'); ?></option>
+		<select name="displaytype">
+			<option value="figure" selected><?php _e('Figure', 'anno'); ?></option>
 			<option value="inline"><?php _e('Inline Image', 'anno'); ?></option>
 		</select>
 	</label>
@@ -146,7 +146,7 @@ if (__FILE__ == $_SERVER['SCRIPT_FILENAME']) { die(); }
 			<input type="text" value="{{ data.title }}" {{ maybeReadOnly }} />
 		</label>
 		<label class="setting" data-setting="caption">
-			<span><?php _e('Caption', 'anno'); ?></span>
+			<span><?php _e('Fig. Caption', 'anno'); ?></span>
 			<textarea {{ maybeReadOnly }}>{{ data.caption }}</textarea>
 		</label>
 	<# if ( 'image' === data.type ) { #>
@@ -161,7 +161,7 @@ if (__FILE__ == $_SERVER['SCRIPT_FILENAME']) { die(); }
 		</label>
 <# if ( 'undefined' !== typeof data.sizes ) { #>
 	<label class="setting" data-setting="label">
-		<span><?php _e('Figure Label', 'anno'); ?></span>
+		<span><?php _e('Fig. Label', 'anno'); ?></span>
 		<input type="text" value="{{ data.annoLabel }}" />
 	</label>
 <div class="setting">
