@@ -54,6 +54,9 @@ function anno_media_send_to_editor($html, $id, $attachment) {
 				$fig_uri = '';
 			}
 
+			// Editor removes empty items, need this to be valid
+			$attachment['license'] = empty($attachment['license']) ? '&nbsp;' : $attachment['license'];
+
 			$html = '
 
 	<div class="fig" data-xmlel="fig">
