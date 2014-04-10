@@ -41,12 +41,12 @@ if (CFCT_DEBUG) { cfct_banner(__FILE__); }
 			}
 		
 		?>
-		<div class="sec sec-authors">
-			<span class="title"><span><?php echo _n( 'Author', 'Authors', anno_num_authors(get_the_ID()), 'anno' ) ?></span></span>
+		<section class="sec sec-authors">
+			<h1><span><?php echo _n( 'Author', 'Authors', anno_num_authors(get_the_ID()), 'anno' ) ?></span></h1>
 			<ul class="authors nav">
 				<?php anno_the_authors(); ?>
 			</ul>
-		</div>
+		</section>
 	</header>
 	<div class="main">
 		<div class="content entry-content">
@@ -62,10 +62,12 @@ if (CFCT_DEBUG) { cfct_banner(__FILE__); }
 					<?php anno_the_funding_statement(); ?>
 				</section>
 			<?php endif; ?>
-			<?php
-			the_content(__('Continued&hellip;', 'anno'));
-			wp_link_pages();
-			?>
+			<div class="main-content">
+				<?php
+				the_content(__('Continued&hellip;', 'anno'));
+				wp_link_pages();
+				?>
+			</div>
 			<?php if (anno_has_acknowledgements()): ?>
 				<section class="sec" id="acknowledgements">
 					<h1><span><?php _e('Acknowledgements', 'anno'); ?></span></h1>
