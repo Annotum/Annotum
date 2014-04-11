@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 /**
  * @package anno
@@ -11,26 +11,26 @@
  */
 
 class Anno_XML_Download {
-	
+
 	static $instance;
-	
+
 	private function __construct() {
-		/* Define what our "action" is that we'll 
+		/* Define what our "action" is that we'll
 		listen for in our request handlers */
 		$this->action = 'anno_xml_download_action';
 	}
-	
-	public function i() {
+
+	public static function i() {
 		if (!isset(self::$instance)) {
 			self::$instance = new Anno_XML_Download;
 		}
 		return self::$instance;
 	}
-	
+
 	public function setup_filterable_props() {
 		$this->debug = apply_filters(__CLASS__.'_debug', false);
 	}
-	
+
 	/**
 	 * Let WP know how to handle "pretty" requests for PDFs
 	 *
@@ -39,36 +39,36 @@ class Anno_XML_Download {
 	public function setup_permalinks() {
 		// Returns an array of post types named article
 		$article_post_types = get_post_types(array('name' => 'article'), 'object');
-		
+
 		// Ensure we have what we're looking for
 		if (!is_array($article_post_types) || empty($article_post_types)) {
 			return;
 		}
-		
+
 		// Get the first (and hopefully only) one
 		$article_post_type = array_shift($article_post_types);
-		
+
 		global $wp;
 		$wp->add_query_var('xml'); // Allows us to use get_query_var('xml') later on
-		
+
 		// Tells WP that a request like /articles/my-article-name/xml/ is valid
 		add_rewrite_rule($article_post_type->rewrite['slug'].'/([^/]+)/xml/?$', 'index.php?articles=$matches[1]&xml=true', 'top');
-		
+
 		// Enable preview URLs
 		$wp->add_query_var('preview');
 		add_rewrite_rule($article_post_type->rewrite['slug'].'/([^/]+)/xml/preview/?$', 'index.php?articles=$matches[1]&xml=true&preview=true', 'top');
 	}
-	
+
 	public function add_actions() {
 		add_action('init', array($this, 'setup_filterable_props'));
-		
+
 		// Run late to make sure all custom post types are registered
 		add_action('init', array($this, 'setup_permalinks'), 20);
-		
+
 		// Run at 'wp' so we can use the cool get_query_var functions
 		add_action('wp', array($this, 'request_handler'));
 	}
-	
+
 	/**
 	 * Request handler for XML.
 	 */
@@ -76,29 +76,29 @@ class Anno_XML_Download {
 		if (get_query_var('xml')) {
 			// Sanitize our article ID
 			$id = get_the_ID();
-			
+
 			// If we don't have an Article, get out
 			if (empty($id)) {
 				wp_die(__('No article found.', 'anno'));
 			}
-			
+
 			// If we're not debugging, turn off errors
 			if (!$this->debug) {
 				$display_errors = ini_get('display_errors');
 				ini_set('display_errors', 0);
 			}
-			
+
 			// Default Article
 			$article = null;
-			
+
 			// If we're published, grab the published article
 			if (!is_preview()) {
 				$article = get_post($id);
 			}
 			else if (is_preview() && current_user_can('edit_post', $id)) {
 				$article = get_post($id);
-				
-				/* Drafts and sometimes pending statuses append a preview_id on the 
+
+				/* Drafts and sometimes pending statuses append a preview_id on the
 				end of the preview URL.  While we're building the XML download link
 				we do a check for that, and set this query arg if the preview_id is
 				present. */
@@ -106,31 +106,31 @@ class Anno_XML_Download {
 					$article = wp_get_post_autosave($id);
 				}
 			}
-			
+
 			// Ensure we have an article
 			if (empty($article)) {
 				wp_die(__('Required article first.', 'anno'));
 			}
-			
+
 			// Get our XML ready and stored
 			$this->generate_xml($article);
-			
+
 			// Send our headers
 			if (!$_GET['screen']) {
 				$this->set_headers($article);
 			}
-			
+
 			// Send the file
 			echo $this->xml;
 			exit;
 		}
 	}
-	
-	
+
+
 	/**
 	 * Sets the download headers for what will be delivered
 	 *
-	 * @param obj $article 
+	 * @param obj $article
 	 * @return void
 	 */
 	private function set_headers($article) {
@@ -141,10 +141,10 @@ class Anno_XML_Download {
 		header('Content-Length:' . mb_strlen($this->xml, '8bit'));
 		header('Content-Disposition: attachment; filename="'.$filename.'.xml"');
 	}
-	
-	
+
+
 	/**
-	 * Builds the entire XML document 
+	 * Builds the entire XML document
 	 *
 	 * @param obj $article - WP Post type object
 	 * @return void
@@ -152,16 +152,16 @@ class Anno_XML_Download {
 	private function generate_xml($article) {
 		$this->xml = $this->xml_front($article)."\n".$this->xml_body($article)."\n".$this->xml_back($article);
 	}
-	
-	
+
+
 	/**
 	 * Generate the Front portion of an article XML
-	 * 
-	 * @param postObject $article Article to generate the XML for. 
+	 *
+	 * @param postObject $article Article to generate the XML for.
 	 * @return string XML generated
 	 */
 	private function xml_front($article) {
-		
+
 		// Journal Title
 		$journal_title = cfct_get_option('journal_name');
 		if (!empty($journal_title)) {
@@ -172,7 +172,7 @@ class Anno_XML_Download {
 		else {
 			$journal_title_xml = '';
 		}
-		
+
 		// Journal ID
 		$journal_id = cfct_get_option('journal_id');
 		if (!empty($journal_id)) {
@@ -183,13 +183,13 @@ class Anno_XML_Download {
 			else {
 				$journal_id_type_xml = '';
 			}
-			
+
 			$journal_id_xml = '<journal-id'.$journal_id_type_xml.'>'.esc_html($journal_id).'</journal-id>';
 		}
 		else {
 			$journal_id_xml = '';
 		}
-		
+
 		// Publisher ISSN
 		$pub_issn = cfct_get_option('publisher_issn');
 		if (!empty($pub_issn)) {
@@ -198,7 +198,7 @@ class Anno_XML_Download {
 		else {
 			$pub_issn_xml = '';
 		}
-		
+
 		// Abstract
 		$abstract = $article->post_excerpt;
 		if (!empty($abstract)) {
@@ -210,7 +210,7 @@ class Anno_XML_Download {
 		else {
 			$abstract_xml = '';
 		}
-		
+
 		// Funding Statement
 		$funding = get_post_meta($article->ID, '_anno_funding', true);
 		if (!empty($funding)) {
@@ -221,7 +221,7 @@ class Anno_XML_Download {
 		else {
 			$funding_xml = '';
 		}
-				
+
 		// DOI
 		$doi = get_post_meta($article->ID, '_anno_doi', true);
 		if (!empty($doi)) {
@@ -234,7 +234,7 @@ class Anno_XML_Download {
 		// Article category. Theoretically, there can only be one!
 		$cats = wp_get_object_terms($article->ID, 'article_category');
 		if (!empty($cats) && is_array($cats)) {
-			$category = get_category($cats[0]); 
+			$category = get_category($cats[0]);
 			if (!empty($category)) {
 				$category_xml = '<article-categories>
 				<subj-group>
@@ -243,13 +243,13 @@ class Anno_XML_Download {
 			</article-categories>';
 			}
 			else {
-				$category_xml = '';	
+				$category_xml = '';
 			}
 		}
 		else {
 			$category_xml = '';
 		}
-		
+
 		// Article Tags
 		$tags = wp_get_object_terms($article->ID, 'article_tag');
 		if (!empty($tags) && is_array($tags)) {
@@ -264,7 +264,7 @@ class Anno_XML_Download {
 		else {
 			$tag_xml = '';
 		}
-		
+
 		// Article title/subtitle
 		$subtitle =  get_post_meta($article->ID, '_anno_subtitle', true);
 		$title_xml = '<title-group>';
@@ -285,7 +285,7 @@ class Anno_XML_Download {
 		}
 		$title_xml .= '
 			</title-group>';
-		
+
 		// Publisher info
 		$pub_name = cfct_get_option('publisher_name');
 		$pub_loc = cfct_get_option('publisher_location');
@@ -295,7 +295,7 @@ class Anno_XML_Download {
 				$publisher_xml .= '
 				<publisher-name>'.esc_html($pub_name).'</publisher-name>';
 			}
-			
+
 			if (!empty($pub_loc)) {
 				$publisher_xml .= '
 				<publisher-loc>'.esc_html($pub_loc).'</publisher-loc>';
@@ -306,15 +306,15 @@ class Anno_XML_Download {
 		else {
 			$publisher_xml = '';
 		}
-		
+
 		$pub_date_xml = $this->xml_pubdate($article->post_date);
-		
-		// Authors	
+
+		// Authors
 		$authors = get_post_meta($article->ID, '_anno_author_snapshot', true);
 		if (!empty($authors) && is_array($authors)) {
-		
+
 			$author_xml = '<contrib-group>';
-		
+
 			foreach ($authors as $author) {
 				$author_xml .= '
 				<contrib>';
@@ -345,13 +345,13 @@ class Anno_XML_Download {
 						$author_xml .= '
 					</name>';
 					}
-					
-					// @TODO TDB whether or not to include email							
+
+					// @TODO TDB whether or not to include email
 //					if (isset($author['email']) && !empty($author['email'])) {
 //						$author_xml .= '
 //						<email>'.esc_html($author['email']).'</email>';
 //					}
-				
+
 					// Affiliation legacy support
 					if (!empty($author['affiliation']) || !empty($author['institution'])) {
 						$author_xml .= '
@@ -364,25 +364,25 @@ class Anno_XML_Download {
 							}
 						$author_xml .= '</aff>';
 					}
-					
+
 					if (isset($author['bio']) && !empty($author['bio'])) {
 						$author_xml .= '
 						<bio><p>'.esc_html($author['bio']).'</p></bio>';
-					}			
-						
+					}
+
 					if (isset($author['link']) && !empty($author['link'])) {
 						$author_xml .= '
 						<ext-link ext-link-type="uri" xlink:href="'.esc_url($author['link']).'">'.esc_html($author['link']).'</ext-link>';
 					}
-				
+
 				$author_xml .= '
 				</contrib>';
 			}
-		
+
 			$author_xml .= '
 			</contrib-group>';
 		}
-		
+
 		// Related Articles
 		$related_xml = '';
 		if(anno_workflow_enabled()){
@@ -393,29 +393,29 @@ class Anno_XML_Download {
 				$related_article = get_post($related_article_id);
 				if (!empty($related_article) && $related_article->post_status == 'publish') {
 					$related_xml .= '<related-article id="'.esc_attr('a'.$related_article->ID).'" related-article-type="companion" ext-link-type="uri" xlink:href="'.esc_attr(get_permalink($related_article_id)).'" ';
-					
+
 					$related_doi = get_post_meta($related_article_id, '_anno_doi', true);
 
 					if (!empty($related_doi)) {
 						$related_xml .= 'elocation-id="'.esc_attr($related_doi).'" ';
 					}
-					
+
 					// Queried for above
 					if (!empty($journal_id)) {
 						$related_xml .= 'journal_id="'.esc_attr($journal_id).'" ';
 					}
 
-					// Queried for above					
+					// Queried for above
 					if (!empty($journal_id_type)) {
 						$related_xml .= 'journal_id_type="'.esc_attr($journal_id_type).'" ';
 					}
-					
+
 					$related_xml .= ' />';
 				}
 			}
-		}	
-		
-			return 
+		}
+
+			return
 '<?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE article PUBLIC "-//NLM//DTD Journal Publishing DTD v3.0 20080202//EN" "journalpublishing3.dtd">
 <article article-type="research-article" xml:lang="en" xmlns:mml="http://www.w3.org/1998/Math/MathML" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
@@ -454,13 +454,13 @@ class Anno_XML_Download {
 	}
 
 	private function xml_body($article) {
-		$body = $article->post_content_filtered;		
-		return 
+		$body = $article->post_content_filtered;
+		return
 '	<body>
-		'.$body.'	
+		'.$body.'
 	</body>';
 	}
-	
+
 	private function xml_acknoledgements($article) {
 		$ack = get_post_meta($article->ID, '_anno_acknowledgements', true);
 		$xml = '';
@@ -471,7 +471,7 @@ class Anno_XML_Download {
 			<p>'.esc_html($ack).'</p>
 		</ack>';
 		}
-		
+
 		return $xml;
 	}
 
@@ -479,7 +479,7 @@ class Anno_XML_Download {
 		$appendices = get_post_meta($article->ID, '_anno_appendices', true);
 		$xml = '';
 		if (!empty($appendices) && is_array($appendices)) {
-			$xml = 
+			$xml =
 '			<app-group>';
 
 			foreach ($appendices as $appendix_key => $appendix) {
@@ -491,22 +491,22 @@ class Anno_XML_Download {
 				</app>';
 				}
 			}
-			
+
 			$xml .='
 			</app-group>';
 		}
-			
+
 		return $xml;
 	}
-	
+
 	private function xml_references($article) {
 		$references = get_post_meta($article->ID, '_anno_references', true);
 		$xml = '';
 		if (!empty($references) && is_array($references)) {
-			$xml = 
+			$xml =
 '			<ref-list>
 				<title>'._x('References', 'xml reference title', 'anno').'</title>';
-		
+
 			foreach ($references as $ref_key => $reference) {
 				$ref_key_display = esc_attr('ref'.($ref_key + 1));
 				if (isset($reference['doi']) && !empty($reference['doi'])) {
@@ -516,7 +516,7 @@ class Anno_XML_Download {
 				else {
 					$doi = '';
 				}
-				
+
 				if (isset($reference['pmid']) && !empty($reference['pmid'])) {
 					$pmid = '
 						<pub-id pub-id-type="pmid">'.esc_html($reference['pmid']).'</pub-id>';
@@ -524,21 +524,21 @@ class Anno_XML_Download {
 				else {
 					$pmid = '';
 				}
-				
+
 				if (isset($reference['text']) && !empty($reference['text'])) {
 					$text = esc_html($reference['text']);
 				}
 				else {
 					$text = '';
 				}
-					
+
 				if (isset($reference['link']) && !empty($reference['link'])) {
 					$link = ' xlink:href="'.esc_url($reference['link']).'"';
 				}
 				else {
 					$link = '';
 				}
-				
+
 				$xml .='
 			<ref id="'.$ref_key_display.'">
 				<label>'.$ref_key_display.'</label>
@@ -548,15 +548,15 @@ class Anno_XML_Download {
 			</ref>';
 
 			}
-		
+
 			$xml .='
 		</ref-list>';
 		}
-		
+
 		return $xml;
-		
+
 	}
-	
+
 private function xml_back($article) {
 	if($this->xml_acknoledgements($article) || $this->xml_appendices($article) || $this->xml_references($article)) {
 	$xml_back = '	<back>
@@ -565,13 +565,13 @@ private function xml_back($article) {
 		'.$this->xml_references($article).'
 		</back>
 		'.$this->xml_responses($article).'
-		</article>';	
+		</article>';
 		}
-	else { 
+	else {
 		$xml_back =$this->xml_responses($article).'
 	</article>';
-	} 
-	return $xml_back; 
+	}
+	return $xml_back;
 }
 
 	private function xml_responses($article) {
@@ -583,7 +583,7 @@ private function xml_back($article) {
 	<response response-type="reply">
 		<front-stub>'
 			.$this->xml_comment_author($comment)
-			.$this->xml_pubdate($comment->comment_date).'	
+			.$this->xml_pubdate($comment->comment_date).'
 		</front-stub>
 		<body>
 			<p>'
@@ -595,7 +595,7 @@ private function xml_back($article) {
 		}
 		return $comment_xml;
 	}
-	
+
 	private function xml_comment_author($comment) {
 		$author_xml = '<contrib-group>
 				<contrib>';
@@ -603,7 +603,7 @@ private function xml_back($article) {
 			$user = get_userdata($comment->user_id);
 			$author_xml .= '
 					<name>';
-					
+
 			if (!empty($user->last_name)) {
 				$author_xml .= '
 						<surname>'.esc_html($user->last_name).'</surname>';
@@ -616,13 +616,13 @@ private function xml_back($article) {
 				$author_xml .= '
 						<given-names>'.esc_html($user->first_name).'</given-names>';
 			}
-			
+
 			$prefix = get_user_meta($user->ID, '_anno_prefix', true);
 			if (!empty($prefix)) {
 				$author_xml .= '
 						<prefix>'.esc_html($prefix).'</prefix>';
 			}
-			
+
 			$suffix = get_user_meta($user->ID, '_anno_suffix', true);
 			if (!empty($suffix)) {
 				$author_xml .= '
@@ -630,13 +630,13 @@ private function xml_back($article) {
 			}
 			$author_xml .= '
 					</name>';
-			
-			// @TODO TDB whether or not to include email							
+
+			// @TODO TDB whether or not to include email
 //			if (!empty($user->user_email)) {
 //				$author_xml .= '
 //				<email>'.esc_html($user->user_email).'</email>';
 //			}
-			
+
 			// Affiliation legacy support
 			$affiliation = get_user_meta($user->ID, '_anno_affiliation', true);
 			$institution = get_user_meta($user->ID, '_anno_institution', true);
@@ -651,7 +651,7 @@ private function xml_back($article) {
 					}
 				$author_xml .= '</aff>';
 			}
-			
+
 			$bio = $user->user_description;
 			if (!empty($bio)) {
 				$author_xml .= '
@@ -681,10 +681,10 @@ private function xml_back($article) {
 		$author_xml .= '
 				</contrib>
 			</contrib-group>';
-		
+
 		return $author_xml;
 	}
-	
+
 	private function xml_pubdate($pub_date) {
 		if (!empty($pub_date)) {
 			$pub_date = strtotime($pub_date);
@@ -698,14 +698,14 @@ private function xml_back($article) {
 		else {
 			$pub_date_xml = '';
 		}
-		
+
 		return $pub_date_xml;
 	}
-	
+
 	/**
 	 * Generates the XML download URL for a post
 	 *
-	 * @param int $id 
+	 * @param int $id
 	 * @return string
 	 */
 	public function get_download_url($id = null) {
@@ -718,13 +718,13 @@ private function xml_back($article) {
 			}
 			$id = $post->ID;
 		}
-		
+
 		// Build our download link
 		$permalink = get_permalink($id);
-		
-		/* Handle pretty and ugly permalinks. Need at least this stripos 
-		function, b/c initial drafts don't get a pretty permalink till 
-		published, so even if the setting is pretty permalinks the draft's 
+
+		/* Handle pretty and ugly permalinks. Need at least this stripos
+		function, b/c initial drafts don't get a pretty permalink till
+		published, so even if the setting is pretty permalinks the draft's
 		permalink is going to be ugly. */
 		if (stripos($permalink, 'post_type=article') || get_option('permalink_structure') == '') {
 			// Ugly permalinks
@@ -748,26 +748,26 @@ private function xml_back($article) {
 		}
 		return $link;
 	}
-	
+
 	/**
 	 * Conditionally logs messages to the error log
 	 *
-	 * @param string $msg 
+	 * @param string $msg
 	 * @return void
 	 */
 	private function log($msg) {
 		if ($this->debug) {
 			error_log($msg);
 		}
-	}	
+	}
 }
 Anno_XML_Download::i()->add_actions();
-	
+
 
 /**
  * Get the XML download link for a post
  *
- * @param int $id 
+ * @param int $id
  * @return string
  */
 function anno_xml_download_url($id = null) {
