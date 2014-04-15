@@ -102,7 +102,7 @@ var annoLink;
 				e, b;
 
 			tinyMCEPopup.restoreSelection();
-			e = ed.dom.getParent(ed.selection.getNode(), 'span');
+			e = ed.dom.getParent(ed.selection.getNode(), this.parentSelector);
 
 			// If the values are empty, unlink and return
 			if ( ! attrs['xlink:href'] || attrs['xlink:href'] == 'http://' ) {
