@@ -29,6 +29,12 @@
 				cmd : 'Anno_Tree'
 			});
 
+			jQuery(document).ready(function(){
+				jQuery('.js-anno-tree-close').on('click', function(e) {
+					e.preventDefault();
+					jQuery('.js-content-tree-pop-up').hide();
+				});
+			});
 
 			// Initializing the fancytree for this editor specifically
 			jQuery('#anno-tree-' + this.ed.id).fancytree({
