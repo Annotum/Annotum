@@ -111,7 +111,7 @@ function anno_validate_on_save($post_id, $post) {
 	$abstract_content = '<abstract>'.$post->post_excerpt.'</abstract>';
 	$abstract_validation = anno_validate($abstract_content, $schema);
 
-	if (isset($body_validation['status']) && $body_validaiton['status'] == 'error') {
+	if (isset($body_validation['status']) && $body_validation['status'] == 'error') {
 		$error = true;
 	}
 	if (isset($abstract_validation['status']) && $abstract_validation['status'] == 'error') {

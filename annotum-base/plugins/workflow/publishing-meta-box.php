@@ -394,7 +394,7 @@ function annowf_minor_action_preview_markup() {
 		$preview_button = _x('Preview', 'Publising box preview button text', 'anno');
 	}
 ?>
-		<a class="preview button" href="<?php echo $preview_link; ?>" target="wp-preview" id="post-preview" tabindex="4"><?php echo $preview_button; ?></a>
+		<a class="preview button js-preview" href="<?php echo $preview_link; ?>" target="wp-preview" id="post-preview" tabindex="4"><?php echo $preview_button; ?></a>
 		<input type="hidden" name="wp-preview" id="wp-preview" value="" />
 	</div> <!-- #preview-action -->
 	<div class="clear"></div>

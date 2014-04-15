@@ -112,11 +112,12 @@ jQuery(document).ready(function($){
 		$saveButton.on('click', annoProcessSave);
 
 		// So validation occurs on click and doesnt go through submitting
-		$('form#post').on('submit', annoPreventDefault);
+		//$('form#post').on('submit', annoPreventDefault);
 
 		$submitButton.on('click', function(e) {
+			e.preventDefault();
 			$('form#post').off('submit', annoPreventDefault);
-			$submitbutton.off('click');
+			$submitButton.off('click');
 			// State change requires value and name from button pressed
 			$(e.target).click();
 		});
@@ -124,6 +125,7 @@ jQuery(document).ready(function($){
 		function annoPreventDefault(e) {
 			e.preventDefault();
 		}
+
 		function annoProcessSave(e) {
 			var clicker = e.target;
 			$saveButton.off('click', annoProcessSave);
