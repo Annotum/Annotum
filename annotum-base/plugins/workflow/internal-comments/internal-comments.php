@@ -34,17 +34,17 @@ add_action('admin_head-post.php', 'anno_internal_comments_add_meta_boxes');
 
 /**
  * Get a list of comments for a given type
- * 
+ *
  * @param string $type Type of comments to fetch
  * @return array Array of comment objects
  */
 function anno_internal_comments_get_comments($type, $post_id) {
-	remove_filter('comments_clauses', 'anno_internal_comments_clauses');
+	remove_filter('comments_clauses', 'anno_comment_type_filter');
 	$comments = get_comments( array(
 	    'type' => $type,
 		'post_id' => $post_id,
 	));
-	add_filter('comments_clauses', 'anno_internal_comments_clauses');
+	add_filter('comments_clauses', 'anno_comment_type_filter');
 
 	return $comments;
 }
@@ -53,7 +53,7 @@ function anno_internal_comments_get_comments($type, $post_id) {
  * Display the content for internal comment meta boxes
  * @param $type The comment type base
  * @return void
- */ 
+ */
 function anno_internal_comments_display($type) {
 	global $post;
 	$comments = anno_internal_comments_get_comments('article_'.$type, $post->ID);
@@ -79,11 +79,11 @@ function anno_internal_comments_display($type) {
 
 /**
  * Displays comment markup for internal comments
- * 
+ *
  * @param int $comment_id ID of the comment to be displayed
  * @param string $type Type of comment to display (general, reviewer)
  * @return void
- */ 
+ */
 function anno_internal_comment_table_row($cur_comment) {
 	global $comment, $current_screen;
 	$comment_holder = $comment;
@@ -92,7 +92,7 @@ function anno_internal_comment_table_row($cur_comment) {
 	if (empty($current_screen)) {
 		set_current_screen('article');
 	}
-	
+
 	$comment_list_table = _get_list_table('WP_Comments_List_Table', array('screen'=>'article'));
 ?>
 	<tr id="comment-<?php echo $comment->comment_ID; ?>" class="approved">
@@ -136,12 +136,12 @@ function anno_internal_comment_table_row($cur_comment) {
 			<p class="comment-content">'.
 				wpautop($comment->comment_content, 1)
 			.'</p>';
-			
+
 			$actions = array();
 			if (anno_user_can('add_'.str_replace('article_', '', $comment->comment_type).'_comment')) {
 				$actions['reply'] = '<a href="#" class="reply">'._x('Reply', 'Internal comment action link text', 'anno').'</a>';
 			}
-			
+
 			if (anno_user_can('edit_comment', null, null, $comment->comment_ID )) {
 				$actions['edit'] = '<a href="comment.php?action=editcomment&amp;c='.$comment->comment_ID.'" title="'.esc_attr_x( 'Edit comment', 'Internal comment action link title', 'anno').'">'._x('Edit', 'Internal comment action link text',  'anno').'</a>';
 				$actions['delete'] = '<a class="anno-trash-comment" href="'.wp_nonce_url('comment.php?action=trashcomment&amp;c='.$comment->comment_ID, 'delete-comment_'.$comment->comment_ID).'">'._x('Trash', 'Internal comment action link text', 'anno').'</a>';
@@ -188,19 +188,19 @@ function anno_internal_comments_reviewer_comments() {
 <div class="review-section <?php echo 'status-'.$user_review; ?>">
 	<label for="anno-review"><?php _ex('Recommendation: ', 'Review label for reviewer meta box review dropdown', 'anno'); ?></label>
 	<select id="anno-review" name="anno_review">
-	<?php 
+	<?php
 		foreach ($anno_review_options as $opt_key => $opt_val) {
-	?>	
+	?>
 		<option value="<?php echo esc_attr($opt_key); ?>"<?php selected($user_review, $opt_key, true); ?>><?php echo esc_html($opt_val); ?></option>
-	<?php 
-		} 
+	<?php
+		}
 	?>
 	</select>
 	<input id="reviewer-review-submit" type="button" class="button-secondary" value="<?php _ex('Submit', 'button label', 'anno'); ?>" />
 	<span class="review-notice"></span>
 </div>
 
-<?php 
+<?php
 		wp_nonce_field('anno_review', '_ajax_nonce-review', false);
 	}
  	anno_internal_comments_display('review');
@@ -251,19 +251,19 @@ add_action('admin_print_styles-post-new.php', 'anno_internal_comments_print_styl
 
 /**
  * Filter the comment link if its an internal comment. Link will take you to the post edit page
- */ 
+ */
 function anno_internal_comments_get_comment_link($link, $comment) {
 	if (in_array($comment->comment_type, array('article_review', 'article_general'))) {
 		$link = get_edit_post_link($comment->comment_post_ID).'#comment-'.$comment->comment_ID;
 	}
-	
+
 	return $link;
 }
 add_filter('get_comment_link', 'anno_internal_comments_get_comment_link', 10, 2);
 
 /**
  * Filter to prevent front end display of our comments
- */ 
+ */
 function anno_internal_comments_clauses($clauses) {
 	$clauses['where'] .= " AND comment_type NOT IN ('article_general', 'article_review')";
 	return $clauses;
@@ -274,8 +274,8 @@ if (!is_admin()) {
 }
 
 /**
- * Don't allow non editor/admin to see internal comments on comment listing page. 
- */ 
+ * Don't allow non editor/admin to see internal comments on comment listing page.
+ */
 function anno_filter_edit_comments_page() {
 	global $pagenow;
 	if ($pagenow == 'edit-comments.php' && !(current_user_can('editor') || current_user_can('administrator'))) {
@@ -295,7 +295,7 @@ function anno_internal_comments_update_comment_count($post_id) {
 		return false;
 	if ( !$post = get_post($post_id) )
 		return false;
-		
+
 	$old = (int) $post->comment_count;
 	$internal_count = (int) $wpdb->get_var( $wpdb->prepare("SELECT COUNT(*) FROM $wpdb->comments WHERE comment_post_ID = %d AND comment_approved = '1' AND comment_type IN ('article_general', 'article_review')", $post_id) );
 	$wpdb->update( $wpdb->posts, array('comment_count' => max($old - $internal_count, 0)), array('ID' => $post_id) );
@@ -306,9 +306,9 @@ add_action('wp_update_comment_count', 'anno_internal_comments_update_comment_cou
 /**
  * Processes an AJAX request when submitting an internal comment
  * Based on code in the WP Core
- * 
+ *
  * @todo handle comment errors instead of just dying.
- */ 
+ */
 function anno_internal_comments_ajax() {
 	check_ajax_referer('anno_comment', '_ajax_nonce-anno-comment-'.$_POST['type']);
 	//Check to make sure user can post comments on this post
@@ -317,7 +317,7 @@ function anno_internal_comments_ajax() {
 
 	if ($user->ID) {
 		$comment_base_type = $wpdb->escape(trim($_POST['type']));
-		
+
 		$comment_author = $wpdb->escape($user->display_name);
 		$comment_author_email = $wpdb->escape($user->user_email);
 		$comment_author_url = $wpdb->escape($user->user_url);
@@ -329,13 +329,13 @@ function anno_internal_comments_ajax() {
 	else {
 		die();
 	}
-	
+
 	if ( '' == $comment_content ) {
 		die();
 	}
-	
+
 	$comment_parent = absint($_POST['parent_id']);
-	
+
 	$commentdata = compact('comment_post_ID', 'comment_author', 'comment_author_email', 'comment_author_url', 'comment_content', 'comment_type', 'comment_parent', 'user_ID');
 
 	// Create the comment and automatically approve it
@@ -344,7 +344,7 @@ function anno_internal_comments_ajax() {
 	$comment_id = wp_new_comment($commentdata);
 	remove_filter('pre_option_comments_notify', 'anno_internal_comments_surpress_notification');
 	remove_filter('pre_comment_approved', 'anno_internal_comments_pre_comment_approved');
-	
+
 	$comment = get_comment($comment_id);
 	if (!$comment) {
 		 die();
@@ -368,10 +368,10 @@ function anno_internal_comments_ajax() {
 		}
 		annowf_send_notification($comment_base_type.'_comment', $post, $comment, $recipients);
 	}
-	
+
 	// Attach a 'round' to a comment, marking which revision number this is
 	$round = annowf_get_round($comment_post_ID);
-	update_comment_meta($comment->comment_ID, '_round', $round);  
+	update_comment_meta($comment->comment_ID, '_round', $round);
 
 	//Display markup for AJAX
 	anno_internal_comment_table_row($comment);
@@ -388,16 +388,16 @@ function anno_internal_comments_review_ajax() {
 		global $current_user;
 		$post_id = absint($_POST['post_id']);
 		$review = $_POST['review'];
-		
+
 		$post_round = annowf_get_round($post_id);
 
 		update_user_meta($current_user->ID, '_'.$post_id.'_review_'.$post_round, $review);
-		
+
 		$reviewed = get_post_meta($post_id, '_round_'.$post_round.'_reviewed', true);
 		if (!is_array($reviewed)) {
 			$reviewed = array();
 		}
-				
+
 		// If review is set to none, remove the user from reviewed, otherwise update it with the current user.
 		if ($review != 0) {
 			// Keep track that this user has left a review on the post
@@ -425,14 +425,14 @@ add_action('wp_ajax_anno-review', 'anno_internal_comments_review_ajax');
 
 /**
  * Filter to automatically approve internal comments
- */ 
+ */
 function anno_internal_comments_pre_comment_approved($approved) {
 	return 1;
 }
 
 /**
  * Dropdown filter to display only our internal comment types in the admin screen
- */ 
+ */
 function anno_internal_comment_types_dropdown($comment_types) {
 	if (current_user_can('editor') || current_user_can('administrator')) {
 		$comment_types['article_general'] = _x('Article General', 'Dropdown comment type selector', 'anno');
@@ -444,10 +444,10 @@ add_filter('admin_comment_types_dropdown', 'anno_internal_comment_types_dropdown
 
 /**
  * Get the top level comment of a series of comment replies.
- * 
+ *
  * @param int|object ID of the comment or the comment object itself
  * @return bool|obj Comment object, or false if the comment could not be found.
- */ 
+ */
 function anno_internal_comments_get_comment_root($comment) {
 	if (is_numeric($comment)) {
 		$comment = get_comment($comment);
@@ -462,7 +462,7 @@ function anno_internal_comments_get_comment_root($comment) {
 
 /**
  * Filter for removing WP action that sends emails when comments are created. Added to internal comments.
- */ 
+ */
 function anno_internal_comments_surpress_notification() {
 	return 0;
 }
@@ -483,7 +483,7 @@ function anno_internal_comments_capabilities($allcaps, $caps, $args) {
 			//No internal comments should be editable if the workflow is disabled
 			else {
 				$allcaps = array();
-			}	
+			}
 		}
 	}
 	return $allcaps;

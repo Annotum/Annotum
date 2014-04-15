@@ -561,19 +561,6 @@ function anno_edit_user_url($user_id) {
 }
 
 /**
- * Function to limit front-end display of comments.
- * Wrap this filter around comments_template();
- *
- * @todo Update to WP_Comment_Query filter when WP updates core to use non-hardcoded queries.
- */
-function anno_internal_comments_query($query) {
-	$query = str_replace('WHERE', 'WHERE comment_type NOT IN (\'article_general\', \'article_review\') AND', $query);
-	return $query;
-}
-add_filter('comment_feed_where', 'anno_internal_comments_query');
-
-
-/**
  * Output Google Analytics Code if a GA ID is present
  */
 function anno_ga_js() {
@@ -1350,3 +1337,20 @@ add_filter('the_content', 'anno_process_xml_content', 5);
 function anno_is_article($post_id) {
 	return get_post_type($post_id) == 'article';
 }
+
+/**
+ * Function to limit display of comments.
+ * By Default, this filters out all internal comments. Use remove_filter and add_filter where appropriate to show them
+ *
+ * @todo Update to WP_Comment_Query filter when WP updates core to use non-hardcoded queries.
+ */
+function anno_comment_type_filter($clauses) {
+	if (empty($clauses['where'])) {
+		$clauses['where'] = 'comment_type NOT IN (\'article_general\', \'article_review\')';
+	}
+	else {
+		$clauses['where'] .= ' AND comment_type NOT IN (\'article_general\', \'article_review\')';
+	}
+	return $clauses;
+}
+add_filter('comments_clauses', 'anno_comment_type_filter');
