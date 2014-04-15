@@ -4,6 +4,7 @@ var annoLink;
 	var inputs = {}, ed;
 
 	annoLink = {
+		parentSelector: 'span[data-xmlel="ext-link"]',
 		keySensitivity: 100,
 		textarea: function() { return edCanvas; },
 
@@ -58,7 +59,7 @@ var annoLink;
 			tinyMCEPopup.restoreSelection();
 
 			// If link exists, select proper values.
-			if ( e = ed.dom.getParent(ed.selection.getNode(), 'EXT-LINK') ) {
+			if ( e = ed.dom.getParent(ed.selection.getNode(), this.parentSelector) ) {
 
 				inputs.url.val( ed.dom.getAttrib(e, 'xlink:href'));
 				inputs.title.val( ed.dom.getAttrib(e, 'title') );
@@ -165,7 +166,6 @@ var annoLink;
 			// Leave the new tab setting as-is.
 			inputs.url.val('http://');
 			inputs.title.val('');
-			inputs.alt.val('');
 		},
 
 		keyup: function( event ) {

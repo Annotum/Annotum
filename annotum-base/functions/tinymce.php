@@ -403,10 +403,6 @@ function anno_popup_link() {
 				<span><?php _ex('Title', 'input label', 'anno'); ?></span>
 				<input type="text" name="link-title" id="anno-link-title-field" />
 			</label>
-			<label>
-				<span><?php _ex('Alt Text', 'input label', 'anno'); ?></span>
-				<input type="text" name="link-alt" id="anno-link-alt-field" />
-			</label>
 		</div>
 		<div class="anno-mce-popup-footer">
 			<?php _anno_popup_submit_button('anno-link-submit', _x('Save', 'button value', 'anno')) ?>

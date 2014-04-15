@@ -3,21 +3,21 @@
 		init : function(ed, url) {
 			var t = this;
 			this.editor = ed;
-
+			this.parentSelector = 'span[data-xmlel="ext-link"]';
 
 			ed.addCommand('annoUnlink', function() {
 				var se = ed.selection;
 				var sn = se.getStart(),
-					snp = ed.dom.getParent(sn, 'span[data-xmlel="ext-link"]');
+					snp = ed.dom.getParent(sn, t.parentSelector);
 				var en = se.getEnd(),
-					enp = ed.dom.getParent(en, 'span[data-xmlel="ext-link"]');
+					enp = ed.dom.getParent(en, t.parentSelector);
 				var n = se.getNode(),
 					bookmark = se.getBookmark(),
 					nodeName = t._getNodeName(n);
 
 
 				if (nodeName != 'EXT-LINK') {
-					n = ed.dom.getParent(n, 'span[data-xmlel="ext-link"]');
+					n = ed.dom.getParent(n, t.parentSelector);
 				}
 
 				if (se.isCollapsed() && t._getNodeName(n) != 'EXT-LINK') {
@@ -34,8 +34,9 @@
 			ed.addCommand('Anno_Link', function() {
 				var se = ed.selection;
 
-				if (se.isCollapsed() && !ed.dom.getParent(se.getNode(), 'EXT-LINK'))
+				if (se.isCollapsed() && !ed.dom.getParent(se.getNode(), t.parentSelector)) {
 					return;
+				}
 
 				ed.windowManager.open({
 					id : 'anno-popup-link',
@@ -65,11 +66,11 @@
 			ed.onNodeChange.add(function(ed, cm, n, co) {
 				var xmlNodeType = t._getNodeName(n);
 
-				cm.setDisabled('annolink', co && xmlNodeType != 'EXT-LINK' && ed.dom.getParent(n, 'span[data-xmlel="ext-link"]') == null );
-				cm.setActive('annolink', (xmlNodeType == 'EXT-LINK' || ed.dom.getParent(n, 'span[data-xmlel="ext-link"]') != null ));
+				cm.setDisabled('annolink', co && xmlNodeType != 'EXT-LINK' && ed.dom.getParent(n, t.parentSelector) == null );
+				cm.setActive('annolink', (xmlNodeType == 'EXT-LINK' || ed.dom.getParent(n, t.parentSelector) != null ));
 
-				cm.setDisabled('announlink', co && xmlNodeType != 'EXT-LINK' && ed.dom.getParent(n, 'span[data-xmlel="ext-link"]') == null );
-				cm.setActive('announlink', (xmlNodeType == 'EXT-LINK' || ed.dom.getParent(n, 'span[data-xmlel="ext-link"]') != null ) && !n.name);
+				cm.setDisabled('announlink', co && xmlNodeType != 'EXT-LINK' && ed.dom.getParent(n, t.parentSelector) == null );
+				cm.setActive('announlink', (xmlNodeType == 'EXT-LINK' || ed.dom.getParent(n, t.parentSelector) != null ) && !n.name);
 			});
 		},
 		_getNodeName : function(node) {
