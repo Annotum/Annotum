@@ -3,7 +3,7 @@ var annoLink;
 (function($){
 	var inputs = {}, ed;
 
-	annoLink = {	
+	annoLink = {
 		keySensitivity: 100,
 		textarea: function() { return edCanvas; },
 
@@ -13,7 +13,7 @@ var annoLink;
 			inputs.url = $('#anno-link-url-field');
 			inputs.title = $('#anno-link-title-field');
 			inputs.alt = $('#anno-link-alt-field');
-			
+
 			// Bind event handlers
 			inputs.dialog.keydown( annoLink.keydown );
 			inputs.dialog.keyup( annoLink.keyup );
@@ -21,7 +21,7 @@ var annoLink;
 				annoLink.update();
 				e.preventDefault();
 			});
-			
+
 			$('#anno-link-cancel').click(annoLink.close);
 
 			inputs.dialog.bind('wpdialogrefresh', annoLink.refresh);
@@ -56,7 +56,7 @@ var annoLink;
 			ed = tinyMCEPopup.editor;
 
 			tinyMCEPopup.restoreSelection();
-			
+
 			// If link exists, select proper values.
 			if ( e = ed.dom.getParent(ed.selection.getNode(), 'EXT-LINK') ) {
 
@@ -101,7 +101,7 @@ var annoLink;
 				e, b;
 
 			tinyMCEPopup.restoreSelection();
-			e = ed.dom.getParent(ed.selection.getNode(), 'EXT-LINK');
+			e = ed.dom.getParent(ed.selection.getNode(), 'span');
 
 			// If the values are empty, unlink and return
 			if ( ! attrs['xlink:href'] || attrs['xlink:href'] == 'http://' ) {
@@ -120,12 +120,14 @@ var annoLink;
 			// Leverage the logic of CreateLink
 			if (e == null) {
 				tinyMCEPopup.execCommand("CreateLink", false, "#mce_temp_url#", {skip_undo : 1});
-				
+
 				tinymce.each(ed.dom.select("a"), function(n) {
 					if (ed.dom.getAttrib(n, 'href') == '#mce_temp_url#') {
-						var new_element = document.createElement('ext-link');
+						var new_element = document.createElement('span');
 					 	var old_innerHTML = n.innerHTML;
-					
+
+					 	attrs['class'] = 'ext-link';
+					 	attrs['data-xmlel'] = 'ext-link';
 						n.parentNode.replaceChild(new_element, n);
 						e = new_element;
 						ed.dom.setAttribs(e, attrs);
@@ -141,7 +143,7 @@ var annoLink;
 					e = null;
 				}
 
-			} 
+			}
 			else {
 				ed.dom.setAttribs(e, attrs);
 			}

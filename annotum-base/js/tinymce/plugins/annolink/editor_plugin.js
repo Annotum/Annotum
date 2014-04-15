@@ -1,36 +1,42 @@
 (function() {
-	tinymce.create('tinymce.plugins.annoLink', {		
+	tinymce.create('tinymce.plugins.annoLink', {
 		init : function(ed, url) {
+			var t = this;
 			this.editor = ed;
-			
+
+
 			ed.addCommand('annoUnlink', function() {
 				var se = ed.selection;
 				var sn = se.getStart(),
-					snp = ed.dom.getParent(sn, 'EXT-LINK');
+					snp = ed.dom.getParent(sn, 'span[data-xmlel="ext-link"]');
 				var en = se.getEnd(),
-					enp = ed.dom.getParent(en, 'EXT-LINK');
+					enp = ed.dom.getParent(en, 'span[data-xmlel="ext-link"]');
 				var n = se.getNode(),
-					bookmark = se.getBookmark();
-					
-				if (n.nodeName != 'EXT-LINK') {
-					n = ed.dom.getParent(n, 'EXT-LINK');
-				}
-				if (se.isCollapsed() && n.nodeName != 'EXT-LINK')
-					return;
+					bookmark = se.getBookmark(),
+					nodeName = t._getNodeName(n);
 
-				
+
+				if (nodeName != 'EXT-LINK') {
+					n = ed.dom.getParent(n, 'span[data-xmlel="ext-link"]');
+				}
+
+				if (se.isCollapsed() && t._getNodeName(n) != 'EXT-LINK') {
+					return;
+				}
+
+
 				ed.dom.remove(n, true);
 				se.moveToBookmark(bookmark);
 				//TODO remove partial selections.
 			});
-			
+
 			// Register the command so that it can be invoked by using tinyMCE.activeEditor.execCommand('mceExample');
 			ed.addCommand('Anno_Link', function() {
-				var se = ed.selection;			
-				
+				var se = ed.selection;
+
 				if (se.isCollapsed() && !ed.dom.getParent(se.getNode(), 'EXT-LINK'))
 					return;
-									
+
 				ed.windowManager.open({
 					id : 'anno-popup-link',
 					width : 480,
@@ -41,7 +47,7 @@
 					plugin_url : url // Plugin absolute URL
 				});
 			});
-				
+
 			// Register example button
 			ed.addButton('annolink', {
 				//removing for temp fix-- title : ed.getLang('advanced.link_desc'),
@@ -56,15 +62,23 @@
 
 			ed.addShortcut('alt+shift+a', ed.getLang('advanced.link_desc'), 'Anno_Link');
 
-			ed.onNodeChange.add(function(ed, cm, n, co) {			
-				cm.setDisabled('annolink', co && n.nodeName != 'EXT-LINK' && ed.dom.getParent(n, 'EXT-LINK') == null );
-				cm.setActive('annolink', (n.nodeName == 'EXT-LINK' || ed.dom.getParent(n, 'EXT-LINK') != null ) && !n.name);
-				
-				cm.setDisabled('announlink', co && n.nodeName != 'EXT-LINK' && ed.dom.getParent(n, 'EXT-LINK') == null );
-				cm.setActive('announlink', (n.nodeName == 'EXT-LINK' || ed.dom.getParent(n, 'EXT-LINK') != null ) && !n.name);
+			ed.onNodeChange.add(function(ed, cm, n, co) {
+				var xmlNodeType = t._getNodeName(n);
+
+				cm.setDisabled('annolink', co && xmlNodeType != 'EXT-LINK' && ed.dom.getParent(n, 'span[data-xmlel="ext-link"]') == null );
+				cm.setActive('annolink', (xmlNodeType == 'EXT-LINK' || ed.dom.getParent(n, 'span[data-xmlel="ext-link"]') != null ));
+
+				cm.setDisabled('announlink', co && xmlNodeType != 'EXT-LINK' && ed.dom.getParent(n, 'span[data-xmlel="ext-link"]') == null );
+				cm.setActive('announlink', (xmlNodeType == 'EXT-LINK' || ed.dom.getParent(n, 'span[data-xmlel="ext-link"]') != null ) && !n.name);
 			});
 		},
-
+		_getNodeName : function(node) {
+			var xmlNodeType = node.getAttribute('data-xmlel');
+			if (typeof xmlNodeType == 'string') {
+				xmlNodeType = xmlNodeType.toUpperCase();
+			}
+			return xmlNodeType;
+		},
 		getInfo : function() {
 			return {
 				longname : 'Annotum Link Dialog',
