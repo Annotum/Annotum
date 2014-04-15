@@ -129,6 +129,7 @@ var annoLink;
 
 					 	attrs['class'] = 'ext-link';
 					 	attrs['data-xmlel'] = 'ext-link';
+					 	attrs['xmlns:xlink'] = 'http://www.w3.org/1999/xlink';
 						n.parentNode.replaceChild(new_element, n);
 						e = new_element;
 						ed.dom.setAttribs(e, attrs);
