@@ -47,8 +47,18 @@ function anno_ajax_validate() {
 	$response = array();
 
 	if (isset($_POST['content'])) {
+		$content_type = empty($_POST['type']) ? 0 : intval($_POST['type']);
 		$content = wp_unslash($_POST['content']);
 		$schema = trailingslashit(get_template_directory()).'functions/schema/kipling-jp3-partial.rng';
+
+		if ($content_type == 'body') {
+			$post_id = empty($_POST['postID']) ? 0 : intval($_POST['postID']);
+			$content = anno_validation_prep_body($content, $post_id);
+		}
+		else if ($content_type == 'abstract') {
+			$content = anno_validation_prep_abstract($content, $post_id);
+		}
+
 		$response = anno_validate($content, $schema);
 
 		if ($response['status'] == 'success') {
@@ -62,12 +72,15 @@ function anno_ajax_validate() {
 }
 add_action('wp_ajax_anno_validate', 'anno_ajax_validate');
 
-
 function anno_ajax_validate_all() {
 	$response = array('body' => array(), 'abstract' => array());
 
 	if (isset($_POST['body'])) {
+		$post_id = empty($_POST['postID']) ? 0 : intval($_POST['postID']);
+
 		$body = wp_unslash($_POST['body']);
+		$body = anno_validation_prep_body($body, $post_id);
+
 		$schema = trailingslashit(get_template_directory()).'functions/schema/kipling-jp3-partial.rng';
 		$response['body'] = anno_validate($body, $schema);
 
@@ -82,6 +95,7 @@ function anno_ajax_validate_all() {
 
 	if (isset($_POST['abstract'])) {
 		$abstract = wp_unslash($_POST['abstract']);
+		$abstract = anno_validation_prep_abstract($content);
 		$schema = trailingslashit(get_template_directory()).'functions/schema/kipling-jp3-partial.rng';
 		$response['abstract'] = anno_validate($abstract, $schema);
 
@@ -104,11 +118,10 @@ function anno_validate_on_save($post_id, $post) {
 	$error = false;
 	$schema = trailingslashit(get_template_directory()).'functions/schema/kipling-jp3-partial.rng';
 
-
-	$body_content = '<body>'.$post->post_content_filtered.'</body>';
+	$body_content = anno_validation_prep_body($post->post_content_filtered, $post_id);
 	$body_validation = anno_validate($body_content, $schema);
 
-	$abstract_content = '<abstract>'.$post->post_excerpt.'</abstract>';
+	$abstract_content = anno_validation_prep_abstract($post->post_excerpt);
 	$abstract_validation = anno_validate($abstract_content, $schema);
 
 	if (isset($body_validation['status']) && $body_validation['status'] == 'error') {
@@ -137,3 +150,61 @@ function anno_validate_on_save($post_id, $post) {
 
 }
 add_action('save_post_article', 'anno_validate_on_save', 999, 2);
+
+function anno_validation_prep_body($content, $post_id = 0) {
+	$references = anno_xml_references($post_id);
+	return '<body>'.$content.$references.'</body>';
+}
+
+function anno_validation_prep_abstract($content) {
+	return '<abstract>'.$content.'</abstract>';
+}
+
+function anno_xml_references($article_id) {
+	$references = get_post_meta($article_id, '_anno_references', true);
+	$xml = '';
+	if (!empty($references) && is_array($references)) {
+		$xml =
+'			<ref-list>
+			<title>'._x('References', 'xml reference title', 'anno').'</title>';
+
+		foreach ($references as $ref_key => $reference) {
+			$doi = '';
+			$pmid = '';
+			$text = '';
+			$link = '';
+
+			$ref_key_display = esc_attr('ref'.($ref_key + 1));
+			if (isset($reference['doi']) && !empty($reference['doi'])) {
+				$doi = '
+					<pub-id pub-id-type="doi">'.esc_html($reference['doi']).'</pub-id>';
+			}
+
+			if (isset($reference['pmid']) && !empty($reference['pmid'])) {
+				$pmid = '
+					<pub-id pub-id-type="pmid">'.esc_html($reference['pmid']).'</pub-id>';
+			}
+
+			if (isset($reference['text']) && !empty($reference['text'])) {
+				$text = esc_html($reference['text']);
+			}
+
+			if (isset($reference['link']) && !empty($reference['link'])) {
+				$link = ' xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="'.esc_url($reference['link']).'"';
+			}
+
+			$xml .='
+		<ref id="'.$ref_key_display.'">
+			<label>'.$ref_key_display.'</label>
+			<mixed-citation'.$link.'>'.trim($text).'
+				'.$doi.$pmid.'
+			</mixed-citation>
+		</ref>';
+		}
+
+		$xml .='
+	</ref-list>';
+	}
+
+	return $xml;
+}

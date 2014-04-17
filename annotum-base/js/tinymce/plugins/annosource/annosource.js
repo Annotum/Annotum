@@ -64,13 +64,14 @@ var annosource;
 			inputs.$dialog.bind('wpdialogbeforeopen', annoSource.beforeOpen);
 		},
 		validate : function(content) {
+			var contentType;
 			if (!content) {
-				content = this._getContent();
+				var content = this._getContent();
 			}
 			this._cleanup();
-			content = this._prepContent(content);
+			contentType = this._getContentType();
 			// Returns a promise
-			return this.validator.validate(content);
+			return this.validator.validate(content, contentType);
 		},
 		insertContent : function() {
 			this.editor.setContent('<!DOCTYPE sec SYSTEM "http://dtd.nlm.nih.gov/publishing/3.0/journalpublishing3.dtd"><body>' + this.codemirror.getValue().trim() + '</body>', {source_view : true});
@@ -79,14 +80,20 @@ var annosource;
 			jQuery(this.editor.dom.select('div.body')[0].firstChild).unwrap();
 		},
 		// * Internal Helper Functions ***************
-		_prepContent : function (content) {
+		_getContentType : function () {
+			var contentType = '';
+			if (!this.editor) {
+				this.editor = tinyMCEPopup.editor;
+			}
+
 			if (this.editor.id == 'content') {
-				content = '<body>'+content+'</body>';
+				contentType = 'body';
 			}
-			else {
-				content = '<abstract>'+content+'</abstract>';
+			else if (this.editor.id == 'excerpt') {
+				contentType = 'abstract';
 			}
-			return content;
+
+			return contentType;
 		},
 		_cleanup : function() {
 			$(this.validationStatusID).html('');
@@ -133,11 +140,13 @@ var annosource;
 		},
 		beforeOpen : function () {
 			var t = annoSource;
+			var contentType = t._getContentType();
+
 			t.editor = tinyMCEPopup.editor;
 			t.editorVal = t.editor.getContent({source_view : true}).replace(/^<!DOCTYPE[^>]*?>/, '');
 			t.codemirror.setValue(t.editorVal);
 			$(document).on('annoValidation', t.processValidation);
-			t.validate(t.editorVal);
+			t.validate(t.editorVal, contentType);
 		},
 		onClose : function () {
 			var t = annoSource;

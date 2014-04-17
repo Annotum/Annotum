@@ -1,11 +1,13 @@
 (function($) {
 	var annoValidation = {
-		validate : function (content) {
+		validate : function (content, type) {
 			var promise;
 			promise = $.post(ajaxurl,
 				{
 					content: content,
-					action: 'anno_validate'
+					action: 'anno_validate',
+					type: type,
+					postID : ANNO_POST_ID
 				},
 				function (data) {
 					var errors;
@@ -32,7 +34,8 @@
 				{
 					body: body,
 					abstract : abstract,
-					action: 'anno_validate_all'
+					action: 'anno_validate_all',
+					postID : ANNO_POST_ID
 				},
 				function (data) {
 					$.event.trigger('annoValidationAll', [data]);

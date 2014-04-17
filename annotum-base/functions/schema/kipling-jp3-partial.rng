@@ -1003,6 +1003,9 @@
       <zeroOrMore>
         <ref name="sec"/>
       </zeroOrMore>
+      <zeroOrMore>
+        <ref name="ref-list"/>
+      </zeroOrMore>
     </element>
   </define>
   <define name="body.attlist" combine="interleave">

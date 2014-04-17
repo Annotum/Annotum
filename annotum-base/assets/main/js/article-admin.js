@@ -135,8 +135,8 @@ jQuery(document).ready(function($){
 			content = tinyMCE.editors['content'].getContent(),
 			$t = $(this);
 
-			excerpt = '<abstract>' + excerpt.replace(/^<!DOCTYPE[^>]*?>/, '') + '</abstract>';
-			content = '<body>' + content.replace(/^<!DOCTYPE[^>]*?>/, '') + '</body>';
+			excerpt = excerpt.replace(/^<!DOCTYPE[^>]*?>/, '');
+			content = content.replace(/^<!DOCTYPE[^>]*?>/, '');
 
 			$(document).on('annoValidationAll', annoValidateSave);
 
