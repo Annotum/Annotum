@@ -262,18 +262,6 @@ function anno_internal_comments_get_comment_link($link, $comment) {
 add_filter('get_comment_link', 'anno_internal_comments_get_comment_link', 10, 2);
 
 /**
- * Filter to prevent front end display of our comments
- */
-function anno_internal_comments_clauses($clauses) {
-	$clauses['where'] .= " AND comment_type NOT IN ('article_general', 'article_review')";
-	return $clauses;
-}
-// Never display internal comments on the front-end
-if (!is_admin()) {
-	add_filter('comments_clauses', 'anno_internal_comments_clauses');
-}
-
-/**
  * Don't allow non editor/admin to see internal comments on comment listing page.
  */
 function anno_filter_edit_comments_page() {

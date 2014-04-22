@@ -1354,3 +1354,16 @@ function anno_comment_type_filter($clauses) {
 	return $clauses;
 }
 add_filter('comments_clauses', 'anno_comment_type_filter');
+
+
+/**
+ * Function to limit front-end display of comments.
+ * Wrap this filter around comments_template();
+ *
+ * @todo Update to WP_Comment_Query filter when WP updates core to use non-hardcoded queries.
+ */
+function anno_internal_comments_query($query) {
+	$query = str_replace('WHERE', 'WHERE comment_type NOT IN (\'article_general\', \'article_review\') AND', $query);
+	return $query;
+}
+add_filter('comment_feed_where', 'anno_internal_comments_query');
