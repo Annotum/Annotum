@@ -24,7 +24,7 @@ var annoQuote;
 
 		update : function(attachment_id) {
 			var display_type, caption, label, copyright_statement, copyright_holder, license, url, xml;
-			var ed = tinyMCEPopup.editor;
+			var ed = tinymce.activeEditor;
 			ed.selection.collapse(0);
 
 			form = $('#anno-popup-quote-form');
@@ -45,11 +45,11 @@ var annoQuote;
 					+'</div>'
 				+'</div>';
 
-			tinyMCEPopup.execCommand('mceInsertContent', false, xml);
+			ed.execCommand('mceInsertContent', false, xml);
 			form[0].reset();
 
-
-			tinyMCEPopup.close();
+			annoQuote.close();
+			ed.focus();
 		},
 
 		keyup : function( event ) {
@@ -68,6 +68,9 @@ var annoQuote;
 			}
 			event.preventDefault();
 		},
+		close : function() {
+			top.tinymce.activeEditor.windowManager.close()
+		}
 	}
 	$(document).ready( annoQuote.init );
 })(jQuery);
