@@ -306,7 +306,7 @@ class Anno_tinyMCE {
 			$plugins['annoImages']  =  $plugins_dir.'annoimages/editor_plugin.js';
 
 
-			// $plugins['textorumInsertion']  =  $plugins_dir.'textorum-insertion/editor_plugin.js';
+			$plugins['textorumInsertion']  =  $plugins_dir.'textorum-insertion/editor_plugin.js';
 
 			// $plugins['annoTable'] = $plugins_dir.'annotable/editor_plugin.js';
 			// $plugins['annoTable_base'] = $plugins_dir.'annotable/annotable.js';
@@ -316,7 +316,7 @@ class Anno_tinyMCE {
 
 			// $plugins['annoLists'] = $plugins_dir.'annolists/editor_plugin.js';
 
-			// $plugins['annoParagraphs'] = $plugins_dir.'annoparagraphs/editor_plugin.js';
+			//$plugins['annoParagraphs'] = $plugins_dir.'annoparagraphs/editor_plugin.js';
 
 			// $plugins['annoTips'] = $plugins_dir.'annotips/editor_plugin.js';
 

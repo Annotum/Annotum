@@ -4,8 +4,8 @@
 			var self = this,
 				disabled = true,
 				editor = ed,
-				cm = new tinyMCE.ControlManager(ed),
-				dropmenu = cm.createDropMenu('textorum-insertion-dropmenu'),
+				//cm = new tinymce.ControlManager(ed),
+				//dropmenu = cm.createDropMenu('textorum-insertion-dropmenu'), // Not used in current editor
 				dropmenuVisible = false,
 				dropmenuJustClicked = false,
 				ignoredElements = [
@@ -288,7 +288,6 @@
 					break;
 			}
 
-			console.log(newNode);
 
 			if (document.createRange) {     // all browsers, except IE before version 9
 				range = document.createRange();
