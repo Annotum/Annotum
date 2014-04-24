@@ -271,7 +271,7 @@ class Anno_tinyMCE {
 				$buttons = array('bold,italic,underline,sup,sub,charmap');
 			}
 			else {
-				$buttons = explode(',', 'annoorderedlist,annobulletlist,bold,italic,underline,annopreformat,annomonospace,sup,sub,charmap,|,annosection,annosubsection,mysplitbutton,|,annoreferences,|,annoimages,|,annoquote,annoequations');
+				$buttons = explode(',', 'annoorderedlist,annobulletlist,bold,italic,underline,annopreformat,annomonospace,sup,sub,charmap,|,annolink,announlink,|,annosection,annosubsection,mysplitbutton,|,annoreferences,|,annoimages,|,annoquote,annoequations');
 			}
 		}
 		return $buttons;
@@ -398,10 +398,6 @@ function anno_popup_link() {
 			<label>
 				<span><?php _ex('Title', 'input label', 'anno'); ?></span>
 				<input type="text" name="link-title" id="anno-link-title-field" />
-			</label>
-			<label>
-				<span><?php _ex('Alt Text', 'input label', 'anno'); ?></span>
-				<input type="text" name="link-alt" id="anno-link-alt-field" />
 			</label>
 		</div>
 		<div class="anno-mce-popup-footer">
