@@ -64,7 +64,8 @@ var annoReferences;
 		},
 
 		close : function() {
-			top.tinymce.activeEditor.windowManager.close()
+			top.tinymce.activeEditor.windowManager.close();
+			ed.focus();
 		},
 
 		update : function() {
@@ -92,7 +93,6 @@ var annoReferences;
 			ed.insertContent(xml);
 
 			annoReferences.close();
-			ed.focus();
 		},
 
 		keyup: function( event ) {

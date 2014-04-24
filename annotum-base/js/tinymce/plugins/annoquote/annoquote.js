@@ -49,7 +49,6 @@ var annoQuote;
 			form[0].reset();
 
 			annoQuote.close();
-			ed.focus();
 		},
 
 		keyup : function( event ) {
@@ -69,7 +68,8 @@ var annoQuote;
 			event.preventDefault();
 		},
 		close : function() {
-			top.tinymce.activeEditor.windowManager.close()
+			top.tinymce.activeEditor.windowManager.close();
+			ed.focus();
 		}
 	}
 	$(document).ready( annoQuote.init );
