@@ -626,7 +626,10 @@ i.mce-i-annoimages {
 	background:url(../img/icons.gif) no-repeat 20px 20px;
 }
 
-i.mce-i-annoreferences {
+i.mce-i-annomonospace,
+i.mce-i-annoreferences,
+i.mce-i-annopreformat,
+i.mce-i-annosection {
 	background:url(../img/annoicons.png) no-repeat 20px 20px;
 }
 
@@ -636,5 +639,17 @@ i.mce-i-annoimages {
 }
 
 i.mce-i-annoreferences {
-	background-position:-560px -20px
+	background-position:-560px -20px;
+}
+
+i.mce-i-annopreformat {
+	background-position:-620px -20px;
+}
+
+i.mce-i-annomonospace {
+	background-position:-600px -20px;
+}
+
+i.mce-i-annosection {
+	background-position:-660px -20px;
 }

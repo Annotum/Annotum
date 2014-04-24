@@ -18,7 +18,7 @@ define('ANNO_VER', '1.1');
 include_once(CFCT_PATH.'carrington-core/carrington.php');
 include_once(CFCT_PATH.'functions/Anno_Keeper.php');
 include_once(CFCT_PATH.'functions/article-post-type.php');
-include_once(CFCT_PATH.'functions/appendix-repeater.php');
+//include_once(CFCT_PATH.'functions/appendix-repeater.php');
 include_once(CFCT_PATH.'functions/taxonomies.php');
 include_once(CFCT_PATH.'functions/capabilities.php');
 include_once(CFCT_PATH.'functions/featured-articles.php');

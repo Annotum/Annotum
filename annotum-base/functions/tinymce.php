@@ -316,11 +316,7 @@ class Anno_tinyMCE {
 
 			// $plugins['annoLists'] = $plugins_dir.'annolists/editor_plugin.js';
 
-			//$plugins['annoParagraphs'] = $plugins_dir.'annoparagraphs/editor_plugin.js';
-
-			// $plugins['annoTips'] = $plugins_dir.'annotips/editor_plugin.js';
-
-			// $plugins['annoFormats'] = $plugins_dir.'annoformats/editor_plugin.js';
+			$plugins['annoFormats'] = $plugins_dir.'annoformats/editor_plugin.js';
 
 			// $plugins['annoEquations'] = $plugins_dir.'annoequations/editor_plugin.js';
 			// $plugins['fullscreen'] = $plugins_dir.'fullscreen/editor_plugin.js';
