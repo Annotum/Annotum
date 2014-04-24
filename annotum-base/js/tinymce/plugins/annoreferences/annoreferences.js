@@ -7,10 +7,12 @@ var annoReferences;
 		keySensitivity: 100,
 		textarea : function() { return edCanvas; },
 
-		init : function() {
-
-			inputs.dialog = $('#anno-popup-references');
+		init : function(e) {
+						inputs.dialog = $('#anno-popup-references');
 			inputs.submit = $('#anno-references-submit');
+			inputs.wrap = $('#wp-link-wrap');
+			inputs.dialog = $( '#wp-link' );
+			inputs.backdrop = $( '#wp-link-backdrop' );
 
 			inputs.checkboxes = $('#anno-popup-references input');
 
@@ -42,7 +44,6 @@ var annoReferences;
 		},
 
 		beforeOpen : function() {
-
 			annoReferences.range = null;
 
 			if ( ! annoReferences.isMCE() && document.selection ) {
@@ -51,25 +52,26 @@ var annoReferences;
 			}
 		},
 
-
 		getCheckboxes : function() {
 			return $('#anno-popup-references input[type=checkbox]:checked');
 		},
 
 		isMCE : function() {
-			return tinyMCEPopup && ( ed = tinyMCEPopup.editor ) && ! ed.isHidden();
+			//return tinyMCEPopup && ( ed = tinyMCEPopup.editor ) && ! ed.isHidden();
+			// This is unlikely to be used anywhere that tinyMCE is not enabled, hence returning tru
+			// tinymce 4 removed tinyMCEPopup as well.
+			return true;
 		},
 
 		close : function() {
-			tinyMCEPopup.close();
+			top.tinymce.activeEditor.windowManager.close()
 		},
 
 		update : function() {
-			var ed = tinyMCEPopup.editor;
+			var ed = tinymce.activeEditor;
 			var xml = '', checkboxes, id, text, validNodes, node;
-			validNodes = ['BODY', 'LABEL', 'CAP', 'LICENSE-P', 'PARA', 'TD', 'TH'];
 
-			tinyMCEPopup.restoreSelection();
+			validNodes = ['BODY', 'LABEL', 'CAP', 'LICENSE-P', 'PARA', 'TD', 'TH'];
 
 			node = ed.selection.getNode();
 
@@ -85,11 +87,12 @@ var annoReferences;
 				id = parseInt(id) + 1;
 				xml += '<span class="xref" data-xmlel="xref" ref-type="bibr" rid="ref' + id + '">' + id + '</span>&nbsp;';
 			});
-			ed.selection.collapse();
+			ed.selection.collapse(false);
 
-			ed.execCommand('mceInsertContent', null, xml);
+			ed.insertContent(xml);
 
 			annoReferences.close();
+			ed.focus();
 		},
 
 		keyup: function( event ) {

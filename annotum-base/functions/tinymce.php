@@ -250,7 +250,7 @@ add_filter('wp_default_editor', 'anno_force_richedit');
 
 class Anno_tinyMCE {
 	function Anno_tinyMCE() {
-		add_filter("mce_external_plugins", array(&$this, 'plugins'));
+		add_filter('mce_external_plugins', array(&$this, 'plugins'));
 		add_filter('mce_buttons', array(&$this, 'mce_buttons'), 10, 2);
 		add_filter('mce_buttons_2', array(&$this, 'mce_buttons_2'), 10, 2);
 		add_filter('mce_buttons_3', array(&$this, 'mce_buttons_3'), 10, 2);
@@ -297,8 +297,8 @@ class Anno_tinyMCE {
 
 			$plugins_dir = trailingslashit(get_template_directory_uri()).'js/tinymce/plugins/';
 
-			$plugins['annoLink_base'] = $plugins_dir.'annolink/annolink.js';
-			$plugins['annoLink']  =  $plugins_dir.'annolink/editor_plugin.js';
+			// $plugins['annoLink_base'] = $plugins_dir.'annolink/annolink.js';
+			// $plugins['annoLink']  =  $plugins_dir.'annolink/editor_plugin.js';
 
 			$plugins['annoReferences_base'] = $plugins_dir.'annoreferences/annoreferences.js';
 			$plugins['annoReferences']  =  $plugins_dir.'annoreferences/editor_plugin.js';
@@ -306,28 +306,28 @@ class Anno_tinyMCE {
 			$plugins['annoImages']  =  $plugins_dir.'annoimages/editor_plugin.js';
 
 
-			$plugins['textorumInsertion']  =  $plugins_dir.'textorum-insertion/editor_plugin.js';
+			// $plugins['textorumInsertion']  =  $plugins_dir.'textorum-insertion/editor_plugin.js';
 
-			$plugins['annoTable'] = $plugins_dir.'annotable/editor_plugin.js';
-			$plugins['annoTable_base'] = $plugins_dir.'annotable/annotable.js';
+			// $plugins['annoTable'] = $plugins_dir.'annotable/editor_plugin.js';
+			// $plugins['annoTable_base'] = $plugins_dir.'annotable/annotable.js';
 
-			$plugins['annoQuote'] = $plugins_dir.'annoquote/editor_plugin.js';
-			$plugins['annoQuote_base'] = $plugins_dir.'annoquote/annoquote.js';
+			// $plugins['annoQuote'] = $plugins_dir.'annoquote/editor_plugin.js';
+			// $plugins['annoQuote_base'] = $plugins_dir.'annoquote/annoquote.js';
 
-			$plugins['annoLists'] = $plugins_dir.'annolists/editor_plugin.js';
+			// $plugins['annoLists'] = $plugins_dir.'annolists/editor_plugin.js';
 
-			$plugins['annoParagraphs'] = $plugins_dir.'annoparagraphs/editor_plugin.js';
+			// $plugins['annoParagraphs'] = $plugins_dir.'annoparagraphs/editor_plugin.js';
 
-			$plugins['annoTips'] = $plugins_dir.'annotips/editor_plugin.js';
+			// $plugins['annoTips'] = $plugins_dir.'annotips/editor_plugin.js';
 
-			$plugins['annoFormats'] = $plugins_dir.'annoformats/editor_plugin.js';
+			// $plugins['annoFormats'] = $plugins_dir.'annoformats/editor_plugin.js';
 
-			$plugins['annoEquations'] = $plugins_dir.'annoequations/editor_plugin.js';
-			$plugins['fullscreen'] = $plugins_dir.'fullscreen/editor_plugin.js';
+			// $plugins['annoEquations'] = $plugins_dir.'annoequations/editor_plugin.js';
+			// $plugins['fullscreen'] = $plugins_dir.'fullscreen/editor_plugin.js';
 
-			$plugins['annoPaste'] = $plugins_dir.'annopaste/editor_plugin.js';
+			// $plugins['annoPaste'] = $plugins_dir.'annopaste/editor_plugin.js';
 
-			$plugins['annoequationedit'] = $plugins_dir.'annoequationedit/editor_plugin.js';
+			// $plugins['annoequationedit'] = $plugins_dir.'annoequationedit/editor_plugin.js';
 		}
 		return $plugins;
 	}

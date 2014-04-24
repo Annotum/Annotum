@@ -287,7 +287,6 @@ border:0; margin:0; padding:0; white-space:nowrap; text-decoration:none; font-we
 }
 .wp_themeSkin span.mce_annoimages {background-position:-380px 0;}
 
-
 /* ColorSplitButton */
 .wp_themeSkin div.mceColorSplitMenu table {}
 .wp_themeSkin .mceColorSplitMenu td {padding:2px}
@@ -619,4 +618,23 @@ border:0; margin:0; padding:0; white-space:nowrap; text-decoration:none; font-we
 .wp_themeSkin .mceMenu {
 	border-style: solid;
 	border-width: 1px;
+}
+
+
+/*** 3.9 Compat ***/
+i.mce-i-annoimages {
+	background:url(../img/icons.gif) no-repeat 20px 20px;
+}
+
+i.mce-i-annoreferences {
+	background:url(../img/annoicons.png) no-repeat 20px 20px;
+}
+
+i.mce-i-annoimages {
+
+	background-position:-380px 0;
+}
+
+i.mce-i-annoreferences {
+	background-position:-560px -20px
 }
