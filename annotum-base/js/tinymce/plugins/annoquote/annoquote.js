@@ -68,7 +68,8 @@ var annoQuote;
 			event.preventDefault();
 		},
 		close : function() {
-			top.tinymce.activeEditor.windowManager.close();
+			var ed = top.tinymce.activeEditor;
+			ed.windowManager.close();
 			ed.focus();
 		}
 	}

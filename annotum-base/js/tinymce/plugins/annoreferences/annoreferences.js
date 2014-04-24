@@ -63,8 +63,8 @@ var annoReferences;
 			return true;
 		},
 
-		close : function() {
-			top.tinymce.activeEditor.windowManager.close();
+		close : function() {var ed = top.tinymce.activeEditor;
+			ed.windowManager.close();
 			ed.focus();
 		},
 
@@ -88,10 +88,9 @@ var annoReferences;
 				id = parseInt(id) + 1;
 				xml += '<span class="xref" data-xmlel="xref" ref-type="bibr" rid="ref' + id + '">' + id + '</span>&nbsp;';
 			});
+
 			ed.selection.collapse(false);
-
 			ed.insertContent(xml);
-
 			annoReferences.close();
 		},
 
