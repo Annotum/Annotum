@@ -28,6 +28,7 @@
 			});
 
 			ed.addButton('annosection', {
+				title: 'New Section',
 				type: 'menubutton',
 				icon: 'annosection',
 				menu: [
