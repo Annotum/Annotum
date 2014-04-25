@@ -630,7 +630,9 @@ i.mce-i-annomonospace,
 i.mce-i-annoreferences,
 i.mce-i-annopreformat,
 i.mce-i-annosection,
-i.mce-i-annoquote {
+i.mce-i-annoquote,
+i.mce-i-announlink,
+i.mce-i-annolink {
 	background:url(../img/annoicons.png) no-repeat 20px 20px;
 }
 
@@ -657,4 +659,12 @@ i.mce-i-annosection {
 
 i.mce-i-annoquote {
 	background-position:-80px 0;
+}
+
+i.mce-i-announlink {
+	background-position:-180px -20px;
+}
+
+i.mce-i-annolink {
+	background-position:-161px -20px;
 }

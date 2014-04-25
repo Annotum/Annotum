@@ -63,7 +63,8 @@ var annoReferences;
 			return true;
 		},
 
-		close : function() {var ed = top.tinymce.activeEditor;
+		close : function() {
+			var ed = top.tinymce.activeEditor;
 			ed.windowManager.close();
 			ed.focus();
 		},

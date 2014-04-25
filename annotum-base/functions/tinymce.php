@@ -297,8 +297,8 @@ class Anno_tinyMCE {
 
 			$plugins_dir = trailingslashit(get_template_directory_uri()).'js/tinymce/plugins/';
 
-			// $plugins['annoLink_base'] = $plugins_dir.'annolink/annolink.js';
-			// $plugins['annoLink']  =  $plugins_dir.'annolink/editor_plugin.js';
+			$plugins['annoLink_base'] = $plugins_dir.'annolink/annolink.js';
+			$plugins['annoLink']  =  $plugins_dir.'annolink/editor_plugin.js';
 
 			$plugins['annoReferences_base'] = $plugins_dir.'annoreferences/annoreferences.js';
 			$plugins['annoReferences']  =  $plugins_dir.'annoreferences/editor_plugin.js';

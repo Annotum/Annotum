@@ -1,7 +1,7 @@
 var annoLink;
 
 (function($){
-	var inputs = {}, ed;
+	var inputs = {}, ed, storedRng = null;
 
 	annoLink = {
 		parentSelector: 'span[data-xmlel="ext-link"]',
@@ -40,7 +40,8 @@ var annoLink;
 		},
 
 		isMCE : function() {
-			return tinyMCEPopup && ( ed = tinyMCEPopup.editor ) && ! ed.isHidden();
+			return true; // Unlikely this will be used in a different context
+			//return tinyMCEPopup && ( ed = tinyMCEPopup.editor ) && ! ed.isHidden();
 		},
 
 		refresh : function() {
@@ -53,10 +54,11 @@ var annoLink;
 		},
 
 		mceRefresh : function() {
-			var e;
-			ed = tinyMCEPopup.editor;
+			var ed = top.tinymce.activeEditor;
 
-			tinyMCEPopup.restoreSelection();
+			if (annoLink.range != null) {
+				ed.selection.setRng(annoLink.range);
+			}
 
 			// If link exists, select proper values.
 			if ( e = ed.dom.getParent(ed.selection.getNode(), this.parentSelector) ) {
@@ -71,11 +73,13 @@ var annoLink;
 				annoLink.setDefaultValues();
 			}
 
-			tinyMCEPopup.storeSelection();
+			annoLink.range = ed.selection.getRng();
 		},
 
 		close : function() {
-			tinyMCEPopup.close();
+			var ed = top.tinymce.activeEditor;
+			ed.windowManager.close();
+			ed.focus();
 		},
 
 		onClose: function() {
@@ -97,11 +101,12 @@ var annoLink;
 		},
 
 		update : function() {
-			var ed = tinyMCEPopup.editor,
-				attrs = annoLink.getAttrs(),
-				e, b;
+			var ed = top.tinymce.activeEditor,
+				attrs = annoLink.getAttrs(), e, b;
 
-			tinyMCEPopup.restoreSelection();
+			if (annoLink.range != null) {
+				ed.selection.setRng(annoLink.range);
+			}
 			e = ed.dom.getParent(ed.selection.getNode(), this.parentSelector);
 
 			// If the values are empty, unlink and return
@@ -111,16 +116,16 @@ var annoLink;
 					b = ed.selection.getBookmark();
 					ed.dom.remove(e, 1);
 					ed.selection.moveToBookmark(b);
-					tinyMCEPopup.execCommand("mceEndUndoLevel");
+					ed.execCommand("mceEndUndoLevel");
 					annoLink.close();
 				}
 				return;
 			}
 
-			tinyMCEPopup.execCommand("mceBeginUndoLevel");
+			ed.execCommand("mceBeginUndoLevel");
 			// Leverage the logic of CreateLink
 			if (e == null) {
-				tinyMCEPopup.execCommand("CreateLink", false, "#mce_temp_url#", {skip_undo : 1});
+				ed.execCommand("CreateLink", false, "#mce_temp_url#", {skip_undo : 1});
 
 				tinymce.each(ed.dom.select("a"), function(n) {
 					if (ed.dom.getAttrib(n, 'href') == '#mce_temp_url#') {
@@ -155,10 +160,11 @@ var annoLink;
 				ed.focus();
 				ed.selection.select(e);
 				ed.selection.collapse(0);
-				tinyMCEPopup.storeSelection();
+
+				annoLink.range = ed.selection.getRng();
 			}
 
-			tinyMCEPopup.execCommand("mceEndUndoLevel");
+			ed.execCommand("mceEndUndoLevel");
 			annoLink.close();
 		},
 
