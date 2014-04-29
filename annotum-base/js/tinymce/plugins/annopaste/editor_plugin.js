@@ -38,7 +38,6 @@
 	tinymce.create('tinymce.plugins.AnnoPaste', {
 		init : function(ed, url) {
 			var t = this;
-
 			t.editor = ed;
 			t.url = url;
 
@@ -47,12 +46,14 @@
 			t.onPostProcess = new tinymce.util.Dispatcher(t);
 
 			// Register default handlers
-			t.onPreProcess.add(t._preProcess);
-			t.onPostProcess.add(t._postProcess);
+			t.editor.on('PastePreProcess', t._preProcess);
+			t.editor.on('PastePostProcess', t._postProcess);
 
 			// Register optional preprocess handler
 			t.onPreProcess.add(function(pl, o) {
 				ed.execCallback('paste_preprocess', pl, o);
+				t._preProcess;
+
 			});
 
 			// Register optional postprocess
@@ -329,14 +330,13 @@
 			};
 		},
 
-		_preProcess : function(pl, o) {
+		_preProcess : function(e) {
 			var ed = this.editor,
-				h = o.content,
+				h = e.content,
 				grep = tinymce.grep,
 				explode = tinymce.explode,
 				trim = tinymce.trim,
-				len, stripClass,
-				dom = ed.dom;
+				len, stripClass;
 
 			function process(items) {
 				each(items, function(v) {
@@ -346,10 +346,6 @@
 					else
 						h = h.replace(v[0], v[1]);
 				});
-			}
-
-			if (ed.settings.paste_enable_default_filters == false) {
-				return;
 			}
 
 			// IE9 adds BRs before/after block elements when contents is pasted from word or for example another browser
@@ -366,8 +362,8 @@
 			}
 
 			// Detect Word content and process it more aggressive
-			if (/class="?Mso|style="[^"]*\bmso-|w:WordDocument/i.test(h) || o.wordContent) {
-				o.wordContent = true;			// Mark the pasted contents as word specific content
+			if (/class="?Mso|style="[^"]*\bmso-|w:WordDocument/i.test(h) || e.wordContent) {
+				e.wordContent = true;			// Mark the pasted contents as word specific content
 
 				// Process away some basic content
 				process([
@@ -375,17 +371,13 @@
 					/(&nbsp;|<br[^>]*>)+\s*$/gi		// &nbsp; entities at the end of contents
 				]);
 
-//				if (getParam(ed, "paste_convert_headers_to_strong")) {
-					h = h.replace(/<p [^>]*class="?MsoHeading"?[^>]*>(.*?)<\/p>/gi, ed.dom.create(ed.plugins.textorum.translateElement('title'), {'class': 'title', 'data-xmlel': 'title'}, '$1').toString());
-//				}
+				h = h.replace(/<p [^>]*class="?MsoHeading"?[^>]*>(.*?)<\/p>/gi, tinymce.activeEditor.dom.create(ed.plugins.textorum.translateElement('title'), {'class': 'title', 'data-xmlel': 'title'}, '$1').toString());
 
-				if (getParam(ed, 'paste_convert_middot_lists')) {
-					process([
-						[/<!--\[if !supportLists\]-->/gi, '$&__MCE_ITEM__'],					// Convert supportLists to a list item marker
-						[/(<span[^>]+(?:mso-list:|:\s*symbol)[^>]+>)/gi, '$1__MCE_ITEM__'],		// Convert mso-list and symbol spans to item markers
-						[/(<p[^>]+(?:MsoListParagraph)[^>]+>)/gi, '$1__MCE_ITEM__']				// Convert mso-list and symbol paragraphs to item markers (FF)
-					]);
-				}
+				process([
+					[/<!--\[if !supportLists\]-->/gi, '$&__MCE_ITEM__'],					// Convert supportLists to a list item marker
+					[/(<span[^>]+(?:mso-list:|:\s*symbol)[^>]+>)/gi, '$1__MCE_ITEM__'],		// Convert mso-list and symbol spans to item markers
+					[/(<p[^>]+(?:MsoListParagraph)[^>]+>)/gi, '$1__MCE_ITEM__']				// Convert mso-list and symbol paragraphs to item markers (FF)
+				]);
 
 				process([
 					// Word comments like conditional comments etc
@@ -408,126 +400,49 @@
 					h = h.replace(/(<[a-z][^>]*\s)(?:id|name|language|type|on\w+|\w+:\w+)=(?:"[^"]*"|\w+)\s?/gi, '$1');
 				} while (len != h.length);
 
-				// Remove all spans if no styles is to be retained
-				if (getParam(ed, 'paste_retain_style_properties').replace(/^none$/i, '').length == 0) {
-					h = h.replace(/<\/?span[^>]*>/gi, '');
-				} else {
-					// We're keeping styles, so at least clean them up.
-					// CSS Reference: http://msdn.microsoft.com/en-us/library/aa155477.aspx
-
-					process([
-						// Convert <span style="mso-spacerun:yes">___</span> to string of alternating breaking/non-breaking spaces of same length
-						[/<span\s+style\s*=\s*"\s*mso-spacerun\s*:\s*yes\s*;?\s*"\s*>([\s\u00a0]*)<\/span>/gi,
-							function(str, spaces) {
-								return (spaces.length > 0)? spaces.replace(/./, ' ').slice(Math.floor(spaces.length/2)).split('').join('\u00a0') : '';
-							}
-						],
-
-						// Examine all styles: delete junk, transform some, and keep the rest
-						[/(<[a-z][^>]*)\sstyle="([^"]*)"/gi,
-							function(str, tag, style) {
-								var n = [],
-									i = 0,
-									s = explode(trim(style).replace(/&quot;/gi, "'"), ";");
-
-								// Examine each style definition within the tag's style attribute
-								each(s, function(v) {
-									var name, value,
-										parts = explode(v, ":");
-
-									function ensureUnits(v) {
-										return v + ((v !== "0") && (/\d$/.test(v)))? "px" : "";
-									}
-
-									if (parts.length == 2) {
-										name = parts[0].toLowerCase();
-										value = parts[1].toLowerCase();
-
-										// Translate certain MS Office styles into their CSS equivalents
-										switch (name) {
-											case "mso-padding-alt":
-											case "mso-padding-top-alt":
-											case "mso-padding-right-alt":
-											case "mso-padding-bottom-alt":
-											case "mso-padding-left-alt":
-											case "mso-margin-alt":
-											case "mso-margin-top-alt":
-											case "mso-margin-right-alt":
-											case "mso-margin-bottom-alt":
-											case "mso-margin-left-alt":
-											case "mso-table-layout-alt":
-											case "mso-height":
-											case "mso-width":
-											case "mso-vertical-align-alt":
-												n[i++] = name.replace(/^mso-|-alt$/g, "") + ":" + ensureUnits(value);
-												return;
-
-											case "horiz-align":
-												n[i++] = "text-align:" + value;
-												return;
-
-											case "vert-align":
-												n[i++] = "vertical-align:" + value;
-												return;
-
-											case "font-color":
-											case "mso-foreground":
-												n[i++] = "color:" + value;
-												return;
-
-											case "mso-background":
-											case "mso-highlight":
-												n[i++] = "background:" + value;
-												return;
-
-											case "mso-default-height":
-												n[i++] = "min-height:" + ensureUnits(value);
-												return;
-
-											case "mso-default-width":
-												n[i++] = "min-width:" + ensureUnits(value);
-												return;
-
-											case "mso-padding-between-alt":
-												n[i++] = "border-collapse:separate;border-spacing:" + ensureUnits(value);
-												return;
-
-											case "text-line-through":
-												if ((value == "single") || (value == "double")) {
-													n[i++] = "text-decoration:line-through";
-												}
-												return;
-
-											case "mso-zero-height":
-												if (value == "yes") {
-													n[i++] = "display:none";
-												}
-												return;
-										}
-
-										// Eliminate all MS Office style definitions that have no CSS equivalent by examining the first characters in the name
-										if (/^(mso|column|font-emph|lang|layout|line-break|list-image|nav|panose|punct|row|ruby|sep|size|src|tab-|table-border|text-(?!align|decor|indent|trans)|top-bar|version|vnd|word-break)/.test(name)) {
-											return;
-										}
-
-										// If it reached this point, it must be a valid CSS style
-										n[i++] = name + ":" + parts[1];		// Lower-case name, but keep value case
-									}
-								});
-
-								// If style attribute contained any valid styles the re-write it; otherwise delete style attribute.
-								if (i > 0) {
-									return tag + ' style="' + n.join(';') + '"';
-								} else {
-									return tag;
-								}
-							}
-						]
-					]);
-				}
+				// Remove all styles
+				h = h.replace(/<\/?span[^>]*>/gi, '');
 			}
 
+			// Class attribute options are: leave all as-is ("none"), remove all ("all"), or remove only those starting with mso ("mso").
+			// Note:-  paste_strip_class_attributes: "none", verify_css_classes: true is also a good variation.
+			stripClass = 'all' //getParam(ed, "paste_strip_class_attributes");
+
+			if (stripClass !== "none") {
+				function removeClasses(match, g1) {
+						if (stripClass === "all")
+							return '';
+
+						var cls = grep(explode(g1.replace(/^(["'])(.*)\1$/, "$2"), " "),
+							function(v) {
+								return (/^(?!mso)/i.test(v));
+							}
+						);
+
+						return cls.length ? ' class="' + cls.join(" ") + '"' : '';
+				};
+
+				h = h.replace(/ class="([^"]+)"/gi, removeClasses);
+				h = h.replace(/ class=([\-\w]+)/gi, removeClasses);
+			}
+			h = h.replace(/<\s*(\w+).*?>/gi, '<$1>');
+
 			// Replace formatting with formatting tags defined by the DTD.
+			process([
+ 				[/<ul>|<ul .*?>/gi, '<div class="list" data-xmlel="list" list-type="bullet">'],
+ 				[/<\/ul>|<\/ul .*?>/gi, "</div>"]
+ 			]);
+
+ 			process([
+ 				[/<ol>|<ol .*?>/gi, '<div class="list" data-xmlel="list" list-type="order">'],
+ 				[/<\/ol>|<\/ol .*?>/gi, '</div>']
+ 			]);
+
+ 			process([
+ 				[/<li>|<li .*?>/gi, '<span class="list-item" data-xmlel="list-item">'],
+ 				[/<\/li>|<\/li .*?>/gi, '</span>']
+ 			]);
+
 			process([
 				[/<(b|strong)>/gi, '<span class="bold" data-xmlel="bold">'],
 				[/<(\/strong|\/b)>/gi, '</span>']
@@ -548,155 +463,80 @@
 				[/<\/u>/gi, "</span>"]
 			]);
 
+// @todo links
 			process([
 				// Copy paste from Java like Open Office will produce this junk on FF
 				[/Version:[\d.]+\nStartHTML:\d+\nEndHTML:\d+\nStartFragment:\d+\nEndFragment:\d+/gi, '']
 			]);
 
-			// Class attribute options are: leave all as-is ("none"), remove all ("all"), or remove only those starting with mso ("mso").
-			// Note:-  paste_strip_class_attributes: "none", verify_css_classes: true is also a good variation.
-			stripClass = getParam(ed, "paste_strip_class_attributes");
-
-			if (stripClass !== "none") {
-				function removeClasses(match, g1) {
-						if (stripClass === "all")
-							return '';
-
-						var cls = grep(explode(g1.replace(/^(["'])(.*)\1$/, "$2"), " "),
-							function(v) {
-								return (/^(?!mso)/i.test(v));
-							}
-						);
-
-						return cls.length ? ' class="' + cls.join(" ") + '"' : '';
-				};
-
-				h = h.replace(/ class="([^"]+)"/gi, removeClasses);
-				h = h.replace(/ class=([\-\w]+)/gi, removeClasses);
-			}
-
-			h = h.replace(/<\s*(\w+).*?>/gi, '<$1>');
-
-			// Remove spans option
-			if (getParam(ed, "paste_remove_spans")) {
-				h = h.replace(/<\/?span[^>]*>/gi, "");
-			}
-
-			o.content = h;
+			e.content = h;
 		},
 
 		/**
 		 * Various post process items.
 		 */
-		_postProcess : function(pl, o) {
-			var t = this, ed = t.editor, dom = ed.dom, styleProps;
-			if (ed.settings.paste_enable_default_filters == false) {
-				return;
-			}
+		_postProcess : function(e) {
+			var ed = tinymce.activeEditor, dom = ed.dom;
 
-			function removeAttributes(el) {
-				if (!!el) {
-					var curIndex = 0;
-					var whitelist = ['colspan', 'list-type'];
-					var initialLength = el.attributes.length;
-					var whiteListCheck = false;
-
-					for (var i = 0; i < initialLength; i++) {
-						var attr = el.attributes.item(curIndex);
-						for(var j = 0; j < whitelist.length; j++) {
-							if(attr.nodeName === whitelist[j]) {
-								whiteListCheck = true;
-								// We know that there is an item at curIndex we want to keep, proceed to the next
-								curIndex++;
-								break;
-							}
-						}
-						if(!whiteListCheck) {
-							el.removeAttribute(attr.nodeName);
-						}
-					}
+			//remove all other unrecognized nodes, leaving children
+			each(dom.select('*', e.node), function(el) {
+				console.log(el.nodeName);
+				if (
+						((el.nodeName != 'SPAN' || el.nodeName != 'DIV') && !el.className) &&
+						(el.nodeName != 'TABLE' && el.nodeName != 'TD' && el.nodeName != 'TR' && el.nodeName != 'TH' && el.nodeName != 'THEAD')
+					)
+					{
+					 	console.log('removing ' + el.nodeName);
+					dom.remove(el, true);
 				}
-			}
+			});
 
-			if (o.wordContent) {
+			console.log(tinymce.activeEditor.plugins);
+			tinymce.activeEditor.plugins.annoPaste._wrapTables(e);
+			return;
+
+			if (e.wordContent) {
 				if (getParam(ed, "paste_convert_middot_lists")) {
 					t._convertLists(pl, o);
 				}
 			}
+		},
+		_wrapTables : function(e) {
+			var ed = tinymce.activeEditor, dom = ed.dom, listElm, li, lastMargin = -1, margin, levels = [], lastType, html;
+			var helper = ed.plugins.textorum.helper;
+			function hasTableWrap(el) {
+				var parEl = el.parentNode, parElLocalName = helper.getLocalName(parEl);
 
-			// Replace blockquote tags with para tags.
-			each(dom.select('blockquote', o.node), function(el) {
-				dom.rename(el, 'p');
-			});
+				if (typeof parElLocalName == 'string') {
+					parElLocalName = parElLocalName.toLowerCase();
+				}
 
-
-			each(dom.select('a', o.node), function(a) {
-				if (!a.href || a.href.indexOf('#_Toc') != -1)
-					dom.remove(a, 1);
-			});
-
-			// Process styles
-			styleProps = getParam(ed, "paste_retain_style_properties"); // retained properties
-
-			// Process only if a string was specified and not equal to "all" or "*"
-			if ((tinymce.is(styleProps, "string")) && (styleProps !== "all") && (styleProps !== "*")) {
-				styleProps = tinymce.explode(styleProps.replace(/^none$/i, ""));
-
-				// Retains some style properties
-				each(dom.select('*', o.node), function(el) {
-					var newStyle = {}, npc = 0, i, sp, sv;
-
-					// Store a subset of the existing styles
-					if (styleProps) {
-						for (i = 0; i < styleProps.length; i++) {
-							sp = styleProps[i];
-							sv = dom.getStyle(el, sp);
-
-							if (sv) {
-								newStyle[sp] = sv;
-								npc++;
-							}
+				while(!!parEl && parElLocalName != 'table-wrap') {
+					parEl = parEl.parentNode;
+					if (!!parEl) {
+						parElLocalName = helper.getLocalName(parEl);
+						if (typeof parElLocalName == 'string') {
+							parElLocalName = parElLocalName.toLowerCase();
 						}
 					}
-
-					// Remove all of the existing styles
-					dom.setAttrib(el, 'style', '');
-
-					if (styleProps && npc > 0)
-						dom.setStyles(el, newStyle); // Add back the stored subset of styles
-					else // Remove empty span tags that do not have class attributes
-						if (el.nodeName == 'SPAN' && !el.className)
-							dom.remove(el, true);
-				});
-			}
-
-			t._wrapTables(pl, o);
-
-			// Remove unwanted attributes. Colspan, list-type are the only one we care about.
-			// @todo Allow paste from other articles
-			each(dom.select('*', o.node), removeAttributes);
-
-		},
-
-		// Tables are expected to be wrapped with specific elements according to the DTD.
-		_wrapTables : function(pl, o) {
-			var dom = pl.editor.dom, listElm, li, lastMargin = -1, margin, levels = [], lastType, html;
-			function hasTableWrap(el) {
-				var parEl = el.parentNode;
-				var count = 1;
-				while(!!parEl && parEl.nodeName != 'TABLE-WRAP') {
-					parEl = parEl.parentNode;
-					count++;
+					else {
+						parElLocalName = '';
+					}
 				}
 				return !!parEl;
 			}
 
-			each(dom.select('table', o.node), function(table) {
+			each(dom.select('table', e.node), function(table) {
 				if (!hasTableWrap(table)) {
-					//Wrap it!
-					tableWrap = dom.create('table-wrap');
-					dom.add(tableWrap, 'label');
-					dom.add(tableWrap, 'cap', null, '<div class="p" data-xmlel="p">&nbsp;</div>');
+
+					tableWrap = ed.dom.create(
+						ed.plugins.textorum.translateElement('table-wrap'),
+						{'class': 'table-wrap', 'data-xmlel': 'table-wrap'},
+						'&#xA0;'
+					);
+
+					dom.add(tableWrap, ed.plugins.textorum.translateElement('label'), {'class': 'label', 'data-xmlel': 'label'}, '&#xA0;');
+					dom.add(tableWrap, ed.plugins.textorum.translateElement('caption'), {'class': 'caption', 'data-xmlel': 'caption'}, '<div class="p" data-xmlel="p">&nbsp;</div>');
 					dom.add(tableWrap, 'table', null,  table.innerHTML);
 					dom.replace(tableWrap, table);
 				}

@@ -323,9 +323,7 @@ class Anno_tinyMCE {
 
 			// $plugins['fullscreen'] = $plugins_dir.'fullscreen/editor_plugin.js';
 
-			//$plugins['annoPaste'] = $plugins_dir.'annopaste/editor_plugin.js';
-
-
+			$plugins['annoPaste'] = $plugins_dir.'annopaste/editor_plugin.js';
 		}
 		return $plugins;
 	}
