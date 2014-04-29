@@ -647,7 +647,10 @@ i.mce-i-annoquote,
 i.mce-i-announlink,
 i.mce-i-annolink,
 i.mce-i-annoorderedlist,
-i.mce-i-annobulletlist {
+i.mce-i-annobulletlist,
+i.mce-i-annopastetext,
+i.mce-i-annopasteword,
+i.mce-i-annoequations {
 	background:url(../img/annoicons.png) no-repeat 20px 20px;
 }
 
@@ -731,4 +734,13 @@ i.mce-i-row_props {
 }
 i.mce-i-split_cells {
 	background-position:-800px -20px;
+}
+i.mce-i-annopastetext {
+	background-position:-340px -20px;
+}
+i.mce-i-annopasteword {
+	background-position:-360px -20px
+}
+i.mce-i-annoequations {
+	background-position:-640px -20px;
 }

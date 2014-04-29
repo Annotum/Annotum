@@ -1,6 +1,6 @@
-(function(){ 
+(function(){
     tinymce.create('tinymce.plugins.annoEquations', {
- 
+
         init : function(ed, url) {
             ed.addCommand('Anno_Equations', function() {
 				ed.windowManager.open({
@@ -36,16 +36,16 @@
     tinymce.PluginManager.add('annoEquations', tinymce.plugins.annoEquations);
 })();
 
-(function($){	
+(function($){
 	$(document).ready(function() {
 		// Reset the form every time the dialog is closed
 		$('#anno-popup-equations').bind('wpdialogclose', function() {
 			$('form#anno-tinymce-equations-form')[0].reset();
-			
+
 			// Reset the preview pane.
-			$('.ee-preview-container').html('');			
+			$('.ee-preview-container').html('');
 		});
-		
+
 		$('#anno-equations-insert').live('click', function() {
 			var caption, label, url, xml;
 			var form = 'form#anno-tinymce-equations-form';
@@ -81,11 +81,10 @@
 							+'</div>';
 				}
 				xml = win.tinymce.activeEditor.plugins.textorum.applyFilters('after_loadFromText', xml);
-				win.tinyMCEPopup.restoreSelection();
 				win.send_to_editor(xml);
 			}
 
-			win.tinyMCEPopup.close();		
+			win.tinymce.activeEditor.windowManager.close();
 			return false;
 		});
 	});
