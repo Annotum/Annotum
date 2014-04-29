@@ -20,14 +20,14 @@
 				}
 
 				var el = ed.selection.getNode(), vp, H, W, cls = ed.dom.getAttrib(el, 'class'), src = el.getAttribute('src');
-				
+
 				if ( cls.indexOf('mceItem') != -1 || el.nodeName != 'IMG')
 					return;
 
 				if (src == null || !src.match(/^http(s)?:\/\/chart\.googleapis\.com/)) {
 					return;
 				}
-				
+
 				// Different sizes based on whether or not editing a figure
 				figure = ed.dom.getParent(el, 'fig');
 				if (figure === null) {
@@ -36,7 +36,7 @@
 				else {
 					height = 560;
 				}
- 
+
 				ed.windowManager.open({
 					file: url + '/editequation.html',
 					width: 480,
@@ -44,11 +44,11 @@
 					inline: true,
 					title: ed.getLang('annoequationedit.title')
 				});
-				
+
 			});
 
 			ed.onInit.add(function(ed) {
-				ed.dom.events.add(ed.getBody(), 'dragstart', function(e) {
+				ed.dom.bind(ed.getBody(), 'dragstart', function(e) {
 					var parent, src = e.target.getAttribute('src');
 
 					if ( e.target.nodeName == 'IMG' && ( parent = ed.dom.getParent(e.target, 'div.mceTemp') && src != null && src.match(/^http(s)?:\/\/chart\.googleapis\.com/)) ) {
@@ -59,10 +59,10 @@
 
 			// Handle all cases where we want the buttons to go away e`
 			ed.onInit.add(function(ed) {
-				tinymce.dom.Event.add(ed.getWin(), 'scroll', function(e) {
+				ed.dom.bind(ed.getWin(), 'scroll', function(e) {
 					t._hideButtons();
 				});
-				tinymce.dom.Event.add(ed.getBody(), 'dragstart', function(e) {
+				ed.dom.bind(ed.getBody(), 'dragstart', function(e) {
 					t._hideButtons();
 				});
 			});
@@ -140,7 +140,7 @@
 
 			if ( this.mceTout )
 				clearTimeout(this.mceTout);
-			
+
 			this.mceTout = setTimeout( function(){t._hideButtons();}, 5000 );
 		},
 
@@ -162,7 +162,7 @@
 				title : ed.getLang('wpeditimage.edit_img')
 			});
 
-			tinymce.dom.Event.add(editButton, 'mousedown', function(e) {
+			DOM.bind(editButton, 'mousedown', function(e) {
 				var ed = tinyMCE.activeEditor, el = ed.selection.getNode();
 				ed.windowManager.bookmark = ed.selection.getBookmark('simple');
 				if (tinyMCE.isIE){

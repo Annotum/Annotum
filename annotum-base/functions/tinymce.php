@@ -319,7 +319,7 @@ class Anno_tinyMCE {
 			$plugins['annoFormats'] = $plugins_dir.'annoformats/editor_plugin.js';
 
 			$plugins['annoEquations'] = $plugins_dir.'annoequations/editor_plugin.js';
-			//$plugins['annoequationedit'] = $plugins_dir.'annoequationedit/editor_plugin.js';
+			$plugins['annoequationedit'] = $plugins_dir.'annoequationedit/editor_plugin.js';
 
 			// $plugins['fullscreen'] = $plugins_dir.'fullscreen/editor_plugin.js';
 
