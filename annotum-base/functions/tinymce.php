@@ -308,13 +308,13 @@ class Anno_tinyMCE {
 
 			$plugins['textorumInsertion']  =  $plugins_dir.'textorum-insertion/editor_plugin.js';
 
-			// $plugins['annoTable'] = $plugins_dir.'annotable/editor_plugin.js';
-			// $plugins['annoTable_base'] = $plugins_dir.'annotable/annotable.js';
+			$plugins['annoTable'] = $plugins_dir.'annotable/editor_plugin.js';
+			$plugins['annoTable_base'] = $plugins_dir.'annotable/annotable.js';
 
 			$plugins['annoQuote'] = $plugins_dir.'annoquote/editor_plugin.js';
 			$plugins['annoQuote_base'] = $plugins_dir.'annoquote/annoquote.js';
 
-			// $plugins['annoLists'] = $plugins_dir.'annolists/editor_plugin.js';
+			//$plugins['annoLists'] = $plugins_dir.'annolists/editor_plugin.js';
 
 			$plugins['annoFormats'] = $plugins_dir.'annoformats/editor_plugin.js';
 

@@ -132,18 +132,18 @@ div[data-xmlel="disp-quote"] attrib {
 
 /** tables
  -------------------------------------------------- */
-table.mceitemtable {
+table.mce-item-table {
 	border: none;
 	border-spacing: 0px;
 	border-collapse: collapse;
 }
-table.mceitemtable td:empty,
-table.mceitemtable th:empty  {
+table.mce-item-table td:empty,
+table.mce-item-table th:empty  {
 	width:20px;
 	height:20px;
 }
-table.mceitemtable td,
-table.mceitemtable th  {
+table.mce-item-table td,
+table.mce-item-table th  {
 	border: 1px solid #999;
 	border-spacing: 0px;
 	padding: 3px 5px;
@@ -151,7 +151,7 @@ table.mceitemtable th  {
 	min-height: 20px;
 	min-width: 20px;
 }
-table.mceitemtable th {
+table.mce-item-table th {
 	font-size: 12px;
 }
 div[data-xmlel="table-wrap"] {

@@ -43,11 +43,14 @@ var annoTable;
 		},
 
 		isMCE : function() {
-			return tinyMCEPopup && ( ed = tinyMCEPopup.editor ) && ! ed.isHidden();
+			return true; // Unlikely a non mce context
 		},
 
 		close : function() {
-			tinyMCEPopup.close();
+			var ed = tinymce.activeEditor;
+			ed.windowManager.close();
+			inputs.dialog.find('input:not(.button),textarea').val('');
+			ed.focus();
 		},
 
 		onClose: function() {
@@ -61,12 +64,10 @@ var annoTable;
 		},
 
 		update : function() {
-			var ed = tinyMCEPopup.editor,
+			var ed = tinymce.activeEditor,
 				e, b, html = '';
 
 			var formObj = $('#anno-tinymce-table-form');
-
-			tinyMCEPopup.restoreSelection();
 
 			cols = $('input[name$="cols"]', formObj).val();
 			rows = $('input[name$="rows"]', formObj).val();
@@ -80,7 +81,7 @@ var annoTable;
 				if (!tinymce.isIE)
 					html += '<th class="th" data-xmlel="th"><br data-mce-bogus="1"/></th>';
 				else
-					html += '<th class="th" data-xmlel="th"></th>';
+					html += '<th class="th" data-xmlel="th"><br data-mce-bogus="1"/></th>';
 			}
 			html += '</tr>';
 			html += '</thead><tbody class="tbody" data-xmlel="tbody">';
@@ -91,7 +92,7 @@ var annoTable;
 					if (!tinymce.isIE)
 						html += '<td class="td" data-xmlel="td"><br data-mce-bogus="1"/></td>';
 					else
-						html += '<td class="td" data-xmlel="td"></td>';
+						html += '<td class="td" data-xmlel="td"><br data-mce-bogus="1"/></td>';
 				}
 				html += '</tr>';
 			}
@@ -136,8 +137,7 @@ var annoTable;
 
 			ed.addVisual();
 			ed.execCommand('mceEndUndoLevel');
-
-			tinyMCEPopup.close();
+			this.close();
 		},
 
 		keyup: function( event ) {
@@ -148,7 +148,6 @@ var annoTable;
 					event.stopImmediatePropagation();
 					if ( ! $(document).triggerHandler( 'wp_CloseOnEscape', [{ event: event, what: 'annotable', cb: annoTable.close }] ) )
 						annoTable.close();
-
 					return false;
 					break;
 				default:

@@ -933,8 +933,8 @@
 							rng = dom.createRng();
 							node = selectedCells[0];
 							endNode = selectedCells[selectedCells.length - 1];
-							rng.setStart(node);
-							rng.setEnd(node);
+							rng.setStart(node, 0);
+							rng.setEnd(node, 0);
 
 							setPoint(node, 1);
 							walker = new tinymce.dom.TreeWalker(node, dom.getParent(selectedCells[0], 'table'));
