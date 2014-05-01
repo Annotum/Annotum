@@ -8,7 +8,7 @@ var annoReferences;
 		textarea : function() { return edCanvas; },
 
 		init : function(e) {
-						inputs.dialog = $('#anno-popup-references');
+			inputs.dialog = $('#anno-popup-references');
 			inputs.submit = $('#anno-references-submit');
 			inputs.wrap = $('#wp-link-wrap');
 			inputs.dialog = $( '#wp-link' );
