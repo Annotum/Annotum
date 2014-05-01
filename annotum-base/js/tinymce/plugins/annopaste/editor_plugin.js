@@ -486,6 +486,7 @@
 			});
 
 			tinymce.activeEditor.plugins.annoPaste._wrapTables(e);
+			tinymce.activeEditor.plugins.annoPaste._convertLists(e);
 			return;
 
 			if (e.wordContent) {
@@ -539,12 +540,15 @@
 		/**
 		 * Converts the most common bullet and number formats in Office into a real semantic UL/LI list.
 		 */
-		_convertLists : function(pl, o) {
-			var dom = pl.editor.dom, listElm, li, lastMargin = -1, margin, levels = [], lastType, html;
+		_convertLists : function(e) {
+			var ed = tinymce.activeEditor;
+			var dom = ed.dom, listElm, li, lastMargin = -1, margin, levels = [], lastType, html, listItem;
 
 			// Convert middot lists into real semantic lists
-			each(dom.select('p', o.node), function(p) {
+			each(dom.select('div[data-xmlel="p"]', e.node), function(p) {
 				var sib, val = '', type, html, idx, parents, listAttr = {};
+				listAttr['class'] = 'list';
+				listAttr['data-xmlel'] = 'list';
 
 				// Get text node value at beginning of paragraph
 				for (sib = p.firstChild; sib && sib.nodeType == 3; sib = sib.nextSibling)
@@ -570,17 +574,17 @@
 
 					if (!listElm || type != lastType) {
 						listAttr['list-type'] = type;
-						listElm = dom.create('list', listAttr);
+						listElm = dom.create('div', listAttr);
 						dom.insertAfter(listElm, p);
 					} else {
 						// Nested list element
 						if (margin > lastMargin) {
 							listAttr['list-type'] = type;
-							listElm = li.appendChild(dom.create('list', listAttr));
+							listElm = li.appendChild(dom.create(ed.plugins.textorum.translateElement('list'), listAttr));
 						} else if (margin < lastMargin) {
 							// Find parent level based on margin value
 							idx = tinymce.inArray(levels, margin);
-							parents = dom.getParents(listElm.parentNode, 'list');
+							parents = dom.getParents(listElm.parentNode, 'div[data-xmlel="list"]');
 							listElm = parents[parents.length - 1 - idx] || listElm;
 						}
 					}
@@ -605,7 +609,13 @@
 						html = p.innerHTML.replace(/__MCE_ITEM__/g, '').replace(/^\s*\w+\.(&nbsp;|\u00a0)+\s*/, '');
 
 					// Create list-item and add paragraph data into the new list-item
-					li = listElm.appendChild(dom.create('list-item', 0, html));
+					listItem = dom.create(ed.plugins.textorum.translateElement('list-item'), {
+						'data-xmlel' : 'list-item',
+						'class' : 'list-item'
+					},
+					html);
+
+					li = listElm.appendChild(listItem);
 					dom.remove(p);
 
 					lastMargin = margin;
@@ -615,9 +625,10 @@
 			});
 
 			// Remove any left over makers
-			html = o.node.innerHTML;
-			if (html.indexOf('__MCE_ITEM__') != -1)
-				o.node.innerHTML = html.replace(/__MCE_ITEM__/g, '');
+			html = e.node.innerHTML;
+			if (html.indexOf('__MCE_ITEM__') != -1) {
+				e.node.innerHTML = html.replace(/__MCE_ITEM__/g, '');
+			}
 		},
 
 		/**
