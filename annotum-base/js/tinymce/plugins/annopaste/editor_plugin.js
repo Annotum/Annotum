@@ -52,8 +52,6 @@
 			// Register optional preprocess handler
 			t.onPreProcess.add(function(pl, o) {
 				ed.execCallback('paste_preprocess', pl, o);
-				t._preProcess;
-
 			});
 
 			// Register optional postprocess
@@ -63,8 +61,9 @@
 
 			ed.onKeyDown.addToTop(function(ed, e) {
 				// Block ctrl+v from adding an undo level since the default logic in tinymce.Editor will add that
-				if (((tinymce.isMac ? e.metaKey : e.ctrlKey) && e.keyCode == 86) || (e.shiftKey && e.keyCode == 45))
+				if (((tinymce.isMac ? e.metaKey : e.ctrlKey) && e.keyCode == 86) || (e.shiftKey && e.keyCode == 45)) {
 					return false; // Stop other listeners
+				}
 			});
 
 			// Initialize plain text flag
@@ -110,34 +109,28 @@
 				}
 			}
 
-			// Add command for external usage
-			ed.addCommand('AnnomceInsertClipboardContent', function(u, o) {
-				process(o, true);
-			});
+			function AnnomcePasteText() {
 
-			if (!getParam(ed, 'paste_text_use_dialog')) {
-				ed.addCommand('AnnomcePasteText', function(u, v) {
-					var cookie = tinymce.util.Cookie;
+				var cookie = tinymce.util.Cookie;
 
-					ed.pasteAsPlainText = !ed.pasteAsPlainText;
-					ed.controlManager.setActive('pastetext', ed.pasteAsPlainText);
+				ed.pasteAsPlainText = !ed.pasteAsPlainText;
+				this.active(ed.pasteAsPlainText);
 
-					if ((ed.pasteAsPlainText) && (!cookie.get('tinymcePasteText'))) {
-						if (getParam(ed, 'paste_text_sticky')) {
-							ed.windowManager.alert(ed.translate('paste.plaintext_mode_sticky'));
-						} else {
-							ed.windowManager.alert(ed.translate('paste.plaintext_mode_sticky'));
-						}
+				if ((ed.pasteAsPlainText) && (!cookie.get('tinymcePasteText'))) {
+					ed.windowManager.alert(	'Paste is now in plain text mode. Contents will now ' +
+					'be pasted as plain text until you toggle this option off.');
 
-						if (!getParam(ed, 'paste_text_notifyalways')) {
-							cookie.set('tinymcePasteText', '1', new Date(new Date().getFullYear() + 1, 12, 31))
-						}
+					if (!getParam(ed, 'paste_text_notifyalways')) {
+						cookie.set('tinymcePasteText', '1', new Date(new Date().getFullYear() + 1, 12, 31));
 					}
-				});
-			}
+				}
+			};
 
-			ed.addButton('annopastetext', {title: 'paste.paste_text_desc', cmd: 'AnnomcePasteText'});
-			ed.addButton('annoselectall', {title: 'paste.selectall_desc', cmd: 'Annoselectall'});
+			ed.addButton('annopastetext', {
+				title: 'paste.paste_text_desc',
+				active: ed.pasteAsPlainText == true,
+				onclick: AnnomcePasteText
+			});
 
 			// This function grabs the contents from the clipboard by adding a
 			// hidden div and placing the caret inside it and after the browser paste
@@ -286,21 +279,21 @@
 				}
 			}
 
-			// Check if we should use the new auto process method
-			if (getParam(ed, 'paste_auto_cleanup_on_paste')) {
-				// Is it's Opera or older FF use key handler
-				if (tinymce.isOpera || /Firefox\/2/.test(navigator.userAgent)) {
-					ed.onKeyDown.addToTop(function(ed, e) {
-						if (((tinymce.isMac ? e.metaKey : e.ctrlKey) && e.keyCode == 86) || (e.shiftKey && e.keyCode == 45))
-							grabContent(e);
-					});
-				} else {
-					// Grab contents on paste event on Gecko and WebKit
-					ed.onPaste.addToTop(function(ed, e) {
-						return grabContent(e);
-					});
-				}
-			}
+			// // Check if we should use the new auto process method
+			// if (getParam(ed, 'paste_auto_cleanup_on_paste')) {
+			// 	// Is it's Opera or older FF use key handler
+			// 	if (tinymce.isOpera || /Firefox\/2/.test(navigator.userAgent)) {
+			// 		ed.onKeyDown.addToTop(function(ed, e) {
+			// 			if (((tinymce.isMac ? e.metaKey : e.ctrlKey) && e.keyCode == 86) || (e.shiftKey && e.keyCode == 45))
+			// 				grabContent(e);
+			// 		});
+			// 	} else {
+			// 		// Grab contents on paste event on Gecko and WebKit
+			// 		ed.onPaste.addToTop(function(ed, e) {
+			// 			return grabContent(e);
+			// 		});
+			// 	}
+			// }
 
 			ed.onInit.add(function() {
 				ed.controlManager.setActive('pastetext', ed.pasteAsPlainText);
@@ -315,9 +308,6 @@
 					});
 				}
 			});
-
-			// Add legacy support
-			t._legacySupport();
 		},
 
 		getInfo : function() {
@@ -331,7 +321,7 @@
 		},
 
 		_preProcess : function(e) {
-			var ed = this.editor,
+			var ed = tinymce.activeEditor,
 				h = e.content,
 				grep = tinymce.grep,
 				explode = tinymce.explode,
@@ -478,20 +468,23 @@
 		_postProcess : function(e) {
 			var ed = tinymce.activeEditor, dom = ed.dom;
 
+			// Plain text yeah! As basic as possible.
+			if (ed.pasteAsPlainText) {
+				e.node.innerHTML = e.node.textContent;
+				return;
+			}
+
 			//remove all other unrecognized nodes, leaving children
 			each(dom.select('*', e.node), function(el) {
-				console.log(el.nodeName);
 				if (
 						((el.nodeName != 'SPAN' || el.nodeName != 'DIV') && !el.className) &&
 						(el.nodeName != 'TABLE' && el.nodeName != 'TD' && el.nodeName != 'TR' && el.nodeName != 'TH' && el.nodeName != 'THEAD')
 					)
 					{
-					 	console.log('removing ' + el.nodeName);
 					dom.remove(el, true);
 				}
 			});
 
-			console.log(tinymce.activeEditor.plugins);
 			tinymce.activeEditor.plugins.annoPaste._wrapTables(e);
 			return;
 
@@ -532,7 +525,7 @@
 					tableWrap = ed.dom.create(
 						ed.plugins.textorum.translateElement('table-wrap'),
 						{'class': 'table-wrap', 'data-xmlel': 'table-wrap'},
-						'&#xA0;'
+						''
 					);
 
 					dom.add(tableWrap, ed.plugins.textorum.translateElement('label'), {'class': 'label', 'data-xmlel': 'label'}, '&#xA0;');
@@ -632,7 +625,7 @@
 		 */
 		_insert : function(h, skip_undo) {
 			var ed = this.editor, r = ed.selection.getRng(), target, dummy;
-			// First delete the contents seems to work better on WebKit when the selection spans multiple list items or multiple table cells.
+
 			if (!ed.selection.isCollapsed() && r.startContainer != r.endContainer) {
 				ed.getDoc().execCommand('Delete', false, null);
 			}
@@ -820,37 +813,6 @@
 					}
 				}, 0);
 			}
-		},
-
-		/**
-		 * This method will open the old style paste dialogs. Some users might want the old behavior but still use the new cleanup engine.
-		 */
-		_legacySupport : function() {
-			var t = this, ed = t.editor;
-			// Register command(s) for backwards compatibility
-			ed.addCommand('AnnomcePasteWord', function() {
-				ed.windowManager.open({
-					file: t.url + '/pasteword.htm',
-					width: 483,
-					height: 450,
-					inline: 1,
-				});
-			});
-
-			if (getParam(ed, 'paste_text_use_dialog')) {
-				ed.addCommand('AnnomcePasteText', function() {
-					ed.windowManager.open({
-						file : t.url + '/pastetext.htm',
-						width: 483,
-						height: 450,
-						inline: 1,
-					});
-				});
-			}
-
-			// Register button for backwards compatibility
-			ed.addButton('annopasteword', {title : 'paste.paste_word_desc', cmd : 'AnnomcePasteWord'});
-			ed.addButton('annopastetext', {title : 'paste.paste_text_desc', cmd : 'AnnomcePasteText'});
 		}
 	});
 
