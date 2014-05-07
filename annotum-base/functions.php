@@ -1229,7 +1229,7 @@ function anno_edit_post_assets($hook_suffix) {
 		$main =  trailingslashit(get_template_directory_uri()) . 'assets/main/';
 		if ($post->post_type == 'article') {
 			wp_enqueue_script('anno-validation', $main.'js/validation.js', array('jquery'), ANNO_VER);
-			wp_enqueue_script('anno-article-admin', $main.'js/article-admin.js', array('jquery-ui-sortable', 'wp-dialogs', 'anno-validation'), ANNO_VER);
+			wp_enqueue_script('anno-article-admin', $main.'js/article-admin.js', array('jquery-ui-sortable', 'wpdialogs', 'anno-validation'), ANNO_VER);
 			$admin_i10n = array(
 				'validationAbstractMsg' => __('There is an xml error in the abstract. If this article is in a published state it will be transitioned into a non-published state until these are fixed.'),
 				'validationBodyMsg' => __('There is an xml error in the body. If this article is in a published state it will be transitioned into a non-published state until these are fixed.'),

@@ -736,12 +736,17 @@ i.mce-i-split_cells {
 i.mce-i-annoequations {
 	background-position:-640px -20px;
 }
-
 i.mce-i-annopastetext {
 	font-family: dashicons;
 	font-size: 20px;
 }
 i.mce-i-annopastetext:before {
-
 	content: '\f217';
+}
+i.mce-i-annosource {
+	font-family: FontAwesome ;
+	font-size: 18px;
+}
+i.mce-i-annosource:before {
+	content: '\f0f6';
 }

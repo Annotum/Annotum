@@ -52,7 +52,7 @@ var annosource;
 			// Close the xml editor without inserting content
 			inputs.$close.on('click', function(e) {
 				e.preventDefault();
-				tinyMCEPopup.close();
+				t.close();
 			});
 
 			$('body').on('click', t.validationStatusID + ' a, .cm-error', function(e) {
@@ -79,11 +79,16 @@ var annosource;
 			// Remove it after insertion.
 			jQuery(this.editor.dom.select('div.body')[0].firstChild).unwrap();
 		},
+		close : function() {
+			var ed = top.tinymce.activeEditor;
+			ed.windowManager.close();
+			ed.focus();
+		},
 		// * Internal Helper Functions ***************
 		_getContentType : function () {
 			var contentType = '';
 			if (!this.editor) {
-				this.editor = tinyMCEPopup.editor;
+				this.editor = top.tinymce.activeEditor;
 			}
 
 			if (this.editor.id == 'content') {
@@ -126,7 +131,7 @@ var annosource;
 				if (confirm('There are validation errors still. Are you sure you want to insert this content?')) { //@TODO i18n
 					// onClose triggers cleanup
 					t.insertContent();
-					tinyMCEPopup.close();
+					t.close();
 				}
 			}
 			else if (status == 'fatal') {
@@ -135,14 +140,14 @@ var annosource;
 			else {
 				// onClose triggers cleanup
 				t.insertContent();
-				tinyMCEPopup.close();
+				t.close();
 			}
 		},
 		beforeOpen : function () {
 			var t = annoSource;
 			var contentType = t._getContentType();
 
-			t.editor = tinyMCEPopup.editor;
+			t.editor = top.tinymce.activeEditor;
 			t.editorVal = t.editor.getContent({source_view : true}).replace(/^<!DOCTYPE[^>]*?>/, '');
 			t.codemirror.setValue(t.editorVal);
 			$(document).on('annoValidation', t.processValidation);
