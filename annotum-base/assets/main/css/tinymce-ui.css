@@ -743,6 +743,12 @@ i.mce-i-annopastetext {
 	font-size: 20px;
 }
 i.mce-i-annopastetext:before {
-
 	content: '\f217';
+}
+i.mce-i-annotree {
+	font-family:'FontAwesome';
+	font-size:18px;
+}
+i.mce-i-annotree:before {
+	content:"\f085";
 }
