@@ -23,7 +23,7 @@ var annosource;
 			});
 
 			// Prevents CodeMirror from bugging out during show/hide/resize process
-			$('body').on('click', '.mce_annosource', function(e) {
+			$('body').on('click', '.mce-i-annosource', function(e) {
 				e.preventDefault();
 				t.codemirror.refresh();
 			});
@@ -78,11 +78,6 @@ var annosource;
 			// Slightly hacky, but Textorum needs the content to be wrapped by a single element
 			// Remove it after insertion.
 			jQuery(this.editor.dom.select('div.body')[0].firstChild).unwrap();
-		},
-		close : function() {
-			var ed = top.tinymce.activeEditor;
-			ed.windowManager.close();
-			ed.focus();
 		},
 		// * Internal Helper Functions ***************
 		_getContentType : function () {
