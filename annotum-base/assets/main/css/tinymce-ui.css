@@ -588,7 +588,7 @@ border:0; margin:0; padding:0; white-space:nowrap; text-decoration:none; font-we
 .wp_themeSkin span.mce_textorum-insertion-inside:before { content:"\f067"; }
 .wp_themeSkin span.mce_textorum-insertion-after:before { content:"\f054"; }
 .wp_themeSkin span.mce_annotree:before { content:"\f085"; }
-
+.wp_themeSkin span.mce_annosource:before {content: '\f0f6';}
 
 /* border */
 .wp_themeSkin .mceExternalToolbar,
@@ -737,7 +737,6 @@ i.mce-i-split_cells {
 i.mce-i-annoequations {
 	background-position:-640px -20px;
 }
-
 i.mce-i-annopastetext {
 	font-family: dashicons;
 	font-size: 20px;
@@ -751,4 +750,11 @@ i.mce-i-annotree {
 }
 i.mce-i-annotree:before {
 	content:"\f085";
+}
+i.mce-i-annosource {
+	font-family: FontAwesome ;
+	font-size: 18px;
+}
+i.mce-i-annosource:before {
+	content: '\f0f6';
 }

@@ -35,7 +35,6 @@ jQuery(document).ready(function($){
 				var editor, is_active;
 				editor = tinyMCE.EditorManager.get(element.id);
 				is_active = $(this).parents('.tmce-active').length;
-				console.log("moving textarea", element);
 				if (creatingEditor) {
 					if (!editor && is_active) {
 						tinyMCE.execCommand('mceAddControl', true, element.id);
@@ -104,4 +103,76 @@ jQuery(document).ready(function($){
 	// We already hide with JS, lets remove the html/visual switch buttons
 	$('.wp-switch-editor').remove();
 	$('.wp-editor-tools').remove();
+
+	// Validation alerts on save
+	$(function(){
+		var $saveButton = $('.js-validation-button, #publish, #save-post');
+		var $submitButton = $('.js-submit-button');
+
+		$saveButton.on('click', annoProcessSave);
+
+		// So validation occurs on click and doesnt go through submitting
+		//$('form#post').on('submit', annoPreventDefault);
+
+		$submitButton.on('click', function(e) {
+			e.preventDefault();
+			$('form#post').off('submit', annoPreventDefault);
+			$submitButton.off('click');
+			// State change requires value and name from button pressed
+			$(e.target).click();
+		});
+
+		function annoPreventDefault(e) {
+			e.preventDefault();
+		}
+
+		function annoProcessSave(e) {
+			var clicker = e.target;
+			$saveButton.off('click', annoProcessSave);
+			e.preventDefault();
+
+			var excerpt = tinyMCE.editors['excerpt'].getContent(),
+			content = tinyMCE.editors['content'].getContent(),
+			$t = $(this);
+
+			excerpt = excerpt.replace(/^<!DOCTYPE[^>]*?>/, '');
+			content = content.replace(/^<!DOCTYPE[^>]*?>/, '');
+
+			$(document).on('annoValidationAll', annoValidateSave);
+
+			window.annoValidation.validateAll(content, excerpt).then(function(){
+				if ($t.is('a')) {
+					$saveButton.off('click', annoProcessSave);
+					$t.trigger('click');
+				}
+				else {
+					// State change requires value and name from button pressed
+					$('form#post').off('submit', annoPreventDefault);
+					$(clicker).click();
+				}
+			});
+
+		}
+
+		function annoValidateSave(e, data) {
+			var msg = null;
+
+			$(document).off('annoValidationAll', annoValidateSave);
+			if (data.status == 'error') {
+				if (data.body.status == 'error' && data.abstract.status == 'error') {
+					msg = annoArticle.validationBothMsg;
+				}
+				else if (data.body.status == 'error') {
+					msg = annoArticle.validationBodyMsg;
+				}
+				else if (data.abstract.status == 'error') {
+					msg = annoArticle.validationAbstractMsg;
+				}
+
+				alert(msg);
+			}
+		}
+	});
+
+
 });

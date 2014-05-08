@@ -8,7 +8,7 @@
  * Copyright 2008-2011 Crowd Favorite, Ltd. All rights reserved. <http://crowdfavorite.com>
  * Released under the GPL license
  * http://www.opensource.org/licenses/gpl-license.php
- * 
+ *
  * Based on code found in WordPress Importer plugin
  */
 
@@ -17,7 +17,7 @@
  */
 class Knol_WXR_Parser {
 	function parse( $file ) {
-		
+
 		if (defined('ANNO_IMPORT_DEBUG') && ANNO_IMPORT_DEBUG && isset($_POST['anno_knol_parser'])) {
 			switch ($_POST['anno_knol_parser']) {
 				case 'simplexml':
@@ -44,8 +44,8 @@ class Knol_WXR_Parser {
 			}
 			return;
 		}
-		
-		
+
+
 		// Attempt to use proper XML parsers first
 		if ( extension_loaded( 'simplexml' ) ) {
 			$parser = new Knol_WXR_Parser_SimpleXML;
@@ -88,9 +88,9 @@ class Knol_WXR_Parser {
 /**
  * WXR Parser that makes use of the SimpleXML PHP extension.
  */
-class Knol_WXR_Parser_SimpleXML {	
+class Knol_WXR_Parser_SimpleXML {
 	var $img_id_modifier = 0;
-	
+
 	function parse( $file ) {
 		$authors = $posts = $categories = $tags = $terms = array();
 
@@ -182,13 +182,13 @@ class Knol_WXR_Parser_SimpleXML {
 
 				$content = $item->children( 'http://purl.org/rss/1.0/modules/content/' );
 				$excerpt = $item->children( $namespaces['excerpt'] );
-			
+
 				$content_filtered = $item->children( $namespaces['content_filtered'] );
-			
+
 				$post['post_content'] = (string) $content->encoded;
 				$post['post_excerpt'] = (string) $excerpt->encoded;
-				$post['post_content_filtered'] = (string) $content_filtered->encoded;			
-			
+				$post['post_content_filtered'] = (string) $content_filtered->encoded;
+
 				$wp = $item->children( $namespaces['wp'] );
 				$post['post_id'] = (string) $wp->post_id;
 				$post['post_date'] = (string) $wp->post_date;
@@ -222,7 +222,7 @@ class Knol_WXR_Parser_SimpleXML {
 						'value' => (string) $meta->meta_value
 					);
 				}
-				
+
 				foreach ( $wp->comment as $comment ) {
 					$meta = array();
 					if ( isset( $comment->commentmeta ) ) {
@@ -233,7 +233,7 @@ class Knol_WXR_Parser_SimpleXML {
 							);
 						}
 					}
-			
+
 					$post['comments'][] = array(
 						'comment_id' => (int) $comment->comment_id,
 						'comment_author' => (string) $comment->comment_author,
@@ -250,7 +250,7 @@ class Knol_WXR_Parser_SimpleXML {
 						'commentmeta' => $meta,
 					);
 				}
-				
+
 				$attachment_template = array(
 					'upload_date' => $post['post_date_gmt'],
 					'post_date' => $post['post_date_gmt'],
@@ -275,11 +275,11 @@ class Knol_WXR_Parser_SimpleXML {
 					'post_excerpt' => '',
 					'post_name' => '',
 				);
-				
+
 				$post_attachments = $this->parse_images($content_filtered->encoded, $item->title, $attachment_template);
 
 				$posts[] = $post;
-				
+
 				$posts = array_merge($post_attachments, $posts);
 			}
 		}
@@ -294,31 +294,31 @@ class Knol_WXR_Parser_SimpleXML {
 			'version' => $wxr_version,
 		);
 	}
-	
+
 	/**
 	 * Parse images from the post content
-	 * 
+	 *
 	 * @param string $content The content to parse from
 	 * @param string $post_title Title of the post to process
 	 * @param array $attachment_template Base for attachment
-	 * 
+	 *
 	 * @return array Array of attachments created
-	 */ 
+	 */
 	function parse_images($content, $post_title, $attachment_template) {
 		$attachments = array();
-		
+
 		// Lets make sure we have a wrapper
 		$content = '<div>'.$content.'</div>';
-		
+
 		$xml = simplexml_load_string($content);
 		if (!$xml) {
 			// We've encountered ill formed markup (no closing tag on a div for example)
 			// Make note, move along, no need to break the entire import process
 			if (defined('ANNO_IMPORT_DEBUG') && ANNO_IMPORT_DEBUG) {
 				error_log(sprintf(_x('There was an error processing %s\'s content for attachments.', 'importer error message', 'anno'), $post_title));
-			}			
+			}
 		}
-		else {		
+		else {
 			// img tags, Knols do not export images with anything but img.
 			$images = $xml->xpath('//img');
 			foreach ($images as $image) {
@@ -328,7 +328,7 @@ class Knol_WXR_Parser_SimpleXML {
 				if (!empty($attrs['src']) && $attrs['src'] !== false) {
 					if (
 						(strpos($attrs['src'], 'http://') === false &&
-						 strpos($attrs['src'], 'https://') === false ) 
+						 strpos($attrs['src'], 'https://') === false )
 						|| strpos($attrs['src'], '://knol.google.com') !== false
 					 ) {
 						$url_explode = explode('/', (string) $attrs['src']);
@@ -337,7 +337,7 @@ class Knol_WXR_Parser_SimpleXML {
 						$attachment['attachment_url'] = $attachment['guid'] = (string) $attrs['src'];
 					}
 				}
-				
+
 				if (!empty($attrs['alt'])) {
 					$attachment['post_title'] = $attrs['title'];
 					$attachment['_wp_attachment_image_alt'] = array(
@@ -345,19 +345,19 @@ class Knol_WXR_Parser_SimpleXML {
 						'value' => (string) $attrs['alt'],
 					);
 				}
-				
+
 				if (!empty($attrs['title'])) {
 					$attachment['post_title'] = (string) $attrs['title'];
 				}
-				
+
 				if (!empty($attachment['attachment_url'])) {
 					$attachment['post_id'] = $attachment['post_parent'].'_img_'.$this->img_id_modifier;
 					$this->img_id_modifier++;
 					$attachments[] = $attachment;
-				}		
-			}		
+				}
+			}
 		}
-		
+
 		return $attachments;
 	}
 }
@@ -474,7 +474,7 @@ class Knol_WXR_Parser_XML {
 					);
 					$this->data['comments'][] = array_merge($comment_template, $this->sub_data);
 				}
-					
+
 				$this->sub_data = false;
 				break;
 			case 'wp:commentmeta':
@@ -534,7 +534,7 @@ class Knol_WXR_Parser_XML {
 				if (!empty($this->data['author_id'])) {
 					$this->authors[$this->data['author_id']] = $this->data;
 				}
-					
+
 				$this->data = false;
 				break;
 			case 'wp:base_site_url':
@@ -546,7 +546,7 @@ class Knol_WXR_Parser_XML {
 			case 'content_filtered:encoded':
 				$filtered_content = $this->cdata;
 				$this->parse_images($filtered_content);
-				
+
 				break;
 			default:
 				if ( $this->in_sub_tag ) {
@@ -560,12 +560,12 @@ class Knol_WXR_Parser_XML {
 
 		$this->cdata = false;
 	}
-	
+
 	function img_open($parser, $tag, $attributes) {
 		// Make sure we have an image tag
  		if (strcasecmp($tag, 'img') === 0) {
 			$date_now = date('Y-m-d G:i:s');
-			
+
 			$attachment = array(
 				'upload_date' => $date_now,
 				'post_date' => $date_now,
@@ -590,33 +590,33 @@ class Knol_WXR_Parser_XML {
 				'post_excerpt' => '',
 				'post_name' => '',
 			);
-	
-	
+
+
 			// We have a post parent, this will only occur when the post_id tag is before the content_filtered in the WXR
 			if (!empty($this->data['post_id'])) {
 				$attachment['post_parent'] = $this->data['post_id'];
 			}
-			
+
 			if (!empty($this->data['post_date_gmt'])) {
 				$attachment['post_date'] = $attachment['post_date_gmt'] = $attachment['upload_date'] = $this->data['post_date_gmt'];
 			}
-			
+
 			if (!empty($this->data['post_author'])) {
 				$attachment['post_author'] = $this->data['post_author'];
 			}
-			
+
 			if (!empty($attributes['src'])) {
 					// We want relative URLS which will be converted to knol urls later or Knol urls.
 					if (
 						(strpos($attributes['src'], 'http://') === false &&
-						 strpos($attributes['src'], 'https://') === false ) 
+						 strpos($attributes['src'], 'https://') === false )
 						|| strpos($attributes['src'], '://knol.google.com' !== false)
 					) {
 						$url_explode = explode('/', $attributes['src']);
 						$attachment['post_title'] = end($url_explode);
 						$attachment['attachment_url'] = $attachment['guid'] = $attributes['src'];
 					}
-				
+
 					if (!empty($attributes['alt'])) {
 						$attachment['post_title'] = trim($attributes['alt']);
 						$attachment['postmeta'][] = array(
@@ -629,18 +629,18 @@ class Knol_WXR_Parser_XML {
 						$attachment['post_title'] = trim($attributes['title']);
 					}
 			}
-			
+
 			// If we have a url, then save the attachment in the posts array.
 			if (!empty($attachment['attachment_url'])) {
 				$this->posts[] = $attachment;
 			}
 		}
 	}
-	
+
 	function img_close() {
 		// Do nothing.
 	}
-	
+
 	function parse_images($content) {
 		$xml = xml_parser_create( 'UTF-8' );
 		xml_parser_set_option( $xml, XML_OPTION_SKIP_WHITE, 1 );
@@ -716,13 +716,13 @@ class Knol_WXR_Parser_Regex {
 					}
 					else {
 						$buffer = $next_importline =  $importline;
-						
+
 						while(!$this->feof($fp) && (false === strpos( $next_importline, '</wp:author>'))) {
 							$next_importline = rtrim( $this->fgets( $fp ) );
 							$buffer .= $next_importline;
 						}
 					}
-	
+
 					preg_match( '|<wp:author>(.*?)</wp:author>|is', $buffer, $author );
 					$a = $this->process_author( $author[1] );
 					// Knol WXR has Creator stored by  'Knol ID' (author_id) not author_login. author_login is empty in the WXR.
@@ -816,28 +816,28 @@ class Knol_WXR_Parser_Regex {
 
 	function process_images($content, $attachment_template) {
 		preg_match_all('/<img\b(?:(?=(\s+(?:src=[\'\"]([^"\']*)[\'\"]|alt=[\'\"]([^"\']*)[\'\"]|title=[\'\"]([^"\']*)[\'\"])|[^\s>]+|\s+))\1)*?>/', $content, $matches);
-		
+
 		// $matches[0] = img tag match
 		// $matches[2] = src
 		// $matches[3] = alt
 		// $matches[4] = title
 		foreach ($matches[0] as $img_key => $tag_string) {
 			$attachment = $attachment_template;
-			
-			
+
+
 			if (!empty($matches[2][$img_key])) {
 				$img_url = $matches[2][$img_key];
-				
+
 				if (
 					(strpos($img_url, 'http://') === false &&
-					 strpos($img_url, 'https://') === false ) 
+					 strpos($img_url, 'https://') === false )
 					|| strpos($img_url, '://knol.google.com' !== false)
 				) {
 					$explode_url = explode('/', $img_url);
 					$attachment['post_title'] = end($explode_url);
 					$attachment['attachment_url'] = $attachment['guid'] = $img_url;
 				}
-				
+
 				if (!empty($matches[3][$img_key])) {
 					$attachment['post_title'] = $matches[3][$img_key];
 					$attachment['postmeta'][] = array(
@@ -845,7 +845,7 @@ class Knol_WXR_Parser_Regex {
 						'value' => $matches[3][$img_key],
 					);
 				}
-				
+
 				//Title
 				if (!empty($matches[4][$img_key])) {
 					$attachment['post_title'] = $matches[4][$img_key];
@@ -885,13 +885,13 @@ class Knol_WXR_Parser_Regex {
 		$post_content = preg_replace_callback( '|<(/?[A-Z]+)|', array( &$this, '_normalize_tag' ), $post_content );
 		$post_content = str_replace( '<br>', '<br />', $post_content );
 		$post_content = str_replace( '<hr>', '<hr />', $post_content );
-		
+
 		$post_content_filtered = $this->get_tag( $post, 'content_filtered:encoded' );
 		$post_content_filtered = preg_replace_callback( '|<(/?[A-Z]+)|', array( &$this, '_normalize_tag' ), $post_content_filtered );
 		$post_content_filtered = str_replace( '<br>', '<br />', $post_content_filtered );
 		$post_content_filtered = str_replace( '<hr>', '<hr />', $post_content_filtered );
-		
-		
+
+
 		$attachment_template = array(
 			'upload_date' => (string) $post_date_gmt,
 			'post_date' => (string) $post_date_gmt,
@@ -1019,412 +1019,422 @@ class Knol_WXR_Parser_Regex {
 /**
  * Parse Kipling DTD Files. Use phpQuery as its already required by the Annotum theme.
  * phpQuery also makes it easier to decode multipart tags such as Abstract
- * 
- */ 
-class Kipling_DTD_Parser {	
+ *
+ */
+class Kipling_DTD_Parser {
 	function parse($file) {
 		$authors = $posts = $attachments = $post = $author_snapshots = $authors_meta = array();
 
-		if (!class_exists('phpQueryObject')) {
-			require(trailingslashit(TEMPLATEPATH).'functions/phpQuery/phpQuery.php');
-		}
+
 		$file_content = file_get_contents($file);
 		if (!$file_content) {
 			return new WP_Error('xml_parse_error', __( 'There was an error when reading this Kipling DTD file', 'anno'));
 		}
-	
-		phpQuery::newDocumentXML($file_content);
-	
-		// Made up post IDs just for sanities sake, and parent relationship
-		$post_id = 1;
-	
-		$articles = pq('article');
 
-		// Lets make sure we have article tags
-		$num_articles = $articles->length();
-		if (empty($num_articles)) {
-			return new WP_Error('xml_parse_article_error', __( 'This does not appear to be a Kipling DTD file, no articles could be found', 'anno'));
+		$schema = trailingslashit(get_template_directory()).'functions/schema/kipling-jp3.rng';
+		$validation_results = anno_validate($file_content, trailingslashit(get_template_directory()).'functions/schema/kipling-jp3.rng');
+		if ($validation_results['status'] == 'error') {
+			$validation_results['content'] = $file_content;
+			return $validation_results;
 		}
-		
-		// Process articles, this contains all catergory, tag, author, term etc... processing.
-		foreach ($articles as $article) {
-			$article = pq('article');
-			$article_meta = pq('article-meta', $article);
-			
-			$article_back = pq('back', $article);
-						
-			$post['post_type'] = 'article';
-			$post['post_content_filtered'] = trim(pq('> body', $article)->html());
-			$post['post_title'] = trim(pq('article-title', $article_meta)->text());
-			
-			$post['postmeta'][] = array(
-				'key' => '_anno_subtitle',
-				'value' => trim(pq('subtitle', $article_meta)->text()),
-			);
-			
-			// Auto generated
-	 		$post['guid'] = '';
+		else {
 
-			$abstract = pq('abstract', $article_meta);
-			// We don't want the title of the abstract
-			pq('title', $abstract)->remove();
+			if (!class_exists('phpQueryObject')) {
+				require(trailingslashit(TEMPLATEPATH).'functions/phpQuery/phpQuery.php');
+			}
+			phpQuery::newDocumentXML($file_content);
 
-			// Just the text, wpautop is run on it later (excerpt)
-			$post['post_excerpt'] = trim($abstract->text());
-		
-			// Post content gets generated by Annotum theme from the XML on wp_insert_post. We can leave it empty for now. 		
-			$post['post_content'] = '';
-		
-			$post['post_id'] = $post_id;
-		
-			// Generated from post title on insert
-			$post['post_name'] = '';
+			// Made up post IDs just for sanities sake, and parent relationship
+			$post_id = 1;
 
-			$pub_date = pq('pub-date', $article_meta);
-			$pub_date = $this->parse_date($pub_date);
-				$post['post_date'] = (string) $pub_date;
-				$post['post_date_gmt'] = (string) $pub_date;
-				
-			$post['status'] = 'draft';
-			// Reflect in post_state meta as well.
-			$post['postmeta'][] = array(
-				'key' => '_post_state', 
-				'value' => 'draft',
-			);
-			
+			$articles = pq('article');
 
-			// Not used in Kipling DTD, but set for data structure integrity required by the importer
-			$post['post_parent'] = 0;
-			$post['menu_order'] = 0;
-			$post['post_password'] = '';
-			$post['is_sticky'] = 0;
-			$post['ping_status'] = '';
-			$post['comment_status'] = '';
+			// Lets make sure we have article tags
+			$num_articles = $articles->length();
+			if (empty($num_articles)) {
+				return new WP_Error('xml_parse_article_error', __( 'This does not appear to be a Kipling DTD file, no articles could be found', 'anno'));
+			}
 
-			// Grab the category(ies). Annotum DTD should contain only one, Kipling DTD does not contain this requirement.
-			foreach (pq('subject', $article_meta) as $category) {
-				$category = pq($category);
-				// We really don't care about the global categories, categories aren't defined outside of an article in the XML
-				$cat_name = trim($category->text());
-				if (!empty($cat_name)) {
-					$post['terms'][] = array(
-						'name' => $cat_name,
-						'slug' => sanitize_title($cat_name),
-						'domain' => 'article_category',
+			// Process articles, this contains all catergory, tag, author, term etc... processing.
+			foreach ($articles as $article) {
+				$article = pq('article');
+				$article_meta = pq('article-meta', $article);
+
+				$article_back = pq('back', $article);
+
+				$post['post_type'] = 'article';
+				$post['post_content_filtered'] = trim(pq('> body', $article)->html());
+				$post['post_title'] = trim(pq('article-title', $article_meta)->text());
+
+				$post['postmeta'][] = array(
+					'key' => '_anno_subtitle',
+					'value' => trim(pq('subtitle', $article_meta)->text()),
+				);
+
+				// Auto generated
+		 		$post['guid'] = '';
+
+				$abstract = pq('abstract', $article_meta);
+				// We don't want the title of the abstract
+				pq('title', $abstract)->remove();
+
+				// Just the text, wpautop is run on it later (excerpt)
+				$post['post_excerpt'] = trim($abstract->text());
+
+				// Post content gets generated by Annotum theme from the XML on wp_insert_post. We can leave it empty for now.
+				$post['post_content'] = '';
+
+				$post['post_id'] = $post_id;
+
+				// Generated from post title on insert
+				$post['post_name'] = '';
+
+				$pub_date = pq('pub-date', $article_meta);
+				$pub_date = $this->parse_date($pub_date);
+					$post['post_date'] = (string) $pub_date;
+					$post['post_date_gmt'] = (string) $pub_date;
+
+				$post['status'] = 'draft';
+				// Reflect in post_state meta as well.
+				$post['postmeta'][] = array(
+					'key' => '_post_state',
+					'value' => 'draft',
+				);
+
+
+				// Not used in Kipling DTD, but set for data structure integrity required by the importer
+				$post['post_parent'] = 0;
+				$post['menu_order'] = 0;
+				$post['post_password'] = '';
+				$post['is_sticky'] = 0;
+				$post['ping_status'] = '';
+				$post['comment_status'] = '';
+
+				// Grab the category(ies). Annotum DTD should contain only one, Kipling DTD does not contain this requirement.
+				foreach (pq('subject', $article_meta) as $category) {
+					$category = pq($category);
+					// We really don't care about the global categories, categories aren't defined outside of an article in the XML
+					$cat_name = trim($category->text());
+					if (!empty($cat_name)) {
+						$post['terms'][] = array(
+							'name' => $cat_name,
+							'slug' => sanitize_title($cat_name),
+							'domain' => 'article_category',
+						);
+					}
+				}
+
+				// Grab the tags.
+				foreach (pq('kwd', $article_meta) as $tag) {
+					$tag = pq($tag);
+					// We really don't care about the global tags, tags aren't defined outside of an article in the XML
+					$tag_name = trim($tag->text());
+					if (!empty($tag_name)) {
+						$post['terms'][] = array(
+							'name' => $tag_name,
+							'slug' => sanitize_title($tag_name),
+							'domain' => 'article_tag',
+						);
+					}
+				}
+
+				// First author is the primary author, possible @todo - look for primary-author contrib type
+				$first_author_check = true;
+				$default_author_id = $first_author_id = 1;
+
+				// Grab the author(s).
+				$authors = array();
+				foreach (pq('contrib', $article_meta) as $contributor) {
+					$contributor = pq($contributor);
+
+					$author_arr = $this->parse_author($contributor);
+
+					$author = $author_arr['author'];
+					$author_meta = $author_arr['author_meta'];
+
+					// Check for author_id existance, if not, assign one.
+					if (empty($author['author_id'])) {
+						$author['author_id'] = $default_author_id;
+					}
+
+					// Save in authors
+					$authors[$author['author_id']] = $author;
+
+					// Save in authors_meta, consistant with author_id to match on import of user
+					$authors_meta[$author['author_id']] = $author_meta;
+
+					if ($first_author_check) {
+						$post['post_author'] = $author['author_id'];
+					}
+
+					$author_snapshots[] = $this->author_snapshot($author, $author_meta);
+					if ($first_author_check) {
+						// Used in attachment assignment
+						$first_author_id = $author['author_id'];
+					}
+
+					// We'll convert this in the import process
+					$post['postmeta'][] = array(
+						'key' => '_anno_author_'.$author['author_id'],
+						'value' => $author['author_id'],
+					);
+
+					$first_author_check = false;
+					$default_author_id++;
+				}
+
+				// Acknowledgements
+				$ack = trim(pq('ack p', $article_back)->text());
+				if (!empty($ack)) {
+			 		$post['postmeta'][] = array(
+						'key' => '_anno_acknowledgements',
+						'value' => $ack,
 					);
 				}
-			}
 
-			// Grab the tags.
-			foreach (pq('kwd', $article_meta) as $tag) {
-				$tag = pq($tag);
-				// We really don't care about the global tags, tags aren't defined outside of an article in the XML
-				$tag_name = trim($tag->text());
-				if (!empty($tag_name)) {
-					$post['terms'][] = array(
-						'name' => $tag_name,
-						'slug' => sanitize_title($tag_name),
-						'domain' => 'article_tag',
+				// Funding
+				$funding = trim(pq('funding-statement', $article_meta)->text());
+				if (!empty($funding)) {
+			 		$post['postmeta'][] = array(
+						'key' => '_anno_funding',
+						'value' => $funding,
 					);
 				}
-			}
 
-			// First author is the primary author, possible @todo - look for primary-author contrib type
-			$first_author_check = true;
-			$default_author_id = $first_author_id = 1;
-			
-			// Grab the author(s). 
-			$authors = array();
-			foreach (pq('contrib', $article_meta) as $contributor) {
-				$contributor = pq($contributor);
-			
-				$author_arr = $this->parse_author($contributor);
-			
-				$author = $author_arr['author'];
-				$author_meta = $author_arr['author_meta'];
-						
-				// Check for author_id existance, if not, assign one. 
-				if (empty($author['author_id'])) {
-					$author['author_id'] = $default_author_id;
+				// Appendices
+				$appendices = pq('app', $article_back);
+				$appendix_array = array();
+				foreach ($appendices as $appendix) {
+		 			$appendix = trim(pq($appendix)->html());
+					if (!empty($appendix)) {
+						$appendix_array[] =	$appendix;
+					}
 				}
-			
-				// Save in authors
-				$authors[$author['author_id']] = $author;
-			
-				// Save in authors_meta, consistant with author_id to match on import of user
-				$authors_meta[$author['author_id']] = $author_meta;
-			
-				if ($first_author_check) {
-					$post['post_author'] = $author['author_id'];
-				}
-			
-				$author_snapshots[] = $this->author_snapshot($author, $author_meta);
-				if ($first_author_check) {
-					// Used in attachment assignment
-					$first_author_id = $author['author_id'];
-				}
-				
-				// We'll convert this in the import process
-				$post['postmeta'][] = array(
-					'key' => '_anno_author_'.$author['author_id'],
-					'value' => $author['author_id'],
-				);
-				
-				$first_author_check = false;
-				$default_author_id++;
-			}
 
-			// Acknowledgements 
-			$ack = trim(pq('ack p', $article_back)->text());
-			if (!empty($ack)) {	
-		 		$post['postmeta'][] = array(
-					'key' => '_anno_acknowledgements',
-					'value' => $ack,
-				);
-			}
+				if (!empty($appendix_array)) {
+					// Process to HTML on import
+					$post['postmeta'][] = array(
+						'key' => '_anno_appendices',
+						'value' => serialize($appendix_array),
+					);
+				}
 
-			// Funding
-			$funding = trim(pq('funding-statement', $article_meta)->text());
-			if (!empty($funding)) {	
-		 		$post['postmeta'][] = array(
-					'key' => '_anno_funding',
-					'value' => $funding,
+				// References
+				$references = pq('ref', $article_back);
+				$ref_array = array();
+				$single_ref = array(
+					'doi' => '',
+					'text' => '',
+					'pmid' => '',
+					'figures' => '',
+					'url' => '',
 				);
-			}
-				
-			// Appendices
-			$appendices = pq('app', $article_back);
-			$appendix_array = array();
-			foreach ($appendices as $appendix) {
-	 			$appendix = trim(pq($appendix)->html());
-				if (!empty($appendix)) {
-					$appendix_array[] =	$appendix;
-				}
-			}
-		
-			if (!empty($appendix_array)) {
-				// Process to HTML on import
-				$post['postmeta'][] = array(
-					'key' => '_anno_appendices',
-					'value' => serialize($appendix_array),
-				);
-			}
-						
-			// References
-			$references = pq('ref', $article_back);
-			$ref_array = array();
-			$single_ref = array(
-				'doi' => '',
-				'text' => '',
-				'pmid' => '',
-				'figures' => '',
-				'url' => '',
-			);
-			
-			foreach ($references as $reference) {
-				$reference = pq($reference);
-				// For now, just support mixed-citations as text.
-				$ref_id = str_replace('ref', '', $reference->attr('id'));
-				
-				// Only store numeric values
-				if (is_numeric($ref_id)) {
-					$ref_id = intval($ref_id) - 1;
-				}
-				else {
-					$ref_id = null;
-				}
-				
-				$ref_text = pq('mixed-citation', $reference);
-				
-				$ref_data['text'] = trim($ref_text->text());
-			
-				if (empty($ref_id)) {
-					$ref_array[] = $ref_data;
-				}
-				else {
-					// Possibility that this key was already set programmatically, replace it and add old ref to end.
-					if (isset($ref_array[$ref_id])) {
-						$old_ref = $ref_array[$ref_id];
-						$ref_array[$ref_id] = $ref_data;
-						$ref_array[] = $old_ref;
+
+				foreach ($references as $reference) {
+					$reference = pq($reference);
+					// For now, just support mixed-citations as text.
+					$ref_id = str_replace('ref', '', $reference->attr('id'));
+
+					// Only store numeric values
+					if (is_numeric($ref_id)) {
+						$ref_id = intval($ref_id) - 1;
 					}
 					else {
-						$ref_array[$ref_id] = $ref_data;
+						$ref_id = null;
+					}
+
+					$ref_text = pq('mixed-citation', $reference);
+
+					$ref_data['text'] = trim($ref_text->text());
+
+					if (empty($ref_id)) {
+						$ref_array[] = $ref_data;
+					}
+					else {
+						// Possibility that this key was already set programmatically, replace it and add old ref to end.
+						if (isset($ref_array[$ref_id])) {
+							$old_ref = $ref_array[$ref_id];
+							$ref_array[$ref_id] = $ref_data;
+							$ref_array[] = $old_ref;
+						}
+						else {
+							$ref_array[$ref_id] = $ref_data;
+						}
 					}
 				}
-			}
-			if (!empty($ref_array)) {
+				if (!empty($ref_array)) {
+					$post['postmeta'][] = array(
+						'key' => '_anno_references',
+						'value' => serialize($ref_array),
+					);
+				}
+
+
+				// Attachments
+
+				// Modification for post_id
+				$attachment_id_mod = 0;
+
+				// $pub_date is the date gathered from the post data.
+				$attachment_template = array(
+					'upload_date' => (string) $pub_date,
+					'post_date' => (string) $pub_date,
+					'post_date_gmt' => (string) $pub_date,
+					'post_author' => $first_author_id,
+					'post_type' => 'attachment',
+					'post_parent' => $post_id,
+					'post_id' => '',
+					'post_content' => '',
+					'post_content_filtered' => '',
+					'postmeta' => '',
+					'guid' => '',
+					'attachment_url' => '',
+					'status' => 'inherit',
+					'post_title' => '',
+					'ping_status' => '',
+					'menu_order' => '',
+					'post_password' => '',
+					'terms' => '',
+					'comment_status' => '',
+					'is_sticky' => '',
+					'post_excerpt' => '',
+					'post_name' => '',
+				);
+
+				$inline_images = pq('> body inline-graphic', $article);
+				foreach ($inline_images as $img) {
+					$img = pq($img);
+
+
+					$img_url = $img->attr('xlink:href');
+
+					// Dont save chart api images (most likely formulas)
+					if (!empty($img_url) && strpos($img_url, 'googleapis.com/chart') === false) {
+						$post_meta = array();
+
+						$alt_text = pq('alt-text', $img)->html();
+						if (!empty($alt_text)) {
+							$post_meta[] = array(
+								'key' => '_wp_attachment_image_alt',
+								'value' => $alt_text,
+							);
+						}
+
+						$attachment_title = !empty($alt_text) ? $alt_text : end(explode('/',$img_url));
+
+						$attachments[] = array_merge($attachment_template, array(
+							'post_id' => $post_id.'.'.$attachment_id_mod,
+							'guid' => $img_url,
+							'attachment_url' => $img_url,
+							'post_parent' => $post_id,
+							'title' => trim($attachment_title),
+							'postmeta' => $post_meta,
+							'post_title' => $img_url,
+						));
+
+						$attachment_id_mod++;
+					}
+				}
+
+				// Find media and save as attachment
+				$media_images = pq('> body media', $article);
+				foreach ($media_images as $media_image) {
+					$media_image = pq($media_image);
+
+					// Parse Media will return an array with:
+						// attachment_url
+						// guid
+						// post_title
+						// post_content
+						// postmeta
+					$media_array = $this->parse_media($media_image);
+
+					if (is_array($media_array) && !empty($media_array['attachment_url'])) {
+						// Check if this is a figure image
+						$figure = $media_image->parent('fig');
+						$figure_html = trim($figure->html());
+						$caption = '';
+						if (!empty($figure_html)) {
+							$label = pq('label', $figure)->html();
+							$caption = pq('caption', $figure)->html();
+
+							$post_meta[] = array(
+								'key' => '_anno_attachment_image_label',
+								'value' => $label,
+							);
+						}
+
+						$attachment = array_merge($media_array, array(
+							'post_id' => $post_id.'.'.$attachment_id_mod,
+							'post_parent' => $post_id,
+							// Concat
+							'postmeta' => array_merge($post_meta, $media_array['postmeta']),
+						));
+
+						$attachments[] = array_merge($attachment_template, $attachment);
+
+						$attachment_id_mod++;
+					}
+				}
+
+				$comments = pq('response');
+				foreach ($comments as $comment) {
+					$comment = pq($comment);
+					$comment_content = pq('body', $comment)->html();
+					$comment_date = $this->parse_date(pq('pub-date', $comment));
+					$comment_author_arr = $this->parse_author(pq('contrib', $comment));
+					$comment_author = $comment_author_arr['author'];
+
+					$post['comments'][] = array(
+						'comment_id' => '',
+						'comment_author' => (string) $comment_author['author_display_name'],
+						'comment_author_email' => (string) $comment_author['author_email'],
+						'comment_author_IP' => '',
+						'comment_author_url' => (string) $comment_author['author_url'],
+						'comment_date' => (string) $comment_date,
+						'comment_date_gmt' => '',
+						// We only export approved comments
+						'comment_content' => $comment_content,
+						'comment_approved' => 1,
+						'comment_type' => '',
+						'comment_parent' => '',
+						'comment_user_id' => 0,
+						'commentmeta' => array(),
+					);
+				}
+
+				// Save our author snapshots
 				$post['postmeta'][] = array(
-					'key' => '_anno_references',
-					'value' => serialize($ref_array),
+					'key' => '_anno_author_snapshot',
+					'value' => serialize($author_snapshots),
 				);
+
+				$posts[] = $post;
+				// Concat, both indexed
+				$posts = array_merge($posts, $attachments);
 			}
-			
 
-			// Attachments
-			
-			// Modification for post_id
-			$attachment_id_mod = 0;			
 
-			// $pub_date is the date gathered from the post data.
-			$attachment_template = array(
-				'upload_date' => (string) $pub_date,
-				'post_date' => (string) $pub_date,
-				'post_date_gmt' => (string) $pub_date,
-				'post_author' => $first_author_id,
-				'post_type' => 'attachment',
-				'post_parent' => $post_id,
-				'post_id' => '',
-				'post_content' => '',
-				'post_content_filtered' => '',
-				'postmeta' => '',
-				'guid' => '',
-				'attachment_url' => '',
-				'status' => 'inherit',
-				'post_title' => '',
-				'ping_status' => '',
-				'menu_order' => '',
-				'post_password' => '',
-				'terms' => '',
-				'comment_status' => '',
-				'is_sticky' => '',
-				'post_excerpt' => '',
-				'post_name' => '',
+			return array(
+				'authors' => $authors,
+				'authors_meta' => $authors_meta,
+				'posts' => $posts,
+				'categories' => array(),
+				'tags' => array(),
+				'terms' => array(),
+				'base_url' => '', //$base_url,
+				'version' => 1.1, //$wxr_version
 			);
-			
-			$inline_images = pq('> body inline-graphic', $article);
-			foreach ($inline_images as $img) {
-				$img = pq($img);
-							
-
-				$img_url = $img->attr('xlink:href');
-				
-				// Dont save chart api images (most likely formulas)
-				if (!empty($img_url) && strpos($img_url, 'googleapis.com/chart') === false) {
-					$post_meta = array();
-					
-					$alt_text = pq('alt-text', $img)->html();
-					if (!empty($alt_text)) {
-						$post_meta[] = array(
-							'key' => '_wp_attachment_image_alt',
-							'value' => $alt_text,
-						);
-					}
-					
-					$attachment_title = !empty($alt_text) ? $alt_text : end(explode('/',$img_url));
-					
-					$attachments[] = array_merge($attachment_template, array(
-						'post_id' => $post_id.'.'.$attachment_id_mod,
-						'guid' => $img_url,
-						'attachment_url' => $img_url,
-						'post_parent' => $post_id,
-						'title' => trim($attachment_title),
-						'postmeta' => $post_meta,
-						'post_title' => $img_url,
-					));
-					
-					$attachment_id_mod++;
-				}
-			}
-			
-			// Find media and save as attachment
-			$media_images = pq('> body media', $article);
-			foreach ($media_images as $media_image) {
-				$media_image = pq($media_image);
-				
-				// Parse Media will return an array with:
-					// attachment_url
-					// guid
-					// post_title
-					// post_content
-					// postmeta
-				$media_array = $this->parse_media($media_image);
-				
-				if (is_array($media_array) && !empty($media_array['attachment_url'])) {
-					// Check if this is a figure image
-					$figure = $media_image->parent('fig');
-					$figure_html = trim($figure->html());
-					$caption = '';
-					if (!empty($figure_html)) {
-						$label = pq('label', $figure)->html();
-						$caption = pq('caption', $figure)->html();
-						
-						$post_meta[] = array(
-							'key' => '_anno_attachment_image_label',
-							'value' => $label,
-						);
-					}
-					
-					$attachment = array_merge($media_array, array(
-						'post_id' => $post_id.'.'.$attachment_id_mod,
-						'post_parent' => $post_id,
-						// Concat
-						'postmeta' => array_merge($post_meta, $media_array['postmeta']),
-					));
-					
-					$attachments[] = array_merge($attachment_template, $attachment);
-										
-					$attachment_id_mod++;
-				}
-			}
-
-			$comments = pq('response');
-			foreach ($comments as $comment) {
-				$comment = pq($comment);
-				$comment_content = pq('body', $comment)->html();
-				$comment_date = $this->parse_date(pq('pub-date', $comment));
-				$comment_author_arr = $this->parse_author(pq('contrib', $comment));
-				$comment_author = $comment_author_arr['author'];
-			
-				$post['comments'][] = array(
-					'comment_id' => '',
-					'comment_author' => (string) $comment_author['author_display_name'],
-					'comment_author_email' => (string) $comment_author['author_email'],
-					'comment_author_IP' => '',
-					'comment_author_url' => (string) $comment_author['author_url'],
-					'comment_date' => (string) $comment_date,
-					'comment_date_gmt' => '',
-					// We only export approved comments
-					'comment_content' => $comment_content,
-					'comment_approved' => 1,
-					'comment_type' => '',
-					'comment_parent' => '',
-					'comment_user_id' => 0,
-					'commentmeta' => array(),
-				);
-			}
-			
-			// Save our author snapshots
-			$post['postmeta'][] = array(
-				'key' => '_anno_author_snapshot',
-				'value' => serialize($author_snapshots),
-			);
-						
-			$posts[] = $post;
-			// Concat, both indexed
-			$posts = array_merge($posts, $attachments);
 		}
-
-				
-		return array(
-			'authors' => $authors,
-			'authors_meta' => $authors_meta,
-			'posts' => $posts,
-			'categories' => array(),
-			'tags' => array(),
-			'terms' => array(),
-			'base_url' => '', //$base_url,
-			'version' => 1.1, //$wxr_version
-		);
 	}
-	
+
 	/**
 	 * Generate a snapshot of the author based on data provided
-	 * 
+	 *
 	 * @param array $author Array of standard WP author keys/values
 	 * @param array $author_meta Array of non-standard WP author data
 	 * @return array Snapshot of data grabbed from the two params
-	 */ 
+	 */
 	function author_snapshot($author, $author_meta) {
 		return array(
 			'id' => $author['author_id'],
@@ -1440,11 +1450,11 @@ class Kipling_DTD_Parser {
 			'link' => $author['author_url'],
 		);
 	}
-		
+
 	/**
 	 * Parse contributor data from a <contrib> tag, maintaining as much data as possible
 	 * @TODO better handling of contrib-type, potentially do logic on <role> within <contrib>
-	 * 
+	 *
 	 * @param phpQueryObj $contributor phpQuery object pertaining to a contrib tag
 	 * @return array Author data and author meta data gathered
 	 */
@@ -1460,10 +1470,10 @@ class Kipling_DTD_Parser {
 			'author_url' => '',
 		);
 		$author_meta = array();
-								
+
 		$contributor_type = $contributor->attr('contrib-type');
-		
-		// Currently, just assume contrib-type="author" and non-existant contrib-types are authors. Note - empty contrib-types (contrib-type="") will not be processed as an author.			
+
+		// Currently, just assume contrib-type="author" and non-existant contrib-types are authors. Note - empty contrib-types (contrib-type="") will not be processed as an author.
 		if (strcasecmp($contributor_type, 'author') === 0 || $contributor_type === null) {
 
 			// Grab supplimentary data first. So we can determine which to use over <collab>
@@ -1473,10 +1483,10 @@ class Kipling_DTD_Parser {
 			$author_meta['affiliation'] = $affiliation = pq('> aff', $contributor)->text();
 			$author_meta['institution'] = $institution = pq('> aff > institution', $contributor)->text();
 			$author_meta['bio'] = pq('> bio', $contributor)->text();
-			$author_meta['ext-link'] = pq('> ext-link', $contributor)->attr('xlink::href');								
+			$author_meta['ext-link'] = pq('> ext-link', $contributor)->attr('xlink::href');
 			$author_meta['uri'] = pq('> uri', $contributor)->text();
-			$author_meta['xref'] = pq('> xref', $contributor)->text();				
-			
+			$author_meta['xref'] = pq('> xref', $contributor)->text();
+
 			// Get address information, there may be an email lurking in there
 			$address_array = $this->parse_address(pq('> address', $contributor));
 			if (empty($email) && !empty($address_array['email'])) {
@@ -1485,7 +1495,7 @@ class Kipling_DTD_Parser {
 			}
 			// Use existing meta if its populated
 			$author_meta = array_merge($address_array, $author_meta);
-			
+
 		// Top Level identifiers
 			// @TODO Support contrib with <name> <collab> and <anonymous> tags...doesn't make much sense, but possible by DTD.
 			// Handle names of individuals
@@ -1494,18 +1504,18 @@ class Kipling_DTD_Parser {
 			$anon = pq('anonymous', $contributor);
 			if (!empty($name)) {
 				// Always set the author ID first, so we know the key when storing user_meta
-				
+
 				$last_name = pq('surname', $name)->text();
 				$first_name = pq('given-names', $name)->text();
 				$suffix = pq('suffix', $name)->text();
 				$prefix = pq('prefix', $name)->text();
-				
+
 				// Generate a (semi) unique ID for this user, hopefully this will be consistant across the XML file (other articles)
 				$author['author_id'] = sanitize_title($last_name.$first_name.$suffix.$prefix);
-				
-				$author['author_display_name'] = $first_name.' '.$last_name;		
+
+				$author['author_display_name'] = $first_name.' '.$last_name;
 				$author['author_first_name'] = $first_name;
-				$author['author_last_name'] = $last_name;							
+				$author['author_last_name'] = $last_name;
 
 				// Suffix and Prefix are user_meta. Import to check for emptiness
 				$author_meta['prefix'] = $suffix;
@@ -1518,25 +1528,25 @@ class Kipling_DTD_Parser {
 				$contrib_group = pq('contrib-group', $collab)->text();
 				$affiliation = pq('> aff', $collab)->text();
 				$institution = pq('> aff > institution', $collab)->text();
-				
+
 				$author['author_id'] = sanitize_title($contrib_group.$affiliation.$institution);
 				$author['author_display_name'] = !empty($contrib_group) ? $contrib_group : $institution;
-			
+
 				// Meta info - Bio, email etc.. gathered later
 				$collab_meta = array();
 				$collab_meta['affiliation'] = $affiliation;
 				$collab_meta['institution'] = $institution;
 				$collab_meta['bio'] = pq('> bio', $collab)->text();
-				$collab_meta['ext-link'] = pq('> ext-link', $collab)->text();								
+				$collab_meta['ext-link'] = pq('> ext-link', $collab)->text();
 				$collab_meta['uri'] = pq('> uri', $collab)->text();
 				$collab_meta['xref'] = pq('> xref', $collab)->text();
 				$collab_meta['country'] = pq('country', $collab)->text();
 				$collab_meta['fax'] = pq('fax', $collab)->text();
 				$collab_meta['phone'] = pq('phone', $collab)->text();
-				
+
 				// Meta outside of <collab> takes precendence
 				$author_meta = array_merge($collab_meta, $author_meta);
-				
+
 				$address_array = parse_address(pq('> address', $contrib));
 				if (empty($email) && !empty($address_array['email'])) {
 					$email = $address_array['email'];
@@ -1544,7 +1554,7 @@ class Kipling_DTD_Parser {
 				}
 				// Use existing meta if its populated
 				$author_meta = array_merge($address_array, $author_meta);
-				
+
 			}
 			// Handle anonymous
 			else if (!empty($anon)) {
@@ -1554,7 +1564,7 @@ class Kipling_DTD_Parser {
 
 			$author['email'] = $email;
 
-			
+
 			// Determine author_url, store other data in author meta.
 			if (!empty($author_meta['uri'])) {
 				$author['author_url'] = $author_meta['uri'];
@@ -1566,19 +1576,19 @@ class Kipling_DTD_Parser {
 				$author['author_url'] = $author_meta['xref'];
 			}
 		}
-				
+
 		return array(
 			'author' => $author,
 			'author_meta' => $author_meta,
-		);	
+		);
 	}
-	
+
 	/**
 	 * Parse address into an array
-	 * 
+	 *
 	 * @param phpQueryObj $address Tag to parse
 	 * @return array An array of address fields
-	 */ 
+	 */
 	function parse_address($address) {
 		$address_array = array();
 		$elements = array(
@@ -1589,7 +1599,7 @@ class Kipling_DTD_Parser {
 			'phone',
 			'email',
 		);
-		
+
 		foreach ($elements as $el_name) {
 			$el_text = pq($el_name, $address)->text();
 			// Any field that data that is '' or 0 or null
@@ -1599,10 +1609,10 @@ class Kipling_DTD_Parser {
 		}
 		return $address_array;
 	}
-	
+
 	/**
 	 * Parse date into an array
-	 * 
+	 *
 	 * @param phpQueryObj $date Tag to parse
 	 * @return string Formatted date string
 	 */
@@ -1616,23 +1626,23 @@ class Kipling_DTD_Parser {
 			$month = "01";
 		}
 		$year = sprintf("%04d", pq('year', $date)->text());
-		
+
 		// Note, DTD does not detail time
 		return $year.'-'.$month.'-'.$day.' 00:00:00';
 	}
-	
+
 	/**
 	 * Parse media data from a media tag
 	 * @param phpQueryObj $media Media object to parse
-	 * 
+	 *
 	 * @return false|array Array of data if a relevant url can be found, false otherwise.
 	 */
-	function parse_media($media) {		
+	function parse_media($media) {
 		$img_url = $media->attr('xlink:href');
-		
+
 		if (!empty($img_url) && strpos($img_url, 'googleapis.com/chart') === false) {
 			$post_meta = array();
-			
+
 			$alt_text = pq('alt-text', $media)->text();
 			$long_desc = pq('long-desc', $media)->text();
 

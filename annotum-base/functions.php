@@ -30,6 +30,7 @@ include_once(CFCT_PATH.'functions/phpquery/phpquery.php');
 include_once(CFCT_PATH.'functions/anno-xml-download.php');
 include_once(CFCT_PATH.'functions/subscribe.php');
 include_once(CFCT_PATH.'functions/snapshot.php');
+include_once(CFCT_PATH.'functions/anno-validation.php');
 
 
 function anno_include_media_edit() {
@@ -1228,7 +1229,18 @@ function anno_edit_post_assets($hook_suffix) {
 		$main =  trailingslashit(get_template_directory_uri()) . 'assets/main/';
 		if ($post->post_type == 'article') {
 			wp_enqueue_script('fancytree', $main.'js/jquery.fancytree-all.min.js', array('jquery', 'jquery-ui-core'), 'v2.0.0-6');
-			wp_enqueue_script('anno-article-admin', $main.'js/article-admin.js', array('jquery-ui-sortable', 'wpdialogs', 'fancytree'), ANNO_VER);
+			wp_enqueue_script('anno-validation', $main.'js/validation.js', array('jquery'), ANNO_VER);
+			wp_enqueue_script('anno-article-admin', $main.'js/article-admin.js', array('jquery-ui-sortable', 'wpdialogs', 'anno-validation', 'fancytree'), ANNO_VER);
+			$admin_i10n = array(
+				'validationAbstractMsg' => __('There is an xml error in the abstract. If this article is in a published state it will be transitioned into a non-published state until these are fixed.'),
+				'validationBodyMsg' => __('There is an xml error in the body. If this article is in a published state it will be transitioned into a non-published state until these are fixed.'),
+				'validationBothMsg' => __('There is an xml error in the abstract and body content. If this article is in a published state it will be transitioned into a non-published state until these are fixed.'),
+			);
+			wp_localize_script('anno-article-admin', 'annoArticle', $admin_i10n);
+
+			wp_enqueue_script('codemirror', trailingslashit(get_template_directory_uri()).'js/tinymce/plugins/annosource/codemirror/lib/codemirror.js', array('jquery'), ANNO_VER);
+			wp_enqueue_script('codemirror-xml', trailingslashit(get_template_directory_uri()).'js/tinymce/plugins/annosource/codemirror/mode/xml/xml.js', array('jquery', 'codemirror'), ANNO_VER);
+
 			if ($post->post_status == 'publish') {
 				wp_enqueue_script('anno-article-admin-snapshot', $main.'js/article-admin-snapshot.js', array('jquery', 'jquery-ui-sortable'), ANNO_VER);
 				$i10n = array(
@@ -1250,7 +1262,7 @@ function anno_article_admin_print_styles() {
 		$main =  trailingslashit(get_template_directory_uri()) . 'assets/main/';
 		wp_enqueue_style('article-admin', $main.'css/article-admin.css', array(), ANNO_VER);
 		wp_enqueue_style('article-admin-tinymce-ui', $main.'css/tinymce-ui.css', array(), ANNO_VER);
-		//wp_enqueue_style('fancytree', $main.'css/fancytree-skin/ui.fancytree.min.css', array(), 'v2.0.0-6');
+		wp_enqueue_style('codemirror', trailingslashit(get_template_directory_uri()).'js/tinymce/plugins/annosource/codemirror/lib/codemirror.css', array(), ANNO_VER);
 	}
 }
 add_action('admin_print_styles', 'anno_article_admin_print_styles');

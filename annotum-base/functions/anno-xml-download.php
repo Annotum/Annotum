@@ -499,70 +499,12 @@ class Anno_XML_Download {
 		return $xml;
 	}
 
-	private function xml_references($article) {
-		$references = get_post_meta($article->ID, '_anno_references', true);
-		$xml = '';
-		if (!empty($references) && is_array($references)) {
-			$xml =
-'			<ref-list>
-				<title>'._x('References', 'xml reference title', 'anno').'</title>';
-
-			foreach ($references as $ref_key => $reference) {
-				$ref_key_display = esc_attr('ref'.($ref_key + 1));
-				if (isset($reference['doi']) && !empty($reference['doi'])) {
-					$doi = '
-						<pub-id pub-id-type="doi">'.esc_html($reference['doi']).'</pub-id>';
-				}
-				else {
-					$doi = '';
-				}
-
-				if (isset($reference['pmid']) && !empty($reference['pmid'])) {
-					$pmid = '
-						<pub-id pub-id-type="pmid">'.esc_html($reference['pmid']).'</pub-id>';
-				}
-				else {
-					$pmid = '';
-				}
-
-				if (isset($reference['text']) && !empty($reference['text'])) {
-					$text = esc_html($reference['text']);
-				}
-				else {
-					$text = '';
-				}
-
-				if (isset($reference['link']) && !empty($reference['link'])) {
-					$link = ' xlink:href="'.esc_url($reference['link']).'"';
-				}
-				else {
-					$link = '';
-				}
-
-				$xml .='
-			<ref id="'.$ref_key_display.'">
-				<label>'.$ref_key_display.'</label>
-				<mixed-citation'.$link.'>'.trim($text).'
-					'.$doi.$pmid.'
-				</mixed-citation>
-			</ref>';
-
-			}
-
-			$xml .='
-		</ref-list>';
-		}
-
-		return $xml;
-
-	}
-
 private function xml_back($article) {
 	if($this->xml_acknoledgements($article) || $this->xml_appendices($article) || $this->xml_references($article)) {
 	$xml_back = '	<back>
 		'.$this->xml_acknoledgements($article).'
 		'.$this->xml_appendices($article).'
-		'.$this->xml_references($article).'
+		'.anno_xml_references($article->ID).'
 		</back>
 		'.$this->xml_responses($article).'
 		</article>';

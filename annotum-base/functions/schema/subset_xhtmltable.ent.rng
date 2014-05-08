@@ -1,0 +1,598 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- ============================================================= -->
+<!-- ============================================================= -->
+<!-- SET UP FOR THE XHTML 1.1 TABLE MODULE -->
+<!-- ============================================================= -->
+<!-- ============================================================= -->
+<!-- THE XHTML TABLE STYLE ATTRIBUTE MODULE -->
+<!-- ============================================================= -->
+<grammar xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns="http://relaxng.org/ns/structure/1.0" datatypeLibrary="http://www.w3.org/2001/XMLSchema-datatypes">
+  <define name="Color">
+    <data type="string" datatypeLibrary=""/>
+  </define>
+  <!-- a color using sRGB: #RRGGBB as Hex values -->
+  <!-- Additions to put bgcolor back -->
+  <!-- XHTML TABLE INLINE STYLE MODULE -->
+  <!--
+                        This module declares the 'style' attribute, 
+            used to support inline style markup for the
+            <td> and <tr> elements. Copyright 1998-2005 
+            W3C (MIT, ERCIM, Keio), All Rights Reserved.
+            Revision: $Id: xhtml-inlstyle-1.mod,v 4.0 
+            2001/04/02 22:42:49 altheim Exp $
+            PUBLIC identifier
+            "-//W3C//ENTITIES XHTML Inline Style 1.0//EN"
+            SYSTEM identifier
+    "http://www.w3.org/MarkUp/DTD/xhtml-inlstyle-1.mod"
+  -->
+  <!--
+    Inline Style
+    
+    This module declares the 'style' attribute, used to support inline
+    style markup. This module must be instantiated prior to the XHTML
+    Common Attributes module in order to be included in %Core.attrib;.
+  -->
+  <define name="style.attrib">
+    <optional>
+      <attribute name="style"/>
+    </optional>
+  </define>
+  <define name="Core.extra.attrib">
+    <ref name="style.attrib"/>
+  </define>
+  <!-- end of xhtml-inlstyle-1.mod -->
+  <!-- ============================================================= -->
+  <!-- DEFAULTS FOR TABLE ELEMENT NAMES -->
+  <!-- ============================================================= -->
+  <!-- ============================================================= -->
+  <!-- DEFAULTS FOR DATATYPE PARAMETER ENTITIES -->
+  <!-- ============================================================= -->
+  <define name="Text.datatype">
+    <data type="string" datatypeLibrary=""/>
+  </define>
+  <define name="Number.datatype">
+    <data type="string" datatypeLibrary=""/>
+  </define>
+  <define name="MultiLength.datatype">
+    <data type="string" datatypeLibrary=""/>
+  </define>
+  <define name="Length.datatype">
+    <data type="string" datatypeLibrary=""/>
+  </define>
+  <define name="Pixels.datatype">
+    <data type="string" datatypeLibrary=""/>
+  </define>
+  <define name="Character.datatype">
+    <data type="string" datatypeLibrary=""/>
+  </define>
+  <!-- ============================================================= -->
+  <!-- DEFAULTS FOR ATTRIBUTE PARAMETER ENTITIES -->
+  <!-- ============================================================= -->
+  <!--
+    style      Defined in the PE -%Core.extra.attrib; and
+    used to support inline style markup. This
+    attribute is defined in the XHTML Table
+    Inline Style Module called in with the PE:
+       -%xhtml-inlstyle-1.mod
+    which must be invoked before the attribute
+    PE is used.
+  -->
+  <define name="Common.attrib">
+    <optional>
+      <attribute name="id">
+        <data type="ID"/>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="content-type"/>
+    </optional>
+    <ref name="Core.extra.attrib"/>
+  </define>
+  <!-- ============================================================= -->
+  <!-- OVER-RIDES TO REMOVE CAPTION -->
+  <!-- ============================================================= -->
+  <!-- CAPTION FOR A TABLE -->
+  <!--
+    Modification of the standard XHMTL model    
+    Removed the definition of caption, so the
+    element would not be multiply defined
+  -->
+  <!-- ============================================================= -->
+  <!-- OVER-RIDES FOR CONTENT PARAMETER ENTITIES -->
+  <!-- ============================================================= -->
+  <!-- INLINE ELEMENTS -->
+  <!--
+    Modification of the standard XHMTL model     
+    for inline elements used in the <caption>
+    Set to the null because the <caption>
+    element is now inside the table wrapper,
+    not inside the table, as the original XHTML
+    table intended
+  -->
+  <!-- CONTENTS OF A TABLE CELL -->
+  <!--
+    Modification of the standard XHMTL model
+    used for the content of tables cells <th>
+    and <td>
+  -->
+  <!-- CONTENTS OF A TABLE -->
+  <!--
+    Modification of the standard XHMTL model    
+    This has been modified from the XHTML model
+    to remove the <caption> element from the
+    <table> model, since in the Archiving and
+    Interchange DTD Suite modular library, the 
+    <caption> element is part  of the Table Wrapper 
+    <table-wrap> element. No other changes were 
+    made to the XHTML table content model.
+  -->
+  <define name="table.content">
+    <choice>
+      <zeroOrMore>
+        <ref name="col"/>
+      </zeroOrMore>
+      <zeroOrMore>
+        <ref name="colgroup"/>
+      </zeroOrMore>
+    </choice>
+    <choice>
+      <group>
+        <optional>
+          <ref name="thead"/>
+        </optional>
+        <optional>
+          <ref name="tfoot"/>
+        </optional>
+        <zeroOrMore>
+          <ref name="tbody"/>
+        </zeroOrMore>
+      </group>
+      <oneOrMore>
+        <ref name="tr"/>
+      </oneOrMore>
+    </choice>
+  </define>
+  <!-- beck changed tbody to optional, repeatable -->
+  <!-- ============================================================= -->
+  <!-- THE XHTML V1.1 TABLE INVOCATION -->
+  <!-- ============================================================= -->
+  <!-- XHTML TABLE MODEL -->
+  <!--
+    This module declares element types and 
+          attributes used to provide table markup 
+          similar to HTML 4, including features that 
+          enable better accessibility for non-visual 
+          user agents. This is the XHTML reformulation 
+          of HTML as a modular XML application. 
+          Copyright 1998-2005 W3C (MIT, ERCIM, Keio), 
+          All Rights Reserved.
+          Revision: $Id: xhtml-table-1.mod,v 4.1 
+          2001/04/10 09:42:30 altheim Exp $ SMI
+          PUBLIC identifier
+          "-//W3C//ELEMENTS XHTML Tables 1.0//EN"
+          SYSTEM identifier:
+    "http://www.w3.org/MarkUp/DTD/xhtml-table-1.mod"
+  -->
+  <!-- ...................................................................... -->
+  <!-- XHTML Table Module  .................................................. -->
+  <!--
+    file: xhtml-table-1.mod
+    
+    This is XHTML, a reformulation of HTML as a modular XML application.
+    Copyright 1998-2005 W3C (MIT, ERCIM, Keio), All Rights Reserved.
+    Revision: $Id: briefarticle_xhtmltable.ent,v 1.4 2010/07/27 19:51:43 beck Exp $ SMI
+    
+    This DTD module is identified by the PUBLIC and SYSTEM identifiers:
+    
+      PUBLIC "-//W3C//ELEMENTS XHTML Tables 1.0//EN"
+      SYSTEM "http://www.w3.org/MarkUp/DTD/xhtml-table-1.mod"
+    
+    Revisions:
+    (none)
+    .......................................................................
+  -->
+  <!--
+    Tables
+    
+       table, caption, thead, tfoot, tbody, colgroup, col, tr, th, td
+    
+    This module declares element types and attributes used to provide
+    table markup similar to HTML 4, including features that enable
+    better accessibility for non-visual user agents.
+  -->
+  <!-- declare qualified element type names: -->
+  <!--
+    The frame attribute specifies which parts of the frame around
+    the table should be rendered. The values are not the same as
+    CALS to avoid a name clash with the valign attribute.
+  -->
+  <define name="frame.attrib">
+    <optional>
+      <attribute name="frame">
+        <choice>
+          <value>void</value>
+          <value>above</value>
+          <value>below</value>
+          <value>hsides</value>
+          <value>lhs</value>
+          <value>rhs</value>
+          <value>vsides</value>
+          <value>box</value>
+          <value>border</value>
+        </choice>
+      </attribute>
+    </optional>
+  </define>
+  <!--
+    The rules attribute defines which rules to draw between cells:
+    
+    If rules is absent then assume:
+    
+      "none" if border is absent or border="0" otherwise "all"
+  -->
+  <define name="rules.attrib">
+    <optional>
+      <attribute name="rules">
+        <choice>
+          <value>none</value>
+          <value>groups</value>
+          <value>rows</value>
+          <value>cols</value>
+          <value>all</value>
+        </choice>
+      </attribute>
+    </optional>
+  </define>
+  <!-- horizontal alignment attributes for cell contents -->
+  <define name="CellHAlign.attrib">
+    <optional>
+      <attribute name="align">
+        <choice>
+          <value>left</value>
+          <value>center</value>
+          <value>right</value>
+          <value>justify</value>
+          <value>char</value>
+        </choice>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="char">
+        <ref name="Character.datatype"/>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="charoff">
+        <ref name="Length.datatype"/>
+      </attribute>
+    </optional>
+  </define>
+  <!-- vertical alignment attribute for cell contents -->
+  <define name="CellVAlign.attrib">
+    <optional>
+      <attribute name="valign">
+        <choice>
+          <value>top</value>
+          <value>middle</value>
+          <value>bottom</value>
+          <value>baseline</value>
+        </choice>
+      </attribute>
+    </optional>
+  </define>
+  <!-- scope is simpler than axes attribute for common tables -->
+  <define name="scope.attrib">
+    <optional>
+      <attribute name="scope">
+        <choice>
+          <value>row</value>
+          <value>col</value>
+          <value>rowgroup</value>
+          <value>colgroup</value>
+        </choice>
+      </attribute>
+    </optional>
+  </define>
+  <!-- table: Table Element .............................. -->
+  <define name="table">
+    <element name="table">
+      <ref name="table.attlist"/>
+      <ref name="table.content"/>
+    </element>
+  </define>
+  <!-- end of table.element -->
+  <define name="table.attlist" combine="interleave">
+    <ref name="Common.attrib"/>
+    <optional>
+      <attribute name="summary">
+        <ref name="Text.datatype"/>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="width">
+        <ref name="Length.datatype"/>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="border">
+        <ref name="Pixels.datatype"/>
+      </attribute>
+    </optional>
+    <ref name="frame.attrib"/>
+    <ref name="rules.attrib"/>
+    <optional>
+      <attribute name="cellspacing">
+        <ref name="Length.datatype"/>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="cellpadding">
+        <ref name="Length.datatype"/>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="bgcolor">
+        <ref name="Color"/>
+      </attribute>
+    </optional>
+  </define>
+  <!-- end of table.attlist -->
+  <!-- caption: Table Caption ............................ -->
+  <define name="caption.attlist" combine="interleave">
+    <ref name="Common.attrib"/>
+  </define>
+  <!-- end of caption.attlist -->
+  <!-- thead: Table Header ............................... -->
+  <!--
+    Use thead to duplicate headers when breaking table
+    across page boundaries, or for static headers when
+    tbody sections are rendered in scrolling panel.
+  -->
+  <define name="thead.content">
+    <oneOrMore>
+      <ref name="tr"/>
+    </oneOrMore>
+  </define>
+  <define name="thead">
+    <element name="thead">
+      <ref name="thead.attlist"/>
+      <ref name="thead.content"/>
+    </element>
+  </define>
+  <!-- end of thead.element -->
+  <define name="thead.attlist" combine="interleave">
+    <ref name="Common.attrib"/>
+    <ref name="CellHAlign.attrib"/>
+    <ref name="CellVAlign.attrib"/>
+  </define>
+  <!-- end of thead.attlist -->
+  <!-- tfoot: Table Footer ............................... -->
+  <!--
+    Use tfoot to duplicate footers when breaking table
+    across page boundaries, or for static footers when
+    tbody sections are rendered in scrolling panel.
+  -->
+  <define name="tfoot.content">
+    <oneOrMore>
+      <ref name="tr"/>
+    </oneOrMore>
+  </define>
+  <define name="tfoot">
+    <element name="tfoot">
+      <ref name="tfoot.attlist"/>
+      <ref name="tfoot.content"/>
+    </element>
+  </define>
+  <!-- end of tfoot.element -->
+  <define name="tfoot.attlist" combine="interleave">
+    <ref name="Common.attrib"/>
+    <ref name="CellHAlign.attrib"/>
+    <ref name="CellVAlign.attrib"/>
+  </define>
+  <!-- end of tfoot.attlist -->
+  <!-- tbody: Table Body ................................. -->
+  <!--
+    Use multiple tbody sections when rules are needed
+    between groups of table rows.
+  -->
+  <define name="tbody.content">
+    <oneOrMore>
+      <ref name="tr"/>
+    </oneOrMore>
+  </define>
+  <define name="tbody">
+    <element name="tbody">
+      <ref name="tbody.attlist"/>
+      <ref name="tbody.content"/>
+    </element>
+  </define>
+  <!-- end of tbody.element -->
+  <define name="tbody.attlist" combine="interleave">
+    <ref name="Common.attrib"/>
+    <ref name="CellHAlign.attrib"/>
+    <ref name="CellVAlign.attrib"/>
+  </define>
+  <!-- end of tbody.attlist -->
+  <!-- colgroup: Table Column Group ...................... -->
+  <!--
+    colgroup groups a set of col elements. It allows you
+    to group several semantically-related columns together.
+  -->
+  <define name="colgroup.content">
+    <zeroOrMore>
+      <ref name="col"/>
+    </zeroOrMore>
+  </define>
+  <define name="colgroup">
+    <element name="colgroup">
+      <ref name="colgroup.attlist"/>
+      <ref name="colgroup.content"/>
+    </element>
+  </define>
+  <!-- end of colgroup.element -->
+  <define name="colgroup.attlist" combine="interleave">
+    <ref name="Common.attrib"/>
+    <optional>
+      <attribute name="span" a:defaultValue="1">
+        <ref name="Number.datatype"/>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="width">
+        <ref name="MultiLength.datatype"/>
+      </attribute>
+    </optional>
+    <ref name="CellHAlign.attrib"/>
+    <ref name="CellVAlign.attrib"/>
+  </define>
+  <!-- end of colgroup.attlist -->
+  <!-- col: Table Column ................................. -->
+  <!--
+    col elements define the alignment properties for
+    cells in one or more columns.
+    
+    The width attribute specifies the width of the
+    columns, e.g.
+    
+      width="64"        width in screen pixels
+      width="0.5*"      relative width of 0.5
+    
+    The span attribute causes the attributes of one
+    col element to apply to more than one column.
+  -->
+  <define name="col.content">
+    <empty/>
+  </define>
+  <define name="col">
+    <element name="col">
+      <ref name="col.attlist"/>
+      <ref name="col.content"/>
+    </element>
+  </define>
+  <!-- end of col.element -->
+  <define name="col.attlist" combine="interleave">
+    <ref name="Common.attrib"/>
+    <optional>
+      <attribute name="span" a:defaultValue="1">
+        <ref name="Number.datatype"/>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="width">
+        <ref name="MultiLength.datatype"/>
+      </attribute>
+    </optional>
+    <ref name="CellHAlign.attrib"/>
+    <ref name="CellVAlign.attrib"/>
+  </define>
+  <!-- end of col.attlist -->
+  <!-- tr: Table Row ..................................... -->
+  <define name="tr.content">
+    <oneOrMore>
+      <choice>
+        <ref name="th"/>
+        <ref name="td"/>
+      </choice>
+    </oneOrMore>
+  </define>
+  <define name="tr">
+    <element name="tr">
+      <ref name="tr.attlist"/>
+      <ref name="tr.content"/>
+    </element>
+  </define>
+  <!-- end of tr.element -->
+  <define name="tr.attlist" combine="interleave">
+    <ref name="Common.attrib"/>
+    <ref name="CellHAlign.attrib"/>
+    <ref name="CellVAlign.attrib"/>
+    <optional>
+      <attribute name="bgcolor">
+        <ref name="Color"/>
+      </attribute>
+    </optional>
+  </define>
+  <!-- end of tr.attlist -->
+  <!-- th: Table Header Cell ............................. -->
+  <!--
+    th is for header cells, td for data,
+    but for cells acting as both use td
+  -->
+  <!-- <!ELEMENT %th.qname;  %th.content; > -->
+  <!-- end of th.element -->
+  <define name="th.attlist" combine="interleave">
+    <ref name="Common.attrib"/>
+    <optional>
+      <attribute name="abbr">
+        <ref name="Text.datatype"/>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="axis"/>
+    </optional>
+    <optional>
+      <attribute name="headers">
+        <data type="IDREFS"/>
+      </attribute>
+    </optional>
+    <ref name="scope.attrib"/>
+    <optional>
+      <attribute name="rowspan" a:defaultValue="1">
+        <ref name="Number.datatype"/>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="colspan" a:defaultValue="1">
+        <ref name="Number.datatype"/>
+      </attribute>
+    </optional>
+    <ref name="CellHAlign.attrib"/>
+    <ref name="CellVAlign.attrib"/>
+    <optional>
+      <attribute name="bgcolor">
+        <ref name="Color"/>
+      </attribute>
+    </optional>
+  </define>
+  <!-- end of th.attlist -->
+  <!-- td: Table Data Cell ............................... -->
+  <!-- <!ELEMENT %td.qname;  %td.content; > -->
+  <!-- end of td.element -->
+  <define name="td.attlist" combine="interleave">
+    <ref name="Common.attrib"/>
+    <optional>
+      <attribute name="abbr">
+        <ref name="Text.datatype"/>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="axis"/>
+    </optional>
+    <optional>
+      <attribute name="headers">
+        <data type="IDREFS"/>
+      </attribute>
+    </optional>
+    <ref name="scope.attrib"/>
+    <optional>
+      <attribute name="rowspan" a:defaultValue="1">
+        <ref name="Number.datatype"/>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="colspan" a:defaultValue="1">
+        <ref name="Number.datatype"/>
+      </attribute>
+    </optional>
+    <ref name="CellHAlign.attrib"/>
+    <ref name="CellVAlign.attrib"/>
+    <optional>
+      <attribute name="bgcolor">
+        <ref name="Color"/>
+      </attribute>
+    </optional>
+  </define>
+</grammar>
+<!-- end of td.attlist -->
+<!-- end of xhtml-table-1.mod -->
+<!-- ================== End XHTML Table Setup Module ============= -->

@@ -4,3 +4,6 @@
 [submodule "annotum-base/plugins/cf-revision-manager"]
 	path = annotum-base/plugins/cf-revision-manager
 	url = git@github.com:crowdfavorite/wp-revision-manager.git
+[submodule "annotum-base/js/tinymce/plugins/annosource/codemirror"]
+	path = annotum-base/js/tinymce/plugins/annosource/codemirror
+	url = https://github.com/marijnh/codemirror

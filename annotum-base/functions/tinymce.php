@@ -260,7 +260,7 @@ class Anno_tinyMCE {
 	function mce_buttons($buttons, $ed_id) {
 
 		if ($this->is_article()) {
-			$buttons = explode(',', 'fullscreen,undo,redo,|,annopastetext,|,code');
+			$buttons = explode(',', 'fullscreen,undo,redo,|,annopastetext,|,annosource');
 			if ($ed_id != 'excerpt') {
 				$buttons[] = '|';
 				$buttons[] = 'annotree';
@@ -328,6 +328,8 @@ class Anno_tinyMCE {
 
 			$plugins['annoPaste'] = $plugins_dir.'annopaste/editor_plugin.js';
 			$plugins['annoTree'] = $plugins_dir.'annotree/editor_plugin.js';
+			$plugins['annoSource'] = $plugins_dir.'annosource/editor_plugin.js';
+			$plugins['annoSource_base'] = $plugins_dir.'annosource/annosource.js';
 
 		}
 		return $plugins;
@@ -739,6 +741,18 @@ function anno_popup_tips() {
 <?php
 }
 
+function anno_source_editor() {
+?>
+<div id="anno-popup-source" class="anno-mce-popup">
+	<input type="button" id="anno-source-validate" class="button button-primary js-source-button js-source-validate" value="<?php _e('Validate', 'anno'); ?>" />
+	<input type="button" id="anno-source-insert" class="button  button-primary js-source-button js-source-insert" value="<?php _e('Insert', 'anno'); ?>" />
+	<input type="button" id="anno-source-close" class="button  button-primary js-source-button js-source-close" value="<?php _e('Close Without Inserting', 'anno'); ?>" />
+	<ul id="validation-status"></ul>
+	<textarea name="htmlSource" id="htmlSource" value=""></textarea>
+</div>
+<?php
+}
+
 /**
  * Markup for the tinyMCE dialog popups
  */
@@ -780,8 +794,12 @@ function anno_preload_dialogs($init) {
 	<script type="text/javascript">
 		jQuery('#anno-tree-fullscreen-wrapper').appendTo('body');
 	</script>
+	</div>
 
-</div>
+	<div style="display:none;">
+	<?php anno_source_editor(); ?>
+	</div>
+
 <?php
 	}
 }
