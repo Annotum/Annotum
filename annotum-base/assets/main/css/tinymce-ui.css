@@ -755,3 +755,6 @@ i.mce-i-annotree:before {
 i.mce-i-annosource:before {
 	content: '\f0f6';
 }
+#wp-fullscreen-body, div.mce-fullscreen {
+	z-index: 99999;
+}

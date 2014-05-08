@@ -113,6 +113,9 @@ body .ui-widget-overlay {
 /** TinyMCE Popup Content
  ** IDs and specificity needed to override jquery ui and editor styles
  -------------------------------------------------- */
+.ui-dialog {
+	z-index: 100101;
+}
 
 #anno-popup-source {
 	background-color: #f9f9f9;
