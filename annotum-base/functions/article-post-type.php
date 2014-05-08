@@ -100,13 +100,15 @@ add_filter('post_updated_messages', 'anno_post_updated_messages');
  */
 function anno_article_meta_boxes($article) {
 	add_meta_box('subtitle', _x('Subtitle', 'Meta box title', 'anno'), 'anno_subtitle_meta_box', 'article', 'normal', 'high');
-	add_meta_box('abstract', _x('Abstract', 'Meta box title', 'anno'), 'anno_abstract_meta_box', 'article', 'normal', 'high');
-	add_meta_box('body', _x('Article', 'Meta box title', 'anno'), 'anno_body_meta_box', 'article', 'normal', 'high');
+	add_meta_box('excerpt-meta-box', _x('Abstract', 'Meta box title', 'anno'), 'anno_abstract_meta_box', 'article', 'normal', 'high');
+	add_meta_box('content-meta-box', _x('Article', 'Meta box title', 'anno'), 'anno_body_meta_box', 'article', 'normal', 'high');
 	add_meta_box('references', _x('References', 'Meta box title', 'anno'), 'anno_references_meta_box', 'article', 'normal', 'high');
 	add_meta_box('funding', _x('Funding Statement', 'Meta box title', 'anno'), 'anno_funding_meta_box', 'article', 'normal', 'high');
 	add_meta_box('acknowledgements', _x('Acknowledgements', 'Meta box title', 'anno'), 'anno_acknowledgements_meta_box', 'article', 'normal', 'high');
 	//add_meta_box('appendices', _x('Appendices', 'Meta box title', 'anno'), 'anno_appendices_meta_box', 'article', 'normal', 'high');
 	add_meta_box('featured', _x('Featured', 'Meta box title', 'anno'), 'anno_featured_meta_box', 'article', 'side', 'default');
+
+	add_meta_box('fancytree', _x('Fancytree', 'Meta box title', 'anno'), 'anno_fancytree_meta_box', 'article', 'normal', 'default');
 
 	if (current_user_can('editor') || current_user_can('administrator')) {
 		add_meta_box('convert', _x('Convert To Post', 'Meta box title', 'anno'), 'anno_convert_meta_box', 'article', 'side', 'low');
@@ -149,6 +151,13 @@ function anno_body_meta_box($post) {
 	}
 ?>
 
+<aside class="js-content-tree-pop-up tree-pop-up hidden">
+	<div id="anno-tree-close" class="js-anno-tree-close"></div>
+	<div id="anno-tree-excerpt">
+	</div>
+	<div id="anno-tree-content">
+	</div>
+</aside>
 <?php
 }
 
@@ -422,4 +431,9 @@ function anno_deposit_doi_meta_box($post) {
 	<!-- <input id="<?php echo $deposit_id; ?>" type="button" value="<?php _ex('Deposit', 'doi deposit button label', 'anno'); ?>"<?php disabled($deposit_enabled, false, true); ?> /> -->
 <?php
 }
+
+function anno_fancytree_meta_box($post) {
+
 ?>
+<?php
+}

@@ -52,11 +52,6 @@ textarea.anno-meta {
 	border-bottom: 1px solid #DFDFDF;
 }
 
-#body .wp_themeSkin .mceStatusbar a.mceResize,
-#appendices .wp_themeSkin .mceStatusbar a.mceResize {
-	top: -2px;
-}
-
 #doi-deposit {
 	text-align: center;
 }
@@ -592,28 +587,50 @@ div.media-modal-backdrop {
 	font-size: 12px;
 	line-height: 2.4;
 	padding: 5px;
+	position: absolute;
+	right: -246px;
+	top: 0;
 	width: 235px;
+	/*overflow-y: auto;*/
 }
 
-	.tree-pop-up ul {
-		list-style: none;
-		margin: 0;
-		padding-left: 8px;
+	#anno-tree-close {
+		background-color: #000;
+		-webkit-box-shadow: 2px 2px 3px 0 rgba(0,0,0,.2);
+		box-shadow: 2px 2px 3px 0 rgba(0,0,0,.2);
+		color: #fff;
+		cursor: pointer;
+		height: 24px;
+		position: absolute;
+		right: -15px;
+		top: -15px;
+		width: 24px;
+		z-index: 1;
 	}
 
-		.tree-pop-up ul ul {
-			padding-left: 0;
+		#anno-tree-close:before {
+			content: '\f00d';
+			font-family: FontAwesome;
+			height: 24px;
+			left: 0;
+			line-height: 24px;
+			position: absolute;
+			text-align: center;
+			top: 0;
+			width: 24px;
 		}
 
-	.section-title {
-		background-color: #93c0cc;
-		font-size: 12px;
-		font-weight: normal;
-		line-height: 1;
-		margin: 0 0 6px;
-		padding: 6px 8px;
-		text-transform: uppercase;
+	.fancytree-container {
+		margin: 0;
 	}
+
+		.fancytree-container ul {
+			margin-left: 8px;
+		}
+
+			.fancytree-container ul ul {
+				margin-left: 20px;
+			}
 
 @font-face {
   font-family: "annotum-textorum";
@@ -643,7 +660,7 @@ div.media-modal-backdrop {
   position: absolute;
   speak: none;
   text-transform: none;
-  top: 6px;
+  top: 0;
   width: 20px;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -660,5 +677,29 @@ div.media-modal-backdrop {
 }
 .para:before {
   content: "\e003";
-  top: 5px;
+  top: -2px;
+}
+
+.sec.icon {
+	background-color: #93c0cc;
+	display: block;
+	font-size: 12px;
+	font-weight: normal;
+	line-height: 1;
+	margin: 0 0 6px;
+	padding: 6px 8px;
+	text-transform: uppercase;
+}
+
+.fancytree-node {
+	cursor: pointer;
+}
+
+#anno-tree-fullscreen-wrapper {
+	position: absolute;
+	right: 0;
+	top: 0;
+	width: 235px;
+	z-index: 200001;
+	height: 100%;
 }
