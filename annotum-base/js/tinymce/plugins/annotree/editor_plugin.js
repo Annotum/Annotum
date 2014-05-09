@@ -16,7 +16,7 @@
 
 			ed.addCommand('Anno_Tree', function(){
 				jQuery('.js-' + t.ed.id + '-tree-pop-up').toggle();
-				if (t.ed.id == 'mce_fullscreen') {
+				if (t.isFullScreen()) {
 					t.toggleFullscreen();
 					// Toggle treeview for non fullscreen
 					jQuery('.js-content-tree-pop-up').hide();
@@ -64,23 +64,6 @@
 					t.mapNodes();
 				}
 			});
-
-			ed.onBeforeExecCommand.add(function(ed, cmd, ui, val, o) {
-				var DOM = tinymce.DOM, n, DL, DIV, cls, a, align;
-				if ( 'mceFullScreen' == cmd ) {
-					// This plugin is loaded after the WP plugin which adds the media button, safe to remove it here.
-					if ( 'mce_fullscreen' != ed.id && DOM.select('a.thickbox').length ) {
-						ed.settings.theme_advanced_buttons1 = ed.settings.theme_advanced_buttons1.replace(',|,add_media', '');
-					}
-
-					// Closing full screen mode, force hiding of media bar.
-					if (ed.getParam('fullscreen_is_enabled')) {
-						t.els.$fullscreenTree.hide();
-					}
-
-				}
-			});
-
 		},
 
 		// Generats a tree and updates the Dom with the new tree
@@ -135,20 +118,21 @@
 		},
 		// Special things need to happen for the full screen editor
 		toggleFullscreen : function () {
-			if (this.els.$fullscreenTree.is(":hidden")) {
+			if (!this.els.$fullscreenTree.is(":hidden")) {
 				this.els.$fullscreenTree.hide();
-				jQuery('#mce_fullscreen_container, #mce_fullscreen_tbl').css({
+				jQuery('.mce-fullscreen .mce-container-body, .mce-edit-area').css({
 					'padding-right' :  '0px',
 					'min-width' : '600px',
 					'width' : '100%'
 				});
 			}
 			else {
+				console.log('ts');
 				this.els.$fullscreenTree.show();
-				jQuery('#mce_fullscreen_container, #mce_fullscreen_tbl').css({
+				jQuery('.mce-fullscreen .mce-container-body').css({
 					'padding-right' :  '235px',
 					'min-width' : '600px',
-					'width' : '100%'
+					'width' : 'auto',
 				});
 			}
 		},
@@ -201,6 +185,9 @@
 					}
 				}
 			}
+		},
+		isFullScreen : function() {
+			return this.ed.plugins.fullscreen.isFullscreen()
 		},
 		// Generate a title for a node
 		generateTitle : function(node) {
