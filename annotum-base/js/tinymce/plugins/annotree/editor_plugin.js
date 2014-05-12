@@ -5,7 +5,6 @@
 			t.els = {};
 			t.els.$fullscreenTree = jQuery('.js-mce_fullscreen-tree-pop-up');
 
-
 			t.ed = ed;
 			// Which tags to put into the tree
 			t.treeViewTags = ['body', 'sec', 'p', 'fig', 'table-wrap'];
@@ -17,9 +16,14 @@
 			ed.addCommand('Anno_Tree', function(){
 				jQuery('.js-' + t.ed.id + '-tree-pop-up').toggle();
 				if (t.isFullScreen()) {
+					t.tree = t.fullScreenTree;
+
 					t.toggleFullscreen();
 					// Toggle treeview for non fullscreen
 					jQuery('.js-content-tree-pop-up').hide();
+				}
+				else {
+					t.tree = t.mainTree;
 				}
 				t.mapNodes();
 			});
@@ -29,6 +33,17 @@
 				cmd : 'Anno_Tree'
 			});
 
+			// Fires before the screen changes
+			if (ed.id == 'content') {
+				// Clean up when toggling full screen mode
+				ed.on('FullscreenStateChanged', function(e) {
+					// Hide the fullscreen tree.
+					t.els.$fullscreenTree.hide();
+					// Remove any padding
+					t.resetEditor();
+				});
+			}
+
 			jQuery(document).ready(function(){
 				jQuery('.js-anno-tree-close').on('click', function(e) {
 					e.preventDefault();
@@ -36,8 +51,22 @@
 				});
 			});
 
-			// Initializing the fancytree for this editor specifically
-			jQuery('#anno-tree-' + this.ed.id).fancytree({
+			/// TinyMCE 4 the editor does not change, it just goes 'fullscreen' mode.
+			t.mainTree = t.makeTree(this.ed.id);
+			t.fullScreenTree = t.makeTree('mce_fullscreen');
+			t.tree = t.mainTree;
+
+			// Regenerate the tree on node change if this editor has a tree view
+			// This  fires on initial load as well as nodes change with content loading
+			ed.onNodeChange.add(function(ed, object) {
+				if (!(t.tree instanceof jQuery)) {
+					t.mapNodes();
+				}
+			});
+		},
+		makeTree : function(id) {
+			var t = this;
+			jQuery('#anno-tree-' + id).fancytree({
 				keyboard : false,
 				minExpandLevel : 10,
 				source: [''],
@@ -55,15 +84,7 @@
 					jQuery('#' + edID + '_ifr').contents().scrollTop(jQuery(node).position().top);
 				}
 			});
-			t.tree = jQuery('#anno-tree-' + this.ed.id).fancytree('getTree');
-
-			// Regenerate the tree on node change if this editor has a tree view
-			// This  fires on initial load as well as nodes change with content loading
-			ed.onNodeChange.add(function(ed, object) {
-				if (!(t.tree instanceof jQuery)) {
-					t.mapNodes();
-				}
-			});
+			return jQuery('#anno-tree-' + id).fancytree('getTree');
 		},
 
 		// Generats a tree and updates the Dom with the new tree
@@ -120,21 +141,32 @@
 		toggleFullscreen : function () {
 			if (!this.els.$fullscreenTree.is(":hidden")) {
 				this.els.$fullscreenTree.hide();
-				jQuery('.mce-fullscreen .mce-container-body, .mce-edit-area').css({
-					'padding-right' :  '0px',
-					'min-width' : '600px',
-					'width' : '100%'
-				});
+				this.hideFullScreen();
 			}
 			else {
-				console.log('ts');
 				this.els.$fullscreenTree.show();
-				jQuery('.mce-fullscreen .mce-container-body').css({
-					'padding-right' :  '235px',
-					'min-width' : '600px',
-					'width' : 'auto',
-				});
+				this.showFullScreen();
 			}
+		},
+		hideFullScreen : function () {
+			jQuery('.mce-fullscreen .mce-container-body, .mce-fullscreen .mce-edit-area').css({
+				'padding-right' :  '0px',
+				'min-width' : '400px',
+				'width' : '100%'
+			});
+		},
+		showFullScreen : function() {
+			jQuery('.mce-fullscreen .mce-container-body').css({
+				'padding-right' :  '235px',
+				'min-width' : '400px',
+				'width' : 'auto',
+			});
+		},
+		resetEditor : function () {
+			jQuery('.mce-container-body, .mce-edit-area').css({
+				'padding-right' : '0px',
+				'width' : '100%'
+			});
 		},
 		/*
 		 * Walks through the staring at a node and generates a tree with JSON
