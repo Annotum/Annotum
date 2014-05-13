@@ -25,14 +25,13 @@ var annoLink;
 
 			$('#anno-link-cancel').click(annoLink.close);
 
-			inputs.dialog.bind('wpdialogrefresh', annoLink.refresh);
-			inputs.dialog.bind('wpdialogbeforeopen', annoLink.beforeOpen);
-			inputs.dialog.bind('wpdialogclose', annoLink.onClose);
+			inputs.dialog.on('wpdialogrefresh', annoLink.refresh);
+			inputs.dialog.on('wpdialogbeforeopen', annoLink.beforeOpen);
+			inputs.dialog.on('wpdialogclose', annoLink.onClose);
 		},
 
 		beforeOpen : function() {
 			annoLink.range = null;
-
 			if ( ! annoLink.isMCE() && document.selection ) {
 				annoLink.textarea().focus();
 				annoLink.range = document.selection.createRange();

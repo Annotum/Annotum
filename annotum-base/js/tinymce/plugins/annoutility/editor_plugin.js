@@ -1,12 +1,14 @@
 (function(){
 	// This plugin provides various utility to other plugins and aspects of the editor;
+	var inputs = {};
 	tinymce.create('tinymce.plugins.annoUtility', {
 		init : function(ed, url){
 			var t = this;
+			inputs.$dialogs = jQuery('#anno-popup-link, #anno-popup-equations, #anno-popup-quote, #anno-popup-references, #anno-popup-source, #anno-popup-table');
+			inputs.$backdrop = jQuery( '#wp-link-backdrop' );
 			this.ed = ed;
 
 			ed.on('FullscreenStateChanged', function(e) {
-				console.log(e);
 				var edID;
 				// Transitioning to Fullscreen
 				if (e.state) {
@@ -24,9 +26,18 @@
 				}
 			});
 
+			inputs.$dialogs.on('wpdialogbeforeopen', this.beforeOpen);
+			inputs.$dialogs.on('wpdialogclose', this.onClose);
+
 			// On Fullscreen, close windows
 			// On Fullscreen remove the toolbar thing
 			// Off fullscreen, add the toolbar margin back in
+		},
+		beforeOpen : function(e) {
+			inputs.$backdrop.show();
+		},
+		onClose : function(e) {
+			inputs.$backdrop.hide();
 		},
 		getInfo : function() {
 			return {
