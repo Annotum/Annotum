@@ -324,12 +324,14 @@ class Anno_tinyMCE {
 			$plugins['annoEquations'] = $plugins_dir.'annoequations/editor_plugin.js';
 			$plugins['annoequationedit'] = $plugins_dir.'annoequationedit/editor_plugin.js';
 
-			// $plugins['fullscreen'] = $plugins_dir.'fullscreen/editor_plugin.js';
-
 			$plugins['annoPaste'] = $plugins_dir.'annopaste/editor_plugin.js';
+
 			$plugins['annoTree'] = $plugins_dir.'annotree/editor_plugin.js';
+
 			$plugins['annoSource'] = $plugins_dir.'annosource/editor_plugin.js';
 			$plugins['annoSource_base'] = $plugins_dir.'annosource/annosource.js';
+
+			$plugins['annoUtility'] = $plugins_dir.'annoutility/editor_plugin.js';
 
 		}
 		return $plugins;
