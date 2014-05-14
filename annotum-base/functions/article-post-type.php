@@ -105,10 +105,8 @@ function anno_article_meta_boxes($article) {
 	add_meta_box('references', _x('References', 'Meta box title', 'anno'), 'anno_references_meta_box', 'article', 'normal', 'high');
 	add_meta_box('funding', _x('Funding Statement', 'Meta box title', 'anno'), 'anno_funding_meta_box', 'article', 'normal', 'high');
 	add_meta_box('acknowledgements', _x('Acknowledgements', 'Meta box title', 'anno'), 'anno_acknowledgements_meta_box', 'article', 'normal', 'high');
-	//add_meta_box('appendices', _x('Appendices', 'Meta box title', 'anno'), 'anno_appendices_meta_box', 'article', 'normal', 'high');
+	add_meta_box('appendices', _x('Appendices', 'Meta box title', 'anno'), 'anno_appendices_meta_box', 'article', 'normal', 'high');
 	add_meta_box('featured', _x('Featured', 'Meta box title', 'anno'), 'anno_featured_meta_box', 'article', 'side', 'default');
-
-	add_meta_box('fancytree', _x('Fancytree', 'Meta box title', 'anno'), 'anno_fancytree_meta_box', 'article', 'normal', 'default');
 
 	if (current_user_can('editor') || current_user_can('administrator')) {
 		add_meta_box('convert', _x('Convert To Post', 'Meta box title', 'anno'), 'anno_convert_meta_box', 'article', 'side', 'low');
@@ -432,8 +430,12 @@ function anno_deposit_doi_meta_box($post) {
 <?php
 }
 
-function anno_fancytree_meta_box($post) {
-
-?>
-<?php
+function anno_appendices_meta_box($post) {
+	$appendices = get_post_meta($post->ID, '_anno_appendices', true);
+	if (!empty($appendices) && is_array($appendices)) {
+		foreach ($appendices as $index => $content) {
+			echo '<textarea class="js-textarea" disabled>'.esc_textarea($content).'</textarea>';
+			//$html .= anno_appendix_box_content($index + 1, $content);
+		}
+	}
 }
