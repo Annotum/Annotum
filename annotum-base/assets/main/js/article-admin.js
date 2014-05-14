@@ -174,5 +174,28 @@ jQuery(document).ready(function($){
 		}
 	});
 
+	// Appendix removal
+	$('.js-delete-appendix').on('click', function(e) {
+		var appendixIndex = $(this).data('index');
+		var nonce = $('#appendex-delete-nonce').val();
+		e.preventDefault();
+		if (confirm(annoArticle.deleteAppendixMsg)) {
+			$.post(ajaxurl,
+				{
+					action : 'anno_delete_appendix',
+					post_id : ANNO_POST_ID,
+					index : appendixIndex,
+					nonce: nonce
+				},
+				function(data) {
+					if (data == 'true') {
+						$('.js-appendix-'+appendixIndex).remove();
+						// Reorder the existing indices
+					}
+				},
+				'text'
+			);
+		}
+	});
 
 });

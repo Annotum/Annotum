@@ -99,14 +99,19 @@ add_filter('post_updated_messages', 'anno_post_updated_messages');
  * Add DTD Meta Boxes
  */
 function anno_article_meta_boxes($article) {
+	$appendices = get_post_meta($article->ID, '_anno_appendices', true);
+
 	add_meta_box('subtitle', _x('Subtitle', 'Meta box title', 'anno'), 'anno_subtitle_meta_box', 'article', 'normal', 'high');
 	add_meta_box('excerpt-meta-box', _x('Abstract', 'Meta box title', 'anno'), 'anno_abstract_meta_box', 'article', 'normal', 'high');
 	add_meta_box('content-meta-box', _x('Article', 'Meta box title', 'anno'), 'anno_body_meta_box', 'article', 'normal', 'high');
 	add_meta_box('references', _x('References', 'Meta box title', 'anno'), 'anno_references_meta_box', 'article', 'normal', 'high');
 	add_meta_box('funding', _x('Funding Statement', 'Meta box title', 'anno'), 'anno_funding_meta_box', 'article', 'normal', 'high');
 	add_meta_box('acknowledgements', _x('Acknowledgements', 'Meta box title', 'anno'), 'anno_acknowledgements_meta_box', 'article', 'normal', 'high');
-	add_meta_box('appendices', _x('Appendices', 'Meta box title', 'anno'), 'anno_appendices_meta_box', 'article', 'normal', 'high');
 	add_meta_box('featured', _x('Featured', 'Meta box title', 'anno'), 'anno_featured_meta_box', 'article', 'side', 'default');
+
+	if (!empty($appendices)) {
+		add_meta_box('appendices', _x('Appendices', 'Meta box title', 'anno'), 'anno_appendices_meta_box', 'article', 'normal', 'high');
+	}
 
 	if (current_user_can('editor') || current_user_can('administrator')) {
 		add_meta_box('convert', _x('Convert To Post', 'Meta box title', 'anno'), 'anno_convert_meta_box', 'article', 'side', 'low');
@@ -431,11 +436,41 @@ function anno_deposit_doi_meta_box($post) {
 }
 
 function anno_appendices_meta_box($post) {
+	echo '<div class="inside">
+			<p>'.__('Appendices have changed in Annotum 2.0, if you would like to continue using them please copy the appendix content below, open the code view
+		in the body section and paste it in at the bottom then delete that appendix. Appendices will continue to be output as normal if you do nothing.', 'anno').'</p>
+			<hr />';
+
 	$appendices = get_post_meta($post->ID, '_anno_appendices', true);
 	if (!empty($appendices) && is_array($appendices)) {
 		foreach ($appendices as $index => $content) {
-			echo '<textarea class="js-textarea" disabled>'.esc_textarea($content).'</textarea>';
+			echo '<div class="'.esc_attr('js-appendix-'.$index).'">';
+			echo '<h3>'.sprintf(__('Appendix %s - ', 'anno'), $index + 1).' <a href="#" class="js-delete-appendix" data-index="'.esc_attr($index).'">'._x('delete', 'delete appendix text', 'anno').'</a></h3>';
+			echo '<textarea class="js-textarea anno-meta" disabled rows="10">'.esc_textarea($content).'</textarea>';
+			echo '</div>';
 			//$html .= anno_appendix_box_content($index + 1, $content);
 		}
+		wp_nonce_field('appendex-delete-nonce', 'appendex-delete-nonce', false, true);
 	}
+	echo '</div>';
 }
+
+function anno_delete_appendix_ajax() {
+	$result = 'false';
+	if (check_ajax_referer('appendex-delete-nonce', 'nonce', false)) {
+		$appendix_index = isset($_POST['index']) ? $_POST['index'] : false;
+		$post_id = isset($_POST['post_id']) ? $_POST['post_id'] : false;
+		if ($appendix_index !== false && !empty($post_id)) {
+			$appendix_meta = get_post_meta($post_id, '_anno_appendices', true);
+			if (isset($appendix_meta[$appendix_index])) {
+				unset($appendix_meta[$appendix_index]);
+				if (update_post_meta($post_id, '_anno_appendices', $appendix_meta)) {
+					$result = 'true';
+				}
+			}
+		}
+	}
+	echo $result;
+	die();
+}
+add_action('wp_ajax_anno_delete_appendix', 'anno_delete_appendix_ajax');

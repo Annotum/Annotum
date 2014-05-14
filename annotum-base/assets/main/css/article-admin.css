@@ -41,8 +41,7 @@ textarea.anno-meta {
 	width: 100%;
 }
 
-#body .inside,
-#appendices .inside {
+#body .inside {
 	margin: 0;
 	padding: 0;
 }
