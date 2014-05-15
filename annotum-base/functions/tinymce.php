@@ -272,10 +272,10 @@ class Anno_tinyMCE {
 	function mce_buttons_2($buttons, $ed_id) {
 		if ($this->is_article()) {
 			if ($ed_id == 'excerpt') {
-				$buttons = array('bold,italic,underline,superscript,subscript,charmap');
+				$buttons = array('bold,italic,underline,superscript,subscript,charmap,annosection');
 			}
 			else {
-				$buttons = explode(',', 'annoorderedlist,annobulletlist,bold,italic,underline,superscript,subscript,annopreformat,annomonospace,sup,sub,charmap,|,annolink,announlink,|,annosection,annosubsection,mysplitbutton,|,annoreferences,|,annoimages,|,annoquote,annoequations');
+				$buttons = explode(',', 'annoorderedlist,annobulletlist,bold,italic,underline,annopreformat,annomonospace,superscript,subscript,charmap,|,annolink,announlink,|,annosection,annosubsection,mysplitbutton,|,annoreferences,|,annoimages,|,annoquote,annoequations');
 			}
 		}
 		return $buttons;
