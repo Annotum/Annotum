@@ -75,6 +75,16 @@ div[data-xmlel="preformat"] {
 	white-space: pre;
 }
 
+span[data-xmlel="sub"] {
+	font-size: 8px;
+	vertical-align: sub;
+}
+span[data-xmlel="sup"] {
+	font-size: 8px;
+	vertical-align: super;
+}
+
+
 /** lists
  -------------------------------------------------- */
 div[data-xmlel="list"] {
