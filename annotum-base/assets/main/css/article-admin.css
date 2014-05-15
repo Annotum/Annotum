@@ -94,14 +94,28 @@ body .wp-dialog .ui-dialog-title {
 	padding: 0;
 	text-align: left;
 }
+body .wp-dialog .ui-state-default.ui-dialog-titlebar-close {
+	cursor: pointer;
+	float: right;
+	margin-right: -7px;
+	margin-top: 0;
+}
 body .ui-dialog-titlebar-close:before{
-	content: 'X';
+	color: #fff;
+	content: 'x';
 	font-size: 15px;
+	font-weight: bold;
 	speak: none;
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
-	color: #999;
-	padding-left: 12px;
+}
+
+body .ui-dialog-titlebar-close.ui-button-icon-only .ui-icon {
+	margin-left: 0;
+}
+
+body .ui-dialog-titlebar-close .ui-button-text {
+	display: none;
 }
 body .ui-widget-overlay {
 	opacity: .75;
