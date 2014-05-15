@@ -150,7 +150,7 @@
 
 	function findItemToOperateOn(e, dom) {
 		var item;
-		if (!dom.is(e, 'list-item,list')) {
+		if (!dom.is(e, '.list-item,.list')) {
 			item = dom.getParent(e, '.list-item');
 			if (item) {
 				e = item;
@@ -492,28 +492,35 @@
 			}
 
 			function convertListItemToParagraph(element) {
-				var child, nextChild, mergedElement, splitLast;
+				var child, nextChild, mergedElement, splitLast, hasPChild;
 				if (tinymce.inArray(applied, element) !== -1) {
 					return;
 				}
 				element = splitNestedLists(element, dom);
-				while (dom.is(element.parentNode, 'list,list-item')) {
+				while (dom.is(element.parentNode, '.list,.list-item')) {
 					dom.split(element.parentNode, element);
 				}
 
+				if (element.firstChild != null && element.firstChild.className.toUpperCase() == 'P') {
+					hasPChild = true;
+				}
 
 				// Push the original element we have from the selection, not the renamed one.
 				applied.push(element);
 
 				// If the list is already contained in a p tag, dont wrap in another.
-				if (dom.getParent(element, '.p') == null) {
+				if (dom.getParent(element, '.p') == null && !hasPChild) {
 					element.setAttribute('class', 'p');
 					element.setAttribute('data-xmlel', 'p');
 				}
 				else {
-					dom.setOuterHTML(element, element.innerHTML);
+					if (hasPChild) {
+						dom.setOuterHTML(element, element.firstChild.innerHTML);
+					}
+					else {
+						dom.setOuterHTML(element, element.innerHTML);
+					}
 				}
-
 
 				mergedElement = attemptMergeWithAdjacent(element, false, ed.settings.force_br_newlines);
 				if (mergedElement === element) {
@@ -525,7 +532,8 @@
 							child = dom.split(child.parentNode, child);
 							splitLast = true;
 							nextChild = child.nextSibling && child.nextSibling.firstChild;
-						} else {
+						}
+						else {
 							nextChild = child.nextSibling;
 							if (splitLast && child.tagName === 'BR') {
 								dom.remove(child);
