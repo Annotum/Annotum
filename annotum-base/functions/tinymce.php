@@ -971,6 +971,21 @@ function anno_process_editor_content($content) {
 	// Break to BR
 	$content = str_replace('<break />', '<br />', $content);
 
+	// Load the XML source
+	$xml = new DOMDocument;
+	$xml->loadXML('<textorum>' . $content . '</textorum>');
+
+	$xsl = new DOMDocument;
+	$xsl->load(trailingslashit(get_template_directory()) . 'js/textorum/xsl/xml2cke.xsl');
+
+	// Configure the transformer
+	$proc = new XSLTProcessor;
+	$proc->importStyleSheet($xsl); // attach the xsl rules
+	$proc->setParameter(null, 'inlineelements', 'bold,italic,monospace,underline,sub,sup,named-content,ext-link,inline-graphic,alt-text,lbl,long-desc,copyright-statement,copyright-holder,license,license-p,disp-quote,attrib,inline-formula,xref');
+	$proc->setParameter(null, 'fixedelements', 'textorum,table,thead,tbody,td,tr,th');
+
+	$content = $proc->transformToXML($xml);
+	$content = preg_replace('/<\/?textorum[^>]*>/', '', $content);
 	return $content;
 
 	phpQuery::newDocument($content);
@@ -1193,7 +1208,7 @@ function anno_insert_post_data($data, $postarr) {
 		// Set formatted HTML as the_content
 		$data['post_content'] = addslashes(anno_xml_to_html($xml));
 
-		$data['post_excerpt'] = anno_validate_xml_content_on_save($data['post_excerpt']);
+		$data['post_excerpt'] = addslashes(anno_validate_xml_content_on_save(stripslashes($data['post_excerpt'])));
 	}
 	return $data;
 }
@@ -1267,6 +1282,30 @@ add_filter( 'edit_post_content_filtered', 'anno_edit_post_content_filtered', 10,
  */
 function anno_to_xml($html_content) {
 	$post_id = anno_get_post_id();
+
+	if (strpos($html_content, 'data-xmlel') === false) {
+		# Already an XML document (or at least not an editable-HTML translation of an XML document)
+		return $html_content;
+	}
+
+	// Load the XML source
+	$xml = new DOMDocument;
+	$xml->loadXML('<div data-xmlel="textorum">' . $html_content . '</div>');
+
+	$xsl = new DOMDocument;
+	$xsl->load(trailingslashit(get_template_directory()) . 'js/textorum/xsl/cke2xml.xsl');
+
+	// Configure the transformer
+	$proc = new XSLTProcessor;
+	$proc->importStyleSheet($xsl); // attach the xsl rules
+
+	$content = $proc->transformToXML($xml);
+
+	$content = preg_replace('/^.*?<textorum>/ms', '', $content);
+	$content = preg_replace('/<\/textorum>.*?$/ms', '', $content);
+
+	return $content;
+
 	// Strip out Textorum's DOCTYPE declaration
 	$html_content = preg_replace("/^<!DOCTYPE[^>]*?>/", "", $html_content);
 
