@@ -317,7 +317,7 @@ class Anno_tinyMCE {
 			$plugins['annoQuote'] = $plugins_dir.'annoquote/editor_plugin.js';
 			$plugins['annoQuote_base'] = $plugins_dir.'annoquote/annoquote.js';
 
-			//$plugins['annoLists'] = $plugins_dir.'annolists/editor_plugin.js';
+			$plugins['annoLists'] = $plugins_dir.'annolists/editor_plugin.js';
 
 			$plugins['annoFormats'] = $plugins_dir.'annoformats/editor_plugin.js';
 

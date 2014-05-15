@@ -318,7 +318,6 @@
 			}
 
 			function makeList(element) {
-				console.log("Make List", element);
 				var list = dom.create(
 						tinyMCE.activeEditor.plugins.textorum.translateElement('list'),
 						{
@@ -354,14 +353,10 @@
 						{'class': 'p', 'data-xmlel': 'p'},
 						'&#xA0;'
 					));
-
 					dom.insertAfter(li, element);
 					li.appendChild(element);
 					element = li;
 				}
-
-				console.log("The Element", element);
-				console.log("The List", list);
 
 				dom.insertAfter(list, element);
 				list.appendChild(element);
@@ -369,7 +364,7 @@
 			}
 
 			function doWrapList(start, end, template) {
-				var li, n = start, tmp, i, title;
+				var li, n = start, tmp, i, title, content;
 				while (!dom.isBlock(start.parentNode) && start.parentNode !== dom.getRoot()) {
 					start = dom.split(start.parentNode, start.previousSibling);
 					start = start.nextSibling;
@@ -377,11 +372,21 @@
 				}
 				if (template) {
 					li = template.cloneNode(true);
+					content = li.innerHTML;
+					li.innerHTML = '';
+					li.innerText = '';
 					start.parentNode.insertBefore(li, start);
 					while (li.firstChild) dom.remove(li.firstChild);
 					//Title
 					li.setAttribute('class', 'list-item');
 					li.setAttribute('data-xmlel', 'list-item');
+
+					dom.add(li, dom.create(
+						ed.plugins.textorum.translateElement('p'),
+						{'class': 'p', 'data-xmlel': 'p'},
+						''
+					));
+
 				} else {
 					li = dom.create(
 						tinyMCE.activeEditor.plugins.textorum.translateElement('list-item'),
@@ -399,13 +404,12 @@
 				}
 				while (n && n != end) {
 					tmp = n.nextSibling;
-					li.appendChild(n);
+					li.firstChild.appendChild(n);
 					n = tmp;
 				}
 				if (li.childNodes.length === 0) {
 					li.innerHTML = '<br _mce_bogus="1" />';
 				}
-				console.log("doWrapList");
 				makeList(li);
 			}
 
@@ -482,7 +486,6 @@
 
 				if (dom.getAttrib(element.parentNode, 'list-type') === oppositeListType) {
 					dom.split(element.parentNode, element);
-					console.log("changeList");
 					makeList(element);
 				}
 				applied.push(element);
