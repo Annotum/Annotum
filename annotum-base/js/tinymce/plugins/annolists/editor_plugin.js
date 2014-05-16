@@ -333,10 +333,9 @@
 				else if (element.className.toUpperCase() === 'P' || element.tagName === 'BODY') {
 					processBrs(element, function(startSection, br, previousBR) {
 						doWrapList(startSection, br, element.tagName === 'BODY' ? null : startSection.parentNode);
-						li = startSection.parentNode;
+						li = dom.getParent(startSection, '.list-item');
 						cleanupBr(br);
 					});
-
 					attemptMergeWithAdjacent(li.parentNode, true);
 
 					return;
