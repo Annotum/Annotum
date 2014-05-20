@@ -73,10 +73,18 @@ var annosource;
 			return this.validator.validate(content, contentType);
 		},
 		insertContent : function() {
-			this.editor.setContent('<!DOCTYPE sec SYSTEM "http://dtd.nlm.nih.gov/publishing/3.0/journalpublishing3.dtd"><body>' + this.codemirror.getValue().trim() + '</body>', {source_view : true});
+			var xsltPromise;
+			var t = this;
+			var content = this.codemirror.getValue().trim();
+			xsltPromise = annoValidation.xsltTransform(content, 'html');
+			xsltPromise.then(function(data) {
+				if (data.status == 'success') {
+					t.editor.setContent('<!DOCTYPE sec SYSTEM "http://dtd.nlm.nih.gov/publishing/3.0/journalpublishing3.dtd"><body>' + data.content  + '</body>', {source_view : true});
+				}
+			});
+
 			// Slightly hacky, but Textorum needs the content to be wrapped by a single element
 			// Remove it after insertion.
-			jQuery(this.editor.dom.select('div.body')[0].firstChild).unwrap();
 		},
 		// * Internal Helper Functions ***************
 		_getContentType : function () {
@@ -137,18 +145,22 @@ var annosource;
 				t.close();
 			}
 		},
+		close : function() {
+			this.editor.windowManager.close();
+		},
 		beforeOpen : function () {
 			var t = annoSource;
+			var xsltPromise;
 			var contentType = t._getContentType();
 
 			t.editor = top.tinymce.activeEditor;
 			t.editorVal = t.editor.getContent({source_view : true}).replace(/^<!DOCTYPE[^>]*?>/, '');
-			var p = annoValidation.xsltTransform(t.editorVal, 'xml');
-			p.then(function(a) {
-				if (a.status == 'success') {
-					t.codemirror.setValue(a.content);
+			xsltPromise = annoValidation.xsltTransform(t.editorVal, 'xml');
+			xsltPromise.then(function(data) {
+				if (data.status == 'success') {
+					t.codemirror.setValue(data.content);
 					$(document).on('annoValidation', t.processValidation);
-					t.validate(a.content, contentType);
+					t.validate(data.content, contentType);
 				}
 			});
 		},
