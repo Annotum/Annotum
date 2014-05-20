@@ -58,7 +58,8 @@
 							return !self.insertElement('list-item', 'after', listItemParent);
 						}
 						else {
-							return !self.insertElement('p', 'after');
+							parentP = ed.dom.getParent(ed.selection.getNode().parentNode, '.p');
+							return !self.insertElement('p', 'after', parentP);
 						}
 					}
 				}
