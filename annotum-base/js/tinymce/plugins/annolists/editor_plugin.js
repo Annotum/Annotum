@@ -597,7 +597,7 @@
 			function createWrapList(element) {
 				var wrapItem = createWrapItem(element),
 					list = dom.getParent(element, '.list'),
-					listType = dom.getAttrib(list, '.list-type'),
+					listType = dom.getAttrib(list, 'list-type'),
 					wrapList = dom.create(
 						ed.plugins.textorum.translateElement('list'),
 						{
