@@ -44,6 +44,28 @@
 			);
 
 			return promise;
+		},
+		xsltTransform : function (content, xsltAction) {
+			var promise
+			promise = $.post(ajaxurl,
+				{
+					content: content,
+					action: 'anno_xslt_transform',
+					xsltAction : xsltAction,
+				},
+				function (data) {
+					console.log(data);
+					if (data.status == 'success') {
+						return data.content;
+					}
+					else {
+						return content;
+					}
+				},
+				'json'
+			);
+
+			return promise;
 		}
 	}
 	window.annoValidation = annoValidation;

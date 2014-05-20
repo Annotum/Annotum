@@ -17,7 +17,6 @@ var annosource;
 			t.validator = window.annoValidation;
 
 			inputs.$dialog.bind('wpdialogclose', annoSource.onClose);
-
 			t.codemirror = CodeMirror.fromTextArea(document.getElementById('htmlSource'), {
 				lineNumbers: true,
 			});
@@ -144,9 +143,14 @@ var annosource;
 
 			t.editor = top.tinymce.activeEditor;
 			t.editorVal = t.editor.getContent({source_view : true}).replace(/^<!DOCTYPE[^>]*?>/, '');
-			t.codemirror.setValue(t.editorVal);
-			$(document).on('annoValidation', t.processValidation);
-			t.validate(t.editorVal, contentType);
+			var p = annoValidation.xsltTransform(t.editorVal, 'xml');
+			p.then(function(a) {
+				if (a.status == 'success') {
+					t.codemirror.setValue(a.content);
+					$(document).on('annoValidation', t.processValidation);
+					t.validate(a.content, contentType);
+				}
+			});
 		},
 		onClose : function () {
 			var t = annoSource;
