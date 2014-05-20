@@ -94,7 +94,7 @@ function anno_ajax_validate_all() {
 
 	if (isset($_POST['abstract'])) {
 		$abstract = wp_unslash($_POST['abstract']);
-		$abstract = anno_validation_prep_abstract($content);
+		$abstract = anno_validation_prep_abstract($abstract);
 		$schema = trailingslashit(get_template_directory()).'functions/schema/kipling-jp3-partial.rng';
 		$response['abstract'] = anno_validate($abstract, $schema);
 
