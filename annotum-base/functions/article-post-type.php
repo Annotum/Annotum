@@ -438,7 +438,8 @@ function anno_deposit_doi_meta_box($post) {
 function anno_appendices_meta_box($post) {
 	echo '<div class="inside">
 			<p>'.__('Appendices have changed in Annotum 2.0, if you would like to continue using them please copy the appendix content below, open the code view
-		in the body section and paste it in at the bottom then delete that appendix. Appendices will continue to be output as normal if you do nothing.', 'anno').'</p>
+		in the body section and paste it in at the bottom then delete that appendix. Please note that all content pasted into the body must be contained in a <code>&lt;sec&gt;  &lt;/sec&gt;</code> block.
+		 Appendices will continue to be output as normal if you do nothing.', 'anno').'</p>
 			<hr />';
 
 	$appendices = get_post_meta($post->ID, '_anno_appendices', true);
