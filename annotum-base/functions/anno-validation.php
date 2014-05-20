@@ -14,7 +14,6 @@ function anno_validate($content, $schema) {
 	$response = array();
 	$response['status'] = '';
 
-	define('XML_PARSE_BIG_LINES', 4194304); //@TODO incorporate this
 	$doc = new DOMDocument();
 	libxml_use_internal_errors(true);
 	libxml_clear_errors();
