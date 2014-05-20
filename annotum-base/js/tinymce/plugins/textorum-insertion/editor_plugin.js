@@ -44,14 +44,7 @@
 
 					// Ctrl + Enter
 					if (e.ctrlKey) {
-						// Check for parent p
-						parentP = ed.dom.getParent(ed.selection.getNode().parentNode, '.p');
-						if (parentP) {
-							return !self.insertElement('p', 'after', parentP);
-						}
-						else {
-							return !self.insertElement('sec', 'after', ed.dom.getParent(ed.selection.getNode(), '.sec'));
-						}
+						return !self.insertElement('sec', 'after', ed.dom.getParent(ed.selection.getNode(), '.sec'));
 					}
 					else {
 						if (listItemParent) {
