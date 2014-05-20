@@ -173,14 +173,14 @@
 					listItemParent = ed.dom.getParent(node, '.list-item');
 
 				if (e.keyCode === 13) {
-					return listItemParent && node.isEmpty();
+					return listItemParent;
 				}
 
 				return false;
 			};
 
 			function cancelKeys(ed, e) {
-				if (isTriggerKey(e) || isEnterInEmptyListItem(ed, e)) {
+				if (isTriggerKey(e)) {//|| isEnterInEmptyListItem(ed, e)) {
 					return Event.cancel(e);
 				}
 			};
@@ -518,28 +518,6 @@
 					}
 					else {
 						dom.setOuterHTML(element, element.innerHTML);
-					}
-				}
-
-				mergedElement = attemptMergeWithAdjacent(element, false, ed.settings.force_br_newlines);
-				if (mergedElement === element) {
-					// Now split out any block elements that can't be contained within a P.
-					// Manually iterate to ensure we handle modifications correctly (doesn't work with tinymce.each)
-					child = element.firstChild;
-					while (child) {
-						if (dom.isBlock(child)) {
-							child = dom.split(child.parentNode, child);
-							splitLast = true;
-							nextChild = child.nextSibling && child.nextSibling.firstChild;
-						}
-						else {
-							nextChild = child.nextSibling;
-							if (splitLast && child.tagName === 'BR') {
-								dom.remove(child);
-							}
-							splitLast = false;
-						}
-						child = nextChild;
 					}
 				}
 			}
