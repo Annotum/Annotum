@@ -208,22 +208,45 @@ function anno_xml_references($article_id) {
 	return $xml;
 }
 
+// function anno_ajax_xslt_transform() {
+// 	$response = array();
+// 	$response['status'] = '';
+
+// 	if (isset($_POST['content'])) {
+// 		$content = wp_unslash($_POST['content']);
+// 		$action = isset($_POST['xsltAction']) ? $_POST['xsltAction'] : 'xml';
+// 		$response['content'] = anno_xslt_transform($content, $action);
+// 		$response['status'] = 'succes';
+// 	}
+// 	echo json_encode($response);
+// 	die();
+// }
+// add_action('wp_ajax_anno_xslt_transform', 'anno_ajax_xslt_transform');
+
+function anno_xslt_transform($content, $action = 'xml') {
+	// HTML->XML
+	if ($action == 'xml') {
+		$content = trim(anno_to_xml($content));
+	}
+	// XML->HTML
+	else {
+		$content = trim(anno_process_editor_content($content));
+	}
+
+	return $content;
+}
+
 function anno_ajax_xslt_transform() {
 	$response = array();
 	$response['status'] = '';
-
-	if (isset($_POST['content'])) {
-		$content = wp_unslash($_POST['content']);
+	if (isset($_POST['contents'])) {
+		$response['status'] = 'success';
 		$action = isset($_POST['xsltAction']) ? $_POST['xsltAction'] : 'xml';
-		// HTML->XML
-		if ($action == 'xml') {
-			$response['content'] = trim(anno_to_xml($content));
-			$response['status'] = 'success';
-		}
-		// XML->HTML
-		else {
-			$response['content'] = trim(anno_process_editor_content($content));
-			$response['status'] = 'success';
+		$contents = $_POST['contents'];
+		foreach ($contents as $index => $content) {
+			$content = wp_unslash($content);
+			$content = anno_xslt_transform($content, $action);
+			$response['contents'][$index] = $content;
 		}
 	}
 	echo json_encode($response);

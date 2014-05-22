@@ -45,21 +45,21 @@
 
 			return promise;
 		},
-		xsltTransform : function (content, xsltAction) {
-			var promise
+		xsltTransform : function (contents, xsltAction) {
+			var promise;
 			promise = $.post(ajaxurl,
 				{
-					content: content,
+					contents: contents,
 					action: 'anno_xslt_transform',
-					xsltAction : xsltAction,
+					xsltAction : xsltAction
 				},
 				function (data) {
 					console.log(data);
 					if (data.status == 'success') {
-						return data.content;
+						return data.contents;
 					}
 					else {
-						return content;
+						return contents;
 					}
 				},
 				'json'
