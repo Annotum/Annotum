@@ -32,7 +32,8 @@
 	}
 
 	function isList(e) {
-		return e && e.className.toUpperCase() === 'LIST';
+		var classname = e.className;
+		return e && classname && classname.toUpperCase() === 'LIST';
 	}
 
 	function splitNestedLists(element, dom) {
@@ -161,8 +162,29 @@
 
 	tinymce.create('tinymce.plugins.annoLists', {
 		init: function(ed, url) {
+			var t = this;
+			t.helper = ed.plugins.textorum.helper;
 
 			var enterDownInEmptyList = false;
+
+			// Wrap the innards wiht a p tag
+			ed.onNodeChange.add(function(ed, object, e) {
+				if (t.helper.getLocalName(e.parentNode) == 'list-item' && t.helper.getLocalName(e.parentNode.firstChild) != 'p') {
+					var pTags = ed.dom.select('.p', e.parentNode);
+					if (pTags.length == 0) {
+						var content = e.parentNode.innerHTML;
+						var pNode = ed.dom.create(
+							ed.plugins.textorum.translateElement('p'),
+							{'class': 'p', 'data-xmlel': 'p'},
+							content
+						);
+
+						e.parentNode.innerHTML = (pNode.outerHTML);
+					}
+
+				}
+			});
+
 
 			function isTriggerKey(e) {
 				return e.keyCode === 9 ;
@@ -200,7 +222,7 @@
 						if (!child)
 							break;
 
-						if (child.className.toUpperCase() === 'LIST-ITEM')
+						if (this.helper.getLocalName(child) === 'list-item')
 							li = child;
 					} while (child = child.nextSibling);
 
@@ -414,7 +436,7 @@
 
 			function processBrs(element, callback) {
 				var startSection, previousBR, END_TO_START = 3, START_TO_END = 1,
-					breakElements = 'br,.list,.p,.title,table,.disp-quote,.pre,dl';
+					breakElements = 'br,.list,.p:not(.list-item > .p),.title,table,.disp-quote,.pre,dl';
 				function isAnyPartSelected(start, end) {
 					var r = dom.createRng(), sel;
 					bookmark.keep = true;
@@ -429,10 +451,12 @@
 					return !(r.compareBoundaryPoints(END_TO_START, sel) > 0 || r.compareBoundaryPoints(START_TO_END, sel) <= 0);
 				}
 				function nextLeaf(br) {
-					if (br.nextSibling)
+					if (br.nextSibling) {
 						return br.nextSibling;
-					if (!dom.isBlock(br.parentNode) && br.parentNode !== dom.getRoot())
+					}
+					if (!dom.isBlock(br.parentNode) && br.parentNode !== dom.getRoot()) {
 						return nextLeaf(br.parentNode);
+					}
 				}
 				// Split on BRs within the range and process those.
 				startSection = element.firstChild;
@@ -443,13 +467,15 @@
 					if (br.hasAttribute && br.hasAttribute('_mce_bogus')) {
 						return true; // Skip the bogus Brs that are put in to appease Firefox and Safari.
 					}
-					if (isAnyPartSelected(startSection, br)) {
+
+					if (!!startSection && isAnyPartSelected(startSection, br)) {
 						dom.addClass(br, '_mce_tagged_br');
 						startSection = nextLeaf(br);
 					}
 				});
 				trailingContentSelected = (startSection && isAnyPartSelected(startSection, undefined));
 				startSection = element.firstChild;
+
 				each(dom.select(breakElements, element), function(br) {
 					// Got a section from start to br.
 					var tmp = nextLeaf(br);
@@ -464,6 +490,7 @@
 					}
 					startSection = tmp;
 				});
+
 				if (trailingContentSelected) {
 					callback(startSection, undefined, previousBR);
 				}
