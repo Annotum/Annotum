@@ -54,7 +54,6 @@
 					xsltAction : xsltAction
 				},
 				function (data) {
-					console.log(data);
 					if (data.status == 'success') {
 						return data.contents;
 					}

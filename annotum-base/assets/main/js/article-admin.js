@@ -118,7 +118,6 @@ jQuery(document).ready(function($){
 			e.preventDefault();
 			$('form#post').off('submit', annoPreventDefault);
 			$submitButton.off('click');
-			// State change requires value and name from button pressed
 			$(e.target).click();
 		});
 
@@ -127,6 +126,8 @@ jQuery(document).ready(function($){
 		}
 
 		function annoProcessSave(e) {
+			e.preventDefault();
+			var contents = {};
 			var clicker = e.target;
 			$saveButton.off('click', annoProcessSave);
 			e.preventDefault();
@@ -134,24 +135,25 @@ jQuery(document).ready(function($){
 			var excerpt = tinyMCE.editors['excerpt'].getContent(),
 			content = tinyMCE.editors['content'].getContent(),
 			$t = $(this);
+			contents.excerpt = excerpt.replace(/^<!DOCTYPE[^>]*?>/, '');
+			contents.content = content.replace(/^<!DOCTYPE[^>]*?>/, '');
 
-			excerpt = excerpt.replace(/^<!DOCTYPE[^>]*?>/, '');
-			content = content.replace(/^<!DOCTYPE[^>]*?>/, '');
+			var promise = window.annoValidation.xsltTransform(contents, 'xml');
 
-			$(document).on('annoValidationAll', annoValidateSave);
-
-			window.annoValidation.validateAll(content, excerpt).then(function(){
-				if ($t.is('a')) {
-					$saveButton.off('click', annoProcessSave);
-					$t.trigger('click');
-				}
-				else {
-					// State change requires value and name from button pressed
-					$('form#post').off('submit', annoPreventDefault);
-					$(clicker).click();
-				}
+			promise.then(function(data) {
+				$(document).on('annoValidationAll', annoValidateSave);
+				window.annoValidation.validateAll(data.contents.content, data.contents.excerpt).then(function(){
+					if ($t.is('a')) {
+						$saveButton.off('click', annoProcessSave);
+						$t.trigger('click');
+					}
+					else {
+						// State change requires value and name from button pressed
+						$('form#post').off('submit', annoPreventDefault);
+						$(clicker).click();
+					}
+				});
 			});
-
 		}
 
 		function annoValidateSave(e, data) {
@@ -197,5 +199,4 @@ jQuery(document).ready(function($){
 			);
 		}
 	});
-
 });
