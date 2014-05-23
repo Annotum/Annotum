@@ -8,13 +8,13 @@
  * Copyright 2008-2011 Crowd Favorite, Ltd. All rights reserved. <http://crowdfavorite.com>
  * Released under the GPL license
  * http://www.opensource.org/licenses/gpl-license.php
- * 
+ *
  * Based on code found in WordPress Importer plugin
  */
 
 if (!defined('WP_LOAD_IMPORTERS'))
 	return;
-	
+
 /** Display verbose errors */
 if (!defined('ANNO_IMPORT_DEBUG')) {
 	define( 'ANNO_IMPORT_DEBUG', false );
@@ -59,18 +59,18 @@ class Knol_Import extends WP_Importer {
 	var $processed_menu_items = array();
 	var $menu_item_orphans = array();
 	var $missing_menu_items = array();
-	
+
 	// Errors found in mapping process
 	var $author_errors = array();
-	
+
 	// Creating new users
 	var $new_user_credentials = array();
 	var $created_users = array();
-	
+
 	var $fetch_attachments = false;
 	var $url_remap = array();
 	var $featured_images = array();
-	
+
 	var $import_slug = 'google_knol_wxr';
 
 	function Knol_Import() {/* Nothing */ }
@@ -107,7 +107,7 @@ class Knol_Import extends WP_Importer {
 						$file = get_attached_file( $this->id );
 						set_time_limit(0);
 						$this->import($file);
-					}		
+					}
 				}
 				else {
 					check_admin_referer( 'import-upload' );
@@ -119,10 +119,10 @@ class Knol_Import extends WP_Importer {
 
 		$this->footer();
 	}
-	
+
 	/**
 	 * Loads data from $_POST variable.
-	 */ 
+	 */
 	function load_data_from_post() {
 		$this->id = isset($_POST['import_id']) ? (int) $_POST['import_id'] : 0;
 		$this->version = isset($_POST['version']) ? (string) $_POST['version'] : '1.1' ;
@@ -162,32 +162,32 @@ class Knol_Import extends WP_Importer {
 	/**
 	 * Creates users, whose credentials were created in get_author_mapping. Maps newly created users.
 	 */
-	function create_users() {		
+	function create_users() {
 		$create_users = $this->allow_create_users();
 		if ($create_users) {
 			$new_users = $this->new_user_credentials;
 
 			foreach ($new_users as $i => $user_creds) {
-				$old_id = $user_creds['old_id'];		
+				$old_id = $user_creds['old_id'];
 				$extra = array(
 					'display_name' => $this->authors[$old_id]['author_display_name'],
 					'first_name' => $this->authors[$old_id]['author_first_name'],
 					'last_name' => $this->authors[$old_id]['author_last_name'],
-				);	           
+				);
 
 				// Create the user, send them an email.
 				$user_id = anno_invite_contributor($user_creds['user_login'], $user_creds['user_email'], $extra);
-				
-				// All checks for validity (username/email existance) have occured in get_author_mapping. 
+
+				// All checks for validity (username/email existance) have occured in get_author_mapping.
 				// This should not produce an error under any normal circumstance, but just in case.
 				if (is_wp_error($user_id) || empty($user_id)) {
 					$user_id = get_current_user_id();
 				}
 				else {
-					// Keep track of the created users so we can 
-					// import their meta information on import					
+					// Keep track of the created users so we can
+					// import their meta information on import
 					$this->created_users[$old_id] = $user_id;
-				}				
+				}
 
 				$this->processed_authors[$old_id] = $user_id;
 				$this->author_mapping[$old_id] = $user_id;
@@ -217,7 +217,7 @@ class Knol_Import extends WP_Importer {
 			die();
 		}
 
-		$this->version = $import_data['version'];
+		$this->version = isset($import_data['version']) ? $import_data['version'] : 1;
 		$this->get_authors_from_import( $import_data );
 		$this->posts = $import_data['posts'];
 		$this->terms = $import_data['terms'];
@@ -246,14 +246,14 @@ class Knol_Import extends WP_Importer {
 		wp_defer_term_counting( false );
 		wp_defer_comment_counting( false );
 
-		// This block lists the imported items (including ones that already exist(ed)) 
+		// This block lists the imported items (including ones that already exist(ed))
 		// and provides edit and preview links.
 		if (!empty($this->processed_posts) && is_array($this->processed_posts)) {
 			echo '<p>';
 			foreach($this->processed_posts as $the_imported_article) {
-			
+
 				$the_imported_post = get_post($the_imported_article);
-				
+
 				printf( __('%s &#8220;<strong>%s</strong>&#8221; imported. ', 'anno'), ucfirst(esc_html($the_imported_post->post_type)), esc_html($the_imported_post->post_title));
 
 				if ($the_imported_post->post_type == 'attachment') {
@@ -267,7 +267,7 @@ class Knol_Import extends WP_Importer {
 					$preview_url = add_query_arg('preview', 'true', $preview_url);
 				}
 
-				// Only provide preview link for attachments or knol articles 
+				// Only provide preview link for attachments or knol articles
 				// Kipling DTD articles must be edited and saved at least once to preview correctly
 				if ($GLOBALS['importer'] == 'google_knol_wxr' or $the_imported_post->post_type == 'attachment') {
 					printf( __('[ %sEdit%s | %sPreview%s ]', 'anno'),
@@ -278,8 +278,8 @@ class Knol_Import extends WP_Importer {
 					printf( __('[ %sEdit%s ]', 'anno'),
 						'<a href="'.esc_url(get_edit_post_link($the_imported_post->ID)).'">','</a>');
 				}
-				
-				echo '<br />';				
+
+				echo '<br />';
 			}
 			echo '</p>';
 		}
@@ -313,7 +313,7 @@ class Knol_Import extends WP_Importer {
 			return false;
 		}
 
-		$this->version = $import_data['version'];
+		$this->version = isset($import_data['version']) ? $import_data['version'] : 1;
 		if ( $this->version > $this->max_wxr_version ) {
 			echo '<div class="error"><p><strong>';
 			printf( __( 'This WXR file (version %s) may not be supported by this version of the importer. Please consider updating.', 'anno' ), esc_html($import_data['version']) );
@@ -383,7 +383,7 @@ class Knol_Import extends WP_Importer {
 	<p><?php _e( 'If a new user is created by WordPress, a new password will be randomly generated and the new user&#8217;s role will be set as contributor. Manually changing the new user&#8217;s details will be necessary.', 'anno' ); ?> </p>
 <?php endif; ?>
 	<ol id="authors">
-<?php foreach ( $this->authors as $author ) : 
+<?php foreach ( $this->authors as $author ) :
 		// Output errors.
 		if (!empty($this->author_errors[$j]) && is_array($this->author_errors[$j])) {
 			echo '<div style="color: red">';
@@ -421,7 +421,7 @@ foreach ($this->authors as $author_key => $author_data) {
 	}
 }
 ?>
-	
+
 	<input type="hidden" name="version" value="<?php echo esc_attr($this->version); ?>" />
 	<input type="hidden" name="import-wordpress" value="true" />
 	<p class="submit"><input type="submit" class="button" value="<?php esc_attr_e( 'Submit', 'anno' ); ?>" /></p>
@@ -436,16 +436,16 @@ foreach ($this->authors as $author_key => $author_data) {
 	 * @param int $n Index for each author in the form
 	 * @param array $author Author information, e.g. login, display name, email
 	 */
-	function author_select( $n, $author ) {	
-		
+	function author_select( $n, $author ) {
+
 		if (!empty($author['author_id'])) {
 			$extra = ' ('.esc_html($author['author_id']).')';
 		}
 		else {
 			$extra = '';
 		}
-		
-		
+
+
 		_e( 'Import ', 'anno' );
 		echo ' <strong>' . esc_html( $author['author_display_name'] );
 		if ( $this->version != '1.0' ) {
@@ -455,32 +455,32 @@ foreach ($this->authors as $author_key => $author_data) {
 
 		if ( $this->version != '1.0' )
 			echo '<div style="margin: 0 0 1em 1em">';
-		
+
 // @TODO reactivate some time in the future, or remove.
 // Show information about a matching user with a given Knol ID
 /*		//@TODO Search globally, not just this blog. Display all users with this Knol ID, not just the first.
  		$users = get_users(array(
 			'meta_key' => '_knol_id',
 			'meta_value' => $author['author_id'],
-		));		
-			
+		));
+
 		if (!empty($users) && is_array($users)) {
 			echo '<span style="color:#009900;">'.__('A user with the same Knol ID has been found', 'anno') . ': <strong>' . esc_html($users[0]->display_name) . ' (' . esc_html($users[0]->user_login). ')</strong></span><br />';
 		}
 */
 		$create_users = $this->allow_create_users();
-		
+
 		if ( ! $create_users && $this->version == '1.0' )
 			_e( '<p>or assign posts to an existing user: ', 'anno' );
 		else
 			_e( '<p>or assign posts to an existing user: ', 'anno' );
-		$dropdown_args = array( 
-			'name' => "user_map[$n]", 
-			'multi' => true, 
-			'show_option_all' => __( '- Select -', 'anno' ) 
+		$dropdown_args = array(
+			'name' => "user_map[$n]",
+			'multi' => true,
+			'show_option_all' => __( '- Select -', 'anno' )
 			);
 // @TODO reactivate some time in the future, or remove.
-// Auto select a user found that has a matching Knol ID.		
+// Auto select a user found that has a matching Knol ID.
 /*		@TODO Search locally, this blog only.
  		if (!empty($users) && is_array($users)) {
 			$dropdown_args['selected'] = $users[0]->ID;
@@ -492,15 +492,15 @@ foreach ($this->authors as $author_key => $author_data) {
 		}
 		wp_dropdown_users($dropdown_args);
 		_e( '</p>', 'anno');
-		
+
 		$lookup_email = !empty($_POST['lookup_email'][$n]) ? $_POST['lookup_email'][$n] : '';
 
 		echo '<p><label for="'.esc_attr('lookup-email-'.$n).'">'.__('or if you know an existing user&#8217;s <strong>email address</strong>, you can assign posts to that user: ', 'anno').'</label> <input id="'.esc_attr('lookup-email-'.$n).'" type="text" name="'.esc_attr('lookup_email['.$n.']').'"  value="'.esc_attr($lookup_email).'"/></p>';
-		
+
 		$lookup_username = !empty($_POST['lookup_username'][$n]) ? $_POST['lookup_username'][$n] : '';
-		
+
 		echo '<p><label for="'.esc_attr('lookup-username-'.$n).'">'.__('or if you know an existing user&#8217;s <strong>username</strong>, you can assign posts to that user: ', 'anno').'</label> <input id="'.esc_attr('lookup-username-'.$n).'" type="text" name="'.esc_attr('lookup_username['.$n.']').'" value="'.esc_attr($lookup_username).'" /></p>';
-		
+
 		if ( $create_users ) {
 			_e( '<p>', 'anno');
 			if ( $this->version != '1.0' ) {
@@ -512,18 +512,18 @@ foreach ($this->authors as $author_key => $author_data) {
 			}
 
 			$new_user_email = !empty($_POST['user_new'][$n]['user_email']) ? $_POST['user_new'][$n]['user_email'] : '';
-			
+
 			echo ' <label for="'.esc_attr($n.'-email-new').'">'._x('Email: ', 'input label for importer', 'anno').'</label> <input id="'.esc_attr($n.'-email-new').'" type="text" name="user_new['.$n.'][user_email]" value="'.esc_attr($new_user_email).'" /><br />';
 		}
-		
+
 		// We store 'creator' data by ID in Knol Export, not login.
 		$import_author_value = $author['author_id'];
 
-		
+
 		echo '<input type="hidden" name="imported_authors['.$n.']" value="'.esc_attr($import_author_value).'" />';
-		
+
 		_e( '</p>', 'anno');
-		
+
 		if ( $this->version != '1.0' )
 			echo '</div>';
 	}
@@ -546,7 +546,7 @@ foreach ($this->authors as $author_key => $author_data) {
 			// Used to determine whether or not we're creating a new user on import.
 			$create_new_user = false;
 			$user_id = 0;
-						
+
 			$old_id = trim($old_id);
 
 			if (!empty($_POST['user_map'][$i])) {
@@ -606,9 +606,9 @@ foreach ($this->authors as $author_key => $author_data) {
 				}
 			}
 			// We can create users, and both lookups fields are not present.
-			else if ( 
-				$create_users && 
-				(empty($_POST['lookup_email'][$i]) && empty($_POST['lookup_username'][$i])) && 
+			else if (
+				$create_users &&
+				(empty($_POST['lookup_email'][$i]) && empty($_POST['lookup_username'][$i])) &&
 				(!empty($_POST['user_new'][$i]['user_email']))
 				) {
 
@@ -626,7 +626,7 @@ foreach ($this->authors as $author_key => $author_data) {
 				if (email_exists($user_new_email) || username_exists($user_new_login)) {
 					$this->author_errors[$i][] = _x('This email address is already registered.', 'importer error message', 'anno');
 				}
-				
+
 				if (!$this->have_author_errors($i)) {
 					if (!anno_is_valid_email($user_new_email) || !anno_is_valid_username($user_new_login)) {
 						$this->author_errors[$i][] = _x('Please enter a valid email when creating a new user.', 'importer error message', 'anno');
@@ -660,13 +660,13 @@ foreach ($this->authors as $author_key => $author_data) {
 	/**
 	 * Helper function to determine if a given user mapping has any errors associated with it
 	 *
-	 * @param int $i Index of a given author. 
+	 * @param int $i Index of a given author.
 	 * @return bool True if errors have been found, false otherwise
-	 */ 
+	 */
 	private function have_author_errors($i) {
 		return isset($this->author_errors[$i]) && count($this->author_errors[$i]);
 	}
-	
+
 	/**
 	 * Create new categories based on import information
 	 *
@@ -816,7 +816,7 @@ foreach ($this->authors as $author_key => $author_data) {
 		);
 
 		foreach ( $this->posts as $post ) {
-		
+
 			if ( ! post_type_exists( $post['post_type'] ) ) {
 				printf( __( 'Failed to import &#8220;%s&#8221;: Invalid post type %s', 'anno' ),
 					esc_html($post['post_title']), esc_html($post['post_type']) );
@@ -872,7 +872,7 @@ foreach ($this->authors as $author_key => $author_data) {
 				}
 				else
 					$author = (int) get_current_user_id();
-				
+
 				$postdata = array(
 					'import_id' => $post['post_id'], 'post_author' => $author, 'post_date' => $post['post_date'],
 					'post_date_gmt' => $post['post_date_gmt'], 'post_content' => $post['post_content_filtered'],
@@ -882,9 +882,9 @@ foreach ($this->authors as $author_key => $author_data) {
 					'guid' => $post['guid'], 'post_parent' => $post_parent, 'menu_order' => $post['menu_order'],
 					'post_type' => $post['post_type'], 'post_password' => $post['post_password'], 'post_content_filtered' => $post['post_content_filtered'],
 				);
-				
+
 				// Get rid of wrapping <body> tag in XML
-				$postdata['post_content_filtered'] = preg_replace('#</?body(\s[^>]*)?>#i', '', $postdata['post_content_filtered']); 
+				$postdata['post_content_filtered'] = preg_replace('#</?body(\s[^>]*)?>#i', '', $postdata['post_content_filtered']);
 
 				if ( 'attachment' == $postdata['post_type'] ) {
 					$remote_url = ! empty($post['attachment_url']) ? $post['attachment_url'] : $post['guid'];
@@ -901,7 +901,7 @@ foreach ($this->authors as $author_key => $author_data) {
 							}
 						}
 					}
-					
+
 					$comment_post_ID = $post_id = $this->process_attachment( $postdata, $remote_url );
 				} else {
 					remove_filter('wp_insert_post_data', 'anno_insert_post_data', null, 2);
@@ -1010,12 +1010,12 @@ foreach ($this->authors as $author_key => $author_data) {
 					$snapshot['given_names'] = $this->authors[$post['post_author']]['author_first_name'];
 					$author_snapshot[$post['post_author']] = $snapshot;
 				}
-				
+
 				if ( isset( $post['postmeta'] ) && is_array($post['postmeta']) ) {
 					foreach ( $post['postmeta'] as $meta ) {
 						$key = apply_filters( 'import_post_meta_key', $meta['key'] );
 						$value = false;
-						
+
 						// Store both the Knol ID and WP ID, for potential future users/associations.
 						if (strpos($key, '_anno_knol_author_') !== false) {
 							$knol_author_id = str_replace('_anno_knol_author_', '', $key);
@@ -1027,7 +1027,7 @@ foreach ($this->authors as $author_key => $author_data) {
 							// We don't need to do this for _anno_author_, those will only exist in DTD imports, which will be in draft
 							// Snapshots get taken on publish status transition
 							$snapshot = $snapshot_template;
-							if (isset($this->authors[$knol_author_id]) && !isset($author_snapshot[$this->authors[$knol_author_id]['author_id']])) {						
+							if (isset($this->authors[$knol_author_id]) && !isset($author_snapshot[$this->authors[$knol_author_id]['author_id']])) {
 								$snapshot = $snapshot_template;
 								$snapshot['id'] = $this->authors[$knol_author_id]['author_id'];
 								$snapshot['email'] = $this->authors[$knol_author_id]['author_email'];
@@ -1036,7 +1036,7 @@ foreach ($this->authors as $author_key => $author_data) {
 								$author_snapshot[$snapshot['id']] = $snapshot;
 							}
 						}
-						
+
 						if (strpos($key, '_anno_knol_reviewer_') !== false) {
 							$knol_author_id = str_replace('_anno_knol_reviewer_', '', $key);
 							if (isset($this->author_mapping[$knol_author_id])) {
@@ -1044,7 +1044,7 @@ foreach ($this->authors as $author_key => $author_data) {
 								$this->add_user_to_post('reviewer', $wp_reviewer_id, $post_id);
 							}
 						}
-						
+
 						if ( '_edit_last' == $key ) {
 							if ( isset( $this->processed_authors[$meta['value']] ) )
 								$value = $this->processed_authors[$meta['value']];
@@ -1075,7 +1075,7 @@ foreach ($this->authors as $author_key => $author_data) {
 								}
 							}
 							else {
-								update_post_meta( $post_id, $key, $value );								
+								update_post_meta( $post_id, $key, $value );
 							}
 
 							do_action( 'import_post_meta', $post_id, $key, $value );
@@ -1091,7 +1091,7 @@ foreach ($this->authors as $author_key => $author_data) {
 					}
 				}
 				if ($GLOBALS['importer'] == 'google_knol_wxr') {
-					// Add a key to the post. Posts from google knol with this key are alerted 
+					// Add a key to the post. Posts from google knol with this key are alerted
 					// that the XML structure may change on save. Meta is deleted on save.
 					// Kipling (non-knol xml) imports don't need the extra parsing on save
 					// Fixes https://github.com/Annotum/Annotum/issues/40
@@ -1343,7 +1343,7 @@ foreach ($this->authors as $author_key => $author_data) {
 		uksort( $this->url_remap, array(&$this, 'cmpr_strlen') );
 
 		foreach ( $this->url_remap as $from_url => $to_url ) {
-			// remap urls in post_content and post_content_filtered		
+			// remap urls in post_content and post_content_filtered
 			$wpdb->query( $wpdb->prepare("UPDATE {$wpdb->posts} SET post_content = REPLACE(post_content, %s, %s), post_content_filtered = REPLACE(post_content_filtered, %s, %s)", $from_url, $to_url, $from_url, $to_url) );
 
 			// remap enclosure urls
@@ -1498,17 +1498,17 @@ foreach ($this->authors as $author_key => $author_data) {
 	function cmpr_strlen( $a, $b ) {
 		return strlen($b) - strlen($a);
 	}
-	
+
 	/**
 	 * Adds a user to a given post with a given role
-	 * 
+	 *
 	 * Copied from workflow code that does the same thing, need it here in case the workflow is disabled.
-	 * 
+	 *
 	 * @param string $type Type of user to add. Can be the meta_key.
 	 * @param int $user_id ID of the user being added to the post
 	 * @param int $post_id ID of the post to add the user to. Loads from global if nothing is passed.
 	 * @return bool True if successfully added or already a user associated with the post, false otherwise
-	 */ 
+	 */
 	function add_user_to_post($type, $user_id, $post_id) {
 		$type = str_replace('-', '_', $type);
 		if ($type == 'co_author') {

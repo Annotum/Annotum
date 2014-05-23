@@ -695,7 +695,6 @@
 					action = actions.defaultAction;
 				}
 				action(element);
-
 			}
 			function recurse(element) {
 				t.splitSafeEach(element.childNodes, processElement);
