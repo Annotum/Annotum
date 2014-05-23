@@ -82,7 +82,7 @@ function anno_media_send_to_editor($html, $id, $attachment) {
 
 		}
 		else {
-			$html = '<span class="inline-graphic" data-xmlel="inline-graphic" xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="'.$img_url.'" alt-text="'.$attachment['image_alt'].'"><img src="'.$img_url.'" data-mce-src="'.$img_url.' alt="'.$attachment['image_alt'].'" /></span><span> &nbsp;</span>';
+			$html = '<span class="inline-graphic" data-xmlel="inline-graphic" xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="'.$img_url.'"><img src="'.$img_url.'" data-mce-src="'.$img_url.' alt="'.$attachment['image_alt'].'" /></span><span> &nbsp;</span>';
 		}
 	}
 	return $html;
