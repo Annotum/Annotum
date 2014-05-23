@@ -71,7 +71,7 @@
 					xml = '<div class="fig" data-xmlel="fig">'
 								+'<div class="label" data-xmlel="label">&#xA0;' + label + '</div>'
 								+'<div class="caption" data-xmlel="caption">'
-									+'<div class="p" data-xmlel="p">&#xA0;' + caption + '</span>'
+									+'<div class="p" data-xmlel="p">&#xA0;' + caption + '</div>'
 								+'</div>'
 								+'<div class="media" xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="' + url + '" data-xmlel="media">'
 									+'<span class="alt-text" data-xmlel="alt-text">' + alt_text + '</span>'
