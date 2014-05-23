@@ -34,7 +34,7 @@ var annoQuote;
 			holder = $('input[name$="holder"]', form).val();
 			license = $('input[name$="license"]', form).val();
 
-			xml = '<div class="disp-quote" data-xmlel="disp-quote">' + quote
+			xml = '<div class="disp-quote" data-xmlel="disp-quote"><div class="p" data-xmlel="p">' + quote + '</div>'
 					+'<div class="attrib" data-xmlel="attrib">' + attribution +  '</div>'
 					+'<div class="permissions" data-xmlel="permissions">'
 						+'<span class="copyright-statement" data-xmlel="copyright-statement">' + statement + '</span>'
