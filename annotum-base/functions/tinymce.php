@@ -193,13 +193,13 @@ function anno_load_editor($content, $editor_id, $settings = array()) {
 			'valid_children' => implode(',', $valid_children),
 			//  Defines formats.
 			'formats' => "{
-				bold : {'inline' : 'span', 'classes': 'bold', 'attributes' : {'data-xmlel' : 'bold'}},
-				italic : {'inline' : 'span', 'classes': 'italic', 'attributes' : {'data-xmlel' : 'italic'}},
-				monospace : {'inline' : 'span', 'classes': 'monospace', 'attributes' : {'data-xmlel' : 'monospace'}},
-				preformat : {'block' : 'div', 'classes': 'preformat', 'attributes' : {'data-xmlel' : 'preformat'}},
-				underline : {'inline' : 'span', 'classes': 'underline', 'attributes' : {'data-xmlel' : 'underline'}},
-				superscript : {'inline' : 'span', 'classes': 'sup', 'attributes' : {'data-xmlel' : 'sup'}},
-				subscript : {'inline' : 'span', 'classes': 'sub', 'attributes' : {'data-xmlel' : 'sub'}}
+				bold : {'inline' : 'span', 'classes': 'bold', 'attributes' : {'data-xmlel' : 'bold'}, 'remove' : 'all'},
+				italic : {'inline' : 'span', 'classes': 'italic', 'attributes' : {'data-xmlel' : 'italic'}, 'remove' : 'all'},
+				monospace : {'inline' : 'span', 'classes': 'monospace', 'attributes' : {'data-xmlel' : 'monospace'}, 'remove' : 'all'},
+				preformat : {'block' : 'div', 'classes': 'preformat', 'attributes' : {'data-xmlel' : 'preformat'}, 'remove' : 'all'},
+				underline : {'inline' : 'span', 'classes': 'underline', 'attributes' : {'data-xmlel' : 'underline'}, 'remove' : 'all'},
+				superscript : {'inline' : 'span', 'classes': 'sup', 'attributes' : {'data-xmlel' : 'sup'}, 'remove' : 'all'},
+				subscript : {'inline' : 'span', 'classes': 'sub', 'attributes' : {'data-xmlel' : 'sub'}, 'remove' : 'all'}
 			}",
 			'theme_advanced_blockformats' => 'Paragraph=para,Heading=heading,Section=sec',
 			'forced_root_block' => '',
