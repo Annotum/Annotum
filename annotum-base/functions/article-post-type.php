@@ -87,8 +87,9 @@ function anno_post_updated_messages($messages) {
 		8 => sprintf( _x('Article submitted. <a target="_blank" href="%s">Preview article</a>', 'Article updated message', 'anno'), esc_url(add_query_arg('preview', 'true', get_permalink($post->ID)))),
 		9 => sprintf( _x('Article scheduled for: <strong>%1$s</strong>. <a target="_blank" href="%2$s">Preview article</a>', 'Article updated message', 'anno'), date_i18n( _x( 'M j, Y @ G:i', 'Article updated future time format', 'anno' ), strtotime( $post->post_date )), esc_url( get_permalink($post->ID))),
 		10 => sprintf( _x('Article draft updated. <a target="_blank" href="%s">Preview article</a>', 'Article updated message', 'anno'), esc_url( add_query_arg('preview', 'true', get_permalink($post->ID)))),
-		11 => sprintf( _x('Article successfully cloned.', 'Article updated message', 'anno')),
-		12 => sprintf( _x('Unable to clone article.', 'Article updated message', 'anno')),
+		11 => _x('Article successfully cloned.', 'Article updated message', 'anno'),
+		12 => _x('Unable to clone article.', 'Article updated message', 'anno'),
+		13 => _x('Article unpublished, there was an error in validation.', 'Article updated message', 'anno'),
 	);
 
 	return $messages;

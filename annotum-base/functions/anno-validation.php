@@ -139,6 +139,7 @@ function anno_validate_on_save($post_id, $post) {
 		else {
 			$status = 'draft';
 		}
+		add_filter('redirect_post_location', 'anno_validation_redirect_post_location_message');
 
 		remove_action('post_updated', 'annowf_transistion_state', 10, 3);
 		remove_action('add_post_meta', 'anno_save_appendices_xml_as_html', 10, 3);
@@ -208,21 +209,6 @@ function anno_xml_references($article_id) {
 	return $xml;
 }
 
-// function anno_ajax_xslt_transform() {
-// 	$response = array();
-// 	$response['status'] = '';
-
-// 	if (isset($_POST['content'])) {
-// 		$content = wp_unslash($_POST['content']);
-// 		$action = isset($_POST['xsltAction']) ? $_POST['xsltAction'] : 'xml';
-// 		$response['content'] = anno_xslt_transform($content, $action);
-// 		$response['status'] = 'succes';
-// 	}
-// 	echo json_encode($response);
-// 	die();
-// }
-// add_action('wp_ajax_anno_xslt_transform', 'anno_ajax_xslt_transform');
-
 function anno_xslt_transform($content, $action = 'xml') {
 	// HTML->XML
 	if ($action == 'xml') {
@@ -253,3 +239,8 @@ function anno_ajax_xslt_transform() {
 	die();
 }
 add_action('wp_ajax_anno_xslt_transform', 'anno_ajax_xslt_transform');
+
+function anno_validation_redirect_post_location_message($location) {
+	return add_query_arg('message', 13, $location);
+}
+
