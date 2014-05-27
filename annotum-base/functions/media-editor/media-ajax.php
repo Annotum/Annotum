@@ -63,7 +63,7 @@ function anno_media_send_to_editor($html, $id, $attachment) {
 		<img src="'.esc_attr($img_url).'" data-mce-src="'.esc_attr($img_url).'" alt="'.esc_attr($attachment['image_alt']).'" />
 		<div class="label" data-xmlel="label">'.$attachment['label'].'</div>
 		<div class="caption" data-xmlel="caption">
-			<span class="p" data-xmlel="p">'.$attachment['post_excerpt'].'</span>
+			<div class="p" data-xmlel="p">'.$attachment['post_excerpt'].'</div>
 		</div>
 		<div class="media" xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="'.esc_attr($img_url).'" data-xmlel="media">
 			<span class="alt-text" data-xmlel="alt-text">'.$attachment['image_alt'].'</span>
