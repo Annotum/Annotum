@@ -60,12 +60,12 @@ function anno_media_send_to_editor($html, $id, $attachment) {
 			$html = '
 
 	<div class="fig" data-xmlel="fig">
-		<img src="'.$img_url.'" data-mce-src="'.$img_url.' alt="'.$attachment['image_alt'].'" />
+		<img src="'.esc_attr($img_url).'" data-mce-src="'.esc_attr($img_url).' alt="'.esc_attr($attachment['image_alt']).'" />
 		<div class="label" data-xmlel="label">'.$attachment['label'].'</div>
 		<div class="caption" data-xmlel="caption">
 			<span class="p" data-xmlel="p">'.$attachment['post_excerpt'].'</span>
 		</div>
-		<div class="media" xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="'.$img_url.'" data-xmlel="media">
+		<div class="media" xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="'.esc_attr($img_url).'" data-xmlel="media">
 			<span class="alt-text" data-xmlel="alt-text">'.$attachment['image_alt'].'</span>
 			<span class="long-desc" data-xmlel="long-desc">'.$attachment['post_content'].'</span>
 			'.$fig_uri.'
@@ -82,7 +82,7 @@ function anno_media_send_to_editor($html, $id, $attachment) {
 
 		}
 		else {
-			$html = '<span class="inline-graphic" data-xmlel="inline-graphic" xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="'.$img_url.'"><img src="'.$img_url.'" data-mce-src="'.$img_url.' alt="'.$attachment['image_alt'].'" /></span><span> &nbsp;</span>';
+			$html = '<span class="inline-graphic" data-xmlel="inline-graphic" xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="'.esc_attr($img_url).'"><img src="'.esc_url($img_url).'" data-mce-src="'.esc_attr($img_url).'" alt="'.esc_attr($attachment['image_alt']).'" /></span><span> &nbsp;</span>';
 		}
 	}
 	return $html;
