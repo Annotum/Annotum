@@ -38,22 +38,47 @@
 
 				// Enter
 				if (!e.shiftKey && e.keyCode == 13) {
-					tinymce.dom.Event.cancel(e);
-
+					
 					listItemParent = ed.dom.getParent(ed.selection.getNode(), '.list-item');
 
 					// Ctrl + Enter
 					if (e.ctrlKey) {
+						tinymce.dom.Event.cancel(e);
 						return !self.insertElement('sec', 'after', ed.dom.getParent(ed.selection.getNode(), '.sec'));
 					}
-					else {
-						if (listItemParent) {
-							return !self.insertElement('list-item', 'after', listItemParent);
-						}
-						else {
-							parentP = ed.dom.getParent(ed.selection.getNode().parentNode, '.p');
-							return !self.insertElement('p', 'after', parentP);
-						}
+
+					// List items
+					if (listItemParent) {
+						tinymce.dom.Event.cancel(e);
+						return !self.insertElement('list-item', 'after', listItemParent);
+					}
+
+					// Get the parent tag and class
+					parentTag = ed.dom.getParent(ed.selection.getNode().parentNode);
+					elementClass = jQuery(ed.selection.getNode()).attr('class'); 
+					parentClass = jQuery(parentTag).attr('class');
+
+					// If it's a 'p' tag, we need its parent 
+					if (parentClass == 'p') {
+						parentTag = ed.dom.getParent(parentTag.parentNode);
+						parentClass = jQuery(ed.dom.getParent(parentTag)).attr('class');
+					}
+
+					// Only allow sections to be extended
+					if (
+						parentClass == 'caption' ||
+						parentClass == 'fig' ||
+						parentClass == 'tr' 
+					) {
+						console.log(parentClass + ' cannot be extended');
+						tinymce.dom.Event.cancel(e);
+					}
+					// If it's a title, then add a P tag instead of splitting
+					else if (
+						elementClass == 'title'
+					) {
+						tinymce.dom.Event.cancel(e);
+						return !self.insertElement('p', 'after', ed.selection.getNode());
 					}
 				}
 				return true;
