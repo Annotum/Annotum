@@ -210,6 +210,8 @@ function anno_xml_references($article_id) {
 }
 
 function anno_xslt_transform($content, $action = 'xml') {
+	error_reporting(-1);
+	ini_set('error_reporting', E_ALL);
 	// HTML->XML
 	if ($action == 'xml') {
 		$content = trim(anno_to_xml($content));
@@ -218,6 +220,7 @@ function anno_xslt_transform($content, $action = 'xml') {
 	else {
 		$content = trim(anno_process_editor_content($content));
 	}
+	error_reporting(0);
 
 	return $content;
 }

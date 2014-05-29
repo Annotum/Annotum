@@ -38,7 +38,7 @@
 
 				// Enter
 				if (!e.shiftKey && e.keyCode == 13) {
-					
+
 					listItemParent = ed.dom.getParent(ed.selection.getNode(), '.list-item');
 
 					// Ctrl + Enter
@@ -55,10 +55,10 @@
 
 					// Get the parent tag and class
 					parentTag = ed.dom.getParent(ed.selection.getNode().parentNode);
-					elementClass = jQuery(ed.selection.getNode()).attr('class'); 
+					elementClass = jQuery(ed.selection.getNode()).attr('class');
 					parentClass = jQuery(parentTag).attr('class');
 
-					// If it's a 'p' tag, we need its parent 
+					// If it's a 'p' tag, we need its parent
 					if (parentClass == 'p') {
 						parentTag = ed.dom.getParent(parentTag.parentNode);
 						parentClass = jQuery(ed.dom.getParent(parentTag)).attr('class');
@@ -68,7 +68,7 @@
 					if (
 						parentClass == 'caption' ||
 						parentClass == 'fig' ||
-						parentClass == 'tr' 
+						parentClass == 'tr'
 					) {
 						console.log(parentClass + ' cannot be extended');
 						tinymce.dom.Event.cancel(e);
