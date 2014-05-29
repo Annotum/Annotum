@@ -34,7 +34,6 @@
 
 						img.src = img_url;
 						img.className = '_inline_graphic';
-						img.setAttribute('alt', $inline.attr('alt-text'));
 						$inline.append(img);
 					});
 
