@@ -500,7 +500,7 @@ class Anno_XML_Download {
 	}
 
 private function xml_back($article) {
-	if($this->xml_acknoledgements($article) || $this->xml_appendices($article) || $this->xml_references($article)) {
+	if($this->xml_acknoledgements($article) || $this->xml_appendices($article) || anno_xml_references($article)) {
 	$xml_back = '	<back>
 		'.$this->xml_acknoledgements($article).'
 		'.$this->xml_appendices($article).'
