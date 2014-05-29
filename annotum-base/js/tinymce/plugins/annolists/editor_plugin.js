@@ -36,7 +36,7 @@
 		return e && classname && classname.toUpperCase() === 'LIST';
 	}
 
-	function splitNestedLists(element, dom) {
+	function splitNestedLists(element, dom, ed) {
 		var tmp, nested, wrapItem;
 		tmp = skipWhitespaceNodesBackwards(element.lastChild);
 		while (isList(tmp)) {
@@ -522,7 +522,7 @@
 				if (tinymce.inArray(applied, element) !== -1) {
 					return;
 				}
-				element = splitNestedLists(element, dom);
+				element = splitNestedLists(element, dom, this.ed);
 				while (dom.is(element.parentNode, '.list,.list-item')) {
 					dom.split(element.parentNode, element);
 				}
@@ -589,12 +589,6 @@
 					{'class': 'list-item', 'data-xmlel': 'list-item'}
 				);
 
-				dom.add(wrapItem, dom.create(
-					ed.plugins.textorum.translateElement('p'),
-					{'class': 'p', 'data-xmlel': 'p'},
-					'&#xA0;'
-				));
-
 				dom.insertAfter(wrapItem, element);
 				return wrapItem;
 			}
@@ -624,7 +618,7 @@
 
 			function indentLI(element) {
 				if (!hasParentInList(ed, element, indented)) {
-					element = splitNestedLists(element, dom);
+					element = splitNestedLists(element, dom, ed);
 					var wrapList = createWrapList(element);
 					wrapList.appendChild(element);
 					attemptMergeWithAdjacent(wrapList.parentNode, false);
@@ -654,7 +648,7 @@
 						dom.setStyle(element, 'text-align', 'left');
 						return;
 					}
-					element = splitNestedLists(element, dom);
+					element = splitNestedLists(element, dom, ed);
 					listElement = element.parentNode;
 					targetParent = element.parentNode.parentNode;
 					if (targetParent.className.toUpperCase() === 'P') {
