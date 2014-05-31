@@ -89,7 +89,7 @@ function anno_post_updated_messages($messages) {
 		10 => sprintf( _x('Article draft updated. <a target="_blank" href="%s">Preview article</a>', 'Article updated message', 'anno'), esc_url( add_query_arg('preview', 'true', get_permalink($post->ID)))),
 		11 => _x('Article successfully cloned.', 'Article updated message', 'anno'),
 		12 => _x('Unable to clone article.', 'Article updated message', 'anno'),
-		13 => _x('Article unpublished, there was an error in validation.', 'Article updated message', 'anno'),
+		13 => _x('Article unpublished; there was an error in validation.', 'Article updated message', 'anno'),
 	);
 
 	return $messages;
