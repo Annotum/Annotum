@@ -276,11 +276,18 @@ tinymce.PluginManager.add('annoLists', function(editor) {
 			dom.remove(li);
 		}
 
+		function getListType(node) {
+			return dom.getAttrib(node, 'list-type');
+		}
+
 		function mergeWithAdjacentLists(listBlock) {
 			var sibling, node;
-
+			var originalNode = listBlock.firstChild;
 			sibling = listBlock.nextSibling;
-			if (sibling && isListNode(sibling) && sibling.className == listBlock.className) {
+			if (sibling && jQuery(sibling).hasClass('_mce_tagged_br')) {
+				sibling = sibling.nextSibling;
+			}
+			if (sibling && isListNode(sibling) && getListType(sibling) == getListType(listBlock)) {
 				while ((node = sibling.firstChild)) {
 					listBlock.appendChild(node);
 				}
@@ -289,9 +296,13 @@ tinymce.PluginManager.add('annoLists', function(editor) {
 			}
 
 			sibling = listBlock.previousSibling;
-			if (sibling && isListNode(sibling) && sibling.className == listBlock.className) {
+			if (sibling && jQuery(sibling).hasClass('_mce_tagged_br')) {
+				sibling = sibling.previousSibling;
+			}
+			if (sibling && isListNode(sibling) && getListType(sibling) == getListType(listBlock)) {
 				while ((node = sibling.firstChild)) {
-					listBlock.insertBefore(node, listBlock.firstChild);
+					// inserting node before listBlockfirstchild
+					listBlock.insertBefore(node, originalNode);
 				}
 
 				dom.remove(sibling);
@@ -521,6 +532,7 @@ tinymce.PluginManager.add('annoLists', function(editor) {
 
 			function doWrapList(start, end, template) {
 				var li, n = start, tmp, i, title, content;
+
 				while (!dom.isBlock(start.parentNode) && start.parentNode !== dom.getRoot()) {
 					start = dom.split(start.parentNode, start.previousSibling);
 					start = start.nextSibling;
@@ -534,9 +546,8 @@ tinymce.PluginManager.add('annoLists', function(editor) {
 				dom.add(li, dom.create(
 					editor.plugins.textorum.translateElement('p'),
 					{'class': 'p', 'data-xmlel': 'p'},
-					'&#xA0;'
+					''
 				));
-
 
 				// Insert before the start but as a child of the parent.
 				start.parentNode.insertBefore(li, start);
@@ -575,7 +586,7 @@ tinymce.PluginManager.add('annoLists', function(editor) {
 					dom.add(li, dom.create(
 						editor.plugins.textorum.translateElement('p'),
 						{'class': 'p', 'data-xmlel': 'p'},
-						'&#xA0;'
+						''
 					));
 					dom.insertAfter(li, element);
 					li.appendChild(element);
@@ -589,8 +600,9 @@ tinymce.PluginManager.add('annoLists', function(editor) {
 
 			function processBrs(element, callback) {
 				var startSection, previousBR, END_TO_START = 3, START_TO_END = 1,
-					breakElements = 'br';
+					breakElements = 'br,.list:not(.list-item .list),.p:not(.list-item > .p),.title,table,.disp-quote,.pre,dl';
 				var bookmark = createBookmark(selection.getRng(true));
+
 				function isAnyPartSelected(start, end) {
 					var r = dom.createRng(), sel;
 					bookmark.keep = true;
@@ -604,14 +616,17 @@ tinymce.PluginManager.add('annoLists', function(editor) {
 					r.setEndAfter(end);
 					return !(r.compareBoundaryPoints(END_TO_START, sel) > 0 || r.compareBoundaryPoints(START_TO_END, sel) <= 0);
 				}
+
 				function nextLeaf(br) {
-					if (br.nextSibling) {
+					if (br && br.nextSibling) {
 						return br.nextSibling;
 					}
-					if (!dom.isBlock(br.parentNode) && br.parentNode !== dom.getRoot()) {
+					if (br && !dom.isBlock(br.parentNode) && br.parentNode !== dom.getRoot()) {
 						return nextLeaf(br.parentNode);
 					}
+					return br;
 				}
+
 				// Split on BRs within the range and process those.
 				startSection = element.firstChild;
 				// First mark the BRs that have any part of the previous section selected.
@@ -650,14 +665,6 @@ tinymce.PluginManager.add('annoLists', function(editor) {
 				}
 			}
 
-			listBlock = dom.create(
-				editor.plugins.textorum.translateElement('list'),
-				{
-					'list-type': listType,
-					'class': 'list',
-					'data-xmlel': 'list'
-				}
-			);
 			processBrs(tinymce.activeEditor.selection.getNode(), function(startSection, br, previousBR){
 				doWrapList(startSection, br);
 				cleanupBr(br);
