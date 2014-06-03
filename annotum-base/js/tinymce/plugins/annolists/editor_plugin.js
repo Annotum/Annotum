@@ -512,123 +512,156 @@ tinymce.PluginManager.add('annoLists', function(editor) {
 
 		function applyList(listType) {
 			var rng = selection.getRng(true), bookmark = createBookmark(rng);
-			function getSelectedTextBlocks() {
-				var textBlocks = [], root = editor.getBody();
 
-				function getEndPointNode(start) {
-					var container, offset;
-
-					container = rng[start ? 'startContainer' : 'endContainer'];
-					offset = rng[start ? 'startOffset' : 'endOffset'];
-
-					// Resolve node index
-					if (container.nodeType == 1) {
-						container = container.childNodes[Math.min(offset, container.childNodes.length - 1)] || container;
-					}
-
-					while (container.parentNode != root) {
-						if (isTextBlock(container)) {
-							return container;
-						}
-
-						if (/^(TD|TH)$/.test(container.parentNode.nodeName)) {
-							return container;
-						}
-
-						container = container.parentNode;
-					}
-
-					return container;
+			function cleanupBr(e) {
+				if (e && e.tagName === 'BR') {
+					dom.remove(e);
 				}
-
-				var startNode = getEndPointNode(true);
-				var endNode = getEndPointNode();
-				var block, siblings = [];
-
-				for (var node = startNode; node; node = node.nextSibling) {
-					siblings.push(node);
-
-					if (node == endNode) {
-						break;
-					}
-				}
-
-				tinymce.each(siblings, function(node) {
-					if (isTextBlock(node)) {
-						textBlocks.push(node);
-						block = null;
-						return;
-					}
-
-					if (dom.isBlock(node) || node.nodeName == 'BR') {
-						if (node.nodeName == 'BR') {
-							dom.remove(node);
-						}
-
-						block = null;
-						return;
-					}
-
-					var nextSibling = node.nextSibling;
-					if (isBookmarkNode(node)) {
-						if (isTextBlock(nextSibling) || (!nextSibling && node.parentNode == root)) {
-							block = null;
-							return;
-						}
-					}
-
-					if (!block) {
-						block = dom.create(editor.plugins.textorum.translateElement('p'),
-						{
-							'class': 'p',
-							'data-xmlel': 'p'
-						});
-						node.parentNode.insertBefore(block, node);
-						textBlocks.push(block);
-					}
-
-					block.appendChild(node);
-				});
-
-				return textBlocks;
 			}
 
-			var textBlocks = getSelectedTextBlocks();
-
-			tinymce.each(textBlocks, function(block) {
-				var listBlock, sibling, li;
-
-				sibling = block.previousSibling;
-				if (sibling && isListNode(sibling) && sibling.nodeName == listType) {
-					listBlock = sibling;
-					block = dom.rename(block, 'div');
-					sibling.appendChild(block);
+			function doWrapList(start, end, template) {
+				var li, n = start, tmp, i, title, content;
+				while (!dom.isBlock(start.parentNode) && start.parentNode !== dom.getRoot()) {
+					start = dom.split(start.parentNode, start.previousSibling);
+					start = start.nextSibling;
+					n = start;
 				}
-				else {
-					listBlock = dom.create(
-						editor.plugins.textorum.translateElement('list'),
+				li = dom.create(
+					tinyMCE.activeEditor.plugins.textorum.translateElement('list-item'),
+					{'class': 'list-item', 'data-xmlel': 'list-item'}
+				);
+
+				dom.add(li, dom.create(
+					editor.plugins.textorum.translateElement('p'),
+					{'class': 'p', 'data-xmlel': 'p'},
+					'&#xA0;'
+				));
+
+
+				// Insert before the start but as a child of the parent.
+				start.parentNode.insertBefore(li, start);
+
+				while (n && n != end) {
+					tmp = n.nextSibling;
+					li.firstChild.appendChild(n);
+					n = tmp;
+				}
+				if (li.childNodes.length === 0) {
+					li.innerHTML = '<br _mce_bogus="1" />';
+				}
+				makeList(li);
+			}
+
+			function makeList(element) {
+				var list = dom.create(
+						tinyMCE.activeEditor.plugins.textorum.translateElement('list'),
 						{
 							'list-type': listType,
 							'class': 'list',
 							'data-xmlel': 'list'
 						}
-					);
+					), li;
+
+				if (element.className.toUpperCase() === 'LIST-ITEM') {
+					// No change required.
+				}
+				else {
+					// Put the list around the element.
 					li = dom.create(
 						tinyMCE.activeEditor.plugins.textorum.translateElement('list-item'),
 						{'class': 'list-item', 'data-xmlel': 'list-item'}
 					);
+
 					dom.add(li, dom.create(
-						textorum.translateElement('p'),
+						editor.plugins.textorum.translateElement('p'),
 						{'class': 'p', 'data-xmlel': 'p'},
 						'&#xA0;'
 					));
-					listBlock.appendChild(li);
-					block.appendChild(listBlock);
-					//listBlock.appendChild(block);
-					//block = dom.rename(block, 'div');
+					dom.insertAfter(li, element);
+					li.appendChild(element);
+					element = li;
 				}
 
-				mergeWithAdjacentLists(listBlock);
+				dom.insertAfter(list, element);
+				list.appendChild(element);
+				mergeWithAdjacentLists(list, true);
+			}
+
+			function processBrs(element, callback) {
+				var startSection, previousBR, END_TO_START = 3, START_TO_END = 1,
+					breakElements = 'br';
+				var bookmark = createBookmark(selection.getRng(true));
+				function isAnyPartSelected(start, end) {
+					var r = dom.createRng(), sel;
+					bookmark.keep = true;
+					editor.selection.moveToBookmark(bookmark);
+					bookmark.keep = false;
+					sel = editor.selection.getRng(true);
+					if (!end) {
+						end = start.parentNode.lastChild;
+					}
+					r.setStartBefore(start);
+					r.setEndAfter(end);
+					return !(r.compareBoundaryPoints(END_TO_START, sel) > 0 || r.compareBoundaryPoints(START_TO_END, sel) <= 0);
+				}
+				function nextLeaf(br) {
+					if (br.nextSibling) {
+						return br.nextSibling;
+					}
+					if (!dom.isBlock(br.parentNode) && br.parentNode !== dom.getRoot()) {
+						return nextLeaf(br.parentNode);
+					}
+				}
+				// Split on BRs within the range and process those.
+				startSection = element.firstChild;
+				// First mark the BRs that have any part of the previous section selected.
+				var trailingContentSelected = false;
+				tinymce.each(dom.select(breakElements, element), function(br) {
+					var b;
+					if (br.hasAttribute && br.hasAttribute('_mce_bogus')) {
+						return true; // Skip the bogus Brs that are put in to appease Firefox and Safari.
+					}
+
+					if (!!startSection && isAnyPartSelected(startSection, br)) {
+						dom.addClass(br, '_mce_tagged_br');
+						startSection = nextLeaf(br);
+					}
+				});
+				trailingContentSelected = (startSection && isAnyPartSelected(startSection, undefined));
+				startSection = element.firstChild;
+
+				tinymce.each(dom.select(breakElements, element), function(br) {
+					// Got a section from start to br.
+					var tmp = nextLeaf(br);
+					if (br.hasAttribute && br.hasAttribute('_mce_bogus')) {
+						return true; // Skip the bogus Brs that are put in to appease Firefox and Safari.
+					}
+					if (dom.hasClass(br, '_mce_tagged_br')) {
+						callback(startSection, br, previousBR);
+						previousBR = null;
+					} else {
+						previousBR = br;
+					}
+					startSection = tmp;
+				});
+
+				if (trailingContentSelected) {
+					callback(startSection, undefined, previousBR);
+				}
+			}
+
+			listBlock = dom.create(
+				editor.plugins.textorum.translateElement('list'),
+				{
+					'list-type': listType,
+					'class': 'list',
+					'data-xmlel': 'list'
+				}
+			);
+			processBrs(tinymce.activeEditor.selection.getNode(), function(startSection, br, previousBR){
+				doWrapList(startSection, br);
+				cleanupBr(br);
+				cleanupBr(previousBR);
 			});
 
 			moveToBookmark(bookmark);
