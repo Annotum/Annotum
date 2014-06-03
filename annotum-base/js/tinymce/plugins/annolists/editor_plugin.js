@@ -195,7 +195,6 @@ tinymce.PluginManager.add('annoLists', function(editor) {
 			}
 
 			if (blockName) {
-
 				textBlock = dom.create(
 					textorum.translateElement(blockName),
 					{'class': blockName, 'data-xmlel': blockName}
@@ -218,7 +217,8 @@ tinymce.PluginManager.add('annoLists', function(editor) {
 					if (blockElements[nodeName]) {
 						fragment.appendChild(node);
 						textBlock = null;
-					} else {
+					}
+					else {
 						if (blockName) {
 							if (!textBlock) {
 								textBlock = textBlock = dom.create(
@@ -229,7 +229,8 @@ tinymce.PluginManager.add('annoLists', function(editor) {
 							}
 
 							textBlock.appendChild(node);
-						} else {
+						}
+						else {
 							fragment.appendChild(node);
 						}
 					}
@@ -238,7 +239,8 @@ tinymce.PluginManager.add('annoLists', function(editor) {
 
 			if (!editor.settings.forced_root_block) {
 				fragment.appendChild(dom.create('br'));
-			} else {
+			}
+			else {
 				// BR is needed in empty blocks on non IE browsers
 				if (!hasContentNode && (!tinymce.Env.ie || tinymce.Env.ie > 10)) {
 					textBlock.appendChild(dom.create('br', {'data-mce-bogus': '1'}));
@@ -264,14 +266,23 @@ tinymce.PluginManager.add('annoLists', function(editor) {
 		}
 
 		function splitList(ul, li, newBlock) {
-			var tmpRng, fragment;
-
+			var tmpRng, fragment, startRange;
+			var parent = dom.getParent(li.parentNode, '.list-item');
+			var startRange = li;
 			var bookmarks = dom.select('span[data-mce-type="bookmark"]', ul);
+
+			// Want to split on the first lists's LI
+			while (parent) {
+				if (parent) {
+					startRange = parent;
+				}
+				parent = dom.getParent(parent.parentNode, '.list-item');
+			}
 
 			newBlock = newBlock || createNewTextBlock(li);
 
 			tmpRng = dom.createRng();
-			tmpRng.setStartAfter(li);
+			tmpRng.setStartAfter(startRange);
 			tmpRng.setEndAfter(ul);
 			fragment = tmpRng.extractContents();
 
@@ -379,7 +390,8 @@ tinymce.PluginManager.add('annoLists', function(editor) {
 				}
 
 				return true;
-			} else if (isFirstChild(li)) {
+			}
+			else if (isFirstChild(li)) {
 				if (dom.getAttrib(ulParent, 'data-xmlel') == 'list-item') {
 					dom.insertAfter(li, ulParent);
 					li.appendChild(ul);
@@ -392,7 +404,8 @@ tinymce.PluginManager.add('annoLists', function(editor) {
 				}
 
 				return true;
-			} else if (isLastChild(li)) {
+			}
+			else if (isLastChild(li)) {
 				if (dom.getAttrib(ulParent, 'data-xmlel') == 'list-item') {
 					dom.insertAfter(li, ulParent);
 				} else if (isListNode(ulParent)) {
@@ -403,7 +416,8 @@ tinymce.PluginManager.add('annoLists', function(editor) {
 				}
 
 				return true;
-			} else {
+			}
+			else {
 				if (dom.getAttrib(ulParent, 'data-xmlel') == 'list-item') {
 					ul = ulParent;
 					newBlock = createNewTextBlock(li, 'list-item');
@@ -731,7 +745,8 @@ tinymce.PluginManager.add('annoLists', function(editor) {
 			if (parentList) {
 				if (dom.getAttrib(parentList, 'list-type') == listType) {
 					removeList(listType);
-				} else {
+				}
+				else {
 					var bookmark = createBookmark(selection.getRng(true));
 					dom.setAttrib(parentList, 'list-type', listType);
 					mergeWithAdjacentLists(parentList);
