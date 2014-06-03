@@ -51,6 +51,22 @@ tinymce.PluginManager.add('annoLists', function(editor) {
 		var helper = editor.plugins.textorum.helper;
 		var textorum = editor.plugins.textorum;
 
+		editor.onNodeChange.add(function(ed, object, e) {
+			if (helper.getLocalName(e.parentNode) == 'list-item' && helper.getLocalName(e.parentNode.firstChild) != 'p') {
+				var pTags = ed.dom.select('.p', e.parentNode);
+				if (pTags.length == 0) {
+					var content = e.parentNode.innerHTML;
+					var pNode = ed.dom.create(
+						ed.plugins.textorum.translateElement('p'),
+						{'class': 'p', 'data-xmlel': 'p'},
+						content
+					);
+
+					e.parentNode.innerHTML = (pNode.outerHTML);
+				}
+			}
+		});
+
 		/**
 		 * Returns a range bookmark. This will convert indexed bookmarks into temporary span elements with
 		 * index 0 so that they can be restored properly after the DOM has been modified. Text bookmarks will not have spans
