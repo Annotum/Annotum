@@ -31,31 +31,34 @@
 				}
 			});
 
-			jQuery(document).on('referenceRemoved', function(e, refID, total) {
-				var nodes, rid;
-				refID = parseInt(refID);
-				total = parseInt(total);
-				if (refID && total) {
-					// inserted content is offset by 1
-					refID = refID + 1;
-					// Want the old total
-					total = total + 1;
-					nodes = ed.dom.select('.xref');
-					if (nodes) {
-						tinymce.each(nodes, function(node, index) {
-							rid = parseInt(node.getAttribute('rid').replace('ref', ''));
-							if (rid >= total) {
-								ed.dom.remove(node);
-							}
-							else if (rid >= refID) {
-								node.setAttribute('rid', 'ref' + (rid - 1));
-								node.textContent = rid - 1;
-								node.innerText = rid - 1;
-							}
-						});
+			// No references in abstract
+			if (ed.id == 'content') {
+				jQuery(document).on('referenceRemoved', function(e, refID, total) {
+					var nodes, rid;
+					refID = parseInt(refID);
+					total = parseInt(total);
+					if (refID && total) {
+						// inserted content is offset by 1
+						refID = refID + 1;
+						// Want the old total
+						total = total + 1;
+						nodes = ed.dom.select('.xref');
+						if (nodes) {
+							tinymce.each(nodes, function(node, index) {
+								rid = parseInt(node.getAttribute('rid').replace('ref', ''));
+								if (rid >= total) {
+									ed.dom.remove(node);
+								}
+								else if (rid >= refID) {
+									node.setAttribute('rid', 'ref' + (rid - 1));
+									node.textContent = rid - 1;
+									node.innerText = rid - 1;
+								}
+							});
+						}
 					}
-				}
-			});
+				});
+			}
     	},
 
         getInfo : function() {
@@ -80,7 +83,7 @@ jQuery(document).ready(function($) {
 
 		$.each($('.js-reference-row:not(#reference-new)'), function(index, value) {
 			$row = $(value);
-
+			// @TODO cleanup HTML so this only has to update in a single place.
 			$('.js-reference-number', $row).text((refID + 1) + '.');
 			$('.js-reference-checkbox', $row).attr('id', 'reference-checkbox-' + refID);
 			$('.js-reference-checkbox-label', $row).attr('for', 'reference-checkbox-' + refID);
