@@ -274,7 +274,7 @@ class Anno_tinyMCE {
 				$buttons = array('bold,italic,underline,superscript,subscript,charmap,annosection');
 			}
 			else {
-				$buttons = explode(',', 'annoorderedlist,annobulletlist,bold,italic,underline,annopreformat,annomonospace,superscript,subscript,charmap,|,annolink,announlink,|,annosection,annosubsection,mysplitbutton,|,annoreferences,|,annoimages,|,annoquote,annoequations');
+				$buttons = explode(',', 'annoorderedlist,annobulletlist,annooutdentlist,annoindentlist,bold,italic,underline,annopreformat,annomonospace,superscript,subscript,charmap,|,annolink,announlink,|,annosection,annosubsection,mysplitbutton,|,annoreferences,|,annoimages,|,annoquote,annoequations');
 			}
 		}
 		return $buttons;

@@ -20,10 +20,21 @@ tinymce.PluginManager.add('annoLists', function(editor) {
 	});
 
 	editor.addButton('annobulletlist', {
-		//removing for temp fix-- title : ed.getLang('advanced.link_desc'),
 		// TODO: Internationalize
 		title : 'Insert Bullet List',
 		cmd : 'AnnoInsertUnorderedList'
+	});
+
+	editor.addButton('annoindentlist', {
+		title : 'Indent List',
+		cmd : 'AnnoIndentList',
+		icon : 'indent'
+	});
+
+	editor.addButton('annooutdentlist', {
+		title : 'Outdent List',
+		cmd : 'AnnoOutdentList',
+		icon : 'outdent'
 	});
 
 	function isListNode(node) {
@@ -828,24 +839,24 @@ tinymce.PluginManager.add('annoLists', function(editor) {
 			}
 		};
 
-		editor.addCommand('Indent', function() {
-			if (!indentSelection()) {
-				return true;
-			}
-		});
-
-		editor.addCommand('Outdent', function() {
-			if (!outdentSelection()) {
-				return true;
-			}
-		});
-
 		editor.addCommand('AnnoInsertOrderedList', function() {
 			toggleList('order');
 		});
 
 		editor.addCommand('AnnoInsertUnorderedList', function() {
 			toggleList('bullet');
+		});
+
+		editor.addCommand('AnnoOutdentList', function() {
+			if (editor.dom.getParent(editor.selection.getStart(), '.list-item')) {
+				outdentSelection();
+			}
+		});
+
+		editor.addCommand('AnnoIndentList', function() {
+			if (editor.dom.getParent(editor.selection.getStart(), '.list-item')) {
+				indentSelection();
+			}
 		});
 
 		editor.on('keydown', function(e) {
