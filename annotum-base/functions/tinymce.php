@@ -463,25 +463,25 @@ function anno_popup_references_row_display($reference_key, $reference) {
 	<table>
 	<tr>
 		<td class="reference-checkbox">
-			<input id="<?php echo esc_attr('reference-checkbox-'.$reference_key); ?>" type="checkbox" />
+			<input id="<?php echo esc_attr('reference-checkbox-'.$reference_key); ?>" class="js-reference-checkbox" type="checkbox" />
 		</td>
 		<td class="reference-text">
-			<label for="<?php echo esc_attr('reference-checkbox-'.$reference_key); ?>">
-				<?php echo $reference_key + 1; ?>. <?php echo esc_html($reference['text']); ?>
+			<label for="<?php echo esc_attr('reference-checkbox-'.$reference_key); ?>" class="js-reference-checkbox-label">
+				<span class="reference-number js-reference-number"><?php echo $reference_key + 1; ?>.</span> <?php echo esc_html($reference['text']); ?>
 			</label>
 		</td>
 		<td class="reference-actions">
 <?php
 		if (anno_current_user_can_edit()) {
 ?>
-			<a href="#" id="<?php echo esc_attr('reference-action-edit-'.$reference_key); ?>" class="edit"><?php _ex('Edit', 'reference action', 'anno'); ?></a>
-			<a href="#" id="<?php echo esc_attr('reference-action-delete-'.$reference_key); ?>" class="delete"><?php _ex('Delete', 'reference action', 'anno'); ?></a>
+			<a href="#" data-id="<?php echo esc_attr($reference_key); ?>" class="edit-reference"><?php _ex('Edit', 'reference action', 'anno'); ?></a>
+			<a href="#" data-id="<?php echo esc_attr($reference_key); ?>" class="delete-reference"><?php _ex('Delete', 'reference action', 'anno'); ?></a>
 			<?php  wp_nonce_field('anno_delete_reference', '_ajax_nonce-delete-reference'); ?>
 <?php
 		}
 		else {
 ?>
-			<a href="#" id="<?php echo esc_attr('reference-action-edit-'.$reference_key); ?>" class="edit"><?php _ex('Show', 'reference action', 'anno'); ?></a>
+			<a href="#" data-id="<?php echo esc_attr($reference_key); ?>" class="edit"><?php _ex('Show', 'reference action', 'anno'); ?></a>
 <?php
 		}
 ?>
@@ -503,36 +503,36 @@ function anno_popup_references_row_display($reference_key, $reference) {
  */
 function anno_popup_references_row_edit($reference_key, $reference, $post_id, $doi_enabled = false) {
 ?>
-	<table id="<?php echo esc_attr('reference-edit-'.$reference_key); ?>">
+	<table id="<?php echo esc_attr('reference-edit-'.$reference_key); ?>" class="js-reference-edit">
 		<tr>
 			<td class="anno-references-edit-td" colspan="3">
-				<div id="<?php echo esc_attr('#popup-message-reference-'.$reference_key); ?>"></div>
-					<form id="<?php echo esc_attr('reference-form-'.$reference_key); ?>" class="anno-reference-edit">
-						<div id="<?php echo esc_attr('lookup-error-'.$reference_key); ?>" class="popup-error"></div>
+				<div></div>
+					<form id="<?php echo esc_attr('reference-form-'.$reference_key); ?>" class="anno-reference-edit js-reference-form">
+						<div id="<?php echo esc_attr('lookup-error-'.$reference_key); ?>" class="popup-error js-lookup-error"></div>
 						<label>
 						<?php
 							$doi_value = $doi_enabled ? esc_attr($reference['doi']) : _x('CrossRef Credentials Required', 'disabled DOI lookup message', 'anno');
 						?>
 							<span><?php _ex('CrossRef DOI', 'input label for DOI lookup', 'anno'); ?></span>
-							<input type="text" class="short" name="doi" id="<?php echo esc_attr('doi-'.$reference_key); ?>" value="<?php echo $doi_value; ?>"<?php disabled($doi_enabled, false, true); ?>/>
+							<input type="text" class="short js-doi" name="doi" id="<?php echo esc_attr('doi-'.$reference_key); ?>" value="<?php echo $doi_value; ?>"<?php disabled($doi_enabled, false, true); ?>/>
 <?php if (anno_current_user_can_edit()): ?>
-							<input type="button" class="blue" name="import_doi" id="<?php echo esc_attr('doi-import-'.$reference_key); ?>" value="<?php _ex('Import', 'button label', 'anno'); ?>"<?php disabled($doi_enabled, false, true); ?>>
+							<input type="button" class="blue js-doi-import" name="import_doi" id="<?php echo esc_attr('doi-import-'.$reference_key); ?>" value="<?php _ex('Import', 'button label', 'anno'); ?>"<?php disabled($doi_enabled, false, true); ?>>
 							<img src="<?php echo esc_url(admin_url('images/wpspin_light.gif' )); ?>" class="ajax-loading" />
 							<?php wp_nonce_field('anno_import_doi', '_ajax_nonce-import-doi', false); ?>
 <?php endif; ?>
 						</label>
 						<label>
 							<span><?php _ex('PubMed ID (PMID)', 'input for PubMed ID lookup', 'anno'); ?></span>
-							<input type="text" class="short" name="pmid" id="<?php echo esc_attr('pmid-'.$reference_key); ?>" value="<?php echo esc_attr($reference['pmid']) ?>" />
+							<input type="text" class="short js-pmid" name="pmid" id="<?php echo esc_attr('pmid-'.$reference_key); ?>" value="<?php echo esc_attr($reference['pmid']) ?>" />
 <?php if (anno_current_user_can_edit()): ?>
-							<input type="button" class="blue" name="import_pubmed" id="<?php echo esc_attr('pmid-import-'.$reference_key); ?>" value="<?php _ex('Import', 'button label', 'anno'); ?>">
+							<input type="button" class="blue js-pmid-import" name="import_pubmed" data-id="<?php echo esc_attr($reference_key); ?>" value="<?php _ex('Import', 'button label', 'anno'); ?>">
 							<img src="<?php echo esc_url( admin_url( 'images/wpspin_light.gif' ) ); ?>" class="ajax-loading" />
 							<?php wp_nonce_field('anno_import_pubmed', '_ajax_nonce-import-pubmed', false); ?>
 <?php endif; ?>
 						</label>
 						<label>
 							<span><?php _ex('Text', 'input label for defining tables', 'anno'); ?></span>
-							<textarea type="text" name="text" id="<?php echo esc_attr('text-'.$reference_key); ?>"><?php echo esc_textarea($reference['text']) ?></textarea>
+							<textarea type="text" name="text" class="js-pmid-text" id="<?php echo esc_attr('text-'.$reference_key); ?>"><?php echo esc_textarea($reference['text']) ?></textarea>
 						</label>
 						<label>
 							<span><?php _ex('URL', 'input label for defining tables', 'anno'); ?></span>
@@ -540,9 +540,9 @@ function anno_popup_references_row_edit($reference_key, $reference, $post_id, $d
 						</label>
 <?php if (anno_current_user_can_edit()): ?>
 						<div class="reference-edit-actions clearfix">
-							<a href="#" id="<?php echo esc_attr('reference-action-save-'.$reference_key); ?>" class="save left">Save</a>
-							<a href="#" id="<?php echo esc_attr('reference-action-cancel-'.$reference_key); ?>" class="cancel right">Cancel</a>
-							<input type="hidden" name="ref_id" value="<?php echo esc_attr($reference_key); ?>" />
+							<a href="#" data-id="<?php echo esc_attr($reference_key); ?>" class="save-reference left"><?php _e('Save', 'anno'); ?></a>
+							<a href="#" data-id="<?php echo esc_attr($reference_key); ?>" class="cancel-reference right"><?php _e('Cancel', 'anno'); ?></a>
+							<input type="hidden" class="js-ref-id" name="ref_id" value="<?php echo esc_attr($reference_key); ?>" />
 							<input type="hidden" name="post_id" value="<?php echo esc_attr($post_id); ?>" />
 							<input type="hidden" name="action" value="anno-reference-save" />
 							<?php wp_nonce_field('anno_save_reference', '_ajax_nonce-save-reference'); ?>
@@ -569,7 +569,7 @@ function anno_popup_references_row_edit($reference_key, $reference, $post_id, $d
  */
 function anno_popup_reference_row($reference_key, $reference, $post_id, $doi_enabled = false) {
 ?>
-	<tr id="<?php echo esc_attr('reference-'.$reference_key); ?>">
+	<tr id="<?php echo esc_attr('reference-'.$reference_key); ?>" class="js-reference-row">
 		<td colspan="3">
 			<?php anno_popup_references_row_display($reference_key, $reference); ?>
 			<?php anno_popup_references_row_edit($reference_key, $reference, $post_id, $doi_enabled); ?>
@@ -842,7 +842,7 @@ function anno_tinymce_reference_save() {
 				anno_popup_reference_row($reference['ref_id'], $reference, $_POST['post_id'], $doi_enabled);
 				$response['markup'] = ob_get_contents();
 			ob_end_clean();
-			$response['ref_text'] = ($response['ref_id'] + 1).'. '.$reference['text'];
+			$response['ref_text'] = '<span class="reference-number js-reference-number">'.($response['ref_id'] + 1).'.</span> '.$reference['text'];
 			$message =  _x('Reference Saved.', 'success message', 'anno');
 		}
 	}
@@ -870,6 +870,7 @@ add_action('wp_ajax_anno-reference-delete', 'anno_tinymce_reference_delete');
  * @return mixed bool|Array array of the updated/created reference false otherwise
  */
 function anno_insert_reference($ref_array) {
+	//error_log(print_r($ref_array,1));
 	if (!isset($ref_array['post_id']) || !isset($ref_array['text'])) {
 		return false;
 	}
@@ -883,6 +884,7 @@ function anno_insert_reference($ref_array) {
 	);
 
 	$references = get_post_meta(absint($ref_array['post_id']), '_anno_references', true);
+	$ref_key = absint($ref_array['ref_id']);
 
 	// Do new item
 	if (!isset($ref_array['ref_id']) || $ref_array['ref_id'] == 'new') {
@@ -890,17 +892,15 @@ function anno_insert_reference($ref_array) {
 		// Grab the key of our newly created reference
 		$ref_args['ref_id'] = array_pop(array_keys($references));
 	}
-	else if (array_key_exists(absint($ref_array['ref_id']), $references)) {
-		$references[absint($ref_array['ref_id'])] = $ref_args;
-		$ref_args['ref_id'] = absint($ref_array['ref_id']);
+	else if (array_key_exists($ref_key, $references)) {
+		$references[$ref_key] = $ref_args;
+		$ref_args['ref_id'] = $ref_key;
 	}
 	else {
 		return false;
 	}
 
-	// @TODO Reset our array keys in case any have become offset account for in post_content
-	update_post_meta(absint($ref_array['post_id']), '_anno_references', $references);
-
+	update_post_meta(absint($ref_array['post_id']), '_anno_references', array_values($references));
 	return $ref_args;
 }
 
@@ -908,8 +908,7 @@ function anno_delete_reference($post_id, $ref_id) {
 	$references = get_post_meta($post_id, '_anno_references', true);
 	if (array_key_exists($ref_id, $references)) {
 		unset($references[$ref_id]);
-		// @TODO Reset our array keys in case any have become offset account for in post_content
-		update_post_meta($post_id, '_anno_references', $references);
+		update_post_meta($post_id, '_anno_references', array_values($references));
 		return true;
 	}
 	return false;

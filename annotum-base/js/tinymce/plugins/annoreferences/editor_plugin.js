@@ -48,35 +48,61 @@
 
 jQuery(document).ready( function($) {
 
-	$('.reference-actions .delete').live('click', function() {
-		var ref_id = $(this).attr('id').replace('reference-action-delete-', '');
+	function update_reference_numbers() {
+		var refID = 0;
+		var $row;
+
+		$.each($('.js-reference-row:not(#reference-new)'), function(index, value) {
+			$row = $(value);
+
+			$('.js-reference-number', $row).text((refID + 1) + '.');
+			$('.js-reference-checkbox', $row).attr('id', 'reference-checkbox-' + refID);
+			$('.js-reference-checkbox-label', $row).attr('for', 'reference-checkbox-' + refID);
+			$('.js-ref-id', $row).val(refID);
+			$('.edit, .delete, .js-pmid-import, .save, .cancel', $row).data('id', refID);
+			$('.js-reference-edit', $row).attr('id', 'reference-edit-' + refID);
+			$('.js-reference-form', $row).attr('id', 'reference-form-' + refID);
+			$('.js-lookup-error', $row).attr('id', 'lookup-error-' + refID);
+			$('.js-doi', $row).attr('id', 'doi-' + refID);
+			$('.js-doi-import', $row).attr('id', 'doi-import-' + refID);
+			$('.js-pmid', $row).attr('id', 'pmid-' + refID);
+			$('.js-pmid-text', $row).attr('id', 'text-' + refID);
+
+			refID = refID + 1;
+		});
+	}
+
+	$(document).on('click', '.reference-actions .delete-reference', function() {
+		var ref_id = $(this).data('id');
 		var post_data = {ref_id : ref_id, post_id : ANNO_POST_ID, action : 'anno-reference-delete'};
 		post_data['_ajax_nonce-delete-reference'] = $(this).siblings('#_ajax_nonce-delete-reference').val();
 		$.post(ajaxurl, post_data, function(data) {
 			if (data) {
 				$('#reference-' + ref_id).fadeOut('400', function(){
 					$(this).remove();
+					update_reference_numbers();
 				});
-				// @TODO Update all our reference keys
+
 			}
 		}, 'json');
 		return false;
 	});
 
-	$('.reference-actions .edit').live('click', function() {
-		var ref_id = $(this).attr('id').replace('reference-action-edit-', '');
+	$(document).on('click', '.reference-actions .edit-reference', function() {
+		var ref_id = $(this).data('id');
 		$('#reference-form-' + ref_id).slideToggle();
 		return false;
 	});
 
-	$('.reference-edit-actions .cancel').live('click', function() {
-		var ref_id = $(this).attr('id').replace('reference-action-cancel-', '');
+	$(document).on('click', '.reference-edit-actions .cancel-reference', function() {
+		var ref_id = $(this).data('id');
 		$('#reference-form-' + ref_id).slideToggle();
 		return false;
 	});
 
-	$('.reference-edit-actions .save').live('click', function() {
-		var ref_id = $(this).attr('id').replace('reference-action-save-', '');
+	$(document).on('click', '.reference-edit-actions .save-reference', function(e) {
+		e.preventDefault();
+		var ref_id = $(this).data('id');
 		var form = $('#reference-form-' + ref_id);
 		form.submit();
 		return false;
@@ -87,7 +113,7 @@ jQuery(document).ready( function($) {
 		return false;
 	});
 
-	$('#anno-popup-references form').submit(function() {
+	$(document).on('submit', 'form.js-reference-form', function() {
 		var form = $(this);
 		var ref_id = $('input[name="ref_id"]', this).val();
 		var error_div = $('#lookup-error-' + ref_id);
@@ -116,7 +142,7 @@ jQuery(document).ready( function($) {
 
 	$('input[name="import_pubmed"]').live('click', function(e) {
 		e.preventDefault();
-		var ref_id = $(this).attr('id').replace('pmid-import-', '');
+		var ref_id = $(this).data('id');
 		var id = $('#pmid-' + ref_id).val();
 		var data = {action: 'anno-import-pubmed', pmid: id};
 		var error_div = $('#lookup-error-' + ref_id);

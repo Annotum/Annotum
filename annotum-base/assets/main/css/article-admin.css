@@ -259,6 +259,12 @@ div.popup-error {
 	line-height: 1.4;
 }
 
+.anno-mce-popup label span.reference-number {
+	width: auto;
+	display: inline;
+	float: none;
+}
+
 /** Tips
  -------------------------------------------------- */
 #anno-popup-tips {
