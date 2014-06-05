@@ -857,7 +857,16 @@ add_action('wp_ajax_anno-reference-save', 'anno_tinymce_reference_save');
 
 function anno_tinymce_reference_delete() {
 	check_ajax_referer('anno_delete_reference', '_ajax_nonce-delete-reference');
-	echo json_encode(anno_delete_reference($_POST['post_id'], $_POST['ref_id']));
+	$response = array(
+		'result' => 'error',
+		'refTotal' => 0
+	);
+	if (anno_delete_reference($_POST['post_id'], $_POST['ref_id'])) {
+		$response['result'] = 'success';
+		$references = get_post_meta(absint($_POST['post_id']), '_anno_references', true);
+		$response['refTotal'] = count($references);
+	}
+	echo json_encode($response);
 	die();
 }
 add_action('wp_ajax_anno-reference-delete', 'anno_tinymce_reference_delete');
@@ -870,7 +879,7 @@ add_action('wp_ajax_anno-reference-delete', 'anno_tinymce_reference_delete');
  * @return mixed bool|Array array of the updated/created reference false otherwise
  */
 function anno_insert_reference($ref_array) {
-	//error_log(print_r($ref_array,1));
+
 	if (!isset($ref_array['post_id']) || !isset($ref_array['text'])) {
 		return false;
 	}

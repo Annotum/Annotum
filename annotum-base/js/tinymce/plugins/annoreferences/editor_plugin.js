@@ -30,6 +30,32 @@
 					}
 				}
 			});
+
+			jQuery(document).on('referenceRemoved', function(e, refID, total) {
+				var nodes, rid;
+				refID = parseInt(refID);
+				total = parseInt(total);
+				if (refID && total) {
+					// inserted content is offset by 1
+					refID = refID + 1;
+					// Want the old total
+					total = total + 1;
+					nodes = ed.dom.select('.xref');
+					if (nodes) {
+						tinymce.each(nodes, function(node, index) {
+							rid = parseInt(node.getAttribute('rid').replace('ref', ''));
+							if (rid >= total) {
+								ed.dom.remove(node);
+							}
+							else if (rid >= refID) {
+								node.setAttribute('rid', 'ref' + (rid - 1));
+								node.textContent = rid - 1;
+								node.innerText = rid - 1;
+							}
+						});
+					}
+				}
+			});
     	},
 
         getInfo : function() {
@@ -46,9 +72,9 @@
     tinymce.PluginManager.add('annoReferences', tinymce.plugins.annoReferences);
 })();
 
-jQuery(document).ready( function($) {
+jQuery(document).ready(function($) {
 
-	function update_reference_numbers() {
+	function update_reference_numbers(deletedID, total) {
 		var refID = 0;
 		var $row;
 
@@ -70,6 +96,8 @@ jQuery(document).ready( function($) {
 
 			refID = refID + 1;
 		});
+
+		 $(document).trigger('referenceRemoved', [deletedID, total]);
 	}
 
 	$(document).on('click', '.reference-actions .delete-reference', function() {
@@ -77,10 +105,10 @@ jQuery(document).ready( function($) {
 		var post_data = {ref_id : ref_id, post_id : ANNO_POST_ID, action : 'anno-reference-delete'};
 		post_data['_ajax_nonce-delete-reference'] = $(this).siblings('#_ajax_nonce-delete-reference').val();
 		$.post(ajaxurl, post_data, function(data) {
-			if (data) {
+			if (data.result == 'success') {
 				$('#reference-' + ref_id).fadeOut('400', function(){
 					$(this).remove();
-					update_reference_numbers();
+					update_reference_numbers(ref_id, data.refTotal);
 				});
 
 			}
