@@ -31,6 +31,7 @@ include_once(CFCT_PATH.'functions/anno-xml-download.php');
 include_once(CFCT_PATH.'functions/subscribe.php');
 include_once(CFCT_PATH.'functions/snapshot.php');
 include_once(CFCT_PATH.'functions/anno-validation.php');
+include_once(CFCT_PATH.'functions/anno-admin-activity-widget.php');
 
 
 function anno_include_media_edit() {
@@ -991,7 +992,7 @@ function anno_activity_information() {
 			if ( empty( $num_posts->$status_slug ) )
 				continue;
 
-			$detailed_counts[] = array(
+			$detailed_counts[$status->name] = array(
 				'status_slug' 	=> $status->name,
 				'i18n' 			=> $status_text[$status_slug]['i18n'],
 				'count' 		=> $num_posts->$status_slug,
@@ -999,29 +1000,22 @@ function anno_activity_information() {
 				'class' 		=> $status_text[$status_slug]['class'],
 			);
 		}
-	}
-	?>
-	</table> <!-- /close up the other table -->
 
-	<table>
-		<tr>
-			<td class="first b"><a href="<?php echo esc_url($base_edit_link); ?>"><?php echo number_format_i18n($total_records); ?></a></td>
-			<td class="t"><a href="<?php echo esc_url($base_edit_link); ?>"><?php _e('Articles', 'anno'); ?></a></td>
-		</tr>
-		<?php
-		foreach ($detailed_counts as $details) {
-			?>
-			<tr>
-				<td class="first b"><a href="<?php echo esc_url($details['url']); ?>"><?php echo esc_html(number_format_i18n($details['count'])); ?></a></td>
-				<td class="t"><a class="<?php echo esc_attr($details['class']); ?>" href="<?php echo esc_url($details['url']); ?>"><?php echo esc_html($details['i18n']); // already i18n'd ?></a></td>
-			</tr>
-			<?php
+		$article_count = 0;
+		if (isset($detailed_counts['publish']['count']) && $detailed_counts['publish']['count'] != 0) {
+			$article_count = (int) $detailed_counts['publish']['count'];
 		}
-		?>
-	<?php
-}
-add_action('right_now_content_table_end', 'anno_activity_information');
 
+		?>
+			<style>#dashboard_right_now .article-count a:before { content: '\f119'; }</style>
+			<li class="article-count">
+				<a href="edit.php?post_type=article"><?php echo $article_count; ?> Articles</a>
+			</li>
+		<?php
+	}
+
+}
+add_action( 'dashboard_glance_items', 'anno_activity_information');
 
 /**
  * Clear footer transient when we update the items in the menu it is currently using
