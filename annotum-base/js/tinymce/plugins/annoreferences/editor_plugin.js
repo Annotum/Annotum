@@ -46,7 +46,7 @@
 						if (nodes) {
 							tinymce.each(nodes, function(node, index) {
 								rid = parseInt(node.getAttribute('rid').replace('ref', ''));
-								if (rid >= total) {
+								if (rid == total) {
 									ed.dom.remove(node);
 								}
 								else if (rid >= refID) {
