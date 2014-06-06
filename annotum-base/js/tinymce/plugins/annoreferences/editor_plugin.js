@@ -84,6 +84,7 @@ jQuery(document).ready(function($) {
 		$.each($('.js-reference-row:not(#reference-new)'), function(index, value) {
 			$row = $(value);
 			// @TODO cleanup HTML so this only has to update in a single place.
+			$(this).attr('id', 'reference-' + refID);
 			$('.js-reference-number', $row).text((refID + 1) + '.');
 			$('.js-reference-checkbox', $row).attr('id', 'reference-checkbox-' + refID);
 			$('.js-reference-checkbox-label', $row).attr('for', 'reference-checkbox-' + refID);
