@@ -33,20 +33,17 @@
 
 			// No references in abstract
 			if (ed.id == 'content') {
-				jQuery(document).on('referenceRemoved', function(e, refID, total) {
+				jQuery(document).on('referenceRemoved', function(e, refID) {
 					var nodes, rid;
 					refID = parseInt(refID);
-					total = parseInt(total);
-					if (refID && total) {
+					if (refID) {
 						// inserted content is offset by 1
 						refID = refID + 1;
-						// Want the old total
-						total = total + 1;
 						nodes = ed.dom.select('.xref');
 						if (nodes) {
 							tinymce.each(nodes, function(node, index) {
 								rid = parseInt(node.getAttribute('rid').replace('ref', ''));
-								if (rid == total) {
+								if (rid == refID) {
 									ed.dom.remove(node);
 								}
 								else if (rid >= refID) {
@@ -77,7 +74,7 @@
 
 jQuery(document).ready(function($) {
 
-	function update_reference_numbers(deletedID, total) {
+	function update_reference_numbers(deletedID) {
 		var refID = 0;
 		var $row;
 
@@ -101,7 +98,7 @@ jQuery(document).ready(function($) {
 			refID = refID + 1;
 		});
 
-		 $(document).trigger('referenceRemoved', [deletedID, total]);
+		 $(document).trigger('referenceRemoved', [deletedID]);
 	}
 
 	$(document).on('click', '.reference-actions .delete-reference', function() {
@@ -112,7 +109,7 @@ jQuery(document).ready(function($) {
 			if (data.result == 'success') {
 				$('#reference-' + ref_id).fadeOut('400', function(){
 					$(this).remove();
-					update_reference_numbers(ref_id, data.refTotal);
+					update_reference_numbers(ref_id);
 				});
 
 			}
