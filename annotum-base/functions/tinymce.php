@@ -308,8 +308,6 @@ class Anno_tinyMCE {
 
 			$plugins['annoImages']  =  $plugins_dir.'annoimages/editor_plugin.js';
 
-			$plugins['textorumInsertion']  =  $plugins_dir.'textorum-insertion/editor_plugin.js';
-
 			$plugins['annoTable'] = $plugins_dir.'annotable/editor_plugin.js';
 			$plugins['annoTable_base'] = $plugins_dir.'annotable/annotable.js';
 
@@ -331,6 +329,8 @@ class Anno_tinyMCE {
 			$plugins['annoSource_base'] = $plugins_dir.'annosource/annosource.js';
 
 			$plugins['annoUtility'] = $plugins_dir.'annoutility/editor_plugin.js';
+
+			$plugins['textorumInsertion']  =  $plugins_dir.'textorum-insertion/editor_plugin.js';
 
 		}
 		return $plugins;
@@ -1003,14 +1003,8 @@ function anno_process_editor_content($content) {
 	// Convert caption to cap
 	anno_replace_caption_tag($content);
 
-	// Convert p to para
-	// anno_replace_p_tag($content);
-
 	// Convert label to lbl
 	anno_replace_label_tag($content);
-
-	// Convert title to heading
-	// anno_replace_title_tag($content);
 
 	// Remove p tags wrapping list items
 	anno_remove_p_from_list_items($content);
