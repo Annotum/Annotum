@@ -156,7 +156,46 @@
 			});
 
 			editor.onNodeChange.add(function(ed, cm, e) {
-				var options = editor.plugins.textorum.validator.validElementsForNode(editor.selection.getNode(), "inside", "array");
+				console.log('fire');
+				var node = ed.selection.getNode();
+				var options = editor.plugins.textorum.validator.validElementsForNode(node, "inside", "array");
+				var buttonElementMap = {
+					list : [
+						'annoorderedlist',
+						'annobulletlist'
+					],
+					xref : [
+						'annoreferences'
+					],
+					'disp-quote' : [
+						'annoquote'
+					],
+					monospace : [
+						'annomonospace'
+					],
+					preformat : [
+						'annopreformat'
+					],
+					'table-wrap' : [
+						'table'
+					],
+					sup : [
+						'superscript'
+					],
+					sub : [
+						'subscript'
+					]
+				};
+				jQuery.each(buttonElementMap, function(elementName, buttons) {
+					var tf = false;
+					if (options.indexOf(elementName) === -1) {
+						tf = true;
+					}
+
+					jQuery.each(buttons, function(index, buttonName) {
+						buttonDisable(buttonName, tf);
+					});
+				});
 
 				if (dropmenuVisible && !dropmenuJustClicked) {
 					dropmenu.hideMenu();
@@ -164,14 +203,16 @@
 				}
 
 				// enable indent when parent list item
+				if (ed.dom.getParent(node, '.list')) {
+					buttonDisable('annooutdentlist', false);
+					buttonDisable('annoindentlist', false);
 
-				// disable list when parent not P tag, or not inline element
+				}
+				else {
+					buttonDisable('annooutdentlist', true);
+					buttonDisable('annoindentlist', true);
+				}
 
-				// disable pre and mono when parent not a p tag and not inline elemnt
-
-				// check reference insertion
-
-				// check table insertion, liekly only paragraph.
 
 				if (options.indexOf('inline-graphic') === -1 || options.indexOf('fig') === -1) {
 					buttonDisable('annoimages', true);
@@ -190,12 +231,7 @@
 				}
 
 				function buttonDisable(buttonName, tf) {
-					var button = cm.setDisabled(buttonName, tf);
-					console.log(button);
-					if (typeof button !== 'undefined') {
-						//console.log('disabling');
-						button.disable(tf);
-					}
+					return cm.setDisabled(buttonName, tf);
 				}
 			});
 
