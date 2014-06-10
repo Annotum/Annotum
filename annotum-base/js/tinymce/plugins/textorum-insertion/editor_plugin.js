@@ -163,6 +163,16 @@
 					dropmenuVisible = false;
 				}
 
+				// enable indent when parent list item
+
+				// disable list when parent not P tag, or not inline element
+
+				// disable pre and mono when parent not a p tag and not inline elemnt
+
+				// check reference insertion
+
+				// check table insertion, liekly only paragraph.
+
 				if (options.indexOf('inline-graphic') === -1 || options.indexOf('fig') === -1) {
 					buttonDisable('annoimages', true);
 					buttonDisable('annoequations', true);
@@ -180,9 +190,11 @@
 				}
 
 				function buttonDisable(buttonName, tf) {
-					var button = cm.get(buttonName);
+					var button = cm.setDisabled(buttonName, tf);
+					console.log(button);
 					if (typeof button !== 'undefined') {
-						button.setDisabled(tf);
+						//console.log('disabling');
+						button.disable(tf);
 					}
 				}
 			});
