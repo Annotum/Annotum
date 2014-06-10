@@ -155,9 +155,7 @@
 				}
 			});
 
-			editor.onNodeChange.add(function(ed, cm, e) {
-				console.log('fire');
-				var node = ed.selection.getNode();
+			editor.onNodeChange.add(function(ed, cm, node) {
 				var options = editor.plugins.textorum.validator.validElementsForNode(node, "inside", "array");
 				var buttonElementMap = {
 					list : [
