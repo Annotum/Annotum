@@ -193,13 +193,13 @@ function anno_load_editor($content, $editor_id, $settings = array()) {
 			'valid_children' => implode(',', $valid_children),
 			//  Defines formats.
 			'formats' => "{
-				bold : {'inline' : 'span', 'classes': 'bold', 'attributes' : {'data-xmlel' : 'bold'}, 'remove' : 'all', merge_siblings : false, exact : true},
-				italic : {'inline' : 'span', 'classes': 'italic', 'attributes' : {'data-xmlel' : 'italic'}, 'remove' : 'all', merge_siblings : false, exact : true},
-				monospace : {'inline' : 'span', 'classes': 'monospace', 'attributes' : {'data-xmlel' : 'monospace'}, 'remove' : 'all'},
+				bold : {'inline' : 'strong', 'classes': 'bold', 'attributes' : {'data-xmlel' : 'bold'}, 'remove' : 'all', merge_siblings : false, exact : true},
+				italic : {'inline' : 'em', 'classes': 'italic', 'attributes' : {'data-xmlel' : 'italic'}, 'remove' : 'all', merge_siblings : false, exact : true},
+				monospace : {'inline' : 'tt', 'classes': 'monospace', 'attributes' : {'data-xmlel' : 'monospace'}, 'remove' : 'all', exact : false},
 				preformat : {'block' : 'div', 'classes': 'preformat', 'attributes' : {'data-xmlel' : 'preformat'}, 'remove' : 'all'},
-				underline : {'inline' : 'span', 'classes': 'underline', 'attributes' : {'data-xmlel' : 'underline'}, 'remove' : 'all'},
-				superscript : {'inline' : 'span', 'classes': 'sup', 'attributes' : {'data-xmlel' : 'sup'}, 'remove' : 'all'},
-				subscript : {'inline' : 'span', 'classes': 'sub', 'attributes' : {'data-xmlel' : 'sub'}, 'remove' : 'all'}
+				underline : {'inline' : 'u', 'classes': 'underline', 'attributes' : {'data-xmlel' : 'underline'}, 'remove' : 'all'},
+				superscript : {'inline' : 'sup', 'attributes' : {'data-xmlel' : 'sup'}, 'remove' : 'all', exact : false},
+				subscript : {'inline' : 'sub', 'attributes' : {'data-xmlel' : 'sub'}, 'remove' : 'all', exact: false}
 			}",
 			'forced_root_block' => '',
 			'debug' => 'true',
@@ -988,8 +988,12 @@ function anno_process_editor_content($content) {
 	// Configure the transformer
 	$proc = new XSLTProcessor;
 	$proc->importStyleSheet($xsl); // attach the xsl rules
-	$proc->setParameter(null, 'inlineelements', 'bold,italic,monospace,underline,sub,sup,named-content,ext-link,inline-graphic,alt-text,lbl,long-desc,copyright-statement,copyright-holder,license,license-p,disp-quote,attrib,inline-formula,xref');
-	$proc->setParameter(null, 'fixedelements', 'textorum,table,thead,tbody,td,tr,th');
+	$proc->setParameter(null, 'inlineelements', 'named-content,ext-link,inline-graphic,alt-text,lbl,long-desc,copyright-statement,copyright-holder,license,license-p,disp-quote,attrib,inline-formula,xref');
+	$proc->setParameter(null, 'bold', 'bold');
+	$proc->setParameter(null, 'italic', 'italic');
+	$proc->setParameter(null, 'monospace', 'monospace');
+	$proc->setParameter(null, 'underline', 'underline');
+	$proc->setParameter(null, 'fixedelements', 'textorum,table,thead,tbody,td,tr,th,sub,sup');
 
 	$content = $proc->transformToXML($xml);
 	$content = preg_replace('/<\/?textorum[^>]*>/', '', $content);
