@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 /**
  * Hook to add the snapshot meta box
@@ -71,7 +71,7 @@ function anno_snapshot_user_markup($user_data, $allowed_keys) {
 	if (isset($user_data['suffix'])) {
 		$title .= empty($title) ? $user_data['suffix'] : ' '.$user_data['suffix'];
 	}
-	
+
 	if (empty($title)) {
 		$title = $uid;
 	}
@@ -88,7 +88,7 @@ $markup = '
 			$class = esc_attr('snapshot-'.$key);
 			$name = esc_attr('anno_snapshot['.$uid.']['.$key.']');
 			switch ($key) {
-				case 'id': 
+				case 'id':
 					$markup .= '<label for="'.$id.'">'.$allowed_keys[$key].': </label> <input type="text" id="'.$id.'" readonly="readonly" value="'.esc_attr($value).'" class="'.$class.'" name="'.$name.'" data-id="'.esc_attr($uid).'" />';
 					break;
 				case 'bio':
@@ -111,12 +111,12 @@ $markup = '
 
 /**
  * Forms snapshot data based on a user id
- *  
+ *
  * @param int $author_id ID of the author
  * @param int $post_id ID of the post, if the user is not found, remove them as an author on the post (used in initial snapshot)
  * @param array $author_meta Current snapshot data to check against. Used in creating initial snapshot
  * @return array Array of data, empty array if user did not exist
- */ 
+ */
 function anno_snapshot_user_data($author_id, $post_id = false, $author_meta = array()) {
 	global $anno_user_meta;
 
@@ -132,7 +132,7 @@ function anno_snapshot_user_data($author_id, $post_id = false, $author_meta = ar
 		$data = array(
 			'id' => $author->ID,
 			'surname' => $author->last_name,
-			'given_names' => $author->first_name,
+			'given_names' => empty($author->first_name) ? $author->user_login : $author->first_name,
 			'bio' => $author->user_description,
 			'email' => $author->user_email,
 			'link' => $author->user_url,
@@ -147,7 +147,7 @@ function anno_snapshot_user_data($author_id, $post_id = false, $author_meta = ar
 				$data[$sanitized_key] = get_user_meta($author->ID, $key, true);
 			}
 		}
-		
+
 	}
 	else {
 		if ($post_id) {
@@ -160,7 +160,7 @@ function anno_snapshot_user_data($author_id, $post_id = false, $author_meta = ar
 
 /**
  * Ajax response to adding a user to the snapshot
- */ 
+ */
 function anno_snapshot_add_user() {
 	$response = array(
 		'result' => '',
@@ -177,13 +177,13 @@ function anno_snapshot_add_user() {
 			$user = $users[0];
 		}
 	}
-		
+
 	if (!empty($user)) {
 		$user_data = anno_snapshot_user_data($user->ID);
 		$response['html'] = anno_snapshot_user_markup($user_data, anno_snapshot_allowed_keys());
 		$response['result'] = 'success';
 		$response['status'] = __('User Added', 'anno');
-		
+
 	}
 	else {
 		$response['status'] = sprintf(_x('User \'%s\' not found', 'Adding user error message for snapshot meta box', 'anno'), $user_login);
@@ -197,7 +197,7 @@ add_action('wp_ajax_anno-add-user-snapshot', 'anno_snapshot_add_user');
 
 /**
  * Save manual snapshot edited data
- */ 
+ */
 function anno_snapshot_edit_save($data, $postarr) {
 	if (isset($_POST['anno_snapshot_edit_save']) && !empty($postarr['post_ID'])) {
 		//remove_action('wp_insert_post', 'anno_users_snapshot', 10, 2);
@@ -218,7 +218,7 @@ function anno_snapshot_edit_save($data, $postarr) {
 		array_unshift($anno_author_ids, $post_id);
 
 		$sql = "DELETE FROM $wpdb->postmeta WHERE `post_id` = %d AND `meta_key` LIKE '_anno_author_%%' AND `meta_key` NOT IN ('_anno_author_snapshot', '_anno_author_order')";
-		
+
 		$sql = $wpdb->prepare($sql, $anno_author_ids);
 		$wpdb->query($sql);
 
@@ -238,7 +238,7 @@ function anno_snapshot_edit_save($data, $postarr) {
 			$data['post_author'] = get_current_user_id();
 		}
 	}
-	
+
 	return $data;
 }
 add_filter('wp_insert_post_data', 'anno_snapshot_edit_save', 1, 2);
@@ -246,7 +246,7 @@ add_filter('wp_insert_post_data', 'anno_snapshot_edit_save', 1, 2);
 /**
  * Takes a snapshot of author/co-authors user data and stores it in post data
  * Only stores on publish and does not overwrite existing.
- */ 
+ */
 function anno_users_snapshot($post_id, $post) {
 	if ($post->post_status == 'publish' && $post->post_type == 'article') {
 		$authors = anno_get_authors($post->ID);
@@ -254,7 +254,7 @@ function anno_users_snapshot($post_id, $post) {
 		if (!is_array($author_meta)) {
 			$author_meta = array();
 		}
-		
+
 		foreach ($authors as $author_id) {
 			$author_meta[$author_id] = anno_snapshot_user_data($author_id, $post_id, $author_meta);
 		}
