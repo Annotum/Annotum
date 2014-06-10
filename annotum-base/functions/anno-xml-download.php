@@ -311,75 +311,70 @@ class Anno_XML_Download {
 
 		// Authors
 		$authors = get_post_meta($article->ID, '_anno_author_snapshot', true);
-		$author_xml = '';
 		if (!empty($authors) && is_array($authors)) {
 
-			$author_contributors = '';
+			$author_xml = '<contrib-group>';
+
 			foreach ($authors as $author) {
-				$author_content = '';
+				$author_xml .= '
+				<contrib>';
 				if (
 					(isset($author['surname']) && !empty($author['surname'])) ||
 					(isset($author['given_names']) && !empty($author['given_names'])) ||
 					(isset($author['prefix']) && !empty($author['prefix'])) ||
 					(isset($author['suffix']) && !empty($author['suffix']))
 					) {
-						$author_content .= '
+						$author_xml .= '
 					<name>';
 						if (isset($author['surname']) && !empty($author['surname'])) {
-							$author_content .= '
+							$author_xml .= '
 						<surname>'.esc_html($author['surname']).'</surname>';
 						}
 						if (isset($author['given_names']) && !empty($author['given_names'])) {
-							$author_content .= '
+							$author_xml .= '
 						<given-names>'.esc_html($author['given_names']).'</given-names>';
 						}
 						if (isset($author['prefix']) && !empty($author['prefix'])) {
-							$author_content .= '
+							$author_xml .= '
 						<prefix>'.esc_html($author['prefix']).'</prefix>';
 						}
 						if (isset($author['suffix']) && !empty($author['suffix'])) {
-							$author_content .= '
+							$author_xml .= '
 						<suffix>'.esc_html($author['suffix']).'</suffix>';
 						}
-						$author_content .= '
+						$author_xml .= '
 					</name>';
 					}
 
 					// Affiliation legacy support
 					if (!empty($author['affiliation']) || !empty($author['institution'])) {
-						$author_content .= '
+						$author_xml .= '
 							<aff>';
 							if (!empty($author['affiliation'])) {
-								$author_content .= esc_html($author['affiliation']);
+								$author_xml .= esc_html($author['affiliation']);
 							}
 							if (!empty($author['institution'])) {
-								$author_content .= '<institution>'.esc_html($author['institution']).'</institution>';
+								$author_xml .= '<institution>'.esc_html($author['institution']).'</institution>';
 							}
-						$author_content .= '</aff>';
+						$author_xml .= '</aff>';
 					}
 
 					if (isset($author['bio']) && !empty($author['bio'])) {
-						$author_content .= '
+						$author_xml .= '
 						<bio><p>'.esc_html($author['bio']).'</p></bio>';
 					}
 
 					if (isset($author['link']) && !empty($author['link'])) {
-						$author_content .= '
+						$author_xml .= '
 						<ext-link ext-link-type="uri" xlink:href="'.esc_url($author['link']).'">'.esc_html($author['link']).'</ext-link>';
 					}
 
-					if (trim($author_content)) {
-						$author_contributors .= '<contrib>'.$author_content.'</contrib>';
-					}
-
+				$author_xml .= '
+				</contrib>';
 			}
 
-			if ($author_contributors)) {
-				$author_xml = '<contrib-group>'.$author_contributors.'</contrib-group>';
-			}
-			else {
-				$author_xml = '';
-			}
+			$author_xml .= '
+			</contrib-group>';
 		}
 
 		// Related Articles
