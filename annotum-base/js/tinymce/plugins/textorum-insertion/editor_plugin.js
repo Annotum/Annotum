@@ -157,6 +157,7 @@
 
 			editor.onNodeChange.add(function(ed, cm, node) {
 				var options = editor.plugins.textorum.validator.validElementsForNode(node, "inside", "array");
+				var inlineNames = ['SPAN', 'TT', 'EM', 'U', 'STRONG', 'SUP', 'SUB'];
 				var buttonElementMap = {
 					list : [
 						'annoorderedlist',
@@ -184,6 +185,11 @@
 						'subscript'
 					]
 				};
+				var firstBlock = node;
+				while (inlineNames.indexOf(firstBlock.nodeName) !== -1) {
+					firstBlock = firstBlock.parentNode;
+				}
+
 				jQuery.each(buttonElementMap, function(elementName, buttons) {
 					var tf = false;
 					if (options.indexOf(elementName) === -1) {
@@ -200,15 +206,28 @@
 					dropmenuVisible = false;
 				}
 
-				// enable indent when parent list item
+				// enable indent when parent list
 				if (ed.dom.getParent(node, '.list')) {
 					buttonDisable('annooutdentlist', false);
 					buttonDisable('annoindentlist', false);
+					buttonDisable('annoorderedlist', false);
+					buttonDisable('annobulletlist', false);
 
 				}
 				else {
 					buttonDisable('annooutdentlist', true);
 					buttonDisable('annoindentlist', true);
+					buttonDisable('annoorderedlist', true);
+					buttonDisable('annobulletlist', true);
+				}
+
+				if (firstBlock.getAttribute('data-xmlel') == 'p') {
+					buttonDisable('annoorderedlist', false);
+					buttonDisable('annobulletlist', false);
+				}
+				else {
+					buttonDisable('annoorderedlist', true);
+					buttonDisable('annobulletlist', true);
 				}
 
 

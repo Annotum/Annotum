@@ -573,8 +573,7 @@ tinymce.PluginManager.add('annoLists', function(editor) {
 
 			function doWrapList(start, end, template) {
 				var li, n = start, tmp, i, title, content;
-
-				while (!dom.isBlock(start.parentNode) && start.parentNode !== dom.getRoot()) {
+				while (!dom.isBlock(start.parentNode) && start.parentNode !== dom.getRoot() && start.previousSibling) {
 					start = dom.split(start.parentNode, start.previousSibling);
 					start = start.nextSibling;
 					n = start;
@@ -640,6 +639,7 @@ tinymce.PluginManager.add('annoLists', function(editor) {
 			}
 
 			function processBrs(element, callback) {
+
 				var startSection, previousBR, END_TO_START = 3, START_TO_END = 1,
 					breakElements = 'br,.list:not(.list-item .list),.p:not(.list-item > .p),.title,table,.disp-quote,.pre,dl';
 				var bookmark = createBookmark(selection.getRng(true));
