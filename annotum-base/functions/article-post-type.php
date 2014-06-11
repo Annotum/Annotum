@@ -186,16 +186,10 @@ function anno_references_meta_box($post) {
 function anno_abstract_meta_box($post) {
 	// FIXME: hack because excerpt comes out encoded
 	if (empty($post->post_excerpt)) {
-		$post->post_excerpt = '&lt;sec&gt;
-			&lt;title&gt;&lt;/title&gt;
-			&lt;p&gt;&amp;#xA0;&lt;/p&gt;
-		&lt;/sec&gt;';
+		$post->post_excerpt = '&lt;p&gt;&amp;#xA0;&lt;/p&gt;';
 	}
 	else if (html_entity_decode($post->post_excerpt) == $post->post_excerpt) {
-		$post->post_excerpt = '&lt;sec&gt;
-			&lt;title&gt;&lt;/title&gt;
-			&lt;p&gt;'.$post->post_excerpt.'&lt;/p&gt;
-		&lt;/sec&gt;';
+		$post->post_excerpt = '&lt;p&gt;'.$post->post_excerpt. '&lt;/p&gt;';
 	}
 
 	anno_load_editor(anno_process_editor_content(html_entity_decode($post->post_excerpt)), "excerpt",
