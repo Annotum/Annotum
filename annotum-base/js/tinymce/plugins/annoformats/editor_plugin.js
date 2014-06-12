@@ -46,7 +46,7 @@
 		},
 
 		_insertSection: function(isSubsection) {
-			var ed = this.editor, doc = ed.getDoc(), node = ed.selection.getNode(), dom = ed.dom, parent = ed.dom.getParent(node, 'SEC, BODY'), range, elYPos, vpHeight = dom.getViewPort(ed.getWin()).h;
+			var ed = this.editor, doc = ed.getDoc(), node = ed.selection.getNode(), dom = ed.dom, parentSec = ed.dom.getParent(node, 'SEC, BODY'), range, elYPos, vpHeight = dom.getViewPort(ed.getWin()).h;
 			var curNodeName = this.helper.getLocalName(node), target, newElement = newSec(), eleArray;
 
 			isSubsection = typeof isSubsection !== 'undefined' ? isSubsection : false;
@@ -66,9 +66,10 @@
 						target = target.lastChild;
 					}
 				}
-				if (target !== null) {
-					dom.insertAfter(newElement, target);
+				if (target === null) {
+					target = topLevelNode(node);
 				}
+				dom.insertAfter(newElement, target);
 			}
 			eleArray = dom.select(' > title', newElement);
 
@@ -81,11 +82,11 @@
 
 			if (doc.createRange) { // all browsers, except IE before version 9
 				range = doc.createRange();
-				range.selectNodeContents(newElement);
+				range.selectNodeContents(newElement.firstChild);
 			}
 			else { // IE < 9
 				range = doc.selection.createRange();
-				range.moveToElementText(newElement);
+				range.moveToElementText(newElement.firstChild);
 			}
 
 			range.collapse(1);
@@ -94,7 +95,7 @@
 			elYPos = dom.getPos(newElement).y;
 			// Scroll to new section
 			if (elYPos > vpHeight) {
-					ed.getWin().scrollTo(0, elYPos);
+				ed.getWin().scrollTo(0, elYPos);
 			}
 
 			ed.nodeChanged();
@@ -105,6 +106,13 @@
 				dom.add(sec, ed.plugins.textorum.translateElement('title'), {'class': 'title', 'data-xmlel': 'title'}, '&#xA0;');
 				dom.add(sec, ed.plugins.textorum.translateElement('p'), {'class': 'p', 'data-xmlel': 'p'}, '&#xA0;');
 				return sec;
+			}
+			function topLevelNode(currentNode) {
+				while (currentNode && currentNode.parentNode.nodeName != 'BODY') {
+					currentNode = currentNode.parentNode;
+				}
+
+				return currentNode;
 			}
 
 		},

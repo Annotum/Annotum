@@ -59,7 +59,7 @@
 					// Ctrl + Enter
 					if (e.ctrlKey) {
 						tinymce.dom.Event.cancel(e);
-						return !self.insertElement('sec', 'after', ed.dom.getParent(ed.selection.getNode(), '.sec'));
+						return ed.plugins.annoFormats.insertSection();
 					}
 
 					// List items
