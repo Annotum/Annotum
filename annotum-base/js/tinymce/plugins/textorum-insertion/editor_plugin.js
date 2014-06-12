@@ -41,6 +41,21 @@
 
 					listItemParent = ed.dom.getParent(ed.selection.getNode(), '.list-item');
 
+					// What to do if empty editor
+					if (ed.getContent() == '') {
+
+						// Abstract gets a <P> tag
+						if (ed.id == 'excerpt') {
+							tinymce.dom.Event.cancel(e);
+							return ed.setContent('<div class="p" data-xmlel="p">&nbsp;</div>');
+						}
+						// Presumably article content.
+						else {
+							tinymce.dom.Event.cancel(e);
+							return ed.setContent('<div class="sec" data-xmlel="sec"><div class="title" data-xmlel="title"><br id=""></div><div class="p" data-xmlel="p">&nbsp;</div></div>');
+						}
+					}
+
 					// Ctrl + Enter
 					if (e.ctrlKey) {
 						tinymce.dom.Event.cancel(e);
