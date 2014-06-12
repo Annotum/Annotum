@@ -156,9 +156,14 @@
 			});
 
 			editor.onNodeChange.add(function(ed, cm, node) {
-				var options = editor.plugins.textorum.validator.validElementsForNode(node, "inside", "array");
-				var inlineNames = ['SPAN', 'TT', 'EM', 'U', 'STRONG', 'SUP', 'SUB'];
-				var buttonElementMap = {
+				var options, inlineNames, buttonElementMap, firstBlock;
+				if (node.nodeName == 'BR') {
+					node = node.parentNode;
+				}
+
+				options = editor.plugins.textorum.validator.validElementsForNode(node, "inside", "array");
+				inlineNames = ['SPAN', 'TT', 'EM', 'U', 'STRONG', 'SUP', 'SUB'];
+				buttonElementMap = {
 					list : [
 						'annoorderedlist',
 						'annobulletlist'
@@ -185,7 +190,8 @@
 						'subscript'
 					]
 				};
-				var firstBlock = node;
+				firstBlock = node;
+
 				while (inlineNames.indexOf(firstBlock.nodeName) !== -1) {
 					firstBlock = firstBlock.parentNode;
 				}
@@ -229,7 +235,6 @@
 					buttonDisable('annoorderedlist', true);
 					buttonDisable('annobulletlist', true);
 				}
-
 
 				if (options.indexOf('inline-graphic') === -1 || options.indexOf('fig') === -1) {
 					buttonDisable('annoimages', true);
