@@ -129,7 +129,7 @@ div[data-xmlel="list-item"] {
 div[data-xmlel="disp-quote"] {
 	font-style: italic;
 }
-div[data-xmlel="disp-quote"] div[data-xmlel="permissions"] {
+div[data-xmlel="disp-quote"] span[data-xmlel="permissions"] {
 	font-style: normal;
 	display: none;
 }

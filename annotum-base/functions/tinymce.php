@@ -988,7 +988,7 @@ function anno_process_editor_content($content) {
 	// Configure the transformer
 	$proc = new XSLTProcessor;
 	$proc->importStyleSheet($xsl); // attach the xsl rules
-	$proc->setParameter(null, 'inlineelements', 'named-content,ext-link,inline-graphic,alt-text,lbl,long-desc,copyright-statement,copyright-holder,license,license-p,disp-quote,attrib,inline-formula,xref');
+	$proc->setParameter(null, 'inlineelements', 'named-content,ext-link,inline-graphic,alt-text,lbl,long-desc,copyright-statement,permissions,copyright-holder,license,license-p,attrib,inline-formula,xref');
 	$proc->setParameter(null, 'bold', 'bold');
 	$proc->setParameter(null, 'italic', 'italic');
 	$proc->setParameter(null, 'monospace', 'monospace');

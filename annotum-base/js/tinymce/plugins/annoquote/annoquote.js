@@ -33,16 +33,20 @@ var annoQuote;
 			statement = $('input[name$="statement"]', form).val();
 			holder = $('input[name$="holder"]', form).val();
 			license = $('input[name$="license"]', form).val();
+			if (license.trim() == '') {
+				license = '';
+			}
+			else {
+				license = '<span class="license-p" data-xmlel="license-p"><span class="license-p" data-xmlel="license-p">'+ license +'</span></span>';
+			}
 
 			xml = '<div class="disp-quote" data-xmlel="disp-quote"><div class="p" data-xmlel="p">' + quote + '</div>'
-					+'<div class="attrib" data-xmlel="attrib">' + attribution +  '</div>'
-					+'<div class="permissions" data-xmlel="permissions">'
+					+'<span class="attrib" data-xmlel="attrib">' + attribution +  '</span>'
+					+'<span class="permissions" data-xmlel="permissions">'
 						+'<span class="copyright-statement" data-xmlel="copyright-statement">' + statement + '</span>'
 						+'<span class="copyright-holder" data-xmlel="copyright-holder">' + holder + '</span>'
-						+'<div class="license" data-xmlel="license" license-type="creative-commons">'
-							+'<span class="license-p" data-xmlel="license-p">'+ license +'</span>'
-						+'</div>'
-					+'</div>'
+						+ license
+					+'</span>'
 				+'</div>';
 
 			ed.execCommand('mceInsertContent', false, xml);
