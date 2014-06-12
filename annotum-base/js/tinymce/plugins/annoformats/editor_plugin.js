@@ -46,7 +46,7 @@
 		},
 
 		_insertSection: function(isSubsection) {
-			var ed = this.editor, doc = ed.getDoc(), node = ed.selection.getNode(), dom = ed.dom, parentSec = ed.dom.getParent(node, 'SEC, BODY'), range, elYPos, vpHeight = dom.getViewPort(ed.getWin()).h;
+			var ed = this.editor, doc = ed.getDoc(), node = ed.selection.getNode(), dom = ed.dom, range, elYPos, vpHeight = dom.getViewPort(ed.getWin()).h;
 			var curNodeName = this.helper.getLocalName(node), target, newElement = newSec(), eleArray;
 
 			isSubsection = typeof isSubsection !== 'undefined' ? isSubsection : false;
