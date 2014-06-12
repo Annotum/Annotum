@@ -174,8 +174,8 @@ function anno_load_editor($content, $editor_id, $settings = array()) {
 		'cap[title|para|xref|div|span|br]',
 		'table-wrap[lbl|cap|table|table-wrap-foot|permissions|div|span|preformat|br]',
 		'table-wrap-foot[para|div|span|br]',
-		'td['.$formats_as_children.'|preformat|ext-link|break|list|media|inline-graphic|xref|br]',
-		'th['.$formats_as_children.'|preformat|ext-link|break|list|media|inline-graphic|xref|br]',
+		'td['.$formats_as_children.'|preformat|ext-link|break|list|media|inline-graphic|xref|br|span]',
+		'th['.$formats_as_children.'|preformat|ext-link|break|list|media|inline-graphic|xref|br|span]',
 		'para['.$formats_as_children.'|media|img|permissions|license|list|list-item|disp-formula|disp-quote|fig|cap|table-wrap|table-wrap-foot|table|h2|xref|img|table|ext-link|paste|div|span|div|span|a|br]',
 		'sec[sec|heading|media|img|permissions|license|list|list-item|disp-formula|disp-quote|fig|cap|table-wrap|table-wrap-foot|para|h2|div|span|preformat|br]',
 	);
