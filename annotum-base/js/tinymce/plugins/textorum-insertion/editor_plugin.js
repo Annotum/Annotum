@@ -268,6 +268,9 @@
 				}
 
 				function buttonDisable(buttonName, tf) {
+					if (tf) {
+						cm.setActive(buttonName, false);
+					}
 					return cm.setDisabled(buttonName, tf);
 				}
 			});
