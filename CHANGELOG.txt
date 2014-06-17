@@ -1,9 +1,9 @@
 # Annotum Changelog
 
 ## 2.0
-- Updated editor plugins to be compatible with tinyMCE 4.0 and integrated the (Textorum)[https://github.com/Annotum/textorum]
+- Updated editor plugins to be compatible with tinyMCE 4.0 and integrated the [Textorum](https://github.com/Annotum/textorum)
 - Media insertion now uses default WordPress interface
-- Strict validation on save and import based off of the (Kipling Subset DTD)[http://dtd.nlm.nih.gov/ncbi/kipling/]
+- Strict validation on save and import based off of the [Kipling Subset DTD](http://dtd.nlm.nih.gov/ncbi/kipling/)
 - Updated dashboard recent activity to support articles as well as posts
 - Removed appendices, these should now be included in the body content
 - Added a treeview feature which outlines major content blocks in the article and allows them to be selected
