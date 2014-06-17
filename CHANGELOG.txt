@@ -1,1 +1,13 @@
-CHANGELOG.md
+# Annotum Changelog
+
+## 2.0
+- Updated editor plugins to be compatible with tinyMCE 4.0 and integrated the (Textorum)[https://github.com/Annotum/textorum]
+- Media insertion now uses default WordPress interface
+- Strict validation on save and import based off of the (Kipling Subset DTD)[http://dtd.nlm.nih.gov/ncbi/kipling/]
+- Updated dashboard recent activity to support articles as well as posts
+- Removed appendices, these should now be included in the body content
+- Added a treeview feature which outlines major content blocks in the article and allows them to be selected
+- Updated the revision manager to support other portions of the article such as subtitle, references and acknowledgements
+- Added feature to allow custom default content in the body when creating a new article
+- Removing a references from the reference list updates all the numbered references within the article body
+- Default abstract content is now just a paragraph and supports no sections
