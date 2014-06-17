@@ -983,7 +983,7 @@ function anno_process_editor_content($content) {
 	$xml->loadXML('<textorum>' . $content . '</textorum>');
 
 	$xsl = new DOMDocument;
-	$xsl->load(trailingslashit(get_template_directory()) . 'js/textorum/xsl/xml2cke.xsl');
+	$xsl->load(trailingslashit(get_template_directory()) . 'js/textorum/dist/textorum/xsl/xml2cke.xsl');
 
 	// Configure the transformer
 	$proc = new XSLTProcessor;
@@ -1298,7 +1298,7 @@ function anno_to_xml($html_content) {
 	$xml->loadXML('<div data-xmlel="textorum">' . $html_content . '</div>');
 
 	$xsl = new DOMDocument;
-	$xsl->load(trailingslashit(get_template_directory()) . 'js/textorum/xsl/cke2xml.xsl');
+	$xsl->load(trailingslashit(get_template_directory()) . 'js/textorum/dist/textorum/xsl/cke2xml.xsl');
 
 	// Configure the transformer
 	$proc = new XSLTProcessor;
