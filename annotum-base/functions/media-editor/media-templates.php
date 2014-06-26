@@ -160,21 +160,21 @@ if (__FILE__ == $_SERVER['SCRIPT_FILENAME']) { die(); }
 			<textarea {{ maybeReadOnly }}>{{ data.description }}</textarea>
 		</label>
 <# if ( 'undefined' !== typeof data.sizes ) { #>
-	<label class="setting" data-setting="label">
+	<label class="setting" data-setting="annoLabel">
 		<span><?php _e('Fig. Label', 'anno'); ?></span>
 		<input type="text" value="{{ data.annoLabel }}" />
 	</label>
 <div class="setting">
 	<h3><?php _e('Permissions', 'anno'); ?></h3>
-	<label class="setting" data-setting="license">
+	<label class="setting" data-setting="annoLicense">
 		<span><?php _e('License', 'anno'); ?></span>
 		<input type="text" value="{{ data.annoLicense }}" />
 	</label>
-	<label class="setting" data-setting="cpstatement">
+	<label class="setting" data-setting="annoCpyStatement">
 		<span><?php _e('Copyright Statment', 'anno'); ?></span>
 		<input type="text" value="{{ data.annoCpyStatement }}" />
 	</label>
-	<label class="setting" data-setting="cpholder">
+	<label class="setting" data-setting="annoCpyHolder">
 		<span><?php _e('Copyright Holder', 'anno'); ?></span>
 		<input type="text" value="{{ data.annoCpyHolder }}" />
 	</label>
