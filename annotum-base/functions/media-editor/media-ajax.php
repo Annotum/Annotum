@@ -113,14 +113,13 @@ function anno_ajax_save_attachment() {
 		if (!current_user_can('edit_post', $id)) {
 			wp_send_json_error();
 		}
-
 		$changes = $_REQUEST['changes'];
 
 		$meta_to_save = array(
-			'label' => '_anno_attachment_image_label',
-			'license' => '_anno_attachment_image_license',
-			'cpstatement' => '_anno_attachment_image_copyright_statement',
-			'cpholder' => '_anno_attachment_image_copyright_holder',
+			'annoLabel' => '_anno_attachment_image_label',
+			'annoLicense' => '_anno_attachment_image_license',
+			'annoCpyStatement' => '_anno_attachment_image_copyright_statement',
+			'annoCpyHolder' => '_anno_attachment_image_copyright_holder',
 		);
 
 		foreach ($meta_to_save as $key => $meta_key) {
@@ -153,6 +152,7 @@ function anno_prepare_attachment_for_js($response, $attachment) {
 		$response[$key] = get_post_meta($attachment->ID, $meta_key, true);
 	}
 	$response['annoDspType'] = 'figure';
+
 	return $response;
 }
 add_filter('wp_prepare_attachment_for_js', 'anno_prepare_attachment_for_js', 10 , 2);
