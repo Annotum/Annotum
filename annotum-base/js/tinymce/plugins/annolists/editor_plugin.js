@@ -14,25 +14,23 @@ tinymce.PluginManager.add('annoLists', function(editor) {
 	var self = this;
 
 	editor.addButton('annoorderedlist', {
-		//removing for temp fix-- title : ed.getLang('advanced.link_desc'),
-		title : 'Insert Ordered List',
+		title : editor.getLang('annolists.orderedlist'),
 		cmd : 'AnnoInsertOrderedList'
 	});
 
 	editor.addButton('annobulletlist', {
-		// TODO: Internationalize
-		title : 'Insert Bullet List',
+		title : editor.getLang('annolists.bullist'),
 		cmd : 'AnnoInsertUnorderedList'
 	});
 
 	editor.addButton('annoindentlist', {
-		title : 'Indent List',
+		title : editor.getLang('annolists.indent'),
 		cmd : 'AnnoIndentList',
 		icon : 'indent'
 	});
 
 	editor.addButton('annooutdentlist', {
-		title : 'Outdent List',
+		title : editor.getLang('annolists.outdent'),
 		cmd : 'AnnoOutdentList',
 		icon : 'outdent'
 	});

@@ -16,28 +16,28 @@
 			});
 
 			ed.addButton('annopreformat', {
-				title : 'Preformat',
+				title : ed.getLang('annoformats.preformat'),
 				//ed.getLang('advanced.references_desc'),
 				cmd : 'Anno_Preformat'
 			});
 
 			ed.addButton('annomonospace', {
-				title : 'Monospace',
+				title : ed.getLang('annoformats.monospace'),
 				//ed.getLang('advanced.references_desc'),
 				cmd : 'Anno_Monospace'
 			});
 
 			ed.addButton('annosection', {
-				title: 'New Section',
+				title: ed.getLang('annoformats.newSection'),
 				type: 'menubutton',
 				icon: 'annosection',
 				menu: [
 					{
-						text: 'New Section',
+						text: ed.getLang('annoformats.newSection'),
 						onclick : function() {t.insertSection();}
 					},
 					{
-						text: 'New Subsection',
+						text: ed.getLang('annoformats.newSubsection'),
 						onclick : function() {t.insertSubsection();}
 					}
 				]

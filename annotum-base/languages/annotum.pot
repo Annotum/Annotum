@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Annotum\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-06-26 17:07-0700\n"
-"PO-Revision-Date: 2014-06-26 17:09-0700\n"
+"POT-Creation-Date: 2014-07-03 16:22-0700\n"
+"PO-Revision-Date: 2014-07-03 16:22-0700\n"
 "Last-Translator: Crowd Favorite <crowdfavorite@gmail.com>\n"
 "Language-Team: Crowd Favorite <crowfavorite@gmail.com>\n"
 "Language: en_US\n"
@@ -92,7 +92,7 @@ msgid "Give credit in footer"
 msgstr ""
 
 #: ../../annotum-base/carrington-core/admin.php:329
-#: ../../annotum-base/functions/tinymce.php:543
+#: ../../annotum-base/functions/tinymce.php:559
 msgid "Save"
 msgstr ""
 
@@ -115,8 +115,11 @@ msgid "<a class=\"more\" href=\"%s\">more &rarr;</a>"
 msgstr ""
 
 #: ../../annotum-base/carrington-core/compatibility.php:44
-#: ../../annotum-base/functions/tinymce.php:544
+#: ../../annotum-base/functions/tinymce.php:560
 #: ../../annotum-base/js/tinymce/plugins/annoequationedit/langs/lang.php:17
+#: ../../annotum-base/js/tinymce/plugins/annoequations/langs/lang.php:17
+#: ../../annotum-base/js/tinymce/plugins/annotree/langs/lang.php:17
+#: ../../annotum-base/js/tinymce/plugins/textorum-insertion/langs/lang.php:17
 msgid "Cancel"
 msgstr ""
 
@@ -836,7 +839,7 @@ msgid ""
 msgstr ""
 
 #: ../../annotum-base/functions/article-post-type.php:416
-#: ../../annotum-base/functions/tinymce.php:514
+#: ../../annotum-base/functions/tinymce.php:530
 msgctxt "disabled DOI lookup message"
 msgid "CrossRef Credentials Required"
 msgstr ""
@@ -936,11 +939,17 @@ msgstr ""
 
 #: ../../annotum-base/functions/media-editor/media-templates.php:154
 #: ../../annotum-base/js/tinymce/plugins/annoequationedit/langs/lang.php:14
+#: ../../annotum-base/js/tinymce/plugins/annoequations/langs/lang.php:14
+#: ../../annotum-base/js/tinymce/plugins/annotree/langs/lang.php:14
+#: ../../annotum-base/js/tinymce/plugins/textorum-insertion/langs/lang.php:14
 msgid "Alt Text"
 msgstr ""
 
 #: ../../annotum-base/functions/media-editor/media-templates.php:159
 #: ../../annotum-base/js/tinymce/plugins/annoequationedit/langs/lang.php:15
+#: ../../annotum-base/js/tinymce/plugins/annoequations/langs/lang.php:15
+#: ../../annotum-base/js/tinymce/plugins/annotree/langs/lang.php:15
+#: ../../annotum-base/js/tinymce/plugins/textorum-insertion/langs/lang.php:15
 msgid "Description"
 msgstr ""
 
@@ -1258,241 +1267,241 @@ msgctxt "Text for \"email this\" link"
 msgid "Email"
 msgstr ""
 
-#: ../../annotum-base/functions/tinymce.php:403
+#: ../../annotum-base/functions/tinymce.php:419
 msgctxt "input label"
 msgid "URL"
 msgstr ""
 
-#: ../../annotum-base/functions/tinymce.php:407
+#: ../../annotum-base/functions/tinymce.php:423
 msgctxt "input label"
 msgid "Title"
 msgstr ""
 
-#: ../../annotum-base/functions/tinymce.php:412
+#: ../../annotum-base/functions/tinymce.php:428
 msgctxt "button value"
 msgid "Save"
 msgstr ""
 
-#: ../../annotum-base/functions/tinymce.php:429
+#: ../../annotum-base/functions/tinymce.php:445
 msgctxt "input label for defining tables"
 msgid "Label"
 msgstr ""
 
-#: ../../annotum-base/functions/tinymce.php:433
+#: ../../annotum-base/functions/tinymce.php:449
 msgctxt "input label for defining tables"
 msgid "Caption"
 msgstr ""
 
-#: ../../annotum-base/functions/tinymce.php:437
+#: ../../annotum-base/functions/tinymce.php:453
 msgctxt "legend"
 msgid "Table Properties"
 msgstr ""
 
-#: ../../annotum-base/functions/tinymce.php:439
+#: ../../annotum-base/functions/tinymce.php:455
 msgctxt "input label for defining tables"
 msgid "Columns"
 msgstr ""
 
-#: ../../annotum-base/functions/tinymce.php:443
+#: ../../annotum-base/functions/tinymce.php:459
 msgctxt "input label for defining tables"
 msgid "Rows"
 msgstr ""
 
-#: ../../annotum-base/functions/tinymce.php:450
-#: ../../annotum-base/functions/tinymce.php:669
-#: ../../annotum-base/functions/tinymce.php:718
+#: ../../annotum-base/functions/tinymce.php:466
+#: ../../annotum-base/functions/tinymce.php:685
+#: ../../annotum-base/functions/tinymce.php:734
 msgctxt "button value"
 msgid "Insert"
 msgstr ""
 
-#: ../../annotum-base/functions/tinymce.php:477
+#: ../../annotum-base/functions/tinymce.php:493
 msgctxt "reference action"
 msgid "Edit"
 msgstr ""
 
-#: ../../annotum-base/functions/tinymce.php:478
+#: ../../annotum-base/functions/tinymce.php:494
 msgctxt "reference action"
 msgid "Delete"
 msgstr ""
 
-#: ../../annotum-base/functions/tinymce.php:484
+#: ../../annotum-base/functions/tinymce.php:500
 msgctxt "reference action"
 msgid "Show"
 msgstr ""
 
-#: ../../annotum-base/functions/tinymce.php:516
+#: ../../annotum-base/functions/tinymce.php:532
 msgctxt "input label for DOI lookup"
 msgid "CrossRef DOI"
 msgstr ""
 
-#: ../../annotum-base/functions/tinymce.php:519
-#: ../../annotum-base/functions/tinymce.php:528
+#: ../../annotum-base/functions/tinymce.php:535
+#: ../../annotum-base/functions/tinymce.php:544
 msgctxt "button label"
 msgid "Import"
 msgstr ""
 
-#: ../../annotum-base/functions/tinymce.php:525
+#: ../../annotum-base/functions/tinymce.php:541
 msgctxt "input for PubMed ID lookup"
 msgid "PubMed ID (PMID)"
 msgstr ""
 
-#: ../../annotum-base/functions/tinymce.php:534
+#: ../../annotum-base/functions/tinymce.php:550
 msgctxt "input label for defining tables"
 msgid "Text"
 msgstr ""
 
-#: ../../annotum-base/functions/tinymce.php:538
+#: ../../annotum-base/functions/tinymce.php:554
 msgctxt "input label for defining tables"
 msgid "URL"
 msgstr ""
 
-#: ../../annotum-base/functions/tinymce.php:621
+#: ../../annotum-base/functions/tinymce.php:637
 msgctxt "button value"
 msgid "New Reference"
 msgstr ""
 
-#: ../../annotum-base/functions/tinymce.php:629
+#: ../../annotum-base/functions/tinymce.php:645
 msgctxt "button value"
 msgid "Insert Reference(s)"
 msgstr ""
 
-#: ../../annotum-base/functions/tinymce.php:644
+#: ../../annotum-base/functions/tinymce.php:660
 msgctxt "input label for defining quotes"
 msgid "Text"
 msgstr ""
 
-#: ../../annotum-base/functions/tinymce.php:648
+#: ../../annotum-base/functions/tinymce.php:664
 msgctxt "input label for defining quotes"
 msgid "Attribution"
 msgstr ""
 
-#: ../../annotum-base/functions/tinymce.php:652
+#: ../../annotum-base/functions/tinymce.php:668
 msgctxt "legend"
 msgid "Permissions"
 msgstr ""
 
-#: ../../annotum-base/functions/tinymce.php:654
+#: ../../annotum-base/functions/tinymce.php:670
 msgctxt "input label for defining quotes"
 msgid "Copyright Statement"
 msgstr ""
 
-#: ../../annotum-base/functions/tinymce.php:658
+#: ../../annotum-base/functions/tinymce.php:674
 msgctxt "input label for defining quotes"
 msgid "Copyright Holder"
 msgstr ""
 
-#: ../../annotum-base/functions/tinymce.php:662
+#: ../../annotum-base/functions/tinymce.php:678
 msgctxt "input label for defining quotes"
 msgid "License"
 msgstr ""
 
-#: ../../annotum-base/functions/tinymce.php:687
+#: ../../annotum-base/functions/tinymce.php:703
 msgctxt "input label"
 msgid "Alt Text"
 msgstr ""
 
-#: ../../annotum-base/functions/tinymce.php:691
+#: ../../annotum-base/functions/tinymce.php:707
 msgctxt "input label"
 msgid "Description"
 msgstr ""
 
-#: ../../annotum-base/functions/tinymce.php:696
+#: ../../annotum-base/functions/tinymce.php:712
 msgctxt "legend"
 msgid "Display"
 msgstr ""
 
-#: ../../annotum-base/functions/tinymce.php:699
+#: ../../annotum-base/functions/tinymce.php:715
 msgctxt "input label"
 msgid "Display as Figure"
 msgstr ""
 
-#: ../../annotum-base/functions/tinymce.php:703
+#: ../../annotum-base/functions/tinymce.php:719
 msgctxt "input label"
 msgid "Display Inline"
 msgstr ""
 
-#: ../../annotum-base/functions/tinymce.php:707
+#: ../../annotum-base/functions/tinymce.php:723
 msgctxt "input label"
 msgid "Label"
 msgstr ""
 
-#: ../../annotum-base/functions/tinymce.php:711
+#: ../../annotum-base/functions/tinymce.php:727
 msgctxt "input label"
 msgid "Caption"
 msgstr ""
 
-#: ../../annotum-base/functions/tinymce.php:738
+#: ../../annotum-base/functions/tinymce.php:754
 msgctxt "tinyMCE tip dt"
 msgid "Use Ctrl+Enter"
 msgstr ""
 
-#: ../../annotum-base/functions/tinymce.php:739
+#: ../../annotum-base/functions/tinymce.php:755
 msgctxt "tinyMCE tip dd"
 msgid ""
 "To insert new sections (when within a section) or add new paragraphs when "
 "inside elements like a table, or figure caption."
 msgstr ""
 
-#: ../../annotum-base/functions/tinymce.php:748
+#: ../../annotum-base/functions/tinymce.php:764
 msgid "Validate"
 msgstr ""
 
-#: ../../annotum-base/functions/tinymce.php:749
+#: ../../annotum-base/functions/tinymce.php:765
 msgid "Insert"
 msgstr ""
 
-#: ../../annotum-base/functions/tinymce.php:750
+#: ../../annotum-base/functions/tinymce.php:766
 msgid "Close Without Inserting"
-msgstr ""
-
-#: ../../annotum-base/functions/tinymce.php:820
-msgctxt "error message"
-msgid "Could not evaluate Article ID please try again."
-msgstr ""
-
-#: ../../annotum-base/functions/tinymce.php:824
-msgctxt "error message"
-msgid "Text cannot be blank."
-msgstr ""
-
-#: ../../annotum-base/functions/tinymce.php:828
-msgctxt "error message"
-msgid "Could not evaluate Reference ID please try again."
 msgstr ""
 
 #: ../../annotum-base/functions/tinymce.php:836
 msgctxt "error message"
+msgid "Could not evaluate Article ID please try again."
+msgstr ""
+
+#: ../../annotum-base/functions/tinymce.php:840
+msgctxt "error message"
+msgid "Text cannot be blank."
+msgstr ""
+
+#: ../../annotum-base/functions/tinymce.php:844
+msgctxt "error message"
+msgid "Could not evaluate Reference ID please try again."
+msgstr ""
+
+#: ../../annotum-base/functions/tinymce.php:852
+msgctxt "error message"
 msgid "Could not save reference, please try again."
 msgstr ""
 
-#: ../../annotum-base/functions/tinymce.php:846
+#: ../../annotum-base/functions/tinymce.php:862
 msgctxt "success message"
 msgid "Reference Saved."
 msgstr ""
 
-#: ../../annotum-base/functions/tinymce.php:1234
+#: ../../annotum-base/functions/tinymce.php:1250
 msgctxt "Title for revision management"
 msgid "Post Content Filtered"
 msgstr ""
 
-#: ../../annotum-base/functions/tinymce.php:1574
+#: ../../annotum-base/functions/tinymce.php:1590
 #, php-format
 msgid "Fig. %d"
 msgstr ""
 
-#: ../../annotum-base/functions/tinymce.php:2002
+#: ../../annotum-base/functions/tinymce.php:2018
 #, php-format
 msgctxt "Copyright statement, plus holder. E.g. \"Copyright, Me\"."
 msgid "%1$s, %2$s."
 msgstr ""
 
-#: ../../annotum-base/functions/tinymce.php:2009
+#: ../../annotum-base/functions/tinymce.php:2025
 #, php-format
 msgctxt "Copyright statement sans holder. E.g. \"Copyright\""
 msgid "%1$s."
 msgstr ""
 
-#: ../../annotum-base/functions/tinymce.php:2015
+#: ../../annotum-base/functions/tinymce.php:2031
 #, php-format
 msgctxt "Copyright sans statement. We can assume copyright."
 msgid "Copyright, %1$s."
@@ -1507,15 +1516,155 @@ msgid "Advertisement"
 msgstr ""
 
 #: ../../annotum-base/js/tinymce/plugins/annoequationedit/langs/lang.php:13
+#: ../../annotum-base/js/tinymce/plugins/annoequations/langs/lang.php:13
 msgid "Equation Editor"
 msgstr ""
 
 #: ../../annotum-base/js/tinymce/plugins/annoequationedit/langs/lang.php:16
+#: ../../annotum-base/js/tinymce/plugins/annoequations/langs/lang.php:16
+#: ../../annotum-base/js/tinymce/plugins/annotree/langs/lang.php:16
+#: ../../annotum-base/js/tinymce/plugins/textorum-insertion/langs/lang.php:16
 msgid "Update"
 msgstr ""
 
 #: ../../annotum-base/js/tinymce/plugins/annoequationedit/langs/lang.php:18
+#: ../../annotum-base/js/tinymce/plugins/annoequations/langs/lang.php:18
+#: ../../annotum-base/js/tinymce/plugins/annotree/langs/lang.php:18
+#: ../../annotum-base/js/tinymce/plugins/textorum-insertion/langs/lang.php:18
 msgid "Figure Meta"
+msgstr ""
+
+#: ../../annotum-base/js/tinymce/plugins/annoformats/langs/lang.php:13
+msgid "Preformat"
+msgstr ""
+
+#: ../../annotum-base/js/tinymce/plugins/annoformats/langs/lang.php:14
+msgid "Monospace"
+msgstr ""
+
+#: ../../annotum-base/js/tinymce/plugins/annoformats/langs/lang.php:15
+msgid "New Section"
+msgstr ""
+
+#: ../../annotum-base/js/tinymce/plugins/annoformats/langs/lang.php:16
+msgid "New Subsection"
+msgstr ""
+
+#: ../../annotum-base/js/tinymce/plugins/annoimages/langs/lang.php:13
+msgid "Insert Image"
+msgstr ""
+
+#: ../../annotum-base/js/tinymce/plugins/annolink/langs/lang.php:13
+msgid "Insert Link"
+msgstr ""
+
+#: ../../annotum-base/js/tinymce/plugins/annolink/langs/lang.php:14
+msgid "Remove Link"
+msgstr ""
+
+#: ../../annotum-base/js/tinymce/plugins/annolink/langs/lang.php:15
+msgid "Insert/edit link"
+msgstr ""
+
+#: ../../annotum-base/js/tinymce/plugins/annolists/langs/lang.php:13
+msgid "Insert Bullet List"
+msgstr ""
+
+#: ../../annotum-base/js/tinymce/plugins/annolists/langs/lang.php:14
+msgid "Insert Ordered List"
+msgstr ""
+
+#: ../../annotum-base/js/tinymce/plugins/annolists/langs/lang.php:15
+msgid "Indent List"
+msgstr ""
+
+#: ../../annotum-base/js/tinymce/plugins/annolists/langs/lang.php:16
+msgid "Outdent List"
+msgstr ""
+
+#: ../../annotum-base/js/tinymce/plugins/annopaste/langs/lang.php:13
+msgid "Paste"
+msgstr ""
+
+#: ../../annotum-base/js/tinymce/plugins/annoquote/langs/lang.php:13
+msgid "Insert Quote"
+msgstr ""
+
+#: ../../annotum-base/js/tinymce/plugins/annoreferences/langs/lang.php:13
+msgid "Insert Reference"
+msgstr ""
+
+#: ../../annotum-base/js/tinymce/plugins/annosource/langs/lang.php:13
+msgid "Source Editor and Validation"
+msgstr ""
+
+#: ../../annotum-base/js/tinymce/plugins/annosource/langs/lang.php:14
+msgid "Anno Source"
+msgstr ""
+
+#: ../../annotum-base/js/tinymce/plugins/annotable/langs/lang.php:13
+#: ../../annotum-base/js/tinymce/plugins/annotable/langs/lang.php:26
+msgid "Insert Table"
+msgstr ""
+
+#: ../../annotum-base/js/tinymce/plugins/annotable/langs/lang.php:14
+msgid "Delete Table"
+msgstr ""
+
+#: ../../annotum-base/js/tinymce/plugins/annotable/langs/lang.php:15
+msgid "Delete Column"
+msgstr ""
+
+#: ../../annotum-base/js/tinymce/plugins/annotable/langs/lang.php:16
+msgid "Delete Row"
+msgstr ""
+
+#: ../../annotum-base/js/tinymce/plugins/annotable/langs/lang.php:17
+msgid "Insert Column After"
+msgstr ""
+
+#: ../../annotum-base/js/tinymce/plugins/annotable/langs/lang.php:18
+msgid "Insert Column Before"
+msgstr ""
+
+#: ../../annotum-base/js/tinymce/plugins/annotable/langs/lang.php:19
+msgid "Insert Row After"
+msgstr ""
+
+#: ../../annotum-base/js/tinymce/plugins/annotable/langs/lang.php:20
+msgid "Insert Row Before"
+msgstr ""
+
+#: ../../annotum-base/js/tinymce/plugins/annotable/langs/lang.php:21
+msgid "Row Properties"
+msgstr ""
+
+#: ../../annotum-base/js/tinymce/plugins/annotable/langs/lang.php:22
+msgid "Cell Properties"
+msgstr ""
+
+#: ../../annotum-base/js/tinymce/plugins/annotable/langs/lang.php:23
+msgid "Split Cells"
+msgstr ""
+
+#: ../../annotum-base/js/tinymce/plugins/annotable/langs/lang.php:24
+msgid "Merge Cells"
+msgstr ""
+
+#: ../../annotum-base/js/tinymce/plugins/annotable/langs/lang.php:25
+msgid "Cut Row"
+msgstr ""
+
+#: ../../annotum-base/js/tinymce/plugins/annotips/langs/lang.php:13
+msgid "Equation Tips"
+msgstr ""
+
+#: ../../annotum-base/js/tinymce/plugins/annotree/langs/lang.php:13
+msgid "Annotum Tree View"
+msgstr ""
+
+#: ../../annotum-base/js/tinymce/plugins/textorum-insertion/langs/lang.php:13
+msgid "No elements available"
 msgstr ""
 
 #: ../../annotum-base/misc/nav-posts.php:14

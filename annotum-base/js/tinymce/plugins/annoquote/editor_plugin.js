@@ -10,7 +10,7 @@
 					width : 480,
 					height : "auto",
 					wpDialog : true,
-					title : "Insert Quote"
+					title : ed.getLang('annoquote.title')
 				}, {
 					plugin_url : url // Plugin absolute URL
 				});
@@ -18,8 +18,7 @@
 
 			// Register example button
 			ed.addButton('annoquote', {
-				//removing for temp fix-- title : ed.getLang('advanced.link_desc'),
-				title : 'Insert Quote',
+				title : ed.getLang('annoquote.title'),
 				cmd : 'Anno_Quote'
 			});
 

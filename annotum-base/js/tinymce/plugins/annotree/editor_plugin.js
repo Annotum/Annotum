@@ -29,7 +29,7 @@
 			});
 
 			ed.addButton('annotree', {
-				title : 'Annotum Tree View',
+				title : ed.getLang('annotree.title'),
 				cmd : 'Anno_Tree'
 			});
 

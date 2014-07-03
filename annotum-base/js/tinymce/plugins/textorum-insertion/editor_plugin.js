@@ -154,7 +154,7 @@
 					}
 					else {
 						dropmenu.add(new tinymce.ui.MenuItem('textorum-insertion-item-none', {
-							title: 'No elements available',
+							title: ed.getLang('annotextorum.noElement'),
 							style: 'color:#999',
 							onclick: function() {
 								dropmenuVisible = false;
@@ -277,24 +277,24 @@
 
 			// Register example button
 			editor.addButton('textorum-insertion-before', {
-				title : 'Insert Element Before',
+				title : ed.getLang('annotextorum.elementBefore'),
 				cmd : 'Textorum_Insertion_Menu',
 				value: 'before'
 			});
 
 			editor.addButton('textorum-insertion-inside', {
-				title : 'Insert Element Inside',
+				title : ed.getLang('annotextorum.elementInside'),
 				cmd : 'Textorum_Insertion_Menu',
 				value: 'inside'
 			});
 
 			editor.addButton('textorum-insertion-after', {
-				title : 'Insert Element After',
+				title : ed.getLang('annotextorum.elementafter'),
 				cmd : 'Textorum_Insertion_Menu',
 				value: 'after'
 			});
 
-			editor.addShortcut('ctrl+enter', 'Insert Element', 'Textorum_Insertion');
+			editor.addShortcut('ctrl+enter', ed.getLang('annotextorum.insertElement'), 'Textorum_Insertion');
 		},
 
 		insertElement: function(element_name, where, target, attrs) {

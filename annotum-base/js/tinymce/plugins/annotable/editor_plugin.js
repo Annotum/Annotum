@@ -770,18 +770,18 @@
 
 			// Register buttons
 			each([
-				['table', 'table.desc', 'mceInsertTable', true],
-				['delete_table', 'table.del', 'mceTableDelete'],
-				['delete_col', 'table.delete_col_desc', 'mceTableDeleteCol'],
-				['delete_row', 'table.delete_row_desc', 'mceTableDeleteRow'],
-				['col_after', 'table.col_after_desc', 'mceTableInsertColAfter'],
-				['col_before', 'table.col_before_desc', 'mceTableInsertColBefore'],
-				['row_after', 'table.row_after_desc', 'mceTableInsertRowAfter'],
-				['row_before', 'table.row_before_desc', 'mceTableInsertRowBefore'],
-				['row_props', 'table.row_desc', 'mceTableRowProps', true],
-				['cell_props', 'table.cell_desc', 'mceTableCellProps', true],
-				['split_cells', 'table.split_cells_desc', 'mceTableSplitCells', true],
-				['merge_cells', 'table.merge_cells_desc', 'mceTableMergeCells', true]
+				['table', 'annotable.desc', 'mceInsertTable', true],
+				['delete_table', 'annotable.del', 'mceTableDelete'],
+				['delete_col', 'annotable.delete_col_desc', 'mceTableDeleteCol'],
+				['delete_row', 'annotable.delete_row_desc', 'mceTableDeleteRow'],
+				['col_after', 'annotable.col_after_desc', 'mceTableInsertColAfter'],
+				['col_before', 'annotable.col_before_desc', 'mceTableInsertColBefore'],
+				['row_after', 'annotable.row_after_desc', 'mceTableInsertRowAfter'],
+				['row_before', 'annotable.row_before_desc', 'mceTableInsertRowBefore'],
+				['row_props', 'annotable.row_desc', 'mceTableRowProps', true],
+				['cell_props', 'annotable.cell_desc', 'mceTableCellProps', true],
+				['split_cells', 'annotable.split_cells_desc', 'mceTableSplitCells', true],
+				['merge_cells', 'annotable.merge_cells_desc', 'mceTableMergeCells', true]
 			], function(c) {
 				ed.addButton(c[0], {title : c[1], cmd : c[2], ui : c[3]});
 			});
@@ -971,46 +971,46 @@
 							m.removeAll();
 
 							if (el.nodeName == 'A' && !ed.dom.getAttrib(el, 'name')) {
-								m.add({title : 'advanced.link_desc', icon : 'link', cmd : ed.plugins.advlink ? 'mceAdvLink' : 'mceLink', ui : true});
-								m.add({title : 'advanced.unlink_desc', icon : 'unlink', cmd : 'UnLink'});
+								m.add({title : 'annolink.insertLink', icon : 'link', cmd : ed.plugins.advlink ? 'mceAdvLink' : 'mceLink', ui : true});
+								m.add({title : 'advanced.removeLink', icon : 'unlink', cmd : 'UnLink'});
 								m.addSeparator();
 							}
 
 							if (el.nodeName == 'IMG' && el.className.indexOf('mceItem') == -1) {
-								m.add({title : 'advanced.image_desc', icon : 'image', cmd : ed.plugins.advimage ? 'mceAdvImage' : 'mceImage', ui : true});
+								m.add({title : 'annoimages.title', icon : 'image', cmd : ed.plugins.advimage ? 'mceAdvImage' : 'mceImage', ui : true});
 								m.addSeparator();
 							}
 
-							m.add({title : 'table.desc', icon : 'table', cmd : 'mceInsertTable', value : {action : 'insert'}});
-							m.add({title : 'table.props_desc', icon : 'table_props', cmd : 'mceInsertTable'});
-							m.add({title : 'table.del', icon : 'delete_table', cmd : 'mceTableDelete'});
+							m.add({title : 'annotable.desc', icon : 'table', cmd : 'mceInsertTable', value : {action : 'insert'}});
+							m.add({title : 'annotable.props_desc', icon : 'table_props', cmd : 'mceInsertTable'});
+							m.add({title : 'annotable.del', icon : 'delete_table', cmd : 'mceTableDelete'});
 							m.addSeparator();
 
 							// Cell menu
 							sm = m.addMenu({title : 'table.cell'});
-							sm.add({title : 'table.cell_desc', icon : 'cell_props', cmd : 'mceTableCellProps'});
-							sm.add({title : 'table.split_cells_desc', icon : 'split_cells', cmd : 'mceTableSplitCells'});
-							sm.add({title : 'table.merge_cells_desc', icon : 'merge_cells', cmd : 'mceTableMergeCells'});
+							sm.add({title : 'annotable.cell_desc', icon : 'cell_props', cmd : 'mceTableCellProps'});
+							sm.add({title : 'annotable.split_cells_desc', icon : 'split_cells', cmd : 'mceTableSplitCells'});
+							sm.add({title : 'annotable.merge_cells_desc', icon : 'merge_cells', cmd : 'mceTableMergeCells'});
 
 							// Row menu
 							sm = m.addMenu({title : 'table.row'});
-							sm.add({title : 'table.row_desc', icon : 'row_props', cmd : 'mceTableRowProps'});
-							sm.add({title : 'table.row_before_desc', icon : 'row_before', cmd : 'mceTableInsertRowBefore'});
-							sm.add({title : 'table.row_after_desc', icon : 'row_after', cmd : 'mceTableInsertRowAfter'});
-							sm.add({title : 'table.delete_row_desc', icon : 'delete_row', cmd : 'mceTableDeleteRow'});
+							sm.add({title : 'annotable.row_desc', icon : 'row_props', cmd : 'mceTableRowProps'});
+							sm.add({title : 'annotable.row_before_desc', icon : 'row_before', cmd : 'mceTableInsertRowBefore'});
+							sm.add({title : 'annotable.row_after_desc', icon : 'row_after', cmd : 'mceTableInsertRowAfter'});
+							sm.add({title : 'annotable.delete_row_desc', icon : 'delete_row', cmd : 'mceTableDeleteRow'});
 							sm.addSeparator();
-							sm.add({title : 'table.cut_row_desc', icon : 'cut', cmd : 'mceTableCutRow'});
-							sm.add({title : 'table.copy_row_desc', icon : 'copy', cmd : 'mceTableCopyRow'});
-							sm.add({title : 'table.paste_row_before_desc', icon : 'paste', cmd : 'mceTablePasteRowBefore'}).setDisabled(!clipboardRows);
-							sm.add({title : 'table.paste_row_after_desc', icon : 'paste', cmd : 'mceTablePasteRowAfter'}).setDisabled(!clipboardRows);
+							sm.add({title : 'annotable.cut_row_desc', icon : 'cut', cmd : 'mceTableCutRow'});
+							sm.add({title : 'annotable.copy_row_desc', icon : 'copy', cmd : 'mceTableCopyRow'});
+							sm.add({title : 'annotable.paste_row_before_desc', icon : 'paste', cmd : 'mceTablePasteRowBefore'}).setDisabled(!clipboardRows);
+							sm.add({title : 'annotable.paste_row_after_desc', icon : 'paste', cmd : 'mceTablePasteRowAfter'}).setDisabled(!clipboardRows);
 
 							// Column menu
 							sm = m.addMenu({title : 'table.col'});
-							sm.add({title : 'table.col_before_desc', icon : 'col_before', cmd : 'mceTableInsertColBefore'});
-							sm.add({title : 'table.col_after_desc', icon : 'col_after', cmd : 'mceTableInsertColAfter'});
-							sm.add({title : 'table.delete_col_desc', icon : 'delete_col', cmd : 'mceTableDeleteCol'});
+							sm.add({title : 'annotable.col_before_desc', icon : 'col_before', cmd : 'mceTableInsertColBefore'});
+							sm.add({title : 'annotable.col_after_desc', icon : 'col_after', cmd : 'mceTableInsertColAfter'});
+							sm.add({title : 'annotable.delete_col_desc', icon : 'delete_col', cmd : 'mceTableDeleteCol'});
 						} else
-							m.add({title : 'table.desc', icon : 'table', cmd : 'mceInsertTable'});
+							m.add({title : 'annotable.desc', icon : 'table', cmd : 'mceInsertTable'});
 					});
 				}
 
@@ -1156,7 +1156,7 @@
 						width : 480,
 						height : "auto",
 						wpDialog : true,
-						title : 'Insert Table'
+						title : ed.getLang('annotable.insert')
 					}, {
 						plugin_url : url // Plugin absolute URL
 					});

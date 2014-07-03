@@ -338,9 +338,25 @@ class Anno_tinyMCE {
 
 	function external_languages($langs) {
 		$plugins_dir = trailingslashit(get_template_directory()).'js/tinymce/plugins/';
-		return array_merge($langs, array(
+		$dirs = array(
 			'annoequationedit' => $plugins_dir.'annoequationedit/langs/lang.php',
-		));
+			'annoequations' => $plugins_dir.'annoequations/langs/lang.php',
+			'annoformats' => $plugins_dir.'annoformats/langs/lang.php',
+			'annoimages' => $plugins_dir.'annoimages/langs/lang.php',
+			'annolink' => $plugins_dir.'annolink/langs/lang.php',
+			'annolists' => $plugins_dir.'annolists/langs/lang.php',
+			'annopaste' => $plugins_dir.'annopaste/langs/lang.php',
+			'annoquote' => $plugins_dir.'annoquote/langs/lang.php',
+			'annoreferences' => $plugins_dir.'annoreferences/langs/lang.php',
+			'annosource' => $plugins_dir.'annosource/langs/lang.php',
+			'annotable' => $plugins_dir.'annotable/langs/lang.php',
+			'annotips' => $plugins_dir.'annotips/langs/lang.php',
+			'annotree' => $plugins_dir.'annotree/langs/lang.php',
+			'annotextorum' => $plugins_dir.'textorum-insertion/langs/lang.php',
+
+		);
+
+		return array_merge($langs, $dirs);
 	}
 
 	/**

@@ -8,16 +8,15 @@
 					width : 480,
 					height : 'auto',
 					wpDialog : true,
-					title : 'Insert Equation'
+					title: ed.getLang('annoequations.title')
 				}, {
 					plugin_url : url // Plugin absolute URL
 				});
             });
 
 			ed.addButton('annoequations', {
-				title : 'Equations',
-				//ed.getLang('advanced.references_desc'),
-				cmd : 'Anno_Equations',
+				title: ed.getLang('annoequations.title'),
+				cmd : 'Anno_Equations'
 			});
 
 		},
