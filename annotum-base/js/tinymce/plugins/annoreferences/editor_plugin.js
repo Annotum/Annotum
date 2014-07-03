@@ -10,13 +10,13 @@
 					width : 500,
 					height : "auto",
 					wpDialog : true,
-					title ed.getLang('annoreferences.title')
+					title : ed.getLang('annoreferences.title')
 				}, {
 					plugin_url : url // Plugin absolute URL
 				});
             });
 			ed.addButton('annoreferences', {
-				title ed.getLang('annoreferences.title'),
+				title : ed.getLang('annoreferences.title'),
 				cmd : 'Anno_References'
 			});
 

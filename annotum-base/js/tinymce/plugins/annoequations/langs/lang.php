@@ -9,7 +9,7 @@ if ( ! class_exists( '_WP_Editors' ) )
 function annoequations_translation() {
 	$translated = '';
 
-	$annoequationedit = array(
+	$annoequations = array(
 		'title' => __('Equation Editor', 'anno'),
 		'alt_text' => __('Alt Text', 'anno'),
 		'description' => __('Description', 'anno'),
@@ -18,10 +18,10 @@ function annoequations_translation() {
 		'fig_meta' => __('Figure Meta', 'anno'),
 	);
 	$locale = _WP_Editors::$mce_locale;
-	$translated .= 'tinyMCE.addI18n("' . $locale . '.annoequationedit", ' . json_encode( $annoequationedit ) . ");\n";
+	$translated .= 'tinyMCE.addI18n("' . $locale . '.annoequations", ' . json_encode( $annoequations ) . ");\n";
 
 	return $translated;
 }
 
-$strings = annoequationedit_translation();
+$strings = annoequations_translation();
 

@@ -8,7 +8,7 @@
 					width : 480,
 					height : 'auto',
 					wpDialog : true,
-					title : 'Insert Equation'
+					title: ed.getLang('annoequations.title')
 				}, {
 					plugin_url : url // Plugin absolute URL
 				});
