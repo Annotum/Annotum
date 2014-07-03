@@ -43,7 +43,7 @@
 					width : 480,
 					height : 'auto',
 					wpDialog : true,
-					title : ed.getLang('advlink.link_desc'),
+					title : ed.getLang('annolink.link_desc')
 				}, {
 					plugin_url : url // Plugin absolute URL
 				});
@@ -52,16 +52,16 @@
 			// Register example button
 			ed.addButton('annolink', {
 				//removing for temp fix-- title : ed.getLang('advanced.link_desc'),
-				title : 'Insert Link',
+				title : ed.getLang('annolink.insertLink'),
 				cmd : 'Anno_Link'
 			});
 			ed.addButton('announlink', {
 				//removing for temp fix-- title : ed.getLang('advanced.link_desc'),
-				title : 'Remove Link',
+				title : ed.getLang('annolink.removeLink'),
 				cmd : 'annoUnlink'
 			});
 
-			ed.addShortcut('alt+shift+a', ed.getLang('advanced.link_desc'), 'Anno_Link');
+			ed.addShortcut('alt+shift+a', ed.getLang('annolink.link_desc'), 'Anno_Link');
 
 			ed.onNodeChange.add(function(ed, cm, n, co) {
 				var xmlNodeType = t._getNodeName(n);

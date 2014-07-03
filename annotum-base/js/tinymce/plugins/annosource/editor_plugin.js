@@ -19,7 +19,7 @@
 					width : 800,
 					height : height - 200,
 					wpDialog : true,
-					title : 'Source Editor and Validation',
+					title : ed.getLang('annosource.windowTitle'),
 					resizable : true,
 					inline : true
 				}, {
@@ -29,8 +29,7 @@
 
 			// Register example button
 			ed.addButton('annosource', {
-				//removing for temp fix-- title : ed.getLang('advanced.link_desc'),
-				title : 'Anno Source',
+				title : ed.getLang('annosource.title'),
 				cmd : 'Anno_Source'
 			});
 		},

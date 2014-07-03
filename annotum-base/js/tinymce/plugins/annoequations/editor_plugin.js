@@ -15,9 +15,8 @@
             });
 
 			ed.addButton('annoequations', {
-				title : 'Equations',
-				//ed.getLang('advanced.references_desc'),
-				cmd : 'Anno_Equations',
+				title: ed.getLang('annoequations.title'),
+				cmd : 'Anno_Equations'
 			});
 
 		},

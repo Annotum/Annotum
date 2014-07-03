@@ -127,7 +127,7 @@
 			};
 
 			ed.addButton('annopastetext', {
-				title: 'paste.paste_text_desc',
+				title:  ed.getLang('annopaste.description'),
 				active: ed.pasteAsPlainText == true,
 				onclick: AnnomcePasteText
 			});
