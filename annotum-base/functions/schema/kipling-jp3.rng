@@ -13,6 +13,7 @@
   
   12/19/2012 - BECK added <uri> to <media>
   
+  07/07/2014 - BECK added <institution> to <aff>			  
 -->
 <grammar xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://relaxng.org/ns/structure/1.0" datatypeLibrary="http://www.w3.org/2001/XMLSchema-datatypes">
   <define name="formats">
@@ -774,6 +775,9 @@
     <optional>
       <attribute name="xlink:href"/>
     </optional>
+    <optional>
+      <attribute name="xlink:title"/>
+    </optional>
   </define>
   <define name="abstract">
     <element name="abstract">
@@ -903,6 +907,9 @@
     </optional>
     <optional>
       <attribute name="xlink:href"/>
+    </optional>
+    <optional>
+      <attribute name="xlink:title"/>
     </optional>
   </define>
   <define name="funding-source">
@@ -1732,11 +1739,26 @@
         <choice>
           <text/>
           <ref name="inlines"/>
+          <ref name="institution"/>
         </choice>
       </zeroOrMore>
     </element>
   </define>
   <define name="aff.attlist" combine="interleave">
+    <empty/>
+  </define>
+  <define name="institution">
+    <element name="institution">
+      <ref name="institution.attlist"/>
+      <zeroOrMore>
+        <choice>
+          <text/>
+          <ref name="formats"/>
+        </choice>
+      </zeroOrMore>
+    </element>
+  </define>
+  <define name="institution.attlist" combine="interleave">
     <empty/>
   </define>
   <define name="bio">
@@ -1858,6 +1880,9 @@
     <optional>
       <attribute name="xlink:href"/>
     </optional>
+    <optional>
+      <attribute name="xlink:title"/>
+    </optional>
   </define>
   <define name="xref">
     <element name="xref">
@@ -1912,6 +1937,9 @@
     </optional>
     <optional>
       <attribute name="xlink:href"/>
+    </optional>
+    <optional>
+      <attribute name="xlink:title"/>
     </optional>
   </define>
   <!-- ============================================================= -->
