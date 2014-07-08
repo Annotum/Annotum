@@ -1226,9 +1226,9 @@ function anno_edit_post_assets($hook_suffix) {
 			wp_enqueue_script('anno-validation', $main.'js/validation.js', array('jquery'), ANNO_VER);
 			wp_enqueue_script('anno-article-admin', $main.'js/article-admin.js', array('jquery-ui-sortable', 'wpdialogs', 'anno-validation', 'fancytree'), ANNO_VER);
 			$admin_i10n = array(
-				'validationAbstractMsg' => __('There is an xml error in the abstract. If this article is in a published state it will be transitioned into a non-published state until these are fixed.'),
-				'validationBodyMsg' => __('There is an xml error in the body. If this article is in a published state it will be transitioned into a non-published state until these are fixed.'),
-				'validationBothMsg' => __('There is an xml error in the abstract and body content. If this article is in a published state it will be transitioned into a non-published state until these are fixed.'),
+				'validationAbstractMsg' => __('There is an xml error in the abstract. If this article is in a published state it will be transitioned into a non-published state until these are fixed.', 'anno'),
+				'validationBodyMsg' => __('There is an xml error in the body. If this article is in a published state it will be transitioned into a non-published state until these are fixed.', 'anno'),
+				'validationBothMsg' => __('There is an xml error in the abstract and body content. If this article is in a published state it will be transitioned into a non-published state until these are fixed.', 'anno'),
 				'deleteAppendixMsg' => __('Are you sure you want to delete this?', 'anno'),
 			);
 			wp_localize_script('anno-article-admin', 'annoArticle', $admin_i10n);

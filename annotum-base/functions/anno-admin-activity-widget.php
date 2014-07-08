@@ -56,17 +56,19 @@ function anno_wp_dashboard_recent_post_types( $args ) {
 
 			$time = get_the_time( 'U' );
 			if ( date( 'Y-m-d', $time ) == $today ) {
-				$relative = __( 'Today' );
-			} elseif ( date( 'Y-m-d', $time ) == $tomorrow ) {
-				$relative = __( 'Tomorrow' );
-			} else {
+				$relative = __('Today', 'annot');
+			}
+			elseif ( date( 'Y-m-d', $time ) == $tomorrow ) {
+				$relative = __('Tomorrow', 'anno');
+			}
+			else {
 				/* translators: date and time format for recent posts on the dashboard, see http://php.net/date */
-				$relative = date_i18n( __( 'M jS' ), $time );
+				$relative = date_i18n( __('M jS', 'anno'), $time );
 			}
 
  			$text = sprintf(
 				/* translators: 1: relative date, 2: time, 4: post title */
- 				__( '<span>%1$s, %2$s</span> <a href="%3$s">%4$s</a>' ),
+ 				_x('<span>%1$s, %2$s</span> <a href="%3$s">%4$s</a>', '1: relative date, 2: time, 4: post title', 'anno'),
   				$relative,
   				get_the_time(),
   				get_edit_post_link(),
@@ -101,7 +103,7 @@ function anno_custom_wp_dashboard_site_activity() {
 		'max' => 5,
 		'status' => 'future',
 		'order' => 'ASC',
-		'title' => __( 'Future Posts' ),
+		'title' => __('Future Posts', 'anno'),
 		'id' => 'future-posts',
 	) );
 
@@ -111,7 +113,7 @@ function anno_custom_wp_dashboard_site_activity() {
 		'max'	 => 5,
 		'status'  => 'publish',
 		'order'   => 'DESC',
-		'title'   => __( 'Recent Posts' ),
+		'title'   => __('Recent Posts', 'anno'),
 		'id'	  => 'published-posts',
 	) );
 
@@ -121,7 +123,7 @@ function anno_custom_wp_dashboard_site_activity() {
 		'max'	 => 5,
 		'status'  => 'publish',
 		'order'   => 'DESC',
-		'title'   => __( 'Recent Articles' ),
+		'title'   => __('Recent Articles', 'anno'),
 		'id'	  => 'published-posts',
 	) );
 
@@ -130,7 +132,7 @@ function anno_custom_wp_dashboard_site_activity() {
 	if ( !$future_posts && !$recent_posts && !$recent_comments ) {
 		echo '<div class="no-activity">';
 		echo '<p class="smiley"></p>';
-		echo '<p>' . __( 'No activity yet!' ) . '</p>';
+		echo '<p>' . __('No activity yet!', 'anno') . '</p>';
 		echo '</div>';
 	}
 
