@@ -46,7 +46,7 @@ class DTD_Import extends Knol_Import {
 	// Author meta data is stored here. We don't get this data from Knols
 	var $authors_meta = array();
 
-	function DTD_Import() { /* Nothing */ }
+	function DTD_Import() {}
 
 	/**
 	 * Parses the XML file and prepares us for the task of processing parsed data
@@ -54,7 +54,7 @@ class DTD_Import extends Knol_Import {
 	 * @param string $file Path to the WXR file for importing
 	 */
 	function import_start( $file ) {
-		if ( ! is_file($file) ) {
+		if (!is_file($file)) {
 			echo '<p><strong>' . __( 'Sorry, there has been an error.', 'anno' ) . '</strong><br />';
 			echo __( 'The file does not exist, please try again.', 'anno' ) . '</p>';
 			$this->footer();
@@ -164,11 +164,14 @@ class DTD_Import extends Knol_Import {
 	 * Display introductory text and file upload form
 	 */
 	function greet() {
-		echo '<div class="narrow">';
-		echo '<p>'.__( 'Howdy! Upload your Kipling DTD XML file and we&#8217;ll import the articles, keywords, subjects, and users into this site.', 'anno' ).'</p>';
-		echo '<p>'.__( 'Choose a Kipling DTD XML (.xml) file to upload, then click Upload file and import.', 'anno' ).'</p>';
-		wp_import_upload_form( 'admin.php?import=kipling_dtd_xml&amp;step=1' );
-		echo '</div>';
+		$url = 'admin.php?import=kipling_dtd_xml';
+		if ($this->_filesystem_init($url)) {
+			echo '<div class="narrow">';
+			echo '<p>'.__( 'Howdy! Upload your Kipling DTD XML file and we&#8217;ll import the articles, keywords, subjects, and users into this site.', 'anno' ).'</p>';
+			echo '<p>'.__( 'Choose a Kipling DTD XML (.xml) file to upload, then click Upload file and import.', 'anno' ).'</p>';
+			wp_import_upload_form( 'admin.php?import=kipling_dtd_xml&amp;step=1' );
+			echo '</div>';
+		}
 	}
 
 	function output_XML($xml, $error_lines = array()) {

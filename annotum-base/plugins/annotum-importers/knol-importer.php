@@ -73,7 +73,26 @@ class Knol_Import extends WP_Importer {
 
 	var $import_slug = 'google_knol_wxr';
 
-	function Knol_Import() {/* Nothing */ }
+	function _filesystem_init($url) {
+		global $wp_filesystem;
+		$dir = '/';
+		if (false === ( $credentials = request_filesystem_credentials($url, '', false, $dir))) {
+			return;
+		}
+
+		if (!WP_Filesystem( $credentials, $dir)) {
+			// Failed to connect, Error and request again
+			request_filesystem_credentials($url, '', true, $dir);
+			return;
+		}
+
+		if ( $wp_filesystem->errors->get_error_code() ) {
+			foreach ($wp_filesystem->errors->get_error_messages() as $message) {
+				show_message($message);
+			}
+			return;
+		}
+	}
 
 	/**
 	 * Registered callback function for the WordPress Importer
@@ -97,7 +116,7 @@ class Knol_Import extends WP_Importer {
 
 					if (!empty($this->author_errors)) {
 						// If we have errors, display assignment page again with errors.
-					$this->import_options();
+						$this->import_options();
 					}
 					else {
 						// Create users and import.
@@ -1402,11 +1421,14 @@ foreach ($this->authors as $author_key => $author_data) {
 	 * Display introductory text and file upload form
 	 */
 	function greet() {
-		echo '<div class="narrow">';
-		echo '<p>'.__( 'Howdy! Upload your Google Knol eXtended RSS (WXR) file and we&#8217;ll import the posts, pages, comments, custom fields, categories, and tags into this site.', 'anno' ).'</p>';
-		echo '<p>'.__( 'Choose a Google Knol WXR (.xml) file to upload, then click Upload file and import.', 'anno' ).'</p>';
-		$this->import_upload_form( 'admin.php?import='.$this->import_slug.'&amp;step=1' );
-		echo '</div>';
+		$url = 'admin.php?import='.$this->import_slug;
+		if ($this->_filesystem_init($url)) {
+			echo '<div class="narrow">';
+			echo '<p>'.__( 'Howdy! Upload your Google Knol eXtended RSS (WXR) file and we&#8217;ll import the posts, pages, comments, custom fields, categories, and tags into this site.', 'anno' ).'</p>';
+			echo '<p>'.__( 'Choose a Google Knol WXR (.xml) file to upload, then click Upload file and import.', 'anno' ).'</p>';
+			$this->import_upload_form( 'admin.php?import='.$this->import_slug.'&amp;step=1' );
+			echo '</div>';
+		}
 	}
 
 	function import_upload_form( $action ) {
