@@ -144,8 +144,8 @@ class DTD_Import extends Knol_Import {
 	 * @return array Information gathered from the WXR file
 	 */
 	function parse($file) {
-		$parser = new Kipling_DTD_Parser();
-		return $parser->parse( $file );
+		$parser = new Kipling_DTD_Parser($file);
+		return $parser->parse($file);
 	}
 
 	// Display import page title
@@ -169,9 +169,34 @@ class DTD_Import extends Knol_Import {
 			echo '<div class="narrow">';
 			echo '<p>'.__( 'Howdy! Upload your Kipling DTD XML file and we&#8217;ll import the articles, keywords, subjects, and users into this site.', 'anno' ).'</p>';
 			echo '<p>'.__( 'Choose a Kipling DTD XML (.xml) file to upload, then click Upload file and import.', 'anno' ).'</p>';
-			wp_import_upload_form( 'admin.php?import=kipling_dtd_xml&amp;step=1' );
+			$this->import_upload_form('admin.php?import=kipling_dtd_xml&amp;step=1');
 			echo '</div>';
 		}
+	}
+
+	function import_upload_form($action) {
+		$bytes = apply_filters('import_upload_size_limit', wp_max_upload_size());
+		$size = size_format( $bytes );
+		$upload_dir = wp_upload_dir();
+		if (!empty($upload_dir['error'])) :
+			?>
+			<div class="error"><p><?php _e('Before you can upload your import file, you will need to fix the following error:', 'anno'); ?></p>
+			<p><strong><?php echo $upload_dir['error']; ?></strong></p></div>
+			<?php
+		else :
+			?>
+			<form enctype="multipart/form-data" id="import-upload-form" method="post" class="wp-upload-form" action="<?php echo esc_url( wp_nonce_url( $action, 'import-upload' ) ); ?>">
+				<p>
+					<label for="upload"><?php _e('Choose a file from your computer:', 'anno'); ?></label> (<?php printf(__('Maximum size: %s', 'anno'), $size); ?>)
+					<input type="file" id="upload" name="import" size="25" />
+					<input type="hidden" name="action" value="save" />
+					<input type="hidden" name="max_file_size" value="<?php echo $bytes; ?>" />
+				</p>
+				<?php echo $this->_filesystem_hidden_fields(); ?>
+				<?php submit_button( __('Upload file and import', 'anno'), 'button' ); ?>
+			</form>
+			<?php
+		endif;
 	}
 
 	function output_XML($xml, $error_lines = array()) {

@@ -29,15 +29,15 @@ class Knol_WXR_Parser {
 						return $result;
 					break;
 				case 'xml':
-					$parser = new Knol_WXR_Parser_XML;
-					$result = $parser->parse( $file );
+					$parser = new Knol_WXR_Parser_XML($file);
+					$result = $parser->parse($file);
 					// If XMLParser succeeds or this is an invalid WXR file then return the results
 					if ( ! is_wp_error( $result ) || 'XML_parse_error' != $result->get_error_code() )
 						return $result;
 					break;
 				case 'regex':
-					$parser = new Knol_WXR_Parser_Regex;
-					return $parser->parse( $file );
+					$parser = new Knol_WXR_Parser_Regex($file);
+					return $parser->parse($file);
 					break;
 				default:
 					printf(__('ANNO_IMPORT_DEBUG: Could not find parser %s.', 'anno'), esc_html($_POST['anno_knol_parser']));
@@ -56,7 +56,7 @@ class Knol_WXR_Parser {
 			if ( ! is_wp_error( $result ) || 'SimpleXML_parse_error' != $result->get_error_code() )
 				return $result;
 		} else if ( extension_loaded( 'xml' ) ) {
-			$parser = new Knol_WXR_Parser_XML;
+			$parser = new Knol_WXR_Parser_XML($file);
 			$result = $parser->parse( $file );
 
 			// If XMLParser succeeds or this is an invalid WXR file then return the results
@@ -80,8 +80,8 @@ class Knol_WXR_Parser {
 		}
 
 		// use regular expressions if nothing else available or this is bad XML
-		$parser = new Knol_WXR_Parser_Regex;
-		return $parser->parse( $file );
+		$parser = new Knol_WXR_Parser_Regex($file);
+		return $parser->parse($file);
 	}
 }
 
@@ -706,12 +706,12 @@ class Knol_WXR_Parser_Regex {
 		$this->__construct();
 	}
 
-	function __construct() {
+	function __construct($file) {
 		$this->has_gzip = is_callable( 'gzopen' );
-		$this->_filesystem_init();
+		$this->_filesystem_init($file);
 	}
 
-	function _filesystem_init() {
+	function _filesystem_init($file) {
 		global $wp_filesystem;
 		$url = admin_url();
 		if (false === ( $credentials = request_filesystem_credentials($url, '', false, ABSPATH))) {
@@ -732,7 +732,7 @@ class Knol_WXR_Parser_Regex {
 		}
 	}
 
-	function parse( $file ) {
+	function parse($file) {
 		global $wp_filesystem;
 		$wxr_version = $in_post = false;
 

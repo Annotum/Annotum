@@ -77,21 +77,42 @@ class Knol_Import extends WP_Importer {
 		global $wp_filesystem;
 		$dir = '/';
 		if (false === ( $credentials = request_filesystem_credentials($url, '', false, $dir))) {
-			return;
+			return false;
 		}
 
 		if (!WP_Filesystem( $credentials, $dir)) {
 			// Failed to connect, Error and request again
 			request_filesystem_credentials($url, '', true, $dir);
-			return;
+			return false;
 		}
 
 		if ( $wp_filesystem->errors->get_error_code() ) {
 			foreach ($wp_filesystem->errors->get_error_messages() as $message) {
 				show_message($message);
 			}
-			return;
+			return false;
 		}
+
+		return true;
+	}
+
+	function _filesystem_hidden_fields() {
+		$fields = array(
+			'hostname',
+			'username',
+			'password',
+			'public_key',
+			'private_key',
+			'connection_type',
+		);
+		$out = '';
+		foreach ($fields as $field) {
+			if (isset($_POST[$field]) && !empty($_POST[$field])) {
+				$out .= '<input type="hidden" value="'.esc_attr($_POST[$field]).'" name="'.$field.'" />
+				';
+			}
+		}
+		return $out;
 	}
 
 	/**
@@ -444,6 +465,7 @@ foreach ($this->authors as $author_key => $author_data) {
 	<input type="hidden" name="version" value="<?php echo esc_attr($this->version); ?>" />
 	<input type="hidden" name="import-wordpress" value="true" />
 	<p class="submit"><input type="submit" class="button" value="<?php esc_attr_e( 'Submit', 'anno' ); ?>" /></p>
+	<?php echo $this->_filesystem_hidden_fields(); ?>
 </form>
 <?php
 	}
@@ -1431,9 +1453,9 @@ foreach ($this->authors as $author_key => $author_data) {
 		}
 	}
 
-	function import_upload_form( $action ) {
+	function import_upload_form($action) {
 		$bytes = apply_filters( 'import_upload_size_limit', wp_max_upload_size() );
-		$size = wp_convert_bytes_to_hr( $bytes );
+		$size = size_format($bytes);
 		$upload_dir = wp_upload_dir();
 		if ( ! empty( $upload_dir['error'] ) ) :
 			?><div class="error"><p><?php _e('Before you can upload your import file, you will need to fix the following error:', 'anno'); ?></p>
@@ -1457,6 +1479,7 @@ foreach ($this->authors as $author_key => $author_data) {
 	<input type="hidden" name="action" value="save" />
 	<input type="hidden" name="max_file_size" value="<?php echo $bytes; ?>" />
 	</p>
+	<?php echo $this->_filesystem_hidden_fields(); ?>
 	<?php submit_button( __('Upload file and import','anno'), 'button' ); ?>
 	</form>
 	<?php
