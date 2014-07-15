@@ -1960,34 +1960,34 @@ add_action('anno_xml_to_html', 'anno_xml_to_html_replace_external_links');
  * @param string $orig_xml - Original XML, prob. shouldn't need
  * @return void
  */
-function anno_xml_to_html_replace_dispquotes($orig_xml) {
-	$quotes = pq('disp-quote');
+function anno_xml_to_html_replace_dispquotes( $orig_xml ) {
+	$quotes = pq( 'disp-quote' );
 	$tpl = new Anno_Template_Utils();
 
-	foreach ($quotes as $quote) {
-		$quote = pq($quote);
+	foreach ( $quotes as $quote ) {
+		$quote = pq( $quote );
 
 		// Get our attribution
-		$attrib = $quote->children('attrib:first')->html();
-		$by = $tpl->to_tag('span', '&mdash;', array('class' => 'by'));
+		$attrib = $quote->children( 'attrib:first' )->html();
+		$by = $tpl->to_tag( 'span', '&mdash;', array( 'class' => 'by' ) );
 		$attrib = $attrib ? $by.' '.$attrib : '';
-		$attrib_tag = $tpl->to_tag('span', $attrib, array('class' => 'attribution'));
+		$attrib_tag = $tpl->to_tag( 'span', $attrib, array( 'class' => 'attribution' ) );
 
-		$quote_markup = pq('p', $quote)->markupOuter();
+		$quote_markup = pq( 'p', $quote )->markupOuter();
 
-		$blockquote_tag = $tpl->to_tag('blockquote', $quote_markup);
+		$blockquote_tag = $tpl->to_tag( 'blockquote', $quote_markup );
 
-		$permissions = $quote->find('permissions');
-		$permissions_tag = anno_convert_permissions_to_html($permissions);
+		$permissions = $quote->find( 'permissions' );
+		$permissions_tag = anno_convert_permissions_to_html( $permissions );
 		$permissions->remove();
 
-		$quote_tag = $tpl->to_tag('div', $blockquote_tag.$attrib_tag.$permissions_tag, array('class' => 'quote'));
+		$quote_tag = $tpl->to_tag( 'div', $blockquote_tag.$attrib_tag.$permissions_tag, array( 'class' => 'quote' ) );
 
 		// Do the actual HTML replacement
-		$quote->replaceWith($quote_tag);
+		$quote->replaceWith( $quote_tag );
 	}
 }
-add_action('anno_xml_to_html', 'anno_xml_to_html_replace_dispquotes');
+add_action( 'anno_xml_to_html', 'anno_xml_to_html_replace_dispquotes' );
 
 /**
  * Swap preformat tags with pre tag.
