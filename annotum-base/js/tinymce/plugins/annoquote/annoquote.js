@@ -37,7 +37,7 @@ var annoQuote;
 				license = '';
 			}
 			else {
-				license = '<span class="license-p" data-xmlel="license-p"><span class="license-p" data-xmlel="license-p">'+ license +'</span></span>';
+				license = '<span class="license" data-xmlel="license"><span class="license-p" data-xmlel="license-p">' + license + '</span></span>';
 			}
 
 			xml = '<div class="disp-quote" data-xmlel="disp-quote"><div class="p" data-xmlel="p">' + quote + '</div>'
