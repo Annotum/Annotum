@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Annotum\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-07-03 16:22-0700\n"
-"PO-Revision-Date: 2014-07-03 16:22-0700\n"
+"POT-Creation-Date: 2014-07-15 11:39-0700\n"
+"PO-Revision-Date: 2014-07-15 11:39-0700\n"
 "Last-Translator: Crowd Favorite <crowdfavorite@gmail.com>\n"
 "Language-Team: Crowd Favorite <crowfavorite@gmail.com>\n"
 "Language: en_US\n"
@@ -43,64 +43,64 @@ msgstr ""
 msgid "Sorry, no attachments matched your criteria."
 msgstr ""
 
-#: ../../annotum-base/carrington-core/admin.php:33
-#: ../../annotum-base/carrington-core/admin.php:319
+#: ../../annotum-base/carrington-core/admin.php:32
+#: ../../annotum-base/carrington-core/admin.php:318
 msgid "Carrington Theme Settings"
 msgstr ""
 
-#: ../../annotum-base/carrington-core/admin.php:34
-#: ../../annotum-base/carrington-core/admin.php:51
+#: ../../annotum-base/carrington-core/admin.php:33
+#: ../../annotum-base/carrington-core/admin.php:50
 msgid "Theme Settings"
 msgstr ""
 
-#: ../../annotum-base/carrington-core/admin.php:79
+#: ../../annotum-base/carrington-core/admin.php:78
 #: ../../annotum-base/functions.php:287
 msgid "Yes"
 msgstr ""
 
-#: ../../annotum-base/carrington-core/admin.php:80
+#: ../../annotum-base/carrington-core/admin.php:79
 #: ../../annotum-base/functions.php:288
 msgid "No"
 msgstr ""
 
-#: ../../annotum-base/carrington-core/admin.php:90
+#: ../../annotum-base/carrington-core/admin.php:89
 msgid "About text (shown in sidebar)"
 msgstr ""
 
-#: ../../annotum-base/carrington-core/admin.php:97
+#: ../../annotum-base/carrington-core/admin.php:96
 msgid "Header code (analytics, etc.)"
 msgstr ""
 
-#: ../../annotum-base/carrington-core/admin.php:102
+#: ../../annotum-base/carrington-core/admin.php:101
 msgid "Footer code (analytics, etc.)"
 msgstr ""
 
-#: ../../annotum-base/carrington-core/admin.php:107
+#: ../../annotum-base/carrington-core/admin.php:106
 msgid "Copyright / legal footer text"
 msgstr ""
 
-#: ../../annotum-base/carrington-core/admin.php:109
+#: ../../annotum-base/carrington-core/admin.php:108
 msgid "(add %Y to output the current year)"
 msgstr ""
 
-#: ../../annotum-base/carrington-core/admin.php:114
+#: ../../annotum-base/carrington-core/admin.php:113
 msgid "Show log in/out links in footer"
 msgstr ""
 
-#: ../../annotum-base/carrington-core/admin.php:120
+#: ../../annotum-base/carrington-core/admin.php:119
 msgid "Give credit in footer"
 msgstr ""
 
-#: ../../annotum-base/carrington-core/admin.php:329
+#: ../../annotum-base/carrington-core/admin.php:328
 #: ../../annotum-base/functions/tinymce.php:559
 msgid "Save"
 msgstr ""
 
-#: ../../annotum-base/carrington-core/admin.php:371
+#: ../../annotum-base/carrington-core/admin.php:370
 msgid "No Image"
 msgstr ""
 
-#: ../../annotum-base/carrington-core/admin.php:388
+#: ../../annotum-base/carrington-core/admin.php:387
 #, php-format
 msgid "Header Image &mdash; <a href=\"%s\">Upload Images</a>"
 msgstr ""
@@ -531,7 +531,7 @@ msgid "Recently&hellip;"
 msgstr ""
 
 #: ../../annotum-base/functions/Anno_Widget_Recently.php:62
-#: ../../annotum-base/functions/anno-admin-activity-widget.php:124
+#: ../../annotum-base/functions/anno-admin-activity-widget.php:126
 msgid "Recent Articles"
 msgstr ""
 
@@ -549,29 +549,30 @@ msgstr ""
 msgid "Today"
 msgstr ""
 
-#: ../../annotum-base/functions/anno-admin-activity-widget.php:61
+#: ../../annotum-base/functions/anno-admin-activity-widget.php:62
 msgid "Tomorrow"
 msgstr ""
 
-#: ../../annotum-base/functions/anno-admin-activity-widget.php:64
+#: ../../annotum-base/functions/anno-admin-activity-widget.php:66
 msgid "M jS"
 msgstr ""
 
-#: ../../annotum-base/functions/anno-admin-activity-widget.php:69
+#: ../../annotum-base/functions/anno-admin-activity-widget.php:71
 #, php-format
+msgctxt "1: relative date, 2: time, 4: post title"
 msgid "<span>%1$s, %2$s</span> <a href=\"%3$s\">%4$s</a>"
 msgstr ""
 
-#: ../../annotum-base/functions/anno-admin-activity-widget.php:104
+#: ../../annotum-base/functions/anno-admin-activity-widget.php:106
 msgid "Future Posts"
 msgstr ""
 
-#: ../../annotum-base/functions/anno-admin-activity-widget.php:114
+#: ../../annotum-base/functions/anno-admin-activity-widget.php:116
 #: ../../annotum-base/posts/author.php:68
 msgid "Recent Posts"
 msgstr ""
 
-#: ../../annotum-base/functions/anno-admin-activity-widget.php:133
+#: ../../annotum-base/functions/anno-admin-activity-widget.php:135
 msgid "No activity yet!"
 msgstr ""
 
@@ -1819,15 +1820,15 @@ msgstr ""
 
 #: ../../annotum-base/plugins/annotum-importers/dtd-importer.php:58
 #: ../../annotum-base/plugins/annotum-importers/dtd-importer.php:67
-#: ../../annotum-base/plugins/annotum-importers/knol-importer.php:205
-#: ../../annotum-base/plugins/annotum-importers/knol-importer.php:214
-#: ../../annotum-base/plugins/annotum-importers/knol-importer.php:303
-#: ../../annotum-base/plugins/annotum-importers/knol-importer.php:311
+#: ../../annotum-base/plugins/annotum-importers/knol-importer.php:245
+#: ../../annotum-base/plugins/annotum-importers/knol-importer.php:254
+#: ../../annotum-base/plugins/annotum-importers/knol-importer.php:343
+#: ../../annotum-base/plugins/annotum-importers/knol-importer.php:351
 msgid "Sorry, there has been an error."
 msgstr ""
 
 #: ../../annotum-base/plugins/annotum-importers/dtd-importer.php:59
-#: ../../annotum-base/plugins/annotum-importers/knol-importer.php:206
+#: ../../annotum-base/plugins/annotum-importers/knol-importer.php:246
 msgid "The file does not exist, please try again."
 msgstr ""
 
@@ -1841,76 +1842,99 @@ msgstr ""
 msgid "Kipling DTD XML Import"
 msgstr ""
 
-#: ../../annotum-base/plugins/annotum-importers/dtd-importer.php:168
+#: ../../annotum-base/plugins/annotum-importers/dtd-importer.php:170
 msgid ""
 "Howdy! Upload your Kipling DTD XML file and we&#8217;ll import the articles, "
 "keywords, subjects, and users into this site."
 msgstr ""
 
-#: ../../annotum-base/plugins/annotum-importers/dtd-importer.php:169
+#: ../../annotum-base/plugins/annotum-importers/dtd-importer.php:171
 msgid ""
 "Choose a Kipling DTD XML (.xml) file to upload, then click Upload file and "
 "import."
 msgstr ""
 
-#: ../../annotum-base/plugins/annotum-importers/dtd-importer.php:199
+#: ../../annotum-base/plugins/annotum-importers/dtd-importer.php:183
+#: ../../annotum-base/plugins/annotum-importers/knol-importer.php:1461
+msgid ""
+"Before you can upload your import file, you will need to fix the following "
+"error:"
+msgstr ""
+
+#: ../../annotum-base/plugins/annotum-importers/dtd-importer.php:190
+#: ../../annotum-base/plugins/annotum-importers/knol-importer.php:1477
+msgid "Choose a file from your computer:"
+msgstr ""
+
+#: ../../annotum-base/plugins/annotum-importers/dtd-importer.php:190
+#: ../../annotum-base/plugins/annotum-importers/knol-importer.php:1477
+#, php-format
+msgid "Maximum size: %s"
+msgstr ""
+
+#: ../../annotum-base/plugins/annotum-importers/dtd-importer.php:196
+#: ../../annotum-base/plugins/annotum-importers/knol-importer.php:1483
+msgid "Upload file and import"
+msgstr ""
+
+#: ../../annotum-base/plugins/annotum-importers/dtd-importer.php:227
 msgid ""
 "Import <strong>articles, keywords, subjects and users</strong> from a "
 "Kipling DTD XML file."
 msgstr ""
 
-#: ../../annotum-base/plugins/annotum-importers/knol-importer.php:144
-#: ../../annotum-base/plugins/annotum-importers/knol-importer.php:371
+#: ../../annotum-base/plugins/annotum-importers/knol-importer.php:184
+#: ../../annotum-base/plugins/annotum-importers/knol-importer.php:411
 #, php-format
 msgid "ANNO_IMPORT_DEBUG: You are using %s to parse data."
 msgstr ""
 
-#: ../../annotum-base/plugins/annotum-importers/knol-importer.php:257
+#: ../../annotum-base/plugins/annotum-importers/knol-importer.php:297
 #, php-format
 msgid "%s &#8220;<strong>%s</strong>&#8221; imported. "
 msgstr ""
 
-#: ../../annotum-base/plugins/annotum-importers/knol-importer.php:273
+#: ../../annotum-base/plugins/annotum-importers/knol-importer.php:313
 #, php-format
 msgid "[ %sEdit%s | %sPreview%s ]"
 msgstr ""
 
-#: ../../annotum-base/plugins/annotum-importers/knol-importer.php:278
+#: ../../annotum-base/plugins/annotum-importers/knol-importer.php:318
 #, php-format
 msgid "[ %sEdit%s ]"
 msgstr ""
 
-#: ../../annotum-base/plugins/annotum-importers/knol-importer.php:287
+#: ../../annotum-base/plugins/annotum-importers/knol-importer.php:327
 msgid "All done."
 msgstr ""
 
-#: ../../annotum-base/plugins/annotum-importers/knol-importer.php:287
+#: ../../annotum-base/plugins/annotum-importers/knol-importer.php:327
 msgid "Have fun!"
 msgstr ""
 
-#: ../../annotum-base/plugins/annotum-importers/knol-importer.php:288
+#: ../../annotum-base/plugins/annotum-importers/knol-importer.php:328
 msgid "Remember to update the passwords and roles of imported users."
 msgstr ""
 
-#: ../../annotum-base/plugins/annotum-importers/knol-importer.php:319
+#: ../../annotum-base/plugins/annotum-importers/knol-importer.php:359
 #, php-format
 msgid ""
 "This WXR file (version %s) may not be supported by this version of the "
 "importer. Please consider updating."
 msgstr ""
 
-#: ../../annotum-base/plugins/annotum-importers/knol-importer.php:345
+#: ../../annotum-base/plugins/annotum-importers/knol-importer.php:385
 #, php-format
 msgid ""
 "Failed to import author %s. Their posts will be attributed to the current "
 "user."
 msgstr ""
 
-#: ../../annotum-base/plugins/annotum-importers/knol-importer.php:380
+#: ../../annotum-base/plugins/annotum-importers/knol-importer.php:420
 msgid "Assign Authors"
 msgstr ""
 
-#: ../../annotum-base/plugins/annotum-importers/knol-importer.php:381
+#: ../../annotum-base/plugins/annotum-importers/knol-importer.php:421
 msgid ""
 "To make it easier for you to edit and save the imported content, you may "
 "want to reassign the author of the imported item to an existing user of this "
@@ -1918,270 +1942,251 @@ msgid ""
 "code>s entries."
 msgstr ""
 
-#: ../../annotum-base/plugins/annotum-importers/knol-importer.php:383
+#: ../../annotum-base/plugins/annotum-importers/knol-importer.php:423
 msgid ""
 "If a new user is created by WordPress, a new password will be randomly "
 "generated and the new user&#8217;s role will be set as contributor. Manually "
 "changing the new user&#8217;s details will be necessary."
 msgstr ""
 
-#: ../../annotum-base/plugins/annotum-importers/knol-importer.php:402
+#: ../../annotum-base/plugins/annotum-importers/knol-importer.php:442
 msgid "Import Attachments"
 msgstr ""
 
-#: ../../annotum-base/plugins/annotum-importers/knol-importer.php:405
+#: ../../annotum-base/plugins/annotum-importers/knol-importer.php:445
 msgid "Download and import file attachments"
 msgstr ""
 
-#: ../../annotum-base/plugins/annotum-importers/knol-importer.php:449
+#: ../../annotum-base/plugins/annotum-importers/knol-importer.php:490
 msgid "Import "
 msgstr ""
 
-#: ../../annotum-base/plugins/annotum-importers/knol-importer.php:454
+#: ../../annotum-base/plugins/annotum-importers/knol-importer.php:495
 msgctxt "user import display text"
 msgid "as the current user."
 msgstr ""
 
-#: ../../annotum-base/plugins/annotum-importers/knol-importer.php:474
-#: ../../annotum-base/plugins/annotum-importers/knol-importer.php:476
+#: ../../annotum-base/plugins/annotum-importers/knol-importer.php:515
+#: ../../annotum-base/plugins/annotum-importers/knol-importer.php:517
 msgid "<p>or assign posts to an existing user: "
 msgstr ""
 
-#: ../../annotum-base/plugins/annotum-importers/knol-importer.php:480
+#: ../../annotum-base/plugins/annotum-importers/knol-importer.php:521
 msgid "- Select -"
 msgstr ""
 
-#: ../../annotum-base/plugins/annotum-importers/knol-importer.php:494
-#: ../../annotum-base/plugins/annotum-importers/knol-importer.php:525
+#: ../../annotum-base/plugins/annotum-importers/knol-importer.php:535
+#: ../../annotum-base/plugins/annotum-importers/knol-importer.php:566
 msgid "</p>"
 msgstr ""
 
-#: ../../annotum-base/plugins/annotum-importers/knol-importer.php:498
+#: ../../annotum-base/plugins/annotum-importers/knol-importer.php:539
 msgid ""
 "or if you know an existing user&#8217;s <strong>email address</strong>, you "
 "can assign posts to that user: "
 msgstr ""
 
-#: ../../annotum-base/plugins/annotum-importers/knol-importer.php:502
+#: ../../annotum-base/plugins/annotum-importers/knol-importer.php:543
 msgid ""
 "or if you know an existing user&#8217;s <strong>username</strong>, you can "
 "assign posts to that user: "
 msgstr ""
 
-#: ../../annotum-base/plugins/annotum-importers/knol-importer.php:505
+#: ../../annotum-base/plugins/annotum-importers/knol-importer.php:546
 msgid "<p>"
 msgstr ""
 
-#: ../../annotum-base/plugins/annotum-importers/knol-importer.php:507
+#: ../../annotum-base/plugins/annotum-importers/knol-importer.php:548
 msgid "or you can create new user:"
 msgstr ""
 
-#: ../../annotum-base/plugins/annotum-importers/knol-importer.php:510
+#: ../../annotum-base/plugins/annotum-importers/knol-importer.php:551
 msgid "as a new user:"
 msgstr ""
 
-#: ../../annotum-base/plugins/annotum-importers/knol-importer.php:516
+#: ../../annotum-base/plugins/annotum-importers/knol-importer.php:557
 msgctxt "input label for importer"
 msgid "Email: "
 msgstr ""
 
-#: ../../annotum-base/plugins/annotum-importers/knol-importer.php:566
+#: ../../annotum-base/plugins/annotum-importers/knol-importer.php:607
 msgctxt "importer error message"
 msgid "Please enter an Email <strong>OR</strong> a Username to search for."
 msgstr ""
 
-#: ../../annotum-base/plugins/annotum-importers/knol-importer.php:572
+#: ../../annotum-base/plugins/annotum-importers/knol-importer.php:613
 msgctxt "importer error message"
 msgid "Please enter a valid email to search for."
 msgstr ""
 
-#: ../../annotum-base/plugins/annotum-importers/knol-importer.php:580
+#: ../../annotum-base/plugins/annotum-importers/knol-importer.php:621
 #, php-format
 msgctxt "importer error message, %s: email address"
 msgid "Could not find user with email: %s"
 msgstr ""
 
-#: ../../annotum-base/plugins/annotum-importers/knol-importer.php:592
+#: ../../annotum-base/plugins/annotum-importers/knol-importer.php:633
 msgctxt "importer error message"
 msgid "Please enter a valid username to search for."
 msgstr ""
 
-#: ../../annotum-base/plugins/annotum-importers/knol-importer.php:600
+#: ../../annotum-base/plugins/annotum-importers/knol-importer.php:641
 #, php-format
 msgctxt "importer error message, %s: username"
 msgid "Could not find user with username: %s"
 msgstr ""
 
-#: ../../annotum-base/plugins/annotum-importers/knol-importer.php:621
+#: ../../annotum-base/plugins/annotum-importers/knol-importer.php:662
 msgctxt "importer error message"
 msgid "Email cannot be empty when creating a new user."
 msgstr ""
 
-#: ../../annotum-base/plugins/annotum-importers/knol-importer.php:627
+#: ../../annotum-base/plugins/annotum-importers/knol-importer.php:668
 msgctxt "importer error message"
 msgid "This email address is already registered."
 msgstr ""
 
-#: ../../annotum-base/plugins/annotum-importers/knol-importer.php:632
+#: ../../annotum-base/plugins/annotum-importers/knol-importer.php:673
 msgctxt "importer error message"
 msgid "Please enter a valid email when creating a new user."
 msgstr ""
 
-#: ../../annotum-base/plugins/annotum-importers/knol-importer.php:703
+#: ../../annotum-base/plugins/annotum-importers/knol-importer.php:744
 #, php-format
 msgid "Failed to import category %s"
 msgstr ""
 
-#: ../../annotum-base/plugins/annotum-importers/knol-importer.php:741
+#: ../../annotum-base/plugins/annotum-importers/knol-importer.php:782
 #, php-format
 msgid "Failed to import post tag %s"
 msgstr ""
 
-#: ../../annotum-base/plugins/annotum-importers/knol-importer.php:785
-#: ../../annotum-base/plugins/annotum-importers/knol-importer.php:941
+#: ../../annotum-base/plugins/annotum-importers/knol-importer.php:826
+#: ../../annotum-base/plugins/annotum-importers/knol-importer.php:982
 #, php-format
 msgid "Failed to import %s %s"
 msgstr ""
 
-#: ../../annotum-base/plugins/annotum-importers/knol-importer.php:821
+#: ../../annotum-base/plugins/annotum-importers/knol-importer.php:862
 #, php-format
 msgid "Failed to import &#8220;%s&#8221;: Invalid post type %s"
 msgstr ""
 
-#: ../../annotum-base/plugins/annotum-importers/knol-importer.php:847
+#: ../../annotum-base/plugins/annotum-importers/knol-importer.php:888
 #, php-format
 msgid "%s &#8220;%s&#8221; already exists."
 msgstr ""
 
-#: ../../annotum-base/plugins/annotum-importers/knol-importer.php:914
+#: ../../annotum-base/plugins/annotum-importers/knol-importer.php:955
 #, php-format
 msgid "Failed to import %s &#8220;%s&#8221;"
 msgstr ""
 
-#: ../../annotum-base/plugins/annotum-importers/knol-importer.php:1134
+#: ../../annotum-base/plugins/annotum-importers/knol-importer.php:1175
 msgid "Menu item skipped due to missing menu slug"
 msgstr ""
 
-#: ../../annotum-base/plugins/annotum-importers/knol-importer.php:1141
+#: ../../annotum-base/plugins/annotum-importers/knol-importer.php:1182
 #, php-format
 msgid "Menu item skipped due to invalid menu slug: %s"
 msgstr ""
 
-#: ../../annotum-base/plugins/annotum-importers/knol-importer.php:1204
+#: ../../annotum-base/plugins/annotum-importers/knol-importer.php:1245
 msgid "Fetching attachments is not enabled"
 msgstr ""
 
-#: ../../annotum-base/plugins/annotum-importers/knol-importer.php:1218
+#: ../../annotum-base/plugins/annotum-importers/knol-importer.php:1259
 msgid "Invalid file type"
 msgstr ""
 
-#: ../../annotum-base/plugins/annotum-importers/knol-importer.php:1261
+#: ../../annotum-base/plugins/annotum-importers/knol-importer.php:1302
 msgid "Remote server did not respond"
 msgstr ""
 
-#: ../../annotum-base/plugins/annotum-importers/knol-importer.php:1267
+#: ../../annotum-base/plugins/annotum-importers/knol-importer.php:1308
 #, php-format
 msgid "Remote server returned error response %1$d %2$s"
 msgstr ""
 
-#: ../../annotum-base/plugins/annotum-importers/knol-importer.php:1274
+#: ../../annotum-base/plugins/annotum-importers/knol-importer.php:1315
 msgid "Remote file is incorrect size"
 msgstr ""
 
-#: ../../annotum-base/plugins/annotum-importers/knol-importer.php:1279
+#: ../../annotum-base/plugins/annotum-importers/knol-importer.php:1320
 msgid "Zero size file downloaded"
 msgstr ""
 
-#: ../../annotum-base/plugins/annotum-importers/knol-importer.php:1285
+#: ../../annotum-base/plugins/annotum-importers/knol-importer.php:1326
 #, php-format
 msgid "Remote file is too large, limit is %s"
 msgstr ""
 
-#: ../../annotum-base/plugins/annotum-importers/knol-importer.php:1384
+#: ../../annotum-base/plugins/annotum-importers/knol-importer.php:1425
 msgid "Google Knol WXR Import"
 msgstr ""
 
-#: ../../annotum-base/plugins/annotum-importers/knol-importer.php:1391
+#: ../../annotum-base/plugins/annotum-importers/knol-importer.php:1432
 #, php-format
 msgid ""
 "A new version of this importer is available. Please update to version %s to "
 "ensure compatibility with newer export files."
 msgstr ""
 
-#: ../../annotum-base/plugins/annotum-importers/knol-importer.php:1406
+#: ../../annotum-base/plugins/annotum-importers/knol-importer.php:1449
 msgid ""
 "Howdy! Upload your Google Knol eXtended RSS (WXR) file and we&#8217;ll "
 "import the posts, pages, comments, custom fields, categories, and tags into "
 "this site."
 msgstr ""
 
-#: ../../annotum-base/plugins/annotum-importers/knol-importer.php:1407
+#: ../../annotum-base/plugins/annotum-importers/knol-importer.php:1450
 msgid ""
 "Choose a Google Knol WXR (.xml) file to upload, then click Upload file and "
 "import."
 msgstr ""
 
-#: ../../annotum-base/plugins/annotum-importers/knol-importer.php:1417
-msgid ""
-"Before you can upload your import file, you will need to fix the following "
-"error:"
-msgstr ""
-
-#: ../../annotum-base/plugins/annotum-importers/knol-importer.php:1424
+#: ../../annotum-base/plugins/annotum-importers/knol-importer.php:1468
 msgid "ANNO_IMPORT_DEBUG: Select a parser:"
 msgstr ""
 
-#: ../../annotum-base/plugins/annotum-importers/knol-importer.php:1433
-msgid "Choose a file from your computer:"
-msgstr ""
-
-#: ../../annotum-base/plugins/annotum-importers/knol-importer.php:1433
-#, php-format
-msgid "Maximum size: %s"
-msgstr ""
-
-#: ../../annotum-base/plugins/annotum-importers/knol-importer.php:1438
-msgid "Upload file and import"
-msgstr ""
-
-#: ../../annotum-base/plugins/annotum-importers/knol-importer.php:1550
+#: ../../annotum-base/plugins/annotum-importers/knol-importer.php:1595
 msgid ""
 "Import <strong>articles, comments, custom fields, categories, and tags</"
 "strong> from a Google Knol WXR export file."
 msgstr ""
 
-#: ../../annotum-base/plugins/annotum-importers/parsers.php:42
+#: ../../annotum-base/plugins/annotum-importers/parsers.php:43
 #, php-format
 msgid "ANNO_IMPORT_DEBUG: Could not find parser %s."
 msgstr ""
 
-#: ../../annotum-base/plugins/annotum-importers/parsers.php:77
-#: ../../annotum-base/plugins/annotum-importers/parsers.php:101
-#: ../../annotum-base/plugins/annotum-importers/parsers.php:399
+#: ../../annotum-base/plugins/annotum-importers/parsers.php:78
+#: ../../annotum-base/plugins/annotum-importers/parsers.php:102
+#: ../../annotum-base/plugins/annotum-importers/parsers.php:429
 msgid "There was an error when reading this WXR file"
 msgstr ""
 
-#: ../../annotum-base/plugins/annotum-importers/parsers.php:78
+#: ../../annotum-base/plugins/annotum-importers/parsers.php:79
 msgid ""
 "Details are shown above. The importer will now try again with a different "
 "parser..."
 msgstr ""
 
-#: ../../annotum-base/plugins/annotum-importers/parsers.php:105
-#: ../../annotum-base/plugins/annotum-importers/parsers.php:110
-#: ../../annotum-base/plugins/annotum-importers/parsers.php:404
-#: ../../annotum-base/plugins/annotum-importers/parsers.php:751
+#: ../../annotum-base/plugins/annotum-importers/parsers.php:106
+#: ../../annotum-base/plugins/annotum-importers/parsers.php:111
+#: ../../annotum-base/plugins/annotum-importers/parsers.php:434
+#: ../../annotum-base/plugins/annotum-importers/parsers.php:802
 msgid ""
 "This does not appear to be a WXR file, missing/invalid WXR version number"
 msgstr ""
 
-#: ../../annotum-base/plugins/annotum-importers/parsers.php:318
+#: ../../annotum-base/plugins/annotum-importers/parsers.php:319
 #, php-format
 msgctxt "importer error message"
 msgid "There was an error processing %s's content for attachments."
 msgstr ""
 
-#: ../../annotum-base/plugins/annotum-importers/parsers.php:657
+#: ../../annotum-base/plugins/annotum-importers/parsers.php:687
 #, php-format
 msgctxt "importer error message"
 msgid ""
@@ -2189,11 +2194,11 @@ msgid ""
 "%s. Column %s. Code %s."
 msgstr ""
 
-#: ../../annotum-base/plugins/annotum-importers/parsers.php:1031
+#: ../../annotum-base/plugins/annotum-importers/parsers.php:1088
 msgid "There was an error when reading this Kipling DTD file"
 msgstr ""
 
-#: ../../annotum-base/plugins/annotum-importers/parsers.php:1055
+#: ../../annotum-base/plugins/annotum-importers/parsers.php:1112
 msgid ""
 "This does not appear to be a Kipling DTD file, no articles could be found"
 msgstr ""
@@ -2228,7 +2233,7 @@ msgstr ""
 msgid "Archives for <b>%s</b>"
 msgstr ""
 
-#: ../../annotum-base/plugins/cf-revision-manager/cf-revision-manager.php:161
+#: ../../annotum-base/plugins/cf-revision-manager/cf-revision-manager.php:163
 msgid "Post Meta: "
 msgstr ""
 

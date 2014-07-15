@@ -16,27 +16,28 @@
  * WordPress Importer class for managing parsing of WXR files.
  */
 class Knol_WXR_Parser {
+
 	function parse( $file ) {
 
 		if (defined('ANNO_IMPORT_DEBUG') && ANNO_IMPORT_DEBUG && isset($_POST['anno_knol_parser'])) {
 			switch ($_POST['anno_knol_parser']) {
 				case 'simplexml':
-					$parser = new Knol_WXR_Parser_SimpleXML;
-					$result = $parser->parse( $file );
+					$parser = new Knol_WXR_Parser_SimpleXML($file);
+					$result = $parser->parse($file);
 					// If SimpleXML succeeds or this is an invalid WXR file then return the results
 					if ( ! is_wp_error( $result ) || 'SimpleXML_parse_error' != $result->get_error_code() )
 						return $result;
 					break;
 				case 'xml':
-					$parser = new Knol_WXR_Parser_XML;
-					$result = $parser->parse( $file );
+					$parser = new Knol_WXR_Parser_XML($file);
+					$result = $parser->parse($file);
 					// If XMLParser succeeds or this is an invalid WXR file then return the results
 					if ( ! is_wp_error( $result ) || 'XML_parse_error' != $result->get_error_code() )
 						return $result;
 					break;
 				case 'regex':
-					$parser = new Knol_WXR_Parser_Regex;
-					return $parser->parse( $file );
+					$parser = new Knol_WXR_Parser_Regex($file);
+					return $parser->parse($file);
 					break;
 				default:
 					printf(__('ANNO_IMPORT_DEBUG: Could not find parser %s.', 'anno'), esc_html($_POST['anno_knol_parser']));
@@ -48,14 +49,14 @@ class Knol_WXR_Parser {
 
 		// Attempt to use proper XML parsers first
 		if ( extension_loaded( 'simplexml' ) ) {
-			$parser = new Knol_WXR_Parser_SimpleXML;
+			$parser = new Knol_WXR_Parser_SimpleXML($file);
 			$result = $parser->parse( $file );
 
 			// If SimpleXML succeeds or this is an invalid WXR file then return the results
 			if ( ! is_wp_error( $result ) || 'SimpleXML_parse_error' != $result->get_error_code() )
 				return $result;
 		} else if ( extension_loaded( 'xml' ) ) {
-			$parser = new Knol_WXR_Parser_XML;
+			$parser = new Knol_WXR_Parser_XML($file);
 			$result = $parser->parse( $file );
 
 			// If XMLParser succeeds or this is an invalid WXR file then return the results
@@ -79,8 +80,8 @@ class Knol_WXR_Parser {
 		}
 
 		// use regular expressions if nothing else available or this is bad XML
-		$parser = new Knol_WXR_Parser_Regex;
-		return $parser->parse( $file );
+		$parser = new Knol_WXR_Parser_Regex($file);
+		return $parser->parse($file);
 	}
 }
 
@@ -91,7 +92,7 @@ class Knol_WXR_Parser {
 class Knol_WXR_Parser_SimpleXML {
 	var $img_id_modifier = 0;
 
-	function parse( $file ) {
+	function parse($file) {
 		$authors = $posts = $categories = $tags = $terms = array();
 
 		$internal_errors = libxml_use_internal_errors(true);
@@ -380,7 +381,36 @@ class Knol_WXR_Parser_XML {
 		'wp:comment_approved', 'wp:comment_type', 'wp:comment_parent', 'wp:comment_user_id',
 	);
 
-	function parse( $file ) {
+	function __construct($file) {
+		// Really a formality, anything calling the parser should have already checked for
+		// filesystem creds
+		$this->_filesystem_init($file);
+	}
+
+	function _filesystem_init($file) {
+		global $wp_filesystem;
+		$url = admin_url();
+		$dir = trailingslashit(dirname($file));
+		if (false === ( $credentials = request_filesystem_credentials($url, '', false, $dir))) {
+			return;
+		}
+
+		if (!WP_Filesystem( $credentials, $dir)) {
+			// Failed to connect, Error and request again
+			request_filesystem_credentials($url, '', true, $dir);
+			return;
+		}
+
+		if ( $wp_filesystem->errors->get_error_code() ) {
+			foreach ($wp_filesystem->errors->get_error_messages() as $message) {
+				show_message($message);
+			}
+			return;
+		}
+	}
+
+	function parse($file) {
+		global $wp_filesystem;
 		$this->wxr_version = $this->in_post = $this->cdata = $this->data = $this->sub_data = $this->in_tag = $this->in_sub_tag = false;
 		$this->authors = $this->posts = $this->term = $this->category = $this->tag = array();
 
@@ -391,7 +421,7 @@ class Knol_WXR_Parser_XML {
 		xml_set_character_data_handler( $xml, 'cdata' );
 		xml_set_element_handler( $xml, 'tag_open', 'tag_close' );
 
-		if ( ! xml_parse( $xml, file_get_contents( $file ), true ) ) {
+		if ( ! xml_parse( $xml, $wp_filesystem->get_contents( $file ), true ) ) {
 			$current_line = xml_get_current_line_number( $xml );
 			$current_column = xml_get_current_column_number( $xml );
 			$error_code = xml_get_error_code( $xml );
@@ -676,17 +706,40 @@ class Knol_WXR_Parser_Regex {
 		$this->__construct();
 	}
 
-	function __construct() {
+	function __construct($file) {
 		$this->has_gzip = is_callable( 'gzopen' );
+		$this->_filesystem_init($file);
 	}
 
-	function parse( $file ) {
+	function _filesystem_init($file) {
+		global $wp_filesystem;
+		$url = admin_url();
+		if (false === ( $credentials = request_filesystem_credentials($url, '', false, ABSPATH))) {
+			return;
+		}
+
+		if (!WP_Filesystem( $credentials, ABSPATH)) {
+			// Failed to connect, Error and request again
+			request_filesystem_credentials($url, '', true, ABSPATH);
+			return;
+		}
+
+		if ( $wp_filesystem->errors->get_error_code() ) {
+			foreach ($wp_filesystem->errors->get_error_messages() as $message) {
+				show_message($message);
+			}
+			return;
+		}
+	}
+
+	function parse($file) {
+		global $wp_filesystem;
 		$wxr_version = $in_post = false;
 
-		$fp = $this->fopen( $file, 'r' );
-		if ( $fp ) {
-			while ( ! $this->feof( $fp ) ) {
-				$importline = rtrim( $this->fgets( $fp ) );
+		$fp = $wp_filesystem->get_contents_array($file);
+		if ($fp) {
+			foreach ($fp as $importline) {
+				$importline = rtrim($importline);
 
 				if ( ! $wxr_version && preg_match( '|<wp:wxr_version>(\d+\.\d+)</wp:wxr_version>|', $importline, $version ) )
 					$wxr_version = $version[1];
@@ -743,8 +796,6 @@ class Knol_WXR_Parser_Regex {
 					$post .= $importline . "\n";
 				}
 			}
-
-			$this->fclose($fp);
 		}
 
 		if ( ! $wxr_version )
@@ -990,29 +1041,6 @@ class Knol_WXR_Parser_Regex {
 		return '<' . strtolower( $matches[1] );
 	}
 
-	function fopen( $filename, $mode = 'r' ) {
-		if ( $this->has_gzip )
-			return gzopen( $filename, $mode );
-		return fopen( $filename, $mode );
-	}
-
-	function feof( $fp ) {
-		if ( $this->has_gzip )
-			return gzeof( $fp );
-		return feof( $fp );
-	}
-
-	function fgets( $fp, $len = 8192 ) {
-		if ( $this->has_gzip )
-			return gzgets( $fp, $len );
-		return fgets( $fp, $len );
-	}
-
-	function fclose( $fp ) {
-		if ( $this->has_gzip )
-			return gzclose( $fp );
-		return fclose( $fp );
-	}
 }
 
 
@@ -1022,11 +1050,40 @@ class Knol_WXR_Parser_Regex {
  *
  */
 class Kipling_DTD_Parser {
+
+	function __construct($file) {
+		// Really a formality, anything calling the parser should have already checked for
+		// filesystem creds
+		$this->_filesystem_init($file);
+	}
+
+	function _filesystem_init($file) {
+		global $wp_filesystem;
+		$url = admin_url();
+		$dir = trailingslashit(dirname($file));
+		if (false === ( $credentials = request_filesystem_credentials($url, '', false, $dir))) {
+			return;
+		}
+
+		if (!WP_Filesystem( $credentials, $dir)) {
+			// Failed to connect, Error and request again
+			request_filesystem_credentials($url, '', true, $dir);
+			return;
+		}
+
+		if ( $wp_filesystem->errors->get_error_code() ) {
+			foreach ($wp_filesystem->errors->get_error_messages() as $message) {
+				show_message($message);
+			}
+			return;
+		}
+	}
+
 	function parse($file) {
+		global $wp_filesystem;
 		$authors = $posts = $attachments = $post = $author_snapshots = $authors_meta = array();
 
-
-		$file_content = file_get_contents($file);
+		$file_content = $wp_filesystem->get_contents($file);
 		if (!$file_content) {
 			return new WP_Error('xml_parse_error', __( 'There was an error when reading this Kipling DTD file', 'anno'));
 		}

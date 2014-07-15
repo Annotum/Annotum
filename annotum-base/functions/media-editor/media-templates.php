@@ -69,10 +69,10 @@ if (__FILE__ == $_SERVER['SCRIPT_FILENAME']) { die(); }
 <?php
 	/** This filter is documented in wp-admin/includes/media.php */
 	$sizes = apply_filters( 'image_size_names_choose', array(
-		'thumbnail' => __('Thumbnail'),
-		'medium'    => __('Medium'),
-		'large'     => __('Large'),
-		'full'      => __('Full Size'),
+		'thumbnail' => __('Thumbnail', 'anno'),
+		'medium'    => __('Medium', 'anno'),
+		'large'     => __('Large', 'anno'),
+		'full'      => __('Full Size', 'anno'),
 	) );
 
 	foreach ( $sizes as $value => $name ) : ?>

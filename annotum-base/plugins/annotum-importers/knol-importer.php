@@ -73,7 +73,47 @@ class Knol_Import extends WP_Importer {
 
 	var $import_slug = 'google_knol_wxr';
 
-	function Knol_Import() {/* Nothing */ }
+	function _filesystem_init($url) {
+		global $wp_filesystem;
+		$dir = '/';
+		if (false === ( $credentials = request_filesystem_credentials($url, '', false, $dir))) {
+			return false;
+		}
+
+		if (!WP_Filesystem( $credentials, $dir)) {
+			// Failed to connect, Error and request again
+			request_filesystem_credentials($url, '', true, $dir);
+			return false;
+		}
+
+		if ( $wp_filesystem->errors->get_error_code() ) {
+			foreach ($wp_filesystem->errors->get_error_messages() as $message) {
+				show_message($message);
+			}
+			return false;
+		}
+
+		return true;
+	}
+
+	function _filesystem_hidden_fields() {
+		$fields = array(
+			'hostname',
+			'username',
+			'password',
+			'public_key',
+			'private_key',
+			'connection_type',
+		);
+		$out = '';
+		foreach ($fields as $field) {
+			if (isset($_POST[$field]) && !empty($_POST[$field])) {
+				$out .= '<input type="hidden" value="'.esc_attr($_POST[$field]).'" name="'.$field.'" />
+				';
+			}
+		}
+		return $out;
+	}
 
 	/**
 	 * Registered callback function for the WordPress Importer
@@ -97,7 +137,7 @@ class Knol_Import extends WP_Importer {
 
 					if (!empty($this->author_errors)) {
 						// If we have errors, display assignment page again with errors.
-					$this->import_options();
+						$this->import_options();
 					}
 					else {
 						// Create users and import.
@@ -425,6 +465,7 @@ foreach ($this->authors as $author_key => $author_data) {
 	<input type="hidden" name="version" value="<?php echo esc_attr($this->version); ?>" />
 	<input type="hidden" name="import-wordpress" value="true" />
 	<p class="submit"><input type="submit" class="button" value="<?php esc_attr_e( 'Submit', 'anno' ); ?>" /></p>
+	<?php echo $this->_filesystem_hidden_fields(); ?>
 </form>
 <?php
 	}
@@ -1402,16 +1443,19 @@ foreach ($this->authors as $author_key => $author_data) {
 	 * Display introductory text and file upload form
 	 */
 	function greet() {
-		echo '<div class="narrow">';
-		echo '<p>'.__( 'Howdy! Upload your Google Knol eXtended RSS (WXR) file and we&#8217;ll import the posts, pages, comments, custom fields, categories, and tags into this site.', 'anno' ).'</p>';
-		echo '<p>'.__( 'Choose a Google Knol WXR (.xml) file to upload, then click Upload file and import.', 'anno' ).'</p>';
-		$this->import_upload_form( 'admin.php?import='.$this->import_slug.'&amp;step=1' );
-		echo '</div>';
+		$url = 'admin.php?import='.$this->import_slug;
+		if ($this->_filesystem_init($url)) {
+			echo '<div class="narrow">';
+			echo '<p>'.__( 'Howdy! Upload your Google Knol eXtended RSS (WXR) file and we&#8217;ll import the posts, pages, comments, custom fields, categories, and tags into this site.', 'anno' ).'</p>';
+			echo '<p>'.__( 'Choose a Google Knol WXR (.xml) file to upload, then click Upload file and import.', 'anno' ).'</p>';
+			$this->import_upload_form( 'admin.php?import='.$this->import_slug.'&amp;step=1' );
+			echo '</div>';
+		}
 	}
 
-	function import_upload_form( $action ) {
+	function import_upload_form($action) {
 		$bytes = apply_filters( 'import_upload_size_limit', wp_max_upload_size() );
-		$size = wp_convert_bytes_to_hr( $bytes );
+		$size = size_format($bytes);
 		$upload_dir = wp_upload_dir();
 		if ( ! empty( $upload_dir['error'] ) ) :
 			?><div class="error"><p><?php _e('Before you can upload your import file, you will need to fix the following error:', 'anno'); ?></p>
@@ -1435,6 +1479,7 @@ foreach ($this->authors as $author_key => $author_data) {
 	<input type="hidden" name="action" value="save" />
 	<input type="hidden" name="max_file_size" value="<?php echo $bytes; ?>" />
 	</p>
+	<?php echo $this->_filesystem_hidden_fields(); ?>
 	<?php submit_button( __('Upload file and import','anno'), 'button' ); ?>
 	</form>
 	<?php

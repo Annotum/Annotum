@@ -12,7 +12,7 @@
 // **********************************************************************
 // This program is distributed in the hope that it will be useful, but
 // WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. 
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 // **********************************************************************
 
 if (__FILE__ == $_SERVER['SCRIPT_FILENAME']) { die(); }
@@ -20,16 +20,15 @@ if (__FILE__ == $_SERVER['SCRIPT_FILENAME']) { die(); }
 // - add admin page for config settings
 
 function cfct_option_css() {
-	
+
 }
 
 /**
  * Add a menu option under the admin themes menu
- * 
+ *
 **/
 function cfct_admin_menu() {
-	add_submenu_page(
-		'themes.php',
+	add_theme_page(
 		apply_filters('cfct_admin_settings_title', __('Carrington Theme Settings', 'carrington')),
 		apply_filters('cfct_admin_settings_menu', __('Theme Settings', 'carrington')),
 		'edit_theme_options',
@@ -41,7 +40,7 @@ add_action('admin_menu', 'cfct_admin_menu');
 
 /**
  * Add a menu option under the admin admin bar
- * 
+ *
 **/
 function cfct_admin_bar() {
 	global $wp_admin_bar;
@@ -72,7 +71,7 @@ function cfct_update_settings() {
 
 /**
  * Register Theme Settings screen options using WP Settings API
- */ 
+ */
 function cfct_register_options() {
 	global $cfct_hidden_fields;
 	$yn_options = array(
@@ -153,7 +152,7 @@ function cfct_register_options() {
 		add_settings_section($section_name, $section['label'], $section['description'], 'cfct');
 
 		foreach ($section['fields'] as $key => $option) {
-			
+
 			// Prefix the option name
 			$option['name'] = cfct_option_name($option['name']);
 
@@ -179,7 +178,7 @@ function cfct_register_options() {
 				register_setting('cfct', $option['name'], 'cfct_sanitize_options');
 				$option['value'] = cfct_get_option($option['name']);
 			}
-						
+
 			$option['label_for'] = $section_name.'_'.$key;
 			if ($option['type'] != 'hidden') {
 				add_settings_field($key, $option['label'], 'cfct_options_input', 'cfct', $section_name, $option);
@@ -195,7 +194,7 @@ add_action('admin_init', 'cfct_register_options', 10);
 
 /**
  * Display hidden fields registered in `cfct_register_options()`. WP Forces padding when using `do_settings_sections`, so it cannot be truly hidden using that method.
- */ 
+ */
 function cfct_hidden_fields() {
 	global $cfct_hidden_fields;
 	if (is_array($cfct_hidden_fields)) {
@@ -210,11 +209,11 @@ add_action('cfct_settings_form', 'cfct_hidden_fields', 10);
  * Empty callback, callback required by WP core function add_settings_section
  */
 function cfct_options_blank() {
-	
+
 }
 
 /**
- * Prints an input field based on arguments passed. 
+ * Prints an input field based on arguments passed.
  * @param array $args Array of arguments used to generate the markup.
  * 					  'type' => Type of input
  * 					  'value' => Value of input
@@ -234,7 +233,7 @@ function cfct_options_input($args) {
 	$id = empty($args['label_for']) ? $args['name'] : $args['label_for'];
 	$class = empty($args['class']) ? '' : ' class="'.esc_attr($args['class']).'"';
 	$html = '';
-	
+
 	switch ($type) {
 		case 'text':
 			$html .= '<input id="'.esc_attr($id).'" name="'.esc_attr($name).'" type="text" value="'.esc_attr($value).'"'.$class.' />';
@@ -297,20 +296,20 @@ function cfct_options_input($args) {
 	if (!empty($args['help'])) {
 		$html .= $args['help'];
 	}
-	
+
 	print($html);
 }
 /**
  * Sanitizes options
  * @todo Better handling coming in WP 3.3, targetable option names. For now, add a filter to 'sanitize_option_{$option_name}' for additional processing
- */ 
+ */
 function cfct_sanitize_options($new_value) {
  	return stripslashes_deep($new_value);
 }
 
 /**
  * Display a settings for for Carrington Framework
- * 
+ *
 **/
 function cfct_settings_form() {
 	settings_errors();
@@ -343,17 +342,17 @@ function cfct_options_misc() {
 
 /**
  * Display a form for image header customization
- * 
+ *
  * @return string Markup displaying the form
- * 
+ *
 **/
 function cfct_header_image_form() {
 	global $wpdb;
 
 	$images = $wpdb->get_results("
-		SELECT * FROM $wpdb->posts 
-		WHERE post_type = 'attachment' 
-		AND post_mime_type LIKE 'image%' 
+		SELECT * FROM $wpdb->posts
+		WHERE post_type = 'attachment'
+		AND post_mime_type LIKE 'image%'
 		AND post_parent = 0
 		ORDER BY post_date_gmt DESC
 		LIMIT 50
@@ -363,7 +362,7 @@ function cfct_header_image_form() {
 	if (empty($header_image)) {
 		$header_image = 0;
 	}
-	
+
 	$output = '
 <ul style="width: '.((count($images) + 1) * 152).'px">
 	<li style="background: #666;">
@@ -394,14 +393,14 @@ function cfct_header_image_form() {
 function cfct_admin_enqueue() {
 	if (!empty($_GET['page']) && $_GET['page'] == 'carrington-settings') {
 		$core_url = get_template_directory_uri().'/carrington-core/';
-		
+
 		wp_enqueue_script(
 			'jquery-colorpicker',
 			$core_url.'js/colorpicker.js',
 			array('jquery'),
 			'1.0'
 		);
-		
+
 		wp_enqueue_style(
 			'jquery-colorpicker',
 			$core_url.'css/colorpicker.css',
@@ -409,7 +408,7 @@ function cfct_admin_enqueue() {
 			'1.0',
 			'screen'
 		);
-		
+
 		add_action('admin_head', 'cfct_admin_css', 7);
 		//add_action('admin_head', 'cfct_admin_js', 8);
 	}
@@ -418,7 +417,7 @@ add_action('admin_enqueue_scripts', 'cfct_admin_enqueue');
 
 /**
  * Admin CSS
- * 
+ *
 **/
 function cfct_admin_css() {
 ?>
@@ -473,7 +472,7 @@ div.cfct_header_image_carousel li label input {
 
 /**
  * Admin JS
- * 
+ *
 **/
 function cfct_admin_js() {
 ?>
