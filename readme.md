@@ -18,14 +18,14 @@ If you host your own Annotum-powered site using WordPress, the following are the
 To check out the Annotum theme code to an existing WordPress installation:
 
 1. Navigate to the `wp-content/themes` directory in your WordPress installation
-2. On the command line type: `git clone git@github.com:Annotum/Annotum.git annotum` without backticks. 
+2. On the command line type: `git clone git@github.com:Annotum/Annotum.git annotum` without backticks.
 
     > Note: for read-only access, use `git clone --recursive git://github.com/Annotum/Annotum.git annotum`. If you wish read-write access please let us know at info at annotum.org.
 3. Or, if you prefer to use subversion: `svn co https://username@svn.github.com/Annotum/Annotum.git annotum`
 4. See Textorum README located at `annotum-base/js/textorum/README.md` for instructions on installing the textorum XML editor
 4. That's it! Log in to your WordPress administrator dashboard, navigate to `Appearance > Themes` and Activate the theme
 
-You can also install a pre-packaged version of Annotum: 
+You can also install a pre-packaged version of Annotum:
 
 - Into an existing WordPress site using a distribution from the Annotum [download page](https://github.com/Annotum/Annotum/wiki/Downloads)
 - As a self-contained, complete application "stack", using a [stand-alone installer](https://github.com/Annotum/Annotum/wiki/Annotum-stand-alone-installers) (Windows or OSX)
@@ -33,6 +33,7 @@ You can also install a pre-packaged version of Annotum:
 
    > IMPORTANT: The annotum distribution .zip file is over 6Mb.  You may need to modify your PHP.ini values for `upload_max_filesize` and `post_max_size` to upload the theme directly.
 
+To avoid having to enter FTP credentials when importing, you can define the constant `FS_METHOD` as 'direct'. You should only do this if you have an understanding of the (WP Filesystem API)[http://codex.wordpress.org/Filesystem_API]
 
 ### Annotum in Your Language
 
@@ -96,7 +97,7 @@ Annotum introduces various filters for further customization
 - `anno_user_meta_display` Defines which meta (from anno_user_meta) will be displayed in the hover card in the authors section of an article
 - `anno_valid_dtd_elements` Filter for valid dtd elements in the tinyMCE editor
 - `annowf_notification_recipients` Determines recipients of a notification
-- `annowf_notfication` A filter for notifications with the ability to customize notification subject and bodies, 
+- `annowf_notfication` A filter for notifications with the ability to customize notification subject and bodies,
 
 
 ## Debugging
@@ -115,4 +116,4 @@ Annotum is a production of [Solvitor LLC](http://solvitor.com) with heavy liftin
 Annotum is free (speech and beer)
 
 ---
- 
+
