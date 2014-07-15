@@ -169,7 +169,7 @@ function anno_load_editor($content, $editor_id, $settings = array()) {
 		'list[title|list-item|div|span|br]',
 		'list-item[para|xref|list|div|span|br]',
 		'disp-formula[lbl|tex-math|div|span|preformat|br]',
-		'disp-quote[para|attrib|permissions|div|span|preformat|br]',
+		'disp-quote[p|attrib|permissions|div|span|preformat|br]',
 		'fig[lbl|cap|media|img|div|span|preformat|br]',
 		'cap[title|para|xref|div|span|br]',
 		'table-wrap[lbl|cap|table|table-wrap-foot|permissions|div|span|preformat|br]',
@@ -1030,7 +1030,7 @@ function anno_process_editor_content($content) {
 	anno_remove_p_from_list_items($content);
 
 	// Remove p tags from disp-quotes
-	anno_remove_p_from_disp_quote_items($content);
+	//anno_remove_p_from_disp_quote_items($content);
 
 	// We need a clearfix for floated images.
 	$figs = pq('fig');
@@ -1973,9 +1973,9 @@ function anno_xml_to_html_replace_dispquotes($orig_xml) {
 		$attrib = $attrib ? $by.' '.$attrib : '';
 		$attrib_tag = $tpl->to_tag('span', $attrib, array('class' => 'attribution'));
 
-		$quote_text = pq('p', $quote)->text();
+		$quote_markup = pq('p', $quote)->markupOuter();
 
-		$blockquote_tag = $tpl->to_tag('blockquote', esc_html($quote_text));
+		$blockquote_tag = $tpl->to_tag('blockquote', $quote_markup);
 
 		$permissions = $quote->find('permissions');
 		$permissions_tag = anno_convert_permissions_to_html($permissions);
