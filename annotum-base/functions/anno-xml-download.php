@@ -116,8 +116,8 @@ class Anno_XML_Download {
 			$this->generate_xml($article);
 
 			// Send our headers
-			if (!$_GET['screen']) {
-				$this->set_headers($article);
+			if ( empty( $_GET['screen'] ) || ! $_GET['screen'] ) {
+				$this->set_headers( $article );
 			}
 
 			// Send the file
@@ -494,17 +494,17 @@ class Anno_XML_Download {
 	}
 
 private function xml_back($article) {
-	if($this->xml_acknoledgements($article) || $this->xml_appendices($article) || anno_xml_references($article)) {
+	if ( $this->xml_acknoledgements( $article ) || $this->xml_appendices( $article ) || anno_xml_references( $article->ID ) ) {
 	$xml_back = '	<back>
-		'.$this->xml_acknoledgements($article).'
-		'.$this->xml_appendices($article).'
-		'.anno_xml_references($article->ID).'
+		' . $this->xml_acknoledgements( $article ) . '
+		' . $this->xml_appendices( $article ) . '
+		' . anno_xml_references( $article->ID ) . '
 		</back>
-		'.$this->xml_responses($article).'
+		' . $this->xml_responses( $article ) . '
 		</article>';
 		}
 	else {
-		$xml_back =$this->xml_responses($article).'
+		$xml_back = $this->xml_responses( $article ).'
 	</article>';
 	}
 	return $xml_back;
