@@ -453,7 +453,11 @@
 				[/<\/u>/gi, "</span>"]
 			]);
 
-// @todo links
+			process([
+				[/<p>/gi, '<div class="p" data-xmlel="p">'],
+				[/<\/p>/gi, "</div>"]
+			]);
+
 			process([
 				// Copy paste from Java like Open Office will produce this junk on FF
 				[/Version:[\d.]+\nStartHTML:\d+\nEndHTML:\d+\nStartFragment:\d+\nEndFragment:\d+/gi, '']
@@ -466,7 +470,10 @@
 		 * Various post process items.
 		 */
 		_postProcess : function(e) {
-			var ed = tinymce.activeEditor, dom = ed.dom;
+			var ed = tinymce.activeEditor, dom = ed.dom, childNodes = e.node.childNodes;
+
+			// SetContent event, the elements are not in place in the editor until this happens
+			ed.on('SetContent', tinymce.activeEditor.plugins.annoPaste._moveElements);
 
 			// Plain text yeah! As basic as possible.
 			if (ed.pasteAsPlainText) {
@@ -485,15 +492,70 @@
 				}
 			});
 
+			// Add attribute so the SetContent callback knows which content is ours
+			for (var i = childNodes.length - 1; i >= 0; i--) {
+				childNodes[i].setAttribute('annopastecleanup', '1');
+			}
+
 			tinymce.activeEditor.plugins.annoPaste._wrapTables(e);
 			tinymce.activeEditor.plugins.annoPaste._convertLists(e);
 			return;
+		},
+		_moveElements : function(e) {
+			// the setContent callback fires multiple times before actually setting whats being pasted in, hence the attribute checking
+			// Other setcontents are just bookmarks, they will never contain annopastecleanup
+			if (/annopastecleanup/.exec(e.content)) {
+				var ed = tinymce.activeEditor, dom = ed.dom, helper = ed.plugins.textorum.helper;
+				var nodes, lastParent, validElements, nodeName, tf = false, firstPara = false, remainingSiblings = [], lastInsertedEl;
 
-			if (e.wordContent) {
-				if (getParam(ed, "paste_convert_middot_lists")) {
-					t._convertLists(pl, o);
+				ed.off('SetContent',  tinymce.activeEditor.plugins.annoPaste._moveElements);
+
+				// Loop through to find the first paragraph, if there is none, FANTASTIC
+
+				nodes = dom.select("[annopastecleanup='1']");
+				each(nodes, function(node) {
+					if (!firstPara && helper.getLocalName(node) == 'p') {
+						firstPara = node;
+					}
+					else if (firstPara) {
+						remainingSiblings.push(node);
+					}
+
+					// cleanup
+					node.removeAttribute('annopastecleanup');
+				});
+
+				// Do nothing, no paragraphs exist
+				if (!firstPara) {
+					return;
+				}
+
+				parentNode = firstPara.parentNode;
+				// Split the nodes!
+				if (parentNode &&  /title|p/g.exec(helper.getLocalName(parentNode))) {
+					dom.split(parentNode, firstPara);
+					// There are additional siblings, insert them after the split element
+					lastInsertedEl = firstPara;
+					if (remainingSiblings.length) {
+						remainingSiblings.map(function(sibling) {
+							dom.insertAfter(sibling, lastInsertedEl);
+							lastInsertedEl = sibling;
+						});
+					}
+
+					// Check if we've split a <title> if so, convert it to a paragraph, otherwise its invalid XML
+					if (lastInsertedEl.nextSibling && helper.getLocalName(lastInsertedEl.nextSibling) == 'title') {
+						lastInsertedEl.nextSibling.setAttribute('class', 'p');
+						lastInsertedEl.nextSibling.setAttribute('data-xmlel', 'p');
+					}
+
+					// Place Cursor at the end of the last inserted element
+					ed.selection.select(lastInsertedEl, true);
+					ed.selection.collapse(false);
 				}
 			}
+
+			return;
 		},
 		_wrapTables : function(e) {
 			var ed = tinymce.activeEditor, dom = ed.dom, listElm, li, lastMargin = -1, margin, levels = [], lastType, html;
@@ -630,7 +692,22 @@
 				e.node.innerHTML = html.replace(/__MCE_ITEM__/g, '');
 			}
 		},
+		/* Get valid elements for the target element */
+		getValidElements: function(target, where) {
+			var options, ed = tinyMCE.activeEditor;
 
+			target = target || ed.selection.getNode();
+			where = where || 'inside';
+
+			options = ed.plugins.textorum.validator.validElementsForNode(target, where, "array");
+
+			// Textorum doesn't like putting things at the top level body, so account for top level section availability
+			if (!options.length && target.className.toUpperCase() == 'SEC' && where !== 'inside') {
+				options.push('sec');
+			}
+
+			return options;
+		},
 		/**
 		 * Inserts the specified contents at the caret position.
 		 */
