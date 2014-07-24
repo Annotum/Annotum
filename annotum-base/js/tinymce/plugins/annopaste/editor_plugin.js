@@ -418,6 +418,9 @@
 			h = h.replace(/<\s*(\w+).*?>/gi, '<$1>');
 
 			// Replace formatting with formatting tags defined by the DTD.
+
+			h.replace(/<br\/><br>/gi, '<br />');
+
 			process([
  				[/<ul>|<ul .*?>/gi, '<div class="list" data-xmlel="list" list-type="bullet">'],
  				[/<\/ul>|<\/ul .*?>/gi, "</div>"]
@@ -470,7 +473,7 @@
 		 * Various post process items.
 		 */
 		_postProcess : function(e) {
-			var ed = tinymce.activeEditor, dom = ed.dom, childNodes = e.node.childNodes;
+			var ed = tinymce.activeEditor, dom = ed.dom, childNodes = e.node.childNodes, newElm, hasBlock = false, origIndex, innerContent;
 
 			// SetContent event, the elements are not in place in the editor until this happens
 			ed.on('SetContent', tinymce.activeEditor.plugins.annoPaste._moveElements);
@@ -492,9 +495,48 @@
 				}
 			});
 
-			// Add attribute so the SetContent callback knows which content is ours
 			for (var i = childNodes.length - 1; i >= 0; i--) {
-				childNodes[i].setAttribute('annopastecleanup', '1');
+				if ('DIV' == childNodes[i].nodeName) {
+					hasBlock = true;
+				}
+			}
+
+			// Add attribute so the SetContent callback knows which content is ours
+
+
+			for (var i = childNodes.length - 1; i >= 0; i--) {
+				origIndex = i;
+				// Pasting in multiple paragraphs
+				if (hasBlock && (3 === childNodes[i].nodeType || 'SPAN' == childNodes[i].nodeName)) {
+					innerContent = '';
+
+					if (3 === childNodes[i].nodeType) {
+						innerContent = childNodes[origIndex].textContent;
+					}
+					else {
+						innerContent = childNodes[origIndex].outerHTML;
+					}
+
+					newEl = dom.create('div', { class: 'p', 'data-xmlel': 'p' }, innerContent);
+					dom.replace(newEl, childNodes[i]);
+					childNodes[i].setAttribute('annopastecleanup', '1');
+
+					// All inline and text siblings should also be wrapped in this paragraph.
+					if (i > 0) {
+						--i;
+						while (i >= 0 && (3 === childNodes[i].nodeType || 'SPAN' == childNodes[i].nodeName)) {
+							childNodes[origIndex].insertBefore(childNodes[i], childNodes[origIndex].firstChild);
+							--origIndex;
+							--i;
+						}
+						// This index is not a span or text element, have to reincriment the decrement.
+						++i;
+					}
+
+				}
+				else if (hasBlock) {
+					childNodes[i].setAttribute('annopastecleanup', '1');
+				}
 			}
 
 			tinymce.activeEditor.plugins.annoPaste._wrapTables(e);
