@@ -597,10 +597,10 @@ tinymce.PluginManager.add('annoLists', function(editor) {
 				}
 				if (li.firstChild && '' == li.firstChild.textContent) {
 					var textBlock = dom.create(
-							'br',
-							{'_mce_bogus' : 1}
-						);
-						li.firstChild.appendChild(textBlock);
+						'br',
+						{'_mce_bogus' : 1}
+					);
+					li.firstChild.appendChild(textBlock);
 				}
 				makeList(li);
 			}
