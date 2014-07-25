@@ -538,38 +538,6 @@
 			tinymce.activeEditor.plugins.annoPaste._convertLists(e);
 			return;
 		},
-		processBrs : function(nodeList) {
-			var ed = tinymce.activeEditor, dom = ed.dom, origIndex, innerContent;
-			for (var i = nodeList.length - 1; i >= 0; i--) {
-				if (nodeList[i].nodeName == 'BR') {
-					origIndex = i;
-					innerContent = '';
-
-					if (3 === nodeList[i].nodeType) {
-						innerContent = nodeList[origIndex].textContent;
-					}
-					else {
-						innerContent = nodeList[origIndex].outerHTML;
-					}
-
-					// Replace BR with a P tag
-					newEl = dom.create('div', { class: 'p', 'data-xmlel': 'p' }, innerContent);
-					dom.replace(newEl, nodeList[i]);
-
-					// Go through the next set of elements, if they're inline, add them to the p tag
-					if (i > 0) {
-						--i;
-						while (i >= 0 && (3 === nodeList[i].nodeType || 'SPAN' == nodeList[i].nodeName)) {
-							nodeList[origIndex].insertBefore(nodeList[i], nodeList[origIndex].firstChild);
-							--origIndex;
-							--i;
-						}
-						// This index is not a span or text element, have to reincriment the decrement.
-						++i;
-					}
-				}
-			}
-		},
 		_moveElements : function(e) {
 			// the setContent callback fires multiple times before actually setting whats being pasted in, hence the attribute checking
 			// Other setcontents are just bookmarks, they will never contain annopastecleanup
@@ -760,22 +728,6 @@
 			if (html.indexOf('__MCE_ITEM__') != -1) {
 				e.node.innerHTML = html.replace(/__MCE_ITEM__/g, '');
 			}
-		},
-		/* Get valid elements for the target element */
-		getValidElements: function(target, where) {
-			var options, ed = tinyMCE.activeEditor;
-
-			target = target || ed.selection.getNode();
-			where = where || 'inside';
-
-			options = ed.plugins.textorum.validator.validElementsForNode(target, where, "array");
-
-			// Textorum doesn't like putting things at the top level body, so account for top level section availability
-			if (!options.length && target.className.toUpperCase() == 'SEC' && where !== 'inside') {
-				options.push('sec');
-			}
-
-			return options;
 		},
 		/**
 		 * Inserts the specified contents at the caret position.
