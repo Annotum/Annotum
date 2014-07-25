@@ -595,8 +595,12 @@ tinymce.PluginManager.add('annoLists', function(editor) {
 					li.firstChild.appendChild(n);
 					n = tmp;
 				}
-				if (li.childNodes.length === 0) {
-					li.innerHTML = '<br _mce_bogus="1" />';
+				if (li.firstChild && '' == li.firstChild.textContent) {
+					var textBlock = dom.create(
+						'br',
+						{'_mce_bogus' : 1}
+					);
+					li.firstChild.appendChild(textBlock);
 				}
 				makeList(li);
 			}
@@ -611,10 +615,7 @@ tinymce.PluginManager.add('annoLists', function(editor) {
 						}
 					), li;
 
-				if (element.className.toUpperCase() === 'LIST-ITEM') {
-					// No change required.
-				}
-				else {
+				if ('LIST-ITEM' !== element.className.toUpperCase()) {
 					// Put the list around the element.
 					li = dom.create(
 						tinyMCE.activeEditor.plugins.textorum.translateElement('list-item'),
