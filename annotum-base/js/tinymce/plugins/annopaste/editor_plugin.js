@@ -473,7 +473,7 @@
 		 * Various post process items.
 		 */
 		_postProcess : function(e) {
-			var ed = tinymce.activeEditor, dom = ed.dom, childNodes = e.node.childNodes, newElm, hasBlock = false, origIndex, innerContent;
+			var ed = tinymce.activeEditor, dom = ed.dom, childNodes = e.node.childNodes, newElm, origIndex, innerContent;
 
 			// SetContent event, the elements are not in place in the editor until this happens
 			ed.on('SetContent', tinymce.activeEditor.plugins.annoPaste._moveElements);
@@ -488,7 +488,7 @@
 			each(dom.select('*', e.node), function(el) {
 				if (
 						((el.nodeName != 'SPAN' || el.nodeName != 'DIV') && !el.className) &&
-						(el.nodeName != 'TABLE' && el.nodeName != 'TD' && el.nodeName != 'TR' && el.nodeName != 'TH' && el.nodeName != 'THEAD')
+						(el.nodeName != 'BR' && el.nodeName != 'TABLE' && el.nodeName != 'TD' && el.nodeName != 'TR' && el.nodeName != 'TH' && el.nodeName != 'THEAD')
 					)
 					{
 					dom.remove(el, true);
@@ -496,18 +496,9 @@
 			});
 
 			for (var i = childNodes.length - 1; i >= 0; i--) {
-				if ('DIV' == childNodes[i].nodeName) {
-					hasBlock = true;
-				}
-			}
-
-			// Add attribute so the SetContent callback knows which content is ours
-
-
-			for (var i = childNodes.length - 1; i >= 0; i--) {
 				origIndex = i;
-				// Pasting in multiple paragraphs
-				if (hasBlock && (3 === childNodes[i].nodeType || 'SPAN' == childNodes[i].nodeName)) {
+
+				if (childNodes[i].nodeName == 'BR' || (3 === childNodes[i].nodeType || 'SPAN' == childNodes[i].nodeName)) {
 					innerContent = '';
 
 					if (3 === childNodes[i].nodeType) {
@@ -517,11 +508,13 @@
 						innerContent = childNodes[origIndex].outerHTML;
 					}
 
+					// Replace the current element with a paragraph
 					newEl = dom.create('div', { class: 'p', 'data-xmlel': 'p' }, innerContent);
 					dom.replace(newEl, childNodes[i]);
+					// Add attribute so the SetContent callback knows which content is ours
 					childNodes[i].setAttribute('annopastecleanup', '1');
 
-					// All inline and text siblings should also be wrapped in this paragraph.
+					// All inline and text siblings should also be wrapped in the newly created paragraph.
 					if (i > 0) {
 						--i;
 						while (i >= 0 && (3 === childNodes[i].nodeType || 'SPAN' == childNodes[i].nodeName)) {
@@ -534,7 +527,9 @@
 					}
 
 				}
-				else if (hasBlock) {
+				// Top level
+				else {
+					// Add attribute so the SetContent callback knows which content is ours
 					childNodes[i].setAttribute('annopastecleanup', '1');
 				}
 			}
@@ -542,6 +537,38 @@
 			tinymce.activeEditor.plugins.annoPaste._wrapTables(e);
 			tinymce.activeEditor.plugins.annoPaste._convertLists(e);
 			return;
+		},
+		processBrs : function(nodeList) {
+			var ed = tinymce.activeEditor, dom = ed.dom, origIndex, innerContent;
+			for (var i = nodeList.length - 1; i >= 0; i--) {
+				if (nodeList[i].nodeName == 'BR') {
+					origIndex = i;
+					innerContent = '';
+
+					if (3 === nodeList[i].nodeType) {
+						innerContent = nodeList[origIndex].textContent;
+					}
+					else {
+						innerContent = nodeList[origIndex].outerHTML;
+					}
+
+					// Replace BR with a P tag
+					newEl = dom.create('div', { class: 'p', 'data-xmlel': 'p' }, innerContent);
+					dom.replace(newEl, nodeList[i]);
+
+					// Go through the next set of elements, if they're inline, add them to the p tag
+					if (i > 0) {
+						--i;
+						while (i >= 0 && (3 === nodeList[i].nodeType || 'SPAN' == nodeList[i].nodeName)) {
+							nodeList[origIndex].insertBefore(nodeList[i], nodeList[origIndex].firstChild);
+							--origIndex;
+							--i;
+						}
+						// This index is not a span or text element, have to reincriment the decrement.
+						++i;
+					}
+				}
+			}
 		},
 		_moveElements : function(e) {
 			// the setContent callback fires multiple times before actually setting whats being pasted in, hence the attribute checking
