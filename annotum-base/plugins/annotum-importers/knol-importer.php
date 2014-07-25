@@ -27,15 +27,15 @@ if (!defined('ANNO_IMPORT_DEBUG')) {
  *
  * Allows editors and authors to import Knol WXRs and Kipling XML
  **/
-function anno_allow_import_cap($cap_mappings, $cap) {
+function anno_allow_import_cap( $cap_mappings, $cap ) {
 	// Maps the import capability to edit_articles
 	// Thus anyone who can edit an article, can import knol or dtd
-	if ($cap == 'import') {
-		$cap_mappings = array('edit_articles');
+	if ( $cap == 'import' ) {
+		$cap_mappings = array( 'edit_articles' );
 	}
 	return $cap_mappings;
 }
-add_filter('map_meta_cap', 'anno_allow_import_cap', 10, 2);
+add_filter( 'map_meta_cap', 'anno_allow_import_cap', 10, 2 );
 
 // Load Importer API
 require_once ABSPATH.'wp-admin/includes/import.php';
