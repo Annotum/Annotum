@@ -1397,15 +1397,36 @@ foreach ($this->authors as $author_key => $author_data) {
 	 */
 	function backfill_attachment_urls() {
 		global $wpdb;
-		// make sure we do the longest urls first, in case one is a substring of another
-		uksort( $this->url_remap, array(&$this, 'cmpr_strlen') );
+		// make sure the longest urls first, in case one is a substring of another
+		uksort( $this->url_remap, array( &$this, 'cmpr_strlen' ) );
 
 		foreach ( $this->url_remap as $from_url => $to_url ) {
 			// remap urls in post_content and post_content_filtered
-			$wpdb->query( $wpdb->prepare("UPDATE {$wpdb->posts} SET post_content = REPLACE(post_content, %s, %s), post_content_filtered = REPLACE(post_content_filtered, %s, %s)", $from_url, $to_url, $from_url, $to_url) );
+			// Note double replacement for ending with ' and " this prevents links from replacing images
+			// e.g. http://image.png => http://image1.png then http://image => http://image1
+			$wpdb->query( $wpdb->prepare( "
+				UPDATE {$wpdb->posts}
+				SET post_content = REPLACE(post_content, %s, %s),
+				post_content_filtered = REPLACE(post_content_filtered, %s, %s),
+				post_content = REPLACE(post_content, %s, %s),
+				post_content_filtered = REPLACE(post_content_filtered, %s, %s)",
+				$from_url . '\'', $to_url . '\'',
+				$from_url . '\'', $to_url . '\'',
+				$from_url . '"', $to_url . '"',
+				$from_url . '"', $to_url . '"'
+
+			) );
 
 			// remap enclosure urls
-			$result = $wpdb->query( $wpdb->prepare("UPDATE {$wpdb->postmeta} SET meta_value = REPLACE(meta_value, %s, %s) WHERE meta_key='enclosure'", $from_url, $to_url));
+			$result = $wpdb->query( $wpdb->prepare( "
+				UPDATE {$wpdb->postmeta}
+				SET meta_value = REPLACE(meta_value, %s, %s)
+				WHERE meta_key='enclosure'
+				AND meta_value = %s",
+				$from_url,
+				$to_url,
+				$from_url
+			) );
 		}
 	}
 
