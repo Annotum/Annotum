@@ -465,7 +465,6 @@
 				// Copy paste from Java like Open Office will produce this junk on FF
 				[/Version:[\d.]+\nStartHTML:\d+\nEndHTML:\d+\nStartFragment:\d+\nEndFragment:\d+/gi, '']
 			]);
-
 			e.content = h;
 		},
 
@@ -473,7 +472,7 @@
 		 * Various post process items.
 		 */
 		_postProcess : function(e) {
-			var ed = tinymce.activeEditor, dom = ed.dom, childNodes = e.node.childNodes, newElm, origIndex, innerContent;
+			var ed = tinymce.activeEditor, dom = ed.dom, childNodes = e.node.childNodes, newElm, origIndex, innerContent, hasBr = false, hasBlock = false;
 
 			// SetContent event, the elements are not in place in the editor until this happens
 			ed.on('SetContent', tinymce.activeEditor.plugins.annoPaste._moveElements);
@@ -487,50 +486,62 @@
 			//remove all other unrecognized nodes, leaving children
 			each(dom.select('*', e.node), function(el) {
 				if (
-						((el.nodeName != 'SPAN' || el.nodeName != 'DIV') && !el.className) &&
-						(el.nodeName != 'BR' && el.nodeName != 'TABLE' && el.nodeName != 'TD' && el.nodeName != 'TR' && el.nodeName != 'TH' && el.nodeName != 'THEAD')
+						(( 'SPAN' != el.nodeName || 'DIV' != el.nodeName) && !el.className) &&
+						('BR' != el.nodeName && 'TABLE' != el.nodeName && 'TD' != el.nodeName && 'TR' != el.nodeName && 'TH' != el.nodeName && 'THEAD' != el.nodeName)
 					)
 					{
 					dom.remove(el, true);
+
+
+				}
+				else if ('BR' == el.nodeName) {
+					hasBr = true;
+				}
+				else if ( 'TABLE' == el.nodeName || 'DIV' == el.nodeName) {
+					hasBlock = true;
 				}
 			});
 
-			for (var i = childNodes.length - 1; i >= 0; i--) {
-				origIndex = i;
+			// Pasting in plain text should just be inserted
+			if (hasBr || hasBlock) {
 
-				if (childNodes[i].nodeName == 'BR' || (3 === childNodes[i].nodeType || 'SPAN' == childNodes[i].nodeName)) {
-					innerContent = '';
+				for (var i = childNodes.length - 1; i >= 0; i--) {
+					origIndex = i;
 
-					if (3 === childNodes[i].nodeType) {
-						innerContent = childNodes[origIndex].textContent;
-					}
-					else {
-						innerContent = childNodes[origIndex].outerHTML;
-					}
+					if (childNodes[i].nodeName == 'BR' || (3 === childNodes[i].nodeType || 'SPAN' == childNodes[i].nodeName)) {
+						innerContent = '';
 
-					// Replace the current element with a paragraph
-					newEl = dom.create('div', { class: 'p', 'data-xmlel': 'p' }, innerContent);
-					dom.replace(newEl, childNodes[i]);
-					// Add attribute so the SetContent callback knows which content is ours
-					childNodes[i].setAttribute('annopastecleanup', '1');
-
-					// All inline and text siblings should also be wrapped in the newly created paragraph.
-					if (i > 0) {
-						--i;
-						while (i >= 0 && (3 === childNodes[i].nodeType || 'SPAN' == childNodes[i].nodeName)) {
-							childNodes[origIndex].insertBefore(childNodes[i], childNodes[origIndex].firstChild);
-							--origIndex;
-							--i;
+						if (3 === childNodes[i].nodeType) {
+							innerContent = childNodes[origIndex].textContent;
 						}
-						// This index is not a span or text element, have to reincriment the decrement.
-						++i;
-					}
+						else {
+							innerContent = childNodes[origIndex].outerHTML;
+						}
 
-				}
-				// Top level
-				else {
-					// Add attribute so the SetContent callback knows which content is ours
-					childNodes[i].setAttribute('annopastecleanup', '1');
+						// Replace the current element with a paragraph
+						newEl = dom.create('div', { class: 'p', 'data-xmlel': 'p' }, innerContent);
+						dom.replace(newEl, childNodes[i]);
+						// Add attribute so the SetContent callback knows which content is ours
+						childNodes[i].setAttribute('annopastecleanup', '1');
+
+						// All inline and text siblings should also be wrapped in the newly created paragraph.
+						if (i > 0) {
+							--i;
+							while (i >= 0 && (3 === childNodes[i].nodeType || 'SPAN' == childNodes[i].nodeName)) {
+								childNodes[origIndex].insertBefore(childNodes[i], childNodes[origIndex].firstChild);
+								--origIndex;
+								--i;
+							}
+							// This index is not a span or text element, have to reincriment the decrement.
+							++i;
+						}
+
+					}
+					// Top level
+					else {
+						// Add attribute so the SetContent callback knows which content is ours
+						childNodes[i].setAttribute('annopastecleanup', '1');
+					}
 				}
 			}
 
@@ -542,7 +553,7 @@
 			// the setContent callback fires multiple times before actually setting whats being pasted in, hence the attribute checking
 			// Other setcontents are just bookmarks, they will never contain annopastecleanup
 			if (/annopastecleanup/.exec(e.content)) {
-				var ed = tinymce.activeEditor, dom = ed.dom, helper = ed.plugins.textorum.helper;
+				var ed = tinymce.activeEditor, dom = ed.dom, helper = ed.plugins.textorum.helper, br;
 				var nodes, lastParent, validElements, nodeName, tf = false, firstPara = false, remainingSiblings = [], lastInsertedEl;
 
 				ed.off('SetContent',  tinymce.activeEditor.plugins.annoPaste._moveElements);
@@ -568,9 +579,20 @@
 				}
 
 				parentNode = firstPara.parentNode;
-				// Split the nodes!
+
 				if (parentNode &&  /title|p/g.exec(helper.getLocalName(parentNode))) {
+					// TinyMCE removes a node if its empty when split
+					// Make sure the node isn't empty
+					br = ed.dom.create(
+						'br',
+						{'_mce_bogus': '1',},
+						''
+					);
+					parentNode.insertBefore(br, firstPara);
+
+					// Split the nodes!
 					dom.split(parentNode, firstPara);
+
 					// There are additional siblings, insert them after the split element
 					lastInsertedEl = firstPara;
 					if (remainingSiblings.length) {
