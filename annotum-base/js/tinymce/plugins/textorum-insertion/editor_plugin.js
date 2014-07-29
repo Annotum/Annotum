@@ -34,7 +34,7 @@
 			// Key Bindings
 			//
 			ed.onKeyDown.addToTop(function(ed, e) {
-				var target, listItemParent;
+				var target, listItemParent, siblingNode, range, bogusNode;
 
 				// Enter
 				if (!e.shiftKey && e.keyCode == 13) {
@@ -65,7 +65,23 @@
 					// List items
 					if (listItemParent) {
 						tinymce.dom.Event.cancel(e);
-						return !self.insertElement('list-item', 'after', listItemParent);
+						// insert bookmark/bogus
+						range = ed.selection.getRng();                  // get range
+						bogusNode = ed.dom.create(
+							'span',
+							{'_mce_bogus': '1'},
+							''
+						);
+						range.insertNode(bogusNode);
+						self.split(ed, listItemParent, bogusNode);
+						siblingNode = bogusNode.nextSibling;
+						ed.dom.remove(bogusNode);
+
+						// Move to the appropriate place (beginning of the split node)
+						ed.selection.select(siblingNode, true);
+  						ed.selection.collapse(true);
+
+						return false;
 					}
 
 					// Get the parent tag and class
@@ -443,7 +459,56 @@
 				infourl : '',
 				version : "1.0"
 			};
-		}
+		},
+		// Based on tinymce.editor.dom.split
+		// It does not strip empty tags like the tinyMCE version
+		// It also inserts an space into empty nodes.
+		split: function(ed, parentElm, splitElm, replacementElm) {
+			var self = ed.dom, r = self.createRng(), bef, aft, pa;
+
+			if (parentElm && splitElm) {
+				// Get before chunk
+				r.setStart(parentElm.parentNode, self.nodeIndex(parentElm));
+				r.setEnd(splitElm.parentNode, self.nodeIndex(splitElm));
+				bef = r.extractContents();
+
+				if ('' == bef.textContent) {
+					if (bef.firstElementChild.firstElementChild) {
+						bef.firstElementChild.firstElementChild.textContent = '\xA0';
+					}
+				}
+
+				// Get after chunk
+				r = self.createRng();
+				r.setStart(splitElm.parentNode, self.nodeIndex(splitElm) + 1);
+				r.setEnd(parentElm.parentNode, self.nodeIndex(parentElm) + 1);
+				aft = r.extractContents();
+
+				if ('' == aft.textContent) {
+					if (aft.firstElementChild.firstElementChild) {
+						aft.firstElementChild.firstElementChild.textContent = '\xA0';
+					}
+				}
+
+				// Insert before chunk
+				pa = parentElm.parentNode;
+				pa.insertBefore(bef, parentElm);
+
+				// Insert middle chunk
+				if (replacementElm) {
+					pa.replaceChild(replacementElm, splitElm);
+				} else {
+					pa.insertBefore(splitElm, parentElm);
+				}
+
+				// Insert after chunk
+				pa.insertBefore(aft, parentElm);
+
+				self.remove(parentElm);
+
+				return replacementElm || splitElm;
+			}
+		},
 	});
 
 	// Register plugin
