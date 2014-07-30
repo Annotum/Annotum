@@ -134,24 +134,27 @@ function anno_subtitle_meta_box($post) {
 /**
  * Body meta box markup (stored in content)
  */
-function anno_body_meta_box($post) {
+function anno_body_meta_box( $post ) {
 	global $hook_suffix;
-	if (empty($post->post_content) || $hook_suffix == 'post-new.php') {
-		$content = '<sec>
-			<title></title>
-			<p>&#xA0;</p>
-		</sec>';
-	}
-	else {
+	if ( empty( $post->post_content ) || $hook_suffix == 'post-new.php' ) {
+		$article_template = trim( cfct_get_option( 'article_template' ) );
+		if ( ! empty( $article_template ) ) {
+			$content = anno_process_article_template( $article_template );
+		} else {
+			$content = '<sec>
+				<title></title>
+				<p>&#xA0;</p>
+			</sec>';
+		}
+	} else {
 		$content = $post->post_content;
 	}
-	?>
-	<?php
-	if (function_exists('wp_editor')) {
-		anno_load_editor(anno_process_editor_content($content), 'content', array('textarea_name' => 'content'));
+
+	if ( function_exists( 'wp_editor' ) ) {
+		anno_load_editor( anno_process_editor_content( $content ), 'content', array( 'textarea_name' => 'content' ) );
 	}
 	else {
-		echo '<p style="padding:0 10px;">'.sprintf(_x('The Annotum editor requires at least WordPress 3.3. It appears you are using WordPress %s. ', 'WordPress version error message', 'anno'), get_bloginfo('version')).'</p>';
+		echo '<p style="padding:0 10px;">' . sprintf( _x( 'The Annotum editor requires at least WordPress 3.3. It appears you are using WordPress %s. ', 'WordPress version error message', 'anno' ), get_bloginfo( 'version' ) ) . '</p>';
 	}
 ?>
 
@@ -470,3 +473,29 @@ function anno_delete_appendix_ajax() {
 	die();
 }
 add_action('wp_ajax_anno_delete_appendix', 'anno_delete_appendix_ajax');
+
+function anno_process_article_template( $article_template ) {
+	$markup = '';
+
+	// Catch the escaped commas
+	$escape_token = ' ####comma#### ';
+	$article_template = str_replace( '/,', $escape_token, $article_template );
+	$sections = explode( ',', $article_template );
+
+	foreach ( $sections as $section_title ) {
+		$markup .= '
+			<sec>
+				<title>' . str_replace( $escape_token, ',', trim( $section_title ) ) . '</title>
+				<p>&#xA0;</p>
+			</sec>';
+	}
+
+	if ( empty( $markup ) ) {
+		$markup = '<sec>
+				<title></title>
+				<p>&#xA0;</p>
+			</sec>';
+	}
+
+	return $markup;
+}
