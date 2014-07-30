@@ -977,17 +977,17 @@ function anno_activity_information() {
 			'publish' => array(
 				'i18n' 	=> __( '%d Articles Published', 'anno' ),
 				'class' => 'approved',
-				'url' => add_query_arg( 'post_status', 'publish', $base_edit_link)
+				'url' => add_query_arg( 'post_status', 'publish', $base_edit_link )
 			),
 			'pending' => array(
 				'i18n' 	=> __( '%d Articles Pending Review', 'anno' ),
 				'class' => 'waiting',
-				'url' => add_query_arg( 'post_status', 'pending', $base_edit_link)
+				'url' => add_query_arg( 'post_status', 'pending', $base_edit_link )
 			),
 			'draft' => array(
 				'i18n' 	=> __( '%d Draft Articles', 'anno' ),
 				'class' => 'waiting',
-				'url' => add_query_arg( 'post_status', 'draft', $base_edit_link)
+				'url' => add_query_arg( 'post_status', 'draft', $base_edit_link )
 			),
 		);
 		$post_counts = anno_viewable_article_count( array_keys( $statuses ) );
@@ -1014,7 +1014,7 @@ function anno_activity_information() {
 	<?php
 	}
 }
-add_action( 'dashboard_glance_items', 'anno_activity_information');
+add_action( 'dashboard_glance_items', 'anno_activity_information' );
 
 /**
  * Clear footer transient when we update the items in the menu it is currently using
