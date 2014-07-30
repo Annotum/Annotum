@@ -891,16 +891,16 @@ function anno_wf_viewable_article_count( $status_types = array() ) {
 			);
 		}
 
-		$query = new WP_Query(array(
+		$query = new WP_Query( array(
 			'post_type'   => 'article',
 			'post_status' => 'any',
 			'fields' => 'ids',
 			'posts_per_page' => -1,
 			'cache_results' => false,
 			'meta_query' => $meta_query,
-		));
+		) );
 
-		$counts[$type] = count($query->posts);
+		$counts[ $type ] = count( $query->posts );
 
 		wp_reset_query();
 	}
@@ -922,15 +922,15 @@ function anno_viewable_article_count( $status_types = array() ) {
 
 	foreach( $status_types as $type ) {
 
-		$query = new WP_Query(array(
+		$query = new WP_Query( array(
 			'post_type'   => 'article',
 			'post_status' => $type,
 			'fields' => 'ids',
 			'posts_per_page' => -1,
 			'cache_results' => false,
-		));
+		) );
 
-		$counts[$type] = count($query->posts);
+		$counts[ $type ] = count( $query->posts );
 
 		wp_reset_query();
 	}
@@ -996,7 +996,7 @@ function anno_activity_information() {
 	$detailed_counts = array();
 
 	foreach ( $statuses as $status => $status_data ) {
-		$detailed_counts[$status] = array(
+		$detailed_counts[ $status ] = array(
 			'status_slug' 	=> $status,
 			'i18n' 			=> $statuses[ $status ]['i18n'],
 			'count' 		=> $post_counts[ $status ],
@@ -1005,7 +1005,7 @@ function anno_activity_information() {
 		);
 	}
 
-	foreach ($detailed_counts as $name => $data) {
+	foreach ( $detailed_counts as $name => $data ) {
 	?>
 	<style>#dashboard_right_now .article-count a:before { content: '\f119'; }</style>
 	<li class="article-count">
