@@ -854,81 +854,87 @@ function anno_get_owned_posts($user_id = false, $post_types = array('article'), 
 	return $posts;
 }
 
-
 /**
- * Get a list of posts a user is the author or co-author on
+ * Get count of available articles that a user can see/edit. Useful when
+ * the Annotum workflow is enabled
  *
- * @param int $user_id User id to look up, else uses current user id
- * @param array $post_type Post types to find posts for, defaults to article
- * @param array $post_stati Post statuses to look up
- * @return array Empty array or array of post ids
- * @author Evan Anderson
+ * @param array $status_types Array of status types to generate counts for
+ * @return array Array with indices of the status types and the values are the counts
  */
-function anno_get_authored_posts($user_id = false, $post_types = array('article'), $post_statuses = array('draft', 'pending', 'private', 'publish', 'future')) {
-	$posts = array();
+function anno_wf_viewable_article_count( $status_types = array() ) {
+	global $wp_query;
+	$user_id = get_current_user_id();
+	$user = wp_get_current_user();
+	$counts = array();
 
-	if (empty($user_id)) {
-		$user_id = get_current_user_id();
+	foreach( $status_types as $type ) {
+		// Editors and Admins can view everyone's articles
+		if ( $user->has_cap( 'editor' ) || $user->has_cap( 'administrator' ) ) {
+			$meta_query = array(
+				array(
+					'key' => '_post_state',
+					'value' => $type
+				)
+			);
+		}
+		else {
+			$meta_query = array(
+				'relation' => 'AND',
+				array(
+					// Ignore review articles
+					'key' => '_anno_author_'.$user_id,
+				),
+				array(
+					'key' => '_post_state',
+					'value' => $type
+				)
+			);
+		}
+
+		$query = new WP_Query(array(
+			'post_type'   => 'article',
+			'post_status' => 'any',
+			'fields' => 'ids',
+			'posts_per_page' => -1,
+			'cache_results' => false,
+			'meta_query' => $meta_query,
+		));
+
+		$counts[$type] = count($query->posts);
+
+		wp_reset_query();
 	}
-
-	// author will always be stored in post_meta
-	$query = new WP_Query(array(
-		'fields' => 'ids',
-		'post_type' => $post_types,
-		'post_status' => $post_statuses,
-		'cache_results' => false,
-		'posts_per_page' => -1,
-		'meta_query' => array(
-			'relation' => 'OR',
-			array(
-				'key' => '_anno_author_'.$user_id,
-			),
-			array(
-				'key' => '_anno_reviewer_'.$user_id,
-			),
-		),
-	));
-
-	if (isset($query->posts) && is_array($query->posts)) {
-		$posts = $query->posts;
-	}
-
-	wp_reset_query();
-
-	return $posts;
+	return $counts;
 }
 
 /**
- * Get count of available articles that a user can see/edit
+ * Get count of available articles that a user can see/edit. Useful when
+ * the Annotum workflow is disabled
  *
- * @param int $user_id ID of the user to count for, otherwise uses current user
- * @return object|int Object if user is admin or editor of all the states and counts. Single int count otherwise
+ * @param array $status_types Array of status types to generate counts for
+ * @return array Array with indices of the status types and the values are the counts
  */
-function anno_viewable_article_count($user_id = false) {
-	$count = 0;
+function anno_viewable_article_count( $status_types = array() ) {
+	global $wp_query;
+	$user_id = get_current_user_id();
+	$user = wp_get_current_user();
+	$counts = array();
 
-	if (empty($user_id)) {
-		$user = wp_get_current_user();
+	foreach( $status_types as $type ) {
+
+		$query = new WP_Query(array(
+			'post_type'   => 'article',
+			'post_status' => $type,
+			'fields' => 'ids',
+			'posts_per_page' => -1,
+			'cache_results' => false,
+		));
+
+		$counts[$type] = count($query->posts);
+
+		wp_reset_query();
 	}
-	else{
-		$user = get_user_by('id', (int) $user_id);
-	}
-
-	if ($user) {
-		if ($user->has_cap('editor') || $user->has_cap('administrator')) {
-			return wp_count_posts('article', 'readable');
-		}
-		// The user is not an editor, nor an admin, so only count published posts and ones they are an author/co-author on.
-		else {
-			$author_posts = anno_get_authored_posts($user->ID);
-
-			$count += count($author_posts);
-
-			wp_reset_query();
-		}
-	}
-
-	return $count;
+	return $counts;
 }
 
 /**
@@ -939,81 +945,74 @@ function anno_viewable_article_count($user_id = false) {
 function anno_activity_information() {
 	global $current_site, $avail_post_stati;
 	$article_post_type = 'article';
-	$status_text = array(
-		'publish' => array(
-			'i18n' 	=> __('Published', 'anno'),
-			'class' => 'approved',
-		),
-		'pending' => array(
-			'i18n' 	=> __('Pending', 'anno'),
-			'class' => 'waiting',
-		),
-		'draft' => array(
-			'i18n' 	=> __('Draft', 'anno'),
-			'class' => 'waiting',
-		),
-		'trash' => array(
-			'i18n' 	=> __('Trash', 'anno'),
-			'class' => 'spam',
-		),
-	);
+	$base_edit_link = add_query_arg( array( 'post_type' => $article_post_type ), admin_url( 'edit.php' ) );
+	if ( anno_workflow_enabled() ) {
+		$statuses = array(
+			'published' => array(
+				'i18n' 	=> __( '%d Articles Published', 'anno' ),
+				'class' => 'approved',
+				'url' => $base_edit_link
+			),
+			'approved' => array(
+				'i18n' 	=> __( '%d Articles Approved', 'anno' ),
+				'class' => 'waiting',
+				'url' => $base_edit_link
+			),
+			'submitted' => array(
+				'i18n' 	=> __( '%d Articles In Review', 'anno' ),
+				'class' => 'waiting',
+				'url' => $base_edit_link
+			),
+			'draft' => array(
+				'i18n' 	=> __( '%d Draft Articles', 'anno' ),
+				'class' => 'waiting',
+				'url' => $base_edit_link
+			),
+		);
 
-	$num_posts = anno_viewable_article_count();
-
-	if (!is_int($num_posts)) {
-
-		// Get the absolute total of $num_posts
-		$total_records = array_sum( (array) $num_posts );
-
-		// Subtract post types that are not included in the admin all list.
-		foreach (get_post_stati(array('show_in_admin_all_list' => false)) as $state) {
-			$total_records -= $num_posts->$state;
-		}
+		$post_counts = anno_wf_viewable_article_count( array_keys( $statuses ) );
 	}
 	else {
-		$total_records = $num_posts;
+		$statuses = array(
+			'publish' => array(
+				'i18n' 	=> __( '%d Articles Published', 'anno' ),
+				'class' => 'approved',
+				'url' => add_query_arg( 'post_status', 'publish', $base_edit_link)
+			),
+			'pending' => array(
+				'i18n' 	=> __( '%d Articles Pending Review', 'anno' ),
+				'class' => 'waiting',
+				'url' => add_query_arg( 'post_status', 'pending', $base_edit_link)
+			),
+			'draft' => array(
+				'i18n' 	=> __( '%d Draft Articles', 'anno' ),
+				'class' => 'waiting',
+				'url' => add_query_arg( 'post_status', 'draft', $base_edit_link)
+			),
+		);
+		$post_counts = anno_viewable_article_count( array_keys( $statuses ) );
 	}
 
-	// Default
 	$detailed_counts = array();
 
-	$base_edit_link = add_query_arg(array('post_type' => $article_post_type), admin_url('edit.php'));
-
-	// Only build detailed string if user is an editor or administrator
-	if (current_user_can('editor') || current_user_can('administrator')) {
-		foreach (get_post_stati(array('show_in_admin_status_list' => true), 'objects') as $status) {
-			$status_slug = $status->name;
-
-			// If this status is in our $status_text array
-			if (!in_array($status_slug, array_keys($status_text)))
-				continue;
-
-			// If we don't have any, don't output...this is debatable
-			if ( empty( $num_posts->$status_slug ) )
-				continue;
-
-			$detailed_counts[$status->name] = array(
-				'status_slug' 	=> $status->name,
-				'i18n' 			=> $status_text[$status_slug]['i18n'],
-				'count' 		=> $num_posts->$status_slug,
-				'url' 			=> add_query_arg(array('post_status' => $status_slug), $base_edit_link),
-				'class' 		=> $status_text[$status_slug]['class'],
-			);
-		}
-
-		$article_count = 0;
-		if (isset($detailed_counts['publish']['count']) && $detailed_counts['publish']['count'] != 0) {
-			$article_count = (int) $detailed_counts['publish']['count'];
-		}
-
-		?>
-			<style>#dashboard_right_now .article-count a:before { content: '\f119'; }</style>
-			<li class="article-count">
-				<a href="edit.php?post_type=article"><?php echo $article_count; ?> Articles</a>
-			</li>
-		<?php
+	foreach ( $statuses as $status => $status_data ) {
+		$detailed_counts[$status] = array(
+			'status_slug' 	=> $status,
+			'i18n' 			=> $statuses[ $status ]['i18n'],
+			'count' 		=> $post_counts[ $status ],
+			'url' 			=> $statuses[ $status ]['url'],
+			'class' 		=> $statuses[ $status_slug ]['class'],
+		);
 	}
 
+	foreach ($detailed_counts as $name => $data) {
+	?>
+	<style>#dashboard_right_now .article-count a:before { content: '\f119'; }</style>
+	<li class="article-count">
+		<a href="<?php echo esc_url( $data['url'] ); ?>"><?php echo esc_html( sprintf( $data['i18n'], $data['count'] ) ); ?></a>
+	</li>
+	<?php
+	}
 }
 add_action( 'dashboard_glance_items', 'anno_activity_information');
 
