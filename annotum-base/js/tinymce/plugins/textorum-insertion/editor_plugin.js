@@ -120,7 +120,7 @@ console.log(rangeClone);
 				// Enter
 				if (!e.shiftKey && e.keyCode == 13) {
 
-					listItemParent = ed.dom.getParent(ed.selection.getNode(), '.list-item');
+					listItemParent = ed.dom.getParent(node, '.list-item');
 
 					// What to do if empty editor
 					if (ed.getContent() == '') {
@@ -166,8 +166,8 @@ console.log(rangeClone);
 					}
 
 					// Get the parent tag and class
-					parentTag = ed.dom.getParent(ed.selection.getNode().parentNode);
-					elementClass = jQuery(ed.selection.getNode()).attr('class');
+					parentTag = ed.dom.getParent(node.parentNode);
+					elementClass = jQuery(node).attr('class');
 					parentClass = jQuery(parentTag).attr('class');
 
 					// If it's a 'p' tag, we need its parent
@@ -190,7 +190,7 @@ console.log(rangeClone);
 						elementClass == 'title'
 					) {
 						tinymce.dom.Event.cancel(e);
-						return !self.insertElement('p', 'after', ed.selection.getNode());
+						return !self.insertElement('p', 'after', node);
 					}
 				}
 				return true;
