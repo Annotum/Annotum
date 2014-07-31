@@ -1,3 +1,4 @@
+
 (function($) {
 	tinymce.create('tinymce.plugins.textorumInsertion', {
 		init : function(ed, url) {
@@ -35,6 +36,86 @@
 			//
 			ed.onKeyDown.addToTop(function(ed, e) {
 				var target, listItemParent, siblingNode, range, bogusNode;
+				var content, rangeClone, inTitle, parentNode, node = ed.selection.getNode();
+
+
+				// Backspace
+				if (8 == e.keyCode) {
+					// Check if in a title node
+					range = ed.selection.getRng(1);
+					parentNode = ed.dom.getParent(node, 'div.title');
+					if (parentNode || (3 != range.commonAncestorContainer.nodeType && 'title' == range.endContainer.getAttribute('class'))) {
+						bogusNode = ed.dom.create(
+							'span',
+							{'_mce_bogus': '1'},
+							''
+						);
+
+						range.insertNode(bogusNode);
+
+						rangeClone = range.cloneRange();
+						rangeClone.setStartBefore(node);
+						rangeClone.setEndBefore(bogusNode);
+
+						ed.selection.setRng(rangeClone);
+
+						var content = ed.selection.getContent({format: 'text'});
+						if ( '' == content ) {
+							tinymce.dom.Event.cancel(e);
+							ed.dom.remove(bogusNode);
+							ed.dom.select(range.endContainer);
+							ed.selection.collapse(0);
+							return false;
+						}
+						else {
+							ed.dom.remove(bogusNode);
+							ed.selection.setRng(range);
+						}
+					}
+
+					return true;
+				}
+
+				if (46 == e.keyCode) {
+					// Check if this is the last paragraph and last character in a section
+					// If so, delete does nothing
+
+					var parents = ed.dom.getParents(node, '.p');
+					if ( !!parents && parents.length > 0) {
+						var topP = parents[parents.length - 1];
+
+						if (!topP.nextSibling || topP.nextSibling.getAttribute('class') == 'sec') {
+							bogusNode = ed.dom.create(
+								'span',
+								{'_mce_bogus': '1'},
+								''
+							);
+							range = ed.selection.getRng(1);
+							range.insertNode(bogusNode);
+
+							rangeClone = range.cloneRange();
+							//rangeClone.setStartBefore(node);
+							rangeClone.setEndBefore(bogusNode);
+console.log(rangeClone);
+							ed.selection.setRng(rangeClone);
+
+							var content = ed.selection.getContent({format: 'text'});
+							console.log(content);
+							if ( '' == content ) {
+								tinymce.dom.Event.cancel(e);
+								ed.dom.remove(bogusNode);
+								return false;
+							}
+							else {
+								ed.dom.remove(bogusNode);
+								ed.selection.setRng(range);
+							}
+						}
+					}
+
+					return true;
+				}
+
 
 				// Enter
 				if (!e.shiftKey && e.keyCode == 13) {
