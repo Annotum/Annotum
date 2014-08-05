@@ -1,3 +1,4 @@
+
 (function($) {
 	tinymce.create('tinymce.plugins.textorumInsertion', {
 		init : function(ed, url) {
@@ -35,11 +36,90 @@
 			//
 			ed.onKeyDown.addToTop(function(ed, e) {
 				var target, listItemParent, siblingNode, range, bogusNode;
+				var content, rangeClone, inTitle, parentNode, node = ed.selection.getNode();
+
+				// Backspace
+				// Disable backspace when the cursor is at the first character in a title such that it doesn't
+				// remove the title element when its pressed.
+				// Titles are required in every section
+				if (8 == e.keyCode) {
+					// Check if in a title node
+					range = ed.selection.getRng(1);
+					parentNode = ed.dom.getParent(node, 'div.title');
+					if (parentNode || (3 != range.commonAncestorContainer.nodeType && 'title' == range.endContainer.getAttribute('class'))) {
+						bogusNode = ed.dom.create(
+							'span',
+							{'_mce_bogus': '1'},
+							''
+						);
+
+						range.insertNode(bogusNode);
+
+						rangeClone = range.cloneRange();
+						rangeClone.setStartBefore(node);
+						rangeClone.setEndBefore(bogusNode);
+
+						ed.selection.setRng(rangeClone);
+
+						var content = ed.selection.getContent({format: 'text'});
+						if ( '' == content ) {
+							tinymce.dom.Event.cancel(e);
+							ed.dom.remove(bogusNode);
+							ed.dom.select(range.endContainer);
+							ed.selection.collapse(0);
+							return false;
+						}
+						else {
+							ed.dom.remove(bogusNode);
+							ed.selection.setRng(range);
+						}
+					}
+
+					return true;
+				}
+
+				// Delete
+				// Check if this is the last paragraph and last character in a section
+				// If so, delete does nothing
+				// Titles are required in every section
+				if (46 == e.keyCode) {
+					var parents = ed.dom.getParents(node, '.p');
+					if (!!parents && parents.length > 0) {
+						var topP = parents[parents.length - 1];
+
+						if (!topP.nextSibling || topP.nextSibling.getAttribute('class') == 'sec') {
+							bogusNode = ed.dom.create(
+								'span',
+								{'_mce_bogus': '1'},
+								''
+							);
+							range = ed.selection.getRng(1);
+							range.insertNode(bogusNode);
+
+							rangeClone = range.cloneRange();
+							rangeClone.setEndBefore(bogusNode);
+							ed.selection.setRng(rangeClone);
+
+							var content = ed.selection.getContent({format: 'text'});
+							if ('' == content) {
+								tinymce.dom.Event.cancel(e);
+								ed.dom.remove(bogusNode);
+								return false;
+							}
+							else {
+								ed.dom.remove(bogusNode);
+								ed.selection.setRng(range);
+							}
+						}
+					}
+
+					return true;
+				}
 
 				// Enter
 				if (!e.shiftKey && e.keyCode == 13) {
 
-					listItemParent = ed.dom.getParent(ed.selection.getNode(), '.list-item');
+					listItemParent = ed.dom.getParent(node, '.list-item');
 
 					// What to do if empty editor
 					if (ed.getContent() == '') {
@@ -85,8 +165,8 @@
 					}
 
 					// Get the parent tag and class
-					parentTag = ed.dom.getParent(ed.selection.getNode().parentNode);
-					elementClass = jQuery(ed.selection.getNode()).attr('class');
+					parentTag = ed.dom.getParent(node.parentNode);
+					elementClass = jQuery(node).attr('class');
 					parentClass = jQuery(parentTag).attr('class');
 
 					// If it's a 'p' tag, we need its parent
@@ -109,7 +189,7 @@
 						elementClass == 'title'
 					) {
 						tinymce.dom.Event.cancel(e);
-						return !self.insertElement('p', 'after', ed.selection.getNode());
+						return !self.insertElement('p', 'after', node);
 					}
 				}
 				return true;
