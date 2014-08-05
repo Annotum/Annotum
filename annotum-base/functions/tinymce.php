@@ -185,9 +185,7 @@ function anno_load_editor($content, $editor_id, $settings = array()) {
 		'media_buttons' => false,
 		'tinymce' => array(
 			'remove_linebreaks' => false,
-			'valid_elements' => array(
-				'*[*]',
-			),
+			'valid_elements' => '*[*]',
 			'extended_valid_elements' => implode(',', $extended_valid_elements),
 			'custom_elements' => implode(',', $custom_elements),
 			'valid_children' => implode(',', $valid_children),
@@ -1004,6 +1002,7 @@ function anno_process_editor_content($content) {
 	// Configure the transformer
 	$proc = new XSLTProcessor;
 	$proc->importStyleSheet($xsl); // attach the xsl rules
+
 	$proc->setParameter(null, 'inlineelements', 'named-content,ext-link,inline-graphic,alt-text,lbl,long-desc,copyright-statement,permissions,copyright-holder,license,license-p,attrib,inline-formula,xref');
 	$proc->setParameter(null, 'bold', 'bold');
 	$proc->setParameter(null, 'italic', 'italic');
