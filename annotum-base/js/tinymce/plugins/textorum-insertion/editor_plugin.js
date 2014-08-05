@@ -38,8 +38,10 @@
 				var target, listItemParent, siblingNode, range, bogusNode;
 				var content, rangeClone, inTitle, parentNode, node = ed.selection.getNode();
 
-
 				// Backspace
+				// Disable backspace when the cursor is at the first character in a title such that it doesn't
+				// remove the title element when its pressed.
+				// Titles are required in every section
 				if (8 == e.keyCode) {
 					// Check if in a title node
 					range = ed.selection.getRng(1);
@@ -76,10 +78,11 @@
 					return true;
 				}
 
+				// Delete
+				// Check if this is the last paragraph and last character in a section
+				// If so, delete does nothing
+				// Titles are required in every section
 				if (46 == e.keyCode) {
-					// Check if this is the last paragraph and last character in a section
-					// If so, delete does nothing
-
 					var parents = ed.dom.getParents(node, '.p');
 					if (!!parents && parents.length > 0) {
 						var topP = parents[parents.length - 1];
