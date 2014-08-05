@@ -35,7 +35,7 @@
 			// Key Bindings
 			//
 			ed.onKeyDown.addToTop(function(ed, e) {
-				var target, listItemParent, siblingNode, range, bogusNode;
+				var target, listItemParent, siblingNode, range, bogusNode, dispParent, pParent;
 				var content, rangeClone, inTitle, parentNode, node = ed.selection.getNode();
 
 				// Backspace
@@ -190,6 +190,25 @@
 					) {
 						tinymce.dom.Event.cancel(e);
 						return !self.insertElement('p', 'after', node);
+					}
+
+					// Hitting enter in display-quote while not in a p tag should insert a bogus br after it
+					dispParent = ed.dom.getParent(node, '.disp-quote');
+					if (dispParent) {
+						pParent = ed.dom.getParent(node, '.p', dispParent);
+						if (!pParent) {
+							bogusNode = ed.dom.create(
+								'br',
+								{'_mce_bogus': '1'},
+								''
+							);
+							// Jump to the bogus element
+							ed.dom.insertAfter(bogusNode, dispParent);
+							ed.selection.select(bogusNode);
+							ed.selection.collapse(0);
+							tinymce.dom.Event.cancel(e);
+							return false;
+						}
 					}
 				}
 				return true;
