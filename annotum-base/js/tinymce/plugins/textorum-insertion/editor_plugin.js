@@ -81,7 +81,7 @@
 					// If so, delete does nothing
 
 					var parents = ed.dom.getParents(node, '.p');
-					if ( !!parents && parents.length > 0) {
+					if (!!parents && parents.length > 0) {
 						var topP = parents[parents.length - 1];
 
 						if (!topP.nextSibling || topP.nextSibling.getAttribute('class') == 'sec') {
@@ -94,14 +94,11 @@
 							range.insertNode(bogusNode);
 
 							rangeClone = range.cloneRange();
-							//rangeClone.setStartBefore(node);
 							rangeClone.setEndBefore(bogusNode);
-console.log(rangeClone);
 							ed.selection.setRng(rangeClone);
 
 							var content = ed.selection.getContent({format: 'text'});
-							console.log(content);
-							if ( '' == content ) {
+							if ('' == content) {
 								tinymce.dom.Event.cancel(e);
 								ed.dom.remove(bogusNode);
 								return false;
@@ -115,7 +112,6 @@ console.log(rangeClone);
 
 					return true;
 				}
-
 
 				// Enter
 				if (!e.shiftKey && e.keyCode == 13) {
