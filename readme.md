@@ -33,7 +33,7 @@ You can also install a pre-packaged version of Annotum:
 
    > IMPORTANT: The annotum distribution .zip file is over 6Mb.  You may need to modify your PHP.ini values for `upload_max_filesize` and `post_max_size` to upload the theme directly.
 
-To avoid having to enter FTP credentials when importing, you can define the constant `FS_METHOD` as 'direct'. You should only do this if you have an understanding of the (WP Filesystem API)[http://codex.wordpress.org/Filesystem_API]
+To avoid having to enter FTP credentials when importing, you can define the constant `FS_METHOD` as 'direct'. You should only do this if you have an understanding of the [WP Filesystem API](http://codex.wordpress.org/Filesystem_API)
 
 ### Annotum in Your Language
 
