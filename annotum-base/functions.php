@@ -1018,7 +1018,7 @@ function anno_activity_information() {
 			'i18n' 			=> $statuses[ $status ]['i18n'],
 			'count' 		=> $post_counts[ $status ],
 			'url' 			=> $statuses[ $status ]['url'],
-			'class' 		=> $statuses[ $status_slug ]['class'],
+			'class' 		=> $statuses[ $status ]['class'],
 		);
 	}
 
