@@ -1,125 +1,65 @@
 <?php return array (
   'sans-serif' => 
   array (
-    'normal' => DOMPDF_FONT_DIR . 'Helvetica',
-    'bold' => DOMPDF_FONT_DIR . 'Helvetica-Bold',
-    'italic' => DOMPDF_FONT_DIR . 'Helvetica-Oblique',
-    'bold_italic' => DOMPDF_FONT_DIR . 'Helvetica-BoldOblique',
+    'normal' => DOMPDF_DIR . '/lib/fonts/Helvetica',
+    'bold' => DOMPDF_DIR . '/lib/fonts/Helvetica-Bold',
+    'italic' => DOMPDF_DIR . '/lib/fonts/Helvetica-Oblique',
+    'bold_italic' => DOMPDF_DIR . '/lib/fonts/Helvetica-BoldOblique',
   ),
   'times' => 
   array (
-    'normal' => DOMPDF_FONT_DIR . 'Times-Roman',
-    'bold' => DOMPDF_FONT_DIR . 'Times-Bold',
-    'italic' => DOMPDF_FONT_DIR . 'Times-Italic',
-    'bold_italic' => DOMPDF_FONT_DIR . 'Times-BoldItalic',
+    'normal' => DOMPDF_DIR . '/lib/fonts/Times-Roman',
+    'bold' => DOMPDF_DIR . '/lib/fonts/Times-Bold',
+    'italic' => DOMPDF_DIR . '/lib/fonts/Times-Italic',
+    'bold_italic' => DOMPDF_DIR . '/lib/fonts/Times-BoldItalic',
   ),
   'times-roman' => 
   array (
-    'normal' => DOMPDF_FONT_DIR . 'Times-Roman',
-    'bold' => DOMPDF_FONT_DIR . 'Times-Bold',
-    'italic' => DOMPDF_FONT_DIR . 'Times-Italic',
-    'bold_italic' => DOMPDF_FONT_DIR . 'Times-BoldItalic',
+    'normal' => DOMPDF_DIR . '/lib/fonts/Times-Roman',
+    'bold' => DOMPDF_DIR . '/lib/fonts/Times-Bold',
+    'italic' => DOMPDF_DIR . '/lib/fonts/Times-Italic',
+    'bold_italic' => DOMPDF_DIR . '/lib/fonts/Times-BoldItalic',
   ),
   'courier' => 
   array (
-    'normal' => DOMPDF_FONT_DIR . 'Courier',
-    'bold' => DOMPDF_FONT_DIR . 'Courier-Bold',
-    'italic' => DOMPDF_FONT_DIR . 'Courier-Oblique',
-    'bold_italic' => DOMPDF_FONT_DIR . 'Courier-BoldOblique',
+    'normal' => DOMPDF_DIR . '/lib/fonts/Courier',
+    'bold' => DOMPDF_DIR . '/lib/fonts/Courier-Bold',
+    'italic' => DOMPDF_DIR . '/lib/fonts/Courier-Oblique',
+    'bold_italic' => DOMPDF_DIR . '/lib/fonts/Courier-BoldOblique',
   ),
   'helvetica' => 
   array (
-    'normal' => DOMPDF_FONT_DIR . 'Helvetica',
-    'bold' => DOMPDF_FONT_DIR . 'Helvetica-Bold',
-    'italic' => DOMPDF_FONT_DIR . 'Helvetica-Oblique',
-    'bold_italic' => DOMPDF_FONT_DIR . 'Helvetica-BoldOblique',
-  ),
-  'zapfdingbats' => 
-  array (
-    'normal' => DOMPDF_FONT_DIR . 'ZapfDingbats',
-    'bold' => DOMPDF_FONT_DIR . 'ZapfDingbats',
-    'italic' => DOMPDF_FONT_DIR . 'ZapfDingbats',
-    'bold_italic' => DOMPDF_FONT_DIR . 'ZapfDingbats',
+    'normal' => DOMPDF_DIR . '/lib/fonts/Helvetica',
+    'bold' => DOMPDF_DIR . '/lib/fonts/Helvetica-Bold',
+    'italic' => DOMPDF_DIR . '/lib/fonts/Helvetica-Oblique',
+    'bold_italic' => DOMPDF_DIR . '/lib/fonts/Helvetica-BoldOblique',
   ),
   'symbol' => 
   array (
-    'normal' => DOMPDF_FONT_DIR . 'Symbol',
-    'bold' => DOMPDF_FONT_DIR . 'Symbol',
-    'italic' => DOMPDF_FONT_DIR . 'Symbol',
-    'bold_italic' => DOMPDF_FONT_DIR . 'Symbol',
+    'normal' => DOMPDF_DIR . '/lib/fonts/Symbol',
+    'bold' => DOMPDF_DIR . '/lib/fonts/Symbol',
+    'italic' => DOMPDF_DIR . '/lib/fonts/Symbol',
+    'bold_italic' => DOMPDF_DIR . '/lib/fonts/Symbol',
   ),
   'serif' => 
   array (
-    'normal' => DOMPDF_FONT_DIR . 'Times-Roman',
-    'bold' => DOMPDF_FONT_DIR . 'Times-Bold',
-    'italic' => DOMPDF_FONT_DIR . 'Times-Italic',
-    'bold_italic' => DOMPDF_FONT_DIR . 'Times-BoldItalic',
+    'normal' => DOMPDF_DIR . '/lib/fonts/Times-Roman',
+    'bold' => DOMPDF_DIR . '/lib/fonts/Times-Bold',
+    'italic' => DOMPDF_DIR . '/lib/fonts/Times-Italic',
+    'bold_italic' => DOMPDF_DIR . '/lib/fonts/Times-BoldItalic',
   ),
   'monospace' => 
   array (
-    'normal' => DOMPDF_FONT_DIR . 'Courier',
-    'bold' => DOMPDF_FONT_DIR . 'Courier-Bold',
-    'italic' => DOMPDF_FONT_DIR . 'Courier-Oblique',
-    'bold_italic' => DOMPDF_FONT_DIR . 'Courier-BoldOblique',
+    'normal' => DOMPDF_DIR . '/lib/fonts/Courier',
+    'bold' => DOMPDF_DIR . '/lib/fonts/Courier-Bold',
+    'italic' => DOMPDF_DIR . '/lib/fonts/Courier-Oblique',
+    'bold_italic' => DOMPDF_DIR . '/lib/fonts/Courier-BoldOblique',
   ),
   'fixed' => 
   array (
-    'normal' => DOMPDF_FONT_DIR . 'Courier',
-    'bold' => DOMPDF_FONT_DIR . 'Courier-Bold',
-    'italic' => DOMPDF_FONT_DIR . 'Courier-Oblique',
-    'bold_italic' => DOMPDF_FONT_DIR . 'Courier-BoldOblique',
-  ),
-  'dejavu-sans' => 
-  array (
-    'normal' => DOMPDF_FONT_DIR . 'DejaVuSans',
-    'bold' => DOMPDF_FONT_DIR . 'DejaVuSans-Bold',
-    'italic' => DOMPDF_FONT_DIR . 'DejaVuSans-Oblique',
-    'bold_italic' => DOMPDF_FONT_DIR . 'DejaVuSans-BoldOblique',
-  ),
-  'dejavu-sans-light' => 
-  array (
-    'normal' => DOMPDF_FONT_DIR . 'DejaVuSans-ExtraLight',
-  ),
-  'dejavu-sans-condensed' => 
-  array (
-    'bold' => DOMPDF_FONT_DIR . 'DejaVuSansCondensed-Bold',
-    'bold_italic' => DOMPDF_FONT_DIR . 'DejaVuSansCondensed-BoldOblique',
-    'italic' => DOMPDF_FONT_DIR . 'DejaVuSansCondensed-Oblique',
-    'normal' => DOMPDF_FONT_DIR . 'DejaVuSansCondensed',
-  ),
-  'dejavu-sans-mono' => 
-  array (
-    'bold' => DOMPDF_FONT_DIR . 'DejaVuSansMono-Bold',
-    'bold_italic' => DOMPDF_FONT_DIR . 'DejaVuSansMono-BoldOblique',
-    'italic' => DOMPDF_FONT_DIR . 'DejaVuSansMono-Oblique',
-    'normal' => DOMPDF_FONT_DIR . 'DejaVuSansMono',
-  ),
-  'dejavu-serif' => 
-  array (
-    'bold' => DOMPDF_FONT_DIR . 'DejaVuSerif-Bold',
-    'bold_italic' => DOMPDF_FONT_DIR . 'DejaVuSerif-BoldItalic',
-    'italic' => DOMPDF_FONT_DIR . 'DejaVuSerif-Italic',
-    'normal' => DOMPDF_FONT_DIR . 'DejaVuSerif',
-  ),
-  'dejavu-serif-condensed' => 
-  array (
-    'bold' => DOMPDF_FONT_DIR . 'DejaVuSerifCondensed-Bold',
-    'bold_italic' => DOMPDF_FONT_DIR . 'DejaVuSerifCondensed-BoldItalic',
-    'italic' => DOMPDF_FONT_DIR . 'DejaVuSerifCondensed-Italic',
-    'normal' => DOMPDF_FONT_DIR . 'DejaVuSerifCondensed',
-  ),
-  'dejavusans' => 
-  array (
-    'normal' => DOMPDF_FONT_DIR . 'DejaVuSans',
-    'bold' => DOMPDF_FONT_DIR . 'DejaVuSans-Bold',
-    'italic' => DOMPDF_FONT_DIR . 'DejaVuSans-Oblique',
-    'bold_italic' => DOMPDF_FONT_DIR . 'DejaVuSans-BoldOblique',
-  ),
-  'liberation' => 
-  array (
-    'normal' => DOMPDF_FONT_DIR . 'LiberationSans-Regular',
-    'bold' => DOMPDF_FONT_DIR . 'LiberationSans-Bold',
-    'italic' => DOMPDF_FONT_DIR . 'LiberationSans-Italic',
-    'bold_italic' => DOMPDF_FONT_DIR . 'LiberationSans-BoldItalic',
+    'normal' => DOMPDF_DIR . '/lib/fonts/Courier',
+    'bold' => DOMPDF_DIR . '/lib/fonts/Courier-Bold',
+    'italic' => DOMPDF_DIR . '/lib/fonts/Courier-Oblique',
+    'bold_italic' => DOMPDF_DIR . '/lib/fonts/Courier-BoldOblique',
   ),
 ) ?>
