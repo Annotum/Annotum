@@ -218,7 +218,8 @@ div {
 }
 .table .figcaption,
 .figure {
-	page-break-before: always;
+	page-break-before: auto;
+	page-break-inside: avoid;
 	margin-bottom: 10px !important;
 }
 

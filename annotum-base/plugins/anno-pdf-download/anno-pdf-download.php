@@ -268,7 +268,7 @@ class Anno_PDF_Download {
 			//'<sub' => '<span class="sub"',
 			//'</sub' => '</span',
 
-			'<figure' => '<div',
+			'<figure' => '<div class="figure"',
 			'</figure' => '</div',
 
 			'<figcaption' => '<div class="figcaption"',
