@@ -5,7 +5,7 @@
  * This file is part of the Annotum theme for WordPress
  * Built on the Carrington theme framework <http://carringtontheme.com>
  *
- * Copyright 2008-2011 Crowd Favorite, Ltd. All rights reserved. <http://crowdfavorite.com>
+ * Copyright 2008-2015 Crowd Favorite, Ltd. All rights reserved. <http://crowdfavorite.com>
  * Released under the GPL license
  * http://www.opensource.org/licenses/gpl-license.php
  */
@@ -17,7 +17,7 @@ $user = get_user_by('id', $author);
 
 get_header();
 
-// Override 
+// Override
 global $wp_query;
 // A second query because we wanted is_author to be true all the way up to here
 // Though the query should not force a lookup on post_author, but rather post meta described below
@@ -25,7 +25,7 @@ if ($user) {
 	$wp_query = new WP_Query(array(
 		'post_type' => array('article', 'post'),
 		'meta_query' => array(
-			array( 
+			array(
 				'key' => '_anno_author_'.$user->ID,
 			),
 		),
@@ -34,7 +34,7 @@ if ($user) {
 
 ?>
 <div id="main-body" class="clearfix">
-	<?php 
+	<?php
 
 		if (is_object($user)):
 			global $anno_user_meta;
@@ -59,17 +59,17 @@ if ($user) {
 					?>
 					<p class="author-meta author-bio"><?php echo esc_html($user->description); ?></p>
 				</div><!-- .author-header -->
-			
-			<?php 
-			
+
+			<?php
+
 		endif;
-		
+
 		?>
-		<h2 class="section-title"><span><?php _e('Recent Posts', 'anno'); ?></span></h2>	
+		<h2 class="section-title"><span><?php _e('Recent Posts', 'anno'); ?></span></h2>
 		<?php
 		cfct_loop();
 		cfct_misc('nav-posts');
-		?> 
+		?>
 </div><!-- #main-content -->
 <div id="main-sidebar" class="clearfix">
 	<?php get_sidebar(); ?>

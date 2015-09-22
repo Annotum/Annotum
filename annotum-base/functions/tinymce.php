@@ -5,7 +5,7 @@
  * This file is part of the Annotum theme for WordPress
  * Built on the Carrington theme framework <http://carringtontheme.com>
  *
- * Copyright 2008-2011 Crowd Favorite, Ltd. All rights reserved. <http://crowdfavorite.com>
+ * Copyright 2008-2015 Crowd Favorite, Ltd. All rights reserved. <http://crowdfavorite.com>
  * Released under the GPL license
  * http://www.opensource.org/licenses/gpl-license.php
  */
@@ -231,6 +231,15 @@ function anno_remove_editor_content_filters($editor_markup) {
 }
 // This is the only place we can hook into to remove 'the_editor_content' filters
 add_filter('the_editor', 'anno_remove_editor_content_filters');
+
+// WP 4.3 introduced a new way of filtering content prior to getting to the editor
+// Priority needs to be < 10 as `the_editor_content` (which is being removed) is run
+// on the_editor_content at priority 10
+function anno_remove_editor_content_filters_43( $content ) {
+	remove_filter( 'the_editor_content', 'format_for_editor', 10, 2 );
+	return $content;
+}
+add_filter( 'the_editor_content', 'anno_remove_editor_content_filters_43', 0 );
 
 /**
  * Force rich editor for article post type.

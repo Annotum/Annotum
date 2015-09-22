@@ -4,7 +4,7 @@
  * This file is part of the Annotum Sans theme for WordPress
  * Built on the Carrington theme framework <http://carringtontheme.com>
  *
- * Copyright 2008-2011 Crowd Favorite, Ltd. All rights reserved. <http://crowdfavorite.com>
+ * Copyright 2008-2015 Crowd Favorite, Ltd. All rights reserved. <http://crowdfavorite.com>
  * Released under the GPL license
  * http://www.opensource.org/licenses/gpl-license.php
  */
@@ -18,7 +18,7 @@ add_action('after_setup_theme', 'annotum_sans_setup');
 
 /**
  * Don't load any additional plugins outside of the required ones.
- */ 
+ */
 if (!function_exists('anno_load_plugins')) {
 	// Plugins specific to certain themes can be loaded with this function
 	function anno_load_plugins() {}
@@ -29,7 +29,7 @@ function annotum_sans_css3_pie() {
 	?>
 	<!--[if lte IE 8]>
 	<style type="text/css" media="screen">
-		
+
 		.callout-item,
 		.featured-posts ul,
 		.featured-posts .carousel-item,

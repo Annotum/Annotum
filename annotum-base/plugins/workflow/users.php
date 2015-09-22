@@ -5,7 +5,7 @@
  * This file is part of the Annotum theme for WordPress
  * Built on the Carrington theme framework <http://carringtontheme.com>
  *
- * Copyright 2008-2011 Crowd Favorite, Ltd. All rights reserved. <http://crowdfavorite.com>
+ * Copyright 2008-2015 Crowd Favorite, Ltd. All rights reserved. <http://crowdfavorite.com>
  * Released under the GPL license
  * http://www.opensource.org/licenses/gpl-license.php
  */
@@ -16,13 +16,13 @@
 
 /**
  * Determines whether or not a user has the given abilities for a given post
- * 
+ *
  * @param string $cap The capability to check
  * @param int $user_id The user id to check for a capability. Defaults to current user (global)
  * @param int $post_id The ID of the post to check Defaults to current post (global)
  * @param int $comment_id the ID of the comment to check
  * @return bool True if user has the given capability for the given post
- */ 
+ */
 function anno_user_can($cap, $user_id = null, $post_id = null, $comment_id = null) {
 	if (is_null($user_id)) {
 		$current_user = wp_get_current_user();
@@ -48,7 +48,7 @@ function anno_user_can($cap, $user_id = null, $post_id = null, $comment_id = nul
 	$editor = 'editor';
 	switch ($cap) {
 		case 'administrator':
-		case 'admin': 
+		case 'admin':
 			if ($user_role == $admin) {
 				return true;
 			}
@@ -84,7 +84,7 @@ function anno_user_can($cap, $user_id = null, $post_id = null, $comment_id = nul
 			break;
 		case 'edit_post':
 			global $pagenow;
-			
+
 			// Allow edits for things such as typos (in any state)
 			if ($user_role == $admin) {
 				return true;
@@ -234,11 +234,11 @@ function anno_user_can($cap, $user_id = null, $post_id = null, $comment_id = nul
 /**
  * Returns the user's role for a given post. Returns editor or publishing staff even if that user
  * is also an author, co-author, or reviewer
- * 
+ *
  * @param int $user_id The user id to check for a capability. Defaults to current user (global)
  * @param int $post_id The ID of the post to check. Defaults to current post (global)
  * @return string|false Role the given user has for a given post, false if user is not attached to the post in any way
- */ 
+ */
 function anno_role($user_id = null, $post_id = null) {
 	global $pagenow;
 	if (is_null($user_id)) {
@@ -257,11 +257,11 @@ function anno_role($user_id = null, $post_id = null) {
 	else {
 		$post = get_post($post_id);
 	}
-	
+
 	if (!$user || !$post_id) {
 		return false;
 	}
-	
+
 	if ($user->has_cap('administrator')) {
 		return 'administrator';
 	}
@@ -272,17 +272,17 @@ function anno_role($user_id = null, $post_id = null) {
 	if (is_array($reviewers) && in_array($user_id, $reviewers)) {
 		return 'reviewer';
 	}
-	
+
 	if ($post && $post->post_author == $user_id) {
 		return 'author';
 	}
-	
+
 	$co_authors = anno_get_authors($post_id);
 	if (is_array($co_authors) && in_array($user_id, $co_authors)) {
 		return 'co-author';
 	}
-		
-	return false;	
+
+	return false;
 }
 
 // Wrapper for anno_add_user_to_post, legacy support
@@ -291,7 +291,7 @@ function annowf_add_user_to_post($type, $user_id, $post_id) {
 }
 
 
-// Wrapper for anno_remove_user_from_post, legacy support 
+// Wrapper for anno_remove_user_from_post, legacy support
 function annowf_remove_user_from_post($type, $user_id, $post_id) {
 	return anno_remove_user_from_post($type, $user_id, $post_id);
 }
@@ -331,12 +331,12 @@ function annowf_get_role_emails($role, $post = null) {
 	if (!empty($users) && is_array($users)) {
 		 return array_map('anno_user_email', $users);
 	}
-	
+
 	return array();
 }
 
 /**
- * Get a user's review for a post for the current round. 
+ * Get a user's review for a post for the current round.
  * @param int $post_id
  * @param int $user_id
  * @return int|bool Integer corresponding to the user's review (can be 0), false if none can be found

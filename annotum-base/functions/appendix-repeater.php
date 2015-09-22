@@ -1,18 +1,18 @@
-<?php 
+<?php
 
 /**
  * @package anno
  * This file is part of the Annotum theme for WordPress
  * Built on the Carrington theme framework <http://carringtontheme.com>
  *
- * Copyright 2008-2011 Crowd Favorite, Ltd. All rights reserved. <http://crowdfavorite.com>
+ * Copyright 2008-2015 Crowd Favorite, Ltd. All rights reserved. <http://crowdfavorite.com>
  * Released under the GPL license
  * http://www.opensource.org/licenses/gpl-license.php
  */
 
 /**
  * Meta box for Article Appendices
- */ 
+ */
 function anno_appendices_meta_box($post) {
 	if (function_exists('wp_editor')) {
 		$html = '';
@@ -28,7 +28,7 @@ function anno_appendices_meta_box($post) {
 		else {
 			$html .= anno_appendix_box_content(1);
 		}
-	
+
 		$html .= '
 			<script type="text/javascript" charset="utf-8">
 				function addAnotherAnnoAppendix() {
@@ -66,25 +66,25 @@ function anno_appendices_meta_box($post) {
 
 /**
  * Output for Appendix edit input.
- */ 
+ */
 function anno_appendix_box_content($index = null, $content = null) {
 $html = '';
 	if (empty($index) && $index !== 0) {
 		$index = '###INDEX###';
 	}
-	
+
 	if (empty($content)) {
 		$content = '<sec>
 			<title></title>
 			<p>&#xA0;</p>
 		</sec>';
 	}
-	
+
 	ob_start();
 	anno_load_editor(anno_process_editor_content($content), esc_attr('appendix-'.$index), array('textarea_name' => esc_attr('anno_appendix['.$index.']')));
 	$editor_markup = ob_get_contents();
 	ob_end_clean();
-		
+
 	$html .='
 <fieldset id="'.esc_attr('anno_appendix_'.$index).'" class="appendix-wrapper" data-editor="'.esc_attr('appendix-'.$index).'">
 	<h4>

@@ -5,7 +5,7 @@
  * This file is part of the Annotum theme for WordPress
  * Built on the Carrington theme framework <http://carringtontheme.com>
  *
- * Copyright 2008-2011 Crowd Favorite, Ltd. All rights reserved. <http://crowdfavorite.com>
+ * Copyright 2008-2015 Crowd Favorite, Ltd. All rights reserved. <http://crowdfavorite.com>
  * Released under the GPL license
  * http://www.opensource.org/licenses/gpl-license.php
  */
@@ -28,7 +28,7 @@ function anno_register_taxonomies() {
 				'add_or_remove_items' => _x( 'Add or Remove Article Categories', 'taxonomy label', 'anno'),
 				'choose_from_most_used' => _x('Choose from the most used article categories', 'taxonomy label', 'anno'),
 				'menu_name' => _x('Article Categories', 'taxonomy menu name', 'anno'),
-			); 
+			);
 
 	register_taxonomy('article_category', 'article', array(
 		'hierarchical' => true,
@@ -37,7 +37,7 @@ function anno_register_taxonomies() {
 		'query_var' => true,
 		'rewrite' => true,
 	));
-	
+
 	// Article Tags
 	$labels = array(
 				'name' =>_x('Article Tag', 'taxonomy single name', 'anno'),
@@ -52,7 +52,7 @@ function anno_register_taxonomies() {
 				'add_or_remove_items' => _x( 'Add or Remove Article Tags', 'taxonomy label', 'anno'),
 				'choose_from_most_used' => _x('Choose from the most used article tags', 'taxonomy label', 'anno'),
 				'menu_name' => _x('Article Tags', 'taxonomy menu name', 'anno'),
-			); 
+			);
 
 	register_taxonomy('article_tag', 'article', array(
 		'hierarchical' => false,
@@ -61,13 +61,13 @@ function anno_register_taxonomies() {
 		'query_var' => true,
 		'rewrite' => true,
 	));
-	
+
 }
 add_action('after_setup_theme', 'anno_register_taxonomies', 1);
 
 /**
  * Remove default category meta box, so we can force the selection of only one category
- */ 
+ */
 function anno_remove_category_box() {
 	remove_meta_box('article_categorydiv', 'article', 'side');
 }

@@ -5,7 +5,7 @@
  * This file is part of the Annotum theme for WordPress
  * Built on the Carrington theme framework <http://carringtontheme.com>
  *
- * Copyright 2008-2011 Crowd Favorite, Ltd. All rights reserved. <http://crowdfavorite.com>
+ * Copyright 2008-2015 Crowd Favorite, Ltd. All rights reserved. <http://crowdfavorite.com>
  * Released under the GPL license
  * http://www.opensource.org/licenses/gpl-license.php
  */
@@ -22,18 +22,18 @@ define('CF_ANNO_COLORS', 'anno_colors');
 function cfcp_admin_init() {
 	if (!empty($_GET['page']) && $_GET['page'] == basename(__FILE__)) {
 		$plugin_dir = trailingslashit(get_template_directory_uri()).'plugins/'.basename(__FILE__, '.php');
-		
+
 		wp_enqueue_style('anno-colors-admin-css', $plugin_dir.'/css/admin.css', array(), '20090523', 'screen');
-		
+
 		// colorpicker version is the last entry date from the changelog since it doesn't appear to have a version defined
 		wp_enqueue_script('jquery-colorpicker', $plugin_dir.'/js/colorpicker/js/colorpicker.js', array('jquery'), '20090523');
 		wp_enqueue_style('jquery-colorpicker', $plugin_dir.'/js/colorpicker/css/colorpicker.css', array(), '20090523', 'screen');
-		
+
 		// our js
 		wp_enqueue_script('cf-colors', $plugin_dir.'/js/cf-colors.js', array('jquery', 'colorpicker', 'jquery-ui-sortable'), CF_ANNO_COLORS_VERSION);
 		wp_localize_script('cf-colors', 'cf_kuler_settings', array(
 			'loading' => 'Loading...'
-		));	
+		));
 	}
 }
 add_action('admin_init', 'cfcp_admin_init');
@@ -76,7 +76,7 @@ function cf_kuler_preset_panel() {
 		'Header' => '#753a2b',
 		'Navbar' => '#9e5a3b'
 	);
-	
+
 	$anno_presets['Grape'] = array(
 		'Text' => '#b8a3a7',
 		'Header' => '#574f7d',
@@ -85,11 +85,11 @@ function cf_kuler_preset_panel() {
 	$anno_presets['Forest'] = array(
 		'Text' => '#a3bf59',
 		'Header' => '#224732',
-		'Navbar' => '#4f8749' 
+		'Navbar' => '#4f8749'
 	);
 
 	$html = '';
-	foreach($anno_presets as $scheme_label => $color_list) { 
+	foreach($anno_presets as $scheme_label => $color_list) {
 		$html.='<div class="scheme-item">';
 		$html.='<a href="#" data="'.implode(',', $color_list).'">'.$scheme_label.'</a>';
 		$html.='<ul class="cf-clearfix">';
@@ -99,7 +99,7 @@ function cf_kuler_preset_panel() {
 		$html.='</ul>';
 		$html.='</div>';
 	}
-	
+
 	return $html;
 }
 
@@ -126,7 +126,7 @@ function anno_colors_get_settings() {
 
 function cf_kuler_colors_html($settings) {
 	extract($settings); // extracts $colors & $theme
-	
+
 	$html = '
 		<div class="cf-kuler-theme" data-swatches="'.implode(',', $colors).'">
 			'.cf_kuler_colors_list($colors).'
@@ -225,7 +225,7 @@ function cf_kuler_settings_form() {
 	if (!empty($_GET['updated']) && $_GET['updated'] == true) {
 		$message = '<div class="updated below-h2 fade cf-kuler-message-fade" id="message"><p>'.__('Settings updated.', 'cf-kuler').'</p></div>';
 	}
-		
+
 	print('
 <div class="wrap cf-kuler-wrap cf-clearfix">
 	'.screen_icon().'
@@ -255,12 +255,12 @@ function cf_kuler_settings_form() {
 		print('
 		</form>
 	</div><!-- .cfcp-section -->');
-	
+
 	print('<div class="cfcp-section">
 	<h3 class="cfcp-section-title"><span>Preset Schemes</span></h3>
 	'.cf_kuler_preset_panel().'
 	</div><!-- .cfcp-section -->');
-	
+
 	print('</div><!-- .cf-kuler-wrap -->');
 }
 

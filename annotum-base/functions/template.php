@@ -5,10 +5,10 @@
  * This file is part of the Annotum theme for WordPress
  * Built on the Carrington theme framework <http://carringtontheme.com>
  *
- * Copyright 2008-2011 Crowd Favorite, Ltd. All rights reserved. <http://crowdfavorite.com>
+ * Copyright 2008-2015 Crowd Favorite, Ltd. All rights reserved. <http://crowdfavorite.com>
  * Released under the GPL license
  * http://www.opensource.org/licenses/gpl-license.php
- * 
+ *
  * This file contains function wrappers for a few custom additions to the standard WordPress
  * template tag milieu.
  */
@@ -24,7 +24,7 @@ class Anno_Template_Utils {
 		}
 		return $post_id;
 	}
-	
+
 	public function strip_newlines($text) {
 		return preg_replace("/[\n\r]/", '', $text);
 	}
@@ -55,31 +55,31 @@ class Anno_Template_Utils {
 			if (!$value) {
 				continue;
 			}
-			
+
 			$attrs[] = esc_attr($key).'="'.esc_attr($value).'"';
 		}
 		return implode(' ', $attrs);
 	}
-	
+
 	public function to_tag($tag, $text, $attr1 = array(), $attr2 = array()) {
 		$tag = esc_attr($tag);
 		$html_attrs = $this->to_attr($attr1, $attr2);
 		$html_attrs = ($html_attrs ? ' '.$html_attrs : '');
-		
+
 		// If text deliberately unset, self-closing
 		if ($text === null) {
 			return '<'.$tag.$html_attrs.'/>';
 		}
-		
+
 		// If no text (unintentional) don't output text
 		if (!$text) {
 			return '';
 		}
-		
+
 		// Output standard wrapping tag
 		return '<'.$tag.$html_attrs.'>'.$text.'</'.$tag.'>';
 	}
-	
+
 	/**
 	 * Get content string from a specified meta key and run it through wptexturize().
 	 */
@@ -97,7 +97,7 @@ class Anno_Template {
 	 */
 	protected $enable_caches = true;
 	protected $utils; // An instance of the Anno_Utils class -- or whatever comes back from Anno_Keeper
-	
+
 	public function __construct() {
 		try {
 			$utils = Anno_Keeper::retrieve('utils');
@@ -106,13 +106,13 @@ class Anno_Template {
 			$utils = Anno_Keeper::keep('utils', new Anno_Template_Utils());
 		}
 		$this->utils = $utils;
-		
+
 		/* If we're in debug mode, turn of the transient caches. */
 		if (CFCT_DEBUG === true) {
 			$this->enable_caches = false;
 		}
 	}
-	
+
 	/**
 	 * Attach WordPress hooks. This should be a single point of attachment for all hooks in this
 	 * class. It should be called once per instance.
@@ -122,18 +122,18 @@ class Anno_Template {
 		add_action('deleted_post', array($this, 'invalidate_citation_cache'));
 		add_action('wp', array($this, 'add_assets'));
 	}
-	
+
 	public function add_assets() {
 		wp_enqueue_script('twitter', 'http://platform.twitter.com/widgets.js', array(), null, true);
 	}
-	
+
 	public function render_open_html() { ?><!--[if lt IE 7]> <html class="no-js ie6 oldie" <?php language_attributes() ?>> <![endif]-->
 <!--[if IE 7]>    <html class="no-js ie7 oldie" <?php language_attributes() ?>> <![endif]-->
 <!--[if IE 8]>    <html class="no-js ie8 oldie" <?php language_attributes() ?>> <![endif]-->
 <!--[if gt IE 8]><!--> <html class="no-js" <?php language_attributes() ?>> <!--<![endif]-->
 <?php
 	}
-	
+
 	/**
 	 * A getter for the_excerpt(). The excerpt doesn't have a getter that
 	 * is run through all the relevant filters. We'll do that here.
@@ -154,10 +154,10 @@ class Anno_Template {
 			global $post;
 			$post_id = $post->ID;
 		}
-		
+
 		/* Get the additional contributors, if the workflow is turned on. */
 		$authors = anno_get_authors($post_id);
-	
+
 		return $authors;
 	}
 
@@ -168,7 +168,7 @@ class Anno_Template {
 		$post_id = $this->utils->post_id_for_sure($post_id);
 		return get_post_meta($post_id, '_anno_subtitle', true);
 	}
-	
+
 	/**
 	 * Get the HTML list for authors.
 	 * @param int $post_id (optional)
@@ -195,21 +195,21 @@ class Anno_Template {
 				'degrees' => '',
 				'institution' => '',
 			 	'bio' => '',
-				// Stored in snapshot but not used here			
+				// Stored in snapshot but not used here
 				// 'email' => '',
 			);
-			
+
 			if ($author_is_id) {
 				$author_id = $author;
 				$author_wp_data = get_userdata($author_id);
-								
+
 				$author_data['first_name'] = $author_wp_data->user_firstname;
 				$author_data['last_name'] = $author_wp_data->user_lastname;
 				$author_data['link'] = $author_wp_data->user_url;
 				$author_data['display_name'] = $author_wp_data->display_name;
 				$author_data['link'] = $author_wp_data->user_url;
 				$author_data['bio'] = $author_wp_data->user_description;
-				
+
 				// Load in additional Annotum User Meta
 				if (is_array($anno_user_meta) && !empty($anno_user_meta)) {
 					foreach ($anno_user_meta as $key => $label) {
@@ -217,7 +217,7 @@ class Anno_Template {
 							$sanitized_key = substr($key, 6);
 						}
 						// Sanitized key for legacy data support
-						$author_data[$sanitized_key] = get_user_meta($author_id, $key, true);						
+						$author_data[$sanitized_key] = get_user_meta($author_id, $key, true);
 					}
 				}
 			}
@@ -229,7 +229,7 @@ class Anno_Template {
 				else {
 					$author_wp_data = false;
 				}
-				
+
 				$author_data['first_name'] = isset($author['given_names']) ? $author['given_names'] : '';
 				$author_data['last_name'] = isset($author['surname']) ? $author['surname'] : '';
 				$author_data['bio'] = isset($author['bio']) ? $author['bio'] : '';
@@ -237,7 +237,7 @@ class Anno_Template {
 				// $author_data['email'] = $author['email'];
 				// We may have an imported user here, in which case, they don't necessarily have a WP user ID and author_wp_data == false
 				$author_data['display_name'] = empty($author_wp_data) ? '' : $author_wp_data->display_name;
-				
+
 				if (is_array($anno_user_meta) && !empty($anno_user_meta)) {
 					$sanitized_key_meta = anno_sanitize_user_meta_keys($anno_user_meta);
 					foreach ($sanitized_key_meta as $sanitized_key => $label) {
@@ -245,11 +245,11 @@ class Anno_Template {
 							$author_data[$sanitized_key] = $author[$sanitized_key];
 						}
 					}
-				}				
+				}
 			}
 
 			$author_data['id'] = $author_id;
-			
+
 			// Use a user's website if there isn't a user object with associated id (imported user snapshots)
 			// Also check to see if this is a string ID or int val id, knol_id vs wp_id
 			if ($author_id == (string) intval($author_id)) {
@@ -261,10 +261,10 @@ class Anno_Template {
 			}
 			$prefix_markup = empty($author_data['prefix']) ? '' : '<span class="name-prefix">'.esc_html($author_data['prefix']).'</span> ';
 			$suffix_markup = empty($author_data['suffix']) ? '' : ' <span class="name-suffix">'.esc_html($author_data['suffix']).'</span>';
-	
-			
+
+
 			if ($author_data['first_name'] && $author_data['last_name']) {
-				$fn = empty($posts_url) ? '<span class="name">' : '<a href="'.esc_url($posts_url).'" class="url name">';				
+				$fn = empty($posts_url) ? '<span class="name">' : '<a href="'.esc_url($posts_url).'" class="url name">';
 
 				$fn .= $prefix_markup.'<span class="given-name">'.esc_html($author_data['first_name']).'</span> <span class="family-name">'.esc_html($author_data['last_name']).'</span>'.$suffix_markup;
 
@@ -277,7 +277,7 @@ class Anno_Template {
 
 				$fn .= $posts_url ? '</a>' : '</span>';
 			}
-	
+
 			// Which (additional) user meta to display, and in what order, some fields are not filterable
 			// Must match keys in $anno_user_meta global in order to properly pull the label
 			$extra_meta_display = apply_filters('anno_user_meta_display', array(
@@ -293,11 +293,11 @@ class Anno_Template {
 				if (strpos($key, '_anno_') === 0) {
 					$sanitized_key = substr($key, 6);
 				}
-				
+
 				if (!empty($author_data[$sanitized_key])) {
-					$label = isset($anno_user_meta[$key]) ? $anno_user_meta[$key].': ' : ucwords($sanitized_key).': ';	
+					$label = isset($anno_user_meta[$key]) ? $anno_user_meta[$key].': ' : ucwords($sanitized_key).': ';
 					$extra .= '<span class="'.esc_attr('group '.$sanitized_key).'">'.esc_html($label.$author_data[$sanitized_key]).'</span>';
-				}								
+				}
 			}
 
 			$extra = array();
@@ -343,7 +343,7 @@ class Anno_Template {
 
 		return apply_filters('anno_author_html', $out, $authors_data_arr);
 	}
-	
+
 	/**
 	 * Text-only citation -- safe for textareas.
 	 * Output is cached for 1 hour unless cache is invalidated by updating the post.
@@ -352,13 +352,13 @@ class Anno_Template {
 	public function get_citation($post_id = null) {
 		$post_id = $this->utils->post_id_for_sure($post_id);
 		$cache_key = 'anno_citation_html_'.$post_id;
-		
+
 		/* Do we already have this cached? Let's return that. */
 		$cache = get_transient($cache_key);
 		if ($cache !== false && $this->enable_caches !== false) {
 			return $cache;
 		}
-	
+
 		/* Otherwise, let's build a cache and return it */
 
 		$site = strip_tags(get_bloginfo('name'));
@@ -402,7 +402,7 @@ class Anno_Template {
 				$last = $contributor['surname'];
 				$display_name = empty($author_wp_data) ? '' : $contributor_wp_data->display_name;
 			}
-			
+
 			if ($first && $last) {
 
 				$first_formatted = '';
@@ -418,13 +418,13 @@ class Anno_Template {
 			else {
 				$name = $display_name;
 			}
-			
+
 			if (!empty($name)) {
 				$names[] = $name;
 			}
 		}
 		$authors = implode(', ', $names);
-		
+
 		if (function_exists('annowf_clone_get_family')) {
 			$family_ids = annowf_clone_get_family($post_id);
 		}
@@ -474,26 +474,26 @@ class Anno_Template {
 			$last_modified, // 6
 			$doi_str // 7 note this already has the trailing .
 		);
-		
+
 		set_transient($cache_key, $citation, 60*60); // Cache for 1 hour.
 		return $citation;
 	}
-	
+
 	/**
 	 * Delete citation caches. Run on post update hook.
 	 */
 	public function invalidate_citation_cache($post_id) {
 		delete_transient('anno_citation_html_'.$post_id);
 	}
-	
+
 	public function get_funding_statement($post_id = null) {
 		return $this->utils->texturized_meta($post_id, '_anno_funding');
 	}
-	
+
 	public function get_acknowledgements($post_id = null) {
 		return $this->utils->texturized_meta($post_id, '_anno_acknowledgements');
 	}
-	
+
 	public function get_appendices($post_id = null) {
 		$out = '';
 		$post_id = $this->utils->post_id_for_sure($post_id);
@@ -506,7 +506,7 @@ class Anno_Template {
 			for ($i=0, $count = count($appendices); $i < $count; $i++) {
 				$title = '<h1><span>'.sprintf($title_text, $i + 1).'</span></h1>';
 				$content = $appendices[$i];
-				
+
 				$out .= '<section class="appendix sec">'.$title.$content.'</section>';
 			}
 
@@ -514,13 +514,13 @@ class Anno_Template {
 		}
 		return $out;
 	}
-	
-	public function get_references($post_id = null) {		
+
+	public function get_references($post_id = null) {
 		$out = '';
 		$post_id = $this->utils->post_id_for_sure($post_id);
 		$references = get_post_meta($post_id, '_anno_references', true);
 		if (is_array($references) && !empty($references)) {
-			
+
 			$out .= '<div id="references" class="references">
 						<section class="sec">
 							<h1><span>'._x('References', 'Reference title displayed in post.', 'anno').'</h1></span>
@@ -532,9 +532,9 @@ class Anno_Template {
 				else {
 					$url_markup = '';
 				}
-				
+
 				$out .= '<li data-refid="'.esc_attr($ref_key+1).'" id="'.esc_attr('ref'.($ref_key + 1)).'">'.esc_html($reference['text']).$url_markup.'</li>';
-				
+
 			}
 			$out .= '		</ul>
 						</section>
@@ -542,8 +542,8 @@ class Anno_Template {
 		}
 		return $out;
 	}
-	
-	
+
+
 	public function get_twitter_button($text = null, $attr = array()) {
 		if (!$text) {
 			$text = _x('Tweet', 'Text for Twitter button', 'anno');
@@ -557,7 +557,7 @@ class Anno_Template {
 		);
 		return $this->utils->to_tag('a', $text, $default_attr, $attr);
 	}
-	
+
 	public function get_facebook_button($attr = array()) {
 		$url = urlencode(get_permalink());
 		$default_attr = array(
@@ -570,20 +570,20 @@ class Anno_Template {
 		);
 		return $this->utils->to_tag('iframe', '&nbsp;', $default_attr, $attr);
 	}
-	
+
 	public function get_email_link($text = null, $attr = array()) {
 		if (!$text) {
 			$text = _x('Email', 'Text for "email this" link', 'anno');
 		}
-		
+
 		$title = esc_attr($this->utils->truncate_words(get_the_title(), 5));
 		$url = urlencode(get_permalink());
-		
+
 		$excerpt = strip_tags($this->get_excerpt());
 		$excerpt = $this->utils->strip_newlines($excerpt);
 		$excerpt = $this->utils->truncate_words($excerpt, 10);
 		$excerpt = esc_attr($excerpt);
-		
+
 		$default_attr = array(
 			'href' => 'mailto:?subject='.$title.'&amp;body='.$excerpt.'%0A%0A '.$url,
 			'class' => 'email imr'
@@ -601,7 +601,7 @@ class Anno_Header_Image {
 	public $dimensions = array();
 	public $default_image_path;
 	public $header_image = '';
-	
+
 	/**
 	 * @param array $output_dimensions
 	 * @param string $image_size
@@ -614,7 +614,7 @@ class Anno_Header_Image {
 			$utils = Anno_Keeper::keep('utils', new Anno_Template_Utils());
 		}
 		$this->utils = $utils;
-		
+
 		if (count($output_dimensions)) {
 			$this->dimensions = array(
 				$output_dimensions[0],
@@ -632,7 +632,7 @@ class Anno_Header_Image {
 		}
 		$this->default_image_path = $default_image_path;
 	}
-	
+
 	/**
 	 * Wraps all of the constants necessary, plus a function call. Basically trying to
 	 * make the current WP header image implementation simpler to work with.
@@ -651,9 +651,9 @@ class Anno_Header_Image {
 			'admin-preview-callback' => '',
 		));
 	}
-	
+
 	public function head_callback() {}
-		
+
 	public function admin_head_callback() {
 		echo '<style type="text/css" media="screen">
 	.appearance_page_custom-header #headimg {
@@ -661,7 +661,7 @@ class Anno_Header_Image {
 	}
 </style>';
 	}
-	
+
 	/**
 	 * A header image URL getter that memoizes the result for this instance.
 	 */
@@ -671,14 +671,14 @@ class Anno_Header_Image {
 		}
 		return $this->header_image;
 	}
-	
+
 	/**
 	 * Custom header image set?
 	 */
 	public function has_image() {
 		return (bool) $this->get_image_url();
 	}
-	
+
 	/**
 	 * Get back an image tag for the header image if one exists
 	 */
@@ -703,7 +703,7 @@ function anno_template_init() {
 	$template = new Anno_Template();
 	$template->attach_hooks();
 	Anno_Keeper::keep('template', $template);
-	
+
 	/* Set up Header Image
 	Header image registered later, at 'init'. This gives child themes a chance to override
 	the class used. */

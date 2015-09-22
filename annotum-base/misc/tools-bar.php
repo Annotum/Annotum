@@ -5,14 +5,14 @@
  * This file is part of the Annotum theme for WordPress
  * Built on the Carrington theme framework <http://carringtontheme.com>
  *
- * Copyright 2008-2011 Crowd Favorite, Ltd. All rights reserved. <http://crowdfavorite.com>
+ * Copyright 2008-2015 Crowd Favorite, Ltd. All rights reserved. <http://crowdfavorite.com>
  * Released under the GPL license
  * http://www.opensource.org/licenses/gpl-license.php
  */
 
 // Set a default PDF Link
 $pdf_link = '';
-if (function_exists('anno_pdf_download_url')) { 
+if (function_exists('anno_pdf_download_url')) {
 	$pdf_url = anno_pdf_download_url(get_the_ID());
 	if (!empty($pdf_url)) {
 		$pdf_link = '<a href="'.esc_url($pdf_url).'">'.__('PDF', 'anno').'</a>';
@@ -40,7 +40,7 @@ if (function_exists('anno_xml_download_url')) {
 		</div><!--/.citation-container -->
 	</div>
 	<div class="cell download">
-		<?php echo implode(', ', array($pdf_link, $xml_link)); ?> 
+		<?php echo implode(', ', array($pdf_link, $xml_link)); ?>
 	</div>
 	<div class="cell share clearfix">
 		<div class="social-nav">

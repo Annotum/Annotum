@@ -5,17 +5,17 @@
  * This file is part of the Annotum theme for WordPress
  * Built on the Carrington theme framework <http://carringtontheme.com>
  *
- * Copyright 2008-2011 Crowd Favorite, Ltd. All rights reserved. <http://crowdfavorite.com>
+ * Copyright 2008-2015 Crowd Favorite, Ltd. All rights reserved. <http://crowdfavorite.com>
  * Released under the GPL license
  * http://www.opensource.org/licenses/gpl-license.php
  */
 
 /**
- * 
+ *
  * @param string $key option name to get
  * @param mixed $default What to return if the given option is not set
  * @return mixed
- */ 
+ */
 function annowf_get_option($key, $default = false) {
 	$option = cfct_get_option('workflow_settings');
 
@@ -29,15 +29,15 @@ function annowf_get_option($key, $default = false) {
 
 /**
  * Helper function to determine if the workflow is enabled
- * 
+ *
  * @param string $option Name of the workflow option to check. Defaults to workflow (entire workflow enabled/disabled)
  * @return mixed true(1) if the workflow is enabled, false(null) otherwise
- */ 
+ */
 function anno_workflow_enabled($option = null) {
 	if (empty($option)) {
 		$option = 'workflow';
 	}
-	
+
 	return annowf_get_option($option);
 }
 
@@ -62,7 +62,7 @@ function annowf_setup() {
 		include_once(ANNO_PLUGIN_PATH.'/workflow/publishing-meta-box.php');
 		include_once(ANNO_PLUGIN_PATH.'/workflow/notification.php');
 		include_once(ANNO_PLUGIN_PATH.'/workflow/clone.php');
-		
+
 		if (annowf_get_option('listing_filter')) {
 			include_once(ANNO_PLUGIN_PATH.'/workflow/viewable.php');
 		}
