@@ -5,14 +5,14 @@
  * This file is part of the Annotum theme for WordPress
  * Built on the Carrington theme framework <http://carringtontheme.com>
  *
- * Copyright 2008-2011 Crowd Favorite, Ltd. All rights reserved. <http://crowdfavorite.com>
+ * Copyright 2008-2015 Crowd Favorite, Ltd. All rights reserved. <http://crowdfavorite.com>
  * Released under the GPL license
  * http://www.opensource.org/licenses/gpl-license.php
  */
 
 /**
  * Array of user meta keys and their labels
- */  
+ */
 global $anno_user_meta;
 $anno_user_meta = apply_filters('anno_user_meta', array(
 	'_anno_prefix' => _x('Name Prefix', 'form label', 'anno'),
@@ -45,15 +45,15 @@ function anno_sanitize_user_meta_keys($meta_array) {
 
 /**
  * User profile markup for Annotum specific items
- */ 
+ */
 function anno_profile_fields($user) {
 	global $anno_user_meta;
 	if (is_array($anno_user_meta) && !empty($anno_user_meta)) {
 ?>
 		<?php echo apply_filters('anno_profile_fields_title', __('<h3>Miscellaneous</h3>', 'anno')); ?>
 		<table class="form-table">
-			<tbody>		
-				
+			<tbody>
+
 <?php
 		foreach ($anno_user_meta as $key => $label) {
 			$meta_val = get_user_meta($user->ID, $key, true);
@@ -68,7 +68,7 @@ function anno_profile_fields($user) {
 			</tbody>
 		</table>
 		<input type="hidden" name="anno_profile_update" value="1">
-<?php	
+<?php
 	} // if
 }
 add_action('show_user_profile', 'anno_profile_fields');
@@ -91,7 +91,7 @@ function anno_profile_update($user_id) {
 			}
 			else {
 				update_user_meta($user_id, $key, $value);
-			}			
+			}
 		}
 	}
 }
@@ -126,7 +126,7 @@ function anno_register_form(){
 					<input id="<?php echo esc_attr($key) ?>" class="input" type="text" tabindex="20" size="25" value="<?php echo esc_attr($input_val); ?>" name="<?php echo esc_attr($key) ?>"/>
 				</label>
 			</p>
-<?php 
+<?php
 		}
 	}
 }
@@ -155,7 +155,7 @@ add_action('register_post','anno_user_register_validation', 10, 3);
 function anno_user_register($user_id)  {
 	$userdata = array();
 	$update = false;
-	
+
 	foreach ($userdata as $key => $value) {
 		if ($key == 'first_name' || $key == 'last_name') {
 			$userdata[$key] = $_POST[$key];
@@ -169,7 +169,7 @@ function anno_user_register($user_id)  {
 			update_user_meta($user_id, $key, $val);
 		}
 	}
-	
+
 	if ($update) {
 		$userdata['ID'] = $user_id;
 		wp_update_user($userdata);
@@ -198,7 +198,7 @@ add_action('user_profile_update_errors', 'anno_user_profile_update_validation');
  * Sanitize meta key to use around the site
  * @param string
  * @todo log filter
- */ 
+ */
 function anno_sanitize_meta_key($meta_key) {
 	$meta_key = str_replace('_anno_', '', $meta_key);
 	return apply_filters('anno_sanitize_meta_key', $meta_key);

@@ -5,7 +5,7 @@
  * This file is part of the Annotum theme for WordPress
  * Built on the Carrington theme framework <http://carringtontheme.com>
  *
- * Copyright 2008-2011 Crowd Favorite, Ltd. All rights reserved. <http://crowdfavorite.com>
+ * Copyright 2008-2015 Crowd Favorite, Ltd. All rights reserved. <http://crowdfavorite.com>
  * Released under the GPL license
  * http://www.opensource.org/licenses/gpl-license.php
  */
@@ -26,7 +26,7 @@ if (CFCT_DEBUG) { cfct_banner(__FILE__); }
 			<time class="published" pubdate datetime="<?php the_time('c'); ?>"><?php the_time('F j, Y'); ?></time>
 			<?php anno_the_terms('article_category', '<span class="article-categories"> <span class="sep">&middot;</span> ', ',', '</span>'); ?>
 		</div>
-				
+
 		<div class="sec sec-authors">
 			<span class="authors nav">
 				<?php anno_the_authors(); ?>

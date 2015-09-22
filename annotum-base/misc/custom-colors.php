@@ -5,7 +5,7 @@
  * This file is part of the Annotum theme for WordPress
  * Built on the Carrington theme framework <http://carringtontheme.com>
  *
- * Copyright 2008-2011 Crowd Favorite, Ltd. All rights reserved. <http://crowdfavorite.com>
+ * Copyright 2008-2015 Crowd Favorite, Ltd. All rights reserved. <http://crowdfavorite.com>
  * Released under the GPL license
  * http://www.opensource.org/licenses/gpl-license.php
  */
@@ -17,9 +17,9 @@
 ?>
 <style type="text/css" media="screen">
 
- 
+
 	/* Color 1 */
-	
+
 		/* Background Color */
 		#header .header-body,
 		#header .navigation,
@@ -35,10 +35,10 @@
 		/* Border Color */
 		#site-nav li,
 		.callout-item,
-		.widget-recent-posts .nav li { 
+		.widget-recent-posts .nav li {
 			border-color: <?php echo $color1; ?>;
 		}
-	
+
 		/* Text Color */
 		.featured-posts .control-panel,
 		.article-excerpt .header .meta a:hover,
@@ -48,7 +48,7 @@
 
 
 	/* Color 2 */
-	
+
 		/* Background Color */
 		#site-nav,
 		#site-nav li,

@@ -5,7 +5,7 @@
  * This file is part of the Annotum theme for WordPress
  * Built on the Carrington theme framework <http://carringtontheme.com>
  *
- * Copyright 2008-2011 Crowd Favorite, Ltd. All rights reserved. <http://crowdfavorite.com>
+ * Copyright 2008-2015 Crowd Favorite, Ltd. All rights reserved. <http://crowdfavorite.com>
  * Released under the GPL license
  * http://www.opensource.org/licenses/gpl-license.php
  */
@@ -13,10 +13,10 @@
 /**
  * AJAX handler that looks up an article based on PMID and parses the data for a reference.
  * Echos a json encoded array
- * 
+ *
  * @return void
- */ 
-function anno_reference_import_pubmed() {	
+ */
+function anno_reference_import_pubmed() {
 	check_ajax_referer('anno_import_pubmed', '_ajax_nonce-import-pubmed');
 	if (!isset($_POST['pmid'])) {
 		$lookup_response = anno_reference_error_response();
@@ -35,7 +35,7 @@ function anno_reference_import_pubmed() {
 	if (preg_match('/[^0-9]/', $pubmed_id) || $pubmed_id > 4294967295) {
 		anno_reference_error_response(_x('Invalid PMID', 'pmid lookup error message', 'anno'));
 	}
-		
+
 	// Generate the URL for lookup
 	$url = 'http://eutils.ncbi.nlm.nih.gov/entrez/eutils/esummary.fcgi?db=pubmed&id='.$pubmed_id;
 
@@ -46,7 +46,7 @@ function anno_reference_import_pubmed() {
 	else {
 		$response = wp_remote_get($url);
 	}
-	
+
 	if (is_wp_error($response) || (isset($response['response']['code']) && $response['response']['code'] != 200) || !isset($response['body'])) {
 		anno_reference_error_response();
 	}
@@ -54,7 +54,7 @@ function anno_reference_import_pubmed() {
 		include_once(CFCT_PATH.'functions/phpquery/phpquery.php');
 		phpQuery::newDocumentXML($response['body']);
 		phpQuery::getDocument();
-		
+
 		$errors = pq('ERROR');
 		$body = pq('DocSum');
 		if ($errors->length > 0 || $body->length == 0) {
@@ -62,7 +62,7 @@ function anno_reference_import_pubmed() {
 		}
 		else {
 			$text = '';
-			
+
 			// Authors
 			$authors = pq('Item[Name="Author"]');
 			$author_arr = array();
@@ -73,31 +73,31 @@ function anno_reference_import_pubmed() {
 			if (!empty($author_arr)) {
 				$text .= implode(', ', $author_arr).'. ';
 			}
-			
+
 			// Title
 			$title = pq('Item[Name="Title"]')->text();
 			if (!empty($title)) {
 				// Titles already have period
 				$text .= $title.' ';
 			}
-			
+
 			// Source
 			$source = pq('Item[Name="Source"]')->text();
 			if (!empty($source)) {
 				$text .= $source.'. ';
 			}
-			
+
 			// Date, Volume, Issue, Page
 			$date_meta = '';
 			$date = pq('Item[Name="PubDate"]')->text();
 			$volume = pq('Item[Name="Volume"]')->text();
 			$issue = pq('Item[Name="Issue"]')->text();
 			$page = pq('Item[Name="Pages"]')->text();
-						
+
 			if (!empty($date)) {
 				$date_meta .= $date;
 			}
-			
+
 			if (!empty($volume) || !empty($issue) || !empty($page)) {
 				$date_meta .= ';';
 				if (!empty($volume)) {
@@ -110,20 +110,20 @@ function anno_reference_import_pubmed() {
 					$date_meta .= ':'.$page;
 				}
 			}
-			
+
 			if (!empty($date_meta)) {
 				$text .= $date_meta.'. ';
 			}
-			
-			$text .= _x('PubMed PMID:', 'Reference text for PubMed lookup', 'anno').$pubmed_id.'.';			
+
+			$text .= _x('PubMed PMID:', 'Reference text for PubMed lookup', 'anno').$pubmed_id.'.';
 
 			$lookup_response = array(
 				'message' => 'success',
 				'text' => esc_textarea($text),
 			);
-		}	
+		}
 	}
-		
+
 	echo json_encode($lookup_response);
 	die();
 }
@@ -133,7 +133,7 @@ add_action('wp_ajax_anno-import-pubmed', 'anno_reference_import_pubmed');
 /**
  * AJAX handler that looks up an article based on PMID and parses the data for a reference.
  * Echos a JSON encoded array
- * 
+ *
  * @return void
  */
 function anno_reference_import_doi() {
@@ -144,7 +144,7 @@ function anno_reference_import_doi() {
 	else {
 		$doi = $_POST['doi'];
 	}
-	
+
 	$lookup_response = array(
 		'message' => 'error',
 		'text' => _x('An error has occurred, please try again later', 'pmid lookup error message', 'anno'),
@@ -159,7 +159,7 @@ function anno_reference_import_doi() {
 	// Generate the URL for lookup
 	$crossref_login = cfct_get_option('crossref_login');
 	$crossref_pass = cfct_get_option('crossref_pass');
-	
+
 	// Empty login, or empty password and login is not an email.
 	if (empty($crossref_login) || (empty($crossref_pass) && !anno_is_valid_email($crossref_login))) {
 		anno_reference_error_response(_x('Invalid CrossRef Login', 'pmid lookup error message', 'anno'));
@@ -206,16 +206,16 @@ function anno_reference_import_doi() {
 		// Process resolved queries
 		else if ($query_status == 'resolved') {
 			$text = '';
-			
+
 			// There should only be a single 'first' author.
 			$prime_author = pq('contributor[sequence="first"][contributor_role="author"]');
 			$author_text = anno_reference_doi_process_author($prime_author);
 			if (!empty($author_text)) {
 				$author_arr[] = $author_text;
 			}
-			
+
 			$additional_authors = pq('contributor[sequence="additional"][contributor_role="author"]');
-			
+
 			foreach ($additional_authors as $additional_author) {
 				$additional_author = pq($additional_author);
 				$author_text = anno_reference_doi_process_author($additional_author);
@@ -223,8 +223,8 @@ function anno_reference_import_doi() {
 					$author_arr[] = $author_text;
 				}
 			}
-			$text .= implode(', ', $author_arr).'. ';			
-			
+			$text .= implode(', ', $author_arr).'. ';
+
 			// Title
 			$title = pq('article_title')->text();
 			if (!empty($title)) {
@@ -270,7 +270,7 @@ function anno_reference_import_doi() {
 				$text .= $date_meta.'. ';
 			}
 
-			$text .= _x('DOI:', 'Reference text for doi lookup', 'anno').$doi.'.';			
+			$text .= _x('DOI:', 'Reference text for doi lookup', 'anno').$doi.'.';
 
 			$lookup_response = array(
 				'message' => 'success',
@@ -290,15 +290,15 @@ add_action('wp_ajax_anno-import-doi', 'anno_reference_import_doi');
 
 /**
  * Echos out a JSON encoded array for errors with reference lookup.
- * 
+ *
  * @param String $message Error message to be used, otherwise a default will be generated
  * @return void
- */ 
+ */
 function anno_reference_error_response($message = null) {
 	if (empty($message)) {
 		$message = _x('An error has occurred, please try again later', 'pmid lookup error message', 'anno');
 	}
-	
+
 	echo json_encode(array(
 		'message' => 'error',
 		'text' => $message,
@@ -310,15 +310,15 @@ function anno_reference_error_response($message = null) {
 /**
  * Generate author text for a DOI XML document
  * @param phpQueryObject $author author wrapping element
- * @return string  
- */ 
+ * @return string
+ */
 function anno_reference_doi_process_author($author) {
 	$text = '';
 	//Last, First, Suffix
 	$last_name = pq('surname', $author)->text();
 	$first_name = pq('given_name', $author)->text();
 	$suffix = pq('suffix', $author)->text();
-		
+
 	if (!empty($last_name)) {
 		$text .= $last_name;
 		if (!empty($first_name) || !empty($suffix)) {
@@ -332,21 +332,21 @@ function anno_reference_doi_process_author($author) {
 			$text .= ', ';
 		}
 	}
-	
+
 	if (!empty($suffix)) {
 		$text .= $suffix;
 	}
-	
+
 	return $text;
 }
 
 
 /**
  * Generate an article XML for CrossRef deposit
- * 
+ *
  * @param int $article_id WP post ID
  * @param int $user_id WP User ID
- * 
+ *
  * @return todo
  */
 function anno_doi_article_deposit($article_id, $user_id) {
@@ -356,7 +356,7 @@ function anno_doi_article_deposit($article_id, $user_id) {
 			'markup' => _x('You do not have the correct permissions to perform this action', 'DOI deposit error message', 'anno'),
 		);
 	}
-	
+
 	$article = get_post($article_id);
 	if ($article->post_status != 'publish') {
 		return array(
@@ -364,23 +364,23 @@ function anno_doi_article_deposit($article_id, $user_id) {
 			'markup' => _x('Article must be published in order to deposit.', 'DOI deposit error message', 'anno'),
 		);
 	}
-	
+
 	$journal_title = cfct_get_option('journal_name');
 	$journal_issn = cfct_get_option('journal_issn');
 	$registrant_code = cfct_get_option('registrant_code');
 	$crossref_id = cfct_get_option('crossref_login');
 	$crossref_pass = cfct_get_option('crossref_pass');
-	
+
 	$error_markup = null;
-	
+
 	// We don't want this to be passed in as a parameter, in case someone has hijacked the POST var this would come in on
 	$doi = anno_get_doi($article_id);
-	
+
 	// User required credentials
 	if (empty($crossref_id) || empty($crossref_pass) || empty($registrant_code)) {
 		$error_markup = _x('Invalid or Empty CrossRef Credentials', 'DOI deposit error message', 'anno');
 	}
-	
+
 	// Journal Required Fields
 	if (empty($journal_title) || empty($journal_issn)) {
 		$error_markup = _x('Invalid or Empty Journal Data', 'DOI deposit error message', 'anno');
@@ -390,25 +390,25 @@ function anno_doi_article_deposit($article_id, $user_id) {
 	if ($article->post_status !== 'publish') {
 		$error_markup = _x('Article must be published to submit a DOI request', 'DOI deposit error message', 'anon');
 	}
-	
+
 	$article_year = date('Y', strtotime($article->post_date));
 
-	// Article Required Fields	
+	// Article Required Fields
 	if (empty($article->post_title) || empty($article_year) || empty($doi)) {
 		$error_markup = _x('Invalid or Empty Article Data', 'DOI deposit error message', 'anon');
 	}
-	
+
 	if (!empty($error_markup)) {
 		return array(
 			'message' => 'error',
 			'markup' => $error_markup,
 		);
 	}
-	
+
 	// Journal Required Fields:
 	// full_title, ISSN
 	// (rec) abbrev_title
-	// 
+	//
 	// Article
 	// titles, publication_date (year), doi_data
 	// (rec) contributors, publication_date (day, month), pages (first_page, last_page), citation_list
@@ -416,7 +416,7 @@ function anno_doi_article_deposit($article_id, $user_id) {
 	// Journal Title
 	$journal_title_xml = '<full_title>'.$journal_title.'</full_title>';
 
-	// Journal ISSN 
+	// Journal ISSN
 	$journal_issn_xml = '<issn media_type="online">'.$journal_issn.'</issn>';
 
 	// Journal abbr
@@ -439,7 +439,7 @@ function anno_doi_article_deposit($article_id, $user_id) {
 			else {
 				$sequence = 'additional';
 			}
-			
+
 			$author_xml .= '<person_name sequence="'.$sequence.'" contributor_role="author">';
 			if (!empty($author['given_names'])) {
 				$author_xml .= '<given_name>'.esc_html($author['given_names']).'</given_name>';
@@ -473,11 +473,11 @@ function anno_doi_article_deposit($article_id, $user_id) {
 			'markup' => '',
 		);
 	}
-	
+
 	if (strpos('10.'.$registrant_code.'/', $doi) === false) {
 		$doi = '10.'.$registrant_code.'/'.$doi;
 	}
-		
+
 	$citation_xml = '';
 	if ($citation_xml = get_post_meta($article->ID, '_anno_references', true)) {
 		if (!empty($citations) && is_array($citation_xml)) {
@@ -494,22 +494,22 @@ function anno_doi_article_deposit($article_id, $user_id) {
 			}
 		}
 	}
-	
+
 	// Use old parameter based links, in case permalink structure is changed in the future
 	$permalink = home_url('?p=' . $article->ID);
-	
+
 	$current_user = wp_get_current_user();
-	
+
 	$depositor_xml = '
 		<depositor>
 			<name>'.$current_user->display_name.'</name>
 			<email_address>'.$current_user->user_email.'</email_address>
 		</depositor>
 	';
-	
+
 
 	$xml = '
-<?xml version="1.0" encoding="UTF-8"?> 
+<?xml version="1.0" encoding="UTF-8"?>
 <doi_batch xmlns="http://www.crossref.org/schema/4.3.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="4.3.0" xsi:schemaLocation="http://www.crossref.org/schema/4.3.0 http://www.crossref.org/schema/deposit/crossref4.3.0.xsd">
 	<head>
 		<timestamp>'.time().'</timestamp>'.
@@ -534,7 +534,7 @@ function anno_doi_article_deposit($article_id, $user_id) {
 				<publication_date media_type="online">
 					<year>'.$article_year.'</year>
 				</publication_date>
-				
+
 				<doi_data>
 					<doi>'.$doi.'</doi>
 					<timestamp>'.strtotime($article->post_date).'</timestamp>
@@ -570,7 +570,7 @@ function anno_doi_article_deposit($article_id, $user_id) {
 		</journal>
 	</body>
 </doi_batch>';
-		
+
 	// @TODO Verify (Attempt to deposit in test DB)
 	$filename = 'crossref-deposit-'.$article->ID.'.xml';
 	$file_handler = fopen($filename, 'w');
@@ -581,9 +581,9 @@ function anno_doi_article_deposit($article_id, $user_id) {
 			'markup' => _x('Could not create file to be deposited, please check your system setup',  'DOI deposit error message', 'anno'),
 		);
 	}
-	
+
 	fwrite($file_handler, $xml);
-	
+
 	$test_url = 'http://doi.crossref.org/servlet/deposit?operation=doMDUpload&login_id='.$crossref_id.'&login_passwd='.$crossref_pass.'&area=test';
 	$test_args = array(
 		'headers' => array(
@@ -593,13 +593,13 @@ function anno_doi_article_deposit($article_id, $user_id) {
 	);
 
 	$test_result = wp_remote_post($test_url, $test_args);
-	
+
 	fclose($file_handler);
 	return array('test');
 
 	// @TODO Deposit, use area=live
 	// $url = 'http://www.crossref.org/openurl/?pid='.$crossref_login.'&id=doi:'.$doi.'&noredirect=true';
-	
+
 	// @TODO Submit meta
 	// DOI should no longer be able to be submitted, update corresponding post meta
 }
@@ -620,10 +620,10 @@ add_action('wp_ajax_anno-doi-deposit', 'anno_doi_deposit_ajax');
 
 /**
  * Get an existing DOI for a post, or generate a new one
- * 
+ *
  * @param int $post_id
  * @param bool $generate_new_doi whether or not to force a new DOI generation
- * 
+ *
  * @return mixed DOI for this article/false if a valid article id is not passed in.
  */
 function anno_get_doi($post_id, $generate_new_doi = false) {
@@ -644,19 +644,19 @@ function anno_get_doi($post_id, $generate_new_doi = false) {
 			$doi = anno_get_doi($post_id, true);
 		}
 	}
-	
+
 	return $doi;
 }
 
 /**
  * Ajax handler for regenerating a new DOI
- */ 
+ */
 function anno_doi_regenerate_ajax() {
 	check_ajax_referer('anno_doi_regenerate', '_ajax_nonce-doi-regenerate');
 	if (empty($_POST['article_id'])) {
 		die();
 	}
-		
+
 	$new_doi = anno_get_doi((int) $_POST['article_id'], true);
 	echo json_encode(array(
 		'doi' => $new_doi,
@@ -669,7 +669,7 @@ add_action('wp_ajax_anno-doi-regenerate', 'anno_doi_regenerate_ajax');
 /**
  * Markup for regeneration submission
  * @return string HTML String for regeneration markup
- */ 
+ */
 function anno_regenerate_doi_markup() {
 	$html = '<input id="doi-regenerate" type="button" value="'._x('Regenerate DOI', 'button text', 'anno').'" />';
  	$html .= wp_nonce_field('anno_doi_regenerate', '_ajax_nonce-doi-regenerate', true, false);

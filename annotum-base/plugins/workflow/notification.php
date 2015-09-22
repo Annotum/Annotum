@@ -5,7 +5,7 @@
  * This file is part of the Annotum theme for WordPress
  * Built on the Carrington theme framework <http://carringtontheme.com>
  *
- * Copyright 2008-2011 Crowd Favorite, Ltd. All rights reserved. <http://crowdfavorite.com>
+ * Copyright 2008-2015 Crowd Favorite, Ltd. All rights reserved. <http://crowdfavorite.com>
  * Released under the GPL license
  * http://www.opensource.org/licenses/gpl-license.php
  */
@@ -17,7 +17,7 @@
  * @param stdObj $post WP Post object
  * @param stdObj $comment WP Comment object
  * @param array $recipients Array of email addresses to send the notification to. This will merge with predetermined values.
- * @param mixed $single_user (id or WP User Object) User in which the notification directly refers to such as the User which was added as a reviewer. 
+ * @param mixed $single_user (id or WP User Object) User in which the notification directly refers to such as the User which was added as a reviewer.
  * @param $data array of supporting data for notifications
  * @return bool true if mail sent successfully, false otherwise.
  */
@@ -29,7 +29,7 @@ function annowf_send_notification($type, $post = null, $comment = null, $recipie
 	else if (empty($type)) {
 		return false;
 	}
-	
+
 	$notification = annowf_notification_message($type, $post, $comment, $single_user, $data);
 	if (is_null($recipients) || !is_array($recipients)) {
 		$recipients = annowf_notification_recipients($type, $post);
@@ -62,8 +62,8 @@ function annowf_notification_recipients($type, $post) {
 		case 're_review':
 			$recipients = array_merge($recipients, annowf_get_role_emails('reviewer', $post));
 		case 'in_review':
-			$recipients = array_merge($recipients, annowf_get_role_emails('editor', $post));		
-			$recipients = array_merge($recipients, annowf_get_role_emails('author', $post));	
+			$recipients = array_merge($recipients, annowf_get_role_emails('editor', $post));
+			$recipients = array_merge($recipients, annowf_get_role_emails('author', $post));
 			$recipients = array_merge($recipients, annowf_get_role_emails('administrator', $post));
 			break;
 		case 'published':
@@ -76,7 +76,7 @@ function annowf_notification_recipients($type, $post) {
 			break;
 		case 'general_comment':
 			$recipients = array_merge($recipients, annowf_get_role_emails('author', $post));
-			$recipients = array_merge($recipients, annowf_get_role_emails('administrator', $post));	
+			$recipients = array_merge($recipients, annowf_get_role_emails('administrator', $post));
 			$recipients = array_merge($recipients, annowf_get_role_emails('reviewer', $post));
 			break;
 		case 'review_comment':
@@ -97,15 +97,15 @@ function annowf_notification_recipients($type, $post) {
  * @param string $type The type of notification to send
  * @param stdObj $post WP Post object
  * @param stdObj $comment WP Comment object
- * @param mixed $single_user (id or object) User in which the notification directly refers to such as the User in which was added as a reviewer. 
+ * @param mixed $single_user (id or object) User in which the notification directly refers to such as the User in which was added as a reviewer.
  * @return array Array consisting of email title and body
  */
 function annowf_notification_message($type, $post, $comment, $single_user = null, $data = false) {
 	$footer = get_option('blogname').' '.home_url();
-	
+
 	$author = get_userdata($post->post_author);
 	$author = anno_user_display($author);
-	
+
 	if (!empty($single_user->ID)) {
 		$single_user_id = $single_user->ID;
 	}
@@ -121,16 +121,16 @@ function annowf_notification_message($type, $post, $comment, $single_user = null
 
 	$edit_link = get_edit_post_link($post->ID, null);
 	$title = $post->post_title;
-	
-	
+
+
 	$excerpt = strip_tags($post->post_excerpt ? $post->post_excerpt : $post->post_content);
 
 	if (strlen($excerpt) > 255) {
 		$excerpt = substr($excerpt,0,252) . '...';
 	}
-	
+
 	$reviewer_instructions = _x('To review this article, please visit the URL above and navigate to the Reviews section. You may leave comments and questions in this section as well as providing a general review of \'Approve\', \'Reject\' or \'Request Revisions\' from the dropdown.', 'Instructions sent to reviewers via email notification', 'anno');
-	
+
 	$notification = array('subject' => '', 'body' => '');
 	switch ($type) {
 		// Status change to: submitted
@@ -145,7 +145,7 @@ Author(s): %s
 Excerpt: %s
 %s
 
-%s', 'Email notification body', 'anno'), $title, implode(', ', $author_names), $excerpt, $edit_link, $footer)	
+%s', 'Email notification body', 'anno'), $title, implode(', ', $author_names), $excerpt, $edit_link, $footer)
 			);
 			break;
 		// Status change to: in_review from submitted
@@ -157,7 +157,7 @@ Excerpt: %s
 
 %s
 
-%s', 'Email notification body', 'anno'), $title, $edit_link, $footer)	
+%s', 'Email notification body', 'anno'), $title, $edit_link, $footer)
 			);
 			break;
 		// Status change to: in_review from draft (revisions have occured)
@@ -191,7 +191,7 @@ Thank you.
 			$notification = array(
 				'subject' => sprintf(_x('%s review is complete.', 'Email notification subject', 'anno'), $title),
 				'body' => sprintf(_x(
-'Thank you for contributing to %s.  After our review process, we have decided not to accept the article at this time.  
+'Thank you for contributing to %s.  After our review process, we have decided not to accept the article at this time.
 --------------------
 Title: %s
 
@@ -225,7 +225,7 @@ Thank you.
 
 %s
 
-%s', 'Email notification body', 'anno'), $title, $edit_link, $footer)	
+%s', 'Email notification body', 'anno'), $title, $edit_link, $footer)
 			);
 			break;
 		case 'reviewer_added':
@@ -253,7 +253,7 @@ Excerpt: %s
 %s', 'Email notification body', 'anno'), $single_user, $title, $author, $edit_link, $footer),
 				);
 			break;
-		case 'primary_author': 
+		case 'primary_author':
 			$notification = array(
 				'subject' => sprintf(_x('%s is now the primary author on %s', 'Email notification subject', 'anno'), $author, $single_user),
 				'body' => sprintf(_x(
@@ -273,7 +273,7 @@ Excerpt: %s
 					$action_text = sprintf(_x('%s has reviewed %s and has accepted the article for publication.', 'Email review action text', 'anno'), $single_user, $title);
 					break;
 				case 2:
-					$action_text = sprintf(_x('%s has reviewed %s and has requested revisions be made to the article prior to publication.', 'Email review action text', 'anno'), $single_user, $title);						
+					$action_text = sprintf(_x('%s has reviewed %s and has requested revisions be made to the article prior to publication.', 'Email review action text', 'anno'), $single_user, $title);
 					break;
 				case 3:
 					$action_text = sprintf(_x('%s has reviewed %s and has rejected the article for publication.', 'Email review action text', 'anno'), $single_user, $title);
@@ -282,7 +282,7 @@ Excerpt: %s
 					$action_text = '';
 					break;
 			}
-			
+
 			$notification = array(
 				'subject' => sprintf(_x('%s has reviewed %s', 'Email notification subject', 'anno'), $single_user, $title),
 				'body' => sprintf(_x(
@@ -292,10 +292,10 @@ Excerpt: %s
 %s', 'Email notification body', 'anno'), $action_text, $edit_link, $footer),
 			);
 			break;
-		case 'reviewer_update':		
+		case 'reviewer_update':
 				// Get review
 				$reviewer = get_user_by('id', $single_user_id);
-				
+
 				global $anno_review_options;
 				$review_key = annowf_get_user_review($post->ID, $single_user_id);
 				if ($data['status'] == 'revisions') {
@@ -356,7 +356,7 @@ Thank you for your contribution. At this time the review process is completed; y
 			default:
 				break;
 		}
-	}	
+	}
 	return apply_filters('annowf_notfication', $notification, $type, $post, $comment);
 }
 ?>

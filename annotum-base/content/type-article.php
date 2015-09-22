@@ -5,7 +5,7 @@
  * This file is part of the Annotum theme for WordPress
  * Built on the Carrington theme framework <http://carringtontheme.com>
  *
- * Copyright 2008-2011 Crowd Favorite, Ltd. All rights reserved. <http://crowdfavorite.com>
+ * Copyright 2008-2015 Crowd Favorite, Ltd. All rights reserved. <http://crowdfavorite.com>
  * Released under the GPL license
  * http://www.opensource.org/licenses/gpl-license.php
  */
@@ -39,7 +39,7 @@ if (CFCT_DEBUG) { cfct_banner(__FILE__); }
 		<?php
 				}
 			}
-		
+
 		?>
 		<section class="sec sec-authors">
 			<h1><span><?php echo _n( 'Author', 'Authors', anno_num_authors(get_the_ID()), 'anno' ) ?></span></h1>
@@ -80,7 +80,7 @@ if (CFCT_DEBUG) { cfct_banner(__FILE__); }
 	</div><!--/.main-->
 	<footer class="footer">
 		<?php
-		anno_the_terms('article_tag', '<dl class="kv"><dt>'.__('Tags:', 'anno').'</dt> <dd class="tags">', ' <span class="sep">&middot;</span> ', '</dd></dl>'); 
+		anno_the_terms('article_tag', '<dl class="kv"><dt>'.__('Tags:', 'anno').'</dt> <dd class="tags">', ' <span class="sep">&middot;</span> ', '</dd></dl>');
 		//the_tags('<dt>'.__('Tags:', 'anno').'</dt> <dd class="tags">', ' <span class="sep">&middot;</span> ', '</dd>'); ?>
 	</footer><!-- .footer -->
 </article>

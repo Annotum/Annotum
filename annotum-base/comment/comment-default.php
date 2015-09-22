@@ -5,7 +5,7 @@
  * This file is part of the Annotum theme for WordPress
  * Built on the Carrington theme framework <http://carringtontheme.com>
  *
- * Copyright 2008-2011 Crowd Favorite, Ltd. All rights reserved. <http://crowdfavorite.com>
+ * Copyright 2008-2015 Crowd Favorite, Ltd. All rights reserved. <http://crowdfavorite.com>
  * Released under the GPL license
  * http://www.opensource.org/licenses/gpl-license.php
  */
@@ -27,9 +27,9 @@ extract($data);
 		?>
 	</div><!-- .content -->
 	<div class="footer">
-		<?php 
-			comment_reply_link(array_merge( $args, array('depth' => $depth, 'max_depth' => $args['max_depth'])), $comment, $post); 
-			edit_comment_link(__('Edit This', 'anno'), ' <span class="delimiter">&middot;</span> ', ''); 
+		<?php
+			comment_reply_link(array_merge( $args, array('depth' => $depth, 'max_depth' => $args['max_depth'])), $comment, $post);
+			edit_comment_link(__('Edit This', 'anno'), ' <span class="delimiter">&middot;</span> ', '');
 		?>
 	</div><!-- .footer -->
 </article>

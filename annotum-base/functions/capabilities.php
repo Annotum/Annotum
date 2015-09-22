@@ -5,14 +5,14 @@
  * This file is part of the Annotum theme for WordPress
  * Built on the Carrington theme framework <http://carringtontheme.com>
  *
- * Copyright 2008-2011 Crowd Favorite, Ltd. All rights reserved. <http://crowdfavorite.com>
+ * Copyright 2008-2015 Crowd Favorite, Ltd. All rights reserved. <http://crowdfavorite.com>
  * Released under the GPL license
  * http://www.opensource.org/licenses/gpl-license.php
  */
 
 /**
  * Custom capabilities for workflow
- */ 
+ */
 function anno_remove_roles_and_capabilities() {
 	$wp_roles = new WP_Roles();
 
@@ -27,7 +27,7 @@ function anno_remove_roles_and_capabilities() {
 			'delete_others_articles',
 			'delete_private_articles',
 			'delete_published_articles',
-			'edit_published_articles',	
+			'edit_published_articles',
 			'read_article',
 		),
 		'editor' => array(
@@ -56,7 +56,7 @@ function anno_remove_roles_and_capabilities() {
 			'read_article',
 		),
 	);
-	
+
 	foreach ($roles_to_modify as $role_name => $role_caps) {
 		$role = get_role($role_name);
 		if ($role) {
