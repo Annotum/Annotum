@@ -1,5 +1,8 @@
 # Annotum Changelog
 
+## 2.1.1
+- Update to the latest revision manager to address bug with restoring autosaves.
+
 ## 2.1
 - WP 4.3 Compatability
 

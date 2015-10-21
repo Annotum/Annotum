@@ -13,7 +13,7 @@ if (__FILE__ == $_SERVER['SCRIPT_FILENAME']) { die(); }
 
 define('CFCT_DEBUG', false);
 define('CFCT_PATH', trailingslashit(TEMPLATEPATH));
-define('ANNO_VER', '2.1');
+define('ANNO_VER', '2.1.1');
 
 include_once(CFCT_PATH.'carrington-core/carrington.php');
 include_once(CFCT_PATH.'functions/Anno_Keeper.php');
