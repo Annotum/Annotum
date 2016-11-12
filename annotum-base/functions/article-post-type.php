@@ -320,6 +320,28 @@ function anno_article_to_post($post_id) {
 		return;
 	}
 
+	// Replace origional content with complete article contents
+	$post_content  = $post['post_content'];
+
+	$title = substr($post_content,0,strpos($post_content,'</h2>')+5);
+	$body = substr($post_content,strpos($post_content,'</h2>')+5);
+
+	// echo "before<hr>\n".$post_content."<hr>\n";
+	$template = Anno_Keeper::retrieve('template');
+	$subtitle = "<!-- subtitle -->\n".'<p class="subtitle">'.$template->get_subtitle($post_id)."</p>\n";
+	$authors = "<!-- authors -->\n".'<h2><span>Contributors</span></h2>';
+	$authors .="\n".'<ul class="authors nav">'."\n".$template->get_contributors_list($post_id)."\n</ul>";
+	$citation = "<!-- citation -->\n".'<div class="sec sec-citation">'.$template->get_citation($post_id)."</div>";
+	$references =  "<!-- references -->\n".str_replace("h1>","h2>",$template->get_references($post_id));
+
+	$new_content = $title.$subtitle.$body.$references.$authors;
+
+//	echo "\n<hr>after<hr>\n".$new_content."<hr>\n";
+//	die();
+
+	$post['post_content'] = $new_content;
+
+
 	// Convert the taxonomies before inserting so we don't get default categories assigned.
 	$taxonomy_conversion = array(
 		'article_tag' => 'post_tag',
