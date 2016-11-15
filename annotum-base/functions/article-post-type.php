@@ -336,8 +336,12 @@ function anno_article_to_post($post_id) {
 	$references =  "<!-- references -->\n".str_replace("h1>","h2>",$template->get_references($post_id));
 	$references = str_replace("<h2>",'<h2 class="title">',$references);
 
-	// Assemble all the pieces
-	$new_content = $title.$subtitle.$body.$references.$authors;
+        $funding = "<!-- funding statement -->\n".'<p>'.$template->get_funding_statement($post_id)."</p>\n";
+        $acknowledgements = "<!-- acknowledgements  -->\n".'<p>'.$template->get_acknowledgements($post_id)."</p>\n";
+        $appendices = "<!-- appendices  -->\n".$template->get_appendices($post_id)."\n";
+
+        // Assemble all the pieces
+        $new_content = $title.$subtitle.$body.$funding.$acknowledgements.$appendices.$references.$authors;
 
 	// Update the post content
 	$post['post_content'] = $new_content;
