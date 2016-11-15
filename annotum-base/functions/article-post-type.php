@@ -333,11 +333,19 @@ function anno_article_to_post($post_id) {
 	$authors = "<!-- authors -->\n".'<div id="references" class="references"><section class="sec"><h2 class="title"><span>Contributors</span></h2>';
 	$authors .="\n".'<ul class="authors nav">'."\n".$template->get_contributors_list($post_id)."\n</ul></section></div>";
 	$citation = "<!-- citation -->\n".'<div class="sec sec-citation">'.$template->get_citation($post_id)."</div>";
+
 	$references =  "<!-- references -->\n".str_replace("h1>","h2>",$template->get_references($post_id));
 	$references = str_replace("<h2>",'<h2 class="title">',$references);
 
-        $funding = "<!-- funding statement -->\n".'<p>'.$template->get_funding_statement($post_id)."</p>\n";
-        $acknowledgements = "<!-- acknowledgements  -->\n".'<p>'.$template->get_acknowledgements($post_id)."</p>\n";
+	if ( strlen($template->get_funding_statement($post_id)) > 0 ) {
+		$funding = '<section class="sec"><h2 class="title"><span>Funding Statement</span></h2>'."\n"; 
+		$funding .='<p>'.$template->get_funding_statement($post_id)."</p></section>\n";
+	};
+	if ( strlen($template->get_acknowledgements($post_id)) > 0 ) {
+		$acknowledgements = '<section class="sec"><h2 class="title"><span>Acknowledgements</span></h2>'."\n"; 
+	        $acknowledgements .= '<p>'.$template->get_acknowledgements($post_id)."</p></section>\n";
+	};
+
         $appendices = "<!-- appendices  -->\n".$template->get_appendices($post_id)."\n";
 
         // Assemble all the pieces
