@@ -1,3 +1,5 @@
+> :warning: Please note that Annotum is no longer being actively updated.  See [this post](http://annotum.org/site%20updates/2016/11/22/annotum-final-release.html) for more details.
+
 # Annotum Readme
 
 ## Background
